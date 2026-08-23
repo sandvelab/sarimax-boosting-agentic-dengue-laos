@@ -1,0 +1,19 @@
+id,name,description,aggregation_op
+ratio_above_truth,Ratio Above Truth,Proportion of forecast samples exceeding the observed value (0.5 = unbiased),mean
+crps,CRPS,Continuous Ranked Probability Score - measures calibration and sharpness,mean
+crps_log1p,CRPS (log1p),CRPS computed on log(1+x)-transformed forecasts and observations,mean
+crps_norm,CRPS Normalized,Normalized CRPS - CRPS divided by the range of observed values,mean
+example_metric,Example Absolute Error,Sum of absolute error - demonstration metric,sum
+mae,MAE,Mean Absolute Error - measures average absolute prediction error,mean
+mape,MAPE,Mean Absolute Percentage Error - measures average absolute prediction error,mean
+sensitivity,Sensitivity,True positive rate for outbreak detection alerts,mean
+specificity,Specificity,True negative rate for outbreak detection alerts,mean
+outbreak_accuracy,Outbreak Accuracy,Proportion of correctly classified outbreak/non-outbreak periods,mean
+coverage_10_90,Coverage 10-90,Proportion of observations within 10th-90th percentile,mean
+coverage_25_75,Coverage 25-75,Proportion of observations within 25th-75th percentile,mean
+rmse,RMSE,Root Mean Squared Error - measures average prediction error magnitude,root_mean_square
+sample_count,Sample Count,Number of forecast samples (sum across aggregation),sum
+winkler_score_10_90,Winkler Score 10-90,Winkler score for 10th-90th percentile prediction interval,mean
+winkler_score_25_75,Winkler Score 25-75,Winkler score for 25th-75th percentile prediction interval,mean
+winkler_score_10_90_log1p,Winkler 10-90 (log1p),Winkler score on log(1+x)-transformed values for 10-90 interval,mean
+winkler_score_25_75_log1p,Winkler 25-75 (log1p),Winkler score on log(1+x)-transformed values for 25-75 interval,mean

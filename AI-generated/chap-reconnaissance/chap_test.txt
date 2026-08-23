@@ -1,0 +1,9 @@
+chap-core      2.1.0
+Python         3.13.0  (/Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python)
+platform       darwin
+
+imports:
+  numpy / pandas / xarray ... OK
+  public API (data, fetch, ModelTemplateInterface) ... OK
+
+All checks passed.

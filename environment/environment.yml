@@ -1,10 +1,22 @@
-# Declarative specification of the analysis environment.
-# Fill in what the analysis needs, then run /pin-environment to resolve it into lock.txt.
+# Declarative specification of the analysis environment — what was asked for.
+#
+# The resolved layer is environment/lock.txt (174 packages, exact versions); the build that
+# produces it is environment/install-chap.sh. Read this file for intent and lock.txt for
+# what actually reproduces.
+#
+# This is *not* the .venv at the repository root, which runs the repository's own machinery
+# (node.py, check_invariants.py) and is a tool rather than part of the result.
 name: analysis
-channels:
-  - conda-forge
+
+# CPython, pinned to the patch. chap-core 2.1.0 declares requires-python >=3.13,<3.14, so
+# the major.minor is forced; the patch is pinned because "3.13" resolves to whichever 3.13
+# the building machine happens to have, which is not a specification.
+python: 3.13.0
+
+# The platform. Everything the analysis reports is produced by chap eval, so this single
+# pin fixes the metric, the backtest arithmetic and the model runner in one.
 dependencies:
-  - python=3.12
-  # - numpy=2.1.*
-  # - pandas=2.2.*
-  # - r-base=4.4.*
+  - chap-core==2.1.0
+
+# How the two above are turned into environment/chapenv:
+build: bash environment/install-chap.sh

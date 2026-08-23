@@ -1,0 +1,14 @@
+Usage: chap export-metrics INPUT-FILES OUTPUT-FILE [ARGS]
+
+Export metrics from multiple backtest files to CSV.                                                           
+
+Reads NetCDF evaluation files (from eval) and computes aggregate metrics, outputting a CSV file with          
+evaluations as rows and metrics as columns.
+
+╭─ Parameters ───────────────────────────────────────────────────────────────────────────────────────────────╮
+│ *  INPUT-FILES --input-files  List of paths to NetCDF evaluation files [required]                          │
+│      --empty-input-files                                                                                   │
+│ *  OUTPUT-FILE --output-file  Path to output CSV file [required]                                           │
+│    METRIC-IDS --metric-ids    Optional list of metric IDs to compute. If None, all metrics are computed at │
+│      --empty-metric-ids       AGGREGATE level.                                                             │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────╯

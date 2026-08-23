@@ -1,0 +1,61 @@
+Usage: chap eval MODEL-NAME DATASET-CSV OUTPUT-FILE [ARGS]
+
+Evaluate a model using backtesting and export results to NetCDF format.                                       
+
+Thin wrapper around :func:_run_eval that optionally records the run to MLflow when run_config.track is True.  
+See :func:_run_eval for the detailed backtest workflow.
+
+╭─ Parameters ───────────────────────────────────────────────────────────────────────────────────────────────╮
+│ *  MODEL-NAME --model-name               Model path (local directory), GitHub URL, or chapkit service URL. │
+│                                          Examples: /path/to/model, https://github.com/org/model,           │
+│                                          http://localhost:8000 [required]                                  │
+│ *  DATASET-CSV --dataset-csv             Path or URL to CSV file containing disease data with columns:     │
+│                                          time_period, location, disease_cases, and climate covariates      │
+│                                          (rainfall, temperature, etc.) [required]                          │
+│ *  OUTPUT-FILE --output-file             Path for output NetCDF file containing evaluation results (.nc    │
+│                                          extension) [required]                                             │
+│    BACKTEST-PARAMS.N-PERIODS             Number of periods to forecast at each split. [default: 3]         │
+│      --backtest-params.n-periods                                                                           │
+│      --backtest-params.nperiods                                                                            │
+│    BACKTEST-PARAMS.N-SPLITS              Total number of rolling train/test splits. [default: 7]           │
+│      --backtest-params.n-splits                                                                            │
+│      --backtest-params.nsplits                                                                             │
+│    BACKTEST-PARAMS.STRIDE                Number of periods to advance between successive splits. [default: │
+│      --backtest-params.stride            1]                                                                │
+│    BACKTEST-PARAMS.N-RETRAIN             Number of times the model is retrained, evenly spaced across the  │
+│      --backtest-params.n-retrain         splits. 1 means train once. [default: 1]                          │
+│      --backtest-params.nretrain                                                                            │
+│    RUN-CONFIG.IGNORE-ENVIRONMENT         When True, skip the automatic environment setup step. [default:   │
+│      --run-config.ignore-environment     False]                                                            │
+│      --run-config.no-ignore-environment                                                                    │
+│    RUN-CONFIG.DEBUG --run-config.debug   When True, enable verbose debug logging. [default: False]         │
+│      --run-config.no-debug                                                                                 │
+│    RUN-CONFIG.LOG-FILE                   Path to write log output to; None means stdout only.              │
+│      --run-config.log-file                                                                                 │
+│    RUN-CONFIG.RUN-DIRECTORY-TYPE         How to name the per-run subdirectory under runs/. [choices:       │
+│      --run-config.run-directory-type     latest, timestamp, use_existing] [default: timestamp]             │
+│    RUN-CONFIG.IS-CHAPKIT-MODEL           Set to True when the model is served via chapkit (REST) rather    │
+│      --run-config.is-chapkit-model       than an MLproject directory. [default: False]                     │
+│      --run-config.no-is-chapkit-model                                                                      │
+│    RUN-CONFIG.TRACK --run-config.track   When True, log params/metrics/artifacts to the tracking backend.  │
+│      --run-config.no-track               [default: False]                                                  │
+│    MODEL-CONFIGURATION-YAML              Path to YAML file with model-specific configuration parameters    │
+│      --model-configuration-yaml                                                                            │
+│    HISTORICAL-CONTEXT-YEARS              Years of historical data to include for plotting context.         │
+│      --historical-context-years          [default: 6]                                                      │
+│    DATA-SOURCE-MAPPING                   Path to JSON file mapping model covariate names to CSV column     │
+│      --data-source-mapping               names. Format: {"model_name": "csv_column"}. Example:             │
+│                                          {"rainfall": "precipitation_mm"}                                  │
+│    DRY-RUN --dry-run --no-dry-run        Write inputs and print commands without executing. [default:      │
+│                                          False]                                                            │
+│    PLOT --plot --no-plot                 Generate an HTML evaluation plot alongside the NetCDF. [default:  │
+│                                          False]                                                            │
+│    ESTIMATOR-OPTIONS.MODE                Estimator mode: 'normal' = normal run, 'hpo' = hyperparameter     │
+│      --estimator-options.mode            optimization, 'ensemble' = ensemble learning. [choices: normal,   │
+│                                          hpo, ensemble] [default: normal]                                  │
+│    ESTIMATOR-OPTIONS.METRIC              Metric used for HPO or ensemble. Default will be used if none     │
+│      --estimator-options.metric          provided. Ignored in normal mode.                                 │
+│    ESTIMATOR-OPTIONS.SEARCHER            Searcher used for HPO. If not provided, a default RandomSearcher  │
+│      --estimator-options.searcher        will be used. Ignored in normal and ensemble modes. [choices:     │
+│                                          grid, random, tpe]                                                │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────╯

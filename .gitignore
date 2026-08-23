@@ -18,3 +18,12 @@ AI-generated/hierarchical-report/
 # Personal working preferences, not method: permission grants specific to one
 # machine and one operator, which change nothing about what the analysis does.
 .claude/settings.local.json
+
+# The analysis environment itself — rebuilt from environment/lock.txt by
+# environment/install-chap.sh. The specification is tracked; the build is not.
+environment/chapenv/
+
+# The reconnaissance smoke test's working directory: a fetched example dataset, a cloned
+# example model and the ~200 MB virtual environment chap-core builds for it. Rebuilt from
+# pinned refs by AI-internal/reconnaissance/capture_chap_surface.sh.
+AI-generated/chap-reconnaissance/smoke-work/

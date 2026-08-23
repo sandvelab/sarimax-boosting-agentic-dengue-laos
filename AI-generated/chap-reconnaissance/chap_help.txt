@@ -1,0 +1,28 @@
+Usage: chap COMMAND
+
+╭─ Commands ─────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ aggregate-eval       Aggregate an evaluation .nc up to the parent org units defined by a GeoJSON.          │
+│ causal               Train a model on the original dataset up to split_period and predict on both          │
+│                      datasets.                                                                             │
+│ convert-request      Convert a create-backtest-with-data JSON request to CSV and GeoJSON files.            │
+│ eval                 Evaluate a model using backtesting and export results to NetCDF format.               │
+│ explain-lime         Explain a model prediction by providing variable contribution weighting.              │
+│ export-metrics       Export metrics from multiple backtest files to CSV.                                   │
+│ forecast             Forecast n_months ahead using the given model and dataset                             │
+│ generate-modelcard   Generates a model card document and exports a resulting Markdown file and plots in    │
+│                      PNG and interactive HTML.                                                             │
+│ generate-pdf-report  Generate old-style matplotlib PDF report from a stored backtest.                      │
+│ model                Model introspection commands.                                                         │
+│ multi-forecast                                                                                             │
+│ plot-backtest        Generate a backtest plot from evaluation data and save to file.                       │
+│ plot-dataset                                                                                               │
+│ preference-learn     Learn user preferences for model configurations through iterative A/B testing.        │
+│ report               Train an MLProject model on the supplied dataset and generate a PDF report via its    │
+│                      report entry point.                                                                   │
+│ sanity-check-model   Check that a model can be loaded, trained and used to make predictions                │
+│ test                 Self-diagnostic: report version/environment and verify core imports resolve.          │
+│ validate             Validate a CSV dataset for CHAP compatibility.                                        │
+│ write-open-api-spec  Write the OpenAPI spec to a file                                                      │
+│ --help (-h)          Display this message and exit.                                                        │
+│ --version            Display application version.                                                          │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────╯

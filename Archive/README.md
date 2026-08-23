@@ -13,4 +13,9 @@ Where an import has a binary original and a markdown conversion, they go in `ori
 
 ## Currently here
 
-*(Empty.)*
+- `case-source-material/` — the five documents this project starts from: the Chap orientation
+  note, the manuscript this analysis is the worked case for, the 2013 rules it updates, the
+  TrustAgentic proposal and its supplement.
+- `plan-as-delivered/` — the plan being executed, as it stood before the first batch ran. The
+  live plan under `Human-input/` is edited as the project runs; this is the baseline the drift
+  is measured against, and the drift is a reported result.

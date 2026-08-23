@@ -54,6 +54,7 @@ representative research problem, and where it fails.
 | Data governance | Public and redistributable. The Lao files are pinned by repository commit hash, copied into `Archive/` unmodified, marked `(IS_SHADOW)`, with `provenance.md`. Nothing here is access-restricted, so the release scan is about secrets, not permissions. |
 | Target | `disease_cases` (reported dengue), monthly, admin-1, Laos. |
 | Metric | Mean CRPS across regions × splits, produced by Chap's own evaluation. Secondary: interval coverage, MAE. |
+| Reported conclusion | A skill score against the reference model, `1 − CRPS_ours / CRPS_ewars`, computed per analysis by a script, with raw CRPS and coverage beside it. Relative rather than absolute, so that the development and held-out spreads can be read on one axis instead of confounding inflated performance with a harder year. |
 | Required baselines | Persistence and seasonal climatology, implemented as Chap-compatible models so they traverse the identical evaluation path. |
 | Reference model to beat | `https://github.com/chap-models/chapkit_ewars_model` (WHO EWARS-csd), at its own default configuration — on the cross-validated development backtest **and** on the held-out year. Not tuned by us. |
 | What counts as success | Beating both baselines and EWARS. Nothing here can reach statistical significance and no attempt is made to suggest it does: the comparison is reported with its per-region and per-split spread and a plain statement of what that spread can distinguish. "We cannot separate these two" is a conclusion. |
@@ -101,6 +102,10 @@ do if EWARS cannot be run on this dataset, which the plan's §2 answers.
 - Batch reports, one per executed batch, are in `AI-generated/batch-reports/`.
 - Source material — the manuscript, the 2013 rules, the proposal and its supplement, and the
   Chap orientation note — is in `Archive/case-source-material/`.
+- The plan **as it was delivered**, before any of it had been run, is in
+  `Archive/plan-as-delivered/`. The live plan is edited as the project runs; how far the two
+  have drifted, and who drove each change, is a reported result rather than bookkeeping. The
+  plan's §4b logs each decision settled during execution, with its agency.
 - Everything the analysis supports is in `Human-AI-collaboration/claims/claims.md`.
 - Nothing enters the manuscript that is not in that file.
 

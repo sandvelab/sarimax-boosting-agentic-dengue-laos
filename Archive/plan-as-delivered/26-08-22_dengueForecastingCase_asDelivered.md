@@ -1,4 +1,5 @@
 # Develop a spatio-temporal dengue forecasting model for Laos, veridically
+(IS_SHADOW)
 
 The plan this repository exists to execute. It is written to be run by an agent that has
 none of the conversation behind it in context: everything needed to start is either here or
@@ -43,50 +44,21 @@ development is not reconstructable is a failed run of this project.
 
 ## 2. What "decently" means
 
-CRPS has no absolute scale, so the criterion is comparative. The reference is a specific,
-already-integrated Chap model: **`https://github.com/chap-models/chapkit_ewars_model`** — the
-WHO EWARS-csd early-warning model for dengue. The aim is a model whose mean CRPS is:
+CRPS has no absolute scale, so the criterion is comparative. The model is decent when, **on
+the held-out final year it has never been tuned against** (§3), its mean CRPS is:
 
 - **below both required baselines** — persistence (next month = last observed month) and
   seasonal climatology (next month = mean of that calendar month in the training window);
-- **and below `chapkit_ewars_model`**, both on the cross-validated backtest over the
-  development dataset **and** on the held-out final year (§3).
-
-**The aim is to conclude, and the conclusion will be an uncertain call.** One year of
-holdout is roughly 216 province-months and twelve years of development data give a handful
-of meaningful splits; nothing here will reach statistical significance, and no attempt should
-be made to dress it up as though it had. What is reported is the comparison, its per-region
-and per-split spread, and a plain statement of how much that spread can distinguish. An
-honest "we cannot separate these two" is a conclusion.
-
-**The comparison is a spread, not a point, on both datasets.** The stability work of phase D
-produces a distribution of development results over the reasonable alternatives to each
-judgment call, and **that same enumerated set is carried forward to the held-out year**, so
-the final validation also yields a spread rather than a single number. The question is then
-not "did our best configuration beat EWARS on one number" but "across the analyses that all
-looked reasonable, how often and by how much did it, and on development and holdout alike".
-That is the veridical form of the question and it is the one worth answering.
+- **and within reach of the best already-integrated Chap model** that can be run on this
+  dataset, if such a model exists and can be run (batch 2 finds out).
 
 Report the mean CRPS with the per-region and per-split values behind it, and report
 calibration (interval coverage) alongside. **A model that wins on mean CRPS while being
 badly calibrated has not won**, and saying so is more useful than hiding it.
 
-If, after the model-development phase, no candidate beats the baselines or EWARS, that is
-the result. Report it plainly, with what was tried and what it cost. A negative result here
-is a perfectly good outcome for the manuscript and a dishonest positive one is not.
-
-**If `chapkit_ewars_model` turns out not to be runnable on this dataset, stop and bring it
-back to me.** Report what blocked it, in detail — that is itself a finding about the
-platform's model library, and a useful one. Then we reconsider §2 together and may well
-choose a different method as the reference. The intent behind naming EWARS is that the model
-should be **competitive against something real that the field already uses**, not that it be
-competitive against that model specifically; a practical obstacle is a reason to change the
-reference, not a reason to lower the aim. Do not pick the replacement on your own initiative,
-and do not quietly fall back to the two required baselines as though they were the criterion.
-
-*Settled 2026-08-23, in dialogue, from the batch-1 report §3.2. The reference model, the
-requirement to beat it on both datasets, the refusal to imply significance, and the fallback
-route are **human-set**; see §4b for what within this section the agent proposed.*
+If, after the model-development phase, no candidate beats both baselines, that is the
+result. Report it plainly, with what was tried and what it cost. A negative result here is a
+perfectly good outcome for the manuscript and a dishonest positive one is not.
 
 ## 3. Non-negotiables
 
@@ -96,10 +68,9 @@ this particular project could go quietly wrong.
 **The final year is removed from the data before any work begins, and touched once.** The
 dataset runs 1998-01 to 2010-12. **2010 is cut off and set aside**; everything — model
 development, tuning, selection, comparison, the whole of Chap's standard cross-validated
-backtest — happens on the **development dataset, 1998-01 to 2009-12**, and until the final
-validation of phase E nothing is ever pointed at anything but that file. At the end, in a
-single batch, the holdout is opened and the final candidate, the baselines and
-`chapkit_ewars_model` are validated against the held-out year.
+backtest — happens on the **development dataset, 1998-01 to 2009-12**, and nothing else is
+ever pointed at anything but that file. At the end, and once, the final candidate and the
+baselines are validated against the held-out year.
 
 This is stronger than splitting the backtest, because the held-out year is not merely
 excluded from a metric — it is not in the file. An agent cannot leak what it cannot open.
@@ -112,13 +83,6 @@ Three consequences, all of them binding:
 - **If the holdout has to be opened a second time, record that it happened and why.** A
   holdout consulted three times is a development set, and calling it otherwise makes the
   headline number a lie.
-- **The perturbation set run on the holdout is frozen before the holdout is opened.** §2 asks
-  for a spread on the held-out year as well as on development, which means the holdout is
-  opened once but evaluated many times — and that is only honest if *what* gets evaluated was
-  fixed in advance. So phase D commits a perturbation manifest, phase E runs exactly that
-  manifest, and **nothing is added, dropped, re-tuned or re-run after a holdout number has
-  been seen.** A spread computed from a set chosen after looking is not a spread, it is
-  selection with extra steps.
 - **One year is a thin holdout**, roughly 216 province-months. Report the validation number
   with its per-region and per-split values and an honest statement of how much it can
   distinguish. Do not read a small difference between two candidates as a ranking.
@@ -162,46 +126,12 @@ say so and propose the change; do not quietly take a different one.
 | **Held-out data** | 2010-01 to 2010-12, sealed until the final validation (§3). |
 | **Metric** | Mean CRPS across regions × splits, from Chap's own evaluation. Secondary: interval coverage, MAE. |
 | **Required baselines** | Persistence and seasonal climatology, implemented as Chap-compatible models so they traverse the identical evaluation path. A baseline evaluated a different way is not a comparison. |
-| **Reference model** | `https://github.com/chap-models/chapkit_ewars_model`, at its own default configuration. The target to beat on development and on holdout (§2). Not a candidate of ours and not tuned by us. *(human-set, 2026-08-23)* |
-| **Stability on the holdout** | The phase-D perturbation manifest is frozen and re-run on the held-out year, so the final validation reports a spread over reasonable analyses rather than one number (§2, §3). *(human-set, 2026-08-23)* |
-| **Model service framework** | `chapkit` (`github.com/dhis2-chap/chapkit`) may be used to build our own models against the Chap contract. Permitted, not mandated; whichever route is taken is a logged decision with its basis. *(human-set, 2026-08-23)* |
 | **Where Chap runs** | Locally, version pinned by commit and recorded in the environment. |
 | **Tracking level** | Full (`AGENTS.md` §6). This project is *about* tracking; the usual argument for a lighter touch does not apply. |
 | **Data** | Pinned by repository commit hash, copied into `Archive/` unmodified, marked `(IS_SHADOW)`, with `provenance.md`. Public and redistributable. |
 | **Scope of the tree** | The whole analysis, from data acquisition to reported score, is in `analysis/`. Nothing important happens outside it. |
 | **Sibling datasets** | `tha` and `vnm` are **not** part of the headline analysis. They are an optional external check in phase E, and only if the budget survives that far. |
 | **Git remote** | Do **not** create one. The release batch prepares the repository and stops for me. |
-
-## 4b. Decisions settled during execution
-
-§4 is what was fixed before the project started. This section accumulates what gets settled
-while it runs, and **it is not an appendix to the plan but part of the result**. The purpose
-of this project is the human's; how to carry it out is resolved in dialogue, and a record
-that showed only the outcome of that dialogue and not its shape would misrepresent how the
-work was actually done.
-
-So each entry carries its agency honestly, in the vocabulary of `AGENTS.md` §4 — **human-set**
-where the human decided, **agent-on-human-assessment** where the agent proposed and the human
-chose, **agent-autonomous** where the agent decided alone and the human did not object. Do not
-flatter either contribution. Where an entry changed the plan's text, the commit that made the
-change carries the reasoning, and `Archive/plan-as-delivered/` holds the plan as it stood
-before any of this.
-
-### 2026-08-23 — settling §2, after the batch-1 report
-
-| Decision | Basis | Agency |
-|---|---|---|
-| The reference is `chapkit_ewars_model`, at its own configuration, to be beaten on the development backtest **and** on the held-out year | Named directly by the human, replacing §2's unoperationalised "within reach of the best already-integrated Chap model". | human-set |
-| Statistical significance is not attainable here and is not to be implied; the aim is to conclude, and to report the call as uncertain | The human's, and stated before any number exists — which is what makes it credible. A project that discovers its result is inconclusive and only then decides inconclusiveness is acceptable has decided nothing. | human-set |
-| The stability spread is carried forward from development to the held-out year, so the final validation reports a distribution rather than a point | The human's. It is the substantive methodological addition of this round: it makes the holdout answer the veridical question rather than only the predictive one. | human-set |
-| `chapkit` may be used to build our own models against the Chap contract | The human's; permitted, not mandated. | human-set |
-| If EWARS cannot be run: stop, report what blocked it, and reconsider the reference together — a practical obstacle changes the reference, not the aim | The human's, correcting the agent's initial fallback to the two required baselines, which would have lowered the aim rather than preserved it. | human-set |
-| The holdout perturbation manifest is frozen before the holdout is opened; nothing is added, dropped, re-tuned or re-run after a holdout number is seen | Proposed by the agent as the condition under which "spread on the holdout" stays honest, since the holdout is now opened once but evaluated many times. Accepted. | agent-on-human-assessment |
-| Forks are of two kinds: those that change the data or the evaluation re-score every model including the reference; those internal to our candidates move only ours | Proposed by the agent. A comparison in which one side moved and the other did not is not a comparison. Accepted. | agent-on-human-assessment |
-| The root's computed conclusion is a **skill score against the reference**, `1 − CRPS_ours / CRPS_ewars`, per analysis, with raw CRPS and coverage reported beside it | Proposed by the agent with the reasoning that raw CRPS is not comparable between development and holdout, so a raw dev→holdout gap confounds the agent inflating its own performance with 2010 being a harder year; a relative score controls for year difficulty and puts both spreads on one axis. The human chose it. | agent-on-human-assessment |
-| `chapkit_ewars_model` is pinned by commit, and vendored if the URL cannot carry a ref | Agent's, unopposed. `chap eval --model-name <URL>` fetches at run time, so an unpinned reference would make the headline comparison depend on another repository's current state — the objection §3 already makes against running Chap as a hosted service, applied to the reference model. | agent-autonomous |
-| If the budget will not carry the manifest twice, cut **forks run on both datasets** — never the full set on development and a subset on holdout | Agent's, unopposed. A holdout spread computed over a different set than the development spread is not comparable to it, so the asymmetric cut destroys exactly what the manifest exists to produce. | agent-autonomous |
-| The plan as delivered is archived under `Archive/plan-as-delivered/`, and how it changes is a reported result | The human's, on the reasoning that how much of the original design survives the process, and what had to change, is evidence about how far an agentic system can be handed a plan and left to run it. | human-set |
 
 ## 5. How this plan is executed
 
@@ -249,10 +179,10 @@ at the end of every batch, and append newly created batches to it.
 
 | # | Phase | Aim | Status | Report |
 |---|---|---|---|---|
-| 1 | A | Orient: read the source material, fix project settings, set up the repository | done — produced | [[26-08-23_b01_orientAndSetUp]] |
+| 1 | A | Orient: read the source material, fix project settings, set up the repository | open | |
 | 2 | A | Reconnaissance — Chap: install it, learn the model contract, learn the evaluation | open | |
 | 3 | A | Reconnaissance — data: acquire, characterise, and fix the split scheme | open | |
-| 4 | A | Reconnaissance — methods: candidate model families, and run `chapkit_ewars_model` to get the reference score | open | |
+| 4 | A | Reconnaissance — methods: candidate model families and existing Chap models | open | |
 | 5 | A | Bootstrap: turn phases C–E into concrete batches | open | |
 | 6 | B | Vertical slice: one trivial model, end to end, first CRPS number | open | |
 | 7 | B | Erect the claim tree and route the vertical slice through it | open | |
@@ -360,12 +290,9 @@ their data, per Rule 7).
   knowledge-informed option: temperature-suitability curves for vector transmission as an
   informative prior or a mechanistic backbone whose residuals are learned.
 - Then survey what exists: models in `github.com/chap-models`, and the published
-  spatio-temporal dengue-forecasting literature. **Getting
-  `https://github.com/chap-models/chapkit_ewars_model` to run on the development dataset is
-  this batch's most important single task** — §2 makes it the model to beat, so the project
-  has no criterion until its score exists. If it will not run, establish precisely what
-  blocks it and report that; §2 says what happens then. Note also what other integrated models
-  could be run, and whether any has already been run on Lao data.
+  spatio-temporal dengue-forecasting literature. Establish whether any integrated Chap model
+  **can be run on this dataset**, and if so run it — that score is the reference point §2
+  asks for, and getting it now is far cheaper than reconstructing it later.
 - Assess each family against the actual constraints: 13 years, monthly, ~18 provinces,
   ~2,800 rows, three climate covariates, zero-heavy counts, and a *probabilistic* forecast
   requirement. Several of the families above will not survive contact with a dataset this
@@ -388,10 +315,6 @@ characterised, the metric understood and the shortlist ranked:
   *What a PCS stability analysis requires of the tree*): a shared output contract per fork, a
   script-computed conclusion at the root, and a pre-enumerated perturbation set with a budget.
   A fork whose children produce differently-shaped output has been placed too low — move it up.
-  **The root's computed conclusion is fixed** (§4b): a skill score against the reference,
-  `1 − CRPS_ours / CRPS_ewars`, computed per analysis by a script from the stored evaluation
-  outputs, with raw mean CRPS and interval coverage reported beside it. Design the fork output
-  contract so that this is computable at the root for every combination the manifest names.
 - Write **concrete batches for phases C, D and E** into the ledger, each with an aim, an
   expected output, and a rough cost. Aim for batches that finish comfortably within a session.
 - Revise anything in phases C–E below that reconnaissance showed to be wrong, and say what
@@ -438,8 +361,7 @@ plots-with-data. One candidate is the main path. The holdout year has not been o
   candidate is compared on a metric computed a different way.
 - A leaderboard file is maintained by a script from the stored evaluation outputs — never
   typed. It carries the candidate, its configuration, its development mean CRPS, its
-  calibration, and its compute cost. `chapkit_ewars_model` and both baselines sit on it as
-  fixed reference rows from the moment they can be run.
+  calibration, and its compute cost.
 - Candidates that failed stay in the record, with what went wrong. A family abandoned because
   it could not be made to produce calibrated probabilistic output is a finding.
 - Each round decides what to do next from what the last round showed, and says so. A round
@@ -473,21 +395,6 @@ alternative is taken at each fork, and which forks it is most sensitive to. That
 most valuable single output of this project for the manuscript, and it is worth more than a
 better CRPS.
 
-**And the deliverable phase E depends on**: a **frozen perturbation manifest** — the exact set
-of analyses to be re-run on the held-out year, committed before the holdout is opened (§3).
-It names each fork, the children to be taken, the resulting combinations, and the estimated
-cost of running the set twice: once on development, once on holdout. If the budget will not
-carry the whole set to the holdout, cut the manifest here and record the cut; do not discover
-the problem in phase E with the holdout already open.
-
-**Which forks apply to the reference and the baselines.** `chapkit_ewars_model` is an external
-reference at its own default configuration and is not perturbed as a model. But forks that
-change the *data* or the *evaluation* — the split scheme, the handling of the zero-heavy
-period, how population enters the dataset — change what every model is scored on, so every
-model on the leaderboard is re-scored under those. Forks internal to our own candidates move
-only our candidates. Record which fork is which kind when the manifest is written; a
-comparison where one side moved and the other did not is not a comparison.
-
 If the budget forces a cut, cut here — but cut *explicitly*, recording where the line fell and
 what was below it. See [[reproAgenticAiManuscript]], *Trade-offs*.
 
@@ -495,17 +402,14 @@ what was below it. See [[reproAgenticAiManuscript]], *Trade-offs*.
 
 **What must be true when the phase ends.**
 
-- **The final validation has happened, once**: the holdout year opened in a single batch, and
-  the frozen phase-D manifest run on it — the final candidate, both baselines and
-  `chapkit_ewars_model`, across every combination the manifest names — by the route batch 3
+- **The final validation has happened, once**: the holdout year opened, and the final
+  candidate and both baselines evaluated on it in a single batch, by the route batch 3
   established, producing the numbers that are reported. Report them beside the development
-  numbers for the same models and the same combinations, so that development spread and
-  holdout spread are read together. **If the holdout numbers are much worse than the
-  development numbers, that gap is the most interesting result the project has** — it is the
-  direct measurement of how much an autonomously optimising agent inflated its own
-  performance, and it is precisely what the manuscript and the proposal are asking about.
-  Report it plainly and do not explain it away. **Nothing is re-run or re-tuned after a
-  holdout number has been seen** (§3).
+  numbers for the same models. **If the holdout number is much worse than the development
+  number, that gap is the most interesting result the project has** — it is the direct
+  measurement of how much an autonomously optimising agent inflated its own performance, and
+  it is precisely what the manuscript and the proposal are asking about. Report it plainly
+  and do not explain it away.
 - **`analysis/run.sh` reproduces the reported result from a clean environment** — verified by
   `/validate cleanroom`, not asserted.
 - **Every claim is in `Human-AI-collaboration/claims/claims.md`**, each bound to a stored
@@ -519,20 +423,9 @@ what was below it. See [[reproAgenticAiManuscript]], *Trade-offs*.
   upper levels and each node's within-result detail below that — national → province → month,
   down to the values.
 - **The reproducibility report** (`/repro-report`) exists.
-- **The plan's own drift is reported**: a short section, generated from the diff between
-  `Archive/plan-as-delivered/` and the live plan and from that file's commit history, saying
-  how much of the original design survived, what had to change, and — using §4b's agency
-  column — how much of the change was the human's and how much the agent's. This is evidence
-  about how far an agentic system can be handed a research plan and left to run it, which is
-  a question the proposal asks directly and which no other part of this project answers.
 - **The case write-up** exists: a short document that could be lifted into the manuscript's
   *An illustrating case* section — what the analysis did, what the main results are, what was
-  achieved, and what the challenges and limitations were. **This case replaces the genomic
-  region-set co-occurrence analysis** that the archived manuscript's Appendix still specifies;
-  the archived copy stays stale by design, since `Archive/` is never edited. The write-up
-  therefore also has to supply what that Appendix supplied for the old case: the worked
-  claim-tree skeleton and the perturbation families, in dengue terms. *(human-set,
-  2026-08-23, settling batch-1 report §3.1)* Write it through the two-step
+  achieved, and what the challenges and limitations were. Write it through the two-step
   process of Rule 9: results → claims → text. Include, specifically, **where this setup was
   more trouble than it was worth**, which the manuscript's Appendix asks for by name and
   which nobody else is in a position to report.
@@ -567,16 +460,10 @@ Bring these to me rather than deciding them:
 - Creating a git remote, and the owner and repository name.
 - Anything that would spend real money.
 - Abandoning the local Chap install in favour of a hosted service (§3).
-- Any change to §2's success criterion or §3's non-negotiables. (§2 was settled on
-  2026-08-23 and is now fixed; substituting a different reference model if EWARS cannot be
-  run is explicitly *not* yours to decide — §2 says what to do instead.)
+- Any change to §2's success criterion or §3's non-negotiables.
 
 Everything else is yours to decide, and the record of how you decided it is a deliverable.
 
 ## Batch ledger — reports
 
 *(One link per completed batch, added by `/do`. Never overwritten.)*
-
-### Batch 1 — orient and set up
-
-- [[26-08-23_b01_orientAndSetUp]]

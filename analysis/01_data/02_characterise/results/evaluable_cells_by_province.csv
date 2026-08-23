@@ -1,0 +1,18 @@
+location,location_name,months_in_span,target_observed,target_missing,evaluable_cells,contributes_to_metric
+LA-AT,Attapeu,24,24,0,24,True
+LA-BK,Bokeo,24,24,0,24,True
+LA-XI,Xiangkhouang,24,24,0,24,True
+LA-XE,Xekong,24,24,0,24,True
+LA-XA,Xaignabouli,24,24,0,24,True
+LA-VT,Vientiane Capital,24,24,0,24,True
+LA-SV,Savannakhet,24,24,0,24,True
+LA-SL,Salavan,24,24,0,24,True
+LA-OU,Oudomxay,24,24,0,24,True
+LA-LP,Luang Prabang,24,24,0,24,True
+LA-LM,Luang Namtha,24,24,0,24,True
+LA-KH,Khammouane,24,24,0,24,True
+LA-HO,Houaphan,24,24,0,24,True
+LA-CH,Champasak,24,24,0,24,True
+LA-BL,Bolikhamsai,24,24,0,24,True
+LA-PH,Phongsaly,24,11,13,11,True
+LA-XN,Xaisomboun,24,0,24,0,False

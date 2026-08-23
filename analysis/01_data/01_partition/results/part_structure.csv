@@ -1,0 +1,4 @@
+part,rows,locations,location_ids,period_first,period_last,months_observed,months_expected,months_missing,grid_cells_expected,grid_cells_missing,duplicate_primary_keys,nulls_time_period,nulls_location,nulls_disease_cases,nulls_population,nulls_location_name,nulls_rainfall,nulls_mean_temperature,nulls_mean_relative_humidity
+source,2808,18,"LA-AT,LA-BK,LA-BL,LA-CH,LA-HO,LA-KH,LA-LM,LA-LP,LA-OU,LA-PH,LA-SL,LA-SV,LA-VI,LA-VT,LA-XA,LA-XE,LA-XI,LA-XN",1998-01,2010-12,156,156,-,2808,0,0,0,0,233,0,0,0,0,0
+development,2592,18,"LA-AT,LA-BK,LA-BL,LA-CH,LA-HO,LA-KH,LA-LM,LA-LP,LA-OU,LA-PH,LA-SL,LA-SV,LA-VI,LA-VT,LA-XA,LA-XE,LA-XI,LA-XN",1998-01,2009-12,144,144,-,2592,0,0,0,0,209,0,0,0,0,0
+holdout,216,18,"LA-AT,LA-BK,LA-BL,LA-CH,LA-HO,LA-KH,LA-LM,LA-LP,LA-OU,LA-PH,LA-SL,LA-SV,LA-VI,LA-VT,LA-XA,LA-XE,LA-XI,LA-XN",2010-01,2010-12,12,12,-,216,0,0,0,0,24,0,0,0,0,0

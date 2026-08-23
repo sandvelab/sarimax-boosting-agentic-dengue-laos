@@ -16,9 +16,13 @@ runs them.
 kind: sub-analyses
 main-path: -
 
-_(The decomposition is designed in batch 5 of
+- `01_data` — what the dataset contains, and on what part of it development may happen.
+
+_(The rest of the decomposition is designed in batch 5 of
 `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md` and built in batch 7.
-No children yet.)_
+`01_data` is here ahead of that because the plan's §3 requires the held-out year to be cut
+off before anything else looks at the data, and the script that cuts it is a node like any
+other.)_
 
 ## Environment
 

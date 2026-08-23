@@ -1,0 +1,19 @@
+location,location_name,distinct_values,value,min_value,max_value,is_static_over_time
+LA-AT,Attapeu,1,100456,100456,100456,True
+LA-BK,Bokeo,1,88893,88893,88893,True
+LA-BL,Bolikhamsai,1,304188,304188,304188,True
+LA-CH,Champasak,1,586946,586946,586946,True
+LA-HO,Houaphan,1,97424,97424,97424,True
+LA-KH,Khammouane,1,325633,325633,325633,True
+LA-LM,Luang Namtha,1,118364,118364,118364,True
+LA-LP,Luang Prabang,1,231328,231328,231328,True
+LA-OU,Oudomxay,1,195084,195084,195084,True
+LA-PH,Phongsaly,1,40280,40280,40280,True
+LA-SL,Salavan,1,289512,289512,289512,True
+LA-SV,Savannakhet,1,719887,719887,719887,True
+LA-VI,Vientiane,1,348542,348542,348542,True
+LA-VT,Vientiane Capital,1,960194,960194,960194,True
+LA-XA,Xaignabouli,1,265717,265717,265717,True
+LA-XE,Xekong,1,86599,86599,86599,True
+LA-XI,Xiangkhouang,1,148858,148858,148858,True
+LA-XN,Xaisomboun,1,53171,53171,53171,True

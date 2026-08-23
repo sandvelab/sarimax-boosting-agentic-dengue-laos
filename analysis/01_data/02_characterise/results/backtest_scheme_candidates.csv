@@ -1,0 +1,8 @@
+n_periods,n_splits,stride,evaluation_span_months,evaluated_first,evaluated_last,train_set_last_period,training_months_before_first_split,splits_overlap,cells_metric_averages,locations_before,locations_after,rejected,is_chosen
+3,4,3,12,2009-01,2009-12,2008-12,132,False,204,18,17,LA-VI,False
+3,8,3,24,2008-01,2009-12,2007-12,120,False,408,18,17,LA-VI,True
+3,12,3,36,2007-01,2009-12,2006-12,108,False,612,18,17,LA-VI,False
+3,4,1,6,2009-07,2009-12,2009-06,138,True,204,18,17,LA-VI,False
+3,8,1,10,2009-03,2009-12,2009-02,134,True,408,18,17,LA-VI,False
+3,12,1,14,2008-11,2009-12,2008-10,130,True,612,18,17,LA-VI,False
+3,7,1,9,2009-04,2009-12,2009-03,135,True,357,18,17,LA-VI,False

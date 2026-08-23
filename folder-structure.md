@@ -19,7 +19,10 @@ What each directory is for, and the one rule that governs it. Create every folde
 │   ├── scripts/  results/  provenance/
 │   └── NN_name/            child nodes, same shape, recursively
 ├── environment/            the one main environment (spec · build · lockfile · image)
-├── Archive/                imported source material, never edited, (IS_SHADOW)
+├── Archive/                imported source material and data, never edited
+│   ├── case-source-material/  the five documents the project starts from, (IS_SHADOW)
+│   ├── lao-dataset/        the data, pinned by commit, with a checksum manifest
+│   └── plan-as-delivered/  the plan before any of it had been run
 ├── AI-generated/           derived documents — regenerable, therefore deletable
 │   ├── batch-reports/      one per executed batch — the exception: not regenerable
 │   ├── chap-reconnaissance/  what the pinned platform is and does
@@ -28,6 +31,7 @@ What each directory is for, and the one rule that governs it. Create every folde
 ├── AI-internal/
 │   ├── useful-scripts/     node.py · check_invariants.py · claims.py · build_hierarchical_report.py
 │   ├── reconnaissance/     facts about external systems the project does not control
+│   ├── data-acquisition/   scripts that bring external data into Archive/
 │   ├── skill-references/   the detail the thin skills defer to
 │   ├── ai_task_history.md
 │   └── ai_task_details.md
@@ -44,7 +48,7 @@ What each directory is for, and the one rule that governs it. Create every folde
 |---|---|
 | `analysis/` | `run.sh` at the root reproduces everything. Alternatives stay in the tree. Never create nodes by hand — use `/node`. |
 | `environment/` | One environment for the whole analysis. A node-level override must justify itself in that node's `claim.md`. |
-| `Archive/` | Read-only. Marked `(IS_SHADOW)` on line 2. Anything needing change is copied out first. |
+| `Archive/` | Read-only and write-once. Text documents are marked `(IS_SHADOW)` on line 2; data files cannot be, because inserting a line would edit them and break their checksums, so their folder's `README.md` and `provenance.md` carry the statement instead. Anything needing change is copied out first. |
 | `AI-generated/` | Everything here is rebuilt by a recorded recipe. Never hand-edit; if it is wrong, its source is wrong. |
 | `AI-internal/` | The machinery. Scripts have a dual API/CLI interface. |
 | `Human-input/` | Mine. You execute plans from here; you do not rewrite them except to add output links. |

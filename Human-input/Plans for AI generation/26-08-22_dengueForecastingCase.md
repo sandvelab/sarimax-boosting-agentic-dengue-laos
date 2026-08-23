@@ -211,6 +211,18 @@ before any of this.
 | Phase E reads the **archived original** rather than concatenating the two split files | Answers the open question batch 1 raised at its §3.3. Concatenating would also demonstrate the partition was lossless, but the partition can be verified where it is made, and reading the original keeps the number of files that must agree at one. | agent-autonomous |
 | This project never implements CRPS. Aggregation level is ours; the score is always chap-core's `CRPSMetric` | Batch 2 found that per-region and per-split values are recoverable through chap-core's own metric API, so the case the plan allowed for — a hand-computed metric, flagged loudly — does not arise. A metric we computed ourselves is the one we could most easily bend without it being visible. | agent-autonomous |
 
+### 2026-08-23 — settled by batch 3, from the data
+
+| Decision | Basis | Agency |
+|---|---|---|
+| The backtest scheme is `n_periods 3`, `n_splits 8`, `stride 3`, `n_retrain 1` on development, and `3, 4, 3` on the full file in phase E. It does not move again | Seven candidates were run and costed against the data. `stride 3` because overlapping splits break the balance batch 2's metric identity depends on; `n_splits 8` because four splits make the development estimate a statement about a single dengue season and twelve leave the one training fit ending 2006-12 while predicting through 2009. | agent-autonomous |
+| `n_periods = 3` is not a free choice | It follows from the human's selection of `chapkit_ewars_model` as the reference: chap-core forces `n_periods=3` for EWARS and the chapkit service declares `prediction_periods: 3`, so a different horizon would mean the central comparison never happens. | agent-on-human-assessment |
+| The headline mean is over **16 provinces and 371 cells**, not 18 and 408, and this is reported rather than corrected | Vientiane never reports and is dropped by Chap's own region filter; Xaisomboun survives the filter, which looks only at the training period, and still contributes no evaluable cell. This is what §2's metric computes on this dataset, and changing it would be changing the success criterion, which is not the agent's. | agent-autonomous |
+| Data acquisition is not a node in the claim tree; the fetch script lives in `AI-internal/data-acquisition/` and its record beside the data in `Archive/lao-dataset/provenance.md` | The tree analyses dengue in Laos and starts from the archived file. A node writing into `Archive/` would also break the read-only rule. Same split batch 2 made for reconnaissance. | agent-autonomous |
+| `(IS_SHADOW)` is recorded in `Archive/lao-dataset/README.md` and `provenance.md` rather than in the data files | The marker inserts a line into the document; inserting a line into a CSV edits imported data and breaks the checksums that make the import verifiable. The convention is written for text documents and the repository now holds data. | agent-autonomous |
+| Where the holdout's 24 missing target cells fall was not examined | §3 permits row counts, provinces present and missing months, "and nothing further"; their positions are a pattern in the target. Phase E will need them and phase E can have them. | agent-autonomous |
+| Node scripts run under `environment/chapenv`, and `node.py` generates `run.sh` accordingly | The generator emitted `../.venv/bin/python`, which resolves to nothing below the first level of the tree and named the repository's own machinery rather than the pinned analysis environment. A node's declared environment and its generated main script now agree. Rule 4 makes this a methodological change. | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -259,7 +271,7 @@ at the end of every batch, and append newly created batches to it.
 |---|---|---|---|---|
 | 1 | A | Orient: read the source material, fix project settings, set up the repository | done — produced | [[26-08-23_b01_orientAndSetUp]] |
 | 2 | A | Reconnaissance — Chap: install it, learn the model contract, learn the evaluation | done — produced | [[26-08-23_b02_chapSetup]] |
-| 3 | A | Reconnaissance — data: acquire, characterise, and fix the split scheme | open | |
+| 3 | A | Reconnaissance — data: acquire, characterise, and fix the split scheme | done — produced | [[26-08-23_b03_dataCharacterisation]] |
 | 4 | A | Reconnaissance — methods: candidate model families, and run `chapkit_ewars_model` to get the reference score | open | |
 | 5 | A | Bootstrap: turn phases C–E into concrete batches | open | |
 | 6 | B | Vertical slice: one trivial model, end to end, first CRPS number | open | |
@@ -592,3 +604,7 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 2 — reconnaissance: Chap
 
 - [[26-08-23_b02_chapSetup]]
+
+### Batch 3 — reconnaissance: the data
+
+- [[26-08-23_b03_dataCharacterisation]]

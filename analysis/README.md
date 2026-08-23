@@ -21,12 +21,26 @@ Never create or rewire nodes by hand:
 
 ## Currently here
 
-**The root node only.** `claim.md` carries the project's top-level analytical aim — whether a
-spatio-temporal model of monthly dengue counts across the provinces of Laos, developed as
-autonomously as this setup allows, beats its baselines and the reference model under Chap's
-own backtest, and how far that answer survives the reasonable alternatives. There are no
-children yet and `run.sh` calls nothing.
+`claim.md` carries the project's top-level analytical aim — whether a spatio-temporal model
+of monthly dengue counts across the provinces of Laos, developed as autonomously as this
+setup allows, beats its baselines and the reference model under Chap's own backtest, and how
+far that answer survives the reasonable alternatives.
 
-The decomposition is designed in batch 5 of the plan and built in batch 7; the first real
-result — one trivial model through `chap eval`, end to end — is batch 6. Until then nothing
-about the modelling is real, and **a result produced outside this tree does not exist.**
+One child so far:
+
+- **`01_data`** (sub-analyses) — what the dataset contains, and on what part of it
+  development may happen.
+  - **`01_partition`** — cuts the archived file into the development period (1998-01 to
+    2009-12) and the sealed 2010 holdout, and verifies the two partition it exactly. **This
+    is the only node licensed to read the full file**, and the holdout it writes
+    (`holdout_2010_SEALED.csv`) stays unopened until phase E.
+  - **`02_characterise`** — describes the development period only, and fixes the backtest
+    scheme that every later number is computed under.
+
+`bash analysis/run.sh` reproduces both from `Archive/lao-dataset/`, in about fifteen seconds,
+and was verified to give byte-identical output on two consecutive runs.
+
+The rest of the decomposition is designed in batch 5 of the plan and built in batch 7; the
+first modelling result — one trivial model through `chap eval`, end to end — is batch 6.
+Until then nothing about the modelling is real, and **a result produced outside this tree
+does not exist.**

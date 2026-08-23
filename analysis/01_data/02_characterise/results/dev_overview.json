@@ -1,0 +1,20 @@
+{
+  "file": "analysis/01_data/01_partition/results/development_1998-01_2009-12.csv",
+  "rows": 2592,
+  "provinces": 18,
+  "period_first": "1998-01",
+  "period_last": "2009-12",
+  "months": 144,
+  "grid_is_complete": true,
+  "target_observed_cells": 2383,
+  "target_missing_cells": 209,
+  "target_missing_share": 0.0806,
+  "target_zero_cells": 1341,
+  "target_zero_share_of_observed": 0.5627,
+  "total_reported_cases": 77031,
+  "covariate_missing_cells": {
+    "rainfall": 0,
+    "mean_temperature": 0,
+    "mean_relative_humidity": 0
+  }
+}

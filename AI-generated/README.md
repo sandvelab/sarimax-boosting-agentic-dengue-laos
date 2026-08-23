@@ -21,8 +21,8 @@ meantime. If a derived document is wrong, its source is wrong.
 
 ## Currently here
 
-- `batch-reports/` — one report per executed batch. Batches 1 (orientation and set-up) and
-  2 (Chap reconnaissance).
+- `batch-reports/` — one report per executed batch. Batches 1 (orientation and set-up),
+  2 (Chap reconnaissance) and 3 (the data).
 - `chap-reconnaissance/` — what the installed Chap platform is and does, captured to files
   in batch 2 so the report could quote them. Regenerable, and safe to prune once the claim
   tree supersedes it. None of its numbers is a result of this project.

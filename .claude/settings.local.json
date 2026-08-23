@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod +x *)",
+      "Read(//Users/geirksa_1_2_3/.claude/scheduled/**)",
+      "Bash(launchctl list *)"
+    ]
+  }
+}

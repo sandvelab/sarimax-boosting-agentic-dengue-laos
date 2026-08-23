@@ -1,0 +1,10 @@
+# Declarative specification of the analysis environment.
+# Fill in what the analysis needs, then run /pin-environment to resolve it into lock.txt.
+name: analysis
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  # - numpy=2.1.*
+  # - pandas=2.2.*
+  # - r-base=4.4.*

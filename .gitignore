@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+.env
+
+# Derived and regenerable — rebuilt by /hierarchical-report
+AI-generated/hierarchical-report/
+
+# Large intermediates belong in a data store with content-addressed references,
+# not in git history. Uncomment and adjust for this project's data:
+# analysis/**/results/*.bam
+# analysis/**/results/*.h5
+
+# Obsidian vault UI state — not part of the method.
+.obsidian/

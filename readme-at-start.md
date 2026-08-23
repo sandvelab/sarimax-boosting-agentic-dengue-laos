@@ -36,7 +36,7 @@ representative research problem, and where it fails.
 
 - **Target venue**: not fixed in the source material. The manuscript this case serves updates
   Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013), which is the obvious precedent.
-- **Status**: analysis (phase A — orientation and bootstrap).
+- **Status**: analysis (phase A — orientation and bootstrap; batches 1 and 2 done, batch 3 next).
 - **Manuscript**: `Human-AI-collaboration/manuscript/`
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`. It carries the
@@ -47,7 +47,7 @@ representative research problem, and where it fails.
 | Setting | Value |
 |---|---|
 | Project random seed | `20260822`. Every component seed derives from it. |
-| Main environment | `environment/environment.yml` (the analysis). Not the same as `.venv`, which runs the repository's own machinery. |
+| Main environment | `environment/` — CPython 3.13.0 and `chap-core==2.1.0`, built by `environment/install-chap.sh`, resolved in `environment/lock.txt`. Invoked as `environment/chapenv/bin/chap`. Not the same as `.venv`, which runs the repository's own machinery. |
 | Repository machinery interpreter | `.venv/bin/python` — CPython 3.13.7, created 2026-08-23 with `python3 -m venv .venv` on macOS 26.6.2 (arm64). |
 | Tracking level | **full** (`AGENTS.md` §6). This project is *about* tracking, so the usual argument for a lighter touch does not apply. Raise it with me rather than drifting. |
 | Compute budget for stability work | Phase D gets roughly 4–6 batches. `/perturb` estimates the cost of each perturbation, ranks by expected informativeness, cuts at that line and **records where the line fell and what was below it**. If the overall budget binds, cut phase D before phase E. |
@@ -100,6 +100,10 @@ do if EWARS cannot be run on this dataset, which the plan's §2 answers.
 - The analysis is a tree of questions under `analysis/`. Start at
   `AI-generated/hierarchical-report/index.html`, or `/node tree`.
 - Batch reports, one per executed batch, are in `AI-generated/batch-reports/`.
+- What the Chap platform is and does — the CLI surface, the model contract, and one worked
+  `chap eval` on an unrelated example dataset — is captured in
+  `AI-generated/chap-reconnaissance/`, rebuilt by `AI-internal/reconnaissance/`. None of
+  those numbers is a result of this project.
 - Source material — the manuscript, the 2013 rules, the proposal and its supplement, and the
   Chap orientation note — is in `Archive/case-source-material/`.
 - The plan **as it was delivered**, before any of it had been run, is in

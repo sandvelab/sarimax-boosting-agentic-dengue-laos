@@ -24,3 +24,5 @@ re-running a batch produces a different report rather than the same one.
 ## Currently here
 
 - `26-08-23_b01_orientAndSetUp.md` — batch 1, phase A: orientation and repository set-up.
+- `26-08-23_b02_chapSetup.md` — batch 2, phase A: installing and pinning `chap-core`, the
+  model contract, and what `chap eval` actually computes.

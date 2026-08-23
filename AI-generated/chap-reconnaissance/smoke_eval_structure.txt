@@ -19,9 +19,9 @@ Attributes:
     model_name:                  /Users/geirksa_1_2_3/ai/special-purpose vaul...
     model_configuration:         {}
     model_version:               unknown
-    created_date:                2026-08-23T13:17:52.892528
-    split_periods:               ["201910", "201907", "201909", "201908"]
-    org_units:                   ["11002", "11004", "11003", "11001", "11005"]
+    created_date:                2026-08-23T13:20:38.389954
+    split_periods:               ["201909", "201910", "201908", "201907"]
+    org_units:                   ["11001", "11005", "11002", "11003", "11004"]
     historical_context_periods:  72
     chap_version:                2.1.0
     model_info:                  {"entry_points":{"train":{"command":"python ...
@@ -31,9 +31,9 @@ title: CHAP Model Evaluation Results
 model_name: /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/AI-generated/chap-reconnaissance/smoke-work/model
 model_configuration: {}
 model_version: unknown
-created_date: 2026-08-23T13:17:52.892528
-split_periods: ["201910", "201907", "201909", "201908"]
-org_units: ["11002", "11004", "11003", "11001", "11005"]
+created_date: 2026-08-23T13:20:38.389954
+split_periods: ["201909", "201910", "201908", "201907"]
+org_units: ["11001", "11005", "11002", "11003", "11004"]
 historical_context_periods: 72
 chap_version: 2.1.0
 model_info: {"entry_points":{"train":{"command":"python train.py {train_data} {model}","parameters":{"train_data":"str","model":"str"}},"predict":{"command":"python predict.py {model} {historic_data} {future_data} {out_file}","parameters":{"historic_data":"str","future_data":"str","model":"str","out_file":"str"}}},"uv_env":"pyproject.toml","supported_period_type":"any","user_options":{},"required_covariates":[],"target":"disease_cases","allow_free_additional_continuous_covariates":false,"requires_geo":false,"meta_data":{"display_name":"No Display Name yet","description":"No Description yet","author_note":"No Author note yet","author_assessed_status":"red","author":"Unknown Author"},"name":"minimalist_example_uv"}

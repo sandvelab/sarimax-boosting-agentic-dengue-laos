@@ -18,13 +18,16 @@ What each directory is for, and the one rule that governs it. Create every folde
 │   ├── run.sh              reproduces the entire reported analysis
 │   ├── scripts/  results/  provenance/
 │   └── NN_name/            child nodes, same shape, recursively
-├── environment/            the one main environment (spec · lockfile · image)
+├── environment/            the one main environment (spec · build · lockfile · image)
 ├── Archive/                imported source material, never edited, (IS_SHADOW)
 ├── AI-generated/           derived documents — regenerable, therefore deletable
+│   ├── batch-reports/      one per executed batch — the exception: not regenerable
+│   ├── chap-reconnaissance/  what the pinned platform is and does
 │   ├── hierarchical-report/
 │   └── reproducibility-report/
 ├── AI-internal/
 │   ├── useful-scripts/     node.py · check_invariants.py · claims.py · build_hierarchical_report.py
+│   ├── reconnaissance/     facts about external systems the project does not control
 │   ├── skill-references/   the detail the thin skills defer to
 │   ├── ai_task_history.md
 │   └── ai_task_details.md

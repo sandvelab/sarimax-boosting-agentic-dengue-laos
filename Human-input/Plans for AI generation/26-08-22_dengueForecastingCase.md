@@ -203,6 +203,14 @@ before any of this.
 | If the budget will not carry the manifest twice, cut **forks run on both datasets** — never the full set on development and a subset on holdout | Agent's, unopposed. A holdout spread computed over a different set than the development spread is not comparable to it, so the asymmetric cut destroys exactly what the manifest exists to produce. | agent-autonomous |
 | The plan as delivered is archived under `Archive/plan-as-delivered/`, and how it changes is a reported result | The human's, on the reasoning that how much of the original design survives the process, and what had to change, is evidence about how far an agentic system can be handed a plan and left to run it. | human-set |
 
+### 2026-08-23 — settled by batch 2, from the installed platform
+
+| Decision | Basis | Agency |
+|---|---|---|
+| Phase E runs Chap's own path: `chap eval` on the full file, with `n_periods + (n_splits−1)·stride = 12` so the evaluated span is exactly 2010. The script-computed-CRPS fallback batch 3 was told to prepare is dropped | Batch 2 established that the evaluated span is `n_periods + (n_splits−1)·stride` and always ends at the last period of the file, so the arrangement §7's batch 3 called *preferred* is available. The plan reserved the choice to whichever route turned out to be configurable. | agent-autonomous |
+| Phase E reads the **archived original** rather than concatenating the two split files | Answers the open question batch 1 raised at its §3.3. Concatenating would also demonstrate the partition was lossless, but the partition can be verified where it is made, and reading the original keeps the number of files that must agree at one. | agent-autonomous |
+| This project never implements CRPS. Aggregation level is ours; the score is always chap-core's `CRPSMetric` | Batch 2 found that per-region and per-split values are recoverable through chap-core's own metric API, so the case the plan allowed for — a hand-computed metric, flagged loudly — does not arise. A metric we computed ourselves is the one we could most easily bend without it being visible. | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -250,7 +258,7 @@ at the end of every batch, and append newly created batches to it.
 | # | Phase | Aim | Status | Report |
 |---|---|---|---|---|
 | 1 | A | Orient: read the source material, fix project settings, set up the repository | done — produced | [[26-08-23_b01_orientAndSetUp]] |
-| 2 | A | Reconnaissance — Chap: install it, learn the model contract, learn the evaluation | open | |
+| 2 | A | Reconnaissance — Chap: install it, learn the model contract, learn the evaluation | done — produced | [[26-08-23_b02_chapSetup]] |
 | 3 | A | Reconnaissance — data: acquire, characterise, and fix the split scheme | open | |
 | 4 | A | Reconnaissance — methods: candidate model families, and run `chapkit_ewars_model` to get the reference score | open | |
 | 5 | A | Bootstrap: turn phases C–E into concrete batches | open | |
@@ -580,3 +588,7 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 1 — orient and set up
 
 - [[26-08-23_b01_orientAndSetUp]]
+
+### Batch 2 — reconnaissance: Chap
+
+- [[26-08-23_b02_chapSetup]]

@@ -133,3 +133,97 @@ and the file has `sample`, not `quantile`, and no `split` dimension at all.
 - Files: 2 scripts written, 17 reconnaissance outputs captured, 1 batch report (~3,400 words)
 - Wall clock for the evaluation: 42 s for 4 splits × 5 regions with a trivial model — a floor, not an estimate
 - Type: machinery and environment; no analysis output
+
+## T3: Batch 3 — reconnaissance: the data
+
+Executed the third batch of `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`.
+The first batch to put anything in the claim tree, and the batch that closes the held-out
+year off before anything else looks at the data.
+
+**What was produced.** `Archive/lao-dataset/` holds the three Lao files at commit
+`af362d5260c6e7de1739f3d05314a844bd272613` of `dhis2/climate-health-data`, fetched by
+`AI-internal/data-acquisition/fetch_lao_dataset.sh`, with a checksum manifest the partition
+node re-verifies on every run. `analysis/01_data` has two children: `01_partition`, the only
+node licensed to read the full file, which writes the development period and
+`holdout_2010_SEALED.csv` and verifies the partition; and `02_characterise`, which describes
+the development period only and fixes the backtest scheme. Nine provenance records, five
+figures with their plotted and pre-aggregation values, a criticality annotation, and the
+batch report `26-08-23_b03_dataCharacterisation.md` (~3,900 words). `bash analysis/run.sh`
+reproduces all of it from the archive in about fifteen seconds.
+
+**Design decisions worth knowing.** The obvious partition check — concatenate the parts and
+hash against the source — fails on this file for a reason that is not a defect: the CSV is
+ordered by province and then by month, so a cut on time interleaves rather than splitting
+into a prefix and a suffix. Exactness is checked instead as sorted-content equality plus an
+order-preserving-subsequence test on each part, on the files as written to disk rather than
+on lists held in memory. The partition works on text lines, not through pandas, because a
+parser round trip re-formats floats and would make "the parts contain exactly the source" a
+claim about a formatter. Data acquisition was kept out of the claim tree, on the same
+reasoning batch 2 used for reconnaissance and because a node writing into `Archive/` would
+break the read-only rule.
+
+**A defect in the machinery, fixed.** `node.py` generated `run.sh` calling
+`../.venv/bin/python`, which resolves to nothing below the first level of the tree and named
+the repository's own machinery rather than the pinned analysis environment. It now resolves
+the repository root at the node's actual depth and calls `environment/chapenv/bin/python`, so
+a node's declared environment and its generated main script agree. Rule 4 makes this a
+methodological change and it is committed as one.
+
+**What was established.** The source is a complete rectangular panel, 18 provinces × 156
+months, no missing months, no duplicate keys; only `disease_cases` has gaps, 233 of them. The
+schema's `row_count: 2575` counts complete records, not rows — a label error rather than a
+stale figure, which answers the discrepancy `chapOrientation.md` §4 raised by name. The
+schema is also wrong about `rainfall`: declared as a monthly total in millimetres, it is a
+mean daily rate — read as declared a province's year comes to 50–78 mm, read as mm/day to
+1 518–2 383 mm. Nothing downstream depends on it, but any knowledge-informed prior taken from
+the literature would be wrong by a factor of thirty. There is no conversion step for
+`chap eval`: the archived CSV is already in the form it reads, and chap-core's own loader
+takes both parts losslessly.
+
+The development period is small, zero-heavy and strongly seasonal: 8.1% of target cells
+missing, 56.3% of the observed ones zero, a July–September peak at about fourteen times the
+February trough, and 77 031 cases in total. Climate leads dengue consistently in sign and
+loosely in size — rainfall at lag 1, temperature at 2–3, humidity at 0–1, each positive in 16
+or 17 of 17 provinces with a min–max band across provinces of roughly 0.0 to 0.7. The zero
+rate falls monotonically from 64% in 1998 to 34% in 2009.
+
+**The finding that matters most.** `validate_and_filter_dataset_for_evaluation` drops
+Vientiane province, which reports no dengue count in any of the 144 months. That leaves 17
+provinces. But missing observations are dropped before the metric too, and Xaisomboun — which
+reports through 2005-12 and then stops, so it survives a filter that looks only at the
+training period — contributes zero evaluable cells in the 2008–2009 evaluated span, while
+Phongsaly contributes 11 of 24. **The headline mean is over 16 provinces and 371 cells, not
+18 and 408**, and six of those sixteen report zero in more than 85% of their observed months.
+This is a property of the plan's chosen metric on this dataset, not of any modelling choice,
+and it was established before any model exists.
+
+**The backtest scheme, fixed and not to be moved.** Development `n_periods 3`, `n_splits 8`,
+`stride 3`, `n_retrain 1`, evaluating 2008-01 to 2009-12 from a training set ending 2007-12.
+Phase E `3, 4, 3` on the full file, evaluating exactly 2010-01 to 2010-12 from a training set
+ending 2009-12 — confirmed on a synthetic calendar rather than on the archived original,
+since a split schedule depends only on the period range. `n_periods = 3` is not a free choice:
+it follows from the human's selection of `chapkit_ewars_model`. `stride 3` because
+overlapping splits break the balance batch 2's metric identity depends on. `n_splits 8` from
+seven costed candidates, as the middle between one evaluated season and a training fit that
+ends three years before the last prediction.
+
+**What a future session needs.** Batch 4 still needs Docker running, and now has a concrete
+cost question: how long an emulated amd64 R-INLA fit takes at 8 splits. Phase E will need to
+know where the holdout's 24 missing target cells fall — deliberately not examined here, since
+§3 permits completeness counts and nothing further, so 24 of 216 province-months cannot be
+scored. And the zero rate falling across the record means 2008–2009 is the *easiest* stretch
+of the development period, so some development-to-holdout drop is predicted by the data
+independently of anything the agent does; recording that now is what will make the
+distinction credible when phase E reports a gap.
+
+Ten data problems are listed in the report's §8 as phase-D fork candidates, with which are
+data-or-evaluation forks that re-score every model including the reference (1, 2, 3, 5, 6)
+and which are internal to our candidates (4, 7, 8). That list is what batch 5's perturbation
+manifest starts from.
+
+**Metrics**
+- Iterations: 1 `/do` invocation
+- Files: 9 analysis scripts, 1 fetch script, 37 result files, 9 provenance records, 5 figures, 1 criticality annotation, 1 batch report (~3,900 words)
+- Wall clock: `bash analysis/run.sh` ≈ 15 s; run twice, byte-identical including PNGs
+- Storage: 1.6 MB in `analysis/`, 8.7 MB in `Archive/lao-dataset/` (8.4 MB of it the GeoJSON)
+- Type: analysis output — the first in the project

@@ -19,3 +19,7 @@ Where an import has a binary original and a markdown conversion, they go in `ori
 - `plan-as-delivered/` — the plan being executed, as it stood before the first batch ran. The
   live plan under `Human-input/` is edited as the project runs; this is the baseline the drift
   is measured against, and the drift is a reported result.
+- `lao-dataset/` — the data itself: the three Lao files of the CHAP harmonized dataset, at a
+  pinned commit, with a checksum manifest the partition node re-verifies on every run. The
+  `(IS_SHADOW)` line marker does not apply to them — inserting a line into a CSV would be an
+  edit — so the folder's README and `provenance.md` carry that statement instead.

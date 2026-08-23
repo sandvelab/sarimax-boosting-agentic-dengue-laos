@@ -60,6 +60,11 @@ RUN_HEADER = """#!/usr/bin/env bash
 # by `node.py rebuild`, which enforces the alternatives/sub-analyses semantics.
 set -euo pipefail
 cd "$(dirname "$0")"
+REPO_ROOT="$(cd "{up}" && pwd)"
+# Node scripts run under the pinned analysis environment (AGENTS.md §2), not under
+# .venv, which is the repository's own machinery. A node needing something beyond it
+# declares env/ and overrides PYTHON below.
+PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 """
 
 
@@ -69,6 +74,20 @@ def _field(text: str, key: str) -> str | None:
         return None
     v = m.group(1).strip()
     return None if v in ("", "-", "none", "n/a") else v
+
+
+def repo_root(node: Path) -> Path:
+    """The repository root: the nearest ancestor holding AGENTS.md."""
+    for p in [node.resolve(), *node.resolve().parents]:
+        if (p / "AGENTS.md").exists():
+            return p
+    raise SystemExit(f"no repository root (no AGENTS.md above): {node}")
+
+
+def _up_to_root(node: Path) -> str:
+    """Relative path from a node directory up to the repository root."""
+    depth = len(node.resolve().relative_to(repo_root(node)).parts)
+    return "/".join([".."] * depth) if depth else "."
 
 
 def children(node: Path) -> list[Path]:
@@ -107,7 +126,7 @@ def regenerate_run_sh(node: str | Path, write: bool = True) -> str:
     node = Path(node)
     info = read_node(node)
     kids = info["children"]
-    lines = [RUN_HEADER.format(name=node.name)]
+    lines = [RUN_HEADER.format(name=node.name, up=_up_to_root(node))]
 
     if kids:
         kind = info["kind"]
@@ -143,7 +162,7 @@ def regenerate_run_sh(node: str | Path, write: bool = True) -> str:
         lines.append("")
         lines.append("# Own scripts")
         for s in own:
-            runner = "bash" if s.suffix == ".sh" else "../.venv/bin/python"
+            runner = "bash" if s.suffix == ".sh" else '"$PYTHON"'
             lines.append(f'{runner} "scripts/{s.name}"')
     elif not kids:
         lines.append("")

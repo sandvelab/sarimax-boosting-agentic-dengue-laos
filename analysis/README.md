@@ -21,5 +21,12 @@ Never create or rewire nodes by hand:
 
 ## Currently here
 
-*(Nothing yet — the root node's claim is still a template. Fill in `analysis/claim.md`
-first.)*
+**The root node only.** `claim.md` carries the project's top-level analytical aim — whether a
+spatio-temporal model of monthly dengue counts across the provinces of Laos, developed as
+autonomously as this setup allows, beats its baselines and the reference model under Chap's
+own backtest, and how far that answer survives the reasonable alternatives. There are no
+children yet and `run.sh` calls nothing.
+
+The decomposition is designed in batch 5 of the plan and built in batch 7; the first real
+result — one trivial model through `chap eval`, end to end — is batch 6. Until then nothing
+about the modelling is real, and **a result produced outside this tree does not exist.**

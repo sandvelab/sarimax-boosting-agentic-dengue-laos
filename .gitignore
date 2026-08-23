@@ -27,3 +27,11 @@ environment/chapenv/
 # example model and the ~200 MB virtual environment chap-core builds for it. Rebuilt from
 # pinned refs by AI-internal/reconnaissance/capture_chap_surface.sh.
 AI-generated/chap-reconnaissance/smoke-work/
+
+# Batch-4 reconnaissance working directories: the pulled 4.7 GB reference image's run
+# directories, a clone of the model-library sweep, and per-repeat evaluation files.
+# Rebuilt from pinned refs by AI-internal/reconnaissance/run_ewars_reference.sh,
+# ewars_reproducibility.sh and capture_model_library.sh.
+AI-generated/method-reconnaissance/ewars-work/
+AI-generated/method-reconnaissance/library-work/
+AI-generated/method-reconnaissance/native-work/

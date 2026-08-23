@@ -1,0 +1,12 @@
+{
+  "model": "dhis2-chap/minimalist_example_uv@a67d427bfde1341be6618e64c9a4a9a2c79cec2a",
+  "kind": "MLproject with uv_env, native arm64, linear regression, one sample per cell",
+  "purpose": "cost measurement only -- not a candidate score",
+  "dataset": "development_1998-01_2009-12.csv",
+  "n_periods": 3,
+  "n_splits": 8,
+  "stride": 3,
+  "n_retrain": 1,
+  "wall_clock_seconds": 56,
+  "seconds_per_split": 7.0
+}

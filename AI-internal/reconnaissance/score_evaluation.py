@@ -60,7 +60,8 @@ def score_frames(path: Path) -> dict[str, pd.DataFrame]:
 
     globals_rows = []
     for metric_id in METRIC_IDS:
-        metric = get_metric(metric_id)
+        # `get_metric` returns the metric *class*; the aggregation methods are instance methods.
+        metric = get_metric(metric_id)()
         global_frame = metric.get_global_metric(observations, forecasts)
         globals_rows.append({"metric": metric_id, "value": float(global_frame["metric"].iloc[0])})
         frames[f"{metric_id}_by_location"] = metric.get_metric(
@@ -70,7 +71,7 @@ def score_frames(path: Path) -> dict[str, pd.DataFrame]:
     frames["metrics_global"] = pd.DataFrame(globals_rows)
 
     # CRPS at the platform's finest resolution, and the two aggregations the plan reports.
-    detailed = with_split(get_metric("crps").get_detailed_metric(observations, forecasts))
+    detailed = with_split(get_metric("crps")().get_detailed_metric(observations, forecasts))
     frames["crps_detailed"] = detailed
     frames["crps_by_split"] = detailed.groupby("split_first_period", as_index=False)["metric"].mean()
     frames["crps_by_region_split"] = detailed.groupby(

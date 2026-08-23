@@ -223,6 +223,18 @@ before any of this.
 | Where the holdout's 24 missing target cells fall was not examined | §3 permits row counts, provinces present and missing months, "and nothing further"; their positions are a pattern in the target. Phase E will need them and phase E can have them. | agent-autonomous |
 | Node scripts run under `environment/chapenv`, and `node.py` generates `run.sh` accordingly | The generator emitted `../.venv/bin/python`, which resolves to nothing below the first level of the tree and named the repository's own machinery rather than the pinned analysis environment. A node's declared environment and its generated main script now agree. Rule 4 makes this a methodological change. | agent-autonomous |
 
+### 2026-08-23 — settled by batch 4, from the reference model
+
+| Decision | Basis | Agency |
+|---|---|---|
+| The reference is pinned by **image digest** `sha256:abd8098f…` rather than by a `@<commit>` model URL or a local build | The published image's `org.opencontainers.image.revision` label is the source commit `a4c2fa42`, so the digest pins bytes and provenance together. A local build would have pinned our layer and left its own `chapkit-r-inla:latest` base floating, which is weaker than what §4b's original decision assumed. | agent-autonomous |
+| Batch 4's reference run is reconnaissance; **the reported reference score is produced from a node inside the tree** | A result produced outside the tree does not exist, and the tree does not exist until batch 7. At 149 seconds per backtest the duplicated compute costs nothing worth weakening the rule for. | agent-autonomous |
+| The reference's **unseeded stochasticity is measured and reported, not worked around** — four identical runs, sd 0.196 CRPS, 2.1 % range | `scripts/predict.R` calls `inla.posterior.sample` and `rnbinom` and never `set.seed`, and the service exposes no seed. Rule 6 cannot be satisfied for the model the success criterion names, so the honest move is to quantify the gap: any margin against the reference under about 0.4 CRPS is inside its own re-run noise. | agent-autonomous |
+| The unpaired split-level standard error (5.65 CRPS, 26 % of the mean) is recorded as a property of the *dataset*, and phase C must compute the **paired** per-cell difference rather than lean on it | Split-to-split variation is common to both models and cancels in a paired comparison, so the unpaired figure is the right answer to "how variable is forecasting difficulty here" and the wrong answer to "how small a model difference can we detect". Recording both prevents the crude number being quoted later as the comparison's sensitivity. | agent-autonomous |
+| Candidates are implemented as `MLproject` models with a `uv_env`, native Python; `chapkit` stays permitted but unused | No candidate on batch 4's shortlist needs a persistent service, and the `uv_env` route needs neither Docker nor an image build. This exercises the human's §4 permission by declining it, with a reason. | agent-autonomous |
+| Spatio-temporal GNNs are **ruled out as a family**; the superensemble is ruled out as an *integration* but retained as an ensemble of our own candidates; the mechanistic thermal backbone is ruled out as a backbone and retained as a covariate-transform fork | Each against the data rather than against the budget: 16 nodes and 144 periods is not a graph-learning problem; the one integrated superensemble needs covariates the Lao file does not have and is the sole failure in the library sweep; and the Lao temperature range sits on the rising limb of the suitability curve, where a mechanistic transform is nearly monotone in temperature. | agent-autonomous |
+| Whether our candidates **refit at predict time**, as the reference does, is a fork rather than a convention | The reference's `train.R` is a placeholder and its INLA fit runs in `predict.R`, so despite `n_retrain 1` it refits at every split. A candidate that fits only in `train` would be compared against a reference that refits eight times, which is a difference in what is compared rather than in model quality. | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -272,7 +284,7 @@ at the end of every batch, and append newly created batches to it.
 | 1 | A | Orient: read the source material, fix project settings, set up the repository | done — produced | [[26-08-23_b01_orientAndSetUp]] |
 | 2 | A | Reconnaissance — Chap: install it, learn the model contract, learn the evaluation | done — produced | [[26-08-23_b02_chapSetup]] |
 | 3 | A | Reconnaissance — data: acquire, characterise, and fix the split scheme | done — produced | [[26-08-23_b03_dataCharacterisation]] |
-| 4 | A | Reconnaissance — methods: candidate model families, and run `chapkit_ewars_model` to get the reference score | open | |
+| 4 | A | Reconnaissance — methods: candidate model families, and run `chapkit_ewars_model` to get the reference score | done — produced | [[26-08-23_b04_methodSurvey]] |
 | 5 | A | Bootstrap: turn phases C–E into concrete batches | open | |
 | 6 | B | Vertical slice: one trivial model, end to end, first CRPS number | open | |
 | 7 | B | Erect the claim tree and route the vertical slice through it | open | |
@@ -608,3 +620,7 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 3 — reconnaissance: the data
 
 - [[26-08-23_b03_dataCharacterisation]]
+
+### Batch 4 — reconnaissance: methods
+
+- [[26-08-23_b04_methodSurvey]]

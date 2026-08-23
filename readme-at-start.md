@@ -36,7 +36,7 @@ representative research problem, and where it fails.
 
 - **Target venue**: not fixed in the source material. The manuscript this case serves updates
   Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013), which is the obvious precedent.
-- **Status**: analysis (phase A — orientation and bootstrap; batches 1–3 done, batch 4 next).
+- **Status**: analysis (phase A — orientation and bootstrap; batches 1–4 done, batch 5 next).
 - **Manuscript**: `Human-AI-collaboration/manuscript/`
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`. It carries the
@@ -57,7 +57,7 @@ representative research problem, and where it fails.
 | Metric | Mean CRPS across regions × splits, produced by Chap's own evaluation. Secondary: interval coverage, MAE. |
 | Reported conclusion | A skill score against the reference model, `1 − CRPS_ours / CRPS_ewars`, computed per analysis by a script, with raw CRPS and coverage beside it. Relative rather than absolute, so that the development and held-out spreads can be read on one axis instead of confounding inflated performance with a harder year. |
 | Required baselines | Persistence and seasonal climatology, implemented as Chap-compatible models so they traverse the identical evaluation path. |
-| Reference model to beat | `https://github.com/chap-models/chapkit_ewars_model` (WHO EWARS-csd), at its own default configuration — on the cross-validated development backtest **and** on the held-out year. Not tuned by us. |
+| Reference model to beat | `https://github.com/chap-models/chapkit_ewars_model` (WHO EWARS-csd), at its own default configuration — on the cross-validated development backtest **and** on the held-out year. Not tuned by us. Pinned by image digest `sha256:abd8098f…` (= source commit `a4c2fa42`); runs as an amd64 chapkit service under emulation, so **Docker must be running**. Its development mean CRPS is about **21.9**, established in batch 4 — reconnaissance, not yet the reported reference score. It is **unseeded**: identical re-runs move its CRPS by about 2 %, so a margin under ~0.4 CRPS against it means nothing. |
 | What counts as success | Beating both baselines and EWARS. Nothing here can reach statistical significance and no attempt is made to suggest it does: the comparison is reported with its per-region and per-split spread and a plain statement of what that spread can distinguish. "We cannot separate these two" is a conclusion. |
 | Shape of the reported result | A **spread, not a point**, on both datasets. The phase-D perturbation set is frozen before the holdout is opened and re-run on it, so development and holdout are both reported as distributions over the analyses that all looked reasonable. |
 | Model service framework | `chapkit` may be used to build our own models against the Chap contract. Permitted, not mandated. |
@@ -101,6 +101,11 @@ do if EWARS cannot be run on this dataset, which the plan's §2 answers.
 - The analysis is a tree of questions under `analysis/`. Start at
   `AI-generated/hierarchical-report/index.html`, or `/node tree`.
 - Batch reports, one per executed batch, are in `AI-generated/batch-reports/`.
+- What the reference model and the rest of Chap's model library can do on *this* dataset — the
+  reference's score, cost and repeatability, and an inventory of the 39 `chap-models`
+  repositories — is in `AI-generated/method-reconnaissance/`, rebuilt by
+  `AI-internal/reconnaissance/`. Those numbers establish the criterion; they are not yet
+  results of this project.
 - What the Chap platform is and does — the CLI surface, the model contract, and one worked
   `chap eval` on an unrelated example dataset — is captured in
   `AI-generated/chap-reconnaissance/`, rebuilt by `AI-internal/reconnaissance/`. None of

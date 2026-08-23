@@ -26,6 +26,7 @@ What each directory is for, and the one rule that governs it. Create every folde
 ├── AI-generated/           derived documents — regenerable, therefore deletable
 │   ├── batch-reports/      one per executed batch — the exception: not regenerable
 │   ├── chap-reconnaissance/  what the pinned platform is and does
+│   ├── method-reconnaissance/  what the reference model scores and costs, and what else the library holds
 │   ├── hierarchical-report/
 │   └── reproducibility-report/
 ├── AI-internal/

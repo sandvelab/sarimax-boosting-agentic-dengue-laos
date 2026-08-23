@@ -55,6 +55,10 @@ representative research problem, and where it fails.
 | Target | `disease_cases` (reported dengue), monthly, admin-1, Laos. |
 | Metric | Mean CRPS across regions × splits, produced by Chap's own evaluation. Secondary: interval coverage, MAE. |
 | Required baselines | Persistence and seasonal climatology, implemented as Chap-compatible models so they traverse the identical evaluation path. |
+| Reference model to beat | `https://github.com/chap-models/chapkit_ewars_model` (WHO EWARS-csd), at its own default configuration — on the cross-validated development backtest **and** on the held-out year. Not tuned by us. |
+| What counts as success | Beating both baselines and EWARS. Nothing here can reach statistical significance and no attempt is made to suggest it does: the comparison is reported with its per-region and per-split spread and a plain statement of what that spread can distinguish. "We cannot separate these two" is a conclusion. |
+| Shape of the reported result | A **spread, not a point**, on both datasets. The phase-D perturbation set is frozen before the holdout is opened and re-run on it, so development and holdout are both reported as distributions over the analyses that all looked reasonable. |
+| Model service framework | `chapkit` may be used to build our own models against the Chap contract. Permitted, not mandated. |
 | Development data | 1998-01 to 2009-12. The only file development ever sees. |
 | Held-out data | 2010-01 to 2010-12. Sealed until the final validation. |
 | Backtest scheme (`n-periods`, `n-splits`, `stride`) | *Fixed in batch 3.* It does not move after that, because a horizon changed midway makes every earlier number incomparable. |
@@ -64,11 +68,14 @@ representative research problem, and where it fails.
 
 These override everything else here.
 
-1. **The final year is removed from the data before any work begins, and touched once.**
+1. **The final year is removed from the data before any work begins, and opened once.**
    2010 is cut off into a separate holdout file; development, tuning, selection and the whole
-   backtest happen on 1998-01 to 2009-12 and nothing is ever pointed at anything else. The
-   holdout's case values are not read, plotted, characterised or reasoned about during
-   development. If the holdout is opened a second time, that it happened and why is recorded.
+   backtest happen on 1998-01 to 2009-12 and nothing is pointed at anything else until the
+   final validation. The holdout's case values are not read, plotted, characterised or
+   reasoned about during development. If the holdout is opened a second time, that it happened
+   and why is recorded. It is opened once but *evaluated* many times — across the frozen
+   perturbation manifest — and that is only honest because the manifest was fixed beforehand:
+   **nothing is added, dropped, re-tuned or re-run after a holdout number has been seen.**
 2. **No number reaches a claim except through a file.** `chap eval` writes NetCDF, `chap
    export-metrics` writes CSV; every reported figure is read from one of those by a script,
    never from terminal output. (`AGENTS.md` §1.)
@@ -84,7 +91,8 @@ These override everything else here.
 
 Creating a git remote and naming it; anything that spends real money; abandoning the local
 Chap install for a hosted service; any change to the success criterion or to the five points
-above.
+above. The success criterion was settled on 2026-08-23 and is now fixed — including what to
+do if EWARS cannot be run on this dataset, which the plan's §2 answers.
 
 ## Where things are
 

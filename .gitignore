@@ -14,3 +14,7 @@ AI-generated/hierarchical-report/
 
 # Obsidian vault UI state — not part of the method.
 .obsidian/
+
+# Personal working preferences, not method: permission grants specific to one
+# machine and one operator, which change nothing about what the analysis does.
+.claude/settings.local.json

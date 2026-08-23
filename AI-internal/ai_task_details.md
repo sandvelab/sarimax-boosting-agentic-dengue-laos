@@ -40,7 +40,32 @@ or only a URL, and whether per-region and per-split CRPS values are recoverable 
 placeholder rather than a decision and which batch 2 may have to change once `chap-core`'s
 requirement is known.
 
+**Extension, same day — settling §2.** Both open questions were resolved in dialogue rather
+than by the agent. The reference model is `https://github.com/chap-models/chapkit_ewars_model`,
+to be beaten on the development backtest and on the held-out year; statistical significance is
+acknowledged in advance as unattainable and the call is to be reported as uncertain; and the
+phase-D stability spread is carried forward to the held-out year, so the final validation
+reports a distribution rather than a point. The dengue case definitively replaces the genomic
+region-set case in the manuscript's Appendix, and `settings.local.json` was untracked as a
+personal working preference rather than method.
+
+Three consequences the agent proposed and the human accepted: the holdout perturbation
+manifest is frozen before the holdout is opened, and nothing is re-run after a holdout number
+has been seen (without this, "a spread on the holdout" degenerates into selection); forks that
+change the data or the evaluation re-score every model including the reference, while forks
+internal to our candidates move only ours; and the root's computed conclusion is a skill score
+against the reference, `1 − CRPS_ours / CRPS_ewars`, rather than raw CRPS, because raw CRPS is
+not comparable across the two datasets and a raw dev→holdout gap would confound the agent
+inflating its own performance with 2010 being a harder year.
+
+The plan as delivered is archived at `Archive/plan-as-delivered/` (sha256 `f17c3fd6…`), and its
+drift from the live plan is now a phase-E deliverable: how much of the original design survived
+and who drove each change is evidence about how far an agentic system can be handed a plan and
+left to run it. **Already 164 changed lines before any analysis has been run.** The plan's new
+§4b logs each decision with its agency — five human-set, three agent-on-human-assessment, two
+agent-autonomous.
+
 **Metrics**
-- Iterations: 1 exchange (one `/do` invocation)
-- Input vs. generated text: ~26,000 words read in / ~5,500 words written out
+- Iterations: 3 exchanges (one `/do` invocation, two rounds of settling)
+- Input vs. generated text: ~26,000 words read in / ~8,500 words written out
 - Type: machinery

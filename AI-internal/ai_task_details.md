@@ -69,3 +69,67 @@ agent-autonomous.
 - Iterations: 3 exchanges (one `/do` invocation, two rounds of settling)
 - Input vs. generated text: ~26,000 words read in / ~8,500 words written out
 - Type: machinery
+
+## T2: Batch 2 — reconnaissance: Chap
+
+The batch the plan called its largest unknown, and the install turned out not to be the hard
+part. `environment/install-chap.sh` builds a project-local virtual environment on CPython
+3.13.0 and installs `chap-core==2.1.0`, resolving 174 packages, all wheels, no compilation,
+no Docker and no R. The pin was verified rather than asserted: the environment was deleted
+and rebuilt, and the second resolution was identical. The Python patch version is pinned
+because `uv venv --python 3.13` silently resolves to whichever 3.13 the machine holds — here
+uv's own 3.13.0, while the repository's `.venv` runs 3.13.7. `environment/environment.yml`
+and `environment/Dockerfile` were rewritten away from the conda framing they carried as
+template text, which had never described anything that had been built. The Docker layer is
+written but **unbuilt**: no daemon is running on this machine, and `environment/README.md`
+says so rather than implying the third layer of Rule 3 exists.
+
+Two new folders: `AI-internal/reconnaissance/` for scripts that establish facts about
+external systems the project depends on but does not control, and
+`AI-generated/chap-reconnaissance/` for what they produce, with a `provenance.md` binding
+every file to script, pin and commit. Neither is a node in the claim tree — the tree holds
+the analysis of dengue in Laos, and "what does `chap eval` compute" is a question about the
+instrument. `/validate invariants` covers only `analysis/`, so this is a place the structural
+checks do not reach and the `provenance.md` convention of `AGENTS.md` §8 does the work
+instead.
+
+**What was established.** `chap eval --model-name` accepts a local directory, so development
+happens locally; it also accepts `https://github.com/org/repo@<commit>`, which settles the
+plan's §4b conditional about vendoring the reference model. A Chap model is a directory with
+an `MLproject` file declaring its target, required covariates, user options, a runtime
+(`uv_env` / `renv_env` / `conda_env` / `docker_env`) and two shell commands; the exchange is
+CSVs, so the contract is language-agnostic, and `predict` writes one column per forecast
+sample. The backtest is expanding-window rolling-origin with the splits laid out backwards
+from the last period of the file, so the evaluated span is always
+`n_periods + (n_splits−1)·stride` periods ending at the final period — which makes phase E's
+preferred route available and retires the script-computed-CRPS fallback batch 3 was told to
+prepare. CRPS is the sample-based energy form, unweighted mean over
+`(location, time_period, horizon_distance)`; `chap export-metrics` gives the global aggregate
+only, but chap-core's own `CRPSMetric.get_metric(..., dimensions=...)` gives any breakdown,
+and the split is recoverable as `time_period − (horizon_distance − 1)`. **The project
+therefore never implements CRPS**, which is now a standing decision: aggregation level is
+ours, the score is always the platform's.
+
+**What a future session needs.** Batch 4 needs Docker running — `chapkit_ewars_model` is a
+chapkit REST service whose image is `linux/amd64` only because R-INLA is, so on this arm64
+machine it needs a daemon plus emulation, and how slow that is could bind the whole project.
+Batch 3 should fix `n_periods = 3`: `chap-core` carries an explicit special case forcing it
+for the EWARS model, and the chapkit version defaults to it. Batch 3 should also watch
+`validate_and_filter_dataset_for_evaluation`, which silently drops regions whose target is
+entirely missing over the training window — on the zero-heavy Lao data that could change what
+the headline mean is a mean over. And `/validate cleanroom` must not byte-compare `.nc`
+files: repeated identical runs agree on every number but write `split_periods` and
+`org_units` from unordered sets, so their order varies. Also unverified: whether
+`chap-models-checker`, which claims to run `chap eval` across all 37 repositories in
+`github.com/chap-models`, publishes scores — if it does, it answers `chapOrientation.md`
+§5's last question cheaply.
+
+The documentation and the artifact disagree on one point, recorded in the report: the
+`eval-reference` page describes the `.nc` dimensions as "time, location, quantile, split",
+and the file has `sample`, not `quantile`, and no `split` dimension at all.
+
+**Metrics**
+- Iterations: 1 `/do` invocation
+- Files: 2 scripts written, 17 reconnaissance outputs captured, 1 batch report (~3,400 words)
+- Wall clock for the evaluation: 42 s for 4 splits × 5 regions with a trivial model — a floor, not an estimate
+- Type: machinery and environment; no analysis output

@@ -227,3 +227,73 @@ manifest starts from.
 - Wall clock: `bash analysis/run.sh` ≈ 15 s; run twice, byte-identical including PNGs
 - Storage: 1.6 MB in `analysis/`, 8.7 MB in `Archive/lao-dataset/` (8.4 MB of it the GeoJSON)
 - Type: analysis output — the first in the project
+
+---
+
+## T4 (2026-08-23) — Batch 4: reconnaissance, methods
+
+**What was produced.** `AI-generated/method-reconnaissance/`, with the reference model's
+evaluation on the development dataset and everything derived from it, plus an inventory of
+Chap's model library; five new scripts under `AI-internal/reconnaissance/`; and the batch
+report `26-08-23_b04_methodSurvey.md` (~4,000 words). Nothing entered the claim tree: the
+reference run is reconnaissance, and the reported reference score will be produced from a
+node once the tree exists in batch 7.
+
+**The result that unblocks the project.** `chapkit_ewars_model` runs. Mean CRPS **21.891**
+over 16 provinces and 371 cells with 1 000 draws per cell, MAE 28.504, 10–90 coverage 0.817,
+25–75 coverage 0.617. The 16-province, 371-cell figure was batch 3's prediction from
+chap-core's splitter and is now confirmed by a model actually being scored. The calibration
+pattern is the most actionable thing in it: nearly nominal in the tails, half again too wide
+in the middle, so a candidate that sharpens the core without losing the tails has a route to
+a better CRPS that does not require better point forecasts.
+
+**Three findings that were not asked for and matter more than the score.** First, the
+reference is unseeded — `scripts/predict.R` calls `inla.posterior.sample` and `rnbinom` and
+never `set.seed`, and the chapkit service exposes no seed — so four identical runs gave
+21.712–22.166 (sd 0.196). This is the first thing in the project that is not
+bit-reproducible and the cause is in the reference, not here. Second, the unpaired
+split-level standard error is 5.65 CRPS, 26 % of the mean; that is the right number for how
+variable dengue forecasting difficulty is across 2008–2009 and the *wrong* number for how
+small a model difference is detectable, because the paired comparison phase C runs cancels
+most of it. Both figures are recorded so the crude one is not later quoted as the
+comparison's sensitivity. Third, the reference's `train.R` is a placeholder and its INLA fit
+happens in `predict.R`, so despite `n_retrain 1` it refits at every split — which makes
+"does our candidate refit at predict time" a fork rather than a convention.
+
+**Cost, which revises the budget.** 149 s for an eight-split backtest of the reference under
+amd64 emulation; 56 s for a native Python model through `MLproject` + `uv_env`. Evaluation
+is cheap and implementation is not, so batch 5 should write the §9 budget in implementation
+effort, and phase D's perturbation manifest is far less constrained than the plan assumed.
+The 4.7 GB image took about six minutes to pull, once.
+
+**What went wrong.** Two script bugs, both corrected at the source with the pipeline re-run
+rather than patched in the output: `get_metric()` returns the metric *class*, not an
+instance, and `DataFrame.style` is pandas' Styler, which silently shadowed a column named
+`style`. The `chap eval` log emits `Column 'rainfall' ... not used by the model` for all three
+climate columns; this is cosmetic — the container's own log shows the training frame arriving
+with all nine columns — and is recorded because a reader seeing only the warning would think
+the reference had been run without climate data.
+
+**Files affected.** New: `AI-internal/reconnaissance/{run_ewars_reference.sh,
+ewars_reproducibility.sh, capture_model_library.sh, measure_native_cost.sh,
+score_evaluation.py, reference_spread.py}`, `AI-generated/method-reconnaissance/` (README,
+provenance, 30 outputs). Modified: `.gitignore` (three work directories),
+`AI-generated/README.md`, `AI-internal/reconnaissance/README.md`, `folder-structure.md`,
+`readme-at-start.md` (reference pin, score and unseededness), and the plan — batch 4 marked
+`done — produced`, seven decisions appended to §4b with their agency. Commits `fb100a9`
+(before) and `e644dfc` (after).
+
+**What a future session needs.** Docker Desktop must be running for anything that touches the
+reference, phase E included; starting it is the only manual step in the recipe so far.
+Batch 5 should make the paired per-cell comparison an explicit early check rather than a
+phase-D discovery, and should read `ewars_plus_template` — newer than the published sweep,
+and the closest existing thing to the shortlist's first candidate — before implementing.
+Still unexercised: `--model-configuration-yaml` and `user_options` on the `MLproject` route,
+and whether the Docker layer of `environment/` builds now that the daemon is up.
+
+**Metrics**
+- Iterations: 1 `/do` invocation
+- Files: 6 reconnaissance scripts, 33 stored outputs, 1 provenance file with four sections, 1 batch report (~4,000 words)
+- Wall clock: reference backtest 149 s; three repeats 8 min; native model 56 s; image pull ~6 min
+- Storage: ~11 MB tracked, 10 MB of it the reference's evaluation `.nc` — kept rather than pruned because the reference is unseeded and it cannot be regenerated identically
+- Type: reconnaissance — establishes the criterion; not yet a result of the analysis

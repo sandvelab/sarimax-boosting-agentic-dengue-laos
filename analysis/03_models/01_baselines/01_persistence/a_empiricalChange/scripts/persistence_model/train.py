@@ -18,8 +18,13 @@ would be set by the capital and would be absurdly wide for a province reporting 
 cases in twelve years. A province with too few observed pairs falls back to the pooled
 distribution, and the fallback is recorded in the fitted model rather than left silent.
 
-Nothing here is random. The fitted object is JSON, not a pickle: it outlives the
-session (`AGENTS.md` Rule 5).
+Seeds: none. Nothing here is random -- the fit is a set of observed differences, and
+`predict.py` turns them into draws by evaluating a quantile function at fixed levels
+rather than by sampling. So Rule 6 is satisfied by there being nothing to seed, and the
+project seed 20260822 has no surface in this model. Verified rather than asserted:
+`AI-internal/useful-scripts/verify_model_determinism.sh`.
+
+The fitted object is JSON, not a pickle: it outlives the session (`AGENTS.md` Rule 5).
 
 Usage:  python train.py <train_data.csv> <model_out.json>
 """

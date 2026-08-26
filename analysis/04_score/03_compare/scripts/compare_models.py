@@ -198,13 +198,17 @@ def main() -> None:
     floor = float(noise_frame["mean_diff"].abs().max()) if len(noise_frame) else float("nan")
     floor_se = float(noise_frame["se_cluster_split"].max()) if len(noise_frame) else float("nan")
     against_mean = [s for s in summaries if s["against"] == REFERENCE]
+    unpaired = cells[cells.model == REFERENCE].groupby("split_first_period")["crps"].mean()
     notes = {
         "combo": COMBO,
         "reference": REFERENCE,
         "reference_repeats": repeats,
         "n_cells": int(against_mean[0]["n_cells"]) if against_mean else 0,
-        "unpaired_sd_across_splits_reference": float(
-            cells[cells.model == REFERENCE].groupby("split_first_period")["crps"].mean().std(ddof=1)),
+        # The unpaired figure, for comparison with the paired ones above it. Batch 4
+        # reported the standard error; both are given here so the two are not confused.
+        "unpaired_sd_across_splits_reference": float(unpaired.std(ddof=1)),
+        "unpaired_se_across_splits_reference": float(
+            unpaired.std(ddof=1) / np.sqrt(len(unpaired))),
         "noise_floor_largest_repeat_pair_mean_diff": floor,
         "noise_floor_largest_repeat_pair_se_cluster_split": floor_se,
         "resolvable_difference_note":

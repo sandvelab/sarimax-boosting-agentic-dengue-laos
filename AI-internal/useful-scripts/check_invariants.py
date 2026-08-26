@@ -43,6 +43,26 @@ RANDOM_HINTS = re.compile(
     r"set\.seed|rng|Random\()", re.I
 )
 SEED_HINTS = re.compile(r"\b(seed|set_seed|manual_seed|set\.seed|SEED)\b")
+# A node's scripts/ may hold a subdirectory of supporting material -- a Chap model
+# contract directory, say -- and chap-core builds that model's environment *inside* it.
+# The built environment is not a script of this node: it is generated, git ignores it,
+# and its contents are third-party source. Walking into it would have this file reporting
+# that numpy draws randomness without recording a seed, which is true and useless.
+GENERATED = ("__pycache__", "site-packages", "node_modules")
+
+
+def script_files(directory: Path) -> list[Path]:
+    """Every script file a node owns, skipping generated and vendored trees."""
+    if not directory.is_dir():
+        return []
+    return sorted(
+        p for p in directory.rglob("*")
+        if p.is_file() and p.suffix in SCRIPT_SUFFIXES
+        and not any(part.startswith(".") or part in GENERATED
+                    for part in p.relative_to(directory).parts)
+    )
+
+
 SUB_ANALYSIS_NAME = re.compile(r"^\d{2}_[A-Za-z]")
 ALTERNATIVE_NAME = re.compile(r"^[a-z]_[A-Za-z]")
 
@@ -182,16 +202,12 @@ def check_seeds(root: Path) -> list[Finding]:
     out: list[Finding] = []
     for node in nodes(root):
         rel = str(node.relative_to(root))
-        scripts = node / "scripts"
-        if not scripts.is_dir():
-            continue
-        for s in sorted(scripts.rglob("*")):
-            if s.suffix not in SCRIPT_SUFFIXES:
-                continue
+        for s in script_files(node / "scripts"):
             text = s.read_text(errors="replace")
             if RANDOM_HINTS.search(text) and not SEED_HINTS.search(text):
-                out.append(Finding("seeds", f"{rel}/scripts/{s.name}",
-                                   "draws randomness but records no seed"))
+                out.append(Finding(
+                    "seeds", f"{rel}/scripts/{s.relative_to(node / 'scripts')}",
+                    "draws randomness but records no seed"))
     return out
 
 
@@ -248,12 +264,7 @@ def check_crossing(root: Path) -> list[Finding]:
     pat = re.compile(r"^\s*[A-Z_]{3,}\s*=\s*-?\d+\.?\d*\s*#.*\b(from|per|see|step|output|above)\b",
                      re.M | re.I)
     for node in nodes(root):
-        scripts = node / "scripts"
-        if not scripts.is_dir():
-            continue
-        for s in sorted(scripts.rglob("*")):
-            if s.suffix not in SCRIPT_SUFFIXES:
-                continue
+        for s in script_files(node / "scripts"):
             for m in pat.finditer(s.read_text(errors="replace")):
                 out.append(Finding("crossing", f"{node.relative_to(root)}/scripts/{s.name}",
                                    f"hard-coded value may have crossed a step by hand: "

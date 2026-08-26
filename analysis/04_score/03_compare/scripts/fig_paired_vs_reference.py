@@ -26,6 +26,7 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 
 NODE = Path(__file__).resolve().parent.parent
@@ -55,13 +56,20 @@ fig, axes = plt.subplots(1, 3, figsize=(13, 4.6), constrained_layout=True,
 colour = {m: c for m, c in zip(models, ["#2166ac", "#b2182b", "#4d9221", "#8c510a"])}
 
 ax = axes[0]
+# Bins spaced the way the axis is spaced. Linear bins on a symlog axis draw a plateau
+# where the data are densest and a smear where they are sparse, which is a picture of
+# the binning rather than of the differences.
+LINEAR = 1.0
+extreme = max(1.0, float(cells["diff"].abs().max()))
+tail = np.logspace(np.log10(LINEAR), np.log10(extreme * 1.05), 22)
+edges = np.concatenate([-tail[::-1], np.linspace(-LINEAR, LINEAR, 7)[1:-1], tail])
 for model in models:
     d = cells.loc[cells.model == model, "diff"]
-    ax.hist(d, bins=60, histtype="step", lw=1.6, color=colour[model], label=model)
+    ax.hist(d, bins=edges, histtype="step", lw=1.6, color=colour[model], label=model)
 ax.axvline(0, color="0.3", lw=1)
-ax.set_xscale("symlog", linthresh=1)
+ax.set_xscale("symlog", linthresh=LINEAR)
 ax.set_xlabel("per-cell CRPS difference (ours − reference)")
-ax.set_ylabel("cells")
+ax.set_ylabel("cells per bin (bins spaced as the axis is)")
 ax.set_title("every cell, symlog scale", fontsize=10)
 ax.legend(fontsize=8, frameon=False)
 

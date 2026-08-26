@@ -105,9 +105,14 @@ def main() -> None:
         "paired_win_rate_cells": float(pair.win_rate_cells),
         "resolvable_difference_floor": notes["noise_floor_largest_repeat_pair_mean_diff"],
         "beats_reference": bool(ours.mean_crps < reference.mean_crps),
+        # A model does not beat itself. While the reported model is standing in for a
+        # candidate that does not exist, it is one of the baselines, and saying it beat
+        # them all would be true of a comparison nobody made.
+        "our_model_is_a_baseline": name in baselines,
         "beats_all_baselines": bool(all(
-            ours.mean_crps <= float(board.loc[board.model == b, "mean_crps"].iloc[0])
-            for b in baselines)),
+            ours.mean_crps < float(board.loc[board.model == b, "mean_crps"].iloc[0])
+            for b in baselines if b != name)) if len(baselines) > (1 if name in baselines else 0)
+            else None,
         "baselines": baselines,
         "skill_by_model": {
             row.model: float(1 - row.mean_crps / reference.mean_crps)

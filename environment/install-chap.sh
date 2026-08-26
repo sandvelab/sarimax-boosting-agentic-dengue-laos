@@ -22,16 +22,47 @@ uv --version
 echo "=== creating $ENVDIR on python $PYTHON_VERSION ==="
 uv venv --python "$PYTHON_VERSION" "$ENVDIR"
 
-echo "=== installing chap-core==$CHAP_VERSION ==="
-VIRTUAL_ENV="$ENVDIR" uv pip install --python "$ENVDIR/bin/python" "chap-core==$CHAP_VERSION"
+# Install from the lockfile when there is one, and resolve only when there is not.
+#
+# This is the whole of Rule 3 in two branches, and getting it the other way round is how a
+# pinned environment stops being pinned without anyone noticing. The first version of this
+# script always resolved `chap-core==2.1.0` afresh and then *wrote* lock.txt from what it
+# got, so the lockfile was a report of one install rather than a specification of the next.
+# Rebuilding three days later resolved a different package set -- click 8.4.2 became 8.5.0,
+# cryptography moved, and a dozen others -- while the file claiming to be what reproduces
+# sat unchanged in git. The environment README said "this is what reproduces"; it was not,
+# because nothing installed from it. environment/Dockerfile always did, which is why the
+# image and the local environment could drift apart.
+#
+# Set RESOLVE=1 to deliberately re-resolve and rewrite the lockfile. That is a
+# methodological change and belongs in a commit that says so.
+if [ -f "$HERE/lock.txt" ] && [ "${RESOLVE:-0}" != "1" ]; then
+  echo "=== installing the pinned package set from environment/lock.txt ==="
+  VIRTUAL_ENV="$ENVDIR" uv pip install --python "$ENVDIR/bin/python" -r "$HERE/lock.txt"
+else
+  echo "=== resolving chap-core==$CHAP_VERSION afresh (RESOLVE=1 or no lockfile) ==="
+  VIRTUAL_ENV="$ENVDIR" uv pip install --python "$ENVDIR/bin/python" "chap-core==$CHAP_VERSION"
 
-echo "=== resolved package set -> environment/lock.txt ==="
-{
-  echo "# Resolved analysis environment. Produced by environment/install-chap.sh."
-  echo "# chap-core==$CHAP_VERSION on CPython $("$ENVDIR/bin/python" -c 'import platform;print(platform.python_version())')"
-  echo "# Built $(date -u +%Y-%m-%dT%H:%M:%SZ) on $(uname -srm)"
-  VIRTUAL_ENV="$ENVDIR" uv pip freeze --python "$ENVDIR/bin/python"
-} > "$HERE/lock.txt"
+  echo "=== resolved package set -> environment/lock.txt ==="
+  {
+    echo "# Resolved analysis environment. Produced by environment/install-chap.sh."
+    echo "# chap-core==$CHAP_VERSION on CPython $("$ENVDIR/bin/python" -c 'import platform;print(platform.python_version())')"
+    echo "# Built $(date -u +%Y-%m-%dT%H:%M:%SZ) on $(uname -srm)"
+    VIRTUAL_ENV="$ENVDIR" uv pip freeze --python "$ENVDIR/bin/python"
+  } > "$HERE/lock.txt"
+fi
+
+echo "=== the built environment against the lockfile ==="
+# Reported, not asserted. A difference here means the environment is not what the
+# repository says it is, and the run that follows would be unrecordable.
+VIRTUAL_ENV="$ENVDIR" uv pip freeze --python "$ENVDIR/bin/python" > "$HERE/.freeze.tmp"
+if diff <(grep -v '^#' "$HERE/lock.txt" | sort) <(sort "$HERE/.freeze.tmp") > "$HERE/.lockdiff.tmp"; then
+  echo "matches environment/lock.txt exactly ($(grep -vc '^#' "$HERE/lock.txt") packages)"
+else
+  echo "DOES NOT MATCH environment/lock.txt:"
+  head -40 "$HERE/.lockdiff.tmp"
+fi
+rm -f "$HERE/.freeze.tmp" "$HERE/.lockdiff.tmp"
 
 echo "=== chap version ==="
 "$ENVDIR/bin/chap" --version || true

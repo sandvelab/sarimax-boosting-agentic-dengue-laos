@@ -15,3 +15,8 @@ inherits: the project main environment (`environment/`)
 
 _(What this node's analysis yielded. Each answer belongs in the claim collection
 under `Human-AI-collaboration/claims/` with a pointer to the result grounding it.)_
+
+All 2 592 rows reach the models: no year is discarded on the main path. Because chap-core
+lays its splits out backwards from the last period of the file, a sibling that truncates the
+early years would change what the models learn from and leave the 371 evaluated cells
+identical — which is what makes this fork's children directly comparable.

@@ -1,0 +1,14 @@
+{
+ "checked": "2026-08-26",
+ "status": "identical",
+ "excluded_from_comparison": "eval.nc -- chap-core stamps created_date into it and serialises two set-valued attributes in run-dependent order (batch 2). Everything computed from it is compared.",
+ "project_seed": 20260822,
+ "models": [
+  {"model": "persistence", "node": "analysis/03_models/01_baselines/01_persistence", "identical": true,
+   "files_compared": ["metrics_cell.csv", "models.csv", "fitted_model.json"],
+   "differing_files": ""},
+  {"model": "climatology", "node": "analysis/03_models/01_baselines/02_climatology", "identical": true,
+   "files_compared": ["metrics_cell.csv", "models.csv", "fitted_model.json"],
+   "differing_files": ""}
+ ]
+}

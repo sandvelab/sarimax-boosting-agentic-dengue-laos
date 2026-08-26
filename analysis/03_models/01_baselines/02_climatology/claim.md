@@ -15,3 +15,13 @@ inherits: the project main environment (`environment/`)
 
 _(What this node's analysis yielded. Each answer belongs in the claim collection
 under `Human-AI-collaboration/claims/` with a pointer to the result grounding it.)_
+
+The seasonal climatology baseline scores **24.337 mean CRPS** over 371 cells, with 10-90
+coverage 0.650 and 25-75 coverage 0.542. It is marginally the better of the two baselines
+and the margin is inside what this evaluation can resolve.
+
+Unlike the persistence baseline it needs no decision about how to wrap uncertainty around a
+point — a set of past Julys is a distribution already. What it does need is a decision about
+which window estimates that distribution, and the main path re-estimates from the expanding
+historic frame at each split. The frozen-training-window sibling is not built yet;
+`train.py` stores the table it would have used.

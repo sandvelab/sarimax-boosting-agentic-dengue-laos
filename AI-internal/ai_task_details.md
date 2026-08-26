@@ -297,3 +297,76 @@ and whether the Docker layer of `environment/` builds now that the daemon is up.
 - Wall clock: reference backtest 149 s; three repeats 8 min; native model 56 s; image pull ~6 min
 - Storage: ~11 MB tracked, 10 MB of it the reference's evaluation `.nc` — kept rather than pruned because the reference is unseeded and it cannot be regenerated identically
 - Type: reconnaissance — establishes the criterion; not yet a result of the analysis
+
+---
+
+## T5 (2026-08-26) — Batch 5: the bootstrap
+
+**What was asked.** Run the next open batch of
+`Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`. That was batch 5,
+whose entire job is to replace the sketched phases C–E with concrete batches now that four
+batches of reconnaissance have established the install, the metric, the data, the scheme, the
+criterion and the cost of a run.
+
+**What was produced.** A design, not a result. `26-08-26_b05_bootstrapPlan.md` carries: the
+full claim tree with every node's claim, kind and main path; the fork inventory with the
+subtree each fork belongs to; the per-stage output contract as a schema table; the `COMBO`
+mechanism; the two-tier perturbation manifest with its cost estimate and what falls below the
+line; a table of what reconnaissance changed in phases C–E and why; and twelve batches with
+aims, outputs and costs.
+
+**The three properties the manuscript requires of a tree a stability run can walk were
+checked rather than assumed.** A shared output contract per fork — the two forks that could
+have failed it, the province fork and the model-family fork, both pass at the level they are
+placed, and a fork on the *metric* would have failed, which is one more reason this project
+never implements one. A computed conclusion at the root — `conclude.py`, invoked once per
+combination by `run.sh` for the main path and by the stability driver for every other. An
+enumerated set with a budget — frozen in batch 12 for development and batch 15 for the
+holdout.
+
+**Two structural findings.** The plan's §4b rule about which forks re-score which models is
+made structural by where a node sits, rather than left as a convention to be applied correctly
+each time. And the §4b decision to report a *skill score* rather than a raw CRPS — argued
+originally from the development-versus-holdout comparison — turns out to be what makes the
+province fork possible at all: raw CRPS is not comparable across children that change the cell
+set, a ratio computed within each child is. The design would not work with a raw headline
+number.
+
+**What was removed.** The forecast horizon, which the plan's phase-D list names as a fork.
+Batch 3 established that `n_periods = 3` follows from the human's choice of reference model,
+so a combination at another horizon has no reference to be compared against and the root's
+conclusion is uncomputable there. Recorded in §4b as `agent-on-human-assessment`, since it
+follows from a human decision rather than from an agent one.
+
+**What was split.** Population, which batch 3's data-problem list carried as one entry. What
+the column contains moves every model including the reference; how our model uses it moves
+only ours. Conflating them would have put a candidate-internal choice into the subtree that
+re-scores the reference.
+
+**Estimates, marked as estimates.** The manifest's cost table is arithmetic on two measured
+figures from batch 4 — 149 s for the emulated reference and 56 s for a native model, per
+eight-split backtest. Nothing in it is a result, the report says so in two places, and batch
+12 replaces it with measured per-combination costs. This is the one place in the batch where
+the temptation to present derived numbers as findings existed.
+
+**Files affected.** New: `AI-generated/batch-reports/26-08-26_b05_bootstrapPlan.md`.
+Modified: the plan (batch 5 marked `done — expanded`, the ledger extended from 7 rows to 20,
+thirteen decisions appended to §4b with their agency, phases B–E revised, §9 budget rewritten
+in implementation effort, the report linked), `readme-at-start.md` (status, stability budget,
+a pointer to the tree design), `AI-generated/batch-reports/README.md` (batches 4 and 5 added
+to *Currently here*, batch 4 having been missed), `analysis/README.md`. Commit `bd33f71`;
+no before-commit, because no script was written and the tree was already clean at `f8c1bac`.
+
+**What a future session needs.** Batch 6 builds the vertical slice and must write the
+contract files even with one child per fork. Batch 7 additionally builds `02_setup`,
+`04_score` and the reference node, computes the first paired per-cell comparison — the answer
+decides whether phase C's design holds — settles whether the Docker layer of `environment/`
+builds, and makes `AGENTS.md` §8 say that alternatives children are lettered. Read
+`ewars_plus_template` before batch 8 implements candidate 1.
+
+**Metrics**
+- Iterations: 1 `/do` invocation
+- Files: 1 batch report (~4,500 words), 4 files modified
+- Wall clock: reading and design only; nothing was executed but `/validate invariants`
+- Storage: negligible
+- Type: design — `done — expanded`; produces no analysis output by construction

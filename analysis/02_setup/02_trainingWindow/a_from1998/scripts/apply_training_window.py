@@ -67,18 +67,43 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def read_table(path: Path) -> tuple[str, list[str]]:
+    """The file as its header line and its data lines, unparsed.
+
+    The dataset is carried through the setup chain as text. Batch 3 made the same choice
+    for the partition and for the same reason: a parser round trip re-formats the file --
+    an integer count in a column that also holds blanks comes back as `0.0` -- so a stage
+    that declares the identity would produce a file that is not identical. Filtering rows
+    is a predicate on lines; the columns filtered on are codes and periods with no commas
+    in them.
+    """
+    text = path.read_text()
+    header, _, body = text.partition("\n")
+    return header, [line for line in body.split("\n") if line]
+
+
+def write_table(path: Path, header: str, rows: list[str]) -> None:
+    path.write_text(header + "\n" + "".join(line + "\n" for line in rows))
+
+
+def column(header: str, name: str) -> int:
+    return header.split(",").index(name)
+
+
 def main() -> None:
     out = NODE / "results" / COMBO
     out.mkdir(parents=True, exist_ok=True)
 
     source = upstream("01_population", COMBO)
-    frame = pd.read_csv(source, dtype={"time_period": str})
-    rows_in = len(frame)
+    header, rows = read_table(source)
+    rows_in = len(rows)
 
     if FIRST_PERIOD is not None:
-        frame = frame[frame["time_period"] >= FIRST_PERIOD]
+        period = column(header, "time_period")
+        rows = [line for line in rows if line.split(",")[period] >= FIRST_PERIOD]
 
-    frame.to_csv(out / "analysis_dataset.csv", index=False)
+    write_table(out / "analysis_dataset.csv", header, rows)
+    frame = pd.read_csv(out / "analysis_dataset.csv", dtype={"time_period": str})
 
     spec = {
         "combo": COMBO,
@@ -92,8 +117,8 @@ def main() -> None:
         "input": str(source.relative_to(ROOT)),
         "input_sha256": sha256(source),
         "output_sha256": sha256(out / "analysis_dataset.csv"),
-        "rows_in": int(rows_in),
-        "rows_out": int(len(frame)),
+        "rows_in": rows_in,
+        "rows_out": len(rows),
         "locations": int(frame["location"].nunique()),
         "period_first": str(frame["time_period"].min()),
         "period_last": str(frame["time_period"].max()),
@@ -101,7 +126,7 @@ def main() -> None:
     }
     (out / "setup_spec.json").write_text(json.dumps(spec, indent=1, sort_keys=True) + "\n")
 
-    print(f"trainingWindow/a_from1998: {rows_in} -> {len(frame)} rows "
+    print(f"trainingWindow/a_from1998: {rows_in} -> {len(rows)} rows "
           f"({spec['period_first']}..{spec['period_last']})")
 
 

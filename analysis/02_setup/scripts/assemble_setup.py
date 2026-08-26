@@ -76,9 +76,11 @@ def main() -> None:
         lines.append(f"{spec['output_sha256']}  "
                      f"{(results / 'analysis_dataset.csv').relative_to(ROOT)}")
 
+    # Copied as bytes, not round-tripped through a parser: what every model reads must
+    # be the file the chain produced, not a re-formatting of it.
     last = chosen_child(STAGES[-1], COMBO) / "analysis_dataset.csv"
-    frame = pd.read_csv(last, dtype={"time_period": str})
-    frame.to_csv(out / "analysis_dataset.csv", index=False)
+    (out / "analysis_dataset.csv").write_bytes(last.read_bytes())
+    frame = pd.read_csv(out / "analysis_dataset.csv", dtype={"time_period": str})
 
     scheme = json.loads((ROOT / SCHEME).read_text())
     flags = {
@@ -89,9 +91,11 @@ def main() -> None:
     for spec in stages:
         flags.update(spec["eval_flags"])
 
+    source = ROOT / "analysis/01_data/01_partition/results/development_1998-01_2009-12.csv"
     assembled = {
         "combo": COMBO,
         "dataset": "analysis_dataset.csv",
+        "identical_to_development_file": sha256(out / "analysis_dataset.csv") == sha256(source),
         "dataset_sha256": sha256(out / "analysis_dataset.csv"),
         "rows": int(len(frame)),
         "locations": int(frame["location"].nunique()),

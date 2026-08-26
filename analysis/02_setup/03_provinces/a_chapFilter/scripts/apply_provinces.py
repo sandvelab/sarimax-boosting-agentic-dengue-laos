@@ -65,14 +65,37 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def read_table(path: Path) -> tuple[str, list[str]]:
+    """The file as its header line and its data lines, unparsed.
+
+    The dataset is carried through the setup chain as text. Batch 3 made the same choice
+    for the partition and for the same reason: a parser round trip re-formats the file --
+    an integer count in a column that also holds blanks comes back as `0.0` -- so a stage
+    that declares the identity would produce a file that is not identical. Filtering rows
+    is a predicate on lines; the columns filtered on are codes and periods with no commas
+    in them.
+    """
+    text = path.read_text()
+    header, _, body = text.partition("\n")
+    return header, [line for line in body.split("\n") if line]
+
+
+def write_table(path: Path, header: str, rows: list[str]) -> None:
+    path.write_text(header + "\n" + "".join(line + "\n" for line in rows))
+
+
+def column(header: str, name: str) -> int:
+    return header.split(",").index(name)
+
+
 def main() -> None:
     out = NODE / "results" / COMBO
     out.mkdir(parents=True, exist_ok=True)
 
     source = upstream("02_trainingWindow", COMBO)
-    frame = pd.read_csv(source, dtype={"time_period": str})
-
-    frame.to_csv(out / "analysis_dataset.csv", index=False)
+    header, rows = read_table(source)
+    write_table(out / "analysis_dataset.csv", header, rows)
+    frame = pd.read_csv(out / "analysis_dataset.csv", dtype={"time_period": str})
 
     # What the platform's filter and the evaluated span imply, from this dataset.
     scheme = json.loads((ROOT / SCHEME).read_text())
@@ -94,8 +117,8 @@ def main() -> None:
         "input": str(source.relative_to(ROOT)),
         "input_sha256": sha256(source),
         "output_sha256": sha256(out / "analysis_dataset.csv"),
-        "rows_in": int(len(frame)),
-        "rows_out": int(len(frame)),
+        "rows_in": len(rows),
+        "rows_out": len(rows),
         "locations_in_file": int(frame["location"].nunique()),
         "locations_never_reporting": never_reports,
         "locations_with_no_observation_in_evaluated_span": silent_in_span,

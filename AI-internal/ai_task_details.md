@@ -370,3 +370,81 @@ builds, and makes `AGENTS.md` §8 say that alternatives children are lettered. R
 - Wall clock: reading and design only; nothing was executed but `/validate invariants`
 - Storage: negligible
 - Type: design — `done — expanded`; produces no analysis output by construction
+
+---
+
+## T6 (2026-08-26) — Batch 6: the vertical slice
+
+**What was asked.** Run the next open batch. That was batch 6: one trivial model against
+the Chap contract, run through `chap eval` on the development dataset, producing a real
+mean CRPS with its per-region and per-split values — the point being that every link in
+the chain has been exercised once, not that the score is good.
+
+**What was produced.** `AI-internal/vertical-slice/` holds a Chap-compatible persistence
+model (`MLproject` + `uv_env`, four files plus a lockfile), the runner, the metrics
+collector and the determinism check. `AI-generated/vertical-slice/` holds the evaluation
+`.nc`, the fitted model, the log, six contract files under `results/main/`, the input
+hashes, the run cost and the determinism result, with `README.md`, `provenance.md`
+(three records) and `criticality.md` beside them.
+
+**The number.** Mean CRPS 24.879 over 371 cells, 16 provinces and 8 splits, with MAE
+29.073 and coverage 0.666 (10–90) and 0.491 (25–75). CRPS by lead time 16.4 / 24.8 /
+33.4 at one, two and three months; per split 6.6 to 45.4. The run's log carries
+`Rejected regions: ['LA-VI']` and Phongsaly contributes 11 cells against every other
+province's 24 — batch 3's prediction, arrived at there from chap-core's splitter,
+reproduced here by a model of our own being scored.
+
+**The judgment call inside a "trivial" baseline.** The plan defines persistence as a
+point forecast and CRPS scores a distribution, so a construction had to be chosen. Two
+published ones exist and they disagree: the US COVID-19 Forecast Hub's non-parametric
+form (last observation plus the empirical distribution of past h-step changes and their
+negations, truncated at zero) and the KIT baseline's parametric form (negative binomial
+with a dispersion fitted by MLE and the mean floored at 0.2 to avoid zero variance). The
+non-parametric one was taken because 56 % of observed months here are zero, so the
+parametric floor would be an arbitrary constant setting the distribution's width in the
+majority of cells. Both were read rather than recalled; what was read in full and what
+was read only in summary is recorded in `provenance.md`. The choice is now a fork under
+the baseline node, added to batch 5's inventory and to the plan's phase-D list.
+
+**Two findings beyond the score.** The model's `uv.lock` in chap-core's run directory is
+byte-identical to the tracked one, so the shipped lockfile is what the run used — which
+closes, for models of our own, the gap batch 2 identified when it found that pinning
+`chap-core` pins the platform and the metric but not the models. And the two models now
+scored on this dataset are miscalibrated in opposite directions, which is a more useful
+observation for phase C than either coverage figure alone.
+
+**What was deliberately not done, and why it was tempting.** The paired per-cell
+comparison against the reference. Both per-cell files exist and the join is seconds of
+work, but batch 4's reference figure is explicitly reconnaissance and batch 5 assigned
+the comparison to batch 7, where both models are scored from nodes. A comparison
+assembled from one number inside the tree and one outside it is not the comparison the
+project reports. The temptation is recorded in the report's §7 rather than passed over.
+
+**What went wrong.** One thing, small: the runner's first version located the fitted
+model with `find -newermt`, which BSD `find` does not accept. Corrected at the source and
+the pipeline re-run; no output file was patched (Rule 2). The run directory is now
+cleared before each run so the file copied out is unambiguously the one that run made.
+
+**Files affected.** New: `AI-internal/vertical-slice/` (model directory of six files,
+runner, collector, determinism check, README), `AI-generated/vertical-slice/` (18 files),
+`AI-generated/batch-reports/26-08-26_b06_verticalSlice.md`. Modified: `.gitignore` (the
+77 MB working directory), `AI-generated/README.md`, `AI-internal/README.md`,
+`folder-structure.md`, `readme-at-start.md`, and the plan — batch 6 marked
+`done — produced`, the report linked, and the new fork added to phase D's list. Commits
+`ced3e1a` (before) and `17c0df8` (after).
+
+**What a future session needs.** Batch 7 erects the tree, moves `persistence_model/`
+into `analysis/03_models/01_baselines/01_persistence/` with `git mv` so its history
+follows, adds seasonal climatology and the reference node, and computes the paired
+comparison — the answer to which decides whether phase C's design holds. Also batch 7's:
+whether the Docker layer of `environment/` builds. Still unexercised:
+`--model-configuration-yaml` and `user_options`, which batch 8's candidate needs; this
+model has no configuration and chap-core wrote it an empty
+`model_configuration_for_run.yaml`.
+
+**Metrics**
+- Iterations: 1 `/do` invocation
+- Files: 10 new scripts and model files, 18 stored outputs, 3 provenance records, 1 batch report (~3,000 words)
+- Wall clock: 16 s per eight-split backtest, 2.0 s per split; the determinism check runs it twice more
+- Storage: 10.2 MB tracked, 9.8 MB of it the evaluation `.nc` — and unlike the reference's, fully regenerable, so it is flagged as the first candidate for pruning
+- Type: analysis — the first model of the project's own, though not yet a reported result

@@ -36,7 +36,7 @@ representative research problem, and where it fails.
 
 - **Target venue**: not fixed in the source material. The manuscript this case serves updates
   Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013), which is the obvious precedent.
-- **Status**: analysis (phase A — orientation and bootstrap; batches 1–4 done, batch 5 next).
+- **Status**: analysis (phase A complete, batches 1–5; phase B next, batch 6). Nineteen batches in the ledger, plus one optional.
 - **Manuscript**: `Human-AI-collaboration/manuscript/`
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`. It carries the
@@ -50,7 +50,7 @@ representative research problem, and where it fails.
 | Main environment | `environment/` — CPython 3.13.0 and `chap-core==2.1.0`, built by `environment/install-chap.sh`, resolved in `environment/lock.txt`. Invoked as `environment/chapenv/bin/chap`. Not the same as `.venv`, which runs the repository's own machinery. |
 | Repository machinery interpreter | `.venv/bin/python` — CPython 3.13.7, created 2026-08-23 with `python3 -m venv .venv` on macOS 26.6.2 (arm64). |
 | Tracking level | **full** (`AGENTS.md` §6). This project is *about* tracking, so the usual argument for a lighter touch does not apply. Raise it with me rather than drifting. |
-| Compute budget for stability work | Phase D gets roughly 4–6 batches. `/perturb` estimates the cost of each perturbation, ranks by expected informativeness, cuts at that line and **records where the line fell and what was below it**. If the overall budget binds, cut phase D before phase E. |
+| Compute budget for stability work | Phase D is batches 12–15. The perturbation manifest is two tiers — every fork taken alone, then eight pairs selected by a rule fixed in advance — over ten forks, run on development and again on the holdout. `/perturb` costs each perturbation, ranks by expected informativeness, cuts at the line and **records where the line fell and what was below it**; tier 2 is what gets cut first. Compute is not what binds: a full backtest costs one to three minutes. |
 | Data governance | Public and redistributable. The Lao files are pinned by repository commit hash, copied into `Archive/` unmodified, marked `(IS_SHADOW)`, with `provenance.md`. Nothing here is access-restricted, so the release scan is about secrets, not permissions. |
 | Target | `disease_cases` (reported dengue), monthly, admin-1, Laos. |
 | What the metric is a mean over | **16 provinces, 371 cells** on development — not the 18 provinces in the file. Vientiane (LA-VI) reports nothing and is dropped by Chap's region filter; Xaisomboun (LA-XN) stops reporting after 2005 and contributes no evaluable cell. Established in batch 3. |
@@ -99,7 +99,10 @@ do if EWARS cannot be run on this dataset, which the plan's §2 answers.
 ## Where things are
 
 - The analysis is a tree of questions under `analysis/`. Start at
-  `AI-generated/hierarchical-report/index.html`, or `/node tree`.
+  `AI-generated/hierarchical-report/index.html`, or `/node tree`. Its full design — every node,
+  every fork, the file contract between them, and the `COMBO` mechanism that lets one code path
+  serve both the main analysis and the stability run — is in
+  `AI-generated/batch-reports/26-08-26_b05_bootstrapPlan.md`, and is built by batch 7.
 - Batch reports, one per executed batch, are in `AI-generated/batch-reports/`.
 - What the reference model and the rest of Chap's model library can do on *this* dataset — the
   reference's score, cost and repeatability, and an inventory of the 39 `chap-models`

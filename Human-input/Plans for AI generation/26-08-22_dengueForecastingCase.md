@@ -235,6 +235,24 @@ before any of this.
 | Spatio-temporal GNNs are **ruled out as a family**; the superensemble is ruled out as an *integration* but retained as an ensemble of our own candidates; the mechanistic thermal backbone is ruled out as a backbone and retained as a covariate-transform fork | Each against the data rather than against the budget: 16 nodes and 144 periods is not a graph-learning problem; the one integrated superensemble needs covariates the Lao file does not have and is the sole failure in the library sweep; and the Lao temperature range sits on the rising limb of the suitability curve, where a mechanistic transform is nearly monotone in temperature. | agent-autonomous |
 | Whether our candidates **refit at predict time**, as the reference does, is a fork rather than a convention | The reference's `train.R` is a placeholder and its INLA fit runs in `predict.R`, so despite `n_retrain 1` it refits at every split. A candidate that fits only in `train` would be compared against a reference that refits eight times, which is a difference in what is compared rather than in model quality. | agent-autonomous |
 
+### 2026-08-26 — settled by batch 5, from the design
+
+| Decision | Basis | Agency |
+|---|---|---|
+| The two kinds of fork become a property of the tree's shape: every fork under `02_setup` re-scores every model, every fork under `03_models/03_candidate` moves only ours | §4b's rule was a convention that had to be applied correctly each time it came up. Placed in the tree it is checkable, and a fork in the wrong subtree is visible as a misplacement rather than left as an oversight. | agent-autonomous |
+| A third case is recorded beside §4b's two: the **scoring fork**, which re-scores every model without re-running any of them | Re-weighting the headline mean re-aggregates stored per-cell scores. It is §4b's first kind by semantics and a different thing by cost, which is what matters when the manifest is costed. | agent-autonomous |
+| The combination is an environment variable `COMBO`, defaulting to `main`, and every node reads and writes under `results/$COMBO/` | It makes the main path combination `main`, so `analysis/run.sh` and the stability run are the same code. A separate stability pipeline would be a second implementation of the analysis and the two would drift. | agent-autonomous |
+| Models are re-run only when a fork upstream of them moved; the reuse is a column in the manifest | Re-running the emulated reference under a fork that cannot affect it buys nothing. Putting the reuse in the file rather than in the driver's control flow keeps which numbers were computed and which inherited on the face of the record. | agent-autonomous |
+| **The forecast horizon is removed from phase D's fork list** | It is forced by the human's choice of reference model — chap-core forces `n_periods=3` for EWARS and the chapkit service declares `prediction_periods: 3` — so a combination at another horizon has no reference to be compared against, and the root's conclusion is a ratio to the reference. A fork whose conclusion is uncomputable is not a fork. | agent-on-human-assessment |
+| Population becomes two forks: what the **column** contains (setup) and how **our model uses it** (candidate) | They move different sets of models. Batch 3's single entry would have put a candidate-internal choice into the subtree that re-scores the reference. | agent-autonomous |
+| The reference is re-scored **four times** wherever it is re-scored at all, on development and on the holdout alike | It is unseeded and the conclusion divides by it; an unaveraged denominator carries the ~2 % wobble batch 4 measured, which is the size of the fork effects the manifest exists to detect. | agent-autonomous |
+| Tier 2 of the manifest — the pairs — is selected by a rule written before tier 1 runs and applied by a script | Choosing which pairs to explore after seeing tier 1's numbers is selection with extra steps, which is the objection §3 makes to an unfrozen holdout manifest, applied one level down. | agent-autonomous |
+| Phase C ends when the leaderboard's best moves by less than **0.4 CRPS** in a batch | The reference's own re-run spread, so the smallest movement that means anything. A stopping rule fixed before any leaderboard exists is the only kind that cannot be adjusted to suit the leaderboard. | agent-autonomous |
+| Alternatives children are lettered `a_`, `b_`, `c_`; sub-analyses children keep `NN_` | `AGENTS.md` §8 numbers node directories "in the order the parent runs them", which is the ordered case. Alternatives are unordered and mutually exclusive, and the manuscript's own worked skeleton letters them. Batch 7 makes §8 say so, as a methodological change under Rule 4. | agent-autonomous |
+| `06_holdout` is not created until batch 16 | A node that reads the sealed file must not be runnable while the seal is on. After batch 16, re-running `analysis/run.sh` re-reads the holdout; that is reproduction of a reported result rather than a second look, and it is recorded once in batch 16. | agent-autonomous |
+| Batch 7 additionally builds `02_setup`, `04_score` and the reference node | Whether a paired per-cell comparison on 371 cells can separate two models is batch 4's first open question and the most expensive one to discover late. It needs only the reference and one trivial model, both of which batch 7 has. | agent-autonomous |
+| The §9 budget is expressed in implementation effort, and phase C is cut to four batches with an evidence-based stopping rule | Batch 4 measured a full backtest at one to three minutes, so evaluation is not what binds. Batches allocated on a schedule rather than on evidence are the expansion-without-decision `AGENTS.md` §6 names. | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -285,12 +303,22 @@ at the end of every batch, and append newly created batches to it.
 | 2 | A | Reconnaissance — Chap: install it, learn the model contract, learn the evaluation | done — produced | [[26-08-23_b02_chapSetup]] |
 | 3 | A | Reconnaissance — data: acquire, characterise, and fix the split scheme | done — produced | [[26-08-23_b03_dataCharacterisation]] |
 | 4 | A | Reconnaissance — methods: candidate model families, and run `chapkit_ewars_model` to get the reference score | done — produced | [[26-08-23_b04_methodSurvey]] |
-| 5 | A | Bootstrap: turn phases C–E into concrete batches | open | |
+| 5 | A | Bootstrap: turn phases C–E into concrete batches | done — expanded | [[26-08-26_b05_bootstrapPlan]] |
 | 6 | B | Vertical slice: one trivial model, end to end, first CRPS number | open | |
-| 7 | B | Erect the claim tree and route the vertical slice through it | open | |
-| — | C | *Model development — batches written by batch 5* | | |
-| — | D | *Stability and veridical work — batches written by batch 5* | | |
-| — | E | *Closing: claims, report, validation, release — batches written by batch 5* | | |
+| 7 | B | Erect the claim tree, route the vertical slice through it, add the reference | open | |
+| 8 | C | The candidate contract, and candidate 1 (hierarchical NB GLM) at its defaults | open | |
+| 9 | C | Candidate 1's internal forks; promote the main path | open | |
+| 10 | C | Candidate 2: gradient-boosted trees with a probabilistic head | open | |
+| 11 | C | Candidate 3: the ensemble; close phase C | open | |
+| 12 | D | `/perturb plan`: the stability node, the driver, the frozen development manifest | open | |
+| 13 | D | `/perturb run`: the setup and scoring forks | open | |
+| 14 | D | `/perturb run`: the candidate forks and tier 2 | open | |
+| 15 | D | `/perturb report`; freeze and commit the holdout manifest | open | |
+| 16 | E | The holdout, opened once, on the frozen manifest | open | |
+| 17 | E | Claims and the hierarchical report | open | |
+| 18 | E | Clean-room and outsider validation; the plan's own drift | open | |
+| 19 | E | The case write-up, the reproducibility report, the release | open | |
+| 20 | E | The external check on `tha` and `vnm` — optional, first to be cut | open | |
 
 ---
 
@@ -449,15 +477,36 @@ data → model → evaluation → metric → stored file — has been exercised 
 Until this exists, nothing about the modelling is real, and any effort spent on model design
 before it is effort spent on assumptions.
 
+The model writes the contract files batch 5's design specifies — the combination-scoped
+`results/$COMBO/` layout and the per-stage schemas — even though only one child of each fork
+exists yet. A contract first exercised when it has to carry alternatives is a contract first
+tested in phase D.
+
 **Batch 7 — erect the tree.** Build the claim tree from batch 5's design with `/node`, and
 route the vertical slice through it so that `analysis/run.sh` reproduces the batch-6 result
 end to end. Add the second baseline (seasonal climatology). Run `/validate invariants` and
 `/validate cleanroom`: the clean-room check is worth its cost *now*, while the tree is small
 and a failure is diagnosable.
 
+Build `02_setup` and `04_score` with one child per fork, and add the reference node
+`03_models/02_reference` running `chapkit_ewars_model` inside the tree. That gives the
+**paired per-cell comparison** its first real test: batch 4 established what the *unpaired*
+split-level spread is and argued the paired one is far tighter, and until two models have been
+scored on the same 371 cells nobody knows whether the comparison can separate anything. It is
+the cheapest thing in the project to check and the most expensive to discover late — if the
+answer is that it cannot, phase C's design changes rather than phase D finding out.
+
+Batch 7 also settles two things left open since batch 2: whether the Docker layer of
+`environment/` builds, and the wording of `AGENTS.md` §8 on node naming, where alternatives
+children are lettered and sub-analyses children numbered. Both are commits that say what they
+change about the method.
+
 From here on, everything happens inside the tree. A result produced outside it does not exist.
 
 ### Phase C — model development
+
+**Batches 8–11** in the ledger. The claim tree they build into, and the fork inventory they
+populate, are designed in [[26-08-26_b05_bootstrapPlan]].
 
 **What must be true when the phase ends.** Several candidates from batch 4's shortlist have
 been implemented against the Chap contract, evaluated on the **development dataset only**, and
@@ -480,8 +529,16 @@ plots-with-data. One candidate is the main path. The holdout year has not been o
   research is needed*): fitting the available data rather than the data-generating process,
   and brittleness to the chosen metric. Selecting hard on development CRPS across many
   candidates is precisely how that happens, which is what the held-out year exists to catch.
+  Every rejected sibling stays in the tree and is re-run in phase D and on the holdout, so the
+  cost of each selection is measured rather than argued about.
+- **The phase ends on evidence, not on a batch count.** It stops when the leaderboard's best
+  moves by less than **0.4 CRPS** in a batch — the reference's own re-run spread, and therefore
+  the smallest movement that means anything. Adding a further candidate batch requires that
+  the last one moved it by more.
 
 ### Phase D — stability and the veridical record
+
+**Batches 12–15** in the ledger.
 
 **What must be true when the phase ends.** The judgment calls are enumerated and costed
 (`/perturb plan`); the ones within budget have been run (`/perturb run`); and the result is a
@@ -489,16 +546,27 @@ plots-with-data. One candidate is the main path. The holdout year has not been o
 (`/perturb report`). What was not run is recorded as a decision, with the reason, not left as
 an absence.
 
-**The forks that are almost certainly worth having** — confirm against what batches 3 and 4
-actually found:
+**The forks**, confirmed against what batches 3 and 4 found and placed in the tree by batch 5.
+Ten of them, in two subtrees that decide which models a fork moves:
 
-- how `population` is used: offset, rate, or ignored (its staticness across thirteen years is
-  a real problem, not a technicality)
-- the covariate set and the lag structure applied to the climate variables
-- the handling of the zero-heavy early period, and of provinces with very few cases
-- the transformation of the target, and the observation model for the counts
-- the forecast horizon
-- the model family itself — the top candidates as siblings under one fork
+*Under `02_setup`, and so re-scoring every model including the reference* — what the
+`population` column contains, given that it is a single 2020 snapshot applied to thirteen
+years; how much of the record models may learn from, given that the zero rate falls
+monotonically across it; which provinces belong in the analysis at all; and how often a model
+is refitted across the backtest.
+
+*Under `04_score`, re-scoring every model without re-running any* — the weighting of the
+headline mean, over provinces whose burdens differ by four orders of magnitude.
+
+*Under `03_models/03_candidate`, and so moving only ours* — the model family itself, with the
+top candidates as siblings under one fork; the observation model for the counts; the covariate
+set and the lag structure; how population enters our model; and whether our model does its
+fitting in `train` or, as the reference does, in `predict`.
+
+**The forecast horizon is not among them.** It is forced by the reference model, so a
+combination at another horizon has no reference to be compared against and the root's
+conclusion — a ratio to the reference — is uncomputable there. It is the one item of this list
+that reconnaissance removed rather than refined.
 
 **Also required**: a stated answer to whether the headline conclusion moves when a reasonable
 alternative is taken at each fork, and which forks it is most sensitive to. That answer is the
@@ -525,6 +593,8 @@ what was below it. See [[reproAgenticAiManuscript]], *Trade-offs*.
 
 ### Phase E — closing
 
+**Batches 16–19 in the ledger, with 20 optional.**
+
 **What must be true when the phase ends.**
 
 - **The final validation has happened, once**: the holdout year opened in a single batch, and
@@ -537,7 +607,9 @@ what was below it. See [[reproAgenticAiManuscript]], *Trade-offs*.
   direct measurement of how much an autonomously optimising agent inflated its own
   performance, and it is precisely what the manuscript and the proposal are asking about.
   Report it plainly and do not explain it away. **Nothing is re-run or re-tuned after a
-  holdout number has been seen** (§3).
+  holdout number has been seen** (§3). The reference is re-scored four times on the holdout as
+  it is on development: it is unseeded, the conclusion divides by it, and an unaveraged
+  denominator would put the reference's own re-run noise on every number reported.
 - **`analysis/run.sh` reproduces the reported result from a clean environment** — verified by
   `/validate cleanroom`, not asserted.
 - **Every claim is in `Human-AI-collaboration/claims/claims.md`**, each bound to a stored
@@ -578,16 +650,22 @@ It is optional because the project is complete without it.
 
 ## 9. Budget
 
-Rough, and to be revised by batch 5 once the cost of a `chap eval` run is actually known.
-The purpose is to make the trade-offs of `AGENTS.md` §6 decisions rather than drift.
+Nineteen batches, plus one optional. The purpose is to make the trade-offs of `AGENTS.md` §6
+decisions rather than drift.
+
+**The unit is implementation effort, not evaluation runs.** Batch 4 measured a full
+eight-split backtest at 149 seconds for the reference through the emulated amd64 image and 56
+seconds for a native `uv_env` model, so the whole phase-D manifest is a few hours of compute
+and the binding constraint is the work of building models, not of running them.
 
 | Phase | Batches | Note |
 |---|---|---|
-| A — orientation and bootstrap | 5 | Fixed. |
-| B — vertical slice and tree | 2 | Fixed. |
-| C — model development | ~6–10 | The elastic one. Stop when the leaderboard stops moving, not when the shortlist is exhausted. |
-| D — stability | ~4–6 | Cut here first if the budget binds, and record the cut. |
-| E — closing | ~4 | Not compressible. A project that ran out of budget before the closing phase has produced nothing this plan wanted. |
+| A — orientation and bootstrap | 5 (1–5) | Done. |
+| B — vertical slice and tree | 2 (6–7) | Fixed. |
+| C — model development | 4 (8–11) | Three candidates and their internal forks. Extended only by the stopping rule in §8: the last batch must have moved the leaderboard by more than 0.4 CRPS. |
+| D — stability | 4 (12–15) | Cut *within* the phase if the budget binds — the manifest's tier 2 goes first — and record the cut. |
+| E — closing | 4 (16–19) | Not compressible. A project that ran out of budget before the closing phase has produced nothing this plan wanted. |
+| Optional | 1 (20) | The external check on `tha` and `vnm`. First thing cut. |
 
 **If the budget binds, protect phase E before phase C.** A well-recorded mediocre model is
 worth more here than an excellent undocumented one — the manuscript is about the record.
@@ -624,3 +702,7 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 4 — reconnaissance: methods
 
 - [[26-08-23_b04_methodSurvey]]
+
+### Batch 5 — bootstrap
+
+- [[26-08-26_b05_bootstrapPlan]]

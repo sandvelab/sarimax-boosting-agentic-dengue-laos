@@ -28,3 +28,8 @@ re-running a batch produces a different report rather than the same one.
   model contract, and what `chap eval` actually computes.
 - `26-08-23_b03_dataCharacterisation.md` — batch 3, phase A: pinning the Lao data, cutting
   off the held-out year, describing the development period, and fixing the backtest scheme.
+- `26-08-23_b04_methodSurvey.md` — batch 4, phase A: running the reference model to get the
+  score the project is measured against, and ranking the candidate model families against
+  what the data will carry.
+- `26-08-26_b05_bootstrapPlan.md` — batch 5, phase A: the claim-tree design, the fork
+  inventory and the perturbation manifest, and the concrete batches for phases C, D and E.

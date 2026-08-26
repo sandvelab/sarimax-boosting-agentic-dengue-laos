@@ -40,7 +40,9 @@ One child so far:
 `bash analysis/run.sh` reproduces both from `Archive/lao-dataset/`, in about fifteen seconds,
 and was verified to give byte-identical output on two consecutive runs.
 
-The rest of the decomposition is designed in batch 5 of the plan and built in batch 7; the
-first modelling result — one trivial model through `chap eval`, end to end — is batch 6.
+The rest of the decomposition is designed in
+`AI-generated/batch-reports/26-08-26_b05_bootstrapPlan.md` §2 — five more children of the
+root, ten forks, and the file contract between them — and is built in batch 7; the first
+modelling result, one trivial model through `chap eval` end to end, is batch 6.
 Until then nothing about the modelling is real, and **a result produced outside this tree
 does not exist.**

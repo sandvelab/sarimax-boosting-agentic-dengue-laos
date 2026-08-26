@@ -448,3 +448,86 @@ model has no configuration and chap-core wrote it an empty
 - Wall clock: 16 s per eight-split backtest, 2.0 s per split; the determinism check runs it twice more
 - Storage: 10.2 MB tracked, 9.8 MB of it the evaluation `.nc` — and unlike the reference's, fully regenerable, so it is flagged as the first candidate for pruning
 - Type: analysis — the first model of the project's own, though not yet a reported result
+
+## T7 — Batch 7: erect the claim tree (2026-08-26)
+
+**What was produced.** Twenty nodes under `analysis/`, built with `node.py`, and the chain
+that runs them: `02_setup` with four alternatives forks in sequence and an assembly step;
+`03_models` with `01_baselines/01_persistence` (moved from the vertical slice with `git mv`),
+`01_baselines/02_climatology` (new), and `02_reference` (EWARS-csd, pinned by image digest,
+four repeats because it is unseeded); `04_score` with `01_collect`, the `02_aggregate`
+weighting fork and `03_compare`; and `analysis/scripts/conclude.py` at the root.
+`bash analysis/run.sh` exits 0 and produces every reported figure. Thirteen provenance
+records, three `criticality.md` files, answers in every node's `claim.md`, two figures with
+their plotted and pre-aggregation values, a clean-room record and a determinism record.
+
+**The design decisions a future session should know.** Each fork got **only its main-path
+child**: batch 5's design says "everything" and the plan's batch-7 paragraph says "one child
+per fork", and the narrower reading was taken because a sibling that exists but cannot run
+would pass `/validate invariants` while advertising an alternative nobody can execute. Each
+setup stage finds its input by **searching for the one child of the previous fork that has
+results under this combination**, never by naming a child — that is the mechanism batch 5's
+file contract needs and does not name, and it is what will let the stability driver swap a
+child without any downstream script changing. Every model of ours reaches `chap eval` through
+**one shared library**, `03_models/scripts/lib/chap_eval.py`, so the phase-C constraint that no
+candidate is compared on a differently computed metric holds structurally. `conclude.py` was
+written now, with `candidate_exists: false` and a baseline named in the file as a placeholder,
+rather than deferred to phase C — the vertical slice's argument one level up. Climatology got
+a fork on its **estimation window** and no fork on how its uncertainty is constructed, because
+a set of past Julys is already a distribution while a persistence point forecast is not;
+symmetry between the two baselines would have been tidier and would have asserted something
+false.
+
+**The finding.** The paired per-cell comparison, which batch 4 left open and batch 5 made this
+batch's reason for existing, is two to four times tighter than the unpaired split-level figure
+and still cannot separate a 2 CRPS difference. Standard errors: 1.34 and 2.05 per-cell naive,
+2.68 and 3.93 clustered by province, 1.92 and 2.99 clustered by split, against differences of
+2.24 and 2.78. The noise floor from the reference against its own four repeats is 0.57.
+**Phase C must plan against a backtest that resolves about 4 CRPS.** Also: persistence ties the
+reference at one month's lead and loses at three, and the reference loses in the two provinces
+with the most evaluated cases — so the weighting fork should not be cut from the manifest.
+
+**What went wrong, and what it cost.** An early clean-room attempt mounted the repository
+**writable** into the container and wrote symlinks into `environment/chapenv`, breaking the
+host analysis environment. Recoverable — the environment is a build artifact — but the repair
+revealed a Rule 3 defect that had been in the repository since batch 2: `install-chap.sh`
+resolved `chap-core==2.1.0` afresh and *wrote* `lock.txt` from the result, so the lockfile was
+a report of one install rather than a specification of the next, and a rebuild three days
+later produced `click 8.5.0` where the lockfile said 8.4.2. `environment/Dockerfile` had
+always installed from the lockfile, so the two would have drifted apart silently. The
+installer now installs from `lock.txt`, re-resolves only under `RESOLVE=1`, and compares the
+built environment against the lockfile at the end of every build. The environment was rebuilt
+from the pinned 174 packages and verified to reproduce the recorded per-cell scores exactly.
+Five smaller corrections in commit `f13dba4`, each found by a run or a check rather than by
+review, each fixed at the cause with the affected steps re-executed. The machine was also
+heavily loaded by unrelated system processes for part of the batch, which is why the
+reference's recorded run costs are an upper bound rather than a measurement.
+
+**Files.** New: `analysis/02_setup/**`, `analysis/03_models/**`, `analysis/04_score/**`,
+`analysis/scripts/conclude.py`, `AI-internal/useful-scripts/verify_model_determinism.sh`,
+`AI-generated/validation/`, `AI-generated/determinism-checks/`,
+`AI-generated/batch-reports/26-08-26_b07_erectTheTree.md`. Modified: `AGENTS.md` §8 (node
+naming, now checked), `.claude/commands/node.md`, `AI-internal/useful-scripts/node.py`
+(a subdirectory of `scripts/` is not a callable step) and `check_invariants.py` (the naming
+check; the script walk no longer descends into built environments),
+`environment/install-chap.sh`, `environment/Dockerfile`, `environment/README.md`,
+`analysis/README.md`, `.gitignore`, `readme-at-start.md` and the plan. Six commits,
+`cf97b81` → `8a32e92`.
+
+**What a future session needs.** Batch 8 implements the hierarchical negative-binomial GLM as
+`03_models/03_candidate/a_hierNB` with its four fork nodes, and is the first node that needs
+model configuration to reach an `MLproject` model — still unexercised since batch 2. Read
+`ewars_plus_template` before implementing. Phase C should report calibration and lead-time
+structure beside CRPS, because they separate these three models where the headline mean does
+not. Batch 12 should re-measure the reference's run cost on a quiet machine before costing the
+manifest, and should not let the weighting fork fall below the budget line. Any candidate that
+reads a climate covariate should use `pd.read_csv(..., float_precision="round_trip")` — the
+clean-room run showed the macOS and Linux wheels of the same pandas version disagree by one
+ULP on some parses.
+
+**Metrics**
+- Iterations: 1 `/do` invocation
+- Files: 20 nodes, 12 new scripts, 2 model contract directories, 75 stored results, 13 provenance records, 3 criticality files, 1 batch report (~5,000 words)
+- Wall clock: ~20 min for `analysis/run.sh`; 28 s per native model, 241–285 s per reference repeat; ~7 min to build the environment image; ~20 min for the clean-room run
+- Storage: 56 MB tracked per combination, 38 MB of it the reference's four irreproducible evaluations
+- Type: analysis — the project's first results produced from inside the tree

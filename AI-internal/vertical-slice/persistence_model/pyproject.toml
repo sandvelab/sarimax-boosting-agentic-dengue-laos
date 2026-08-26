@@ -1,0 +1,18 @@
+[project]
+name = "persistence-baseline"
+version = "1.0.0"
+description = "Probabilistic persistence baseline for the Lao dengue forecasting case"
+
+# Pinned to the patch, for the reason batch 2 pinned the analysis environment to the
+# patch: `>=3.13,<3.14` resolves to whichever 3.13 the building machine happens to
+# hold, and a version that depends on the machine is not a specification. 3.13.0 is
+# the interpreter `environment/chapenv` runs on.
+requires-python = "==3.13.0"
+
+# Exact pins, resolved into uv.lock beside this file. chap-core's `uv_env` runner
+# builds the model's environment from these two files, so the model carries its own
+# pinned environment rather than inheriting one.
+dependencies = [
+    "numpy==2.5.2",
+    "pandas==3.0.5",
+]

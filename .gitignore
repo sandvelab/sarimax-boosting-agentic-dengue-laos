@@ -35,3 +35,8 @@ AI-generated/chap-reconnaissance/smoke-work/
 AI-generated/method-reconnaissance/ewars-work/
 AI-generated/method-reconnaissance/library-work/
 AI-generated/method-reconnaissance/native-work/
+
+# Batch-6 working directory: chap-core's per-split run directories and the ~200 MB
+# environment uv builds for the model. Rebuilt by
+# AI-internal/vertical-slice/run_vertical_slice.sh.
+AI-generated/vertical-slice/slice-work/

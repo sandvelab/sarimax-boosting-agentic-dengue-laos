@@ -5,7 +5,7 @@ result:              results/main/fig_crps_by_location.png
                      results/main/fig_crps_by_location.csv
                      results/main/fig_crps_by_location_preaggregation.csv
 script:              scripts/fig_crps_by_location.py
-                     sha256:d344ee959bf03695d5509ab3b84bae4c265ed0fc02089ee1984356963c59b334
+                     sha256:a2076299572146b7ff0fcaf6bf18c94f4596047475e61caf656dc50d4143d90f
 invocation:          "$PYTHON" scripts/fig_crps_by_location.py
                      (from the node directory, via run.sh; PYTHON is
                      environment/chapenv/bin/python. COMBO unset, so `main`.)
@@ -35,6 +35,12 @@ pre-aggregation file.
 
 **Plotted values** are in `fig_crps_by_location.csv`. **Pre-aggregation values** are in
 `fig_crps_by_location_preaggregation.csv` — the per-cell scores the province means average.
+
+**One thing the axis label had to be corrected about.** The count beside each province is the
+cases in the **evaluated** cells, 2008-01 to 2009-12, not over the whole record — it is what
+the score is averaged against, and the two orderings are not the same province ordering. The
+first version said only "cases", which would have invited a reader to compare it with batch
+3's per-province totals over twelve years.
 
 alternatives-considered: a linear CRPS axis was rejected because Vientiane Capital's mean
 is two orders of magnitude above Phongsaly's and everything but the capital would sit on the

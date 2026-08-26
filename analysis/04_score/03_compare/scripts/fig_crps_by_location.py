@@ -65,7 +65,9 @@ for model in models:
     ax2.plot(block.coverage_10_90, y, marker[model], color=colour[model], ms=6, alpha=0.85)
 
 ax.set_yticks(list(y))
-ax.set_yticklabels([f"{loc}  ({int(t):,} cases)" for loc, t in zip(
+# The count is cases in the *evaluated* cells (2008-01 to 2009-12), not over the whole
+# record: it is what the score is averaged against, and the two orderings are not the same.
+ax.set_yticklabels([f"{loc}  ({int(t):,} cases evaluated)" for loc, t in zip(
     order, shown[shown.model == models[0]].set_index("location").reindex(order).observed_total)],
     fontsize=8)
 ax.set_xscale("log")
@@ -78,7 +80,7 @@ ax2.set_xlim(-0.03, 1.03)
 ax2.set_xlabel("10–90 interval coverage (nominal 0.80, dashed)")
 ax2.set_title("calibration", fontsize=10)
 
-fig.suptitle(f"Per-province score and calibration, provinces ordered by burden — "
-             f"combination {COMBO}", fontsize=11)
+fig.suptitle(f"Per-province score and calibration, provinces ordered by cases in the "
+             f"evaluated cells — combination {COMBO}", fontsize=11)
 fig.savefig(RESULTS / f"{STEM}.png", dpi=160)
 print(f"{STEM}.png -> {RESULTS}")

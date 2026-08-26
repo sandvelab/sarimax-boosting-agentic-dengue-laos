@@ -102,7 +102,13 @@ If a check fails, fix the cause. Never adjust the check to pass.
 - **Provenance beside the file.** Any folder holding imported or generated documents carries a `provenance.md`, one section per file, with enough to re-obtain or re-generate it. Append; never overwrite an existing section.
 - **`Archive/` is read-only.** Imported material is marked `(IS_SHADOW)` on line 2 and never edited. Anything needing modification is copied out first.
 - **README per folder.** Every folder has a `README.md` saying what it is for and what is currently in it, 5–15 lines. Create it with the folder; update it when contents change materially.
-- **Naming.** `YY-MM-DD_camelCaseName` for generated documents. Node directories are `NN_shortName`, numbered in the order the parent runs them.
+- **Naming.** `YY-MM-DD_camelCaseName` for generated documents. Node directories are named
+  by the relationship they stand in to their siblings: **sub-analyses children are numbered**
+  `NN_shortName`, in the order the parent runs them, because that order is part of the
+  approach; **alternatives children are lettered** `a_shortName`, `b_shortName`, because they
+  are mutually exclusive and unordered, and only one of them ever runs on the main path. A
+  number on an alternative would assert a sequence that does not exist. `/validate invariants`
+  checks this.
 - **Back up before editing.** Before editing any file under 1 MB, copy it to `/tmp/claude_backups/<filename>.<timestamp>.bak`.
 - **Task log.** `/log-tasks` records completed work to `AI-internal/ai_task_history.md` and `ai_task_details.md`. Auto-invoke it when a substantial task ends, when I change topic, and at session end.
 - **Python.** A virtual environment at `.venv`; invoke it directly as `.venv/bin/python`, never `source .venv/bin/activate && python`. Install into it with `.venv/bin/pip`.

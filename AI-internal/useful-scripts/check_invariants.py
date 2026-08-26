@@ -11,7 +11,8 @@ A failing check is fixed at the cause. Never weaken a check so it passes.
 Checks
   tree        every node is well-formed; alternatives nodes have exactly one main
               path, store no scripts of their own, and call only that child;
-              sub-analysis parents call every child
+              sub-analysis parents call every child; children are named for the
+              relationship they stand in (numbered siblings, lettered alternatives)
   provenance  every file under a node's results/ has a provenance record, and every
               record names an existing script, commit and environment
   plots       every plot image has its plotted values and its plotting script beside it
@@ -42,6 +43,8 @@ RANDOM_HINTS = re.compile(
     r"set\.seed|rng|Random\()", re.I
 )
 SEED_HINTS = re.compile(r"\b(seed|set_seed|manual_seed|set\.seed|SEED)\b")
+SUB_ANALYSIS_NAME = re.compile(r"^\d{2}_[A-Za-z]")
+ALTERNATIVE_NAME = re.compile(r"^[a-z]_[A-Za-z]")
 
 
 @dataclass
@@ -83,6 +86,17 @@ def check_tree(root: Path) -> list[Finding]:
         if kind not in ("alternatives", "sub-analyses"):
             out.append(Finding("tree", rel, f"has children but kind is {kind!r}"))
             continue
+        # AGENTS.md §8: a child's name carries the relationship it stands in.
+        # Sub-analyses run in order and are numbered; alternatives are unordered and
+        # mutually exclusive and are lettered. A number on an alternative asserts a
+        # sequence that does not exist.
+        wanted = ALTERNATIVE_NAME if kind == "alternatives" else SUB_ANALYSIS_NAME
+        for k in kids:
+            if not wanted.match(k.name):
+                out.append(Finding(
+                    "tree", f"{rel}/{k.name}",
+                    f"child of a {kind} node should be named "
+                    f"{'a_name, b_name (lettered)' if kind == 'alternatives' else 'NN_name (numbered)'}"))
         if kind == "alternatives":
             main = _field(claim_text, "main-path")
             names = [k.name for k in kids]

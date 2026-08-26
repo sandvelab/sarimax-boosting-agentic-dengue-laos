@@ -115,8 +115,12 @@ def read_node(path: str | Path) -> dict:
         "main_path": _field(text, "main-path"),
         "children": children(node),
         "has_env": (node / "env").is_dir(),
+        # Only files are callable steps. A subdirectory of scripts/ is supporting
+        # material -- a model contract directory, a package -- and is called by one
+        # of the files beside it rather than by run.sh.
         "scripts": sorted(
-            p for p in (node / "scripts").glob("*") if p.name != ".gitkeep"
+            p for p in (node / "scripts").glob("*")
+            if p.is_file() and p.name != ".gitkeep"
         ) if (node / "scripts").is_dir() else [],
     }
 

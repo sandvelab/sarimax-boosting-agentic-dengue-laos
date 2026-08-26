@@ -1,0 +1,30 @@
+# Chap model contract for the seasonal climatology baseline.
+#
+# The same shape as the persistence baseline's contract, and deliberately so: two
+# baselines that reach the evaluation by different routes are two baselines that
+# cannot be compared with each other. `uv_env` makes chap-core build the model's
+# environment from the pyproject.toml and uv.lock in this directory, so the model's
+# dependencies are pinned by a file that travels with the model.
+
+name: seasonal_climatology
+
+target: disease_cases
+supported_period_type: month
+allow_free_additional_continuous_covariates: true
+requires_geo: false
+
+uv_env: pyproject.toml
+
+entry_points:
+  train:
+    parameters:
+      train_data: str
+      model: str
+    command: "python train.py {train_data} {model}"
+  predict:
+    parameters:
+      historic_data: str
+      future_data: str
+      model: str
+      out_file: str
+    command: "python predict.py {model} {historic_data} {future_data} {out_file}"

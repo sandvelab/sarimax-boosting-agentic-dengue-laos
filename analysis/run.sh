@@ -12,3 +12,9 @@ PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 
 # Sub-analyses: every child runs, in order.
 bash "01_data/run.sh"
+bash "02_setup/run.sh"
+bash "03_models/run.sh"
+bash "04_score/run.sh"
+
+# Own scripts
+"$PYTHON" "scripts/conclude.py"

@@ -37,7 +37,9 @@ Where a question needs both, interpose a node.
 - **`sub-analyses`** — supporting parts of a parallel or sequential approach. The parent
   calls **every** child, in directory order, then its own scripts.
 
-Number child directories `NN_name` in the order the parent runs them.
+Name child directories for the relationship they stand in: **sub-analyses are numbered**
+`NN_name`, in the order the parent runs them; **alternatives are lettered** `a_name`,
+`b_name`, because they are unordered and only one runs. `/validate invariants` checks it.
 
 ## Two properties never to break
 

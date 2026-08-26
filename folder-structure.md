@@ -17,7 +17,10 @@ What each directory is for, and the one rule that governs it. Create every folde
 │   ├── claim.md            the top-level analytical aim
 │   ├── run.sh              reproduces the entire reported analysis
 │   ├── scripts/  results/  provenance/
-│   └── NN_name/            child nodes, same shape, recursively
+│   ├── NN_name/            sub-analyses children — numbered, every one of them runs
+│   └── a_name/             alternatives children — lettered, only the main path runs
+│                           (every node below 01_data reads and writes results/$COMBO/,
+│                            which defaults to `main`)
 ├── environment/            the one main environment (spec · build · lockfile · image)
 ├── Archive/                imported source material and data, never edited
 │   ├── case-source-material/  the five documents the project starts from, (IS_SHADOW)
@@ -28,12 +31,15 @@ What each directory is for, and the one rule that governs it. Create every folde
 │   ├── chap-reconnaissance/  what the pinned platform is and does
 │   ├── method-reconnaissance/  what the reference model scores and costs, and what else the library holds
 │   ├── vertical-slice/     the first model end to end, before the tree existed
+│   ├── validation/         what /validate cleanroom and /validate outsider found
+│   ├── determinism-checks/ Rule 6: our models run twice and diffed
 │   ├── hierarchical-report/
 │   └── reproducibility-report/
 ├── AI-internal/
-│   ├── useful-scripts/     node.py · check_invariants.py · claims.py · build_hierarchical_report.py
+│   ├── useful-scripts/     node.py · check_invariants.py · claims.py ·
+│   │                       build_hierarchical_report.py · verify_model_determinism.sh
 │   ├── reconnaissance/     facts about external systems the project does not control
-│   ├── vertical-slice/     the persistence baseline and the scripts of batch 6
+│   ├── vertical-slice/     the scripts of batch 6; its model now lives in the tree
 │   ├── data-acquisition/   scripts that bring external data into Archive/
 │   ├── skill-references/   the detail the thin skills defer to
 │   ├── ai_task_history.md

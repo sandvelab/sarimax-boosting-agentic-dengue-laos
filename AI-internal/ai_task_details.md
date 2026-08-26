@@ -449,7 +449,7 @@ model has no configuration and chap-core wrote it an empty
 - Storage: 10.2 MB tracked, 9.8 MB of it the evaluation `.nc` — and unlike the reference's, fully regenerable, so it is flagged as the first candidate for pruning
 - Type: analysis — the first model of the project's own, though not yet a reported result
 
-## T7 — Batch 7: erect the claim tree (2026-08-26)
+## T7 (2026-08-26) — Batch 7: erecting the claim tree
 
 **What was produced.** Twenty nodes under `analysis/`, built with `node.py`, and the chain
 that runs them: `02_setup` with four alternatives forks in sequence and an assembly step;

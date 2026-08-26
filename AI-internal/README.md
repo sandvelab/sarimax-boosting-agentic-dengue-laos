@@ -5,10 +5,10 @@ and the log of what has been done.
 
 | Path | Holds |
 |---|---|
-| `useful-scripts/` | `node.py` · `check_invariants.py` · `claims.py` · `build_hierarchical_report.py` |
+| `useful-scripts/` | `node.py` · `check_invariants.py` · `claims.py` · `build_hierarchical_report.py` · `verify_model_determinism.sh` |
 | `skill-references/` | The exact commands, formats and edge cases the skills defer to |
 | `reconnaissance/` | Scripts that establish facts about external systems the project depends on but does not control |
-| `vertical-slice/` | The persistence baseline as a Chap-compatible model, and the scripts of batch 6. Moved into the claim tree by batch 7 |
+| `vertical-slice/` | The scripts of batch 6. The persistence model itself was **moved into the claim tree by batch 7**, with its history, so it is no longer here |
 | `data-acquisition/` | Scripts that bring external data into `Archive/`. One-off: once a file is archived and committed, the repository reproduces without network access |
 | `ai_task_history.md` | One line per completed task, `T1`, `T2`, … |
 | `ai_task_details.md` | The expanded entry for each |

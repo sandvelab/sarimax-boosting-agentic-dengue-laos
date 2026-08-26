@@ -1,0 +1,2 @@
+model,weighting,n_cells,mean_crps,mae,coverage_10_90,coverage_25_75,n_locations,n_splits
+persistence,unweighted,371,24.879338288409706,29.07277628032345,0.6657681940700808,0.49056603773584906,16,8

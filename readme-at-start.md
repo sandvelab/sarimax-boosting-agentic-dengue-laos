@@ -36,7 +36,7 @@ representative research problem, and where it fails.
 
 - **Target venue**: not fixed in the source material. The manuscript this case serves updates
   Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013), which is the obvious precedent.
-- **Status**: analysis (phase A complete, batches 1–5; phase B next, batch 6). Nineteen batches in the ledger, plus one optional.
+- **Status**: analysis (phase A complete, batches 1–5; phase B under way, batch 6 done, batch 7 next). Nineteen batches in the ledger, plus one optional.
 - **Manuscript**: `Human-AI-collaboration/manuscript/`
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`. It carries the
@@ -104,6 +104,10 @@ do if EWARS cannot be run on this dataset, which the plan's §2 answers.
   serve both the main analysis and the stability run — is in
   `AI-generated/batch-reports/26-08-26_b05_bootstrapPlan.md`, and is built by batch 7.
 - Batch reports, one per executed batch, are in `AI-generated/batch-reports/`.
+- The first model of our own — the persistence baseline, end to end through `chap eval` on
+  the development file — is in `AI-generated/vertical-slice/`, built by
+  `AI-internal/vertical-slice/`. Its numbers are not reported results: batch 7 moves the
+  model into the tree and re-runs it from there.
 - What the reference model and the rest of Chap's model library can do on *this* dataset — the
   reference's score, cost and repeatability, and an inventory of the 39 `chap-models`
   repositories — is in `AI-generated/method-reconnaissance/`, rebuilt by

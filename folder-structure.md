@@ -27,11 +27,13 @@ What each directory is for, and the one rule that governs it. Create every folde
 │   ├── batch-reports/      one per executed batch — the exception: not regenerable
 │   ├── chap-reconnaissance/  what the pinned platform is and does
 │   ├── method-reconnaissance/  what the reference model scores and costs, and what else the library holds
+│   ├── vertical-slice/     the first model end to end, before the tree existed
 │   ├── hierarchical-report/
 │   └── reproducibility-report/
 ├── AI-internal/
 │   ├── useful-scripts/     node.py · check_invariants.py · claims.py · build_hierarchical_report.py
 │   ├── reconnaissance/     facts about external systems the project does not control
+│   ├── vertical-slice/     the persistence baseline and the scripts of batch 6
 │   ├── data-acquisition/   scripts that bring external data into Archive/
 │   ├── skill-references/   the detail the thin skills defer to
 │   ├── ai_task_history.md

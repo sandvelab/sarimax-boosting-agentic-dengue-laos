@@ -304,7 +304,7 @@ at the end of every batch, and append newly created batches to it.
 | 3 | A | Reconnaissance — data: acquire, characterise, and fix the split scheme | done — produced | [[26-08-23_b03_dataCharacterisation]] |
 | 4 | A | Reconnaissance — methods: candidate model families, and run `chapkit_ewars_model` to get the reference score | done — produced | [[26-08-23_b04_methodSurvey]] |
 | 5 | A | Bootstrap: turn phases C–E into concrete batches | done — expanded | [[26-08-26_b05_bootstrapPlan]] |
-| 6 | B | Vertical slice: one trivial model, end to end, first CRPS number | open | |
+| 6 | B | Vertical slice: one trivial model, end to end, first CRPS number | done — produced | [[26-08-26_b06_verticalSlice]] |
 | 7 | B | Erect the claim tree, route the vertical slice through it, add the reference | open | |
 | 8 | C | The candidate contract, and candidate 1 (hierarchical NB GLM) at its defaults | open | |
 | 9 | C | Candidate 1's internal forks; promote the main path | open | |
@@ -563,6 +563,11 @@ top candidates as siblings under one fork; the observation model for the counts;
 set and the lag structure; how population enters our model; and whether our model does its
 fitting in `train` or, as the reference does, in `predict`.
 
+*Under `03_models/01_baselines`, and so moving one leaderboard row* — how uncertainty is
+wrapped around a point baseline. Batch 6 found two published constructions for this that
+disagree, and the choice sets the calibration of one of the two numbers §2's criterion is
+defined against, so it is a fork rather than an implementation detail.
+
 **The forecast horizon is not among them.** It is forced by the reference model, so a
 combination at another horizon has no reference to be compared against and the root's
 conclusion — a ratio to the reference — is uncomputable there. It is the one item of this list
@@ -706,3 +711,7 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 5 — bootstrap
 
 - [[26-08-26_b05_bootstrapPlan]]
+
+### Batch 6 — vertical slice
+
+- [[26-08-26_b06_verticalSlice]]

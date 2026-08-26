@@ -33,3 +33,6 @@ re-running a batch produces a different report rather than the same one.
   what the data will carry.
 - `26-08-26_b05_bootstrapPlan.md` — batch 5, phase A: the claim-tree design, the fork
   inventory and the perturbation manifest, and the concrete batches for phases C, D and E.
+- `26-08-26_b06_verticalSlice.md` — batch 6, phase B: the persistence baseline implemented
+  against the Chap contract and run end to end on the development file, exercising every
+  link in the chain once and giving the project its first CRPS from a model of its own.

@@ -47,6 +47,10 @@ export PYTHONWARNINGS=ignore
 } | sed "s|$ROOT/||" > "$OUT/slice_inputs.sha256"
 
 # --- The run ---------------------------------------------------------------------
+# Cleared first, so the run directory this script copies the fitted model out of is
+# unambiguously the one this run made.
+rm -rf "$WORK/runs"
+
 START=$(date +%s)
 CHAP_RUNS_DIR="$WORK/runs" "$CHAP" eval \
     --model-name "$MODEL" \
@@ -86,7 +90,7 @@ JSON
 # --- The fitted model, kept -------------------------------------------------------
 # chap-core fits once (n_retrain 1) into its run directory, which is not tracked. The
 # fitted object is what the forecasts' spread comes from, so it is copied out.
-find "$WORK/runs" -name "model" -type f -newermt "@$START" -print0 \
-    | xargs -0 -I{} cp {} "$OUT/persistence_fitted_model.json" 2>/dev/null || true
+cp "$(find "$WORK/runs" -type f -name model | sort | tail -1)" \
+   "$OUT/persistence_fitted_model.json"
 
 echo "done -> $OUT/results/$COMBO/"

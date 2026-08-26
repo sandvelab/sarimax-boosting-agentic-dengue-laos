@@ -1,0 +1,4 @@
+model,horizon_distance,n_cells,mean_crps
+persistence,1,124,16.426420161290324
+persistence,2,123,24.763161593495933
+persistence,3,124,33.44749620161291

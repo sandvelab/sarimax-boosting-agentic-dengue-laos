@@ -36,7 +36,7 @@ representative research problem, and where it fails.
 
 - **Target venue**: not fixed in the source material. The manuscript this case serves updates
   Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013), which is the obvious precedent.
-- **Status**: analysis (phase A complete, batches 1–5; phase B under way, batch 6 done, batch 7 next). Nineteen batches in the ledger, plus one optional.
+- **Status**: analysis (phase A complete, batches 1–5; **phase B complete, batches 6–7**; phase C next, batch 8). Nineteen batches in the ledger, plus one optional.
 - **Manuscript**: `Human-AI-collaboration/manuscript/`
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`. It carries the
@@ -47,7 +47,7 @@ representative research problem, and where it fails.
 | Setting | Value |
 |---|---|
 | Project random seed | `20260822`. Every component seed derives from it. |
-| Main environment | `environment/` — CPython 3.13.0 and `chap-core==2.1.0`, built by `environment/install-chap.sh`, resolved in `environment/lock.txt`. Invoked as `environment/chapenv/bin/chap`. Not the same as `.venv`, which runs the repository's own machinery. |
+| Main environment | `environment/` — CPython 3.13.0 and `chap-core==2.1.0`, **installed from** `environment/lock.txt` by `environment/install-chap.sh`, which reports any difference between what it built and that file. Invoked as `environment/chapenv/bin/chap`. Not the same as `.venv`, which runs the repository's own machinery. The Docker layer builds (verified batch 7). |
 | Repository machinery interpreter | `.venv/bin/python` — CPython 3.13.7, created 2026-08-23 with `python3 -m venv .venv` on macOS 26.6.2 (arm64). |
 | Tracking level | **full** (`AGENTS.md` §6). This project is *about* tracking, so the usual argument for a lighter touch does not apply. Raise it with me rather than drifting. |
 | Compute budget for stability work | Phase D is batches 12–15. The perturbation manifest is two tiers — every fork taken alone, then eight pairs selected by a rule fixed in advance — over ten forks, run on development and again on the holdout. `/perturb` costs each perturbation, ranks by expected informativeness, cuts at the line and **records where the line fell and what was below it**; tier 2 is what gets cut first. Compute is not what binds: a full backtest costs one to three minutes. |
@@ -57,8 +57,8 @@ representative research problem, and where it fails.
 | Metric | Mean CRPS across regions × splits, produced by Chap's own evaluation. Secondary: interval coverage, MAE. |
 | Reported conclusion | A skill score against the reference model, `1 − CRPS_ours / CRPS_ewars`, computed per analysis by a script, with raw CRPS and coverage beside it. Relative rather than absolute, so that the development and held-out spreads can be read on one axis instead of confounding inflated performance with a harder year. |
 | Required baselines | Persistence and seasonal climatology, implemented as Chap-compatible models so they traverse the identical evaluation path. |
-| Reference model to beat | `https://github.com/chap-models/chapkit_ewars_model` (WHO EWARS-csd), at its own default configuration — on the cross-validated development backtest **and** on the held-out year. Not tuned by us. Pinned by image digest `sha256:abd8098f…` (= source commit `a4c2fa42`); runs as an amd64 chapkit service under emulation, so **Docker must be running**. Its development mean CRPS is about **21.9**, established in batch 4 — reconnaissance, not yet the reported reference score. It is **unseeded**: identical re-runs move its CRPS by about 2 %, so a margin under ~0.4 CRPS against it means nothing. |
-| What counts as success | Beating both baselines and EWARS. Nothing here can reach statistical significance and no attempt is made to suggest it does: the comparison is reported with its per-region and per-split spread and a plain statement of what that spread can distinguish. "We cannot separate these two" is a conclusion. |
+| Reference model to beat | `https://github.com/chap-models/chapkit_ewars_model` (WHO EWARS-csd), at its own default configuration — on the cross-validated development backtest **and** on the held-out year. Not tuned by us. Pinned by image digest `sha256:abd8098f…` (= source commit `a4c2fa42`); runs as an amd64 chapkit service under emulation, so **Docker must be running**. Its development mean CRPS is **22.098**, the per-cell mean of four repeats scored from inside the tree in batch 7 (batch 4's reconnaissance figure was 21.9). It is **unseeded**: the four repeats span 21.820 to 22.385, so a margin under **~0.57 CRPS** against it means nothing. |
+| What counts as success | Beating both baselines and EWARS. Nothing here can reach statistical significance and no attempt is made to suggest it does: the comparison is reported with its per-region and per-split spread and a plain statement of what that spread can distinguish. "We cannot separate these two" is a conclusion. **Batch 7 measured what that spread is: the development backtest resolves about 4 CRPS**, wider than the gap between the persistence baseline and EWARS, so a candidate can top the leaderboard without the evaluation being able to say it beat the reference. |
 | Shape of the reported result | A **spread, not a point**, on both datasets. The phase-D perturbation set is frozen before the holdout is opened and re-run on it, so development and holdout are both reported as distributions over the analyses that all looked reasonable. |
 | Model service framework | `chapkit` may be used to build our own models against the Chap contract. Permitted, not mandated. |
 | Development data | 1998-01 to 2009-12. The only file development ever sees. |
@@ -102,12 +102,16 @@ do if EWARS cannot be run on this dataset, which the plan's §2 answers.
   `AI-generated/hierarchical-report/index.html`, or `/node tree`. Its full design — every node,
   every fork, the file contract between them, and the `COMBO` mechanism that lets one code path
   serve both the main analysis and the stability run — is in
-  `AI-generated/batch-reports/26-08-26_b05_bootstrapPlan.md`, and is built by batch 7.
-- Batch reports, one per executed batch, are in `AI-generated/batch-reports/`.
-- The first model of our own — the persistence baseline, end to end through `chap eval` on
-  the development file — is in `AI-generated/vertical-slice/`, built by
-  `AI-internal/vertical-slice/`. Its numbers are not reported results: batch 7 moves the
-  model into the tree and re-runs it from there.
+  `AI-generated/batch-reports/26-08-26_b05_bootstrapPlan.md`. **Batch 7 built it**, and
+  `bash analysis/run.sh` reproduces the whole reported analysis in about twenty minutes.
+  `analysis/README.md` is the map. Every node below `01_data` reads and writes under
+  `results/$COMBO/`, which defaults to `main`.
+- Batch reports, one per executed batch, are in `AI-generated/batch-reports/`. Checks on the
+  method — clean-room, determinism — are in `AI-generated/validation/` and
+  `AI-generated/determinism-checks/`.
+- The vertical slice that preceded the tree is in `AI-generated/vertical-slice/`. Its numbers
+  are **not** reported results; the tree reproduces them exactly, and the persistence model
+  itself now lives at `analysis/03_models/01_baselines/01_persistence/a_empiricalChange/`.
 - What the reference model and the rest of Chap's model library can do on *this* dataset — the
   reference's score, cost and repeatability, and an inventory of the 39 `chap-models`
   repositories — is in `AI-generated/method-reconnaissance/`, rebuilt by

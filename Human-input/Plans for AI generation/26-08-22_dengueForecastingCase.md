@@ -253,6 +253,20 @@ before any of this.
 | Batch 7 additionally builds `02_setup`, `04_score` and the reference node | Whether a paired per-cell comparison on 371 cells can separate two models is batch 4's first open question and the most expensive one to discover late. It needs only the reference and one trivial model, both of which batch 7 has. | agent-autonomous |
 | The §9 budget is expressed in implementation effort, and phase C is cut to four batches with an evidence-based stopping rule | Batch 4 measured a full backtest at one to three minutes, so evaluation is not what binds. Batches allocated on a schedule rather than on evidence are the expansion-without-decision `AGENTS.md` §6 names. | agent-autonomous |
 
+### 2026-08-26 — settled by batch 7, from the tree running
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **The development backtest resolves differences of about 4 CRPS, and nothing below 0.57 CRPS can be attributed to a model at all** | Measured, not assumed. The paired per-cell comparison is two to four times tighter than batch 4's unpaired figure of 5.68, giving a standard error of 1.3 to 3.0 depending on how the correlation between cells is treated — but both baselines sit 2.2 to 2.8 CRPS from the reference and neither difference clears two standard errors on any reading. The floor comes from the unseeded reference compared against its own repeats, which is a difference of exactly zero contaminated only by its sampler. This is what §2's instruction to report the call as uncertain will mean in practice. | agent-autonomous |
+| Phase C's 0.4 CRPS stopping rule is **left where batch 5 fixed it**, although the measured floor is 0.57 | A stopping rule adjusted after seeing a number is not a stopping rule. The difference is small and the rule is if anything slightly too permissive, which is the safe direction. | agent-autonomous |
+| **Calibration and lead-time structure are reported beside CRPS in phase C, not after it** | They separate these three models where the headline mean does not: the reference's per-province 10–90 coverage never falls below 0.542 while our baselines reach 0.042, and at one month's lead a persistence baseline is level with the reference (16.43 against 16.54) while losing badly at three. A candidate selected on mean CRPS alone would be selected on the least discriminating thing measured. | agent-autonomous |
+| Each fork gets **only its main-path child** until the code that runs a sibling exists | Batch 5's design and this plan's batch-7 paragraph differ; the narrower reading was taken because a sibling that exists but cannot run would pass `/validate invariants` and advertise an alternative nobody can execute. | agent-autonomous |
+| A stage finds its input by **searching for the one child of the previous fork with results under this combination**, never by naming a child | It is what lets the stability driver swap a child without any downstream script changing. Batch 5's file contract needs the mechanism and does not name it. | agent-autonomous |
+| Every model of ours reaches `chap eval` through **one shared script** | "No candidate is compared on a metric computed a different way" is a constraint this plan states for phase C, and it is cheapest to enforce structurally rather than by care. | agent-autonomous |
+| `install-chap.sh` **installs from `lock.txt`** rather than resolving afresh and writing it | Rule 3. A rebuild three days after the environment was pinned resolved a different package set while the lockfile sat unchanged in git; `environment/Dockerfile` had always installed from the lockfile, so the image and the local environment would have drifted apart silently. Found by accident during the clean-room check. | agent-autonomous |
+| The reference's run costs from batch 7 are an **upper bound**, not a measurement, and batch 12 re-measures them | The machine was heavily loaded by unrelated processes during part of the run. A contaminated figure would otherwise go into the manifest costing. | agent-autonomous |
+| **The headline weighting fork is not to be cut from the manifest** without an explicit decision | The reference is beaten by both baselines in the two provinces carrying the most evaluated cases and wins nearly everywhere else, so a population- or case-weighted mean moves weight toward where it does worst. Batch 5 costed this fork as the cheapest in the project; batch 7 gives the first evidence that it may be among the most informative. | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -305,7 +319,7 @@ at the end of every batch, and append newly created batches to it.
 | 4 | A | Reconnaissance — methods: candidate model families, and run `chapkit_ewars_model` to get the reference score | done — produced | [[26-08-23_b04_methodSurvey]] |
 | 5 | A | Bootstrap: turn phases C–E into concrete batches | done — expanded | [[26-08-26_b05_bootstrapPlan]] |
 | 6 | B | Vertical slice: one trivial model, end to end, first CRPS number | done — produced | [[26-08-26_b06_verticalSlice]] |
-| 7 | B | Erect the claim tree, route the vertical slice through it, add the reference | open | |
+| 7 | B | Erect the claim tree, route the vertical slice through it, add the reference | done — produced | [[26-08-26_b07_erectTheTree]] |
 | 8 | C | The candidate contract, and candidate 1 (hierarchical NB GLM) at its defaults | open | |
 | 9 | C | Candidate 1's internal forks; promote the main path | open | |
 | 10 | C | Candidate 2: gradient-boosted trees with a probabilistic head | open | |
@@ -715,3 +729,7 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 6 — vertical slice
 
 - [[26-08-26_b06_verticalSlice]]
+
+### Batch 7 — erect the tree
+
+- [[26-08-26_b07_erectTheTree]]

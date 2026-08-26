@@ -36,3 +36,8 @@ re-running a batch produces a different report rather than the same one.
 - `26-08-26_b06_verticalSlice.md` — batch 6, phase B: the persistence baseline implemented
   against the Chap contract and run end to end on the development file, exercising every
   link in the chain once and giving the project its first CRPS from a model of its own.
+- `26-08-26_b07_erectTheTree.md` — batch 7, phase B: the claim tree built from batch 5's
+  design, the vertical slice routed through it and reproduced exactly, the seasonal
+  climatology baseline and the reference model added as nodes, and the paired per-cell
+  comparison that measures what the evaluation can and cannot resolve.
+

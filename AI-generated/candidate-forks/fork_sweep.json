@@ -1,0 +1,23 @@
+{
+ "base_combination": "main",
+ "best_combination": "observation_hurdle",
+ "best_mean_crps": 23.985354566037735,
+ "best_moves_the_main_path_by": 2.114781552560647,
+ "combinations": 10,
+ "main_path_mean_crps": 26.100136118598382,
+ "ranking": [
+  "observation_hurdle",
+  "yearVariance_provinceScaled",
+  "covariates_climateFree",
+  "covariates_rich",
+  "fitTime_refitAtPredict",
+  "observation_zeroInflated",
+  "main",
+  "population_ignored",
+  "autoregressive_lag3",
+  "population_covariate"
+ ],
+ "reference_mean_crps": 22.098446493261456,
+ "source": "analysis/04_score/02_aggregate/a_unweighted/results/<combo>/metrics_summary.csv, and the candidate node's run_cost.json and candidate_spec.json",
+ "swept": "analysis/03_models/03_candidate/a_hierNB"
+}

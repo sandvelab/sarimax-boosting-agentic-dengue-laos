@@ -1,0 +1,15 @@
+additional_continuous_covariates:
+- rainfall
+- mean_temperature
+user_option_values:
+  autoregressive: none
+  covariate_lags:
+  - 2
+  covariates:
+  - rainfall
+  - mean_temperature
+  fit_time: train
+  observation: negative_binomial
+  population: ignored
+  seed: 849487747
+  year_variance: shared

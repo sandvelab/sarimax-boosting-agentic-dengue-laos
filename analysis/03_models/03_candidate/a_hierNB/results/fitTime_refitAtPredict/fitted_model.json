@@ -1,0 +1,25 @@
+{
+ "construction": "not fitted here: fit_time = predict",
+ "fitted_in": "predict",
+ "model": "hier_nb_candidate",
+ "options": {
+  "autoregressive": "none",
+  "covariate_lags": [
+   2
+  ],
+  "covariates": [
+   "rainfall",
+   "mean_temperature"
+  ],
+  "fit_time": "predict",
+  "observation": "negative_binomial",
+  "population": "offset",
+  "seed": 849487747,
+  "year_variance": "shared"
+ },
+ "training": {
+  "first_period": "1998-01",
+  "last_period": "2007-12",
+  "rows": 2040
+ }
+}

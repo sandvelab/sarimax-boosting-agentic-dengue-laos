@@ -36,7 +36,7 @@ representative research problem, and where it fails.
 
 - **Target venue**: not fixed in the source material. The manuscript this case serves updates
   Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013), which is the obvious precedent.
-- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; **phase C under way, batches 8–9 done**, batch 10 next). Nineteen batches in the ledger, plus one optional.
+- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; **phase C under way, batches 8–9 done**, batch 10 next). Nineteen batches in the ledger, plus one optional, plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result. What it settled is in the plan's §4b.
 - **Manuscript**: `Human-AI-collaboration/manuscript/`
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`. It carries the

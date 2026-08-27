@@ -300,6 +300,21 @@ before any of this.
 | **The iterated path is run anyway, on a branch named `greedy` that is never merged**, as batch 21 | "It could be interesting to see where this would have taken us." What stopping cost is then a measured quantity rather than an estimate from one sweep, and the branch is the only place in the project where selection is deliberately pushed to a fixpoint — which makes it evidence about the method rather than a result about Laos | human-set |
 
 
+### 2026-08-27 — settled by batch 21, from the greedy branch
+
+*(Produced on branch `greedy`, which is never merged. The report is
+`AI-generated/batch-reports/26-08-27_b21_greedyBranch.md` **on that branch**; every number
+below is read from a file there.)*
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **Iterating the rule reaches a fixpoint in three rounds at 21.275 mean CRPS**, past the reference's 22.098 and past each of its four repeats individually — and changes nothing the project can conclude | The paired difference against the reference is −0.823 CRPS with a split-clustered standard error of 1.602: half a standard error, where batch 9's candidate was 1.03 on the other side. The main line's "we cannot separate these two" survives the counterfactual with the sign of the point estimate reversed, which is the strongest available evidence that stopping cost the project nothing it reports. The third round's sweep found the best remaining move worth 0.150 CRPS, so the branch stopped at a fixpoint rather than at its round cap | agent-autonomous |
+| **The cost of iterating is paid in the record, not in the score.** The first fork the rule moved (`04_fitTime` → `b_refitAtPredict`) is the one under which the model has no stored fitted object at all | On the branch, `a_hierNB/results/main/fitted_model.json` is a 520-byte stub where the main line's carries seventeen annual variances, two blocks of coefficients and an EM history. A rule that selects on development CRPS cannot see whether the model it selects can be inspected. This is an argument for the main line's decision that the score alone does not give | agent-autonomous |
+| **A second demonstration that one-at-a-time fork effects do not compose, with the sign reversed** | The lagged-count term is worth −0.075 around batch 8's configuration, +0.353 around batch 9's, and +0.582 once the model refits inside `predict` — it and the refit are complements, and no one-at-a-time sweep can see a complement. With batch 9's finding that three forks overstated their combined worth, **tier 2 of the phase-D manifest now has two independent demonstrations behind it** and batch 12 must not cut it | agent-autonomous |
+| The branch's model does **not** join the phase-D manifest, and the holdout is not opened on it | The project has one opening and it belongs to the frozen manifest. Whether the greedy model should be carried into phase E is the human's, not settled here | agent-autonomous |
+| **`verify_model_determinism.sh` needs a decision** | It has reported `status: differs` since `models.csv` gained its `scored_under_combo` column, because the check compares that column between two scratch combinations whose names differ by construction. The per-cell scores and fitted objects match in every case, which is what batch 9's report claims in words; its parenthetical citation of the file's status is wrong. Left unchanged on both branches: it is main-line machinery, batch 9's report is written, and `AGENTS.md` §5 forbids adjusting a check to pass without fixing a cause | agent-autonomous |
+
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -366,7 +381,7 @@ at the end of every batch, and append newly created batches to it.
 | 18 | E | Clean-room and outsider validation; the plan's own drift | open | |
 | 19 | E | The case write-up, the reproducibility report, the release | open | |
 | 20 | E | The external check on `tha` and `vnm` — optional, first to be cut | open | |
-| 21 | C, on branch `greedy` | The counterfactual: iterate batch 9's promotion rule to a fixpoint on a branch, and measure what stopping once cost | open | |
+| 21 | C, on branch `greedy` | The counterfactual: iterate batch 9's promotion rule to a fixpoint on a branch, and measure what stopping once cost | done — produced | `26-08-27_b21_greedyBranch.md`, on branch `greedy` |
 
 ---
 
@@ -713,7 +728,10 @@ measured instead of one being argued.
 **What must be true when it is finished.**
 
 - The branch `greedy` exists, branched from the main line at the commit that closed batch 9,
-  and **nothing from it is merged into `main`**. The reported analysis is the one on `main`.
+  and **nothing from it is merged into `main`** — no tree state, no result, and not the batch
+  report either, whose every citation is a file on that branch. What crosses to `main` is this
+  ledger row and the §4b entry recording what the branch settled. The reported analysis is the
+  one on `main`.
 - The iteration rule was **written and committed before the first round it decided was run**,
   as batch 9's was, and it is batch 9's rule with the single-application clause removed.
 - Every round is a full sweep of every non-main child around the branch's current main path,
@@ -821,4 +839,6 @@ Everything else is yours to decide, and the record of how you decided it is a de
 
 ### Batch 21 — the greedy branch
 
-- On branch `greedy` only.
+- `AI-generated/batch-reports/26-08-27_b21_greedyBranch.md`, **on branch `greedy` only**.
+  It is not copied here, because every file it cites lives on that branch and a report
+  whose links resolve to nothing is worse than a pointer. What it settled is in §4b.

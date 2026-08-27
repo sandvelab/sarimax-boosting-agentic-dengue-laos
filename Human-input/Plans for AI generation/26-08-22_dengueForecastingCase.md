@@ -292,6 +292,14 @@ before any of this.
 | The convergence tolerance was **not relaxed**, although the promoted fit runs to its 200-round cap | A criterion adjusted after seeing a run is a criterion adjusted to pass. The parameters are stable to six figures long before the cap; the flag says `converged: false`, and the record says why. | agent-autonomous |
 | Phase C's 0.4 CRPS stopping rule **does not stop the phase**: batch 9 moved the best of our models by **2.402** CRPS | Applied as written. Batch 10 is admissible on the evidence the rule asks for. The ambiguity batch 8 raised — whether "the leaderboard's best" means the best of ours or the best model on the board — is still open and still the human's. | agent-autonomous |
 
+### 2026-08-27 — settled by the human, on batch 9's open question
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **Phase C does not iterate the promotion rule on the main path.** Batch 9's decision to apply it once stands, and the reported analysis is the one that stopped | The human's reading of batch 9 §13: iterating is greedy optimisation on development CRPS, which is the failure this plan exists to watch for, and one held-out year cannot diagnose it. The 0.9 CRPS left on the table is accepted as the price of not selecting that hard | human-set |
+| **The iterated path is run anyway, on a branch named `greedy` that is never merged**, as batch 21 | "It could be interesting to see where this would have taken us." What stopping cost is then a measured quantity rather than an estimate from one sweep, and the branch is the only place in the project where selection is deliberately pushed to a fixpoint — which makes it evidence about the method rather than a result about Laos | human-set |
+
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -358,6 +366,7 @@ at the end of every batch, and append newly created batches to it.
 | 18 | E | Clean-room and outsider validation; the plan's own drift | open | |
 | 19 | E | The case write-up, the reproducibility report, the release | open | |
 | 20 | E | The external check on `tha` and `vnm` — optional, first to be cut | open | |
+| 21 | C, on branch `greedy` | The counterfactual: iterate batch 9's promotion rule to a fixpoint on a branch, and measure what stopping once cost | open | |
 
 ---
 
@@ -690,6 +699,48 @@ what was below it. See [[reproAgenticAiManuscript]], *Trade-offs*.
 and report what happens. It is a real external check and costs little once everything works.
 It is optional because the project is complete without it.
 
+### The counterfactual — the greedy branch (batch 21)
+
+**Batch 21 in the ledger. It runs on a git branch named `greedy` and is never merged.**
+
+Batch 9 applied its promotion rule once and stopped, on the grounds that iterating it is
+greedy coordinate descent on development CRPS — the failure this phase warns about — and
+that one held-out year cannot diagnose it. The cost of stopping was stated rather than
+hidden: two children sit outside the 0.57 CRPS floor from the promoted path. This batch
+pays that cost out on a branch, so that what stopping bought and what it cost are both
+measured instead of one being argued.
+
+**What must be true when it is finished.**
+
+- The branch `greedy` exists, branched from the main line at the commit that closed batch 9,
+  and **nothing from it is merged into `main`**. The reported analysis is the one on `main`.
+- The iteration rule was **written and committed before the first round it decided was run**,
+  as batch 9's was, and it is batch 9's rule with the single-application clause removed.
+- Every round is a full sweep of every non-main child around the branch's current main path,
+  a promotion, and a scored run of the promoted combination — through the tree's own scripts,
+  under the same `COMBO`/`COMBO_BASE` mechanism, with the reference inherited and never
+  re-run.
+- The iteration ran to a **fixpoint** — a round in which no fork's best child clears the
+  floor — or to a stated round cap, and which of the two it was is recorded.
+- The branch's `analysis/run.sh` reproduces the greedy model, and its `conclusion.json` is
+  computed by the same script as the main line's.
+- The report says what the fixpoint scores, **how many rounds of selection produced it**, and
+  what that implies for the holdout: a model chosen by *k* rounds of coordinate descent on
+  development CRPS has had more opportunity to fit the development period than one chosen by
+  a single application of the same rule, and the difference between the two is the size of
+  the effect phase E is set up to detect.
+
+**Constraints.**
+
+- **The holdout is not opened on this branch.** It is not opened on any branch. The
+  counterfactual is about how far development CRPS can be driven, not about what that costs
+  out of sample — that question belongs to phase E and to the manifest, and answering it here
+  would spend the one opening the project has.
+- The greedy path's numbers are **not reported results of this project**. They are evidence
+  about the method, and they enter the manuscript, if at all, as such.
+- *(human-set, 2026-08-27: "note that it could be interesting to see where this would have
+  taken us".)*
+
 ---
 
 ## 9. Budget
@@ -710,6 +761,7 @@ and the binding constraint is the work of building models, not of running them.
 | D — stability | 4 (12–15) | Cut *within* the phase if the budget binds — the manifest's tier 2 goes first — and record the cut. |
 | E — closing | 4 (16–19) | Not compressible. A project that ran out of budget before the closing phase has produced nothing this plan wanted. |
 | Optional | 1 (20) | The external check on `tha` and `vnm`. First thing cut. |
+| Counterfactual | 1 (21) | The greedy branch. Off the main path, on branch `greedy`; it produces no reported result and does not extend phase C. |
 
 **If the budget binds, protect phase E before phase C.** A well-recorded mediocre model is
 worth more here than an excellent undocumented one — the manuscript is about the record.
@@ -766,3 +818,7 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 9 — candidate 1's forks, swept and promoted
 
 - [[26-08-27_b09_candidateForks]]
+
+### Batch 21 — the greedy branch
+
+- On branch `greedy` only.

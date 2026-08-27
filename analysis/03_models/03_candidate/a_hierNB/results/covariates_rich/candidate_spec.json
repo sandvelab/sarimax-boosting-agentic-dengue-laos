@@ -17,21 +17,21 @@
   "autoregressive": "analysis/03_models/03_candidate/a_hierNB/05_autoregressive/a_none",
   "covariates": "analysis/03_models/03_candidate/a_hierNB/02_covariates/b_rich",
   "fit_time": "analysis/03_models/03_candidate/a_hierNB/04_fitTime/a_trainOnly",
-  "observation": "analysis/03_models/03_candidate/a_hierNB/01_observation/a_negBinomial",
+  "observation": "analysis/03_models/03_candidate/a_hierNB/01_observation/c_hurdle",
   "population": "analysis/03_models/03_candidate/a_hierNB/03_population/a_offset",
-  "year_variance": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/a_shared"
+  "year_variance": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/b_provinceScaled"
  },
  "choices": {
   "autoregressive": "a_none",
   "covariates": "b_rich",
   "fit_time": "a_trainOnly",
-  "observation": "a_negBinomial",
+  "observation": "c_hurdle",
   "population": "a_offset",
-  "year_variance": "a_shared"
+  "year_variance": "b_provinceScaled"
  },
  "combo": "covariates_rich",
  "configuration": "model_configuration.yaml",
- "configuration_sha256": "9900753e6da4fca827aff3f0b2cbfd83fc9208eb5bb04cc6564265c01355d3d8",
+ "configuration_sha256": "fc07a5fcd82822f6dd9d4677bb8e025e51023c30bc2cba9c475607f165e5cf46",
  "node": "analysis/03_models/03_candidate/a_hierNB",
  "route": "chap eval --model-configuration-yaml -> ModelConfiguration -> model_configuration_for_run.yaml -> {model_config} in the MLproject entry points",
  "seed_derivation": {
@@ -43,23 +43,24 @@
  "stages": [
   {
    "additional_continuous_covariates": [],
-   "choice": "a_negBinomial",
+   "choice": "c_hurdle",
    "chosen_under_combo": "main",
    "combo": "main",
-   "description": "one negative binomial per cell, dispersion shared across provinces",
+   "description": "a logistic model for reporting at all and a count model for how much",
    "input_from_combo": "main",
-   "node": "analysis/03_models/03_candidate/a_hierNB/01_observation/a_negBinomial",
+   "node": "analysis/03_models/03_candidate/a_hierNB/01_observation/c_hurdle",
    "order": 1,
    "premise": {
-    "mean": 32.32522031053294,
+    "largest_month": 2643,
+    "mean_over_all_months": 32.32522031053294,
+    "mean_over_reporting_months": 73.92610364683301,
+    "median_over_reporting_months": 16.5,
     "observed_cells": 2383,
-    "variance": 14033.432810352366,
-    "variance_to_mean_ratio_pooled": 434.1326269562863,
     "zero_share": 0.5627360469995804
    },
    "stage": "observation",
    "user_option_values": {
-    "observation": "negative_binomial"
+    "observation": "hurdle"
    }
   },
   {
@@ -182,12 +183,12 @@
   },
   {
    "additional_continuous_covariates": [],
-   "choice": "a_shared",
+   "choice": "b_provinceScaled",
    "chosen_under_combo": "main",
    "combo": "main",
-   "description": "one province-year variance for every province, pooled",
+   "description": "one province-year variance per province, from that province's own years",
    "input_from_combo": "main",
-   "node": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/a_shared",
+   "node": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/b_provinceScaled",
    "order": 6,
    "premise": {
     "by_province": {
@@ -218,7 +219,7 @@
    },
    "stage": "year_variance",
    "user_option_values": {
-    "year_variance": "shared"
+    "year_variance": "province_scaled"
    }
   }
  ],
@@ -235,9 +236,9 @@
    "mean_relative_humidity"
   ],
   "fit_time": "train",
-  "observation": "negative_binomial",
+  "observation": "hurdle",
   "population": "offset",
   "seed": 849487747,
-  "year_variance": "shared"
+  "year_variance": "province_scaled"
  }
 }

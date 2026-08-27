@@ -43,3 +43,30 @@ cannot be attributed.
 
 agency: agent-autonomous. Batch 5 placed the fork; which child is the main path at its
 defaults is this batch's.
+
+---
+
+## Batch 9 addendum — the fork sweep, 2026-08-27
+
+```
+commit:              15b8516   (round 2, and the promoted main path)
+                     49825b5   (round 1, which round 2 replaced in the tree; its table
+                                is kept at AI-generated/candidate-forks/round1_batch8Defaults/)
+instructions-commit: cf97b81
+produced:            2026-08-27
+```
+
+This fork did not move in batch 9: its best sibling stayed inside the 0.57 CRPS floor, so
+this child is still the main path. `results/main/model_option_spec.json` was regenerated
+anyway, because every combination re-runs the whole candidate and because the
+specification gained an `input_from_combo` field -- which records, for a combination that
+inherits the common ground it did not move, where that ground came from. On `main` it
+reads `main`, because `analysis/run.sh` sets no base and can inherit nothing.
+
+The siblings built and run in batch 9 are named in their own records. Their scores from
+the promoted main path: `b_covariate` −0.178 and `c_ignored` −0.025
+(`AI-generated/candidate-forks/round2_promoted/fork_interaction.csv`).
+
+script sha256: 7c509e917ddb0535ad68ee30bbcab7ed20db9b89053137329adb03ed00b16bec
+
+agency: agent-autonomous.

@@ -101,3 +101,116 @@ agency: agent-autonomous. The candidate family is batch 4's shortlist and batch 
 (`human-set` at the level of "several candidates from the shortlist"); every choice inside
 the model — the two harmonics, the Laplace approximation, the province-year prior draw, the
 EM update — is this batch's, and each is stated in scripts/hier_nb_model/README.md.
+
+---
+
+## Batch 9 addendum — the fork sweep, 2026-08-27
+
+```
+commit:              15b8516   (round 2, and the promoted main path)
+                     49825b5   (round 1, which round 2 replaced in the tree; its table
+                                is kept at AI-generated/candidate-forks/round1_batch8Defaults/)
+instructions-commit: cf97b81
+produced:            2026-08-27
+```
+
+```
+result:              results/main/eval.nc · eval.log · model_spec.json · run_cost.json
+                     results/main/fitted_model.json
+                     autoregressive_lag3/eval.nc
+                     autoregressive_lag3/eval.log
+                     autoregressive_lag3/model_spec.json
+                     autoregressive_lag3/run_cost.json
+                     autoregressive_lag3/fitted_model.json
+                     covariates_lagged/eval.nc
+                     covariates_lagged/eval.log
+                     covariates_lagged/model_spec.json
+                     covariates_lagged/run_cost.json
+                     covariates_lagged/fitted_model.json
+                     covariates_rich/eval.nc
+                     covariates_rich/eval.log
+                     covariates_rich/model_spec.json
+                     covariates_rich/run_cost.json
+                     covariates_rich/fitted_model.json
+                     fitTime_refitAtPredict/eval.nc
+                     fitTime_refitAtPredict/eval.log
+                     fitTime_refitAtPredict/model_spec.json
+                     fitTime_refitAtPredict/run_cost.json
+                     fitTime_refitAtPredict/fitted_model.json
+                     observation_negBinomial/eval.nc
+                     observation_negBinomial/eval.log
+                     observation_negBinomial/model_spec.json
+                     observation_negBinomial/run_cost.json
+                     observation_negBinomial/fitted_model.json
+                     observation_zeroInflated/eval.nc
+                     observation_zeroInflated/eval.log
+                     observation_zeroInflated/model_spec.json
+                     observation_zeroInflated/run_cost.json
+                     observation_zeroInflated/fitted_model.json
+                     population_covariate/eval.nc
+                     population_covariate/eval.log
+                     population_covariate/model_spec.json
+                     population_covariate/run_cost.json
+                     population_covariate/fitted_model.json
+                     population_ignored/eval.nc
+                     population_ignored/eval.log
+                     population_ignored/model_spec.json
+                     population_ignored/run_cost.json
+                     population_ignored/fitted_model.json
+                     yearVariance_shared/eval.nc
+                     yearVariance_shared/eval.log
+                     yearVariance_shared/model_spec.json
+                     yearVariance_shared/run_cost.json
+                     yearVariance_shared/fitted_model.json
+script:              scripts/run_hier_nb.py   (unchanged)
+                     scripts/hier_nb_model/hier_nb.py   sha256:5bdb59a5b3986d68dec84d66afd1e199a927acf4829f7807be4d759bcdea35be
+                     scripts/hier_nb_model/train.py     sha256:1f53ccdb593e62f044c4358e7555fc6b2ba5eb58258eda75853b710529276f0f
+                     scripts/hier_nb_model/predict.py   sha256:1cdb6ce0e971bbb3f3a86a4d60e3b52ab93eab300b316736cd1af007c6cd3135
+                     scripts/hier_nb_model/MLproject    sha256:38964b3208a2662a13ff832357310794aa5ac778d4cf7d75080447e389ccdde3
+                     (full digests per combination in each results/<combo>/model_spec.json)
+```
+
+**What the model gained.** Code for all six options: a zero-inflation EM step, a two-part
+hurdle whose presence block is a penalised logistic fit on the same design, covariates at
+several lags, a lagged-count column, a refit inside `predict`, and a province-year variance
+estimated per province. `fit_model` and `draw` are new, and they are what let `train` and
+`predict` share one fit rather than two implementations of it -- which is what
+`b_refitAtPredict` needs to exist at all.
+
+**The rewrite changed nothing on the main path.** Re-running the batch-8 configuration
+after it reproduced `04_score/01_collect/results/main/metrics_cell.csv` byte for byte,
+which is a stronger check than the tests that would have been written instead.
+
+**What the promoted main path scores.** Mean CRPS **23.698** over the same 371 cells,
+against 24.337 for climatology, 24.879 for persistence and 22.098 for the reference. It is
+the first model of ours to beat both required baselines. Mean absolute error **27.569**,
+the best in the project; 10–90 coverage **0.701** against a nominal 0.80, so it is still
+under-dispersed. 36 seconds for the eight-split backtest.
+
+**Every combination was scored on the same data.** `dataset_sha256` is
+`c9bf8b0849c7…` in all ten `model_spec.json` files, which is what makes the comparison
+paired and is checked rather than assumed.
+
+**The fit does not converge under `year_variance: province_scaled`.** Every combination
+carrying that child runs to the 200-round cap; `yearVariance_shared` converges in 48. The
+convergence test is a maximum over the relative movement of all seventeen variances, and
+the smallest of them keep it above tolerance long after the parameters have stopped moving:
+`sigma_province` is 1.265204 at round 197 and 1.265199 at round 200, and the log-likelihood
+moves in its sixth significant figure. The tolerance was **not** relaxed -- a criterion
+adjusted after seeing a run is a criterion adjusted to pass.
+
+**Rule 6, verified rather than asserted.** Two independent runs of every model of ours
+under scratch combinations produced identical per-cell scores and identical fitted objects,
+the promoted hurdle candidate included
+(`AI-generated/determinism-checks/model_determinism.json`, status `identical`).
+
+alternatives-considered: a zero-truncated negative binomial for the hurdle's positive part
+instead of the shifted one; rejected for the cost of a score function this module does not
+have, and recorded because it is the obvious next version. Fitting the presence block with
+the population offset rather than an estimated log-population coefficient; rejected because
+an offset is a statement on the log-mean scale and has no meaning on the logit scale.
+Raising the outer-round cap above 200 so the province-scaled fits converge; not taken,
+because the parameters are already stable to six figures and the cap is the honest record
+of where the procedure stopped.
+
+agency: agent-autonomous.

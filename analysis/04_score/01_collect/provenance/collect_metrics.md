@@ -67,3 +67,59 @@ agency: agent-autonomous. That the metric is always chap-core's is §4b's decisi
 2; the discovery mechanism and the treatment of the reference's repeats are this batch's,
 implementing batch 5's design.
 information: agent-retrieved — chap-core's metric API surface was established in batch 2.
+
+---
+
+## Batch 9 addendum — the fork sweep, 2026-08-27
+
+```
+commit:              15b8516   (round 2, and the promoted main path)
+                     49825b5   (round 1, which round 2 replaced in the tree; its table
+                                is kept at AI-generated/candidate-forks/round1_batch8Defaults/)
+instructions-commit: cf97b81
+produced:            2026-08-27
+```
+
+```
+result:              results/main/metrics_cell.csv · models.csv
+                     autoregressive_lag3/metrics_cell.csv
+                     autoregressive_lag3/models.csv
+                     covariates_lagged/metrics_cell.csv
+                     covariates_lagged/models.csv
+                     covariates_rich/metrics_cell.csv
+                     covariates_rich/models.csv
+                     fitTime_refitAtPredict/metrics_cell.csv
+                     fitTime_refitAtPredict/models.csv
+                     observation_negBinomial/metrics_cell.csv
+                     observation_negBinomial/models.csv
+                     observation_zeroInflated/metrics_cell.csv
+                     observation_zeroInflated/models.csv
+                     population_covariate/metrics_cell.csv
+                     population_covariate/models.csv
+                     population_ignored/metrics_cell.csv
+                     population_ignored/models.csv
+                     yearVariance_shared/metrics_cell.csv
+                     yearVariance_shared/models.csv
+script:              scripts/collect_metrics.py
+                     sha256:6b70fd8074a9b326efdfc2cb88d1fb50c180843a7b5906c01340395b715f7ff6
+```
+
+**Models may now be inherited, and every row says whether it was.** When `COMBO_BASE` is
+set, a model node with no results under this combination is taken from the base
+combination, and `models.csv` carries a `scored_under_combo` column. That is what makes a
+candidate-internal fork cheap: it changed nothing the reference or the baselines face, and
+the reference is unseeded, so re-running it would replace its four repeats with a different
+draw and move the denominator of every comparison for reasons unrelated to the fork. On
+`main` nothing is inherited, because `analysis/run.sh` sets no base.
+
+In every one of the nine sweep combinations, `hier_nb` was scored under the combination and
+the reference, persistence and climatology under `main`.
+
+alternatives-considered: re-running the reference in each combination, which is what the
+phase-D manifest does for a fork that moves the data or the evaluation; not done here,
+because a candidate-internal fork moves neither, and batch 4 measured the reference's
+re-run spread at sd 0.196 CRPS -- comparable to several of the fork effects being measured.
+Merging a combination's own models with the base's for the same node; refused in
+`combos.resolve_glob`, because a merged answer would describe an analysis that never ran.
+
+agency: agent-autonomous.

@@ -45,3 +45,8 @@ re-running a batch produces a different report rather than the same one.
   project seed's derivation into component seeds, and candidate 1 — a hierarchical
   negative-binomial GLM with the best point forecast in the project and the worst CRPS.
 
+- `26-08-27_b09_candidateForks.md` — batch 9, phase C: every remaining child of candidate 1's
+  forks built and run, two new forks for the structural choices batch 8 declined to make
+  silently, three forks promoted by a rule committed before the combination it chose was run,
+  and the finding that one-at-a-time fork effects do not add — three forks worth 4.632 CRPS
+  separately delivered 2.402 together, and two of nine children reversed sign.

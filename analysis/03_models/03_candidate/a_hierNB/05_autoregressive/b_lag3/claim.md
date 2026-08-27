@@ -15,3 +15,7 @@ inherits: the project main environment (`environment/`)
 
 _(What this node's analysis yielded. Each answer belongs in the claim collection
 under `Human-AI-collaboration/claims/` with a pointer to the result grounding it.)_
+
+**23.345** mean CRPS, 0.353 better than the main path and inside the 0.57 floor; around
+     the batch-8 configuration the same child was 0.075 *worse*. The term batch 8 declined to
+     add silently turns out not to matter, and now has a number saying so.

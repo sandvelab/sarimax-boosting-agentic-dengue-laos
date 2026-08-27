@@ -1,15 +1,10 @@
-additional_continuous_covariates:
-- rainfall
-- mean_temperature
+additional_continuous_covariates: []
 user_option_values:
   autoregressive: none
-  covariate_lags:
-  - 2
-  covariates:
-  - rainfall
-  - mean_temperature
+  covariate_lags: []
+  covariates: []
   fit_time: train
-  observation: negative_binomial
+  observation: hurdle
   population: offset
   seed: 849487747
-  year_variance: shared
+  year_variance: province_scaled

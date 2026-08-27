@@ -39,3 +39,41 @@ not a fork.
 
 agency: agent-autonomous. The plan requires a candidate from batch 4's shortlist and batch 5
 placed the fork; which child is the main path at its defaults is this batch's.
+
+---
+
+## Batch 9 addendum — the fork sweep, 2026-08-27
+
+```
+commit:              15b8516   (round 2, and the promoted main path)
+                     49825b5   (round 1, which round 2 replaced in the tree; its table
+                                is kept at AI-generated/candidate-forks/round1_batch8Defaults/)
+instructions-commit: cf97b81
+produced:            2026-08-27
+```
+
+```
+result:              results/observation_negBinomial/model_option_spec.json
+script:              scripts/choose_observation.py
+                     sha256:273d690e24446702f63d2bda4457c2bbfccf1344cf6b08c9b35a712c455071fc
+invocation:          "$PYTHON" scripts/choose_observation.py
+                     driven by AI-internal/useful-scripts/candidate_fork_sweep.py with
+                     COMBO=observation_negBinomial and COMBO_BASE=main
+```
+
+It was the main path until this batch and is now a sibling. `results/main/` was
+     removed with the promotion, because a fork with two children holding results under
+     one combination is a configuration the assembler refuses -- deliberately -- and
+     because those results described a main path that no longer exists. The same step,
+     re-run under the combination that names what it now is, produced
+     `results/observation_negBinomial/model_option_spec.json`; the premise it computes is
+     unchanged, because the dataset is. Scored from the promoted main path, reverting to
+     it costs **0.601** CRPS.
+
+alternatives-considered: leaving the demoted results under `results/main/` and letting the
+assembler pick between two children; refused, because it would make which model ran depend
+on a glob's ordering. Renaming the directory rather than re-running the step; refused,
+because the file records the combination it was produced under and the name would then
+contradict its contents.
+
+agency: agent-autonomous.

@@ -4,18 +4,13 @@
  "model": "hier_nb_candidate",
  "options": {
   "autoregressive": "none",
-  "covariate_lags": [
-   2
-  ],
-  "covariates": [
-   "rainfall",
-   "mean_temperature"
-  ],
+  "covariate_lags": [],
+  "covariates": [],
   "fit_time": "predict",
-  "observation": "negative_binomial",
+  "observation": "hurdle",
   "population": "offset",
   "seed": 849487747,
-  "year_variance": "shared"
+  "year_variance": "province_scaled"
  },
  "training": {
   "first_period": "1998-01",

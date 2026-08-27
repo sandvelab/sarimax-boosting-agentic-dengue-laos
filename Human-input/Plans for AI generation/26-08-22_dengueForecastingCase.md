@@ -279,6 +279,19 @@ before any of this.
 | **The backtest's resolution is a property of the pair being compared, not of the dataset alone** | Batch 7 measured ~4 CRPS using the two baselines. The candidate's paired difference against the reference has a clustered standard error of 1.11, less than half of persistence's 2.99, because the two models are structurally alike and fail on the same cells. A candidate built to be unlike the reference is harder to distinguish from it, not easier — which bears on how phase C's remaining candidates are chosen. | agent-autonomous |
 | Phase C's 0.4 CRPS stopping rule is **applied as written and not adjusted**: it governs whether a further *candidate* batch is added | Batch 8 moved the best of our models by zero. Batch 9 is candidate 1's internal forks rather than a further candidate, so it proceeds; batch 10's admissibility depends on what batch 9 moves. Whether "the leaderboard's best" was meant as the best of ours or the best candidate is put to the human in the batch-8 report rather than settled here. | agent-autonomous |
 
+### 2026-08-27 — settled by batch 9, from the fork sweep
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **One-at-a-time fork effects do not add, and two of nine reverse sign** | Measured. Three forks worth 2.115, 1.870 and 0.648 CRPS when each was taken alone from the batch-8 configuration delivered **2.402** together, not 4.632; re-measured from the promoted configuration, the hurdle is worth 0.601 rather than 2.115, the per-province annual variance 0.051 rather than 1.870, and dropping the climate covariates changes sign. This is the most important thing batch 9 found and it bears directly on phase D: **tier 1 of the manifest measures a quantity that does not compose**, so the distribution of conclusions it produces describes each fork's effect from one place in the space and not in general. Tier 2's pairs were designed to catch exactly this, and they now have evidence behind them rather than a precaution. | agent-autonomous |
+| The promotion rule — **a fork moves only if its best child beats the main path by more than the 0.57 CRPS floor**, takes that fork's best child, and the promoted combination is then run; backed off if it is worse than the best single fork by more than the floor | Fixed after the sweep's numbers existed and **committed before the promoted combination was run**, so it cannot have been fitted to what it decided. The threshold is batch 7's measured floor rather than a position in the ranking, which is what keeps it from being a rule fitted to the sweep. | agent-autonomous |
+| The rule is **applied once**, not iterated to a fixpoint | The second sweep, taken around the promoted path, has two children outside the floor — `b_refitAtPredict` at 0.873 and `b_rich` at 0.821 — so applying the rule again would move two more forks, and again after that. Iterating is greedy coordinate descent on development CRPS, which is precisely the failure §8's phase C warns about and which one held-out year cannot diagnose. Stopping after one application is a decision with a cost, and the cost is stated: roughly 0.9 CRPS left on the table. Whether phase C should iterate is put to the human rather than settled here. | agent-autonomous |
+| **The width defect and the autoregressive term became forks, not model changes** | Batch 8 proposed both. A structural change made inside the model would have been the silent judgment call this project exists to make visible; as forks, each has a claim, a premise computed before it ran, a score, and a sibling that stays in the tree. That the autoregressive term turned out to be worth nothing is a finding the fork produced and a quiet change would have buried. | agent-autonomous |
+| A combination **inherits what it did not move**, through `COMBO_BASE`, and every inheritance is recorded in the file that reports it | Batch 5's design named the reuse and left it to batch 12's manifest column. A candidate-internal fork changes nothing the reference or the baselines face, and the reference is unseeded — re-running it would replace its four repeats with a different draw and move the denominator of every comparison for reasons unrelated to the fork. `analysis/run.sh` sets no base, so the reported analysis inherits nothing. | agent-autonomous |
+| The fork sweep is a **phase-C selection aid** and stops at `04_score/02_aggregate` | A `conclusion.json` per sibling is the phase-D deliverable. Producing nine of them in batch 9 would report the stability answer before the manifest that makes it honest has been frozen, which is the freeze discipline §3 exists to protect. The driver therefore lives in `AI-internal/` and writes every number into the tree through the tree's own scripts, keeping only the cross-combination table outside it. | agent-autonomous |
+| The convergence tolerance was **not relaxed**, although the promoted fit runs to its 200-round cap | A criterion adjusted after seeing a run is a criterion adjusted to pass. The parameters are stable to six figures long before the cap; the flag says `converged: false`, and the record says why. | agent-autonomous |
+| Phase C's 0.4 CRPS stopping rule **does not stop the phase**: batch 9 moved the best of our models by **2.402** CRPS | Applied as written. Batch 10 is admissible on the evidence the rule asks for. The ambiguity batch 8 raised — whether "the leaderboard's best" means the best of ours or the best model on the board — is still open and still the human's. | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -333,7 +346,7 @@ at the end of every batch, and append newly created batches to it.
 | 6 | B | Vertical slice: one trivial model, end to end, first CRPS number | done — produced | [[26-08-26_b06_verticalSlice]] |
 | 7 | B | Erect the claim tree, route the vertical slice through it, add the reference | done — produced | [[26-08-26_b07_erectTheTree]] |
 | 8 | C | The candidate contract, and candidate 1 (hierarchical NB GLM) at its defaults | done — produced | [[26-08-27_b08_candidateContract]] |
-| 9 | C | Candidate 1's internal forks, plus a proposed fifth on an autoregressive term, and the width defect batch 8 diagnosed; promote the main path | open | |
+| 9 | C | Candidate 1's internal forks, plus a proposed fifth on an autoregressive term, and the width defect batch 8 diagnosed; promote the main path | done — produced | [[26-08-27_b09_candidateForks]] |
 | 10 | C | Candidate 2: gradient-boosted trees with a probabilistic head | open | |
 | 11 | C | Candidate 3: the ensemble; close phase C | open | |
 | 12 | D | `/perturb plan`: the stability node, the driver, the frozen development manifest | open | |
@@ -749,3 +762,7 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 8 — the candidate contract, and candidate 1
 
 - [[26-08-27_b08_candidateContract]]
+
+### Batch 9 — candidate 1's forks, swept and promoted
+
+- [[26-08-27_b09_candidateForks]]

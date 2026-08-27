@@ -1,0 +1,13 @@
+fork,child,on_the_main_path_now,effect_around_earlier_base,effect_around_later_base,sign_reversed
+analysis/03_models/03_candidate/a_hierNB/01_observation,a_negBinomial,False,,-0.6007932857142819,False
+analysis/03_models/03_candidate/a_hierNB/01_observation,b_zeroInflated,False,0.34061262264150827,-0.4315179784366556,True
+analysis/03_models/03_candidate/a_hierNB/01_observation,c_hurdle,True,2.114781552560647,,False
+analysis/03_models/03_candidate/a_hierNB/02_covariates,a_lagged,False,,0.11176352291105474,False
+analysis/03_models/03_candidate/a_hierNB/02_covariates,b_rich,False,0.46131618598382573,0.8211777870619947,False
+analysis/03_models/03_candidate/a_hierNB/02_covariates,c_climateFree,True,0.6477101132075447,,False
+analysis/03_models/03_candidate/a_hierNB/03_population,b_covariate,False,-0.21604594070080907,-0.17796234501347286,False
+analysis/03_models/03_candidate/a_hierNB/03_population,c_ignored,False,-0.04954498382749861,-0.02490650404311978,False
+analysis/03_models/03_candidate/a_hierNB/04_fitTime,b_refitAtPredict,False,0.40767270619946316,0.8733181832884078,False
+analysis/03_models/03_candidate/a_hierNB/05_autoregressive,b_lag3,False,-0.07493577897574255,0.3530604878706214,True
+analysis/03_models/03_candidate/a_hierNB/06_yearVariance,a_shared,False,,-0.05096901617250538,False
+analysis/03_models/03_candidate/a_hierNB/06_yearVariance,b_provinceScaled,True,1.8697295660377335,,False

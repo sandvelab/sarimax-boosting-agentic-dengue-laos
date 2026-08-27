@@ -15,3 +15,8 @@ inherits: the project main environment (`environment/`)
 
 _(What this node's analysis yielded. Each answer belongs in the claim collection
 under `Human-AI-collaboration/claims/` with a pointer to the result grounding it.)_
+
+**23.723** mean CRPS, 0.025 from the main path -- two orders of magnitude inside the
+     resolvable floor. Dropping the population column changes nothing this backtest can
+     measure, because the column is constant within a province and the pooled intercept
+     absorbs it exactly: the province spread widens to sigma **1.87** from 1.27.

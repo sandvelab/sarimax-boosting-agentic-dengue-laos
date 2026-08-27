@@ -78,3 +78,41 @@ in NetCDF and all of it regenerable in 43 seconds a piece. Nothing here binds, a
 did the rule is the same as for the baselines: keep `metrics_cell.csv`, keep every
 specification and every fitted object, drop the evaluations for our own models and never for
 the reference.
+
+---
+
+## Batch 9 — the candidate's forks, swept (2026-08-27)
+
+Appended rather than folded into the tables above, because what an earlier batch judged is
+part of the record.
+
+**Nine combinations arrived at once, and the storage question stopped being hypothetical.**
+`a_hierNB/results/` now holds ten combinations at about 10 MB each, **102 MB**, of which
+98 MB is NetCDF that rebuilds in 30–40 seconds a piece. That is the whole of the growth: the
+per-cell scores for all ten combinations are 2.4 MB together and every specification, fitted
+object and cost file for all ten fits inside a further megabyte.
+
+| Artifact | Size, all combinations | Role | Regenerable | Transparency | Note |
+|---|---|---|---|---|---|
+| `a_hierNB/results/*/eval.nc` | 98 MB | main result | **yes, 30–40 s each, identically** | medium | Ten copies of the same trade the batch-7 table describes once. **This is where a prune would take almost all of its return**, and taking it costs six minutes of recomputation for the whole set. |
+| `a_hierNB/results/*/fitted_model.json` | 300 KB | **main result** | yes | **highest** | Now carries a per-province annual variance and, for the hurdle, a second fitted block. The only place the seventeen variances and the presence model's coefficients exist. Keep all ten: they are what a reader compares when asking why one fork moved the score and another did not. |
+| `a_hierNB/results/*/candidate_spec.json` | 40 KB | **main result** | yes | **highest** | Gained `choice_combos`, which says for each fork whether this combination took the choice itself or inherited it. **A combination is unreadable without it** — the configuration alone does not say which fork was moved. |
+| `04_score/01_collect/results/*/metrics_cell.csv` | 2.4 MB | **main result** | yes, ~20 s each | **highest** | Everything reported comes from these. Two orders of magnitude smaller than the evaluations they are computed from, and the file to keep if only one may be kept. |
+| `04_score/02_aggregate/a_unweighted/results/*/*.csv` | 840 KB | main result | yes, seconds | high | Five resolutions per combination. `metrics_summary.csv` is what the fork leaderboard is copied from. |
+| `AI-generated/candidate-forks/*/fork_leaderboard.csv` | 3 KB | **main result** | **no, for round 1** | **highest** | Round 1's table is the record the promotion was decided from, and the tree no longer holds the per-combination results behind it — round 2 replaced them. It is regenerable only from commit `49825b5`. **Do not prune, and do not regenerate.** |
+| `AI-generated/candidate-forks/*/sweep_*.log` | 60 KB | side result | yes | medium | The driver's own transcript per combination, carrying each step's command line. |
+
+**Two things changed shape rather than size.** The fitted object for a
+`fit_time = predict` combination carries no fitted parameters at all — the fit happens once
+per split inside chap-core's untracked run directories — so
+`fitTime_refitAtPredict/fitted_model.json` is a stub, and that gap is stated in its
+provenance record rather than left to be discovered. And every combination carrying
+`year_variance = province_scaled` stores a 200-round EM history rather than a 20-round one,
+which is 20 KB of the 30 KB those files now weigh.
+
+**What this implies for batch 12.** Batch 5 estimated a few hundred megabytes for the whole
+manifest and the estimate holds: ten combinations of one model cost 102 MB, and the manifest's
+twenty-eight will cost roughly three times that once the baselines and the reference are
+re-scored under the setup forks. Nothing binds. If it ever does, the rule is unchanged —
+keep `metrics_cell.csv`, keep every specification and fitted object, drop our own models'
+evaluations, never the reference's.

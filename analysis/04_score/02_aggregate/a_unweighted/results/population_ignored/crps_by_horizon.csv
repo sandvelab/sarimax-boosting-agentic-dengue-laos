@@ -2,9 +2,9 @@ model,weighting,horizon_distance,n_cells,mean_crps
 climatology,unweighted,1,124,22.307350129032258
 climatology,unweighted,2,123,23.731123772357726
 climatology,unweighted,3,124,26.96736664516129
-hier_nb,unweighted,1,124,22.81298026612903
-hier_nb,unweighted,2,123,25.753979308943087
-hier_nb,unweighted,3,124,29.878892588709682
+hier_nb,unweighted,1,124,20.383909193548384
+hier_nb,unweighted,2,123,23.23003731707317
+hier_nb,unweighted,3,124,27.550577338709676
 persistence,unweighted,1,124,16.426420161290324
 persistence,unweighted,2,123,24.763161593495933
 persistence,unweighted,3,124,33.44749620161291

@@ -20,13 +20,13 @@
     "mean_relative_humidity"
    ],
    "fit_time": "train",
-   "observation": "negative_binomial",
+   "observation": "hurdle",
    "population": "offset",
    "seed": 849487747,
-   "year_variance": "shared"
+   "year_variance": "province_scaled"
   }
  },
- "configuration_sha256": "9900753e6da4fca827aff3f0b2cbfd83fc9208eb5bb04cc6564265c01355d3d8",
+ "configuration_sha256": "fc07a5fcd82822f6dd9d4677bb8e025e51023c30bc2cba9c475607f165e5cf46",
  "dataset": "analysis/02_setup/results/main/analysis_dataset.csv",
  "dataset_sha256": "c9bf8b0849c768bfe6c65d54975dd08fa390204f8b59e76904170222a7a87d4c",
  "eval_flags": {

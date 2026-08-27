@@ -2,27 +2,19 @@
  "combo": "population_ignored",
  "configuration": "analysis/03_models/03_candidate/a_hierNB/results/population_ignored/model_configuration.yaml",
  "configuration_contents": {
-  "additional_continuous_covariates": [
-   "rainfall",
-   "mean_temperature"
-  ],
+  "additional_continuous_covariates": [],
   "user_option_values": {
    "autoregressive": "none",
-   "covariate_lags": [
-    2
-   ],
-   "covariates": [
-    "rainfall",
-    "mean_temperature"
-   ],
+   "covariate_lags": [],
+   "covariates": [],
    "fit_time": "train",
-   "observation": "negative_binomial",
+   "observation": "hurdle",
    "population": "ignored",
    "seed": 849487747,
-   "year_variance": "shared"
+   "year_variance": "province_scaled"
   }
  },
- "configuration_sha256": "edec35683b5db18a8905394a06408e7335314c45751bbc1718007651494474eb",
+ "configuration_sha256": "4a4443476abd3c34c4e9ec74013df7bb52ac833a116df01f6991f11acb4829c1",
  "dataset": "analysis/02_setup/results/main/analysis_dataset.csv",
  "dataset_sha256": "c9bf8b0849c768bfe6c65d54975dd08fa390204f8b59e76904170222a7a87d4c",
  "eval_flags": {

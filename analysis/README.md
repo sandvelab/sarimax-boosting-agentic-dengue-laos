@@ -32,6 +32,14 @@ Where a fork's output feeds the next stage, the next stage finds it by **searchi
 one child of that fork with results under this combination**, never by naming a child. That
 is what lets an alternative be swapped in without a single downstream script changing.
 
+A second variable, `COMBO_BASE`, says which combination this one may **inherit** from. A
+combination that moves one fork has nothing of its own at the other five, at `02_setup`, or
+at the models it did not re-run, and takes them from the base — per artefact, never per
+combination, and always recorded in the file that reports it (`input_from_combo`,
+`choice_combos`, `setup_from_combo`, `scored_under_combo`). `analysis/run.sh` sets no base,
+so **the reported analysis inherits nothing**: a missing input there is an error, not a
+substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
+
 ## Currently here
 
 - **`01_data`** (sub-analyses) — what the dataset contains, and on what part of it
@@ -56,13 +64,16 @@ is what lets an alternative be swapped in without a single downstream script cha
     as a container, run four times because it is unseeded.
   - **`03_candidate`** (alternatives) — our own model families, one child per family.
     `a_hierNB` is the main path and so far the only one built: a hierarchical
-    negative-binomial GLM, with four sub-analysis forks deciding what it is —
-    `01_observation`, `02_covariates`, `03_population`, `04_fitTime`. Each writes a
-    `model_option_spec.json`; the node's own `assemble_candidate_config.py` merges
-    whichever child of each ran into the one `model_configuration.yaml` that `chap eval`
-    is pointed at, and adds the component seed. `b_boosted` and `c_ensemble` are batches
-    10 and 11. **Every fork here moves only our model**, which is what distinguishes this
-    subtree from `02_setup`.
+    negative-binomial GLM, with **six** sub-analysis forks deciding what it is —
+    `01_observation`, `02_covariates`, `03_population`, `04_fitTime`, `05_autoregressive`
+    and `06_yearVariance`, the last two added in batch 9. Each writes a
+    `model_option_spec.json` carrying the choice and the premise it rests on; the node's own
+    `assemble_candidate_config.py` discovers the forks, merges whichever child of each ran
+    into the one `model_configuration.yaml` that `chap eval` is pointed at, and adds the
+    component seed. **Every child of every fork is built and has been run**; batch 9
+    promoted `c_hurdle`, `c_climateFree` and `b_provinceScaled` onto the main path.
+    `b_boosted` and `c_ensemble` are batches 10 and 11. **Every fork here moves only our
+    model**, which is what distinguishes this subtree from `02_setup`.
   - `scripts/lib/chap_eval.py` is the single route by which a model of ours reaches
     `chap eval`. It is a library, not a step.
 - **`04_score`** (sub-analyses) — `01_collect` (per-cell scores for every model that ran,

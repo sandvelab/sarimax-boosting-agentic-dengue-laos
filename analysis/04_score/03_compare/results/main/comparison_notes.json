@@ -16,16 +16,16 @@
   },
   "hier_nb": {
    "mean_crps_against": 22.098446493261452,
-   "mean_crps_model": 26.100136118598382,
-   "mean_diff": 4.001689625336927,
+   "mean_crps_model": 23.697926164420487,
+   "mean_diff": 1.59947967115903,
    "n_splits": 8,
-   "se_cell_naive": 0.9400938889828222,
-   "se_cluster_location": 1.6843114061678306,
-   "se_cluster_split": 1.1054930692220926,
-   "se_split_level": 1.1836451026165329,
-   "skill_score": -0.18108465798974493,
-   "splits_model_better": 1,
-   "win_rate_cells": 0.3665768194070081
+   "se_cell_naive": 0.9934356445402169,
+   "se_cluster_location": 1.6748160373978702,
+   "se_cluster_split": 1.551286701344703,
+   "se_split_level": 1.6311845582696154,
+   "skill_score": -0.07237973364538397,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.40700808625336926
   },
   "persistence": {
    "mean_crps_against": 22.098446493261452,

@@ -64,3 +64,65 @@ agency: agent-autonomous. The mechanism is chap-core's (`agent-retrieved`, read 
 chap_core/runners/helper_functions.py and confirmed against
 chap-models/ewars_plus_template's own MLproject); the assembler's shape follows batch 5's
 file contract, which is the human-approved design.
+
+---
+
+## Batch 9 addendum — the fork sweep, 2026-08-27
+
+```
+commit:              15b8516   (round 2, and the promoted main path)
+                     49825b5   (round 1, which round 2 replaced in the tree; its table
+                                is kept at AI-generated/candidate-forks/round1_batch8Defaults/)
+instructions-commit: cf97b81
+produced:            2026-08-27
+```
+
+```
+result:              results/main/model_configuration.yaml
+                     results/main/candidate_spec.json
+                     autoregressive_lag3/model_configuration.yaml
+                     autoregressive_lag3/candidate_spec.json
+                     covariates_lagged/model_configuration.yaml
+                     covariates_lagged/candidate_spec.json
+                     covariates_rich/model_configuration.yaml
+                     covariates_rich/candidate_spec.json
+                     fitTime_refitAtPredict/model_configuration.yaml
+                     fitTime_refitAtPredict/candidate_spec.json
+                     observation_negBinomial/model_configuration.yaml
+                     observation_negBinomial/candidate_spec.json
+                     observation_zeroInflated/model_configuration.yaml
+                     observation_zeroInflated/candidate_spec.json
+                     population_covariate/model_configuration.yaml
+                     population_covariate/candidate_spec.json
+                     population_ignored/model_configuration.yaml
+                     population_ignored/candidate_spec.json
+                     yearVariance_shared/model_configuration.yaml
+                     yearVariance_shared/candidate_spec.json
+script:              scripts/assemble_candidate_config.py
+                     sha256:d8937abc233899a222ca45643766eeb4c2eb1e9b6f38680a17cb6a9b6430bfd9
+```
+
+**Two changes to the assembler, both so that it stops having to be told things.** The fork
+list is now discovered from the node's own children rather than named, because batch 9
+added a fifth and a sixth fork and a script carrying the count would have had to be edited
+to notice them -- a script that can be wrong about what the model is while still running.
+And each fork's chosen child is resolved through `COMBO_BASE`: a combination that moves one
+fork has no child with results under it at the other five, and inherits their choices from
+the base. Which combination answered each fork is written into `candidate_spec.json` as
+`choice_combos`, so a configuration assembled partly from another combination's choices
+says so on its face.
+
+**The main path's configuration changed** with the promotion: `observation: hurdle`,
+`covariates: []`, `year_variance: province_scaled`, with `population: offset`,
+`fit_time: train` and `autoregressive: none` unchanged. The component seed is unchanged at
+**849487747**, derived as before from project seed 20260822 by
+`analysis/scripts/lib/project_seed.py` -- promoting a fork changes what the model is, not
+which component it is.
+
+alternatives-considered: deriving a fresh component seed for the promoted configuration, so
+that two configurations of one model never share a draw sequence; rejected, because the
+seed is a property of the node and re-deriving it on every promotion would mean a
+configuration change and a seed change arriving together, with no way to attribute a score
+difference to either.
+
+agency: agent-autonomous.

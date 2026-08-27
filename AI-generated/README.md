@@ -12,7 +12,8 @@ so it can also be deleted without loss — and should be, when its source goes a
 | `method-reconnaissance/` | `AI-internal/reconnaissance/` against the pinned reference model and the model library | re-run the scripts | recipe yes, numbers **no** |
 | `vertical-slice/` | `AI-internal/vertical-slice/` against the development file | — | superseded: the tree reproduces it |
 | `validation/` | `/validate cleanroom` and `/validate outsider` | re-run the check | recipe yes, findings **no** |
-| `determinism-checks/` | `AI-internal/useful-scripts/verify_model_determinism.sh` | re-run the script | yes, ~2 min |
+| `determinism-checks/` | `AI-internal/useful-scripts/verify_model_determinism.sh` | re-run the script | yes, ~3 min |
+| `candidate-forks/` | `AI-internal/useful-scripts/candidate_fork_sweep.py` against the tree | re-run the sweep | the later round yes; **round 1 no** |
 
 **`batch-reports/` is the exception and should not be pruned with the rest.** Each report is
 an account of what happened during one batch — what was established, what went wrong, what
@@ -27,7 +28,14 @@ meantime. If a derived document is wrong, its source is wrong.
 
 - `batch-reports/` — one report per executed batch. Batches 1 (orientation and set-up),
   2 (Chap reconnaissance), 3 (the data), 4 (methods), 5 (the bootstrap), 6 (the
-  vertical slice) and 7 (erecting the tree).
+  vertical slice), 7 (erecting the tree), 8 (the candidate contract and candidate 1) and
+  9 (candidate 1's forks, swept and promoted).
+- `candidate-forks/` — what every alternative to candidate 1's configuration scores on the
+  development data, and the rule by which three forks were promoted in batch 9. Every number
+  is copied from a file inside the tree. **Round 1's table is not regenerable** — the tree's
+  results behind it were replaced by round 2 — and it is the record the promotion was
+  decided from. This is a phase-C selection aid; the phase-D stability result is batch 12's
+  and lives in the tree.
 - `validation/` — what `/validate` found, one file per run. Batch 7's clean-room check is
   the first, and it reports its differences rather than announcing success.
 - `determinism-checks/` — Rule 6 verified by running each of our models twice and diffing.

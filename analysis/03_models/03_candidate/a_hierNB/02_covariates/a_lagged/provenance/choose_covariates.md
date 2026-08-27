@@ -47,3 +47,44 @@ when comparing forks, and because the reference's own Lao configuration bypasses
 agency: agent-on-human-assessment for the covariate pair and lag — the choice follows the
 reference model the human fixed as the comparison target, read from that model's published
 configuration (`agent-retrieved`). agent-autonomous for leaving humidity out at the defaults.
+
+---
+
+## Batch 9 addendum — the fork sweep, 2026-08-27
+
+```
+commit:              15b8516   (round 2, and the promoted main path)
+                     49825b5   (round 1, which round 2 replaced in the tree; its table
+                                is kept at AI-generated/candidate-forks/round1_batch8Defaults/)
+instructions-commit: cf97b81
+produced:            2026-08-27
+```
+
+```
+result:              results/covariates_lagged/model_option_spec.json
+script:              scripts/choose_covariates.py
+                     sha256:acff2e7d91cf9ed91791fc8d4842b0323b98e5a50c2a9bd9f9aab4e8dc12b656
+invocation:          "$PYTHON" scripts/choose_covariates.py
+                     driven by AI-internal/useful-scripts/candidate_fork_sweep.py with
+                     COMBO=covariates_lagged and COMBO_BASE=main
+```
+
+It was the main path until this batch and is now a sibling; `results/main/` was
+     removed with the promotion and the step re-run as
+     `results/covariates_lagged/model_option_spec.json`. The specification changed shape:
+     `covariate_lag_months: 2` became `covariate_lags: [2]`, because the sibling `b_rich`
+     needs several lags and one option owned by one fork cannot mean an integer for one
+     child and a list for another. The model it configures is identical -- the design
+     column is still `rainfall_lag2_z` -- and re-running the batch-8 configuration after
+     the change reproduced batch 8's per-cell scores byte for byte. Scored from the
+     promoted main path, reverting to it is worth **+0.112** CRPS: from where the model
+     now stands, the two lagged covariates are marginally better than none, which is the
+     opposite of what the sweep around the batch-8 configuration said.
+
+alternatives-considered: leaving the demoted results under `results/main/` and letting the
+assembler pick between two children; refused, because it would make which model ran depend
+on a glob's ordering. Renaming the directory rather than re-running the step; refused,
+because the file records the combination it was produced under and the name would then
+contradict its contents.
+
+agency: agent-autonomous.

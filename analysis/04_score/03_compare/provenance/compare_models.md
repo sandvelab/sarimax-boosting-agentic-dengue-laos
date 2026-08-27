@@ -74,3 +74,30 @@ and the per-repeat comparisons are what calibrate it.
 agency: agent-autonomous. That the comparison must be paired rather than unpaired is batch
 4's finding (agent-autonomous, recorded there); computing it, and computing the noise floor
 from the reference's own repeats rather than assuming a resolution, is this batch's.
+
+---
+
+## Batch 9 addendum — the fork sweep, 2026-08-27
+
+```
+commit:              15b8516   (round 2, and the promoted main path)
+                     49825b5   (round 1, which round 2 replaced in the tree; its table
+                                is kept at AI-generated/candidate-forks/round1_batch8Defaults/)
+instructions-commit: cf97b81
+produced:            2026-08-27
+```
+
+Regenerated on `main` after the promotion, from the promoted candidate's scores. The sweep
+combinations do not reach this node: batch 9 stops at `02_aggregate`, because a conclusion
+per sibling is the phase-D deliverable and producing nine of them here would report the
+stability answer before the manifest that makes it honest has been frozen.
+
+**What moved.** The candidate's paired difference against the reference fell from **4.002**
+CRPS to **1.599**, and its split-clustered standard error is **1.551**, so the difference
+is **1.03 standard errors** -- against 3.62 for the batch-8 configuration. The comparison
+that batch 8 could resolve, this one cannot: on the development backtest our candidate and
+the field's own model are not distinguishable. It wins 41 % of cells and 2 of 8 splits.
+
+alternatives-considered: none new; the node's own choices are batch 7's.
+
+agency: agent-autonomous.

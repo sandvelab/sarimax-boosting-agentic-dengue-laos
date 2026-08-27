@@ -40,3 +40,30 @@ work should measure rather than a cost to avoid.
 agency: agent-autonomous. Batch 4 raised refitting-at-predict as an open question (§9.2) and
 batch 5 made it a fork; taking the cheaper child as the main path at the defaults is this
 batch's.
+
+---
+
+## Batch 9 addendum — the fork sweep, 2026-08-27
+
+```
+commit:              15b8516   (round 2, and the promoted main path)
+                     49825b5   (round 1, which round 2 replaced in the tree; its table
+                                is kept at AI-generated/candidate-forks/round1_batch8Defaults/)
+instructions-commit: cf97b81
+produced:            2026-08-27
+```
+
+This fork did not move in batch 9: its best sibling stayed inside the 0.57 CRPS floor, so
+this child is still the main path. `results/main/model_option_spec.json` was regenerated
+anyway, because every combination re-runs the whole candidate and because the
+specification gained an `input_from_combo` field -- which records, for a combination that
+inherits the common ground it did not move, where that ground came from. On `main` it
+reads `main`, because `analysis/run.sh` sets no base and can inherit nothing.
+
+The siblings built and run in batch 9 are named in their own records. Their scores from
+the promoted main path: `b_refitAtPredict` +0.873, the best combination in the second sweep and outside the floor
+(`AI-generated/candidate-forks/round2_promoted/fork_interaction.csv`).
+
+script sha256: 55205731fdb2cf1e963cd991d25d18aa2ba44a04322f145bb7d65f8b2e7b69eb
+
+agency: agent-autonomous.

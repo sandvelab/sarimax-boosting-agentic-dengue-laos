@@ -1,0 +1,20 @@
+{
+ "additional_continuous_covariates": [],
+ "choice": "a_negBinomial",
+ "combo": "observation_negBinomial",
+ "description": "one negative binomial per cell, dispersion shared across provinces",
+ "input_from_combo": "main",
+ "node": "analysis/03_models/03_candidate/a_hierNB/01_observation/a_negBinomial",
+ "order": 1,
+ "premise": {
+  "mean": 32.32522031053294,
+  "observed_cells": 2383,
+  "variance": 14033.432810352366,
+  "variance_to_mean_ratio_pooled": 434.1326269562863,
+  "zero_share": 0.5627360469995804
+ },
+ "stage": "observation",
+ "user_option_values": {
+  "observation": "negative_binomial"
+ }
+}

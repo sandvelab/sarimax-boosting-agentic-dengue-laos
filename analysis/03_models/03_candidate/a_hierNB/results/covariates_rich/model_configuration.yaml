@@ -13,7 +13,7 @@ user_option_values:
   - mean_temperature
   - mean_relative_humidity
   fit_time: train
-  observation: negative_binomial
+  observation: hurdle
   population: offset
   seed: 849487747
-  year_variance: shared
+  year_variance: province_scaled

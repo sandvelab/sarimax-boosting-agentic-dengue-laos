@@ -1,8 +1,5 @@
 {
- "additional_continuous_covariates": [
-  "rainfall",
-  "mean_temperature"
- ],
+ "additional_continuous_covariates": [],
  "candidate": "hier_nb",
  "choice_combos": {
   "autoregressive": "main",
@@ -14,23 +11,23 @@
  },
  "choice_nodes": {
   "autoregressive": "analysis/03_models/03_candidate/a_hierNB/05_autoregressive/a_none",
-  "covariates": "analysis/03_models/03_candidate/a_hierNB/02_covariates/a_lagged",
+  "covariates": "analysis/03_models/03_candidate/a_hierNB/02_covariates/c_climateFree",
   "fit_time": "analysis/03_models/03_candidate/a_hierNB/04_fitTime/a_trainOnly",
   "observation": "analysis/03_models/03_candidate/a_hierNB/01_observation/b_zeroInflated",
   "population": "analysis/03_models/03_candidate/a_hierNB/03_population/a_offset",
-  "year_variance": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/a_shared"
+  "year_variance": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/b_provinceScaled"
  },
  "choices": {
   "autoregressive": "a_none",
-  "covariates": "a_lagged",
+  "covariates": "c_climateFree",
   "fit_time": "a_trainOnly",
   "observation": "b_zeroInflated",
   "population": "a_offset",
-  "year_variance": "a_shared"
+  "year_variance": "b_provinceScaled"
  },
  "combo": "observation_zeroInflated",
  "configuration": "model_configuration.yaml",
- "configuration_sha256": "0f1f53b618008a1e1ee4a607177a9021da48f8fc8f441478c39874c9c6adcbc3",
+ "configuration_sha256": "bacb747e16412b9fea8b32d90084c50d802e447b1c956514852a3653adfc7317",
  "node": "analysis/03_models/03_candidate/a_hierNB",
  "route": "chap eval --model-configuration-yaml -> ModelConfiguration -> model_configuration_for_run.yaml -> {model_config} in the MLproject entry points",
  "seed_derivation": {
@@ -63,41 +60,29 @@
    }
   },
   {
-   "additional_continuous_covariates": [
-    "rainfall",
-    "mean_temperature"
-   ],
-   "choice": "a_lagged",
+   "additional_continuous_covariates": [],
+   "choice": "c_climateFree",
    "chosen_under_combo": "main",
    "combo": "main",
-   "description": "rainfall, mean_temperature at a 2-month lag, standardised",
+   "description": "no climate covariates; the seasonal harmonics carry the annual cycle alone",
    "input_from_combo": "main",
-   "node": "analysis/03_models/03_candidate/a_hierNB/02_covariates/a_lagged",
+   "node": "analysis/03_models/03_candidate/a_hierNB/02_covariates/c_climateFree",
    "order": 2,
    "premise": {
     "columns_left_out": [
+     "rainfall",
+     "mean_temperature",
      "mean_relative_humidity"
     ],
-    "columns_present": [
-     "rainfall",
-     "mean_temperature"
-    ],
-    "missing_values": {
-     "mean_temperature": 0,
-     "rainfall": 0
-    },
-    "rows": 2592
+    "observed_rows": 2383,
+    "provinces": 18,
+    "rows": 2592,
+    "rows_a_two_month_lag_would_have_cost": 36
    },
-   "source_of_the_choice": "chap-models/ewars_plus_template, laos_eval_config.yaml: the reference family's own published configuration for this country names rainfall and mean_temperature at n_lags 2",
    "stage": "covariates",
    "user_option_values": {
-    "covariate_lags": [
-     2
-    ],
-    "covariates": [
-     "rainfall",
-     "mean_temperature"
-    ]
+    "covariate_lags": [],
+    "covariates": []
    }
   },
   {
@@ -172,12 +157,12 @@
   },
   {
    "additional_continuous_covariates": [],
-   "choice": "a_shared",
+   "choice": "b_provinceScaled",
    "chosen_under_combo": "main",
    "combo": "main",
-   "description": "one province-year variance for every province, pooled",
+   "description": "one province-year variance per province, from that province's own years",
    "input_from_combo": "main",
-   "node": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/a_shared",
+   "node": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/b_provinceScaled",
    "order": 6,
    "premise": {
     "by_province": {
@@ -208,23 +193,18 @@
    },
    "stage": "year_variance",
    "user_option_values": {
-    "year_variance": "shared"
+    "year_variance": "province_scaled"
    }
   }
  ],
  "user_option_values": {
   "autoregressive": "none",
-  "covariate_lags": [
-   2
-  ],
-  "covariates": [
-   "rainfall",
-   "mean_temperature"
-  ],
+  "covariate_lags": [],
+  "covariates": [],
   "fit_time": "train",
   "observation": "zero_inflated",
   "population": "offset",
   "seed": 849487747,
-  "year_variance": "shared"
+  "year_variance": "province_scaled"
  }
 }

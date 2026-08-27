@@ -1,8 +1,5 @@
 {
- "additional_continuous_covariates": [
-  "rainfall",
-  "mean_temperature"
- ],
+ "additional_continuous_covariates": [],
  "candidate": "hier_nb",
  "choice_combos": {
   "autoregressive": "main",
@@ -14,23 +11,23 @@
  },
  "choice_nodes": {
   "autoregressive": "analysis/03_models/03_candidate/a_hierNB/05_autoregressive/a_none",
-  "covariates": "analysis/03_models/03_candidate/a_hierNB/02_covariates/a_lagged",
+  "covariates": "analysis/03_models/03_candidate/a_hierNB/02_covariates/c_climateFree",
   "fit_time": "analysis/03_models/03_candidate/a_hierNB/04_fitTime/a_trainOnly",
-  "observation": "analysis/03_models/03_candidate/a_hierNB/01_observation/a_negBinomial",
+  "observation": "analysis/03_models/03_candidate/a_hierNB/01_observation/c_hurdle",
   "population": "analysis/03_models/03_candidate/a_hierNB/03_population/a_offset",
-  "year_variance": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/a_shared"
+  "year_variance": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/b_provinceScaled"
  },
  "choices": {
   "autoregressive": "a_none",
-  "covariates": "a_lagged",
+  "covariates": "c_climateFree",
   "fit_time": "a_trainOnly",
-  "observation": "a_negBinomial",
+  "observation": "c_hurdle",
   "population": "a_offset",
-  "year_variance": "a_shared"
+  "year_variance": "b_provinceScaled"
  },
  "combo": "main",
  "configuration": "model_configuration.yaml",
- "configuration_sha256": "1a16dbc018bcebea8bb30ed6d7761553f7f323f70320d04bac0c9b9ceae2f1f8",
+ "configuration_sha256": "28c7c617d5c26fa0f37f0c9601d690debc3ad9c05d63cb3e14512c16d385faf2",
  "node": "analysis/03_models/03_candidate/a_hierNB",
  "route": "chap eval --model-configuration-yaml -> ModelConfiguration -> model_configuration_for_run.yaml -> {model_config} in the MLproject entry points",
  "seed_derivation": {
@@ -42,61 +39,50 @@
  "stages": [
   {
    "additional_continuous_covariates": [],
-   "choice": "a_negBinomial",
+   "choice": "c_hurdle",
    "chosen_under_combo": "main",
    "combo": "main",
-   "description": "one negative binomial per cell, dispersion shared across provinces",
+   "description": "a logistic model for reporting at all and a count model for how much",
    "input_from_combo": "main",
-   "node": "analysis/03_models/03_candidate/a_hierNB/01_observation/a_negBinomial",
+   "node": "analysis/03_models/03_candidate/a_hierNB/01_observation/c_hurdle",
    "order": 1,
    "premise": {
-    "mean": 32.32522031053294,
+    "largest_month": 2643,
+    "mean_over_all_months": 32.32522031053294,
+    "mean_over_reporting_months": 73.92610364683301,
+    "median_over_reporting_months": 16.5,
     "observed_cells": 2383,
-    "variance": 14033.432810352366,
-    "variance_to_mean_ratio_pooled": 434.1326269562863,
     "zero_share": 0.5627360469995804
    },
    "stage": "observation",
    "user_option_values": {
-    "observation": "negative_binomial"
+    "observation": "hurdle"
    }
   },
   {
-   "additional_continuous_covariates": [
-    "rainfall",
-    "mean_temperature"
-   ],
-   "choice": "a_lagged",
+   "additional_continuous_covariates": [],
+   "choice": "c_climateFree",
    "chosen_under_combo": "main",
    "combo": "main",
-   "description": "rainfall, mean_temperature at a 2-month lag, standardised",
+   "description": "no climate covariates; the seasonal harmonics carry the annual cycle alone",
    "input_from_combo": "main",
-   "node": "analysis/03_models/03_candidate/a_hierNB/02_covariates/a_lagged",
+   "node": "analysis/03_models/03_candidate/a_hierNB/02_covariates/c_climateFree",
    "order": 2,
    "premise": {
     "columns_left_out": [
+     "rainfall",
+     "mean_temperature",
      "mean_relative_humidity"
     ],
-    "columns_present": [
-     "rainfall",
-     "mean_temperature"
-    ],
-    "missing_values": {
-     "mean_temperature": 0,
-     "rainfall": 0
-    },
-    "rows": 2592
+    "observed_rows": 2383,
+    "provinces": 18,
+    "rows": 2592,
+    "rows_a_two_month_lag_would_have_cost": 36
    },
-   "source_of_the_choice": "chap-models/ewars_plus_template, laos_eval_config.yaml: the reference family's own published configuration for this country names rainfall and mean_temperature at n_lags 2",
    "stage": "covariates",
    "user_option_values": {
-    "covariate_lags": [
-     2
-    ],
-    "covariates": [
-     "rainfall",
-     "mean_temperature"
-    ]
+    "covariate_lags": [],
+    "covariates": []
    }
   },
   {
@@ -151,13 +137,18 @@
    "order": 5,
    "premise": {
     "autocorrelation_of_log1p_cases": {
-     "lag_1": 0.6699772095678518,
-     "lag_12": 0.6844627001729728,
-     "lag_2": NaN,
-     "lag_3": NaN
+     "lag_1": 0.8820924083664365,
+     "lag_12": 0.758383062170971,
+     "lag_2": 0.7913806995440561,
+     "lag_3": 0.7013762940148985
     },
     "observed_cells": 2383,
-    "pairs_available_at_lag_3": 0
+    "pairs_available": {
+     "lag_1": 2362,
+     "lag_12": 2164,
+     "lag_2": 2342,
+     "lag_3": 2324
+    }
    },
    "stage": "autoregressive",
    "user_option_values": {
@@ -166,12 +157,12 @@
   },
   {
    "additional_continuous_covariates": [],
-   "choice": "a_shared",
+   "choice": "b_provinceScaled",
    "chosen_under_combo": "main",
    "combo": "main",
-   "description": "one province-year variance for every province, pooled",
+   "description": "one province-year variance per province, from that province's own years",
    "input_from_combo": "main",
-   "node": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/a_shared",
+   "node": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/b_provinceScaled",
    "order": 6,
    "premise": {
     "by_province": {
@@ -202,23 +193,18 @@
    },
    "stage": "year_variance",
    "user_option_values": {
-    "year_variance": "shared"
+    "year_variance": "province_scaled"
    }
   }
  ],
  "user_option_values": {
   "autoregressive": "none",
-  "covariate_lags": [
-   2
-  ],
-  "covariates": [
-   "rainfall",
-   "mean_temperature"
-  ],
+  "covariate_lags": [],
+  "covariates": [],
   "fit_time": "train",
-  "observation": "negative_binomial",
+  "observation": "hurdle",
   "population": "offset",
   "seed": 849487747,
-  "year_variance": "shared"
+  "year_variance": "province_scaled"
  }
 }

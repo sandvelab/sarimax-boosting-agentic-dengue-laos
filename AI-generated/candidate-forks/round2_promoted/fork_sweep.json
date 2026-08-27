@@ -1,0 +1,24 @@
+{
+ "base_combination": "main",
+ "base_configuration_sha256": "28c7c617d5c26fa0f37f0c9601d690debc3ad9c05d63cb3e14512c16d385faf2",
+ "best_combination": "fitTime_refitAtPredict",
+ "best_mean_crps": 22.82460798113208,
+ "best_moves_the_main_path_by": 0.8733181832884078,
+ "combinations": 10,
+ "main_path_mean_crps": 23.697926164420487,
+ "ranking": [
+  "fitTime_refitAtPredict",
+  "covariates_rich",
+  "autoregressive_lag3",
+  "covariates_lagged",
+  "main",
+  "population_ignored",
+  "yearVariance_shared",
+  "population_covariate",
+  "observation_zeroInflated",
+  "observation_negBinomial"
+ ],
+ "reference_mean_crps": 22.098446493261456,
+ "source": "analysis/04_score/02_aggregate/a_unweighted/results/<combo>/metrics_summary.csv, and the candidate node's run_cost.json and candidate_spec.json",
+ "swept": "analysis/03_models/03_candidate/a_hierNB"
+}

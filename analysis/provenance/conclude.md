@@ -55,3 +55,29 @@ agency: agent-autonomous, within a human-set frame. The skill score as the repor
 conclusion is the human's choice from an agent proposal (§4b, 2026-08-23,
 agent-on-human-assessment); computing it at the root, and how "our model" is resolved before
 a candidate exists, are the agent's.
+
+---
+
+## Batch 9 addendum — the fork sweep, 2026-08-27
+
+```
+commit:              15b8516   (round 2, and the promoted main path)
+                     49825b5   (round 1, which round 2 replaced in the tree; its table
+                                is kept at AI-generated/candidate-forks/round1_batch8Defaults/)
+instructions-commit: cf97b81
+produced:            2026-08-27
+```
+
+Re-run on `main` after the promotion. The project's reported skill score against the
+reference moved from **−0.181** to **−0.072**, and `beats_all_baselines` became **true**
+for the first time: the candidate's 23.698 is below climatology's 24.337 and persistence's
+24.879. `beats_reference` remains false.
+
+The file is unchanged in shape and the script is unchanged. What changed is the main path
+through `03_models/03_candidate`, which is where `conclude.py` resolves our reported model
+from -- so the conclusion moved because the tree moved, which is the property batch 7 built
+the script to have.
+
+alternatives-considered: none new.
+
+agency: agent-autonomous.

@@ -531,3 +531,74 @@ ULP on some parses.
 - Wall clock: ~20 min for `analysis/run.sh`; 28 s per native model, 241–285 s per reference repeat; ~7 min to build the environment image; ~20 min for the clean-room run
 - Storage: 56 MB tracked per combination, 38 MB of it the reference's four irreproducible evaluations
 - Type: analysis — the project's first results produced from inside the tree
+
+## T8 (2026-08-27) — Batch 8: the candidate contract, and candidate 1
+
+**What was produced.** Ten nodes under `analysis/03_models/03_candidate`: the alternatives
+node for the model families, `a_hierNB`, its four configuration forks and the one main-path
+child of each. The model itself is `a_hierNB/scripts/hier_nb_model/` — a Chap contract
+directory with `MLproject`, a `uv.lock` pinning numpy, pandas and pyyaml on CPython 3.13.0,
+`hier_nb.py` (options, features, design, fit) and two thin entry points. Beside it,
+`assemble_candidate_config.py` builds the configuration from the forks and
+`run_hier_nb.py` sends it through the shared `chap_eval` library, which now carries a model
+configuration, hashes it and records its contents. `analysis/scripts/lib/project_seed.py` is
+new and is where Rule 6's derivation lives. One new figure at `04_score/03_compare`, seven
+provenance records, criticality appended at two nodes, answers in every new `claim.md`.
+
+**The design decisions a future session should know.** Configuration is **assembled from the
+forks**, not checked in beside the model: a checked-in file would be a fifth record of the
+four forks' decisions and the one that actually ran. The assembler **searches** each fork for
+the child with results under this combination rather than naming it, which is the same
+mechanism `02_setup` uses and is what lets the stability driver swap a child. The model
+**refuses** option values whose sibling has not been built (`hier_nb.IMPLEMENTED`), because a
+run that reported a zero-inflated model and fitted a plain one would be wrong in a way
+nothing downstream could detect. The seed is read from `readme-at-start.md` rather than
+copied, and derived by BLAKE2b rather than `hash`, which is salted per process. **No
+autoregressive term** was added, although a three-month lag is available at every horizon and
+it is probably what the model is missing: no fork covers it, and adding a structural term
+outside the four forks would be the silent judgment call this project exists to prevent — it
+is proposed to batch 9 as a fifth fork. **The reference was not re-run**: it is unseeded, so
+re-running moves the denominator of every conclusion, and what makes the comparison paired is
+that every model saw the same dataset (checked by comparing `dataset_sha256` across the
+specs), not that every model ran on the same day.
+
+**The finding, and it is two-sided.** The candidate scores mean CRPS **26.100** — last of the
+four models, behind both required baselines — and mean absolute error **27.106**, the best in
+the project and ahead of the reference's 28.902. The centre is right and the width is wrong,
+and wrong **locally**: Vientiane Capital's 10–90 interval covers 1.000 of outcomes and
+Salavan's covers 0.125, and those two provinces carry 2.4 of the 4.0 CRPS gap to the
+reference. One province-year variance shared across provinces is a constant multiplicative
+width on the log scale, which is too much where the burden is largest and too little where
+the epidemic years are sharpest. The aggregate coverage of 0.720 — the best of our models —
+sits between two failures and describes neither, which is a caution about the plan's
+instruction to report calibration beside CRPS: the headline calibration figure is not on its
+own a diagnosis.
+
+**What revises an earlier batch.** Batch 7 measured the development backtest's resolution at
+about 4 CRPS using the two baselines. The candidate's paired difference against the reference
+is 4.00 CRPS with a **clustered standard error of 1.11**, against persistence's 2.99, because
+the two models are structurally alike and fail on the same cells so the paired difference
+cancels most of the difficulty. Resolution is a property of the pair, not of the dataset, and
+a candidate built to be structurally unlike the reference will be harder to distinguish from
+it. This is the first comparison in the project that clears two standard errors and what it
+says is that our candidate is worse.
+
+**Follow-ups.** Batch 9 has three things rather than one: build the seven unbuilt siblings,
+test whether the width defect is structural (province-scaled year variance) or an artefact of
+the Laplace approximation, and decide on the proposed fifth fork. The phase-C stopping rule
+was applied as written — it governs *further candidate* batches, and batch 9 is not one — but
+the human has been asked whether "the leaderboard's best" meant the best of ours or the best
+candidate, because this batch added a model and moved the best of ours by zero. Batch 12
+should take the candidate's measured 43 s rather than batch 5's 120 s estimate, and still
+needs the reference's cost on a quiet machine.
+
+- Files: `analysis/03_models/03_candidate/**`, `analysis/scripts/lib/project_seed.py`,
+  `analysis/03_models/scripts/lib/chap_eval.py`,
+  `analysis/04_score/03_compare/scripts/fig_accuracy_and_spread.py`,
+  `AI-internal/useful-scripts/{check_invariants,verify_model_determinism}.*`,
+  `AI-generated/batch-reports/26-08-27_b08_candidateContract.md`
+- Wall clock: ~2 s to fit, 43 s for the eight-split backtest, ~6 min for the three-model
+  determinism check
+- Storage: 10 MB tracked per combination for the candidate, 9.8 MB of it one NetCDF; 77 MB
+  untracked under `work/`
+- Type: analysis — the project's first model of its own design

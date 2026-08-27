@@ -708,3 +708,51 @@ fitted-object comparison is vacuous for it.
    later batch that wants to argue the main line is under-powered rather than under-fitted
    should start there, and it would be a fork moved on a structural argument rather than on a
    development score.
+
+### T21, continued — the determinism check, repaired (2026-08-27)
+
+**What was produced.** A repaired `AI-internal/useful-scripts/verify_model_determinism.sh`,
+a re-run `AI-generated/determinism-checks/model_determinism.json` reading `identical` for all
+three of our models, an addendum in that folder's `provenance.md`, a refreshed `README.md`
+there, and a dated correction section appended to
+`AI-generated/batch-reports/26-08-27_b09_candidateForks.md`. On `main` at commit `41e27ee`.
+
+**What was wrong, and why it was worth stopping for.** Batch 9 added a `scored_under_combo`
+column to `04_score/01_collect/results/<combo>/models.csv`. The check ran its two passes
+under scratch combinations named `determinism_<model>_1` and `_2` and compared that file byte
+for byte, so from `dec4116` it was comparing a field whose value *is* the pass's own scratch
+name: `differs` for every model on every run, whatever the models did. The status word was
+the small part. The large part is that **Rule 6's only instrument was reporting failure
+unconditionally**, so a model that genuinely lost its seeding would have produced the verdict
+the project had already been recording for two batches — the failure `AGENTS.md` §5 exists to
+guard against, arriving inside the guard. Demonstrated rather than inferred: two hand-run
+passes of the persistence baseline differed in one line of one file, in that field, while the
+372-line `metrics_cell.csv` and the fitted object were byte-identical.
+
+**The design decision a future session needs.** The repair removes the *difference*, not the
+comparison. Both passes run under one combination name; pass 1's three files are copied to a
+`mktemp -d` that a trap removes; pass 2 overwrites the results in place; the copy is compared
+with what replaced it. So `scored_under_combo` matches by construction rather than by
+exemption, and every byte of all three files is still compared. **Do not turn this into an
+exemption list** — that was the rejected alternative, on the grounds that a list of excluded
+fields is where a second exclusion gets added later without anyone noticing. The one standing
+exclusion remains `eval.nc`, for batch 2's reason.
+
+**What to be careful of.** The check's fitted-object comparison is vacuous for any
+configuration with `fit_time = predict`, because that configuration writes a stub — it does
+not affect `main`, whose candidate fits in `train`, and it does affect the `greedy` branch,
+whose selected model has no fitted object at all. And the check is not free: six backtests,
+about eight minutes now that the candidate is in it.
+
+**Follow-ups.**
+1. **The `greedy` branch still carries the old script and the old red file**, deliberately:
+   its report §9 and §11 describe the state as it was when the branch ran. If the repair is
+   propagated there, the branch report needs an annotation saying so, or it will read as
+   describing a defect the branch no longer has.
+2. **Phase E should re-run this check once more** after the last model change, so the
+   published record's Rule 6 evidence is from the final code state rather than from here.
+3. **`check_invariants.py` does not look at this file.** Nothing would have caught a check
+   that always fails, and nothing would catch it again. Whether the invariants should read
+   `model_determinism.json`'s status is a real question for batch 18 — it is the class of
+   defect an outsider test is least likely to find, because the file exists and looks
+   populated.

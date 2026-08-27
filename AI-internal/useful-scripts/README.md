@@ -16,7 +16,7 @@ into the second, because what they run is the analysis.
 | `check_invariants.py` | The deterministic checks: tree, provenance, plots, seeds, claims, git, and values crossing steps by hand | `/validate invariants` |
 | `claims.py` | Maintain and audit the claim collection; flag draft sentences with no supporting claim | `/claims` |
 | `build_hierarchical_report.py` | Generate the linked static-HTML drill-down report from the tree | `/hierarchical-report` |
-| `verify_model_determinism.sh` | Rule 6: run each of our models twice under scratch combinations and compare the per-cell scores and the fitted model. Writes to `AI-generated/determinism-checks/` and removes the scratch combinations | — |
+| `verify_model_determinism.sh` | Rule 6: run each of our models twice under **one** scratch combination — pass 1's outputs copied aside, pass 2 overwriting them in place — and compare the per-cell scores, the model listing and the fitted model. One name for both passes is deliberate: with two, the check compared a column recording the pass's own scratch name and could never pass. Writes to `AI-generated/determinism-checks/` and removes the scratch combination | — |
 | `candidate_fork_sweep.py` | Run every non-main child of candidate 1's forks on the development data, one combination each, and tabulate what they score. Writes its results **into the tree** through the tree's own scripts, and only the cross-combination table to `AI-generated/candidate-forks/`. A phase-C selection aid, not the stability node | — |
 
 `check_invariants.py` exits non-zero on any failure, so it works in a pre-commit hook or CI.

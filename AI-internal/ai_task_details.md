@@ -602,3 +602,52 @@ needs the reference's cost on a quiet machine.
 - Storage: 10 MB tracked per combination for the candidate, 9.8 MB of it one NetCDF; 77 MB
   untracked under `work/`
 - Type: analysis — the project's first model of its own design
+
+## T9 — Batch 9: candidate 1's forks, swept and promoted (2026-08-27)
+
+**What was produced.** Eleven new leaf nodes and two new forks under
+`analysis/03_models/03_candidate/a_hierNB`, so that every child of every fork is built and
+has been run; `analysis/scripts/lib/combos.py`, which is the `COMBO_BASE` inheritance
+mechanism batch 5's design named and left to batch 12; `AI-internal/useful-scripts/candidate_fork_sweep.py`,
+which drives one combination per non-main child through the tree's own scripts and tabulates
+what they score; `AI-generated/candidate-forks/` with two rounds of that sweep, the promotion
+rule and the round-to-round interaction table; and the batch report
+`AI-generated/batch-reports/26-08-27_b09_candidateForks.md`.
+
+**The design decisions a future session needs.** The sweep driver lives outside the tree and
+stops at `04_score/02_aggregate` **on purpose**: a `conclusion.json` per sibling is the
+phase-D deliverable, and producing nine of them in phase C would report the stability answer
+before the manifest that makes it honest has been frozen. Every number the sweep produces is
+nevertheless written *into* the tree by the tree's own scripts; only the cross-combination
+table is outside it. A sweep is taken around one main path, so each round has its own
+labelled directory and `summarise` refuses to rebuild a table whose recorded base
+configuration is no longer the tree's — round 1's per-combination results are **not** in the
+working tree, having been replaced by round 2, and are at commit `49825b5`.
+
+**What to be careful of.** Promoting a fork invalidates the demoted child's `results/main/`,
+and leaving it there would give one fork two children with results under one combination,
+which `assemble_candidate_config.py` refuses by design. The three demoted directories were
+removed rather than renamed, because a specification file records the combination it was
+produced under and a renamed directory would contradict its contents. The three combination
+directories named after promoted children were removed for the same reason.
+
+**Follow-ups.**
+1. **Whether phase C iterates the promotion rule** is the open question for the human, and
+   it is stated in the report's §13 and the plan's §4b. Two children are outside the 0.57
+   floor from the promoted path.
+2. **Batch 12 must not cut tier 2 of the manifest.** The interaction table is the evidence.
+   Batch 12 should also take the measured per-combination costs from
+   `a_hierNB/results/*/run_cost.json` (28–36 s, and 108 s for the refit-at-predict child)
+   rather than batch 5's 120 s estimate.
+3. **The convergence criterion is a genuine loose end.** It was deliberately not relaxed in
+   this batch, because adjusting it after seeing a run would be adjusting it to pass. If a
+   later batch wants to change it, the change belongs in a commit that says so in
+   methodological terms, and the parameters' stability at the cap is recorded in the fitted
+   object's EM history.
+4. **Salavan is where the remaining gap to the reference lives**, along with Bokeo and
+   Attapeu — the provinces whose intervals are far too narrow. Neither a hurdle nor a
+   per-province variance touched it. A heavier-tailed observation model is the obvious next
+   fork of `01_observation` and does not exist.
+5. **Batch 8's question about the phase-C stopping rule is still open** — whether "the
+   leaderboard's best" means the best of ours or the best model on the board. It does not
+   bind batch 10; it will bind batch 11.

@@ -10,7 +10,8 @@
     "loglik": -3916.3518516543554,
     "round": 1,
     "sigma_province": 1.7120647709217973,
-    "sigma_province_year": 1.2317784830047114
+    "sigma_province_year": 1.2317784830047114,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8193290486728405,
@@ -18,7 +19,8 @@
     "loglik": -3901.149489191128,
     "round": 2,
     "sigma_province": 1.9635551841752925,
-    "sigma_province_year": 1.35304063821813
+    "sigma_province_year": 1.35304063821813,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8244881833133195,
@@ -26,7 +28,8 @@
     "loglik": -3895.3635386557435,
     "round": 3,
     "sigma_province": 2.029388806262247,
-    "sigma_province_year": 1.4162456532241858
+    "sigma_province_year": 1.4162456532241858,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8265041842637371,
@@ -34,7 +37,8 @@
     "loglik": -3893.005143835093,
     "round": 4,
     "sigma_province": 2.0484667707222943,
-    "sigma_province_year": 1.4469601737060314
+    "sigma_province_year": 1.4469601737060314,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8273446240624991,
@@ -42,7 +46,8 @@
     "loglik": -3891.986256672011,
     "round": 5,
     "sigma_province": 2.0550089080674385,
-    "sigma_province_year": 1.4613927330816596
+    "sigma_province_year": 1.4613927330816596,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.827710726454011,
@@ -50,7 +55,8 @@
     "loglik": -3891.532607874251,
     "round": 6,
     "sigma_province": 2.057567890231939,
-    "sigma_province_year": 1.4680731264884916
+    "sigma_province_year": 1.4680731264884916,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8278751129719443,
@@ -58,7 +64,8 @@
     "loglik": -3891.327738062071,
     "round": 7,
     "sigma_province": 2.058651183387891,
-    "sigma_province_year": 1.4711443380729916
+    "sigma_province_year": 1.4711443380729916,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8279501098462441,
@@ -66,7 +73,8 @@
     "loglik": -3891.2345983037376,
     "round": 8,
     "sigma_province": 2.0591289462195754,
-    "sigma_province_year": 1.47255197861578
+    "sigma_province_year": 1.47255197861578,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.827984088662667,
@@ -74,7 +82,8 @@
     "loglik": -3891.1921223727986,
     "round": 9,
     "sigma_province": 2.0593438281057064,
-    "sigma_province_year": 1.4731962733328297
+    "sigma_province_year": 1.4731962733328297,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8279993876319625,
@@ -82,7 +91,8 @@
     "loglik": -3891.172727113124,
     "round": 10,
     "sigma_province": 2.059441346232903,
-    "sigma_province_year": 1.4734909822774334
+    "sigma_province_year": 1.4734909822774334,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8280070420510574,
@@ -90,7 +100,8 @@
     "loglik": -3891.1638664915226,
     "round": 11,
     "sigma_province": 2.059485779262167,
-    "sigma_province_year": 1.4736257391522134
+    "sigma_province_year": 1.4736257391522134,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8280089852624817,
@@ -98,7 +109,8 @@
     "loglik": -3891.1598116500536,
     "round": 12,
     "sigma_province": 2.0595060722598513,
-    "sigma_province_year": 1.4736873757551834
+    "sigma_province_year": 1.4736873757551834,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8280109491526595,
@@ -106,7 +118,8 @@
     "loglik": -3891.1579696538975,
     "round": 13,
     "sigma_province": 2.0595153228090326,
-    "sigma_province_year": 1.4737155042001024
+    "sigma_province_year": 1.4737155042001024,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8280125218823607,
@@ -114,7 +127,8 @@
     "loglik": -3891.157120650867,
     "round": 14,
     "sigma_province": 2.0595195591540305,
-    "sigma_province_year": 1.4737283833971109
+    "sigma_province_year": 1.4737283833971109,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8280126519147979,
@@ -122,7 +136,8 @@
     "loglik": -3891.1567266365746,
     "round": 15,
     "sigma_province": 2.0595215096369515,
-    "sigma_province_year": 1.4737343071199687
+    "sigma_province_year": 1.4737343071199687,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8280126514430861,
@@ -130,7 +145,8 @@
     "loglik": -3891.156550082087,
     "round": 16,
     "sigma_province": 2.059522397755194,
-    "sigma_province_year": 1.4737370080926635
+    "sigma_province_year": 1.4737370080926635,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8280128835201899,
@@ -138,7 +154,8 @@
     "loglik": -3891.156470048998,
     "round": 17,
     "sigma_province": 2.059522801540525,
-    "sigma_province_year": 1.4737382372651704
+    "sigma_province_year": 1.4737382372651704,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8280126527728293,
@@ -146,7 +163,8 @@
     "loglik": -3891.1564317986486,
     "round": 18,
     "sigma_province": 2.0595229888866915,
-    "sigma_province_year": 1.4737388058948593
+    "sigma_province_year": 1.4737388058948593,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8280126518946396,
@@ -154,7 +172,8 @@
     "loglik": -3891.156416765356,
     "round": 19,
     "sigma_province": 2.059523070339807,
-    "sigma_province_year": 1.4737390554808285
+    "sigma_province_year": 1.4737390554808285,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8280126719034805,
@@ -162,7 +181,8 @@
     "loglik": -3891.1564093778143,
     "round": 20,
     "sigma_province": 2.0595231074974114,
-    "sigma_province_year": 1.473739169020808
+    "sigma_province_year": 1.473739169020808,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8280124540780526,
@@ -170,7 +190,8 @@
     "loglik": -3891.1564058556687,
     "round": 21,
     "sigma_province": 2.059523124752885,
-    "sigma_province_year": 1.4737392214908838
+    "sigma_province_year": 1.4737392214908838,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8280126527728293,
@@ -178,7 +199,8 @@
     "loglik": -3891.156406013528,
     "round": 22,
     "sigma_province": 2.0595231291424105,
-    "sigma_province_year": 1.4737392367129731
+    "sigma_province_year": 1.4737392367129731,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8280125218823607,
@@ -186,7 +208,8 @@
     "loglik": -3891.1564040019875,
     "round": 23,
     "sigma_province": 2.059523134464005,
-    "sigma_province_year": 1.473739251520388
+    "sigma_province_year": 1.473739251520388,
+    "zero_inflation": 0.0
    },
    {
     "dispersion": 0.8280125218926017,
@@ -194,12 +217,14 @@
     "loglik": -3891.156404592679,
     "round": 24,
     "sigma_province": 2.0595231346966,
-    "sigma_province_year": 1.4737392530535072
+    "sigma_province_year": 1.4737392530535072,
+    "zero_inflation": 0.0
    }
   ],
   "loglik": -3891.156404592679,
   "outer_rounds": 24
  },
+ "fitted_in": "train",
  "fixed_effects": {
   "cos1": -0.7089412516315201,
   "cos2": 0.08519329701758654,
@@ -871,8 +896,12 @@
   "province[LA-XN]"
  ],
  "model": "hier_nb_candidate",
+ "observation": "negative_binomial",
  "options": {
-  "covariate_lag_months": 2,
+  "autoregressive": "none",
+  "covariate_lags": [
+   2
+  ],
   "covariates": [
    "rainfall",
    "mean_temperature"
@@ -880,7 +909,8 @@
   "fit_time": "train",
   "observation": "negative_binomial",
   "population": "offset",
-  "seed": 849487747
+  "seed": 849487747,
+  "year_variance": "shared"
  },
  "province_effects": {
   "LA-AT": -0.5392121192494742,
@@ -1766,12 +1796,31 @@
  ],
  "sigma_province": 2.0595231346966,
  "sigma_province_year": 1.4737392530535072,
+ "sigma_province_year_by_province": {
+  "LA-AT": 1.4737392530535072,
+  "LA-BK": 1.4737392530535072,
+  "LA-BL": 1.4737392530535072,
+  "LA-CH": 1.4737392530535072,
+  "LA-HO": 1.4737392530535072,
+  "LA-KH": 1.4737392530535072,
+  "LA-LM": 1.4737392530535072,
+  "LA-LP": 1.4737392530535072,
+  "LA-OU": 1.4737392530535072,
+  "LA-PH": 1.4737392530535072,
+  "LA-SL": 1.4737392530535072,
+  "LA-SV": 1.4737392530535072,
+  "LA-VT": 1.4737392530535072,
+  "LA-XA": 1.4737392530535072,
+  "LA-XE": 1.4737392530535072,
+  "LA-XI": 1.4737392530535072,
+  "LA-XN": 1.4737392530535072
+ },
  "standardisation": {
-  "mean_temperature": {
+  "mean_temperature_lag2": {
    "mean": 22.44251559503707,
    "sd": 2.8689959880416414
   },
-  "rainfall": {
+  "rainfall_lag2": {
    "mean": 5.387409182591703,
    "sd": 4.739468331415413
   }
@@ -1785,5 +1834,6 @@
   "rows": 2040,
   "rows_dropped_missing_target_or_lag": 62,
   "rows_used": 1978
- }
+ },
+ "zero_inflation": 0.0
 }

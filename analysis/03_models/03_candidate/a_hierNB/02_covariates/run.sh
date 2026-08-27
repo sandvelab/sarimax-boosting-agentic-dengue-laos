@@ -11,5 +11,5 @@ REPO_ROOT="$(cd "../../../../.." && pwd)"
 PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 
 # Alternatives: only the main path is run here.
-# (only one alternative so far)
+# Not taken: b_rich, c_climateFree
 bash "a_lagged/run.sh"

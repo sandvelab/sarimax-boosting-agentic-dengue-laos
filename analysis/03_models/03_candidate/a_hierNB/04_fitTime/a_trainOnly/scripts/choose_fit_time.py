@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from pathlib import Path
 
 NODE = Path(__file__).resolve().parents[1]
@@ -41,19 +42,24 @@ def repo_root(start: Path) -> Path:
 ROOT = repo_root(NODE)
 COMBO = os.environ.get("COMBO", "main")
 
+sys.path.insert(0, str(ROOT / "analysis" / "scripts" / "lib"))
+from combos import resolve  # noqa: E402
+
 
 def main() -> None:
     out = NODE / "results" / COMBO
     out.mkdir(parents=True, exist_ok=True)
 
-    setup = ROOT / "analysis/02_setup/results" / COMBO / "setup_spec.json"
-    if not setup.exists():
-        raise SystemExit(f"no assembled setup for combination {COMBO!r}: {setup} is "
-                         f"missing. Run analysis/02_setup/run.sh first.")
+    setup, setup_combo = resolve(
+        ROOT / "analysis/02_setup/results", "setup_spec.json")
     flags = json.loads(setup.read_text())["eval_flags"]
 
     spec = {
         "combo": COMBO,
+        # Which combination the input came from. Equal to `combo` on the main
+        # path; a candidate-internal combination inherits the setup it did not
+        # move, and inheriting silently is what this line exists to prevent.
+        "input_from_combo": setup_combo,
         "stage": "fit_time",
         "order": 4,
         "node": str(NODE.relative_to(ROOT)),

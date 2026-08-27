@@ -31,6 +31,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 import time
 from pathlib import Path
 
@@ -44,8 +45,8 @@ def repo_root(start: Path) -> Path:
     raise SystemExit("no repository root above " + str(start))
 
 
-def combo() -> str:
-    return os.environ.get("COMBO", "main")
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "scripts" / "lib"))
+from combos import combo, resolve  # noqa: E402
 
 
 def sha256(path: Path) -> str:
@@ -53,13 +54,17 @@ def sha256(path: Path) -> str:
 
 
 def setup(root: Path, name: str) -> dict:
-    """The common ground assembled by `02_setup` for this combination."""
-    path = root / "analysis/02_setup/results" / name / "setup_spec.json"
-    if not path.exists():
-        raise SystemExit(f"no assembled setup for combination {name!r}: {path} is missing. "
-                         f"Run analysis/02_setup/run.sh first.")
+    """The common ground assembled by `02_setup` for this combination.
+
+    A combination that moved only a candidate-internal fork faces the same common ground
+    as the combination it branched from, so the lookup falls back to `COMBO_BASE` and
+    records which combination answered it. `bash analysis/run.sh` sets no base, so the
+    main path can inherit nothing.
+    """
+    path, from_combo = resolve(root / "analysis/02_setup/results", "setup_spec.json")
     spec = json.loads(path.read_text())
     spec["dataset_path"] = path.parent / spec["dataset"]
+    spec["setup_from_combo"] = from_combo
     return spec
 
 
@@ -161,6 +166,7 @@ def run_local_model(node: Path, *, name: str, model_dir: Path, n_samples: int,
         "kind": "local-mlproject",
         "node": str(node.relative_to(root)),
         "combo": name_combo,
+        "setup_from_combo": common["setup_from_combo"],
         "evaluations": ["eval.nc"],
         "repeats": 1,
         "route": "MLproject with uv_env, native",

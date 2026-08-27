@@ -16,6 +16,13 @@ by the fact of having run, and a model that did not run is absent rather than st
 is also what makes the scoring node indifferent to which child of a fork produced a
 model: exactly one of them has results under any one combination.
 
+**A model that did not run under this combination may be inherited.** When
+`COMBO_BASE` is set, a model node with no results under `COMBO` is taken from the base
+combination, and `models.csv` carries the combination each row was scored under. This is
+what makes a candidate-internal fork cheap: it changed nothing the reference or the
+baselines face, so re-running them would only replace an unseeded model's draw with a
+different one. `analysis/run.sh` sets no base and therefore inherits nothing.
+
 **The unseeded reference is carried as its repeats and as their mean.** Its evaluation is
 a draw, not a constant, so each repeat becomes its own row and a further row holds the
 per-cell mean over them. Downstream, the mean is the denominator of the skill score --
@@ -32,6 +39,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -57,6 +65,12 @@ def repo_root(start: Path) -> Path:
 
 ROOT = repo_root(NODE)
 COMBO = os.environ.get("COMBO", "main")
+
+sys.path.insert(0, str(ROOT / "analysis" / "scripts" / "lib"))
+from combos import base  # noqa: E402
+
+BASE = base()
+MODELS = ROOT / "analysis/03_models"
 
 
 def shift_period(period: str, back: int) -> str:
@@ -93,13 +107,34 @@ def cell_table(evaluation: Path, model: str) -> pd.DataFrame:
     return table
 
 
-def specs() -> list[tuple[Path, dict]]:
-    """Every model that has results for this combination, in tree order."""
-    found = sorted((ROOT / "analysis/03_models").glob(f"**/results/{COMBO}/model_spec.json"))
+def specs() -> list[tuple[Path, dict, str]]:
+    """Every model scored for this combination, in tree order, with where it came from.
+
+    A model node that produced nothing under this combination is taken from `COMBO_BASE`
+    when one is set. That is batch 5's reuse rule -- a combination that moved only a
+    candidate-internal fork has not changed what the reference or the baselines face, and
+    re-running an unseeded external model would replace its four repeats with a different
+    draw and move the denominator of the conclusion for reasons that have nothing to do
+    with the fork.
+
+    Which combination each model was scored under is returned here and written into
+    `models.csv`, so a leaderboard never hides that some of its rows were computed
+    elsewhere. With no base set -- which is how `analysis/run.sh` runs -- nothing is
+    inherited and a missing model is simply absent.
+    """
+    found = [(p.parents[2], p, COMBO)
+             for p in sorted(MODELS.glob(f"**/results/{COMBO}/model_spec.json"))]
+    seen = {node for node, _, _ in found}
+    if BASE:
+        found += [(p.parents[2], p, BASE)
+                  for p in sorted(MODELS.glob(f"**/results/{BASE}/model_spec.json"))
+                  if p.parents[2] not in seen]
     if not found:
-        raise SystemExit(f"no model has results for combination {COMBO!r}; "
-                         f"run analysis/03_models/run.sh first")
-    return [(p.parent, json.loads(p.read_text())) for p in found]
+        raise SystemExit(f"no model has results for combination {COMBO!r}"
+                         + (f" or its base {BASE!r}" if BASE else "")
+                         + "; run analysis/03_models/run.sh first")
+    return [(p.parent, json.loads(p.read_text()), where)
+            for _, p, where in sorted(found, key=lambda entry: entry[1])]
 
 
 def main() -> None:
@@ -108,7 +143,7 @@ def main() -> None:
 
     tables: list[pd.DataFrame] = []
     rows: list[dict] = []
-    for results_dir, spec in specs():
+    for results_dir, spec, scored_under in specs():
         names = spec.get("repeat_names") or [spec["model"]]
         members = []
         for name, evaluation in zip(names, spec["evaluations"], strict=True):
@@ -118,6 +153,7 @@ def main() -> None:
                 "node": spec["node"], "seeded": spec["seeded"],
                 "n_samples": spec["n_samples"], "repeat_of": spec["model"]
                 if len(names) > 1 else "", "evaluation": evaluation,
+                "scored_under_combo": scored_under,
             })
         tables.extend(members)
 
@@ -136,6 +172,7 @@ def main() -> None:
                 "node": spec["node"], "seeded": spec["seeded"],
                 "n_samples": spec["n_samples"] * len(members), "repeat_of": "",
                 "evaluation": f"mean of {len(members)} repeats",
+                "scored_under_combo": scored_under,
             })
 
     cells = (pd.concat(tables, ignore_index=True)
@@ -143,8 +180,10 @@ def main() -> None:
     cells.to_csv(out / "metrics_cell.csv", index=False)
     pd.DataFrame(rows).to_csv(out / "models.csv", index=False)
 
+    inherited = sorted({r["model"] for r in rows if r["scored_under_combo"] != COMBO})
     print(f"collect[{COMBO}]: {cells.model.nunique()} model rows, {len(cells)} cells, "
-          f"{cells.location.nunique()} locations -> {out}")
+          f"{cells.location.nunique()} locations -> {out}"
+          + (f"; inherited from {BASE}: {inherited}" if inherited else ""))
 
 
 if __name__ == "__main__":

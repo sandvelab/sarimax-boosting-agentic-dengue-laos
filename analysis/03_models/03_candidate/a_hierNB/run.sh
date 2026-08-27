@@ -15,6 +15,8 @@ bash "01_observation/run.sh"
 bash "02_covariates/run.sh"
 bash "03_population/run.sh"
 bash "04_fitTime/run.sh"
+bash "05_autoregressive/run.sh"
+bash "06_yearVariance/run.sh"
 
 # Own scripts
 "$PYTHON" "scripts/assemble_candidate_config.py"

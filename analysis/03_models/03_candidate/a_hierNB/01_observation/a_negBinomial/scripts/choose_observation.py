@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -43,20 +44,25 @@ def repo_root(start: Path) -> Path:
 ROOT = repo_root(NODE)
 COMBO = os.environ.get("COMBO", "main")
 
+sys.path.insert(0, str(ROOT / "analysis" / "scripts" / "lib"))
+from combos import resolve  # noqa: E402
+
 
 def main() -> None:
     out = NODE / "results" / COMBO
     out.mkdir(parents=True, exist_ok=True)
 
-    dataset = ROOT / "analysis/02_setup/results" / COMBO / "analysis_dataset.csv"
-    if not dataset.exists():
-        raise SystemExit(f"no assembled dataset for combination {COMBO!r}: {dataset} is "
-                         f"missing. Run analysis/02_setup/run.sh first.")
+    dataset, dataset_combo = resolve(
+        ROOT / "analysis/02_setup/results", "analysis_dataset.csv")
     frame = pd.read_csv(dataset, dtype={"time_period": str})
     counts = frame["disease_cases"].dropna()
 
     spec = {
         "combo": COMBO,
+        # Which combination the input came from. Equal to `combo` on the main
+        # path; a candidate-internal combination inherits the setup it did not
+        # move, and inheriting silently is what this line exists to prevent.
+        "input_from_combo": dataset_combo,
         "stage": "observation",
         "order": 1,
         "node": str(NODE.relative_to(ROOT)),

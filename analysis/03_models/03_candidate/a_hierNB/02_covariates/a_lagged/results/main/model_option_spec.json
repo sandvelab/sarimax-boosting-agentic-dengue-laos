@@ -6,6 +6,7 @@
  "choice": "a_lagged",
  "combo": "main",
  "description": "rainfall, mean_temperature at a 2-month lag, standardised",
+ "input_from_combo": "main",
  "node": "analysis/03_models/03_candidate/a_hierNB/02_covariates/a_lagged",
  "order": 2,
  "premise": {
@@ -25,7 +26,9 @@
  "source_of_the_choice": "chap-models/ewars_plus_template, laos_eval_config.yaml: the reference family's own published configuration for this country names rainfall and mean_temperature at n_lags 2",
  "stage": "covariates",
  "user_option_values": {
-  "covariate_lag_months": 2,
+  "covariate_lags": [
+   2
+  ],
   "covariates": [
    "rainfall",
    "mean_temperature"

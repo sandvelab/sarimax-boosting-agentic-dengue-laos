@@ -2,7 +2,9 @@ additional_continuous_covariates:
 - rainfall
 - mean_temperature
 user_option_values:
-  covariate_lag_months: 2
+  autoregressive: none
+  covariate_lags:
+  - 2
   covariates:
   - rainfall
   - mean_temperature
@@ -10,3 +12,4 @@ user_option_values:
   observation: negative_binomial
   population: offset
   seed: 849487747
+  year_variance: shared

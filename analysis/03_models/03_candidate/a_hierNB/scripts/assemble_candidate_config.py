@@ -39,7 +39,6 @@ from pathlib import Path
 import yaml
 
 NODE = Path(__file__).resolve().parents[1]
-FORKS = ("01_observation", "02_covariates", "03_population", "04_fitTime")
 
 
 def repo_root(start: Path) -> Path:
@@ -53,21 +52,38 @@ ROOT = repo_root(NODE)
 COMBO = os.environ.get("COMBO", "main")
 
 sys.path.insert(0, str(ROOT / "analysis" / "scripts" / "lib"))
+from combos import resolve_glob  # noqa: E402
 from project_seed import component_seed  # noqa: E402
 
 
-def chosen_child(fork: str, combo: str) -> Path:
-    """The one child of `fork` that ran in this combination.
+def forks() -> list[Path]:
+    """The fork nodes under this one, in the order the node runs them.
+
+    Discovered rather than listed, for the same reason the child of each fork is: batch 9
+    added a fifth and a sixth fork to this node, and a script carrying the count would
+    have had to be edited to notice them -- which is a script that can be wrong about
+    what the model is while still running.
+    """
+    return sorted(p for p in NODE.iterdir() if p.is_dir() and (p / "claim.md").exists())
+
+
+def chosen_child(fork: Path) -> tuple[Path, str]:
+    """The one child of `fork` that ran in this combination, and where it ran.
 
     Searched for, never named: it is what lets the stability driver swap a child without
     this script or anything downstream of it changing.
+
+    A combination that moved one fork leaves the others untouched, so a fork with no
+    child under `COMBO` is answered by `COMBO_BASE` -- the choice this combination did
+    not change. The combination that answered is returned and recorded, because a
+    configuration assembled partly from another combination's choices must say so.
     """
-    found = sorted((NODE / fork).glob(f"*/results/{combo}/model_option_spec.json"))
+    found, from_combo = resolve_glob(fork, "*/results/{combo}/model_option_spec.json")
     if len(found) != 1:
         raise SystemExit(
-            f"{fork}: expected exactly one child with results for combination "
-            f"{combo!r}, found {[str(p.relative_to(NODE)) for p in found]}")
-    return found[0]
+            f"{fork.name}: expected exactly one child with results for combination "
+            f"{COMBO!r}, found {[str(p.relative_to(NODE)) for p in found]}")
+    return found[0], from_combo
 
 
 def main() -> None:
@@ -77,8 +93,10 @@ def main() -> None:
     stages = []
     options: dict = {}
     covariates: list[str] = []
-    for fork in FORKS:
-        spec = json.loads(chosen_child(fork, COMBO).read_text())
+    for fork in forks():
+        child, from_combo = chosen_child(fork)
+        spec = json.loads(child.read_text())
+        spec["chosen_under_combo"] = from_combo
         stages.append(spec)
         # A key set by two stages would mean two forks disagreeing about the same
         # property of the model, which is a design error in the tree rather than a
@@ -113,6 +131,10 @@ def main() -> None:
         "additional_continuous_covariates": covariates,
         "choices": {s["stage"]: s["choice"] for s in stages},
         "choice_nodes": {s["stage"]: s["node"] for s in stages},
+        # Which combination each choice was taken under. All `combo` on the main path;
+        # a combination that moved one fork shows that one fork as its own and the rest
+        # inherited, which is the whole description of what the combination is.
+        "choice_combos": {s["stage"]: s["chosen_under_combo"] for s in stages},
         "seed_derivation": seed,
         "route": ("chap eval --model-configuration-yaml -> ModelConfiguration -> "
                   "model_configuration_for_run.yaml -> {model_config} in the MLproject "
@@ -121,8 +143,12 @@ def main() -> None:
     }
     (out / "candidate_spec.json").write_text(json.dumps(spec, indent=1, sort_keys=True) + "\n")
 
+    moved = [f"{stage}={spec['choices'][stage]}"
+             for stage, where in spec["choice_combos"].items() if where == COMBO]
     print(f"candidate[{COMBO}]: {spec['choices']}, covariates {covariates}, "
-          f"seed {seed['seed']} -> {out}")
+          f"seed {seed['seed']}"
+          + (f"; taken here: {moved}" if COMBO != "main" else "")
+          + f" -> {out}")
 
 
 if __name__ == "__main__":

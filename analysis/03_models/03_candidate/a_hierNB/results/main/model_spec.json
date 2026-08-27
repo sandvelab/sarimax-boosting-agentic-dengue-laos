@@ -7,7 +7,10 @@
    "mean_temperature"
   ],
   "user_option_values": {
-   "covariate_lag_months": 2,
+   "autoregressive": "none",
+   "covariate_lags": [
+    2
+   ],
    "covariates": [
     "rainfall",
     "mean_temperature"
@@ -15,10 +18,11 @@
    "fit_time": "train",
    "observation": "negative_binomial",
    "population": "offset",
-   "seed": 849487747
+   "seed": 849487747,
+   "year_variance": "shared"
   }
  },
- "configuration_sha256": "ddfa21a670e477f2a2f5de465d34a6ad5fb2e1ed3ef39235e33ea5610e8187b7",
+ "configuration_sha256": "1a16dbc018bcebea8bb30ed6d7761553f7f323f70320d04bac0c9b9ceae2f1f8",
  "dataset": "analysis/02_setup/results/main/analysis_dataset.csv",
  "dataset_sha256": "c9bf8b0849c768bfe6c65d54975dd08fa390204f8b59e76904170222a7a87d4c",
  "eval_flags": {
@@ -34,12 +38,12 @@
  "model": "hier_nb",
  "model_dir": "analysis/03_models/03_candidate/a_hierNB/scripts/hier_nb_model",
  "model_files_sha256": {
-  "MLproject": "aaa3bb10be0325fb123805c2e216ad17fa54cb8c2cd4475d5b0b2d9d43fba66a",
+  "MLproject": "38964b3208a2662a13ff832357310794aa5ac778d4cf7d75080447e389ccdde3",
   "README.md": "68c2899733ff5c959abeb1b82d6e08c1bd918d4193086ee5e49173829916ea83",
-  "hier_nb.py": "94300ffe80f987891a69177663ccc5e4fc5f0ee2e720bfcaa8e25cca209f17e7",
-  "predict.py": "7b84349d2728a2a307233e4db70123baf16974806aea25938d0fcd445adeb352",
+  "hier_nb.py": "5bdb59a5b3986d68dec84d66afd1e199a927acf4829f7807be4d759bcdea35be",
+  "predict.py": "1cdb6ce0e971bbb3f3a86a4d60e3b52ab93eab300b316736cd1af007c6cd3135",
   "pyproject.toml": "0ef5cfe8cf7ef0dc9edcfa517146055a3b6eeb0e55ecc03a278698fd9f5142da",
-  "train.py": "656dc6551056cc60b3d9f15e731d56a6ad08b157c61393eece39f46f038b2010",
+  "train.py": "1f53ccdb593e62f044c4358e7555fc6b2ba5eb58258eda75853b710529276f0f",
   "uv.lock": "a5a6840b752fc538f0d664f5ad2731c69008a973c17342d30180c342b1f5871a"
  },
  "n_samples": 1000,
@@ -56,5 +60,6 @@
   "retrain": "a_once",
   "trainingWindow": "a_from1998"
  },
+ "setup_from_combo": "main",
  "shipped_lockfile_is_the_one_built_from": true
 }

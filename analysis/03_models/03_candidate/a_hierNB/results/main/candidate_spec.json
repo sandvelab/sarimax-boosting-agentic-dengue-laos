@@ -4,21 +4,33 @@
   "mean_temperature"
  ],
  "candidate": "hier_nb",
+ "choice_combos": {
+  "autoregressive": "main",
+  "covariates": "main",
+  "fit_time": "main",
+  "observation": "main",
+  "population": "main",
+  "year_variance": "main"
+ },
  "choice_nodes": {
+  "autoregressive": "analysis/03_models/03_candidate/a_hierNB/05_autoregressive/a_none",
   "covariates": "analysis/03_models/03_candidate/a_hierNB/02_covariates/a_lagged",
   "fit_time": "analysis/03_models/03_candidate/a_hierNB/04_fitTime/a_trainOnly",
   "observation": "analysis/03_models/03_candidate/a_hierNB/01_observation/a_negBinomial",
-  "population": "analysis/03_models/03_candidate/a_hierNB/03_population/a_offset"
+  "population": "analysis/03_models/03_candidate/a_hierNB/03_population/a_offset",
+  "year_variance": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/a_shared"
  },
  "choices": {
+  "autoregressive": "a_none",
   "covariates": "a_lagged",
   "fit_time": "a_trainOnly",
   "observation": "a_negBinomial",
-  "population": "a_offset"
+  "population": "a_offset",
+  "year_variance": "a_shared"
  },
  "combo": "main",
  "configuration": "model_configuration.yaml",
- "configuration_sha256": "ddfa21a670e477f2a2f5de465d34a6ad5fb2e1ed3ef39235e33ea5610e8187b7",
+ "configuration_sha256": "1a16dbc018bcebea8bb30ed6d7761553f7f323f70320d04bac0c9b9ceae2f1f8",
  "node": "analysis/03_models/03_candidate/a_hierNB",
  "route": "chap eval --model-configuration-yaml -> ModelConfiguration -> model_configuration_for_run.yaml -> {model_config} in the MLproject entry points",
  "seed_derivation": {
@@ -31,8 +43,10 @@
   {
    "additional_continuous_covariates": [],
    "choice": "a_negBinomial",
+   "chosen_under_combo": "main",
    "combo": "main",
    "description": "one negative binomial per cell, dispersion shared across provinces",
+   "input_from_combo": "main",
    "node": "analysis/03_models/03_candidate/a_hierNB/01_observation/a_negBinomial",
    "order": 1,
    "premise": {
@@ -53,8 +67,10 @@
     "mean_temperature"
    ],
    "choice": "a_lagged",
+   "chosen_under_combo": "main",
    "combo": "main",
    "description": "rainfall, mean_temperature at a 2-month lag, standardised",
+   "input_from_combo": "main",
    "node": "analysis/03_models/03_candidate/a_hierNB/02_covariates/a_lagged",
    "order": 2,
    "premise": {
@@ -74,7 +90,9 @@
    "source_of_the_choice": "chap-models/ewars_plus_template, laos_eval_config.yaml: the reference family's own published configuration for this country names rainfall and mean_temperature at n_lags 2",
    "stage": "covariates",
    "user_option_values": {
-    "covariate_lag_months": 2,
+    "covariate_lags": [
+     2
+    ],
     "covariates": [
      "rainfall",
      "mean_temperature"
@@ -84,8 +102,10 @@
   {
    "additional_continuous_covariates": [],
    "choice": "a_offset",
+   "chosen_under_combo": "main",
    "combo": "main",
    "description": "log(population) as a fixed offset; the model forecasts a rate",
+   "input_from_combo": "main",
    "node": "analysis/03_models/03_candidate/a_hierNB/03_population/a_offset",
    "order": 3,
    "premise": {
@@ -102,8 +122,10 @@
   {
    "additional_continuous_covariates": [],
    "choice": "a_trainOnly",
+   "chosen_under_combo": "main",
    "combo": "main",
    "description": "fit once in train; predict applies the stored fit",
+   "input_from_combo": "main",
    "node": "analysis/03_models/03_candidate/a_hierNB/04_fitTime/a_trainOnly",
    "order": 4,
    "premise": {
@@ -117,10 +139,78 @@
    "user_option_values": {
     "fit_time": "train"
    }
+  },
+  {
+   "additional_continuous_covariates": [],
+   "choice": "a_none",
+   "chosen_under_combo": "main",
+   "combo": "main",
+   "description": "no autoregressive term; season, climate and pooled effects only",
+   "input_from_combo": "main",
+   "node": "analysis/03_models/03_candidate/a_hierNB/05_autoregressive/a_none",
+   "order": 5,
+   "premise": {
+    "autocorrelation_of_log1p_cases": {
+     "lag_1": 0.6699772095678518,
+     "lag_12": 0.6844627001729728,
+     "lag_2": NaN,
+     "lag_3": NaN
+    },
+    "observed_cells": 2383,
+    "pairs_available_at_lag_3": 0
+   },
+   "stage": "autoregressive",
+   "user_option_values": {
+    "autoregressive": "none"
+   }
+  },
+  {
+   "additional_continuous_covariates": [],
+   "choice": "a_shared",
+   "chosen_under_combo": "main",
+   "combo": "main",
+   "description": "one province-year variance for every province, pooled",
+   "input_from_combo": "main",
+   "node": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/a_shared",
+   "order": 6,
+   "premise": {
+    "by_province": {
+     "LA-AT": 2.1230199197958353,
+     "LA-BK": 1.9895646141960655,
+     "LA-BL": 0.8191282349306392,
+     "LA-CH": 1.329800068593479,
+     "LA-HO": 0.7236721215841072,
+     "LA-KH": 2.729566945855032,
+     "LA-LM": 0.969941948641474,
+     "LA-LP": 0.8404703715042889,
+     "LA-OU": 1.2530585049976313,
+     "LA-PH": 0.4852637889924346,
+     "LA-SL": 2.439913719427485,
+     "LA-SV": 1.9123303333566166,
+     "LA-VT": 0.6101594204384988,
+     "LA-XA": 1.6575045525598149,
+     "LA-XE": 0.9718833271378239,
+     "LA-XI": 1.2597210905773226,
+     "LA-XN": 1.4639523539163202
+    },
+    "log_annual_spread_max": 2.729566945855032,
+    "log_annual_spread_median": 1.2597210905773226,
+    "log_annual_spread_min": 0.4852637889924346,
+    "log_annual_spread_ratio_max_to_min": 5.62491372274552,
+    "province_years": 199,
+    "provinces_compared": 17
+   },
+   "stage": "year_variance",
+   "user_option_values": {
+    "year_variance": "shared"
+   }
   }
  ],
  "user_option_values": {
-  "covariate_lag_months": 2,
+  "autoregressive": "none",
+  "covariate_lags": [
+   2
+  ],
   "covariates": [
    "rainfall",
    "mean_temperature"
@@ -128,6 +218,7 @@
   "fit_time": "train",
   "observation": "negative_binomial",
   "population": "offset",
-  "seed": 849487747
+  "seed": 849487747,
+  "year_variance": "shared"
  }
 }

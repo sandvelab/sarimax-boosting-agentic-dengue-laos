@@ -22,6 +22,21 @@
 # they are evidence about the method, not analysis results, which is also why this script
 # lives in AI-internal/ beside check_invariants.py rather than in the tree.
 #
+# ## Both passes run under ONE combination name, and that is what makes the check work
+#
+# Until 2026-08-27 the two passes ran under `determinism_<model>_1` and `_2`. Batch 9 then
+# added a `scored_under_combo` column to `models.csv` -- the column that makes COMBO_BASE
+# inheritance visible on the face of the file, and a good addition. From that commit the
+# check compared, among other things, a field whose value *is* the pass's own scratch
+# name, so it reported `differs` on every model on every run whatever the models did:
+# a Rule 6 instrument stuck on red, which verifies nothing.
+#
+# The repair is not to stop comparing that column. It is to remove the difference at its
+# source: both passes run under the same combination, pass 1's outputs are copied aside,
+# pass 2 overwrites them, and the copy is compared with what replaced it. Nothing is
+# excluded that was compared before, and a genuine difference in any of the three files
+# still fails the check.
+#
 # The evaluation `.nc` is excluded from the comparison and that is not a loophole: batch 2
 # established that chap-core stamps `created_date` into it and serialises two set-valued
 # attributes in run-dependent order, so two identical runs differ in those bytes while
@@ -55,37 +70,50 @@ print(project_seed(Path('$ROOT')))")"
 RESULTS=""
 STATUS=identical
 
+KEEP="$(mktemp -d)"
+trap 'rm -rf "$KEEP"' EXIT
+
 for entry in "${MODELS[@]}"; do
   name="${entry%%:*}"
   node="${entry#*:}"
   differing=""
+  combo="determinism_${name}"
+  collected="$ROOT/analysis/04_score/01_collect/results/$combo"
 
-  for run in 1 2; do
-    combo="determinism_${name}_${run}"
-    COMBO="$combo" bash "$ROOT/analysis/02_setup/run.sh" > /dev/null
-    COMBO="$combo" bash "$ROOT/$node/run.sh" > /dev/null
-    COMBO="$combo" bash "$ROOT/analysis/04_score/01_collect/run.sh" > /dev/null
-  done
+  # Pass 1, under `$combo`. Its outputs are copied aside, because pass 2 runs under the
+  # same name and overwrites them -- which is the point: see the note above.
+  COMBO="$combo" bash "$ROOT/analysis/02_setup/run.sh" > /dev/null
+  COMBO="$combo" bash "$ROOT/$node/run.sh" > /dev/null
+  COMBO="$combo" bash "$ROOT/analysis/04_score/01_collect/run.sh" > /dev/null
 
-  a="$ROOT/analysis/04_score/01_collect/results/determinism_${name}_1"
-  b="$ROOT/analysis/04_score/01_collect/results/determinism_${name}_2"
+  mkdir -p "$KEEP/$name"
+  cp "$collected/metrics_cell.csv" "$collected/models.csv" "$KEEP/$name/"
+  fitted=$(find "$ROOT/$node" -path "*/results/$combo/fitted_model.json")
+  cp "$fitted" "$KEEP/$name/fitted_model.json"
+
+  # Pass 2, under the same name, overwriting pass 1 in place.
+  COMBO="$combo" bash "$ROOT/analysis/02_setup/run.sh" > /dev/null
+  COMBO="$combo" bash "$ROOT/$node/run.sh" > /dev/null
+  COMBO="$combo" bash "$ROOT/analysis/04_score/01_collect/run.sh" > /dev/null
+
   for file in metrics_cell.csv models.csv; do
-    cmp -s "$a/$file" "$b/$file" || { differing="$differing $file"; STATUS=differs; }
+    cmp -s "$KEEP/$name/$file" "$collected/$file" \
+      || { differing="$differing $file"; STATUS=differs; }
   done
 
   # The fitted model too: it is what the forecasts' spread comes from.
-  fa=$(find "$ROOT/$node" -path "*/results/determinism_${name}_1/fitted_model.json")
-  fb=$(find "$ROOT/$node" -path "*/results/determinism_${name}_2/fitted_model.json")
-  cmp -s "$fa" "$fb" || { differing="$differing fitted_model.json"; STATUS=differs; }
+  fitted=$(find "$ROOT/$node" -path "*/results/$combo/fitted_model.json")
+  cmp -s "$KEEP/$name/fitted_model.json" "$fitted" \
+    || { differing="$differing fitted_model.json"; STATUS=differs; }
 
   RESULTS="$RESULTS
   {\"model\": \"$name\", \"node\": \"$node\", \"identical\": $([ -z "$differing" ] && echo true || echo false),
    \"files_compared\": [\"metrics_cell.csv\", \"models.csv\", \"fitted_model.json\"],
    \"differing_files\": \"$(echo $differing)\"},"
 
-  # The scratch combinations are removed: they are not analysis results.
-  rm -rf "$ROOT/analysis/04_score/01_collect/results/determinism_${name}_"[12]
-  find "$ROOT/analysis" -type d -name "determinism_${name}_[12]" -exec rm -rf {} + 2>/dev/null || true
+  # The scratch combination is removed: it is not an analysis result.
+  rm -rf "$collected"
+  find "$ROOT/analysis" -type d -name "$combo" -exec rm -rf {} + 2>/dev/null || true
 done
 
 cat > "$OUT/model_determinism.json" <<JSON

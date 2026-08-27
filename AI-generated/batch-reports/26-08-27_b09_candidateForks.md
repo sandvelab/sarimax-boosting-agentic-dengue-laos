@@ -366,3 +366,33 @@ error in a script that did not divide by a variance would have produced a plausi
   of *ours* by 2.402 and the best on the board by nothing, since the reference is unmoved and
   unmovable. I have applied it as "the best of ours" and batch 10 is admissible either way,
   but it will matter at batch 11.
+
+---
+
+## Correction — 2026-08-27, from batch 21
+
+**§10's Rule 6 line cites `AI-generated/determinism-checks/model_determinism.json` as
+`identical`. The file this batch committed says `differs`.**
+
+What §10 claims in words is true and is unaffected: two independent runs of every model of
+ours, the promoted hurdle candidate included, produced **identical per-cell scores and
+identical fitted objects**. What is wrong is the parenthetical citation of the file's
+top-level status word, which said `differs` at commit `dec4116` and had said `identical` at
+`509d458` one batch earlier.
+
+The cause was in the check, not in the models, and it was this batch's own doing. Batch 9
+added a `scored_under_combo` column to `models.csv` — the column that makes `COMBO_BASE`
+inheritance visible on the face of the file. `verify_model_determinism.sh` ran its two
+passes under scratch combinations named `determinism_<model>_1` and `_2` and compared
+`models.csv` byte for byte, so from this commit onward it was comparing a field whose value
+*is* the pass's own scratch name. It could not pass, for any model, ever again.
+
+**Repaired on 2026-08-27**: both passes now run under one combination name, pass 1's outputs
+are copied aside and compared with what pass 2 writes over them, and nothing is exempted
+from the comparison. Re-run at that commit, the check reports `identical` for persistence,
+climatology and the candidate. `AI-generated/determinism-checks/provenance.md` carries the
+demonstration and the alternatives that were rejected; the plan's §4b records the decision
+as `agent-on-human-assessment`.
+
+**Nothing else in this report is affected**, and no number in it changes: the defect was in
+a status word, and the scores and fitted objects it was reporting on matched all along.

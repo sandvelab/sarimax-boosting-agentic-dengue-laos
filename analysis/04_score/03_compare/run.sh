@@ -13,5 +13,6 @@ PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 
 # Own scripts
 "$PYTHON" "scripts/compare_models.py"
+"$PYTHON" "scripts/fig_accuracy_and_spread.py"
 "$PYTHON" "scripts/fig_crps_by_location.py"
 "$PYTHON" "scripts/fig_paired_vs_reference.py"

@@ -18,7 +18,10 @@ What it guarantees for every caller:
   * the model's own files are hashed into its spec before the run, so the record names
     the bytes that were evaluated;
   * every model writes the same `model_spec.json`, which is what lets `04_score` collect
-    them without knowing what any of them is.
+    them without knowing what any of them is;
+  * a model that takes configuration is pointed at a **file** for it, and that file is
+    hashed into the spec, so what a run was configured with is a stored artifact rather
+    than a command line nobody kept.
 """
 
 from __future__ import annotations
@@ -30,6 +33,8 @@ import shutil
 import subprocess
 import time
 from pathlib import Path
+
+import yaml
 
 
 def repo_root(start: Path) -> Path:
@@ -59,12 +64,16 @@ def setup(root: Path, name: str) -> dict:
 
 
 def chap_eval(root: Path, *, model_name: str, dataset: Path, output: Path, log: Path,
-              flags: dict, runs_dir: Path, extra: list[str] | None = None) -> float:
+              flags: dict, runs_dir: Path, configuration: Path | None = None,
+              extra: list[str] | None = None) -> float:
     """One `chap eval`, timed. Returns wall-clock seconds.
 
     The scheme flags are passed through from `02_setup`; this function chooses none of
-    them. `extra` carries the few switches that are a property of how a model is served
-    rather than of the evaluation -- `--run-config.is-chapkit-model` for a service.
+    them. `configuration` is a model configuration YAML assembled by the model's own node
+    -- chap-core parses it, writes it into the run directory and substitutes it for the
+    `{model_config}` placeholder in the model's entry points. `extra` carries the few
+    switches that are a property of how a model is served rather than of the evaluation
+    -- `--run-config.is-chapkit-model` for a service.
     """
     output.parent.mkdir(parents=True, exist_ok=True)
     runs_dir.mkdir(parents=True, exist_ok=True)
@@ -77,6 +86,7 @@ def chap_eval(root: Path, *, model_name: str, dataset: Path, output: Path, log: 
         "--backtest-params.n-splits", str(flags["n_splits"]),
         "--backtest-params.stride", str(flags["stride"]),
         "--backtest-params.n-retrain", str(flags["n_retrain"]),
+        *(["--model-configuration-yaml", str(configuration)] if configuration else []),
         *(extra or []),
     ]
     environment = {**os.environ, "CHAP_RUNS_DIR": str(runs_dir), "PYTHONWARNINGS": "ignore"}
@@ -93,13 +103,18 @@ def chap_eval(root: Path, *, model_name: str, dataset: Path, output: Path, log: 
 
 
 def run_local_model(node: Path, *, name: str, model_dir: Path, n_samples: int,
-                    seeded: bool, seed: int | None = None, note: str = "") -> dict:
+                    seeded: bool, seed: int | None = None, note: str = "",
+                    configuration: Path | None = None) -> dict:
     """Evaluate one `MLproject` model of ours, and write the contract files.
 
     `model_dir` is the model contract directory -- the one holding `MLproject`. chap-core
     builds its environment from the `pyproject.toml` and `uv.lock` inside it, so the
     model's dependencies are pinned by a file that travels with the model rather than by
     whatever the evaluating machine happens to hold.
+
+    `configuration`, when given, is the model configuration YAML this model's node
+    assembled for this combination. It is hashed into the spec and its contents copied
+    into it, so the record of the run names both the file and what was in it.
     """
     root = repo_root(node)
     name_combo = combo()
@@ -124,7 +139,7 @@ def run_local_model(node: Path, *, name: str, model_dir: Path, n_samples: int,
     seconds = chap_eval(
         root, model_name=str(model_dir), dataset=common["dataset_path"],
         output=out / "eval.nc", log=out / "eval.log", flags=flags,
-        runs_dir=work / "runs")
+        runs_dir=work / "runs", configuration=configuration)
 
     # chap-core fits into its run directory, which is working space and not tracked.
     # The fitted object is what the forecasts' spread comes from, so it is copied out.
@@ -160,6 +175,10 @@ def run_local_model(node: Path, *, name: str, model_dir: Path, n_samples: int,
         "model_dir": str(model_dir.relative_to(root)),
         "model_files_sha256": model_files,
         "shipped_lockfile_is_the_one_built_from": lock_matches,
+        "configuration": str(configuration.relative_to(root)) if configuration else None,
+        "configuration_sha256": sha256(configuration) if configuration else None,
+        "configuration_contents": (yaml.safe_load(configuration.read_text())
+                                   if configuration else None),
     }
     (out / "model_spec.json").write_text(json.dumps(spec, indent=1, sort_keys=True) + "\n")
 

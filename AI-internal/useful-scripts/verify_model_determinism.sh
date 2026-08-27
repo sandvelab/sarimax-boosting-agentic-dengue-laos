@@ -1,11 +1,20 @@
 #!/usr/bin/env bash
 # Rule 6, verified rather than asserted: run each of our models twice and compare.
 #
+# Two different claims are checked here, and the check is the same for both.
+#
 # Both baselines claim to contain no randomness at all -- their predictive distributions
 # are empirical quantile functions evaluated at fixed levels, not samples from them -- so
 # the claim to check is that there is nothing to seed, and the check is that two
 # independent runs produce identical files. A model that failed this would need a seed,
 # and the failure would be silent without a check like this one.
+#
+# The candidate does draw: from a Laplace posterior, from a prior on the province-year
+# effect, and from the negative binomial on top of both. Its claim is that every one of
+# those draws comes from a single generator seeded with a component seed derived from the
+# project seed, so that two runs are identical anyway. That is the claim Rule 6 is
+# actually about, and it fails silently in exactly one way -- a second generator
+# somewhere, seeded from system entropy -- which two runs and a diff will catch.
 #
 # The combination mechanism makes this cheap: each run is an ordinary run of the same
 # nodes under a scratch COMBO, so the check exercises the same code path the reported
@@ -31,7 +40,17 @@ mkdir -p "$OUT"
 MODELS=(
   "persistence:analysis/03_models/01_baselines/01_persistence"
   "climatology:analysis/03_models/01_baselines/02_climatology"
+  "hier_nb:analysis/03_models/03_candidate"
 )
+
+# The seed is a project setting and is declared in one place. Read, not copied: a second
+# copy of it in this file could disagree with the one the models are seeded from, and the
+# report would then name a seed nothing used.
+PROJECT_SEED="$("$ROOT/.venv/bin/python" -c "
+import sys; sys.path.insert(0, '$ROOT/analysis/scripts/lib')
+from pathlib import Path
+from project_seed import project_seed
+print(project_seed(Path('$ROOT')))")"
 
 RESULTS=""
 STATUS=identical
@@ -74,7 +93,7 @@ cat > "$OUT/model_determinism.json" <<JSON
  "checked": "$(date +%Y-%m-%d)",
  "status": "$STATUS",
  "excluded_from_comparison": "eval.nc -- chap-core stamps created_date into it and serialises two set-valued attributes in run-dependent order (batch 2). Everything computed from it is compared.",
- "project_seed": 20260822,
+ "project_seed": $PROJECT_SEED,
  "models": [$(echo "$RESULTS" | sed '$ s/,$//')
  ]
 }

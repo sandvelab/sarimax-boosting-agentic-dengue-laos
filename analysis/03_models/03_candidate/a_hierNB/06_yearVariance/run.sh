@@ -11,5 +11,5 @@ REPO_ROOT="$(cd "../../../../.." && pwd)"
 PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 
 # Alternatives: only the main path is run here.
-# Not taken: b_provinceScaled
-bash "a_shared/run.sh"
+# Not taken: a_shared
+bash "b_provinceScaled/run.sh"

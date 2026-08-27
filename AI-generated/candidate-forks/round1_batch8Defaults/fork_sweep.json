@@ -1,5 +1,6 @@
 {
  "base_combination": "main",
+ "base_configuration_sha256": "1a16dbc018bcebea8bb30ed6d7761553f7f323f70320d04bac0c9b9ceae2f1f8",
  "best_combination": "observation_hurdle",
  "best_mean_crps": 23.985354566037735,
  "best_moves_the_main_path_by": 2.114781552560647,

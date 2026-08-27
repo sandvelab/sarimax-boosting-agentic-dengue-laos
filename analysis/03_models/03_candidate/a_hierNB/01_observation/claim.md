@@ -5,7 +5,7 @@ What observation model do the counts get? Monthly province counts on this datase
 ## Children
 
 kind: alternatives
-main-path: a_negBinomial
+main-path: c_hurdle
 
 ## Environment
 

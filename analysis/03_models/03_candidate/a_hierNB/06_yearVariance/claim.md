@@ -5,7 +5,7 @@ Is the year-to-year variability of dengue the same relative size in every provin
 ## Children
 
 kind: alternatives
-main-path: a_shared
+main-path: b_provinceScaled
 
 ## Environment
 

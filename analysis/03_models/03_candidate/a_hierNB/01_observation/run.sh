@@ -11,5 +11,5 @@ REPO_ROOT="$(cd "../../../../.." && pwd)"
 PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 
 # Alternatives: only the main path is run here.
-# Not taken: b_zeroInflated, c_hurdle
-bash "a_negBinomial/run.sh"
+# Not taken: a_negBinomial, b_zeroInflated
+bash "c_hurdle/run.sh"

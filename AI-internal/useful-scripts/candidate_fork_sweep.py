@@ -40,9 +40,14 @@ would replace its four repeats with a different draw and move the denominator of
 comparison for reasons that have nothing to do with the fork.
 
 Run from the repository root:
-  .venv/bin/python AI-internal/useful-scripts/candidate_fork_sweep.py run
-  .venv/bin/python AI-internal/useful-scripts/candidate_fork_sweep.py run --only autoregressive_lag3
-  .venv/bin/python AI-internal/useful-scripts/candidate_fork_sweep.py summarise
+  .venv/bin/python AI-internal/useful-scripts/candidate_fork_sweep.py run --label round2_promoted
+  .venv/bin/python .../candidate_fork_sweep.py run --label round2_promoted --only autoregressive_lag3
+  .venv/bin/python .../candidate_fork_sweep.py summarise --label round2_promoted
+
+**A sweep is taken around one main path.** Promoting a fork moves the main path, so the
+rows of a sweep taken before the promotion and one taken after are not comparable and must
+not share a table. `--label` names the sweep; `summarise` refuses to rebuild a table whose
+recorded base configuration is not the tree's current one.
 """
 
 from __future__ import annotations
@@ -59,7 +64,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 CANDIDATE = ROOT / "analysis/03_models/03_candidate/a_hierNB"
-OUT = ROOT / "AI-generated/candidate-forks"
+OUT_ROOT = ROOT / "AI-generated/candidate-forks"
 PYTHON = ROOT / "environment/chapenv/bin/python"
 BASE = "main"
 
@@ -100,12 +105,12 @@ def step(command: list[str], environment: dict, log) -> None:
         raise SystemExit(f"failed ({result.returncode}): {' '.join(command)}; see {log.name}")
 
 
-def run_one(fork: Path, child: Path) -> dict:
+def run_one(fork: Path, child: Path, out: Path) -> dict:
     """Run one sibling end to end, from its own choice down to the aggregated scores."""
     combo = combination(fork, child)
-    OUT.mkdir(parents=True, exist_ok=True)
+    out.mkdir(parents=True, exist_ok=True)
     environment = {**os.environ, "COMBO": combo, "COMBO_BASE": BASE}
-    log_path = OUT / f"sweep_{combo}.log"
+    log_path = out / f"sweep_{combo}.log"
 
     started = time.time()
     with log_path.open("w") as log:
@@ -134,9 +139,22 @@ def summary_row(combo: str) -> dict:
     return rows
 
 
-def summarise() -> None:
+def summarise(out: Path, guard: bool = True) -> None:
     """Collate every combination's scores into one table. Copies; computes one ratio."""
-    OUT.mkdir(parents=True, exist_ok=True)
+    out.mkdir(parents=True, exist_ok=True)
+    previous = out / "fork_sweep.json"
+    if guard and previous.exists():
+        recorded = json.loads(previous.read_text()).get("base_configuration_sha256")
+        current = json.loads(
+            (CANDIDATE / "results" / BASE / "candidate_spec.json").read_text()
+        )["configuration_sha256"]
+        if recorded and recorded != current:
+            raise SystemExit(
+                "the main path has moved since this sweep was run: it was taken around\n"
+                f"  {recorded}\nand the tree now says\n  {current}\n"
+                "A one-at-a-time sweep whose rows were measured around different base\n"
+                "configurations is not a sweep. Run the sweep again rather than "
+                "re-tabulating this one.")
     entries = [{"combo": BASE, "fork": "-", "child": "the main path"}]
     for fork, main, siblings in forks():
         for child in siblings:
@@ -166,15 +184,16 @@ def summarise() -> None:
         })
 
     table.sort(key=lambda row: row["mean_crps"])
-    board = OUT / "fork_leaderboard.csv"
+    board = out / "fork_leaderboard.csv"
     with board.open("w", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(table[0]))
+        # Line endings to match every other CSV in the project, which pandas wrote.
+        writer = csv.DictWriter(handle, fieldnames=list(table[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(table)
 
     best = table[0]
     main_row = next(row for row in table if row["combo"] == BASE)
-    (OUT / "fork_sweep.json").write_text(json.dumps({
+    (out / "fork_sweep.json").write_text(json.dumps({
         "swept": "analysis/03_models/03_candidate/a_hierNB",
         "base_combination": BASE,
         "combinations": len(table),
@@ -182,6 +201,10 @@ def summarise() -> None:
                    "metrics_summary.csv, and the candidate node's run_cost.json and "
                    "candidate_spec.json"),
         "main_path_mean_crps": main_row["mean_crps"],
+        # The configuration the sweep was taken around. `summarise` refuses to rebuild
+        # the table against a different one, because a one-at-a-time sweep whose rows
+        # were measured around different base configurations is not a sweep.
+        "base_configuration_sha256": main_row["configuration_sha256"],
         "best_combination": best["combo"],
         "best_mean_crps": best["mean_crps"],
         "best_moves_the_main_path_by": main_row["mean_crps"] - best["mean_crps"],
@@ -199,16 +222,125 @@ def summarise() -> None:
     print(f"\n-> {board.relative_to(ROOT)}")
 
 
+def compare_rounds(before: Path, after: Path, out: Path) -> None:
+    """What one sweep says a fork is worth, against what the next sweep says.
+
+    A one-at-a-time sweep answers "what does this fork do to the main path" one fork at a
+    time, which is what tier 1 of the phase-D manifest is. Running a second sweep around
+    a promoted main path answers the same question from a different place, and the two
+    answers need not agree -- if the forks interact, they will not.
+
+    The comparison is between a child's effect **around the earlier base** and the same
+    child's effect **around the later one**, both taken as `base CRPS - child CRPS`, so a
+    positive number always means "taking this child improves the model from here". For a
+    child that was promoted, its effect around the later base is the mirror image: the
+    child that was demoted in its place now sits in the table, and reverting to it is the
+    cost of the promotion measured from the other side.
+    """
+    rows_before = {row["combo"]: row for row in
+                   csv.DictReader((before / "fork_leaderboard.csv").open())}
+    rows_after = {row["combo"]: row for row in
+                  csv.DictReader((after / "fork_leaderboard.csv").open())}
+    base_before = float(rows_before["main"]["mean_crps"])
+    base_after = float(rows_after["main"]["mean_crps"])
+
+    # Which child each fork took before and takes now, read from the two tables' own
+    # notion of what was not the main path.
+    def children(rows):
+        return {row["fork"]: row["child"] for row in rows.values() if row["fork"] != "-"}
+
+    table = []
+    for fork, _, siblings in forks():
+        name = str(fork.relative_to(ROOT))
+        for child in siblings + [Path(field((fork / "claim.md").read_text(), "main-path"))]:
+            combo_after = combination(fork, fork / child.name)
+            combo_before = combo_after
+            if combo_after not in rows_after and combo_after not in rows_before:
+                continue
+            effect_before = (base_before - float(rows_before[combo_before]["mean_crps"])
+                             if combo_before in rows_before else None)
+            effect_after = (base_after - float(rows_after[combo_after]["mean_crps"])
+                            if combo_after in rows_after else None)
+            table.append({
+                "fork": name, "child": child.name,
+                "on_the_main_path_now": child.name not in [s.name for s in siblings],
+                "effect_around_earlier_base": effect_before,
+                "effect_around_later_base": effect_after,
+                "sign_reversed": (effect_before is not None and effect_after is not None
+                                  and effect_before * effect_after < 0),
+            })
+
+    promoted = [row for row in table if row["on_the_main_path_now"]
+                and row["effect_around_earlier_base"] is not None]
+    out.mkdir(parents=True, exist_ok=True)
+    with (out / "fork_interaction.csv").open("w", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(table[0]), lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(table)
+
+    summary = {
+        "earlier_sweep": before.name,
+        "later_sweep": after.name,
+        "earlier_base_mean_crps": base_before,
+        "later_base_mean_crps": base_after,
+        "actual_gain_from_the_promotion": base_before - base_after,
+        # What the one-at-a-time sweep predicted the promotion would gain, if the forks
+        # it moved had acted independently.
+        "sum_of_the_promoted_forks_one_at_a_time_effects":
+            sum(row["effect_around_earlier_base"] for row in promoted),
+        "promoted": {row["child"]: row["effect_around_earlier_base"] for row in promoted},
+        "children_whose_effect_reversed_sign":
+            [row["child"] for row in table if row["sign_reversed"]],
+        "source": [str((p / "fork_leaderboard.csv").relative_to(ROOT))
+                   for p in (before, after)],
+    }
+    summary["one_at_a_time_overstates_the_promotion_by"] = (
+        summary["sum_of_the_promoted_forks_one_at_a_time_effects"]
+        - summary["actual_gain_from_the_promotion"])
+    (out / "fork_interaction.json").write_text(json.dumps(summary, indent=1, sort_keys=True) + "\n")
+
+    print(f"{'fork child':28s} {'around ' + before.name[:10]:>18} "
+          f"{'around ' + after.name[:10]:>18}")
+    for row in table:
+        def show(value):
+            return f"{value:+.3f}" if value is not None else "-"
+        mark = "  <- on the main path" if row["on_the_main_path_now"] else ""
+        print(f"{row['child']:28s} {show(row['effect_around_earlier_base']):>18} "
+              f"{show(row['effect_around_later_base']):>18}{mark}")
+    print(f"\npromotion gained {summary['actual_gain_from_the_promotion']:.3f} CRPS; "
+          f"one at a time predicted "
+          f"{summary['sum_of_the_promoted_forks_one_at_a_time_effects']:.3f}")
+    print(f"-> {(out / 'fork_interaction.csv').relative_to(ROOT)}")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     sub = parser.add_subparsers(dest="command", required=True)
-    runner = sub.add_parser("run", help="run every sibling, then summarise")
-    runner.add_argument("--only", help="one combination name, to re-run it alone")
-    sub.add_parser("summarise", help="rebuild the table from what is already in the tree")
+    for name, help_text in (("run", "run every sibling, then summarise"),
+                            ("summarise", "rebuild the table from what is in the tree")):
+        step_parser = sub.add_parser(name, help=help_text)
+        # A sweep is taken around one main path, and the main path moves when a fork is
+        # promoted. The label says which sweep a table is, so a later one does not
+        # overwrite the record the promotion was decided from.
+        step_parser.add_argument("--label", required=True,
+                                 help="subdirectory for this sweep's outputs")
+        if name == "run":
+            step_parser.add_argument("--only", help="one combination name, to run alone")
+    rounds = sub.add_parser("compare-rounds",
+                            help="what a fork was worth in one sweep against the next")
+    rounds.add_argument("--before", required=True)
+    rounds.add_argument("--after", required=True)
     args = parser.parse_args(argv)
 
+    if args.command == "compare-rounds":
+        compare_rounds(OUT_ROOT / args.before, OUT_ROOT / args.after,
+                       OUT_ROOT / args.after)
+        return 0
+
+    out = OUT_ROOT / args.label
+
     if args.command == "summarise":
-        summarise()
+        summarise(out)
         return 0
 
     ran = []
@@ -217,11 +349,13 @@ def main(argv: list[str] | None = None) -> int:
             if args.only and combination(fork, child) != args.only:
                 continue
             print(f"{fork.name}/{child.name}")
-            ran.append(run_one(fork, child))
+            ran.append(run_one(fork, child, out))
     if not ran:
         raise SystemExit(f"nothing to run{f' for {args.only!r}' if args.only else ''}")
-    (OUT / "sweep_runs.json").write_text(json.dumps(ran, indent=1, sort_keys=True) + "\n")
-    summarise()
+    (out / "sweep_runs.json").write_text(json.dumps(ran, indent=1, sort_keys=True) + "\n")
+    # No guard here: a `run` has just measured every row around the current main path,
+    # so the table it writes is by construction taken around that configuration.
+    summarise(out, guard=False)
     return 0
 
 

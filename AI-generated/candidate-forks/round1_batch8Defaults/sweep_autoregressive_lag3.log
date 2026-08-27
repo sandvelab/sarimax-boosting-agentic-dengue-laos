@@ -1,0 +1,12 @@
+# autoregressive_lag3: analysis/03_models/03_candidate/a_hierNB/05_autoregressive/b_lag3, everything else at main
+
+$ bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/05_autoregressive/b_lag3/run.sh
+autoregressive/b_lag3[autoregressive_lag3]: log1p cases at lag 3; autocorrelation 0.701 at lag 3 against 0.758 at lag 12 -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/05_autoregressive/b_lag3/results/autoregressive_lag3
+$ /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/scripts/assemble_candidate_config.py
+candidate[autoregressive_lag3]: {'observation': 'a_negBinomial', 'covariates': 'a_lagged', 'population': 'a_offset', 'fit_time': 'a_trainOnly', 'autoregressive': 'b_lag3', 'year_variance': 'a_shared'}, covariates ['rainfall', 'mean_temperature'], seed 849487747; taken here: ['autoregressive=b_lag3'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/results/autoregressive_lag3
+$ /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/scripts/run_hier_nb.py
+hier_nb[autoregressive_lag3]: 29 s (3.6 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/results/autoregressive_lag3
+$ bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/run.sh
+collect[autoregressive_lag3]: 8 model rows, 2968 cells, 16 locations -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/results/autoregressive_lag3; inherited from main: ['climatology', 'persistence', 'reference', 'reference_r1', 'reference_r2', 'reference_r3', 'reference_r4']
+$ bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/02_aggregate/run.sh
+aggregate/a_unweighted[autoregressive_lag3]: 8 models over 371 cells; best reference_r4 at CRPS 21.820

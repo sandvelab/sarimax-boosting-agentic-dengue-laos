@@ -651,3 +651,60 @@ directories named after promoted children were removed for the same reason.
 5. **Batch 8's question about the phase-C stopping rule is still open** — whether "the
    leaderboard's best" means the best of ours or the best model on the board. It does not
    bind batch 10; it will bind batch 11.
+
+## T21 — Batch 21: the greedy branch (2026-08-27)
+
+**Where it lives.** Everything this batch produced is on the git branch **`greedy`**, which
+branches from `782be5f` and is **never merged**. On `main` the batch left three things: the
+ledger row, a §4b entry in the plan recording what the branch settled, and a line in
+`readme-at-start.md`. The batch report is deliberately *not* copied to `main`, because every
+file it cites is on the branch.
+
+**What was produced (on the branch).** `AI-generated/candidate-forks/greedy/` — the rule
+(`greedy_rule.md`), one record and one log per round, the cross-round trajectory
+(`greedy_path.json`), the figure and its two value files, and each round's own sweep in the
+format `candidate_fork_sweep.py` writes. `AI-internal/useful-scripts/greedy_iterate.py`
+(executes the rule) and `greedy_trajectory.py` (the figure).
+`03_models/03_candidate/a_hierNB` moved four of its six forks, and every node from the
+candidate down to `analysis/scripts/conclude.py` was re-run under `COMBO=main`.
+
+**The design decisions a future session needs.** The rule is executed by a script and each
+round's record is written *before* the tree is touched, so the selection cannot be fitted to
+what it selected; the rule itself was committed at `cb61c1d`, before the first round it
+decided was run. Round 1 reused batch 9's `round2_promoted` sweep rather than re-running it,
+and the driver checks the recorded base-configuration hash against the tree before believing
+a reused table. The reference and the baselines were never re-run — nothing the branch moves
+changes what they face, and the reference is unseeded — so `04_score` inherits them from what
+they scored on the main line, and only `hier_nb` differs. The holdout was not opened.
+
+**What to be careful of.** Two record failures, both real and both kept. (1) The loop ran
+unattended, so no commit falls between the rounds: the main-path markers moved twice inside
+one commit, and round 2's per-combination results were replaced by round 3 before any commit
+held them. What survives is `round_02.json`, `round02/fork_leaderboard.csv` and the sweep
+logs; recovering the files means re-running the branch from `cb61c1d`, which is deterministic
+and costs about half an hour. Batch 9's hand-run rounds did not have this problem. If the
+loop is ever run again, commit per round. (2) The model the branch selected has **no fitted
+object** — `fit_time = predict` fits inside chap-core's untracked run directories — so Rule
+5 is satisfied only for what that configuration has, and the determinism check's
+fitted-object comparison is vacuous for it.
+
+**Follow-ups.**
+1. **`verify_model_determinism.sh` needs a decision from the human.** It has reported
+   `status: differs` since `models.csv` gained `scored_under_combo`, because the check
+   compares that column between two scratch combinations whose names differ by construction.
+   `metrics_cell.csv` and `fitted_model.json` match in every case. Batch 9's report and T9
+   both cite the file as `identical`, which is what its *contents* support and not what its
+   status field says. The honest repairs are to exclude that column from the comparison or to
+   drop the file from it and say so; both change main-line machinery and a written report, so
+   neither was done.
+2. **Batch 12 must not cut tier 2 of the manifest.** Two independent demonstrations now, in
+   opposite directions: batch 9's three forks that overstated their combined worth, and this
+   branch's fork that was worth nothing until another one moved.
+3. **Whether the greedy model joins phase E** is the human's and is not settled. It would
+   spend part of the holdout's single opening on a path the project does not report.
+4. **The refit is a fair fix and the rest is selection, and nothing separates them.**
+   `b_refitAtPredict` corrects a real asymmetry — the reference model refits inside its own
+   predict endpoint and ours did not — and it alone was worth 0.873 of the branch's 2.42. A
+   later batch that wants to argue the main line is under-powered rather than under-fitted
+   should start there, and it would be a fork moved on a structural argument rather than on a
+   development score.

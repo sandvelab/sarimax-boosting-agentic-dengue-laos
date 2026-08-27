@@ -36,7 +36,7 @@ representative research problem, and where it fails.
 
 - **Target venue**: not fixed in the source material. The manuscript this case serves updates
   Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013), which is the obvious precedent.
-- **Status**: analysis (phase A complete, batches 1–5; **phase B complete, batches 6–7**; phase C next, batch 8). Nineteen batches in the ledger, plus one optional.
+- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; **phase C under way, batch 8 done**, batch 9 next). Nineteen batches in the ledger, plus one optional.
 - **Manuscript**: `Human-AI-collaboration/manuscript/`
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`. It carries the
@@ -58,6 +58,7 @@ representative research problem, and where it fails.
 | Reported conclusion | A skill score against the reference model, `1 − CRPS_ours / CRPS_ewars`, computed per analysis by a script, with raw CRPS and coverage beside it. Relative rather than absolute, so that the development and held-out spreads can be read on one axis instead of confounding inflated performance with a harder year. |
 | Required baselines | Persistence and seasonal climatology, implemented as Chap-compatible models so they traverse the identical evaluation path. |
 | Reference model to beat | `https://github.com/chap-models/chapkit_ewars_model` (WHO EWARS-csd), at its own default configuration — on the cross-validated development backtest **and** on the held-out year. Not tuned by us. Pinned by image digest `sha256:abd8098f…` (= source commit `a4c2fa42`); runs as an amd64 chapkit service under emulation, so **Docker must be running**. Its development mean CRPS is **22.098**, the per-cell mean of four repeats scored from inside the tree in batch 7 (batch 4's reconnaissance figure was 21.9). It is **unseeded**: the four repeats span 21.820 to 22.385, so a margin under **~0.57 CRPS** against it means nothing. |
+| Project seed, derived | Every component seed is `int(blake2b("<project seed>:<component>", digest_size=8), 16) % 2**32`, computed by `analysis/scripts/lib/project_seed.py`, which reads the project seed from the table above rather than carrying a copy. Fixed in batch 8, the first batch with anything to seed. |
 | What counts as success | Beating both baselines and EWARS. Nothing here can reach statistical significance and no attempt is made to suggest it does: the comparison is reported with its per-region and per-split spread and a plain statement of what that spread can distinguish. "We cannot separate these two" is a conclusion. **Batch 7 measured what that spread is: the development backtest resolves about 4 CRPS**, wider than the gap between the persistence baseline and EWARS, so a candidate can top the leaderboard without the evaluation being able to say it beat the reference. |
 | Shape of the reported result | A **spread, not a point**, on both datasets. The phase-D perturbation set is frozen before the holdout is opened and re-run on it, so development and holdout are both reported as distributions over the analyses that all looked reasonable. |
 | Model service framework | `chapkit` may be used to build our own models against the Chap contract. Permitted, not mandated. |
@@ -105,7 +106,10 @@ do if EWARS cannot be run on this dataset, which the plan's §2 answers.
   `AI-generated/batch-reports/26-08-26_b05_bootstrapPlan.md`. **Batch 7 built it**, and
   `bash analysis/run.sh` reproduces the whole reported analysis in about twenty minutes.
   `analysis/README.md` is the map. Every node below `01_data` reads and writes under
-  `results/$COMBO/`, which defaults to `main`.
+  `results/$COMBO/`, which defaults to `main`. **Batch 8 added `03_models/03_candidate`**,
+  our own model families: `a_hierNB` and the four forks that configure it. Its
+  configuration reaches the model as a file assembled from those forks and passed to
+  `chap eval --model-configuration-yaml`, which is also where the component seed enters.
 - Batch reports, one per executed batch, are in `AI-generated/batch-reports/`. Checks on the
   method — clean-room, determinism — are in `AI-generated/validation/` and
   `AI-generated/determinism-checks/`.

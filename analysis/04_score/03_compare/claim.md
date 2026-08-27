@@ -42,3 +42,11 @@ reference are close to a coin flip, and the reference's advantage comes from a m
 cells rather than from being broadly better. And the reference's own unseeded repeats differ
 by up to **0.57 CRPS** in the same paired statistic, which is the floor below which nothing
 can be attributed to a model at all.
+
+**A fourth finding, once a candidate existed: CRPS and MAE can rank the models in opposite
+orders, and calibration does not explain the difference.** The candidate is first on mean
+absolute error and last on CRPS, while sitting closer to both nominal interval levels than any
+other model of ours (`results/main/fig_accuracy_and_spread.csv`). A mean coverage cannot see
+an interval that is far too wide in one province and far too narrow in another, so the
+headline calibration figure the plan asks for beside CRPS is not on its own enough to diagnose
+a model — the per-province panel of `fig_crps_by_location` is where the disagreement resolves.

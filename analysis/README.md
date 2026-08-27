@@ -54,13 +54,25 @@ is what lets an alternative be swapped in without a single downstream script cha
     the seasonal distribution).
   - **`02_reference`** — WHO EWARS-csd at its own defaults, pinned by image digest, served
     as a container, run four times because it is unseeded.
-  - `03_candidate` — our own model families. Built in phase C.
+  - **`03_candidate`** (alternatives) — our own model families, one child per family.
+    `a_hierNB` is the main path and so far the only one built: a hierarchical
+    negative-binomial GLM, with four sub-analysis forks deciding what it is —
+    `01_observation`, `02_covariates`, `03_population`, `04_fitTime`. Each writes a
+    `model_option_spec.json`; the node's own `assemble_candidate_config.py` merges
+    whichever child of each ran into the one `model_configuration.yaml` that `chap eval`
+    is pointed at, and adds the component seed. `b_boosted` and `c_ensemble` are batches
+    10 and 11. **Every fork here moves only our model**, which is what distinguishes this
+    subtree from `02_setup`.
   - `scripts/lib/chap_eval.py` is the single route by which a model of ours reaches
     `chap eval`. It is a library, not a step.
 - **`04_score`** (sub-analyses) — `01_collect` (per-cell scores for every model that ran,
   from chap-core's own metrics), `02_aggregate` (a fork on the weighting of the headline
   mean), `03_compare` (the leaderboard, and the paired per-cell comparison against the
   reference with the noise floor beside it).
+- The root's own `scripts/lib/project_seed.py` reads the one project seed from
+  `readme-at-start.md` and derives a component seed from it by BLAKE2b. A library, not a
+  step; imported by the nodes that have something to seed. First used by `03_candidate`,
+  which is the first component in the project that draws at all.
 - The root's own `scripts/conclude.py` writes `results/$COMBO/conclusion.json`: the skill
   score against the reference, with raw CRPS and coverage beside it. **Nothing anywhere else
   in the repository states the conclusion**, so nothing can drift from it.

@@ -1,0 +1,12 @@
+additional_continuous_covariates:
+- rainfall
+- mean_temperature
+user_option_values:
+  covariate_lag_months: 2
+  covariates:
+  - rainfall
+  - mean_temperature
+  fit_time: train
+  observation: negative_binomial
+  population: offset
+  seed: 849487747

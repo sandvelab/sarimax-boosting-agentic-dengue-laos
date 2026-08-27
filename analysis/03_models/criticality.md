@@ -47,3 +47,34 @@ reference's, at 38 MB per setup combination and about 460 MB overall. Batch 12 r
 with the manifest in hand. The reuse column batch 5's design puts in `manifest.csv` — models
 re-run only when a fork upstream of them moved — is what keeps the figure from being several
 times larger.
+
+## Added in batch 8 — the candidate
+
+`03_candidate/a_hierNB/` and the four one-child forks above it. Written by
+`/annotate-criticality`; this section **proposes nothing and deletes nothing**, and it is
+appended rather than folded into the tables above, because what an earlier batch judged is
+part of the record.
+
+Total added: **10 MB per combination** tracked, of which 9.8 MB is one NetCDF. A further
+77 MB per combination is chap-core's per-split run directories and the environment `uv`
+builds for the model under `work/`; it is untracked, `.gitignore` covers it, and the node's
+`run.sh` regenerates it.
+
+| Artifact | Size | Role | Regenerable | Transparency | Note |
+|---|---|---|---|---|---|
+| `a_hierNB/results/$COMBO/eval.nc` | 9.8 MB | main result | **yes, 43 s, identically** | medium | The full forecast distribution, 371 cells × 1 000 draws. Seeded, and verified reproducible against a second run. The same trade as the baselines': 9.8 MB that costs 43 seconds to rebuild, against a per-cell file two orders of magnitude smaller that carries everything reported. **Prunable in the same breath as the baselines' evaluations, and after them.** |
+| `a_hierNB/results/$COMBO/fitted_model.json` | 28 KB | **main result** | yes, 43 s | **highest** | The only place the fit itself is recorded: the two variance components, the dispersion, every fixed effect and province effect, the Cholesky factor the forecasts are drawn from, and the EM history. A reader who wants to know *why* the intervals are too wide in one province reads this file, not the evaluation. Keep. |
+| `a_hierNB/results/$COMBO/model_configuration.yaml` | 248 B | **main result** | yes, seconds | **highest** | What the model was configured with, and the seed it used. The smallest load-bearing file the candidate has: without it a score names a model but not a configuration. |
+| `a_hierNB/results/$COMBO/candidate_spec.json` | 4 KB | **main result** | yes, seconds | **highest** | Which child of each of the four forks ran, the merged options, the seed derivation, and the route the configuration took into the model. This is what makes a combination readable off the file rather than out of the driver. |
+| `a_hierNB/results/$COMBO/model_spec.json` | 2.4 KB | **main result** | yes, 43 s | **highest** | The hashes of the model's own files, the dataset, the flags, the configuration and its contents, and whether the lockfile chap-core built from is the tracked one. |
+| `a_hierNB/results/$COMBO/run_cost.json` | 229 B | side result | yes, 43 s | medium | 43 s for eight splits. Batch 12's manifest costing should use this rather than batch 5's 120 s estimate. |
+| `a_hierNB/results/$COMBO/eval.log` | 3.3 KB | side result | yes, 43 s | high | The exact `chap eval` command line, including `--model-configuration-yaml`, and the platform's region-rejection warnings. |
+| `*/a_*/results/$COMBO/model_option_spec.json` (four) | 1–2 KB each | **main result** | yes, seconds | **highest** | One per fork: the choice, its option values, and the premise it was checked against. Four files, six kilobytes, and they are the whole record of what the candidate is. Never prune. |
+
+**At the scale of the manifest.** Twelve of the manifest's combinations move a
+candidate-internal fork and re-run this model; six more re-run it because a setup fork moved.
+At 10 MB each that is about **180 MB** for the candidate across the stability run, all of it
+in NetCDF and all of it regenerable in 43 seconds a piece. Nothing here binds, and if it ever
+did the rule is the same as for the baselines: keep `metrics_cell.csv`, keep every
+specification and every fitted object, drop the evaluations for our own models and never for
+the reference.

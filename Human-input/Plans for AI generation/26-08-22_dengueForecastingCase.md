@@ -267,6 +267,18 @@ before any of this.
 | The reference's run costs from batch 7 are an **upper bound**, not a measurement, and batch 12 re-measures them | The machine was heavily loaded by unrelated processes during part of the run. A contaminated figure would otherwise go into the manifest costing. | agent-autonomous |
 | **The headline weighting fork is not to be cut from the manifest** without an explicit decision | The reference is beaten by both baselines in the two provinces carrying the most evaluated cases and wins nearly everywhere else, so a population- or case-weighted mean moves weight toward where it does worst. Batch 5 costed this fork as the cheapest in the project; batch 7 gives the first evidence that it may be among the most informative. | agent-autonomous |
 
+### 2026-08-27 — settled by batch 8, from the first candidate
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **Model configuration reaches an `MLproject` model through a file assembled from the forks**, not through a file checked in beside the model | Open since batch 2. The route is chap-core's own — `--model-configuration-yaml` → `ModelConfiguration` → `model_configuration_for_run.yaml` → the `{model_config}` placeholder in the entry points. Assembling the file from whichever child of each fork ran means the forks are the only record of what the model is; a checked-in file would be a fifth record and the one that actually ran. | agent-autonomous |
+| The project seed is derived per component as **BLAKE2b of `"<project seed>:<component>"`**, read from the settings table in `readme-at-start.md` | Rule 6 asks for one seed derived downward. Reading it rather than copying it means there is no second number that could disagree; BLAKE2b rather than Python's `hash`, which is salted per process. The candidate is the first component in the project that draws at all. | agent-autonomous |
+| The candidate's default covariate set is **rainfall and mean temperature at a two-month lag** | It is the reference family's own published configuration for this country: `laos_eval_config.yaml` in `chap-models/ewars_plus_template`. Taking the same pair at the same lag makes the first configuration a comparable one rather than a differently-tuned one. | agent-on-human-assessment; the configuration was `agent-retrieved` |
+| **No autoregressive term on lagged counts in candidate 1's defaults**, although a lag of three is available at every horizon | None of the four forks batch 5 placed covers it, and adding a structural term outside them would be exactly the silent judgment call this project exists to make visible. It is proposed to batch 9 as a fifth fork instead — which is the visible way to add it. | agent-autonomous |
+| **The reference is not re-run when a batch only adds a model of ours** | It is unseeded, so re-running replaces the four repeats with a different draw and moves the denominator of every conclusion. What makes the comparison paired is that every model was scored on the same 371 cells of the same dataset, checked by comparing `dataset_sha256` across the specs — not that every model ran on the same day. | agent-autonomous |
+| **The backtest's resolution is a property of the pair being compared, not of the dataset alone** | Batch 7 measured ~4 CRPS using the two baselines. The candidate's paired difference against the reference has a clustered standard error of 1.11, less than half of persistence's 2.99, because the two models are structurally alike and fail on the same cells. A candidate built to be unlike the reference is harder to distinguish from it, not easier — which bears on how phase C's remaining candidates are chosen. | agent-autonomous |
+| Phase C's 0.4 CRPS stopping rule is **applied as written and not adjusted**: it governs whether a further *candidate* batch is added | Batch 8 moved the best of our models by zero. Batch 9 is candidate 1's internal forks rather than a further candidate, so it proceeds; batch 10's admissibility depends on what batch 9 moves. Whether "the leaderboard's best" was meant as the best of ours or the best candidate is put to the human in the batch-8 report rather than settled here. | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -320,8 +332,8 @@ at the end of every batch, and append newly created batches to it.
 | 5 | A | Bootstrap: turn phases C–E into concrete batches | done — expanded | [[26-08-26_b05_bootstrapPlan]] |
 | 6 | B | Vertical slice: one trivial model, end to end, first CRPS number | done — produced | [[26-08-26_b06_verticalSlice]] |
 | 7 | B | Erect the claim tree, route the vertical slice through it, add the reference | done — produced | [[26-08-26_b07_erectTheTree]] |
-| 8 | C | The candidate contract, and candidate 1 (hierarchical NB GLM) at its defaults | open | |
-| 9 | C | Candidate 1's internal forks; promote the main path | open | |
+| 8 | C | The candidate contract, and candidate 1 (hierarchical NB GLM) at its defaults | done — produced | [[26-08-27_b08_candidateContract]] |
+| 9 | C | Candidate 1's internal forks, plus a proposed fifth on an autoregressive term, and the width defect batch 8 diagnosed; promote the main path | open | |
 | 10 | C | Candidate 2: gradient-boosted trees with a probabilistic head | open | |
 | 11 | C | Candidate 3: the ensemble; close phase C | open | |
 | 12 | D | `/perturb plan`: the stability node, the driver, the frozen development manifest | open | |
@@ -733,3 +745,7 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 7 — erect the tree
 
 - [[26-08-26_b07_erectTheTree]]
+
+### Batch 8 — the candidate contract, and candidate 1
+
+- [[26-08-27_b08_candidateContract]]

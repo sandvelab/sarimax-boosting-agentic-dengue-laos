@@ -26,3 +26,10 @@ Total: **1.3 MB per combination.**
 **At the scale of the manifest.** About 1.3 MB per combination over 28 combinations is
 **37 MB**, and the figures are drawn only for the combinations that get reported. Nothing
 here binds.
+
+## Added in batch 8
+
+| Artifact | Size | Role | Regenerable | Transparency | Note |
+|---|---|---|---|---|---|
+| `03_compare/results/$COMBO/fig_accuracy_and_spread.png` + `.csv` | 132 KB + 1 KB | **main result** | yes, ~2 s | **highest** | The figure that shows CRPS and MAE ranking the models in opposite orders. Its plotted-values file is eight rows and is the cheapest way to read the batch's central finding. |
+| `03_compare/results/$COMBO/fig_accuracy_and_spread_preaggregation.csv` | 132 KB | side result | yes, ~2 s | medium | The per-cell scores the eight summary rows average — a subset of `metrics_cell.csv`'s columns. Prunable in the same breath as the other two pre-aggregation files, and after them, since it is the smallest. |

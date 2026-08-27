@@ -259,9 +259,18 @@ def check_crossing(root: Path) -> list[Finding]:
 
     A literal numeric constant sitting in a script with a comment naming another
     step is the visible symptom. Reported as a warning to look at, not a proof.
+
+    The comment has to be on the constant's own line. A whitespace class matches
+    newlines, so the
+    first version of this pattern also matched a constant followed by a blank line and
+    an unrelated paragraph of prose starting with one of the words below -- which is a
+    docstring-style module, not a transcribed value. Batch 8 hit that on a modelling
+    constant whose rationale was two lines further down, and the separator was narrowed
+    to spaces and tabs. A trailing comment naming another step is still caught; nothing
+    that was a finding before stops being one.
     """
     out: list[Finding] = []
-    pat = re.compile(r"^\s*[A-Z_]{3,}\s*=\s*-?\d+\.?\d*\s*#.*\b(from|per|see|step|output|above)\b",
+    pat = re.compile(r"^[ \t]*[A-Z_]{3,}[ \t]*=[ \t]*-?\d+\.?\d*[ \t]*#.*\b(from|per|see|step|output|above)\b",
                      re.M | re.I)
     for node in nodes(root):
         for s in script_files(node / "scripts"):

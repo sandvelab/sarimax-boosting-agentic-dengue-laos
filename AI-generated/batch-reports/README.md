@@ -40,4 +40,8 @@ re-running a batch produces a different report rather than the same one.
   design, the vertical slice routed through it and reproduced exactly, the seasonal
   climatology baseline and the reference model added as nodes, and the paired per-cell
   comparison that measures what the evaluation can and cannot resolve.
+- `26-08-27_b08_candidateContract.md` — batch 8, phase C: the candidate subtree and its four
+  configuration forks, the route model configuration takes into an `MLproject` model, the
+  project seed's derivation into component seeds, and candidate 1 — a hierarchical
+  negative-binomial GLM with the best point forecast in the project and the worst CRPS.
 

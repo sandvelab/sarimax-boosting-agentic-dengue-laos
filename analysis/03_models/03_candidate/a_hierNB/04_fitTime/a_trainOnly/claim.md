@@ -15,3 +15,9 @@ inherits: the project main environment (`environment/`)
 
 _(What this node's analysis yielded. Each answer belongs in the claim collection
 under `Human-AI-collaboration/claims/` with a pointer to the result grounding it.)_
+
+Under the assembled flags — `n_retrain 1`, eight splits at stride 3 — one fit serves every
+split, and by the last split there are **21 months** of observed history the fit never saw
+(`results/main/model_option_spec.json`). The figure is read from the flag file rather than
+assumed, so a combination that moved `n_retrain` would record that this child no longer means
+what it says.

@@ -1,0 +1,133 @@
+{
+ "additional_continuous_covariates": [
+  "rainfall",
+  "mean_temperature"
+ ],
+ "candidate": "hier_nb",
+ "choice_nodes": {
+  "covariates": "analysis/03_models/03_candidate/a_hierNB/02_covariates/a_lagged",
+  "fit_time": "analysis/03_models/03_candidate/a_hierNB/04_fitTime/a_trainOnly",
+  "observation": "analysis/03_models/03_candidate/a_hierNB/01_observation/a_negBinomial",
+  "population": "analysis/03_models/03_candidate/a_hierNB/03_population/a_offset"
+ },
+ "choices": {
+  "covariates": "a_lagged",
+  "fit_time": "a_trainOnly",
+  "observation": "a_negBinomial",
+  "population": "a_offset"
+ },
+ "combo": "main",
+ "configuration": "model_configuration.yaml",
+ "configuration_sha256": "ddfa21a670e477f2a2f5de465d34a6ad5fb2e1ed3ef39235e33ea5610e8187b7",
+ "node": "analysis/03_models/03_candidate/a_hierNB",
+ "route": "chap eval --model-configuration-yaml -> ModelConfiguration -> model_configuration_for_run.yaml -> {model_config} in the MLproject entry points",
+ "seed_derivation": {
+  "component": "analysis/03_models/03_candidate/a_hierNB",
+  "derivation": "int(blake2b('<project_seed>:<component>', digest_size=8), 16) % 4294967296",
+  "project_seed": 20260822,
+  "seed": 849487747
+ },
+ "stages": [
+  {
+   "additional_continuous_covariates": [],
+   "choice": "a_negBinomial",
+   "combo": "main",
+   "description": "one negative binomial per cell, dispersion shared across provinces",
+   "node": "analysis/03_models/03_candidate/a_hierNB/01_observation/a_negBinomial",
+   "order": 1,
+   "premise": {
+    "mean": 32.32522031053294,
+    "observed_cells": 2383,
+    "variance": 14033.432810352366,
+    "variance_to_mean_ratio_pooled": 434.1326269562863,
+    "zero_share": 0.5627360469995804
+   },
+   "stage": "observation",
+   "user_option_values": {
+    "observation": "negative_binomial"
+   }
+  },
+  {
+   "additional_continuous_covariates": [
+    "rainfall",
+    "mean_temperature"
+   ],
+   "choice": "a_lagged",
+   "combo": "main",
+   "description": "rainfall, mean_temperature at a 2-month lag, standardised",
+   "node": "analysis/03_models/03_candidate/a_hierNB/02_covariates/a_lagged",
+   "order": 2,
+   "premise": {
+    "columns_left_out": [
+     "mean_relative_humidity"
+    ],
+    "columns_present": [
+     "rainfall",
+     "mean_temperature"
+    ],
+    "missing_values": {
+     "mean_temperature": 0,
+     "rainfall": 0
+    },
+    "rows": 2592
+   },
+   "source_of_the_choice": "chap-models/ewars_plus_template, laos_eval_config.yaml: the reference family's own published configuration for this country names rainfall and mean_temperature at n_lags 2",
+   "stage": "covariates",
+   "user_option_values": {
+    "covariate_lag_months": 2,
+    "covariates": [
+     "rainfall",
+     "mean_temperature"
+    ]
+   }
+  },
+  {
+   "additional_continuous_covariates": [],
+   "choice": "a_offset",
+   "combo": "main",
+   "description": "log(population) as a fixed offset; the model forecasts a rate",
+   "node": "analysis/03_models/03_candidate/a_hierNB/03_population/a_offset",
+   "order": 3,
+   "premise": {
+    "population_max": 960194,
+    "population_min": 40280,
+    "population_ratio_largest_to_smallest": 23.83798411122145,
+    "provinces_with_nonpositive_population": []
+   },
+   "stage": "population",
+   "user_option_values": {
+    "population": "offset"
+   }
+  },
+  {
+   "additional_continuous_covariates": [],
+   "choice": "a_trainOnly",
+   "combo": "main",
+   "description": "fit once in train; predict applies the stored fit",
+   "node": "analysis/03_models/03_candidate/a_hierNB/04_fitTime/a_trainOnly",
+   "order": 4,
+   "premise": {
+    "months_of_history_the_fit_never_sees_at_the_last_split": 21,
+    "n_periods": 3,
+    "n_retrain": 1,
+    "n_splits": 8,
+    "one_fit_serves_every_split": true
+   },
+   "stage": "fit_time",
+   "user_option_values": {
+    "fit_time": "train"
+   }
+  }
+ ],
+ "user_option_values": {
+  "covariate_lag_months": 2,
+  "covariates": [
+   "rainfall",
+   "mean_temperature"
+  ],
+  "fit_time": "train",
+  "observation": "negative_binomial",
+  "population": "offset",
+  "seed": 849487747
+ }
+}

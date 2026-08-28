@@ -1,0 +1,23 @@
+additional_continuous_covariates:
+- rainfall
+- mean_temperature
+- mean_relative_humidity
+user_option_values:
+  climate_columns:
+  - rainfall
+  - mean_temperature
+  - mean_relative_humidity
+  climate_lags:
+  - 0
+  - 1
+  - 2
+  - 3
+  count_lags:
+  - 3
+  - 4
+  - 5
+  - 6
+  - 12
+  features: lag_block
+  head: quantile_ensemble
+  seed: 1877199108

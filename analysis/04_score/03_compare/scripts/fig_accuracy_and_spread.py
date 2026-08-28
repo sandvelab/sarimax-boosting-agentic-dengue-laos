@@ -24,12 +24,16 @@ Seeds: none; a deterministic summary of stored scores.
 from __future__ import annotations
 
 import os
+import sys
 from pathlib import Path
 
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pandas as pd
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "scripts" / "lib"))
+from palette import colours, markers  # noqa: E402
 
 NODE = Path(__file__).resolve().parent.parent
 SCORE = NODE.parent
@@ -63,8 +67,7 @@ shown.to_csv(RESULTS / f"{STEM}.csv", index=False)
 cells[cells.model.isin(shown.model.unique())].to_csv(
     RESULTS / f"{STEM}_preaggregation.csv", index=False)
 
-colour = {m: c for m, c in zip(sorted(shown.model),
-                               ["#2166ac", "#b2182b", "#4d9221", "#8c510a"])}
+colour = colours(shown.model.unique())
 
 fig, (ax, ax2) = plt.subplots(1, 2, figsize=(11.5, 5.0), constrained_layout=True,
                               width_ratios=[1, 1.1])

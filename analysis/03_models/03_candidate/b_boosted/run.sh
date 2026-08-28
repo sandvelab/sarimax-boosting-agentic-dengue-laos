@@ -17,3 +17,4 @@ bash "02_head/run.sh"
 # Own scripts
 "$PYTHON" "scripts/assemble_candidate_config.py"
 "$PYTHON" "scripts/run_boosted.py"
+"$PYTHON" "scripts/check_head_premise.py"

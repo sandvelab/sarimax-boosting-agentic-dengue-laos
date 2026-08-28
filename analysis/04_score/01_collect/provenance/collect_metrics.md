@@ -123,3 +123,28 @@ Merging a combination's own models with the base's for the same node; refused in
 `combos.resolve_glob`, because a merged answer would describe an analysis that never ran.
 
 agency: agent-autonomous.
+
+## Batch 10 — candidate 2's three combinations
+
+```
+result:              family_boosted/metrics_cell.csv
+                     family_boosted/models.csv
+                     features_richCalendar/metrics_cell.csv
+                     features_richCalendar/models.csv
+                     head_quantileEnsemble/metrics_cell.csv
+                     head_quantileEnsemble/models.csv
+script:              scripts/collect_metrics.py
+                     sha256:6b70fd8074a9b326efdfc2cb88d1fb50c180843a7b5906c01340395b715f7ff6
+invocation:          bash analysis/04_score/01_collect/run.sh
+                     with COMBO=<combination> and COMBO_BASE=main
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+commit:              PLACEHOLDER_COMMIT
+instructions-commit: cf97b81
+produced:            2026-08-28
+```
+
+In every one of the three, `boosted` was scored under the combination and the reference,
+persistence, climatology and `hier_nb` under `main` — nine model rows against `main`'s
+eight. Candidate 2 is a sibling family under an alternatives node, so it never appears
+under `main` at all, and candidate 1 never appears under these three except as an
+inherited row.

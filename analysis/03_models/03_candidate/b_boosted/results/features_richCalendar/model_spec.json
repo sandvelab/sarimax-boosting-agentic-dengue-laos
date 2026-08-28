@@ -1,0 +1,73 @@
+{
+ "combo": "features_richCalendar",
+ "configuration": "analysis/03_models/03_candidate/b_boosted/results/features_richCalendar/model_configuration.yaml",
+ "configuration_contents": {
+  "additional_continuous_covariates": [
+   "rainfall",
+   "mean_temperature",
+   "mean_relative_humidity"
+  ],
+  "user_option_values": {
+   "climate_columns": [
+    "rainfall",
+    "mean_temperature",
+    "mean_relative_humidity"
+   ],
+   "climate_lags": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "count_lags": [
+    3,
+    4,
+    5,
+    6,
+    12
+   ],
+   "features": "rich_calendar",
+   "head": "negative_binomial",
+   "seed": 1877199108
+  }
+ },
+ "configuration_sha256": "4a11cc7c74b86ae4c7343d4575f827153b4e4668675799387dd9921beda4b945",
+ "dataset": "analysis/02_setup/results/main/analysis_dataset.csv",
+ "dataset_sha256": "c9bf8b0849c768bfe6c65d54975dd08fa390204f8b59e76904170222a7a87d4c",
+ "eval_flags": {
+  "n_periods": 3,
+  "n_retrain": 1,
+  "n_splits": 8,
+  "stride": 3
+ },
+ "evaluations": [
+  "eval.nc"
+ ],
+ "kind": "local-mlproject",
+ "model": "boosted",
+ "model_dir": "analysis/03_models/03_candidate/b_boosted/scripts/boosted_model",
+ "model_files_sha256": {
+  "MLproject": "8be1d6513c59c4bf966587a6a02da7b28f32e6ddbbb0ec14b2ddba65194593c2",
+  "boosted.py": "fc2f86efbde8dbad1c697ca71969f36e4a1c9d5d3c8f824fa9f47dc451d7303b",
+  "predict.py": "44e65d9b4ec69d4f89f0d6da87f8f34aedf1e5259548042b1108f6d5ba8cfa3d",
+  "pyproject.toml": "d2f5a08403481c6921069341c628cf39297c97351ad916fb86ad7b9bd948f5d1",
+  "train.py": "1c787a11fd59938042235a6c50412f544640a97fc447309d16c5953fa1774aff",
+  "uv.lock": "794f21a324e02564a6768c66b2fadef613f78bc136a41420d1f483965e83393c"
+ },
+ "n_samples": 1000,
+ "node": "analysis/03_models/03_candidate/b_boosted",
+ "origin": "ours",
+ "randomness": "the forecast is a draw, and this family has only one source of it: the observation model the head puts around what the trees return. A boosted ensemble has no posterior, so unlike candidate 1 there is no draw over the fitted parameters -- the spread is the spread of the outcome around a model taken as known. Under the negative-binomial head the draw is from that distribution at the fitted dispersion; under the quantile-ensemble head it is a uniform draw inverted through the fitted ladder. The fit itself draws nothing: early stopping is disabled and the boosters are refitted at a fixed round count, so two fits on the same frame are identical. All of it goes through one NumPy generator seeded with the component seed 1877199108, derived from project seed 20260822 as int(blake2b('<project_seed>:<component>', digest_size=8), 16) % 4294967296. Head in this combination: negative_binomial. Verified by running the model twice and diffing.",
+ "repeats": 1,
+ "route": "MLproject with uv_env, native",
+ "seed": 1877199108,
+ "seeded": true,
+ "setup_choices": {
+  "population": "a_static",
+  "provinces": "a_chapFilter",
+  "retrain": "a_once",
+  "trainingWindow": "a_from1998"
+ },
+ "setup_from_combo": "main",
+ "shipped_lockfile_is_the_one_built_from": true
+}

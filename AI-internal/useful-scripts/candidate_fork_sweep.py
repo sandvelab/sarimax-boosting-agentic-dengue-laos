@@ -63,10 +63,29 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-CANDIDATE = ROOT / "analysis/03_models/03_candidate/a_hierNB"
+FAMILIES = ROOT / "analysis/03_models/03_candidate"
 OUT_ROOT = ROOT / "AI-generated/candidate-forks"
 PYTHON = ROOT / "environment/chapenv/bin/python"
+
+# Which candidate is being swept and which combination its main path was run under. Set
+# once by `main` from the command line and read by everything below, because a sweep is a
+# statement about one candidate around one base and passing both through every function
+# would say so at every line without making it any more true.
+#
+# Batch 10 made these variables rather than constants. Candidate 2 is a *sibling family*
+# under an alternatives node, so it never runs under `main` at all -- its main path runs
+# under a combination of its own, and its internal forks are swept around that. A second
+# copy of this file with two names changed would have been the obvious alternative and is
+# what `chap_eval.py` argues against: a copy per model is a set of copies that will drift.
+CANDIDATE = FAMILIES / "a_hierNB"
 BASE = "main"
+# The combination a swept row inherits from, which is not always the one it is measured
+# against. For candidate 1 the two are the same: its main path ran under `main`, which
+# also holds the dataset and the other models. Candidate 2's main path ran under a
+# combination of its own -- it is a sibling family and never runs under `main` at all --
+# so its rows are *measured* against that combination and *inherit* from `main`, where
+# the dataset and the other models are. Collapsing the two would make one of them wrong.
+INHERIT = "main"
 
 
 def field(text: str, key: str) -> str | None:
@@ -105,20 +124,49 @@ def step(command: list[str], environment: dict, log) -> None:
         raise SystemExit(f"failed ({result.returncode}): {' '.join(command)}; see {log.name}")
 
 
+def own_scripts() -> list[Path]:
+    """The candidate node's own steps, in the order its `run.sh` runs them.
+
+    Read from the generated `run.sh` rather than named here, so that the sweep runs
+    whatever the node runs. Naming them would be a second list of the node's steps and
+    the one that decides what a swept combination actually contains.
+    """
+    text = (CANDIDATE / "run.sh").read_text()
+    found = [CANDIDATE / m for m in
+             re.findall(r'^"\$PYTHON" "(scripts/[^"]+)"$', text, re.M)]
+    if not found:
+        raise SystemExit(f"{CANDIDATE / 'run.sh'} lists no own scripts; there is nothing "
+                         f"for a swept combination to run")
+    return found
+
+
 def run_one(fork: Path, child: Path, out: Path) -> dict:
     """Run one sibling end to end, from its own choice down to the aggregated scores."""
     combo = combination(fork, child)
     out.mkdir(parents=True, exist_ok=True)
-    environment = {**os.environ, "COMBO": combo, "COMBO_BASE": BASE}
+    environment = {**os.environ, "COMBO": combo, "COMBO_BASE": INHERIT}
     log_path = out / f"sweep_{combo}.log"
 
     started = time.time()
     with log_path.open("w") as log:
-        log.write(f"# {combo}: {child.relative_to(ROOT)}, everything else at {BASE}\n\n")
+        log.write(f"# {combo}: {child.relative_to(ROOT)}, measured against {BASE}, "
+                  f"inheriting from {INHERIT}\n\n")
         step(["bash", str(child / "run.sh")], environment, log)
-        step([str(PYTHON), str(CANDIDATE / "scripts/assemble_candidate_config.py")],
-             environment, log)
-        step([str(PYTHON), str(CANDIDATE / "scripts/run_hier_nb.py")], environment, log)
+        # The forks this combination did not move are answered by `COMBO_BASE` wherever
+        # the base combination has them, and run here wherever it does not. Candidate 1
+        # is swept around `main`, which holds every choice, so nothing extra runs and the
+        # inheritance record is exactly what it was before batch 10. Candidate 2 is swept
+        # around its own family combination, which holds its two choices but not the
+        # setup or the other models, so its untouched fork is re-run and says so.
+        for other, other_main, _ in forks():
+            if other == fork:
+                continue
+            if not (other / other_main / "results" / INHERIT).exists():
+                log.write(f"# {other.name}: not present under {INHERIT}, running its "
+                          f"main path here\n")
+                step(["bash", str(other / other_main / "run.sh")], environment, log)
+        for own in own_scripts():
+            step([str(PYTHON), str(own)], environment, log)
         step(["bash", str(ROOT / "analysis/04_score/01_collect/run.sh")], environment, log)
         step(["bash", str(ROOT / "analysis/04_score/02_aggregate/run.sh")], environment, log)
     seconds = time.time() - started
@@ -164,9 +212,12 @@ def summarise(out: Path, guard: bool = True) -> None:
     table = []
     for entry in entries:
         rows = summary_row(entry["combo"])
-        ours, reference = rows["hier_nb"], rows["reference"]
         cost = json.loads((CANDIDATE / "results" / entry["combo"] / "run_cost.json").read_text())
         spec = json.loads((CANDIDATE / "results" / entry["combo"] / "candidate_spec.json").read_text())
+        # Which row of the leaderboard is ours, read from the model's own specification
+        # rather than named here: the sweep is told which candidate to sweep and the
+        # candidate is what says what it is called.
+        ours, reference = rows[cost["model"]], rows["reference"]
         table.append({
             **entry,
             "mean_crps": float(ours["mean_crps"]),
@@ -194,8 +245,9 @@ def summarise(out: Path, guard: bool = True) -> None:
     best = table[0]
     main_row = next(row for row in table if row["combo"] == BASE)
     (out / "fork_sweep.json").write_text(json.dumps({
-        "swept": "analysis/03_models/03_candidate/a_hierNB",
+        "swept": str(CANDIDATE.relative_to(ROOT)),
         "base_combination": BASE,
+        "inherited_from": INHERIT,
         "combinations": len(table),
         "source": ("analysis/04_score/02_aggregate/a_unweighted/results/<combo>/"
                    "metrics_summary.csv, and the candidate node's run_cost.json and "
@@ -241,8 +293,8 @@ def compare_rounds(before: Path, after: Path, out: Path) -> None:
                    csv.DictReader((before / "fork_leaderboard.csv").open())}
     rows_after = {row["combo"]: row for row in
                   csv.DictReader((after / "fork_leaderboard.csv").open())}
-    base_before = float(rows_before["main"]["mean_crps"])
-    base_after = float(rows_after["main"]["mean_crps"])
+    base_before = float(rows_before[BASE]["mean_crps"])
+    base_after = float(rows_after[BASE]["mean_crps"])
 
     # Which child each fork took before and takes now, read from the two tables' own
     # notion of what was not the main path.
@@ -315,6 +367,16 @@ def compare_rounds(before: Path, after: Path, out: Path) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    # Which candidate, and which combination its main path ran under. Defaults are
+    # candidate 1 around `main`, so every invocation recorded before batch 10 still means
+    # what it meant.
+    parser.add_argument("--candidate", default="a_hierNB",
+                        help="directory name under 03_models/03_candidate to sweep")
+    parser.add_argument("--base", default="main",
+                        help="the combination this candidate's main path ran under")
+    parser.add_argument("--inherit-from", default=None,
+                        help="the combination a swept row inherits its dataset and the "
+                             "other models from; defaults to --base")
     sub = parser.add_subparsers(dest="command", required=True)
     for name, help_text in (("run", "run every sibling, then summarise"),
                             ("summarise", "rebuild the table from what is in the tree")):
@@ -331,6 +393,18 @@ def main(argv: list[str] | None = None) -> int:
     rounds.add_argument("--before", required=True)
     rounds.add_argument("--after", required=True)
     args = parser.parse_args(argv)
+
+    global CANDIDATE, BASE, INHERIT
+    CANDIDATE = FAMILIES / args.candidate
+    BASE = args.base
+    INHERIT = args.inherit_from or args.base
+    if not (CANDIDATE / "claim.md").exists():
+        raise SystemExit(f"{CANDIDATE} is not a node")
+    if not (CANDIDATE / "results" / BASE / "candidate_spec.json").exists():
+        raise SystemExit(
+            f"{args.candidate} has no assembled configuration under combination "
+            f"{BASE!r}. A sweep is taken around a main path that has been run, because "
+            f"every row of it is measured as a difference from that row.")
 
     if args.command == "compare-rounds":
         compare_rounds(OUT_ROOT / args.before, OUT_ROOT / args.after,

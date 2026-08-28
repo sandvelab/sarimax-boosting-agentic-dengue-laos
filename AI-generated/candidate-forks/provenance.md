@@ -65,3 +65,49 @@ promotion demoted. Regenerable from the tree as it now stands, in about nine min
 was worth around the earlier base against what it is worth around the later one. Their
 headline is that three forks worth **4.632** CRPS one at a time delivered **2.402** together,
 and that two of the nine children measured in both rounds reversed sign.
+
+## boosted_round1 — candidate 2's forks (batch 10)
+
+```
+result:              boosted_round1/fork_leaderboard.csv
+                     boosted_round1/fork_sweep.json
+                     boosted_round1/sweep_runs.json
+                     boosted_round1/sweep_<combination>.log
+script:              AI-internal/useful-scripts/candidate_fork_sweep.py
+invocation:          .venv/bin/python AI-internal/useful-scripts/candidate_fork_sweep.py \
+                       --candidate b_boosted --base family_boosted --inherit-from main \
+                       run --label boosted_round1
+inputs:              analysis/04_score/02_aggregate/a_unweighted/results/<combo>/
+                       metrics_summary.csv
+                     analysis/03_models/03_candidate/b_boosted/results/<combo>/
+                       run_cost.json, candidate_spec.json
+                     for <combo> in family_boosted, features_richCalendar,
+                     head_quantileEnsemble
+environment:         .venv (repository machinery) for the driver; every step it runs is
+                     the tree's own, under environment/chapenv
+commit:              PLACEHOLDER_COMMIT
+instructions-commit: cf97b81
+```
+
+The base is candidate 2's own main path — `a_lagBlock`, `a_negBinomial`, mean CRPS
+**20.771** — and not `main`, because candidate 2 is a sibling family under an alternatives
+node and never runs on the main path at all. That is the distinction batch 10 added to the
+driver: a row is **measured against** `family_boosted` and **inherits** the dataset and the
+other four models from `main`, and collapsing the two would have made one of them wrong.
+
+Two combinations, one per fork, each taking that fork's non-main child with the other fork
+left where it is. **Neither moved the model**: `features_richCalendar` is worth 0.396 CRPS
+and `head_quantileEnsemble` costs 0.189, against the 0.565 floor the reference's own re-runs
+occupy, so batch 9's promotion rule leaves both forks at their defaults.
+
+Regenerable from the tree as it stands, in about three minutes: no fork was promoted, so all
+three combinations are still where the table was copied from.
+
+alternatives-considered: a second copy of the driver with two names changed, which is what
+`chap_eval.py` argues against and what a copy per model becomes (rejected — the driver was
+generalised instead, with defaults that leave every invocation recorded before batch 10
+meaning what it meant); running the two siblings under `COMBO_BASE=family_boosted` so the
+chain of inheritance were one deep (rejected — `combos.py` resolves one level of base by
+design, and `family_boosted` holds neither the dataset nor the other models, so the lookup
+would have failed rather than inherited).
+agency: agent-autonomous

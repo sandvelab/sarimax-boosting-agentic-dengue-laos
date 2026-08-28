@@ -1,0 +1,16 @@
+{
+ "combo": "features_richCalendar",
+ "fitted_dispersion": 0.28634663850761827,
+ "head": "negative_binomial",
+ "predicted_and_observed_agree": null,
+ "premise_from_combo": "features_richCalendar",
+ "premise_node": "analysis/03_models/03_candidate/b_boosted/02_head/a_negBinomial",
+ "source": [
+  "results/<combo>/fitted_model.json",
+  "analysis/03_models/03_candidate/b_boosted/02_head/a_negBinomial/results/features_richCalendar/model_option_spec.json"
+ ],
+ "variance_to_mean_max": 842.3996640064056,
+ "variance_to_mean_median": 77.31010762866073,
+ "variance_to_mean_min": 2.937062937062937,
+ "what_the_premise_implies": "a single shared dispersion is being asked to cover the whole spread of variance-to-mean ratios recorded above; the wider that spread, the more of the calibration error this head cannot reach"
+}

@@ -1,8 +1,9 @@
 # candidate-forks
 
-What each alternative to candidate 1's configuration scores on the development data, and the
-rule by which one of them became the main path. Produced in batch 9 by
-`AI-internal/useful-scripts/candidate_fork_sweep.py`.
+What each alternative to a candidate's configuration scores on the development data, and the
+rule by which one of them becomes the main path. Produced by
+`AI-internal/useful-scripts/candidate_fork_sweep.py` — in batch 9 for candidate 1, and in
+batch 10 for candidate 2.
 
 **Every number here is copied from a file inside the tree.** Each combination is run by the
 tree's own scripts and writes its results under `results/<combination>/` at the nodes that
@@ -21,6 +22,10 @@ its own directory. `summarise` refuses to rebuild a table whose recorded base co
 is no longer the tree's.
 
 ## Currently here
+
+- `boosted_round1/` — batch 10: candidate 2's two forks, swept around its own family
+  combination `family_boosted`. Neither fork moved: the richer feature set is worth 0.396
+  CRPS and the quantile head costs 0.189, both inside the 0.565 floor.
 
 - `promotion_rule.md` — the rule deciding which forks move, written after round 1's numbers
   existed and committed **before** the promoted combination was run.

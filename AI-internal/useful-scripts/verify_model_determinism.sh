@@ -56,6 +56,10 @@ MODELS=(
   "persistence:analysis/03_models/01_baselines/01_persistence"
   "climatology:analysis/03_models/01_baselines/02_climatology"
   "hier_nb:analysis/03_models/03_candidate"
+  # Candidate 2 is named by its own path, not by the family node above it: it is a
+  # sibling alternative, so `03_candidate/run.sh` routes past it to the main path and
+  # would have run candidate 1 twice under a name saying `boosted`.
+  "boosted:analysis/03_models/03_candidate/b_boosted"
 )
 
 # The seed is a project setting and is declared in one place. Read, not copied: a second

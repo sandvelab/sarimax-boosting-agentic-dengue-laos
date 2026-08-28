@@ -1,0 +1,17 @@
+# features_richCalendar: analysis/03_models/03_candidate/b_boosted/01_features/b_richCalendar, measured against family_boosted, inheriting from main
+
+$ bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/01_features/b_richCalendar/run.sh
+features/b_richCalendar[features_richCalendar]: 27 features (9 more than the sibling) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/01_features/b_richCalendar/results/features_richCalendar
+# 02_head: not present under main, running its main path here
+$ bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/02_head/a_negBinomial/run.sh
+head/a_negBinomial[features_richCalendar]: variance-to-mean by province 2.9..842.4 (Poisson would be 1.0) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/02_head/a_negBinomial/results/features_richCalendar
+$ /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/scripts/assemble_candidate_config.py
+boosted[features_richCalendar]: {'features': 'b_richCalendar', 'head': 'a_negBinomial'}, covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'], seed 1877199108; taken here: ['features=b_richCalendar', 'head=a_negBinomial'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/results/features_richCalendar
+$ /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/scripts/run_boosted.py
+boosted[features_richCalendar]: 55 s (6.9 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/results/features_richCalendar
+$ /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/scripts/check_head_premise.py
+head premise[features_richCalendar]: one dispersion 0.286 fitted where the data's variance-to-mean runs 2.9..842.4 -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/results/features_richCalendar
+$ bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/run.sh
+collect[features_richCalendar]: 9 model rows, 3339 cells, 16 locations -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/results/features_richCalendar; inherited from main: ['climatology', 'hier_nb', 'persistence', 'reference', 'reference_r1', 'reference_r2', 'reference_r3', 'reference_r4']
+$ bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/02_aggregate/run.sh
+aggregate/a_unweighted[features_richCalendar]: 9 models over 371 cells; best boosted at CRPS 20.375

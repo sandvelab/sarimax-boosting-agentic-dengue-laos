@@ -1,0 +1,13 @@
+{
+ "combo": "family_boosted",
+ "eval_flags": {
+  "n_periods": 3,
+  "n_retrain": 1,
+  "n_splits": 8,
+  "stride": 3
+ },
+ "model": "boosted",
+ "route": "MLproject with uv_env, native",
+ "seconds_per_split": 5.7,
+ "wall_clock_seconds": 45.8
+}

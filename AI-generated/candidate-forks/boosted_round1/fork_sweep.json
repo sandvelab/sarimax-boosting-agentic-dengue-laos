@@ -1,0 +1,18 @@
+{
+ "base_combination": "family_boosted",
+ "base_configuration_sha256": "208c71c747d8a5924fb54bd60b9ff16ddb020b8874c7bb8df5394c6bbc1ba8ae",
+ "best_combination": "features_richCalendar",
+ "best_mean_crps": 20.374750582210243,
+ "best_moves_the_main_path_by": 0.39632516172506627,
+ "combinations": 3,
+ "inherited_from": "main",
+ "main_path_mean_crps": 20.77107574393531,
+ "ranking": [
+  "features_richCalendar",
+  "family_boosted",
+  "head_quantileEnsemble"
+ ],
+ "reference_mean_crps": 22.098446493261456,
+ "source": "analysis/04_score/02_aggregate/a_unweighted/results/<combo>/metrics_summary.csv, and the candidate node's run_cost.json and candidate_spec.json",
+ "swept": "analysis/03_models/03_candidate/b_boosted"
+}

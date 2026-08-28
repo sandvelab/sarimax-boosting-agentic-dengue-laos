@@ -17,12 +17,16 @@ Seeds: none; a deterministic summary of stored scores.
 from __future__ import annotations
 
 import os
+import sys
 from pathlib import Path
 
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pandas as pd
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "scripts" / "lib"))
+from palette import colours, markers  # noqa: E402
 
 NODE = Path(__file__).resolve().parent.parent
 SCORE = NODE.parent
@@ -52,8 +56,8 @@ cells[cells.model.isin(shown.model.unique())].to_csv(
 
 models = sorted(shown.model.unique())
 order = (shown[shown.model == models[0]].sort_values("observed_total").location.tolist())
-colour = {m: c for m, c in zip(models, ["#2166ac", "#b2182b", "#4d9221", "#8c510a"])}
-marker = {m: s for m, s in zip(models, ["o", "s", "^", "D"])}
+colour = colours(models)
+marker = markers(models)
 
 fig, (ax, ax2) = plt.subplots(1, 2, figsize=(12, 5.4), constrained_layout=True,
                               sharey=True, width_ratios=[1.35, 1])

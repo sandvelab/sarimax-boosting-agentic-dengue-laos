@@ -21,6 +21,7 @@ Seeds: none; every panel is a deterministic summary of stored scores.
 from __future__ import annotations
 
 import os
+import sys
 from pathlib import Path
 
 import matplotlib
@@ -28,6 +29,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "scripts" / "lib"))
+from palette import colours, markers  # noqa: E402
 
 NODE = Path(__file__).resolve().parent.parent
 COMBO = os.environ.get("COMBO", "main")
@@ -53,7 +57,7 @@ floor = noise["mean_diff"].abs().max() if len(noise) else 0.0
 
 fig, axes = plt.subplots(1, 3, figsize=(13, 4.6), constrained_layout=True,
                          width_ratios=[1.2, 1, 1.1])
-colour = {m: c for m, c in zip(models, ["#2166ac", "#b2182b", "#4d9221", "#8c510a"])}
+colour = colours(models)
 
 ax = axes[0]
 # Bins spaced the way the axis is spaced. Linear bins on a symlog axis draw a plateau

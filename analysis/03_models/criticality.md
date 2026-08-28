@@ -116,3 +116,26 @@ twenty-eight will cost roughly three times that once the baselines and the refer
 re-scored under the setup forks. Nothing binds. If it ever does, the rule is unchanged —
 keep `metrics_cell.csv`, keep every specification and fitted object, drop our own models'
 evaluations, never the reference's.
+
+## Added in batch 10 — candidate 2
+
+**A second candidate family costs about what the first one does per combination, and one of
+its two heads costs thirteen times more to store.** `b_boosted/results/` holds three
+combinations at 10.0, 10.0 and 12.5 MB — **32.5 MB** — of which 29.5 MB is again NetCDF that
+rebuilds in about 50 seconds a piece.
+
+| Artifact | Size, all combinations | Role | Regenerable | Transparency | Note |
+|---|---|---|---|---|---|
+| `b_boosted/results/*/eval.nc` | 29.5 MB | main result | **yes, ~50 s each, identically** | medium | Three copies of the same trade as candidate 1's ten. The determinism check confirms the model reproduces bit for bit everything computed from these, so a prune here costs only recomputation. **First to go if anything ever binds.** |
+| `b_boosted/results/family_boosted/fitted_model.json` | 198 KB | **main result** | yes, ~50 s | **highest** | 71 trees with every split feature, threshold, missing-value direction and leaf value, plus the fitted dispersion and the early-stopping trace. This is the whole model, in a form readable without scikit-learn — verified by reading it back with the import blocked. |
+| `b_boosted/results/head_quantileEnsemble/fitted_model.json` | 2.6 MB | **main result** | yes, ~60 s | **highest** | Fifteen ladders, 1 302 trees, 26 806 nodes. **Thirteen times the main path's fitted object and the largest single non-NetCDF artifact in the project**, and it earns the space: it is the evidence that seven of the fifteen levels are flat at zero, and `head_premise_check.json` beside it is a summary of this file rather than a substitute for it. If it were ever pruned, the check's JSON is what to keep. |
+| `b_boosted/results/*/head_premise_check.json` | 0.8–2.5 KB | **main result** | yes, seconds | **highest** | What the head fork predicted before it ran against what it did. Tiny, and the only place the registered prediction and its outcome sit side by side. |
+| `b_boosted/results/*/candidate_spec.json` | 15 KB | **main result** | yes | **highest** | Carries each fork child's full premise, including the zero share and the marginal quantiles the ladder's prediction was computed from. |
+| `b_boosted/scripts/boosted_model/uv.lock` | 180 KB | **main result** | yes, but not identically once an index moves | **highest** | **The first lockfile in this project pinning scikit-learn and scipy.** chap-core reports on every run that this is the file it built the model's environment from. Rule 3 material, not a convenience. |
+| `AI-generated/candidate-forks/boosted_round1/` | 40 KB | **main result** | yes — the tree still holds all three combinations | **highest** | Unlike `round1_batch8Defaults`, this table *is* regenerable: no fork was promoted, so the three combinations it is copied from are still in the tree. Regenerate rather than trust it if they ever disagree. |
+
+**What this implies for batch 12, revised.** Candidate 2 adds a third model of ours to
+whatever the manifest re-scores, and its quantile head is the only configuration in the
+project whose fitted object is measured in megabytes. If tier 2's pairs include the ladder
+head, budget 2.6 MB per such combination for fitted objects alone — still nothing against
+the NetCDF, and still not what binds.

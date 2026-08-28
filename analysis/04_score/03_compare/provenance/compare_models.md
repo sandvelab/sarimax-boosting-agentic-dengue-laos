@@ -101,3 +101,55 @@ the field's own model are not distinguishable. It wins 41 % of cells and 2 of 8 
 alternatives-considered: none new; the node's own choices are batch 7's.
 
 agency: agent-autonomous.
+
+## Batch 10 — the family comparison, under `family_boosted`
+
+```
+result:              family_boosted/leaderboard.csv
+                     family_boosted/paired_vs_reference.csv
+                     family_boosted/paired_summary.csv
+                     family_boosted/paired_by_split.csv
+                     family_boosted/reference_repeat_noise.csv
+                     family_boosted/comparison_notes.json
+script:              scripts/compare_models.py
+                     sha256:6d6748b30ef2c185f6742f1e7586f3f85f4c5614f4dd6b200b94c97e2d8ae9d2
+invocation:          bash analysis/04_score/03_compare/run.sh
+                     with COMBO=family_boosted and COMBO_BASE=main
+inputs:              01_collect/results/family_boosted/metrics_cell.csv
+                     02_aggregate/a_unweighted/results/family_boosted/*.csv
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none; a deterministic comparison of stored scores.
+commit:              PLACEHOLDER_COMMIT
+instructions-commit: cf97b81
+produced:            2026-08-28
+```
+
+**Why this node runs for a combination that is not `main`, when the batch-9 sweep stopped at
+`02_aggregate`.** The reason batch 9 stopped there stands: a `conclusion.json` per sibling
+is the phase-D deliverable and producing one before the manifest is frozen would report the
+stability answer early. This node produces no conclusion — it produces the **leaderboard**,
+which phase C requires to be maintained by a script from the stored outputs and never typed,
+and the paired comparison that says what the leaderboard can resolve. Candidate 2 does not
+appear on `main`'s leaderboard, because it is a sibling family and does not run there, so
+without this the project would have a candidate whose score had never been put beside the
+reference's by the node that exists to do it. The root's `conclude.py` was **not** run for
+this combination.
+
+**What it establishes.** Nine leaderboard rows, of which `boosted` is first at mean CRPS
+**20.771** — ahead of the reference's 22.098, candidate 1's 23.698, climatology's 24.337 and
+persistence's 24.879. The paired difference against the reference is **−1.327** with a
+split-clustered standard error of **1.110**, against a noise floor of 0.565: the first
+margin in this project on the right side of zero, and the first to clear the floor.
+
+**It still does not separate the two models.** 1.20 standard errors is not a distinction,
+and the plan forbids implying that it is. What has changed since batch 9 is the sign of the
+point estimate, not the resolution of the comparison.
+
+alternatives-considered: running the root's `conclude.py` under this combination so that
+candidate 2 has a `conclusion.json` (rejected — that is the phase-D artifact and its
+production before the manifest is frozen is what the freeze discipline exists to prevent);
+leaving candidate 2 unscored at this node and reading its leaderboard position out of the
+fork sweep's table (rejected — the sweep's table is copied from `02_aggregate` and carries
+no paired comparison, so the question of what the margin can resolve would have gone
+unanswered for the only model of ours that has ever led).
+agency: agent-autonomous

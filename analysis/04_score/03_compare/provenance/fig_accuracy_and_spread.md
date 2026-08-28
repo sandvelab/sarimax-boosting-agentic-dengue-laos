@@ -79,3 +79,49 @@ the field's own model are not distinguishable. It wins 41 % of cells and 2 of 8 
 alternatives-considered: none new; the node's own choices are batch 7's.
 
 agency: agent-autonomous.
+
+## Batch 10 — drawn again, for `family_boosted` and for `main`
+
+```
+result:              family_boosted/fig_accuracy_and_spread.png
+                     family_boosted/fig_accuracy_and_spread.csv
+                     family_boosted/fig_accuracy_and_spread_preaggregation.csv
+                     (and main/fig_accuracy_and_spread.png, redrawn)
+script:              scripts/fig_accuracy_and_spread.py
+                     sha256:51755ccba949338c76b3743e578a9ad81cd977002a54224c842fee771101bdf9
+                     analysis/scripts/lib/palette.py
+                     sha256:618fd723126e7aeb4c00524a148de0512567172908c42f8e1bbe38d57913401f
+invocation:          bash analysis/04_score/03_compare/run.sh
+                     with COMBO=family_boosted and COMBO_BASE=main, and again with
+                     neither set, for `main`
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none; a deterministic summary of stored scores.
+commit:              PLACEHOLDER_COMMIT
+instructions-commit: cf97b81
+produced:            2026-08-28
+```
+
+**The colour and marker maps moved out of this script.** Until batch 10 each figure built
+its own by zipping the models it found against a list of four colours, which worked while
+the project had four models and broke on the fifth: `zip` stops at the shorter argument, so
+two of the three figures would have drawn the new model with no marker and no error, and the
+third raised a `KeyError`. The silent half is the one worth naming — a figure missing a
+series is a figure a reader believes.
+
+`analysis/scripts/lib/palette.py` now assigns both, once, from the model's **own name**
+rather than from its position among the models present. That is the property the per-script
+versions lacked and the reason the fix is not simply a longer list: figures are drawn per
+combination and different combinations hold different sets of models, so positional
+assignment would re-colour every model whenever one was added, and two figures could not be
+laid side by side.
+
+`main`'s three figures were redrawn under the new code and **no plotted value changed** —
+only the colours. The plotted-values and pre-aggregation CSVs under `main` are byte-identical
+to what they were.
+
+alternatives-considered: lengthening each script's colour list in place (rejected — it fixes
+this batch and not the next one, and leaves three copies of a mapping that must agree for
+two figures to be comparable); keying the palette off the leaderboard's rank so the best
+model is always the same colour (rejected — the rank changes between combinations, which is
+exactly the instability the fix is for).
+agency: agent-autonomous

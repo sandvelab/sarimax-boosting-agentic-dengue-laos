@@ -105,7 +105,12 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import yaml
-from sklearn.ensemble import HistGradientBoostingRegressor
+
+# scikit-learn is imported inside `_booster`, not here. Everything this module does with a
+# model that has already been fitted -- reading the stored form, walking its trees,
+# drawing from a head -- needs only numpy and pandas, and the docstring above promises
+# that the fitted object can be read without scikit-learn. A module-level import would
+# make that promise false for anyone importing the module rather than the file.
 
 # Harmonics of the annual cycle offered to `rich_calendar`. Two, matching candidate 1, so
 # that the calendar is described to the two families in the same terms.
@@ -357,7 +362,7 @@ def _tree(nodes) -> dict:
     }
 
 
-def dump_booster(booster: HistGradientBoostingRegressor, link: str) -> dict:
+def dump_booster(booster, link: str) -> dict:
     """A fitted booster in a form that needs no scikit-learn to evaluate."""
     trees = [_tree(predictor.nodes)
              for stage in booster._predictors for predictor in stage]
@@ -408,8 +413,7 @@ def response_predict(dump: dict, X: np.ndarray) -> np.ndarray:
 # ------------------------------------------------------------------------- the fit
 
 
-def _booster(options: dict, loss: str, rounds: int,
-             quantile: float | None = None) -> HistGradientBoostingRegressor:
+def _booster(options: dict, loss: str, rounds: int, quantile: float | None = None):
     """One booster at this node's fixed hyper-parameters.
 
     `early_stopping=False` always: the number of rounds is chosen by `_rounds` on a
@@ -417,6 +421,8 @@ def _booster(options: dict, loss: str, rounds: int,
     randomly drawn validation set. A stopping decision made on rows interleaved with the
     training rows is made on months the model has effectively seen.
     """
+    from sklearn.ensemble import HistGradientBoostingRegressor
+
     return HistGradientBoostingRegressor(
         loss=loss,
         quantile=quantile,

@@ -132,3 +132,34 @@ weighting fork is not to be cut from the manifest stands -- with more force now,
 candidate's worst province is one of the two carrying the most cases.
 
 agency: agent-autonomous.
+
+## Batch 10 — candidate 2's three combinations
+
+```
+result:              family_boosted/metrics_summary.csv
+                     family_boosted/crps_by_location.csv
+                     family_boosted/crps_by_split.csv
+                     family_boosted/crps_by_region_split.csv
+                     family_boosted/crps_by_horizon.csv
+                     features_richCalendar/metrics_summary.csv
+                     features_richCalendar/crps_by_location.csv
+                     features_richCalendar/crps_by_split.csv
+                     features_richCalendar/crps_by_region_split.csv
+                     features_richCalendar/crps_by_horizon.csv
+                     head_quantileEnsemble/metrics_summary.csv
+                     head_quantileEnsemble/crps_by_location.csv
+                     head_quantileEnsemble/crps_by_split.csv
+                     head_quantileEnsemble/crps_by_region_split.csv
+                     head_quantileEnsemble/crps_by_horizon.csv
+script:              scripts/aggregate_unweighted.py
+                     sha256:cc1df71851d253c94bbfce7c9a1aecb7b3ef5bc7c0046aa707da0b08f880af93
+invocation:          bash analysis/04_score/02_aggregate/run.sh
+                     with COMBO=<combination> and COMBO_BASE=main
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+commit:              PLACEHOLDER_COMMIT
+instructions-commit: cf97b81
+produced:            2026-08-28
+```
+
+The nine rows per combination are the eight `main` already had plus `boosted`. Nothing
+about the aggregation changed; a ninth model simply arrived.

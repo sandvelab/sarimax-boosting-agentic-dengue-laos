@@ -1,5 +1,5 @@
 {
- "checked": "2026-08-27",
+ "checked": "2026-08-28",
  "status": "identical",
  "excluded_from_comparison": "eval.nc -- chap-core stamps created_date into it and serialises two set-valued attributes in run-dependent order (batch 2). Everything computed from it is compared.",
  "project_seed": 20260822,
@@ -11,6 +11,9 @@
    "files_compared": ["metrics_cell.csv", "models.csv", "fitted_model.json"],
    "differing_files": ""},
   {"model": "hier_nb", "node": "analysis/03_models/03_candidate", "identical": true,
+   "files_compared": ["metrics_cell.csv", "models.csv", "fitted_model.json"],
+   "differing_files": ""},
+  {"model": "boosted", "node": "analysis/03_models/03_candidate/b_boosted", "identical": true,
    "files_compared": ["metrics_cell.csv", "models.csv", "fitted_model.json"],
    "differing_files": ""}
  ]

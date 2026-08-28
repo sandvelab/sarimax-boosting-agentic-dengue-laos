@@ -1,6 +1,6 @@
 {
- "combo": "main",
- "configuration": "analysis/03_models/03_candidate/a_hierNB/results/main/model_configuration.yaml",
+ "combo": "family_hierNB",
+ "configuration": "analysis/03_models/03_candidate/a_hierNB/results/family_hierNB/model_configuration.yaml",
  "configuration_contents": {
   "additional_continuous_covariates": [],
   "user_option_values": {

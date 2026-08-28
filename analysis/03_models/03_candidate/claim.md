@@ -5,7 +5,7 @@ Which model family should our candidate be? Each child is one family — one pos
 ## Children
 
 kind: alternatives
-main-path: a_hierNB
+main-path: c_ensemble
 
 ## Environment
 

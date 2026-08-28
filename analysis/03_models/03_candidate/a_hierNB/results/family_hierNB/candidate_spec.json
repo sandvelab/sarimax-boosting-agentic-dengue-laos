@@ -2,12 +2,12 @@
  "additional_continuous_covariates": [],
  "candidate": "hier_nb",
  "choice_combos": {
-  "autoregressive": "main",
-  "covariates": "main",
-  "fit_time": "main",
-  "observation": "main",
-  "population": "main",
-  "year_variance": "main"
+  "autoregressive": "family_hierNB",
+  "covariates": "family_hierNB",
+  "fit_time": "family_hierNB",
+  "observation": "family_hierNB",
+  "population": "family_hierNB",
+  "year_variance": "family_hierNB"
  },
  "choice_nodes": {
   "autoregressive": "analysis/03_models/03_candidate/a_hierNB/05_autoregressive/a_none",
@@ -25,7 +25,7 @@
   "population": "a_offset",
   "year_variance": "b_provinceScaled"
  },
- "combo": "main",
+ "combo": "family_hierNB",
  "configuration": "model_configuration.yaml",
  "configuration_sha256": "28c7c617d5c26fa0f37f0c9601d690debc3ad9c05d63cb3e14512c16d385faf2",
  "node": "analysis/03_models/03_candidate/a_hierNB",
@@ -40,8 +40,8 @@
   {
    "additional_continuous_covariates": [],
    "choice": "c_hurdle",
-   "chosen_under_combo": "main",
-   "combo": "main",
+   "chosen_under_combo": "family_hierNB",
+   "combo": "family_hierNB",
    "description": "a logistic model for reporting at all and a count model for how much",
    "input_from_combo": "main",
    "node": "analysis/03_models/03_candidate/a_hierNB/01_observation/c_hurdle",
@@ -62,8 +62,8 @@
   {
    "additional_continuous_covariates": [],
    "choice": "c_climateFree",
-   "chosen_under_combo": "main",
-   "combo": "main",
+   "chosen_under_combo": "family_hierNB",
+   "combo": "family_hierNB",
    "description": "no climate covariates; the seasonal harmonics carry the annual cycle alone",
    "input_from_combo": "main",
    "node": "analysis/03_models/03_candidate/a_hierNB/02_covariates/c_climateFree",
@@ -88,8 +88,8 @@
   {
    "additional_continuous_covariates": [],
    "choice": "a_offset",
-   "chosen_under_combo": "main",
-   "combo": "main",
+   "chosen_under_combo": "family_hierNB",
+   "combo": "family_hierNB",
    "description": "log(population) as a fixed offset; the model forecasts a rate",
    "input_from_combo": "main",
    "node": "analysis/03_models/03_candidate/a_hierNB/03_population/a_offset",
@@ -108,8 +108,8 @@
   {
    "additional_continuous_covariates": [],
    "choice": "a_trainOnly",
-   "chosen_under_combo": "main",
-   "combo": "main",
+   "chosen_under_combo": "family_hierNB",
+   "combo": "family_hierNB",
    "description": "fit once in train; predict applies the stored fit",
    "input_from_combo": "main",
    "node": "analysis/03_models/03_candidate/a_hierNB/04_fitTime/a_trainOnly",
@@ -129,8 +129,8 @@
   {
    "additional_continuous_covariates": [],
    "choice": "a_none",
-   "chosen_under_combo": "main",
-   "combo": "main",
+   "chosen_under_combo": "family_hierNB",
+   "combo": "family_hierNB",
    "description": "no autoregressive term; season, climate and pooled effects only",
    "input_from_combo": "main",
    "node": "analysis/03_models/03_candidate/a_hierNB/05_autoregressive/a_none",
@@ -158,8 +158,8 @@
   {
    "additional_continuous_covariates": [],
    "choice": "b_provinceScaled",
-   "chosen_under_combo": "main",
-   "combo": "main",
+   "chosen_under_combo": "family_hierNB",
+   "combo": "family_hierNB",
    "description": "one province-year variance per province, from that province's own years",
    "input_from_combo": "main",
    "node": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/b_provinceScaled",

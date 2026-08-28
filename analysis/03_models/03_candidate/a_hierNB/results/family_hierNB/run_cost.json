@@ -1,5 +1,5 @@
 {
- "combo": "main",
+ "combo": "family_hierNB",
  "eval_flags": {
   "n_periods": 3,
   "n_retrain": 1,
@@ -8,6 +8,6 @@
  },
  "model": "hier_nb",
  "route": "MLproject with uv_env, native",
- "seconds_per_split": 4.6,
- "wall_clock_seconds": 36.4
+ "seconds_per_split": 3.1,
+ "wall_clock_seconds": 24.9
 }

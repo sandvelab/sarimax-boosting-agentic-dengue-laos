@@ -845,3 +845,86 @@ about eight minutes now that the candidate is in it.
    `model_determinism.json`'s status is a real question for batch 18 — it is the class of
    defect an outsider test is least likely to find, because the file exists and looks
    populated.
+
+---
+
+## T11 — Batch 11: candidate 3, the ensemble, and the close of phase C (2026-08-28)
+
+**What was produced.** Four new nodes under `analysis/03_models/03_candidate/c_ensemble` —
+the family node, one fork and its two children; the model contract directory
+`c_ensemble/scripts/ensemble_model/` (`MLproject`, `ensemble.py`, `train.py`, `predict.py`,
+`pyproject.toml`, `uv.lock`); the node's own `prepare_members.py`,
+`assemble_candidate_config.py`, `run_ensemble.py` and `check_pool.py`; three scored
+combinations of the pool (`main`, `family_ensemble`, `weighting_crpsWeighted`); candidate 1
+re-run under `family_hierNB`; `AI-internal/useful-scripts/family_leaderboard.py`;
+`AI-generated/candidate-forks/ensemble_round1/`, `families/` and `family_rule.md`; and the
+report `AI-generated/batch-reports/26-08-28_b11_ensembleCandidate.md`.
+
+**The design decision the node rests on.** The pool holds no member code. Each member is run
+through **its own Chap entry points**, with the command string read out of the member's own
+`MLproject` and chap-core's placeholders substituted, so the pool is a consumer of the
+platform's contract rather than a second implementation of four models — one copy of every
+member's code, at the node that owns it. The two members that take configuration are
+configured by **their own family's fork main-path children and their own family's assembler,
+run under the running combination** by `prepare_members.py`; that is what makes a phase-D
+perturbation of a member's fork move the pool's member with it, and it is sanctioned by
+`AGENTS.md` §2, which has the stability node calling its siblings' main scripts. The price,
+paid in `pyproject.toml` and checked pin by pin before anything runs, is that the pool's
+environment is the union of its members'.
+
+**What the numbers are.** Mean CRPS **18.817** over the 371 cells against the reference's
+22.098 — skill **+0.1485**, the project's first positive conclusion — with a paired difference
+of −3.282 at a split-clustered standard error of 1.726 (1.90 se, six of eight splits, ahead of
+each of the reference's four repeats individually). The fitted-weights sibling scores 22.838.
+Per province the pool is best in the two highest-burden provinces and beaten in three of the
+next four, winning 43 % of cells while being 3.282 better on average. By lead time: 14.66 /
+18.23 / 23.56 against the reference's 16.54 / 21.97 / 27.79 — it wins the one-month lead,
+which neither candidate could, and it gets that from persistence.
+
+**The two findings worth carrying forward are negative.** A prediction registered before the
+run — that an equal pool would score worse than its best member — was **wrong** by 1.954 CRPS,
+because it reasoned about location and not about width. And fitting the weights to minimise
+the pool's own CRPS on a year held back inside the training frame **cost 4.021 CRPS**: the
+solve found the true optimum there and concentrated 95 % of the pool on the member that was
+best on the validation year and worst on the evaluated one. That is the plan's phase-C warning
+measured inside the tree, and it is also the answer to the obvious objection to the headline —
+if the pool's win came from an inadvertent look at the evaluated period, the pool that looks
+harder would win by more; it loses.
+
+**Calibration is reported beside the score, per the plan's §2.** The pool is the most
+over-dispersed model in the project (10–90 0.863 against 0.80; 25–75 0.749 against 0.50). The
+zero-atom explanation was measured and rejected: `pool_check.json` records the share of cells
+where each model's own quartiles coincide, and the pool is at 0.240 against 0.412–0.547 for
+three of its four members. Locally it is wrong in both directions — three provinces at 10–90
+coverage 1.000, Attapeu at 0.542.
+
+**The promotion.** `family_rule.md` — batch 9's 0.57 CRPS threshold unchanged, each family
+compared at its own main path, plus a calibration veto that did not fire — was written after
+`families/family_leaderboard.csv` existed and committed at `4cdfd16`, before the promoted
+family ran under `main`. Candidate 1's `results/main/` were removed (not renamed) and it was
+re-run under `family_hierNB`, where its per-cell scores are identical. The reference was not
+re-run: it is unseeded and would move every denominator in the project.
+
+**What went wrong, kept.** The equal-weight fork child's first version read `04_score`'s
+leaderboard for its premise — a model node depending on a scoring node, invisible under `main`
+where an earlier leaderboard was on disk, and fatal the moment the determinism check ran it
+under a scratch combination. `check_pool.py` made the same mistake one step later. Both now
+read only what is upstream of them. `train.py` changed after the three evaluations had run
+(the invariant check found it drew through its members and recorded no seed of its own), so
+all three combinations were re-run; every figure came back identical. The family leaderboard's
+first version compared fork *stage* names against fork *directory* names and found no families
+at all.
+
+**For a future session.** Phase C is closed and batch 12 (`/perturb plan`) is next. Three
+things it should know. The reported model now refits four models when it runs, so a manifest
+entry that moves a `02_setup` fork re-scores all four inside the pool as well as separately —
+budget about 11 MB and 90 seconds per combination that includes the pool. `check_pool.json` is
+produced by reconstructing the pool from its members' own stored `eval.nc`, so pruning
+`family_hierNB` or `family_boosted` evaluations would disable the only independent check on
+the reported model, and the check degrades silently by design. And the lift of the three
+candidates' near-duplicate configuration assemblers into `03_models/scripts/lib/` is
+**scheduled for batches 13–14**, when the frozen manifest re-runs every combination and
+regenerating the thirteen provenance records that name those scripts costs nothing extra.
+Two candidate ideas were deliberately not built and are in the report §12: a width fork on the
+pool (it would be a repair fitted to the calibration number it repairs) and a
+candidates-only pool (it would say how much of the win is persistence).

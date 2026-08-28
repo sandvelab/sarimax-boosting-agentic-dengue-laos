@@ -652,6 +652,87 @@ directories named after promoted children were removed for the same reason.
    leaderboard's best" means the best of ours or the best model on the board. It does not
    bind batch 10; it will bind batch 11.
 
+## T10 — Batch 10: candidate 2, gradient-boosted trees with a probabilistic head (2026-08-28)
+
+**What was produced.** Seven new nodes under `analysis/03_models/03_candidate/b_boosted` —
+the family node, two forks and their four children; the model contract directory
+`b_boosted/scripts/boosted_model/` (`MLproject`, `boosted.py`, `train.py`, `predict.py`,
+`pyproject.toml`, `uv.lock`, `README.md`); the node's own configuration assembler, runner
+and premise check; `analysis/scripts/lib/palette.py`; three scored combinations under
+`family_boosted`, `features_richCalendar` and `head_quantileEnsemble`;
+`AI-generated/candidate-forks/boosted_round1/`; and the report
+`AI-generated/batch-reports/26-08-28_b10_boostedCandidate.md`.
+
+**The design decisions a future session needs.**
+
+*Candidate 2 is not on the main path, and that is deliberate.* `03_candidate` is an
+alternatives node, so a sibling family never runs under `main`. Batch 5's design assigns the
+choice of family main path to **batch 11**, after `c_ensemble` exists. So candidate 2 runs
+under its own combination `family_boosted`, `analysis/run.sh` still reproduces candidate 1,
+and `analysis/results/main/conclusion.json` still reports candidate 1's −0.072. Candidate 2
+leads candidate 1 by 2.927 CRPS, five times the resolvable floor, so batch 9's rule would
+move the fork on today's evidence; that is written into the batch report §9 and the plan's
+§4b so batch 11 cannot decide otherwise without saying why. **Promoting it means:** re-run
+`a_hierNB` under a combination of its own, remove its `results/main`, run `b_boosted` under
+`main`, re-run `04_score` and `conclude.py`, and `/node promote 03_candidate b_boosted`.
+
+*Two roles for a combination name, and they are not the same.* The sweep driver now takes
+`--base` (what a row is **measured against**) and `--inherit-from` (where it takes the
+dataset and the other models from). For candidate 1 both are `main`. For candidate 2 the
+base is `family_boosted` and the inheritance is `main`, because `family_boosted` holds
+candidate 2's two choices but neither the dataset nor the other four models —
+`combos.py` resolves exactly one level of base by design, so pointing `COMBO_BASE` at
+`family_boosted` would have failed rather than inherited. The driver also runs an untouched
+fork's main child when the inheritance base does not hold it, which is what makes candidate
+2's sweep work and changes nothing for candidate 1's.
+
+*`03_compare` runs for a swept combination; `conclude.py` does not.* Batch 9's reason for
+stopping at `02_aggregate` was that a `conclusion.json` per sibling is the phase-D
+deliverable. That still holds. `03_compare` produces the **leaderboard**, which phase C
+requires to be script-maintained and never typed, and the paired comparison saying what it
+can resolve — and without it the only model of ours that has ever led would never have been
+put beside the reference by the node that exists for it.
+
+*The fitted model is JSON that this repository's own code walks.* `boosted.py` writes each
+tree as parallel arrays and reads them back with `raw_predict`; scikit-learn is imported
+lazily, inside `_booster`, so the module can be imported and the model evaluated without it.
+Because that traversal is a second prediction path, `fit_model` evaluates the stored form
+against scikit-learn's `predict` on the training rows and **raises** if the largest absolute
+difference is not below 1e-6. If a future scikit-learn changes its node layout, that check is
+what will say so, loudly, rather than the forecasts quietly changing.
+
+*The boosting hyper-parameters are a logged decision, not forks.* Deliberate, and argued in
+four places (node claim, module docstring, model README, provenance record). The round count
+**is** chosen from the data, by a time-ordered split — `_rounds` fits on the earlier rows and
+scores every round on the latest 15 % — because a stopping rule scored on interleaved rows
+chooses a model for a different problem than the backtest poses.
+
+*The premise-and-check pattern is worth reusing.* `02_head/b_quantileEnsemble` computes its
+premise and writes a prediction into `model_option_spec.json` **before** anything is fitted;
+`scripts/check_head_premise.py` runs after the model and writes the comparison to
+`head_premise_check.json`. Seven of eight predicted levels flat at zero, the eighth flat in
+the province the prediction was about. About twenty lines of code, and it is the shape of
+evidence the manuscript's veridical argument wants. The batch report's §13 recommends it for
+phase D.
+
+**What went wrong, and what it implies.** The premise check's first version bounded each
+booster over *every possible input* rather than over the file's rows, and reported zero flat
+levels where seven are — it answered a different question than the premise asked. A zsh loop
+wrote one mangled line into two provenance records, because zsh does not word-split unquoted
+parameter expansions; `/validate invariants` caught it. And `boosted.py` changed after the
+three evaluations had run, leaving every `model_spec.json` naming a hash no longer on disk,
+so all three were re-run — identical, as the determinism check had already implied.
+
+**The defect worth remembering.** All three comparison figures built their colour and marker
+maps by zipping the models present against a four-entry list. `zip` stops at the shorter
+argument, so the fifth model would have drawn as **no series at all** in two of the three
+figures, with no error — and `/validate invariants` could not have seen it, because the
+figure would still exist with its plotted values beside it. It bears directly on `AGENTS.md`
+§5: a deterministic check has no attention budget, but it also has no imagination. The fix
+keys the palette on the model's **own name**, not its position among the models present, so
+that adding a model does not re-colour the others and two figures drawn for two combinations
+stay comparable.
+
 ## T21 — Batch 21: the greedy branch (2026-08-27)
 
 **Where it lives.** Everything this batch produced is on the git branch **`greedy`**, which

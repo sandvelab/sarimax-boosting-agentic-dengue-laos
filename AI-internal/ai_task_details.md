@@ -928,3 +928,107 @@ regenerating the thirteen provenance records that name those scripts costs nothi
 Two candidate ideas were deliberately not built and are in the report §12: a width fork on the
 pool (it would be a repair fitted to the calibration number it repairs) and a
 candidates-only pool (it would say how much of the win is persistence).
+
+---
+
+## T12 — Batch 12: `/perturb plan`, the perturbation manifest (2026-08-29)
+
+**What was produced.** `analysis/05_stability` — claim, `run.sh`, five scripts, four
+provenance records, a `criticality.md`, and ten result files: `forks.csv`, `manifest.csv`,
+`manifest_notes.json`, `tier2_rule.md`, `step_costs.json`, `conclusions.csv`,
+`conclusions_notes.json`, `run_status.csv` and the driver's log. Nine new scaffolded nodes
+under `02_setup`, `04_score/02_aggregate` and `03_models/01_baselines`. A new `combos` check
+in `AI-internal/useful-scripts/check_invariants.py`. An addendum to
+`analysis/03_models/criticality.md`. The report
+`AI-generated/batch-reports/26-08-29_b12_perturbationManifest.md`.
+
+**The decision the batch rests on: the inventory is computed, not listed.** Batch 5 wrote out
+ten forks by hand. `lib/inventory.py` walks `analysis/` for alternatives nodes and finds
+**seventeen** — five added by phase C while building the candidates, and two baseline forks
+that were never on the list although the plan's own phase D names one of them. A list would
+have been short again the next time a fork was added; a walk makes a missing fork a missing
+node, which a deterministic check can see. The new `combos` invariant closes the loop: the
+manifest's tier-1 rows must agree exactly with the tree's non-main children, and every
+`results/<name>/` directory must be a combination the manifest names.
+
+**What the tree had not been carrying.** Four `02_setup` forks, the scoring fork and both
+baseline forks each had exactly one child. Their claims said the sibling "is not built yet",
+which was true and invisible — a fork with one child is a well-formed alternatives node.
+`/perturb` says to prefer making a judgment call an alternatives node so the path not taken
+survives, so the nine siblings were created with claims and no scripts. The driver's
+`--dry-run` prints the ordered step list for each, which is the specification batches 13 and
+22 build to.
+
+**A fork's reach is a property of the tree at the moment you run it.** Batch 5 costed the
+persistence fork as moving one leaderboard row. Batch 11's promotion made the reported model
+a pool that takes both required baselines as members, so how persistence wraps a distribution
+around its point forecast is now a choice inside the model this project reports. Nothing
+about the fork changed. The plan's phase-D text was corrected rather than left disagreeing
+with the tree.
+
+**Costing.** Model terms from nineteen measured `run_cost.json` files; pipeline terms from
+`measure_step_costs.py`, which times `02_setup/run.sh`, `04_score/run.sh` and `conclude.py`
+by re-running them under `COMBO=main` and verifies with git that they leave the working tree
+byte-identical — a step that is not idempotent cannot be timed that way, and the check says
+so rather than a comment. `03_models` is deliberately not timed: re-running it re-runs the
+unseeded reference and would move the denominator of every comparison for a stopwatch. A fork
+inside a member of the pool gets a fourth term, that member's own measured delta, which is
+why `fitTime_refitAtPredict` costs 154 s and not 70. Storage is projected the same way, part
+by part from the largest measured example on disk: 575 MB for tier 1 on development, 1.15 GB
+across both datasets, against 234 MB of stored results today.
+
+**Where phase D's time actually goes**, and it is the batch's most quotable finding: of 124
+development minutes, **89 are the reference model** — five setup rows × four unseeded repeats
+× an amd64 image under emulation — for the one model the plan forbids perturbing. All
+fourteen candidate, family and baseline rows together cost 24 minutes. The dominant cost of
+the stability run is holding the denominator still.
+
+**Tier 2's rule, fixed and hashed before tier 1 ran.** Rank tier-1 rows by |Δ skill| from the
+main path; take the top two `setup` rows, the top two of the three kinds that move our model,
+and the top `scoring` row; every cross-group pair is a tier-2 combination, 2×2 + 2×1 + 2×1 =
+8. Batch 5 fixed the count and a phrase whose arithmetic only closes under the cross-group
+reading; that reading is fixed here with the count it was chosen to preserve. The rule's
+sha256 is in `manifest_notes.json`, so it cannot be edited into a different rule once the
+numbers are in. Tier 2 is not cut, because batches 9 and 21 each measured one-at-a-time fork
+effects failing to compose.
+
+**What planning found that running would have found later.** Twelve tier-1 rows hold results
+produced around a main path that has since moved — `observation_negBinomial` meant "our model
+is candidate 1 with a plain negative binomial" in phase C and means "our model is the pool,
+whose candidate-1 member has a plain negative binomial" now, same name and different analysis.
+Which is which is not guessed: `01_collect` writes a `models.csv` naming every model it
+scored, and the planner compares it against what the row would produce, which correctly clears
+`family_hierNB` and `weighting_crpsWeighted` and correctly flags `family_boosted`. And two
+defects block every built candidate and family row: `prepare_members.ensure_configuration`
+runs *every* member fork's main-path child, which gives the assembler two children of a
+moved fork and it fails by design; and `conclude.py` resolves our reported model from
+`claim.md`'s `main-path` field, which does not move with the combination, so every family row
+would write `candidate_exists: false`. Both go to batch 14, alongside the assembler lift
+batch 11 deferred there — the batch that re-runs those rows anyway, so regenerating their
+provenance costs nothing extra. Fixing them here would have changed hashes named in the
+provenance of three combinations' results.
+
+**The driver is written and deliberately not in `run.sh`.** Nine children have no scripts and
+twelve built rows are blocked, so calling it from `analysis/run.sh` today would write a dozen
+failed combinations into the tree on every run. It joins in batch 15, when every row can run
+— recorded in the node's `claim.md`, in a comment in `run.sh` itself, and in the plan's §4b.
+
+**What went wrong, kept.** The cost model was wrong three times before it was right: the main
+path's holdout cost came out at 5.6 s because the estimator scaled a development figure that
+stood for "already computed" (on the held-out year the main path is a cold start and the most
+expensive row there); the member-delta term silently did nothing because it looked for
+candidate 1's cost under `family_a_hierNB` when the combination is `family_hierNB`; and the
+first stale-directory test flagged rows by kind, wrongly listing a row that had been run
+around the pool. All three were caught by reading the produced table against what it should
+say, which is an argument for the manifest being a file rather than a paragraph. Separately,
+`plan_manifest.py` was extended after its provenance record was written, leaving that record
+naming bytes no longer on disk; corrected by an appended section rather than by editing the
+line, and the sequence is itself the finding — the third batch running to end this way.
+
+**Compute.** Nothing in the manifest was run. One row, `main`, went through the driver to
+exercise it end to end; its `conclusion.json` came back byte-identical. The root
+`analysis/run.sh` was **not** run end to end, because it re-runs the unseeded reference and
+would move the reported denominator — the same call batch 11 made and for the same reason.
+
+**Commits.** `26dca49` (node, manifest, invariant), `2e186f6` (records, annotations, report,
+plan), `5d21182` (the provenance correction).

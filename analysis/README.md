@@ -63,7 +63,7 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
   - **`02_reference`** — WHO EWARS-csd at its own defaults, pinned by image digest, served
     as a container, run four times because it is unseeded.
   - **`03_candidate`** (alternatives) — our own model families, one child per family.
-    `a_hierNB` is the main path and so far the only one built: a hierarchical
+    `a_hierNB` is the main path: a hierarchical
     negative-binomial GLM, with **six** sub-analysis forks deciding what it is —
     `01_observation`, `02_covariates`, `03_population`, `04_fitTime`, `05_autoregressive`
     and `06_yearVariance`, the last two added in batch 9. Each writes a
@@ -72,14 +72,28 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
     into the one `model_configuration.yaml` that `chap eval` is pointed at, and adds the
     component seed. **Every child of every fork is built and has been run**; batch 9
     promoted `c_hurdle`, `c_climateFree` and `b_provinceScaled` onto the main path.
-    `b_boosted` and `c_ensemble` are batches 10 and 11. **Every fork here moves only our
-    model**, which is what distinguishes this subtree from `02_setup`.
+    `b_boosted` is candidate 2, added in batch 10: gradient-boosted trees with a
+    probabilistic head, and **two** forks — `01_features` (a block of lags, or that block
+    plus the calendar and the map) and `02_head` (a negative binomial around a fitted mean,
+    or a ladder of quantile boosters). Neither moved. It scores **20.771** on development
+    against candidate 1's 23.698 and the reference's 22.098, but it is a sibling alternative,
+    so it never runs on `main` — it runs under its own combination `family_boosted`, and
+    which family the main path takes is chosen in batch 11, when `c_ensemble` exists. Its
+    model directory is the first in the project to depend on scikit-learn, and the first to
+    store a fitted object this repository's own code walks rather than a library's.
+    **Every fork here moves only our model**, which is what distinguishes this subtree from
+    `02_setup`.
   - `scripts/lib/chap_eval.py` is the single route by which a model of ours reaches
     `chap eval`. It is a library, not a step.
 - **`04_score`** (sub-analyses) — `01_collect` (per-cell scores for every model that ran,
   from chap-core's own metrics), `02_aggregate` (a fork on the weighting of the headline
   mean), `03_compare` (the leaderboard, and the paired per-cell comparison against the
   reference with the noise floor beside it).
+- `scripts/lib/palette.py` gives every model one colour and one marker, keyed on the model's
+  own name so that a model keeps its colour across combinations and two figures drawn for
+  different combinations can be laid side by side. A library, not a step; imported by the
+  three figures under `04_score/03_compare`. Added in batch 10, when a fifth model showed
+  that each of those figures had been building its own four-entry map.
 - The root's own `scripts/lib/project_seed.py` reads the one project seed from
   `readme-at-start.md` and derives a component seed from it by BLAKE2b. A library, not a
   step; imported by the nodes that have something to seed. First used by `03_candidate`,

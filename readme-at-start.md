@@ -36,7 +36,7 @@ representative research problem, and where it fails.
 
 - **Target venue**: not fixed in the source material. The manuscript this case serves updates
   Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013), which is the obvious precedent.
-- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; **phase C under way, batches 8–9 done**, batch 10 next). Nineteen batches in the ledger, plus one optional, plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result. What it settled is in the plan's §4b.
+- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; **phase C under way, batches 8–10 done**, batch 11 next). Nineteen batches in the ledger, plus one optional, plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result. What it settled is in the plan's §4b.
 - **Manuscript**: `Human-AI-collaboration/manuscript/`
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`. It carries the
@@ -55,11 +55,11 @@ representative research problem, and where it fails.
 | Target | `disease_cases` (reported dengue), monthly, admin-1, Laos. |
 | What the metric is a mean over | **16 provinces, 371 cells** on development — not the 18 provinces in the file. Vientiane (LA-VI) reports nothing and is dropped by Chap's region filter; Xaisomboun (LA-XN) stops reporting after 2005 and contributes no evaluable cell. Established in batch 3. |
 | Metric | Mean CRPS across regions × splits, produced by Chap's own evaluation. Secondary: interval coverage, MAE. |
-| Reported conclusion | A skill score against the reference model, `1 − CRPS_ours / CRPS_ewars`, computed per analysis by a script, with raw CRPS and coverage beside it. Relative rather than absolute, so that the development and held-out spreads can be read on one axis instead of confounding inflated performance with a harder year. **Currently −0.072** (`analysis/results/main/conclusion.json`): mean CRPS 23.698 against the reference's 22.098, ahead of both required baselines. |
+| Reported conclusion | A skill score against the reference model, `1 − CRPS_ours / CRPS_ewars`, computed per analysis by a script, with raw CRPS and coverage beside it. Relative rather than absolute, so that the development and held-out spreads can be read on one axis instead of confounding inflated performance with a harder year. **Currently −0.072** (`analysis/results/main/conclusion.json`): mean CRPS 23.698 against the reference's 22.098, ahead of both required baselines. **Batch 10's candidate 2 scores +0.060 (mean CRPS 20.771) but is not on the main path**: the family fork is chosen in batch 11, so the reported conclusion is still candidate 1's. |
 | Required baselines | Persistence and seasonal climatology, implemented as Chap-compatible models so they traverse the identical evaluation path. |
 | Reference model to beat | `https://github.com/chap-models/chapkit_ewars_model` (WHO EWARS-csd), at its own default configuration — on the cross-validated development backtest **and** on the held-out year. Not tuned by us. Pinned by image digest `sha256:abd8098f…` (= source commit `a4c2fa42`); runs as an amd64 chapkit service under emulation, so **Docker must be running**. Its development mean CRPS is **22.098**, the per-cell mean of four repeats scored from inside the tree in batch 7 (batch 4's reconnaissance figure was 21.9). It is **unseeded**: the four repeats span 21.820 to 22.385, so a margin under **~0.57 CRPS** against it means nothing. |
 | Project seed, derived | Every component seed is `int(blake2b("<project seed>:<component>", digest_size=8), 16) % 2**32`, computed by `analysis/scripts/lib/project_seed.py`, which reads the project seed from the table above rather than carrying a copy. Fixed in batch 8, the first batch with anything to seed. |
-| What counts as success | Beating both baselines and EWARS. Nothing here can reach statistical significance and no attempt is made to suggest it does: the comparison is reported with its per-region and per-split spread and a plain statement of what that spread can distinguish. "We cannot separate these two" is a conclusion. **The backtest's resolution is a property of the pair being compared, not of the dataset** — batch 7 measured about 4 CRPS using the baselines; batch 8's candidate cleared two standard errors; batch 9's candidate is **1.03 standard errors** from the reference, which is the "cannot separate" case arriving in practice. Nothing below **0.57 CRPS** can be attributed to a model at all, which is the reference's own re-run spread. |
+| What counts as success | Beating both baselines and EWARS. Nothing here can reach statistical significance and no attempt is made to suggest it does: the comparison is reported with its per-region and per-split spread and a plain statement of what that spread can distinguish. "We cannot separate these two" is a conclusion. **The backtest's resolution is a property of the pair being compared, not of the dataset** — batch 7 measured about 4 CRPS using the baselines; batch 8's candidate cleared two standard errors; batch 9's candidate is **1.03 standard errors** from the reference, which is the "cannot separate" case arriving in practice; batch 10's candidate 2 is **1.20 standard errors on the other side** of it, which is the same case with the sign reversed. Nothing below **0.57 CRPS** can be attributed to a model at all, which is the reference's own re-run spread. |
 | Shape of the reported result | A **spread, not a point**, on both datasets. The phase-D perturbation set is frozen before the holdout is opened and re-run on it, so development and holdout are both reported as distributions over the analyses that all looked reasonable. |
 | Model service framework | `chapkit` may be used to build our own models against the Chap contract. Permitted, not mandated. |
 | Development data | 1998-01 to 2009-12. The only file development ever sees. |
@@ -116,12 +116,23 @@ do if EWARS cannot be run on this dataset, which the plan's §2 answers.
   and is 1.03 standard errors from the reference. A second environment variable,
   `COMBO_BASE`, lets a combination inherit what it did not move; `analysis/run.sh` sets
   none, so the reported analysis inherits nothing.
+  **Batch 10 added `03_models/03_candidate/b_boosted`** — candidate 2, gradient-boosted trees
+  with a probabilistic head — and its two forks, `01_features` and `02_head`. It scores
+  **20.771** on development, ahead of the reference and of candidate 1, and it is the first
+  model of ours whose intervals are too wide rather than too narrow. It is **not** on the main
+  path: `03_candidate` is an alternatives node and batch 5's design chooses its main path in
+  batch 11, so candidate 2 runs under its own combination `family_boosted` and
+  `analysis/run.sh` still reproduces candidate 1. The model brings **scikit-learn** into a
+  model environment for the first time, pinned by the `uv.lock` beside it, and stores its
+  fitted ensembles as JSON the project's own code can walk without scikit-learn installed.
 - Batch reports, one per executed batch, are in `AI-generated/batch-reports/`. Checks on the
   method — clean-room, determinism — are in `AI-generated/validation/` and
-  `AI-generated/determinism-checks/`. What every alternative to candidate 1's configuration
+  `AI-generated/determinism-checks/`. What every alternative to a candidate's configuration
   scores, and the rule batch 9 promoted three forks by, are in
-  `AI-generated/candidate-forks/`; the numbers there are copied from files inside the tree,
-  and it is a phase-C selection aid rather than the phase-D stability result.
+  `AI-generated/candidate-forks/` — two rounds for candidate 1, and `boosted_round1/` for
+  candidate 2, whose two forks both stayed put. The numbers there are copied from files
+  inside the tree, and it is a phase-C selection aid rather than the phase-D stability
+  result.
 - The vertical slice that preceded the tree is in `AI-generated/vertical-slice/`. Its numbers
   are **not** reported results; the tree reproduces them exactly, and the persistence model
   itself now lives at `analysis/03_models/01_baselines/01_persistence/a_empiricalChange/`.

@@ -300,6 +300,19 @@ before any of this.
 | **The iterated path is run anyway, on a branch named `greedy` that is never merged**, as batch 21 | "It could be interesting to see where this would have taken us." What stopping cost is then a measured quantity rather than an estimate from one sweep, and the branch is the only place in the project where selection is deliberately pushed to a fixpoint — which makes it evidence about the method rather than a result about Laos | human-set |
 
 
+### 2026-08-28 — settled by batch 10, from the second candidate
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **A model of ours beats the reference on development for the first time**: gradient-boosted trees at mean CRPS **20.771** against 22.098, ahead of each of the reference's four unseeded repeats individually, and the first margin in the project to clear the 0.565 CRPS floor | Measured. The paired difference is −1.327 with a split-clustered standard error of 1.110 — 1.20 standard errors, where batch 9's candidate was 1.03 on the other side. **This does not separate the two models and is not reported as though it did**; what changed is the sign of the point estimate, not the resolution of the comparison. It also repairs the failure batch 9 could not: Salavan, which carried the largest single piece of candidate 1's gap, goes from 55.09 to 35.44 — because a tree that separates two provinces gives them different widths as a by-product of giving them different means, which a constant log-scale width cannot do | agent-autonomous |
+| **The family fork is not promoted in batch 10**, although candidate 2 leads candidate 1 by 2.927 CRPS — five times the floor | Batch 5's design assigns the family main path to batch 11, after `c_ensemble` exists. Promoting here would pre-empt a choice that must be made again one batch later. What batch 9's rule would decide on today's evidence is recorded in the batch-10 report §9, so batch 11 cannot decide otherwise without saying why | agent-autonomous |
+| **The probabilistic head is where the family fails, and the reason was written down before the model ran** | The fork child computed its premise before anything was fitted and registered a prediction: every ladder level below the target's 56.3 % zero share cannot move off zero, because at those levels the majority of residuals sit exactly on the pinball loss's kink. Eight levels were named; **seven are flat at zero across the whole file** and the eighth is flat in the one province that never reports a zero, whose observed median is 109 cases. A script compares the two afterwards and writes the comparison to a file, so the confirmation is an artifact and not a reading. **This is the shape of veridical work the manuscript argues for, and it cost about twenty lines** | agent-autonomous |
+| The quantile head's failure is **kept, not repaired** | The repair is a hurdle over the ladder — the construction candidate 1's `01_observation` fork already promoted — and would be a third child of `02_head` rather than a change to this one. A fork child rebuilt until it worked would leave the tree with no record that the plain construction does not. §3's "failures are kept", applied where it costs something | agent-autonomous |
+| **The two heads fail in opposite directions**, and reporting either number alone would mislead | The ladder has the project's closest interval coverage — 0.798 against nominal 0.80 — and its worst point forecast, MAE 33.020, because a median pinned at zero is far below the outcome wherever a province reports steadily. §2's "a model that wins on mean CRPS while being badly calibrated has not won", arriving with the halves swapped | agent-autonomous |
+| **scikit-learn enters the project**, in one model's environment, pinned exactly by the lockfile beside it; and the fitted ensembles are stored as JSON this project's own code can walk | Gradient boosting is binning, split finding, shrinkage and a stopping rule — not two functions, so the argument that hand-wrote candidate 1's fitter points the other way. Rule 5 then forbids pickling the result, so the trees are written out as arrays and read back by a second prediction path; because a second path can disagree, every fit checks it against scikit-learn's own prediction and fails if they differ. Batch 21's finding — that a rule selecting on development CRPS cannot see whether the model it selects can be inspected — is the direct ancestor of this | agent-autonomous |
+| The boosting hyper-parameters are a **logged decision, not forks**; the round count is chosen by a **time-ordered** early-stopping split | §3 permits a judgment call to be a node *or* a logged decision. Forks here would enumerate a tuning grid whose siblings all re-run in phase D and again on the holdout, to answer a question about tuning rather than about a choice an analyst would plausibly make differently. The stopping split is by month because a rule scored on rows interleaved with the training rows is choosing a model for a different problem than the backtest poses | agent-autonomous |
+| **Two of the three comparison figures would have dropped a series silently** on the fifth model, and the invariant checks could not have seen it | All three built their colour maps by zipping the models present against a four-entry list, and `zip` stops at the shorter argument. The figure would still have existed, with its plotted values beside it, and looked wrong only to someone counting series. Fixed at the cause — one shared palette keyed on the model's own name, so a model keeps its colour across combinations and two figures stay comparable. **It bears on §5 of `AGENTS.md`: what a deterministic check can see is not everything** | agent-autonomous |
+
 ### 2026-08-27 — settled by batch 21, from the greedy branch
 
 *(Produced on branch `greedy`, which is never merged. The report is
@@ -370,7 +383,7 @@ at the end of every batch, and append newly created batches to it.
 | 7 | B | Erect the claim tree, route the vertical slice through it, add the reference | done — produced | [[26-08-26_b07_erectTheTree]] |
 | 8 | C | The candidate contract, and candidate 1 (hierarchical NB GLM) at its defaults | done — produced | [[26-08-27_b08_candidateContract]] |
 | 9 | C | Candidate 1's internal forks, plus a proposed fifth on an autoregressive term, and the width defect batch 8 diagnosed; promote the main path | done — produced | [[26-08-27_b09_candidateForks]] |
-| 10 | C | Candidate 2: gradient-boosted trees with a probabilistic head | open | |
+| 10 | C | Candidate 2: gradient-boosted trees with a probabilistic head | done — produced | [[26-08-28_b10_boostedCandidate]] |
 | 11 | C | Candidate 3: the ensemble; close phase C | open | |
 | 12 | D | `/perturb plan`: the stability node, the driver, the frozen development manifest | open | |
 | 13 | D | `/perturb run`: the setup and scoring forks | open | |
@@ -836,6 +849,10 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 9 — candidate 1's forks, swept and promoted
 
 - [[26-08-27_b09_candidateForks]]
+
+### Batch 10 — candidate 2: gradient-boosted trees with a probabilistic head
+
+- [[26-08-28_b10_boostedCandidate]]
 
 ### Batch 21 — the greedy branch
 

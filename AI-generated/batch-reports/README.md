@@ -50,3 +50,11 @@ re-running a batch produces a different report rather than the same one.
   silently, three forks promoted by a rule committed before the combination it chose was run,
   and the finding that one-at-a-time fork effects do not add — three forks worth 4.632 CRPS
   separately delivered 2.402 together, and two of nine children reversed sign.
+- `26-08-28_b10_boostedCandidate.md` — batch 10, phase C: candidate 2, gradient-boosted trees
+  with a probabilistic head, and its two forks. The first model of ours to beat the reference
+  on development — 20.771 against 22.098, ahead of each of its four repeats individually — and
+  the first whose intervals are too wide rather than too narrow. Neither internal fork moved,
+  and the family fork is left to batch 11 by batch 5's design. Its methodological centre is a
+  prediction the head fork registered before it ran and a script that measured it afterwards:
+  seven of eight named quantile levels flat at zero, the eighth flat in the one province that
+  never reports one.

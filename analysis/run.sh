@@ -15,6 +15,7 @@ bash "01_data/run.sh"
 bash "02_setup/run.sh"
 bash "03_models/run.sh"
 bash "04_score/run.sh"
+bash "05_stability/run.sh"
 
 # Own scripts
 "$PYTHON" "scripts/conclude.py"

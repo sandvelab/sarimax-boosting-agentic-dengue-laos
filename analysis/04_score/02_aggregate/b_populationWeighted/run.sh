@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Main script for node: 02_climatology
+# Main script for node: b_populationWeighted
 # Generated shape -- edit the "own scripts" block; the child calls are maintained
 # by `node.py rebuild`, which enforces the alternatives/sub-analyses semantics.
 set -euo pipefail
@@ -10,6 +10,5 @@ REPO_ROOT="$(cd "../../../.." && pwd)"
 # declares env/ and overrides PYTHON below.
 PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 
-# Alternatives: only the main path is run here.
-# Not taken: b_frozenWindow
-bash "a_expandingWindow/run.sh"
+
+# Own scripts -- add calls here as scripts/ fills up.

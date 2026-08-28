@@ -18,6 +18,8 @@ Checks
   plots       every plot image has its plotted values and its plotting script beside it
   seeds       every script that draws randomness has a recorded seed
   claims      every claim in the collection resolves to an existing result
+  combos      every results/<combination>/ directory is one the stability manifest
+              names, and the manifest names every non-main child in the tree
   git         the working tree is clean, and recorded commits exist
   crossing    no result file looks like a value transcribed between steps by hand
 
@@ -62,6 +64,11 @@ def script_files(directory: Path) -> list[Path]:
                     for part in p.relative_to(directory).parts)
     )
 
+
+MANIFEST = Path("analysis/05_stability/results/manifest.csv")
+# Combination directories a node may hold without the manifest naming them. `main` is the
+# reported analysis, which is not a perturbation of anything and so has no fork row.
+ALWAYS_ALLOWED = {"main"}
 
 SUB_ANALYSIS_NAME = re.compile(r"^\d{2}_[A-Za-z]")
 ALTERNATIVE_NAME = re.compile(r"^[a-z]_[A-Za-z]")
@@ -143,6 +150,16 @@ def check_tree(root: Path) -> list[Finding]:
     return out
 
 
+def combinations(root: Path) -> set[str] | None:
+    """Every combination the stability manifest names, or None before it exists."""
+    path = root / MANIFEST
+    if not path.exists():
+        return None
+    import csv
+    with path.open() as handle:
+        return {row["combination"] for row in csv.DictReader(handle) if row["combination"]}
+
+
 def _provenance_records(node: Path) -> dict[str, str]:
     prov = node / "provenance"
     if not prov.is_dir():
@@ -159,11 +176,25 @@ def check_provenance(root: Path) -> list[Finding]:
             continue
         records = _provenance_records(node)
         blob = "\n".join(records.values())
+        known = combinations(root)
         for f in sorted(results.rglob("*")):
             if f.is_dir() or f.name == ".gitkeep":
                 continue
             name = f.relative_to(results).as_posix()
-            if name not in blob:
+            # One script produces the same artefact under every combination, from the
+            # same inputs, by the same invocation -- the combination is a parameter, and
+            # each file records its own in a `combo` field. So a record may name the
+            # artefact by its combination-invariant path, `results/$COMBO/eval.nc`, and
+            # cover every combination of it. The obligation is unchanged: some record
+            # still has to name the artefact. What is not allowed is the placeholder
+            # standing in for a combination nobody planned, so it only satisfies files
+            # whose combination the manifest names, and `check_combos` is what makes
+            # that set closed.
+            head, _, tail = name.partition("/")
+            aliases = [name]
+            if tail and known is not None and head in (known | ALWAYS_ALLOWED):
+                aliases += [f"$COMBO/{tail}", f"<combo>/{tail}"]
+            if not any(alias in blob for alias in aliases):
                 out.append(Finding("provenance", f"{rel}/results/{name}",
                                    "no provenance record names this result"))
         for rec_name, rec in records.items():
@@ -229,6 +260,69 @@ def check_claims(root: Path) -> list[Finding]:
     return out
 
 
+def check_combos(root: Path) -> list[Finding]:
+    """The combination space is closed, and the manifest is not behind the tree.
+
+    Two failures this catches, both of which look like nothing on the surface.
+
+    A `results/` subdirectory nobody planned -- a scratch run, a combination renamed
+    halfway, a typo that created a second directory beside the real one -- is a set of
+    numbers with no row in the manifest, and therefore an analysis that is in the
+    repository and not in the reported distribution.
+
+    And a fork added to the tree after the manifest was written is a reasonable
+    alternative the stability run does not know about. That is the silent absence
+    `AGENTS.md` §4 forbids, so the manifest's tier-1 rows must agree exactly with the
+    tree's non-main children. `plan_manifest.py` keeps them in step; this is what says
+    so when it has not been re-run.
+    """
+    import csv
+    out: list[Finding] = []
+    path = root / MANIFEST
+    if not path.exists():
+        return out
+    with path.open() as handle:
+        rows = list(csv.DictReader(handle))
+    known = {r["combination"] for r in rows if r["combination"]} | ALWAYS_ALLOWED
+
+    stability = (root / MANIFEST).parents[1]
+    for node in nodes(root):
+        results = node / "results"
+        if not results.is_dir():
+            continue
+        # The node that holds the manifest is the one node whose outputs are not
+        # combination-scoped: they describe every combination and belong to none.
+        if node == stability:
+            continue
+        for child in sorted(p for p in results.iterdir() if p.is_dir()):
+            if child.name in known:
+                continue
+            out.append(Finding(
+                "combos", f"{node.relative_to(root)}/results/{child.name}",
+                "results for a combination the stability manifest does not name"))
+
+    planned = {(r["fork"], r["child"]) for r in rows if r["tier"] == "1"
+               and r["fork"] != "-"}
+    actual = set()
+    for node in nodes(root):
+        text = (node / "claim.md").read_text()
+        if _field(text, "kind") != "alternatives":
+            continue
+        main = _field(text, "main-path")
+        for kid in sorted(p.name for p in node.iterdir()
+                          if p.is_dir() and (p / "claim.md").exists()):
+            if kid != main:
+                actual.add((str(node.relative_to(root)), kid))
+    for fork, child in sorted(actual - planned):
+        out.append(Finding("combos", f"{fork}/{child}",
+                           "a path not taken with no row in the stability manifest; "
+                           "re-run plan_manifest.py"))
+    for fork, child in sorted(planned - actual):
+        out.append(Finding("combos", f"{fork}/{child}",
+                           "the manifest names a child the tree does not have"))
+    return out
+
+
 def check_git(root: Path) -> list[Finding]:
     out: list[Finding] = []
     if not (root / ".git").is_dir():
@@ -287,6 +381,7 @@ CHECKS = {
     "plots": check_plots,
     "seeds": check_seeds,
     "claims": check_claims,
+    "combos": check_combos,
     "git": check_git,
     "crossing": check_crossing,
 }

@@ -11,5 +11,5 @@ REPO_ROOT="$(cd "../../.." && pwd)"
 PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 
 # Alternatives: only the main path is run here.
-# Not taken: b_boosted
+# Not taken: b_boosted, c_ensemble
 bash "a_hierNB/run.sh"

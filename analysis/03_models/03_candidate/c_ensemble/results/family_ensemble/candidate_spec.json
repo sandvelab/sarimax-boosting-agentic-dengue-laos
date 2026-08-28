@@ -1,0 +1,111 @@
+{
+ "additional_continuous_covariates": [
+  "rainfall",
+  "mean_temperature",
+  "mean_relative_humidity"
+ ],
+ "candidate": "ensemble",
+ "choice_combos": {
+  "weighting": "family_ensemble"
+ },
+ "choice_nodes": {
+  "weighting": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal"
+ },
+ "choices": {
+  "weighting": "a_equal"
+ },
+ "combo": "family_ensemble",
+ "configuration": "model_configuration.yaml",
+ "configuration_sha256": "c7494bce539927c4bc0817c781b0b589dd43926e2283ace8bff0a2a0262b12ee",
+ "members": [
+  {
+   "configured_by": null,
+   "model_config": null,
+   "model_dir": "analysis/03_models/01_baselines/01_persistence/a_empiricalChange/scripts/persistence_model",
+   "name": "persistence",
+   "node": "analysis/03_models/01_baselines/01_persistence/a_empiricalChange"
+  },
+  {
+   "configured_by": null,
+   "model_config": null,
+   "model_dir": "analysis/03_models/01_baselines/02_climatology/a_expandingWindow/scripts/climatology_model",
+   "name": "climatology",
+   "node": "analysis/03_models/01_baselines/02_climatology/a_expandingWindow"
+  },
+  {
+   "configured_by": {
+    "autoregressive": "a_none",
+    "covariates": "c_climateFree",
+    "fit_time": "a_trainOnly",
+    "observation": "c_hurdle",
+    "population": "a_offset",
+    "year_variance": "b_provinceScaled"
+   },
+   "model_config": "analysis/03_models/03_candidate/a_hierNB/results/family_ensemble/model_configuration.yaml",
+   "model_dir": "analysis/03_models/03_candidate/a_hierNB/scripts/hier_nb_model",
+   "name": "hier_nb",
+   "node": "analysis/03_models/03_candidate/a_hierNB"
+  },
+  {
+   "configured_by": {
+    "features": "a_lagBlock",
+    "head": "a_negBinomial"
+   },
+   "model_config": "analysis/03_models/03_candidate/b_boosted/results/family_ensemble/model_configuration.yaml",
+   "model_dir": "analysis/03_models/03_candidate/b_boosted/scripts/boosted_model",
+   "name": "boosted",
+   "node": "analysis/03_models/03_candidate/b_boosted"
+  }
+ ],
+ "members_file": "analysis/03_models/03_candidate/c_ensemble/results/family_ensemble/members.json",
+ "members_sha256": "af69794c57980a611ebdae3b099b74b526a4fc14420d2af0df9f485560e8ffc3",
+ "node": "analysis/03_models/03_candidate/c_ensemble",
+ "route": "chap eval --model-configuration-yaml -> ModelConfiguration -> model_configuration_for_run.yaml -> {model_config} in the MLproject entry points",
+ "seed_derivation": {
+  "component": "analysis/03_models/03_candidate/c_ensemble",
+  "derivation": "int(blake2b('<project_seed>:<component>', digest_size=8), 16) % 4294967296",
+  "project_seed": 20260822,
+  "seed": 1648567750
+ },
+ "stages": [
+  {
+   "additional_continuous_covariates": [],
+   "choice": "a_equal",
+   "chosen_under_combo": "family_ensemble",
+   "combo": "family_ensemble",
+   "description": "every member of the pool carries weight 1/M; no weight in this model is estimated from data",
+   "input_from_combo": "main",
+   "node": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal",
+   "order": 1,
+   "premise": {
+    "best_of_ours": "hier_nb",
+    "coverage_10_90_of_our_models": {
+     "climatology": 0.6495956873315364,
+     "hier_nb": 0.7008086253369272,
+     "persistence": 0.6657681940700808
+    },
+    "development_mean_crps_of_our_models": {
+     "climatology": 24.336908636118597,
+     "hier_nb": 23.697926164420487,
+     "persistence": 24.879338288409706
+    },
+    "members_are_weighted_by_this": false,
+    "nominal_coverage_10_90": 0.8,
+    "source": "analysis/04_score/03_compare/results/main/leaderboard.csv",
+    "spread_best_to_worst": 1.1814121239892188,
+    "worst_of_ours": "persistence"
+   },
+   "stage": "weighting",
+   "user_option_values": {
+    "weighting": "equal"
+   },
+   "what_the_premise_implies": "an equally weighted pool puts half its mass on the two required baselines, which are the two worst-scoring models of ours, so it is predicted to score worse than the best member and better than the mean of the members; and because a linear pool's variance is the mean of its members' variances plus the spread between their means, its 10-90 coverage is predicted to be at least the largest of its members' -- that is, wider than any member, and so over-covering if any member already over-covers"
+  }
+ ],
+ "user_option_values": {
+  "members_file": "analysis/03_models/03_candidate/c_ensemble/results/family_ensemble/members.json",
+  "members_sha256": "af69794c57980a611ebdae3b099b74b526a4fc14420d2af0df9f485560e8ffc3",
+  "seed": 1648567750,
+  "weighting": "equal"
+ }
+}

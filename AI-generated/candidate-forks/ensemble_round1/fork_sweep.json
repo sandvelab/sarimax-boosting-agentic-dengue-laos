@@ -1,0 +1,17 @@
+{
+ "base_combination": "family_ensemble",
+ "base_configuration_sha256": "c7494bce539927c4bc0817c781b0b589dd43926e2283ace8bff0a2a0262b12ee",
+ "best_combination": "family_ensemble",
+ "best_mean_crps": 18.816872064690028,
+ "best_moves_the_main_path_by": 0.0,
+ "combinations": 2,
+ "inherited_from": "main",
+ "main_path_mean_crps": 18.816872064690028,
+ "ranking": [
+  "family_ensemble",
+  "weighting_crpsWeighted"
+ ],
+ "reference_mean_crps": 22.098446493261456,
+ "source": "analysis/04_score/02_aggregate/a_unweighted/results/<combo>/metrics_summary.csv, and the candidate node's run_cost.json and candidate_spec.json",
+ "swept": "analysis/03_models/03_candidate/c_ensemble"
+}

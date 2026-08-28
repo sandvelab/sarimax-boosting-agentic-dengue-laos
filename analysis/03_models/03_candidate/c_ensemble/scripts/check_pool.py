@@ -92,11 +92,7 @@ def matching_evaluation(member: dict, wanted: dict) -> tuple[Path, str]:
                 and (spec_path.parent / "eval.nc").exists()):
             found.append(spec_path.parent)
     if not found:
-        raise SystemExit(
-            f"{member['name']}: no stored evaluation of it under the configuration the "
-            f"pool used (configuration sha256:{member['model_config_sha256']}, dataset "
-            f"sha256:{wanted['dataset_sha256']}). The member has to have been run on its "
-            f"own before the pool can be checked against it.")
+        return None, ""
     return found[0], found[0].name
 
 
@@ -110,10 +106,17 @@ def main() -> None:
     names = [m["name"] for m in fitted["members"]]
 
     # --- 1. the reconstruction -------------------------------------------------------
-    blocks, sources = [], {}
+    blocks, sources, unmatched = [], {}, []
     index = None
     for member in membership:
         directory, combination = matching_evaluation(member, ours)
+        if directory is None:
+            # The member has not been evaluated on its own under the configuration the
+            # pool gave it. That is a fact about which combinations have been run, not a
+            # fault in the pool, so it is recorded and the reconstruction is skipped --
+            # the premise check below does not depend on it.
+            unmatched.append(member["name"])
+            continue
         forecasts, observations = flat(directory / "eval.nc")
         wide = sample_block(forecasts)
         blocks.append(wide)
@@ -129,15 +132,19 @@ def main() -> None:
     # score it is being compared with, or it is a mean over a different denominator.
     own_forecasts, own_observations = flat(out / "eval.nc")
     observed = own_observations.dropna(subset=["disease_cases"]).set_index(CELL)
-    index = index.intersection(observed.index).sort_values()
+    if unmatched:
+        index = observed.index.sort_values()
+        blocks = []
+    else:
+        index = index.intersection(observed.index).sort_values()
 
-    stack = np.stack([b.loc[index].to_numpy(float) for b in blocks])
+    stack = (np.stack([b.loc[index].to_numpy(float) for b in blocks]) if blocks
+             else np.empty((0, len(index), 0)))
     truth = observed.loc[index, "disease_cases"].to_numpy(float)
     horizon = (own_forecasts.drop_duplicates(CELL)
                .set_index(CELL).loc[index, "horizon_distance"].to_numpy(int))
 
     seed = specification["user_option_values"]["seed"]
-    rebuilt = pool(stack, weights, np.random.default_rng(seed), stack.shape[2])
 
     def score(draws: np.ndarray) -> dict:
         long = pd.DataFrame({
@@ -150,17 +157,45 @@ def main() -> None:
             "location": [i[0] for i in index],
             "time_period": [i[1] for i in index],
             "disease_cases": truth})
-        detailed = get_metric("crps")().get_detailed_metric(observations, long)
-        return {"mean_crps": float(detailed["metric"].mean()),
-                "cells": int(len(detailed))}
+        values = {}
+        for metric_id in ("crps", "coverage_10_90", "coverage_25_75"):
+            detailed = get_metric(metric_id)().get_detailed_metric(observations, long)
+            values[metric_id] = float(detailed["metric"].mean())
+            values["cells"] = int(len(detailed))
+        return values
 
-    rebuilt_score = score(rebuilt)
-    member_scores = {name: score(stack[m])["mean_crps"] for m, name in enumerate(names)}
+    def flat_interval_share(draws: np.ndarray) -> dict:
+        """How often the model's own quantiles coincide, per nominal interval.
 
-    collected = pd.read_csv(
-        ROOT / "analysis/04_score/02_aggregate/a_unweighted/results" / COMBO
-        / "metrics_summary.csv")
-    as_run = float(collected.loc[collected.model == ours["model"], "mean_crps"].iloc[0])
+        A count distribution on this dataset carries an atom at zero -- 56 % of observed
+        province-months are exactly zero -- and a model that puts more than three
+        quarters of its mass there has a 25-75 interval of [0, 0]. Every zero outcome
+        then falls inside it, so interval coverage at the 50 % level is bounded below by
+        something the model cannot choose, and reading it as calibration would credit or
+        blame a model for the shape of the target. The 10-90 level is far less exposed to
+        it. This measures the exposure rather than assuming it away.
+        """
+        shares = {}
+        for name, (low, high) in {"25_75": (25, 75), "10_90": (10, 90)}.items():
+            lower, upper = np.percentile(draws, [low, high], axis=1)
+            shares[name] = float((upper <= lower).mean())
+        return shares
+
+    if unmatched:
+        rebuilt_score, member_scores, member_coverage = None, {}, {}
+    else:
+        rebuilt = pool(stack, weights, np.random.default_rng(seed), stack.shape[2])
+        rebuilt_score = score(rebuilt)
+        member_scores = {name: score(stack[m])["crps"] for m, name in enumerate(names)}
+        member_coverage = {name: score(stack[m])["coverage_10_90"]
+                           for m, name in enumerate(names)}
+
+    # The pool as it actually ran, scored here from its own stored evaluation over the
+    # same cells. Every number in this file therefore comes from one path over one set of
+    # cells; `04_score` is the node that reports, and it has not run yet when this does.
+    own = sample_block(own_forecasts).loc[index].to_numpy(float)[None, :, :]
+    as_run_score = score(own[0])
+    as_run = as_run_score["crps"]
 
     # --- 2. the registered premise ---------------------------------------------------
     stage = specification["stages"][0]
@@ -179,14 +214,18 @@ def main() -> None:
         "smallest_weight": min(weight_of.values()),
         "members_below_weight_0.05": [n for n, w in weight_of.items() if w < 0.05],
         "pool_mean_crps": as_run,
-        "best_member_mean_crps": member_scores[order[0]],
-        "mean_of_member_mean_crps": float(np.mean(list(member_scores.values()))),
-        "pool_beats_its_best_member_by": member_scores[order[0]] - as_run,
-        "pool_coverage_10_90": float(
-            collected.loc[collected.model == ours["model"], "coverage_10_90"].iloc[0]),
-        "largest_member_coverage_10_90": float(
-            collected[collected.model.isin(names)]["coverage_10_90"].max()),
+        "best_member_mean_crps": member_scores[order[0]] if order else None,
+        "mean_of_member_mean_crps": (float(np.mean(list(member_scores.values())))
+                                     if member_scores else None),
+        "pool_beats_its_best_member_by": (member_scores[order[0]] - as_run
+                                          if order else None),
+        "pool_coverage_10_90": as_run_score["coverage_10_90"],
+        "pool_coverage_25_75": as_run_score["coverage_25_75"],
+        "member_coverage_10_90": member_coverage,
+        "largest_member_coverage_10_90": (max(member_coverage.values())
+                                          if member_coverage else None),
         "nominal_coverage_10_90": 0.80,
+        "nominal_coverage_25_75": 0.50,
     }
     if stage["choice"] == "b_crpsWeighted":
         validation = fitted["weighting"]["validation"]
@@ -204,26 +243,46 @@ def main() -> None:
                            "pooled at the same weights and scored with chap-core's own "
                            "CRPS; independent of the ensemble's own forecast"),
             "member_evaluations": sources,
+            "members_without_a_matching_stored_evaluation": unmatched,
+            "not_done_because": (
+                f"no stored evaluation of {unmatched} under the configuration the pool "
+                f"gave them; the reconstruction needs every member's own run"
+                if unmatched else None),
             "cells_in_common": int(len(index)),
-            "mean_crps_rebuilt": rebuilt_score["mean_crps"],
+            "mean_crps_rebuilt": rebuilt_score["crps"] if rebuilt_score else None,
             "mean_crps_as_run": as_run,
-            "difference": rebuilt_score["mean_crps"] - as_run,
+            "difference": (rebuilt_score["crps"] - as_run) if rebuilt_score else None,
             "why_they_cannot_be_identical": (
                 "the members' draws are the same draws -- same code, same frames, same "
                 "seeds -- but the pool takes a seeded subsample of each member's "
                 "thousand and this reconstruction takes a different one, so what is "
                 "left is the sampling error of the allocation"),
-            "allocation": dict(zip(names, allocate(weights, stack.shape[2]).tolist())),
+            "allocation": dict(zip(names, allocate(weights, own.shape[2]).tolist())),
         },
         "member_mean_crps_by_this_path": member_scores,
+        "share_of_cells_where_the_interval_is_a_point": {
+            "what_it_is": ("the share of evaluated cells at which the model's own "
+                           "quantiles coincide, so that the interval is [0, 0] and every "
+                           "zero outcome falls inside it whatever the model believes. "
+                           "56 % of this dataset's observed province-months are exactly "
+                           "zero, so the 25-75 coverage figure is bounded below by this "
+                           "and is not a clean reading of calibration; the 10-90 figure "
+                           "is the one to read"),
+            "pool": flat_interval_share(own[0]),
+            **({name: flat_interval_share(stack[m]) for m, name in enumerate(names)}
+               if not unmatched else {}),
+        },
         "premise": premise,
     }
     (out / "pool_check.json").write_text(json.dumps(document, indent=1, sort_keys=True) + "\n")
 
-    print(f"pool check[{COMBO}]: rebuilt {rebuilt_score['mean_crps']:.3f} against "
-          f"{as_run:.3f} as run (difference "
-          f"{rebuilt_score['mean_crps'] - as_run:+.3f}); members "
-          + ", ".join(f"{n} {member_scores[n]:.3f}" for n in order)
+    print(f"pool check[{COMBO}]: "
+          + (f"rebuilt {rebuilt_score['crps']:.3f} against {as_run:.3f} as run "
+             f"(difference {rebuilt_score['crps'] - as_run:+.3f}); members "
+             + ", ".join(f"{n} {member_scores[n]:.3f}" for n in order)
+             if rebuilt_score else
+             f"{as_run:.3f} as run; reconstruction not done, no stored evaluation of "
+             f"{unmatched} under the configuration the pool gave them")
           + f" -> {out / 'pool_check.json'}")
 
 

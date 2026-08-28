@@ -119,7 +119,7 @@ inputs:              01_collect/results/family_boosted/metrics_cell.csv
                      02_aggregate/a_unweighted/results/family_boosted/*.csv
 environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
 seeds:               none; a deterministic comparison of stored scores.
-commit:              PLACEHOLDER_COMMIT
+commit:              6cb1163
 instructions-commit: cf97b81
 produced:            2026-08-28
 ```

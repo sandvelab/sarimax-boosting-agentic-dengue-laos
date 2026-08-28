@@ -18,7 +18,7 @@ environment:         environment/ (project main). scikit-learn is not imported: 
                      evaluates the stored ensembles through boosted.py's own traversal,
                      which is what the storage format exists to make possible.
 seeds:               none; a deterministic evaluation of a stored model.
-commit:              PLACEHOLDER_COMMIT
+commit:              6cb1163
 instructions-commit: cf97b81
 node:                analysis/03_models/03_candidate/b_boosted
 produced:            2026-08-28

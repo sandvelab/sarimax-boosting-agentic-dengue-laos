@@ -156,7 +156,7 @@ script:              scripts/aggregate_unweighted.py
 invocation:          bash analysis/04_score/02_aggregate/run.sh
                      with COMBO=<combination> and COMBO_BASE=main
 environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
-commit:              PLACEHOLDER_COMMIT
+commit:              6cb1163
 instructions-commit: cf97b81
 produced:            2026-08-28
 ```

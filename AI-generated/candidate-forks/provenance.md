@@ -85,7 +85,7 @@ inputs:              analysis/04_score/02_aggregate/a_unweighted/results/<combo>
                      head_quantileEnsemble
 environment:         .venv (repository machinery) for the driver; every step it runs is
                      the tree's own, under environment/chapenv
-commit:              PLACEHOLDER_COMMIT
+commit:              6cb1163
 instructions-commit: cf97b81
 ```
 

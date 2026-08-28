@@ -56,7 +56,7 @@ seeds:               component seed 1877199108, derived as above and carried in 
                      AI-internal/useful-scripts/verify_model_determinism.sh, which reports
                      `identical` for this model on metrics_cell.csv, models.csv and
                      fitted_model.json.
-commit:              PLACEHOLDER_COMMIT
+commit:              6cb1163
 instructions-commit: cf97b81
 node:                analysis/03_models/03_candidate/b_boosted
 produced:            2026-08-28

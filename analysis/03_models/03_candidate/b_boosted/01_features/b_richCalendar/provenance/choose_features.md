@@ -11,7 +11,7 @@ inputs:              analysis/02_setup/results/main/analysis_dataset.csv
                      (inherited from combination `main`, recorded as `input_from_combo`)
 environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
 seeds:               none; this node makes a choice and measures the premise for it.
-commit:              PLACEHOLDER_COMMIT
+commit:              6cb1163
 instructions-commit: cf97b81
 node:                01_features/b_richCalendar
 produced:            2026-08-28

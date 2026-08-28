@@ -31,7 +31,7 @@ seeds:               project seed 20260822, read from readme-at-start.md; compon
                      "one seed derived downward" means when a project has two models that
                      draw. Written into the configuration file, so the number the model
                      used sits beside the model's results. The script itself draws nothing.
-commit:              PLACEHOLDER_COMMIT
+commit:              6cb1163
 instructions-commit: cf97b81
 node:                analysis/03_models/03_candidate/b_boosted
 produced:            2026-08-28

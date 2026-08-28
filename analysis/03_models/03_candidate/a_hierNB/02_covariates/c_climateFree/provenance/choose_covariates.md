@@ -55,7 +55,7 @@ script:              scripts/choose_covariates.py
 invocation:          bash analysis/03_models/03_candidate/a_hierNB/02_covariates/c_climateFree/run.sh, or the step alone, with COMBO=<combination>
                      and COMBO_BASE=main
 environment:         environment/ (project main)
-commit:              PENDING
+commit:              2799be5
 instructions-commit: cf97b81
 node:                analysis/03_models/03_candidate/a_hierNB/02_covariates/c_climateFree
 produced:            2026-08-28

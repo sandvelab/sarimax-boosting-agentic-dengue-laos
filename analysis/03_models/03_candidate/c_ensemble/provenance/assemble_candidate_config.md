@@ -20,7 +20,7 @@ seeds:               component seed 1648567750, derived from project seed 202608
                      A third component, distinct from candidate 1's 849487747 and
                      candidate 2's 1877199108, so no two models of ours share a stream.
                      It governs the pool's own draw only; the members draw from their own.
-commit:              5e1de04
+commit:              2799be5
 instructions-commit: cf97b81
 node:                analysis/03_models/03_candidate/c_ensemble
 produced:            2026-08-28

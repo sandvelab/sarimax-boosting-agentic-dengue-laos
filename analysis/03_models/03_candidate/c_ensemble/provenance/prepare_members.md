@@ -19,7 +19,7 @@ environment:         environment/ (project main)
 seeds:               none — this step chooses nothing and draws nothing. Each member's
                      seed is inside the member's own configuration, which this step
                      copies the path and the hash of.
-commit:              5e1de04
+commit:              2799be5
 instructions-commit: cf97b81
 node:                analysis/03_models/03_candidate/c_ensemble
 produced:            2026-08-28

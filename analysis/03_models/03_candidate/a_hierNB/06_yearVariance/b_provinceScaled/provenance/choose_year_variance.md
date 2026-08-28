@@ -67,7 +67,7 @@ script:              scripts/choose_year_variance.py
 invocation:          bash analysis/03_models/03_candidate/a_hierNB/06_yearVariance/b_provinceScaled/run.sh, or the step alone, with COMBO=<combination>
                      and COMBO_BASE=main
 environment:         environment/ (project main)
-commit:              PENDING
+commit:              2799be5
 instructions-commit: cf97b81
 node:                analysis/03_models/03_candidate/a_hierNB/06_yearVariance/b_provinceScaled
 produced:            2026-08-28

@@ -62,7 +62,7 @@ seeds:               component seed 1648567750, derived as above and carried in 
                      Verified by AI-internal/useful-scripts/verify_model_determinism.sh,
                      which names this candidate by its own node path and reports
                      `identical` on metrics_cell.csv, models.csv and fitted_model.json.
-commit:              5e1de04
+commit:              2799be5
 instructions-commit: cf97b81
 node:                analysis/03_models/03_candidate/c_ensemble
 produced:            2026-08-28

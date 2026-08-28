@@ -134,7 +134,7 @@ script:              scripts/fig_crps_by_location.py
 invocation:          bash analysis/04_score/03_compare/run.sh, or the step alone, with COMBO=<combination>
                      and COMBO_BASE=main
 environment:         environment/ (project main)
-commit:              PENDING
+commit:              2799be5
 instructions-commit: cf97b81
 node:                analysis/04_score/03_compare
 produced:            2026-08-28

@@ -76,7 +76,7 @@ script:              scripts/assemble_candidate_config.py
 invocation:          bash analysis/03_models/03_candidate/b_boosted/run.sh, or the step alone, with COMBO=<combination>
                      and COMBO_BASE=main
 environment:         environment/ (project main)
-commit:              PENDING
+commit:              2799be5
 instructions-commit: cf97b81
 node:                analysis/03_models/03_candidate/b_boosted
 produced:            2026-08-28

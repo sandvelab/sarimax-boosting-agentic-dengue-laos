@@ -24,7 +24,7 @@ environment:         environment/ (project main); the CRPS and both coverage fig
 seeds:               the pool's component seed 1648567750, so the reconstruction allocates
                      as the model does; the subsample it takes is a different one, which is
                      what the residual difference measures
-commit:              5e1de04
+commit:              2799be5
 instructions-commit: cf97b81
 node:                analysis/03_models/03_candidate/c_ensemble
 produced:            2026-08-28

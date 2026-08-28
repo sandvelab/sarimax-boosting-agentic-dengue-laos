@@ -52,7 +52,7 @@ script:              scripts/choose_autoregressive.py
 invocation:          bash analysis/03_models/03_candidate/a_hierNB/05_autoregressive/a_none/run.sh, or the step alone, with COMBO=<combination>
                      and COMBO_BASE=main
 environment:         environment/ (project main)
-commit:              PENDING
+commit:              2799be5
 instructions-commit: cf97b81
 node:                analysis/03_models/03_candidate/a_hierNB/05_autoregressive/a_none
 produced:            2026-08-28

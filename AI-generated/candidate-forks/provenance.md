@@ -126,7 +126,7 @@ inputs:              analysis/04_score/02_aggregate/a_unweighted/results/<combo>
                      for <combo> in family_ensemble and weighting_crpsWeighted
 environment:         .venv (the repository's own machinery) drives; every step it runs
                      executes under environment/ (project main)
-commit:              PENDING
+commit:              2799be5
 instructions-commit: cf97b81
 ```
 
@@ -154,7 +154,7 @@ inputs:              analysis/04_score/02_aggregate/a_unweighted/results/<combo>
                      combination it ran at its own main path — main for c_ensemble,
                      family_boosted for b_boosted, family_hierNB for a_hierNB
 environment:         .venv (the repository's own machinery)
-commit:              PENDING
+commit:              2799be5
 instructions-commit: cf97b81
 ```
 

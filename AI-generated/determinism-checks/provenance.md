@@ -161,7 +161,7 @@ inputs:              the tree itself: 02_setup, each model's node, and 04_score/
                      run twice under one scratch combination per model
 environment:         environment/ (project main); the pool's members build their own
                      environments through chap-core, as they do on the main path
-commit:              PENDING
+commit:              2799be5
 instructions-commit: cf97b81
 ```
 

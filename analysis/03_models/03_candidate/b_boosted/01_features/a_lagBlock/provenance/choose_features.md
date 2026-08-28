@@ -36,7 +36,7 @@ script:              scripts/choose_features.py
 invocation:          bash analysis/03_models/03_candidate/b_boosted/01_features/a_lagBlock/run.sh, or the step alone, with COMBO=<combination>
                      and COMBO_BASE=main
 environment:         environment/ (project main)
-commit:              PENDING
+commit:              2799be5
 instructions-commit: cf97b81
 node:                analysis/03_models/03_candidate/b_boosted/01_features/a_lagBlock
 produced:            2026-08-28

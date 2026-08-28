@@ -14,7 +14,7 @@ environment:         environment/ (project main)
 seeds:               none here. The weights are fitted inside the model's `train`, by a
                      deterministic solve over the members' validation forecasts, which are
                      drawn from the members' own seeds.
-commit:              5e1de04
+commit:              2799be5
 instructions-commit: cf97b81
 node:                analysis/03_models/03_candidate/c_ensemble/01_weighting/b_crpsWeighted
 produced:            2026-08-28

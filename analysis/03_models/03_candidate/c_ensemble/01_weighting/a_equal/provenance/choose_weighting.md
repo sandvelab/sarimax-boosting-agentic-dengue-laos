@@ -12,7 +12,7 @@ inputs:              analysis/04_score/03_compare/results/<combo>/leaderboard.cs
                      the pool is 1/M whatever the leaderboard says.
 environment:         environment/ (project main)
 seeds:               none — nothing here is estimated or drawn
-commit:              5e1de04
+commit:              2799be5
 instructions-commit: cf97b81
 node:                analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal
 produced:            2026-08-28

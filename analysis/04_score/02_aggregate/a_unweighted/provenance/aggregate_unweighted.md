@@ -189,7 +189,7 @@ script:              scripts/aggregate_unweighted.py
 invocation:          bash analysis/04_score/02_aggregate/a_unweighted/run.sh, or the step alone, with COMBO=<combination>
                      and COMBO_BASE=main
 environment:         environment/ (project main)
-commit:              PENDING
+commit:              2799be5
 instructions-commit: cf97b81
 node:                analysis/04_score/02_aggregate/a_unweighted
 produced:            2026-08-28

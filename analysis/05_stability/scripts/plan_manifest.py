@@ -220,6 +220,47 @@ def cost_of(row: dict, costs: dict, steps: dict, our: str, our_family: str,
     return round(seconds, 1), "; ".join(basis)
 
 
+def directory_bytes(path: Path) -> int:
+    return sum(f.stat().st_size for f in path.rglob("*") if f.is_file())
+
+
+def footprints() -> dict[str, int]:
+    """What one combination costs in stored bytes, part by part, measured on disk.
+
+    The same shape as the cost model: a combination's storage is the sum of the parts it
+    writes, and each part's size is read from a combination that already wrote it. Where
+    a part exists under several combinations the largest is taken, because a projection
+    that used the smallest would be an estimate designed to look affordable.
+    """
+    parts: dict[str, int] = {}
+    places = {
+        "02_setup": ROOT / "analysis/02_setup",
+        "04_score": ROOT / "analysis/04_score",
+        "persistence": ROOT / "analysis/03_models/01_baselines/01_persistence",
+        "climatology": ROOT / "analysis/03_models/01_baselines/02_climatology",
+        "reference": ROOT / "analysis/03_models/02_reference",
+    }
+    family_root = ROOT / "analysis/03_models/03_candidate"
+    for path in family_root.iterdir():
+        if path.is_dir() and (path / "claim.md").exists():
+            places[path.name] = path
+    for name, place in places.items():
+        sizes = [directory_bytes(d) for d in place.glob("**/results/*") if d.is_dir()]
+        parts[name] = max(sizes) if sizes else 0
+    return parts
+
+
+def storage_of(row: dict, parts: dict[str, int], our_family: str,
+               family_of: dict[str, str]) -> int:
+    """Projected stored bytes for one combination."""
+    total = parts["04_score"]
+    if row["kind"] == "setup":
+        total += parts["02_setup"]
+    for model in row["models_rerun"]:
+        total += parts.get(family_of.get(model, model), 0)
+    return total
+
+
 def holdout_seconds(row: dict, dev: float, steps: dict) -> float:
     """The same combination at four splits instead of eight.
 
@@ -370,7 +411,7 @@ def main() -> None:
     fields = ["rank", "tier", "combination", "kind", "fork", "child", "owner",
               "combo_base", "models_rerun", "models_inherited", "reach_rows", "built",
               "prior_abs_delta_crps", "est_seconds_dev", "est_seconds_holdout",
-              "cost_basis", "assigned_batch", "status"]
+              "projected_bytes", "cost_basis", "assigned_batch", "status"]
     with (out / "manifest.csv").open("w", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n",
                                 extrasaction="ignore")
@@ -381,6 +422,17 @@ def main() -> None:
                 "assigned_batch": assigned[row["kind"]],
                 "models_rerun": ";".join(row["models_rerun"]),
                 "models_inherited": ";".join(row["models_inherited"])})
+
+    parts = footprints()
+    # Which directory holds each model's results: a baseline's node is named for it, ours
+    # is the family that produces it.
+    family_of = {our: our_family}
+    for child in family_fork.children:
+        spec = sorted((family_fork.node / child).glob("results/*/model_spec.json"))
+        if spec:
+            family_of[json.loads(spec[0].read_text())["model"]] = child
+    for row in ordered:
+        row["projected_bytes"] = storage_of(row, parts, our_family, family_of)
 
     dev = sum(r["est_seconds_dev"] for r in ordered)
     hold = sum(r["est_seconds_holdout"] for r in ordered)
@@ -408,6 +460,23 @@ def main() -> None:
             "tier2_development": "unresolved until tier 1 has conclusions",
         },
         "estimated_hours_tier1_both_datasets": round((dev + hold) / 3600, 2),
+        "storage": {
+            "measured_parts_mb": {k: round(v / 1e6, 1) for k, v in sorted(parts.items())},
+            "projected_tier1_development_mb": round(
+                sum(r["projected_bytes"] for r in ordered) / 1e6, 1),
+            "projected_tier1_both_datasets_mb": round(
+                2 * sum(r["projected_bytes"] for r in ordered) / 1e6, 1),
+            "on_disk_now_results_mb": round(sum(
+                directory_bytes(d) for d in (ROOT / "analysis").glob("**/results")
+                if d.is_dir() and "work" not in d.parts) / 1e6, 1),
+            "method": ("each row's parts summed from the largest measured example of "
+                       "that part on disk; the holdout run is assumed the same size, "
+                       "which slightly overstates it at four splits rather than eight"),
+            "what_dominates": ("chap eval's NetCDF: one eval.nc is about 9.4 MB and the "
+                               "per-cell CSV derived from it is about 0.18 MB, so the "
+                               "prune target is unambiguous and is annotated at "
+                               "03_models rather than here"),
+        },
         "budget_hours_both_datasets": BUDGET_HOURS,
         "budget_source": ("set in batch 12, agent-autonomous: roughly one unattended "
                           "overnight run on the machine this project runs on. Compute has "

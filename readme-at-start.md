@@ -36,7 +36,7 @@ representative research problem, and where it fails.
 
 - **Target venue**: not fixed in the source material. The manuscript this case serves updates
   Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013), which is the obvious precedent.
-- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; **phase C complete, batches 8–11**; phase D next, batch 12). Nineteen batches in the ledger, plus one optional, plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result. What it settled is in the plan's §4b.
+- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; phase C complete, batches 8–11; **phase D under way — batch 12 done, batch 13 next**). Twenty batches in the ledger, plus one optional, plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result. What it settled is in the plan's §4b. **The ledger is executed top to bottom and a batch's number is an identifier, not a position**: batch 22 was added between 13 and 14.
 - **Manuscript**: `Human-AI-collaboration/manuscript/`
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`. It carries the
@@ -50,7 +50,7 @@ representative research problem, and where it fails.
 | Main environment | `environment/` — CPython 3.13.0 and `chap-core==2.1.0`, **installed from** `environment/lock.txt` by `environment/install-chap.sh`, which reports any difference between what it built and that file. Invoked as `environment/chapenv/bin/chap`. Not the same as `.venv`, which runs the repository's own machinery. The Docker layer builds (verified batch 7). |
 | Repository machinery interpreter | `.venv/bin/python` — CPython 3.13.7, created 2026-08-23 with `python3 -m venv .venv` on macOS 26.6.2 (arm64). |
 | Tracking level | **full** (`AGENTS.md` §6). This project is *about* tracking, so the usual argument for a lighter touch does not apply. Raise it with me rather than drifting. |
-| Compute budget for stability work | Phase D is batches 12–15. The perturbation manifest is two tiers — every fork taken alone, then eight pairs selected by a rule fixed in advance — over ten forks, run on development and again on the holdout. `/perturb` costs each perturbation, ranks by expected informativeness, cuts at the line and **records where the line fell and what was below it**; tier 2 is what gets cut first. Compute is not what binds: a full backtest costs one to three minutes. |
+| Compute budget for stability work | Phase D is batches 12, 13, 22, 14, 15. The perturbation manifest is two tiers — every fork taken alone, then eight pairs selected by a rule fixed in advance — over **seventeen** forks, run on development and again on the holdout. Batch 12 wrote it: **24 tier-1 combinations, 8 tier-2 slots**, in `analysis/05_stability/results/manifest.csv`, committed before any of it ran. It costs **124 minutes on development and 75 on the holdout**, against a **12-hour budget** the agent set so the cut order has something to be a cut against; nothing is cut and the cut order is recorded. Compute is not what binds and it is not close — **89 of the 124 minutes are re-running the reference model**, four unseeded repeats on each of five setup rows, for the one model the plan forbids perturbing. |
 | Data governance | Public and redistributable. The Lao files are pinned by repository commit hash, copied into `Archive/` unmodified, marked `(IS_SHADOW)`, with `provenance.md`. Nothing here is access-restricted, so the release scan is about secrets, not permissions. |
 | Target | `disease_cases` (reported dengue), monthly, admin-1, Laos. |
 | What the metric is a mean over | **16 provinces, 371 cells** on development — not the 18 provinces in the file. Vientiane (LA-VI) reports nothing and is dropped by Chap's region filter; Xaisomboun (LA-XN) stops reporting after 2005 and contributes no evaluable cell. Established in batch 3. |
@@ -121,6 +121,20 @@ do if EWARS cannot be run on this dataset, which the plan's §2 answers.
   **20.771** on development. The model brings **scikit-learn** into a
   model environment for the first time, pinned by the `uv.lock` beside it, and stores its
   fitted ensembles as JSON the project's own code can walk without scikit-learn installed.
+  **Batch 12 added `05_stability`** — the perturbation manifest and the driver — and, with
+  it, the **nine fork children the tree had named in prose and never carried**: the second
+  child of each `02_setup` fork, both children of the scoring fork, and the second child of
+  each baseline fork. They are nodes with claims and no scripts; batches 13 and 22 write
+  them. The manifest is computed from the tree by `scripts/lib/inventory.py`, so it counts
+  **seventeen forks** where batch 5's hand-written list counted ten, and
+  `/validate invariants` gained a **`combos`** check that fails when the manifest and the
+  tree disagree, or when a `results/` directory holds a combination nobody planned. **Batch
+  11's promotion changed what two of the forks reach**: the pool takes both required
+  baselines as members, so a fork on how persistence wraps its uncertainty now moves our
+  reported model as well as the persistence row. The driver, `run_manifest.py`, is written
+  and deliberately **not** in `run.sh` until batch 15, because nine children have no scripts
+  and twelve built rows need two defects fixed first — both recorded in
+  `results/manifest_notes.json`.
   **Batch 11 added `03_models/03_candidate/c_ensemble`** — candidate 3, a linear opinion pool
   over the two candidate families and both required baselines — with one fork, `01_weighting`.
   It scores **18.817** and **the family fork was promoted to it**, so `analysis/run.sh` now

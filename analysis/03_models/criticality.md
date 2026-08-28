@@ -171,3 +171,17 @@ re-run and refits four models when it does, so a manifest entry that moves a *se
 re-runs all four inside the pool as well as separately. Budget on the order of 11 MB and
 90 seconds per combination that includes the pool, against 10 MB and 50 seconds for
 candidate 2 alone.
+
+## Added in batch 12 — what the perturbation manifest will store here
+
+The manifest is 24 tier-1 combinations plus 8 pairs, run twice. Every combination that
+re-runs a model writes that model's `eval.nc`, and this node is where those land.
+
+| Artifact | Size | Role | Regenerable | Transparency | Note |
+|---|---|---|---|---|---|
+| `*/results/$COMBO/eval.nc`, across the manifest | 9.4 MB each; **~1.0 GB** over tier 1 on both datasets | intermediate | **for our models yes, ~1 min each. For the reference, no** — it is unseeded, and a re-run is a different draw | medium for ours, **highest for the reference's** | The scale changes, the judgment does not: the per-cell CSV that everything downstream reads is fifty times smaller, and for our own models the NetCDF is the prunable half of the pair. The reference's five `eval.nc` per setup combination are the irreplaceable ones, and the manifest re-runs the reference on five tier-1 rows and on whichever tier-2 pairs move a setup fork. |
+| `03_candidate/*/results/$COMBO/fitted_model.json` | 0.1–2 MB each | side result | yes, with the evaluation | high | What the model actually learned under each combination. Small, and the only artefact in the manifest that answers *why* a fork moved the score rather than *whether* it did. Keep ahead of the NetCDF. |
+
+The projection is measured rather than assumed, in
+`05_stability/results/manifest_notes.json["storage"]`, and
+`05_stability/criticality.md` carries it in full. Nothing is deleted now.

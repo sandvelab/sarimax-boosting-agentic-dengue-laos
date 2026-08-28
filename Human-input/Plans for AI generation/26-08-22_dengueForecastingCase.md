@@ -345,6 +345,24 @@ below is read from a file there.)*
 | **`verify_model_determinism.sh` was reporting `differs` unconditionally, and was repaired.** Both passes now run under one scratch combination name; pass 1's outputs are copied aside and compared with what pass 2 writes over them | Batch 9 added a `scored_under_combo` column to `models.csv` and the check ran its two passes under combinations named `…_1` and `…_2`, so it was comparing a field whose value is the pass's own scratch name — `identical` at `509d458`, `differs` at `dec4116` and every run since, whatever the models did. **Rule 6's only instrument was stuck on red**, which is the failure `AGENTS.md` §5 guards against arriving in the guard itself. The repair exempts nothing from the comparison, which is why it is a fix and not an adjustment to pass; the alternative of dropping the one column was rejected because an exemption list is where a second exemption can later be added unnoticed. Re-run, the check reports `identical` for all three models. Batch 9's report carries a dated correction: what it claims in words — identical per-cell scores and fitted objects — held throughout, and only its citation of the status word did not | agent-on-human-assessment |
 
 
+### 2026-08-29 — settled by batch 12, from the manifest
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **The fork inventory is computed from the tree, not listed.** `05_stability/scripts/lib/inventory.py` walks `analysis/` for alternatives nodes | Batch 5 wrote the inventory by hand and counted ten forks. The tree has **seventeen**: phase C added five while building the candidates, and the two baseline forks were never on the list although this plan's phase D names one of them. The same omission would recur the next time a fork was added. `/validate invariants` now fails when the manifest and the tree disagree, so a fork added later is in the manifest or the check says so | agent-autonomous |
+| **The nine children this tree named in prose are created as nodes**, scaffolded and unbuilt | `/perturb` says to prefer making a judgment call an alternatives node so the path not taken survives. Four `02_setup` forks, the scoring fork and both baseline forks had exactly one child each, so seven of the ten judgment calls phase D exists to perturb were sentences in a `claim.md` rather than paths in the tree. They are now nodes with claims; batch 13 and batch 22 write their scripts, and the driver's `--dry-run` prints the step list each has to satisfy | agent-autonomous |
+| **The two baseline forks moved kind.** They re-run our reported model as well as their own leaderboard row | Batch 11's pool takes both required baselines as members, so how persistence wraps uncertainty around its point is now a choice inside the model this project reports. Batch 5 costed that fork as moving one row. Nothing about the fork changed; what changed is what depends on it — and the same promotion is why the manifest gained a whole kind of row rather than two cheap ones | agent-autonomous |
+| **The manifest is 24 tier-1 rows, not batch 5's 20**, and its arithmetic is a script's rather than a report's | Seventeen forks with 23 non-main children, plus the main path. Batch 5's figure was stated as 20 and its own components sum to 17, which is the argument for computing it | agent-autonomous |
+| **Tier 2's rule is written out and hashed before tier 1 runs**: rank tier-1 rows by \|Δ skill\| from the main path; take the top two `setup` rows, the top two rows of the three kinds that move our model, and the top scoring row; every cross-group pair is a tier-2 combination — 2×2 + 2×1 + 2×1 = **8** | Batch 5 fixed "the two setup forks and the two candidate forks, crossed: 8", whose arithmetic only closes under the cross-group reading. That reading is fixed here, with the count it was chosen to preserve. The rule's sha256 is in `manifest_notes.json` so that it cannot be edited into a different rule after the numbers are in. Batches 9 and 21 each demonstrated that one-at-a-time fork effects do not compose, so tier 2 is not cut | agent-autonomous |
+| **Compute is not what binds, by a factor of four**, and the manifest says what does | Tier 1 costs 124 minutes on development and 75 on the holdout against a 12-hour budget, so nothing is cut and the cut order is recorded against the day something is. **89 of those 124 minutes are the reference model** — five setup rows at four unseeded repeats each, through an amd64 image under emulation, for the one model this plan forbids perturbing. Every model of ours across all of tier 1 costs 21 minutes together | agent-autonomous |
+| The budget is **12 wall-clock hours for the manifest run twice**, set by the agent | No compute budget had ever been fixed in figures; §9 and `readme-at-start.md` say only that compute does not bind. Twelve hours is roughly one unattended overnight run on this machine and is four times the estimate, so it constrains nothing now and is a number the human can move. Raised in batch 12's report rather than left implicit | agent-autonomous |
+| **Every cost in the manifest is measured, including the pipeline's own steps** | Batch 5's cost table was arithmetic on two measured backtests and labelled an estimate, with batch 12 named as the batch that replaces it. The model terms are now each model's own `run_cost.json`; the setup, scoring and conclusion steps are timed by `measure_step_costs.py`, which re-runs them under `COMBO=main` and checks with git that they leave the tree byte-identical — a step that is not idempotent cannot be timed this way and the check is what says so | agent-autonomous |
+| **Twelve tier-1 rows have results on disk that their row would replace**, and this is recorded rather than discovered in batch 14 | `observation_negBinomial` meant "our model is candidate 1 with a plain negative binomial" in phase C and means "our model is the pool, whose candidate-1 member has a plain negative binomial" now. Same name, different analysis. Which is which is not guessed: `01_collect` writes a `models.csv` naming every model it scored, and the planner compares that against what the row would produce. Batch 14 removes them before re-running, as batch 11 removed candidate 1's `results/main/`, with git as the witness | agent-autonomous |
+| **Two defects block twelve built rows**, found by planning rather than by running | `prepare_members.py` runs *every* member fork's main-path child when it assembles a configuration, so a combination that has already run a sibling of one of them gives the assembler two children of one fork and it fails by design. And `conclude.py` resolves our reported model from `claim.md`'s `main-path` field, which does not move with the combination, so every family row would report `candidate_exists: false`. Both are fixed in batch 14 alongside the assembler lift batch 11 deferred there, which is the batch that re-runs those rows anyway | agent-autonomous |
+| **The driver is written and is deliberately not in `run.sh` yet** | Nine children have no scripts and twelve built rows are blocked, so calling it from `analysis/run.sh` today would write a dozen failed combinations into the tree on every run. It joins `run.sh` in batch 15, when every row can run — which is what makes `analysis/run.sh` reproduce the stability result as well as the main one. Recorded in the node's `claim.md`, in a comment in `run.sh` itself and here, rather than in nobody's notes | agent-autonomous |
+| **A new invariant: the combination space is closed.** `/validate invariants` gains a `combos` check | Every `results/<name>/` directory must be a combination the manifest names, and the manifest's tier-1 rows must agree exactly with the tree's non-main children. It found something on its first run — `family_ensemble`, a real combination with no manifest row — and the fix was to make the manifest complete rather than to exempt the directory. Provenance records may now name an artefact by its combination-invariant path, `results/$COMBO/eval.nc`, which is what the record of a combination-parameterised step actually says; the placeholder only satisfies files whose combination the manifest names, so the two checks close over each other | agent-autonomous |
+| **Batch 22 is appended**: the two baseline forks' children, built and run | Batch 13 already has seven children to write and five twenty-minute setup rows to run. The baseline children are two new Chap-contract models and they move the reported model, so they are not a footnote on somebody else's batch. The ledger is executed top to bottom and the number is an identifier — batch 21 already broke the number-equals-position property | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -370,7 +388,9 @@ ran out of context without a report is the one genuinely unrecoverable failure m
 
 **Batches added by a batch are appended to the ledger** with a one-line aim each, in the phase
 they belong to. The ledger is the live plan; this document is edited as the project runs, and
-that is intended.
+that is intended. **The ledger is executed top to bottom and a batch's number is an
+identifier, not a position** — batch 21 runs on a branch and batch 22 was added between 13 and
+14, so neither sits where its number would put it.
 
 **At the end of every batch, without being asked**: `/track-result` for anything produced,
 `/commit-run after`, `/validate invariants`. If invariants fail, fix the cause before the
@@ -402,9 +422,10 @@ at the end of every batch, and append newly created batches to it.
 | 9 | C | Candidate 1's internal forks, plus a proposed fifth on an autoregressive term, and the width defect batch 8 diagnosed; promote the main path | done — produced | [[26-08-27_b09_candidateForks]] |
 | 10 | C | Candidate 2: gradient-boosted trees with a probabilistic head | done — produced | [[26-08-28_b10_boostedCandidate]] |
 | 11 | C | Candidate 3: the ensemble; close phase C | done — produced | [[26-08-28_b11_ensembleCandidate]] |
-| 12 | D | `/perturb plan`: the stability node, the driver, the frozen development manifest | open | |
-| 13 | D | `/perturb run`: the setup and scoring forks | open | |
-| 14 | D | `/perturb run`: the candidate forks and tier 2 | open | |
+| 12 | D | `/perturb plan`: the stability node, the driver, the frozen development manifest | done — produced | [[26-08-29_b12_perturbationManifest]] |
+| 13 | D | `/perturb run`: build the seven setup and scoring children, archive the population series `b_backCast` needs, and run those eight rows | open | |
+| 22 | D | `/perturb run`: build and run the two baseline forks' children, which move the pool as well as their own leaderboard row | open | |
+| 14 | D | `/perturb run`: fix the two defects blocking the candidate rows, lift the shared assembler, re-run the twelve candidate rows and the two family rows, then tier 2 | open | |
 | 15 | D | `/perturb report`; freeze and commit the holdout manifest | open | |
 | 16 | E | The holdout, opened once, on the frozen manifest | open | |
 | 17 | E | Claims and the hierarchical report | open | |
@@ -640,7 +661,10 @@ plots-with-data. One candidate is the main path. The holdout year has not been o
 an absence.
 
 **The forks**, confirmed against what batches 3 and 4 found and placed in the tree by batch 5.
-Ten of them, in two subtrees that decide which models a fork moves:
+Ten were listed here; **the tree carries seventeen**, and batch 12 replaced the list with a
+script that reads them off the tree (`analysis/05_stability/results/forks.csv`). Five were
+added by phase C while building the candidates, and two — the baseline forks, one of which
+this section names below — were never on the hand-written list. The four groups:
 
 *Under `02_setup`, and so re-scoring every model including the reference* — what the
 `population` column contains, given that it is a single 2020 snapshot applied to thirteen
@@ -656,10 +680,14 @@ top candidates as siblings under one fork; the observation model for the counts;
 set and the lag structure; how population enters our model; and whether our model does its
 fitting in `train` or, as the reference does, in `predict`.
 
-*Under `03_models/01_baselines`, and so moving one leaderboard row* — how uncertainty is
-wrapped around a point baseline. Batch 6 found two published constructions for this that
+*Under `03_models/01_baselines`, and so moving one leaderboard row **and our reported
+model*** — how uncertainty is wrapped around a point baseline, and which window estimates
+the seasonal distribution. Batch 6 found two published constructions for the first that
 disagree, and the choice sets the calibration of one of the two numbers §2's criterion is
-defined against, so it is a fork rather than an implementation detail.
+defined against, so it is a fork rather than an implementation detail. **Batch 11 changed
+what these forks reach**: the reported model is a pool that takes both required baselines as
+members, so a fork on how persistence wraps its uncertainty is now a choice inside the model
+this project reports as well as a choice about a baseline.
 
 **The forecast horizon is not among them.** It is forced by the reference model, so a
 combination at another horizon has no reference to be compared against and the root's
@@ -677,6 +705,14 @@ It names each fork, the children to be taken, the resulting combinations, and th
 cost of running the set twice: once on development, once on holdout. If the budget will not
 carry the whole set to the holdout, cut the manifest here and record the cut; do not discover
 the problem in phase E with the holdout already open.
+
+**What planning the manifest found, before running any of it.** Nine of the twenty-four
+tier-1 rows were sentences in a `claim.md` rather than paths in the tree, and are now nodes.
+Twelve of the fifteen that had scripts hold results produced around a main path that has since
+moved, so their directories describe a different analysis from the one their row now names.
+Two code defects — the pool's member assembler and the root's resolution of which model is
+ours — would have made every family row and every candidate row report the wrong thing. None
+of that is visible from a fork list, and all of it is cheaper to find here than in batch 14.
 
 **Which forks apply to the reference and the baselines.** `chapkit_ewars_model` is an external
 reference at its own default configuration and is not perturbed as a model. But forks that
@@ -874,6 +910,10 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 11 — candidate 3: the ensemble, and the close of phase C
 
 - [[26-08-28_b11_ensembleCandidate]]
+
+### Batch 12 — `/perturb plan`: the perturbation manifest
+
+- [[26-08-29_b12_perturbationManifest]]
 
 ### Batch 21 — the greedy branch
 

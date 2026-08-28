@@ -1,0 +1,86 @@
+# Provenance — the perturbation manifest
+
+```
+result:              results/manifest.csv
+                     results/forks.csv
+                     results/manifest_notes.json
+                     results/tier2_rule.md
+script:              scripts/plan_manifest.py
+                     sha256:f65032149dfd55953f5c082add7c00547b3db9183132ed6da79905711311be35
+                     scripts/lib/inventory.py
+                     sha256:71e0687ad3227b07cd569ba167ad3c63fd7cfd9b1636f798a545de72e8c59667
+invocation:          "$PYTHON" scripts/plan_manifest.py
+                     (from 05_stability/, via run.sh; PYTHON is
+                     environment/chapenv/bin/python)
+inputs:              analysis/**/claim.md — every alternatives node in the tree, which is
+                       what the fork inventory is read from
+                     analysis/03_models/**/results/*/run_cost.json — 19 measured backtests
+                     analysis/04_score/01_collect/results/*/models.csv — which models each
+                       combination on disk actually scored
+                     analysis/05_stability/results/step_costs.json
+                     AI-generated/candidate-forks/*/fork_sweep.json
+                     AI-generated/candidate-forks/*/fork_leaderboard.csv
+                     AI-generated/candidate-forks/families/family_leaderboard.csv
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none. The manifest is enumerated, never sampled.
+commit:              26dca49
+instructions-commit: cf97b81
+node:                analysis/05_stability
+produced:            2026-08-29
+```
+
+**What it establishes.** The set of analyses phase D runs, fixed before any of them has
+run. **17 forks** in the tree; **24 tier-1 combinations** — the main path plus every child
+of every fork that the main path does not take, one at a time; **8 tier-2 slots**, whose
+occupants are computed from tier 1's own conclusions by `tier2_rule.md`; and **1 tier-0
+combination**, `family_ensemble`, which exists on disk, perturbs nothing, and is in the
+register because the register has to be complete for the new `combos` invariant to mean
+anything.
+
+**Nothing in it is typed.** The forks come from the tree — `lib/inventory.py` walks
+`analysis/` for alternatives nodes rather than carrying a list, which is why the count is
+17 and batch 5's hand-written inventory said 10. The costs are measured backtests and
+measured step times. The informativeness prior is each fork child's own effect from the
+phase-C sweeps, and only from a sweep whose recorded base configuration still matches the
+family's current one, so a table taken around a main path that has since moved cannot
+order this one. The two stage names that are stated rather than derived are in
+`STAGE_OVERRIDE` with the reason, and `assert_unique_names` fails the planner if any two
+forks ever claim one combination name.
+
+**What the prior does and does not do.** It orders the rows; it selects nothing. The whole
+manifest is inside budget — 3.3 hours against 12 — so the order decides what runs first,
+not what runs. If a later batch does cut, `manifest_notes.json` names the cut order in
+advance: tier 2 from the bottom up, then the reference's repeats on tier-2 setup rows, then
+tier-1 rows in rank order and never by kind.
+
+**The tier-2 rule is fixed now and hashed.** `tier2_rule.md` is written by this script
+before any tier-1 combination has run, and its sha256 is in `manifest_notes.json`. Choosing
+which pairs to explore after seeing tier 1's numbers would be selection with extra steps —
+the objection this project makes to an unfrozen holdout manifest, one level down.
+
+**The cost columns move between runs and the row set does not.** They are wall-clock
+measurements; see `measure_step_costs.md`. Which combinations the manifest contains, how
+they rank and what the rule says are functions of the tree and are stable.
+
+**What the file records as not costed**, because an absence has to be a visible decision:
+writing the nine children that have no scripts, which is implementation effort rather than
+compute; and acquiring the external Lao population series `popColumn_backCast` needs, which
+the repository does not hold and batch 13 must archive before that row can run.
+
+alternatives-considered: keeping batch 5's hand-written inventory and adding the five forks
+phase C created — rejected, because the same omission would recur the next time a fork was
+added, and computing it from the tree makes a missing fork visible as a missing node rather
+than as a line nobody wrote. Ranking informativeness by a hand-assigned score per fork —
+rejected in favour of reach plus the measured phase-C effect, because a hand-assigned score
+is the agent's opinion about what will matter, entering a file whose purpose is to stop the
+agent choosing what matters. Enumerating the full conditional product (over a thousand
+analyses) — recorded as cut in `manifest_notes.json`, on batch 5's reasoning. Naming every
+combination `<subtree>_<stage>_<child>` for unambiguity — rejected because thirteen
+combinations already exist under the short scheme and renaming a combination breaks every
+file that points at it.
+
+agency: agent-autonomous, within a human-set frame. That phase D is two tiers over the
+forks, that tier 2 is eight pairs chosen by a rule fixed in advance, and that the cut is
+recorded with what fell below it are the plan's (`readme-at-start.md`, §Compute budget, and
+`AGENTS.md` §4, human-set). Which forks exist, how they are costed and ranked, the 12-hour
+budget figure and the tier-2 rule's exact form are the agent's.

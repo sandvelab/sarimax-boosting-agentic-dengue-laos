@@ -106,8 +106,11 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
     `chap eval`. It is a library, not a step.
 - **`04_score`** (sub-analyses) — `01_collect` (per-cell scores for every model that ran,
   from chap-core's own metrics), `02_aggregate` (a fork on the weighting of the headline
-  mean), `03_compare` (the leaderboard, and the paired per-cell comparison against the
-  reference with the noise floor beside it).
+  mean, whose `b_populationWeighted` and `c_caseWeighted` children batch 12 declared and
+  batch 13 builds), `03_compare` (the leaderboard, and the paired per-cell comparison
+  against the reference with the noise floor beside it). This fork re-scores every model
+  without re-running any of them, which makes it the cheapest row in the manifest by three
+  orders of magnitude.
 - `scripts/lib/palette.py` gives every model one colour and one marker, keyed on the model's
   own name so that a model keeps its colour across combinations and two figures drawn for
   different combinations can be laid side by side. A library, not a step; imported by the
@@ -121,9 +124,22 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
   score against the reference, with raw CRPS and coverage beside it. **Nothing anywhere else
   in the repository states the conclusion**, so nothing can drift from it.
 
-Still to come: `05_stability` (batch 12), which holds the perturbation manifest and the
-driver, and `06_holdout` (batch 16). The holdout node does not exist while the seal is on,
-because `analysis/run.sh` must not be able to open the sealed file by accident.
+- **`05_stability`** (no children) — the perturbation manifest and the driver, built in
+  batch 12. `scripts/lib/inventory.py` walks the tree for alternatives nodes rather than
+  carrying a list, so the manifest counts **17 forks** and grows by itself when one is
+  added; `plan_manifest.py` writes `results/manifest.csv` — 24 tier-1 combinations, 8
+  tier-2 slots filled by `tier2_rule.md` once tier 1 has conclusions, and one combination
+  that exists and perturbs nothing — with each row's measured cost, projected storage and
+  owning batch. `run_manifest.py` is the driver: it calls **the tree's own scripts** with
+  `COMBO` set, substituting the moved child for the main one at each fork, because both
+  assemblers in this project fail if they find two children of one fork under a
+  combination. It is **not in `run.sh` yet** and joins it in batch 15, once every row can
+  run; `--dry-run` prints each row's step list, which is the specification the batches that
+  build the missing children work to. `collect_conclusions.py` gathers every combination's
+  `conclusion.json` into one table **and keeps the rows that have none, with the reason**.
+
+Still to come: `06_holdout` (batch 16). The holdout node does not exist while the seal is
+on, because `analysis/run.sh` must not be able to open the sealed file by accident.
 
 The tree's full design — every node, every fork, the file contract between them and the
 `COMBO` mechanism — is in `AI-generated/batch-reports/26-08-26_b05_bootstrapPlan.md` §2–4.

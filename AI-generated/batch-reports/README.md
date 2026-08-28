@@ -67,3 +67,8 @@ re-running a batch produces a different report rather than the same one.
   pool would score worse than its best member — was **wrong** by 1.954 CRPS, and fitting the
   pool's weights on a year held back inside the training frame **cost 4.021 CRPS**, because
   the member that was best on that year is the worst on the years the backtest scores.
+- `26-08-29_b12_perturbationManifest.md` — batch 12, phase D: the stability node, the
+  perturbation manifest written and committed before any of it runs, the nine paths not
+  taken created as nodes, and a new `combos` invariant that closes the combination space.
+  Seventeen forks where batch 5 counted ten; 124 development minutes against a 12-hour
+  budget, 89 of them re-running the reference model.

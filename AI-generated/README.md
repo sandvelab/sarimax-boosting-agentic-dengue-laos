@@ -30,7 +30,8 @@ meantime. If a derived document is wrong, its source is wrong.
   2 (Chap reconnaissance), 3 (the data), 4 (methods), 5 (the bootstrap), 6 (the
   vertical slice), 7 (erecting the tree), 8 (the candidate contract and candidate 1),
   9 (candidate 1's forks, swept and promoted), 10 (candidate 2, gradient-boosted trees with
-  a probabilistic head) and 11 (candidate 3, the ensemble, and the close of phase C).
+  a probabilistic head), 11 (candidate 3, the ensemble, and the close of phase C) and
+  12 (the perturbation manifest, and the opening of phase D).
   Batch 21's report is on the branch `greedy` and is deliberately not copied here.
 - `candidate-forks/` — what every alternative to a candidate's configuration scores on the
   development data, what each candidate *family* scores at its own main path, and the two
@@ -39,7 +40,10 @@ meantime. If a derived document is wrong, its source is wrong.
   replaced by round 2 — and it is the record candidate 1's promotion was decided from;
   `boosted_round1/`, `ensemble_round1/` and `families/` are regenerable, because nothing
   under them has been replaced. This is a phase-C selection aid; the phase-D stability result
-  is batch 12's and lives in the tree.
+  lives in the tree, at `analysis/05_stability/results/conclusions.csv`. These tables have
+  one further use since batch 12: the manifest reads each fork child's measured effect from
+  them as the prior that **orders** its rows, and only from a sweep whose recorded base
+  configuration still matches the family's current one.
 - `validation/` — what `/validate` found, one file per run. Batch 7's clean-room check is
   the first, and it reports its differences rather than announcing success.
 - `determinism-checks/` — Rule 6 verified by running each of our models twice and diffing.

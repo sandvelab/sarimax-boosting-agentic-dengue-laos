@@ -75,7 +75,11 @@ def main_path_children(family: Path) -> set[str]:
 def combination_of(family: Path) -> tuple[str, dict] | None:
     """The combination in which this family ran at its own main path, if any."""
     wanted = main_path_children(family)
-    for spec_path in sorted(family.glob("results/*/candidate_spec.json")):
+    # `main` first: the family on the tree's main path ran there as well as under a
+    # combination of its own, and the row should say the one `analysis/run.sh` produces.
+    found = sorted(family.glob("results/*/candidate_spec.json"),
+                   key=lambda p: (p.parent.name != "main", p.parent.name))
+    for spec_path in found:
         spec = json.loads(spec_path.read_text())
         if (set(spec["choice_nodes"].values()) == wanted
                 and (spec_path.parent / "model_spec.json").exists()):

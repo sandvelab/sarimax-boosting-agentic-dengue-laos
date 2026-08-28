@@ -52,14 +52,19 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 OUT="$ROOT/AI-generated/determinism-checks"
 mkdir -p "$OUT"
 
+# Every candidate is named by **its own** node path, never by the family node above it.
+# `03_candidate` is an alternatives node: it routes to whichever child is on the main
+# path, so naming a candidate by it would run whatever the main path happens to be and
+# report the answer under the name of a model that did not run. Batch 10 hit the near
+# miss and named candidate 2 by its own path; batch 11 promoted the family fork, which
+# would have turned `hier_nb:analysis/03_models/03_candidate` into a check of the
+# ensemble reported as `hier_nb`. All three now name themselves.
 MODELS=(
   "persistence:analysis/03_models/01_baselines/01_persistence"
   "climatology:analysis/03_models/01_baselines/02_climatology"
-  "hier_nb:analysis/03_models/03_candidate"
-  # Candidate 2 is named by its own path, not by the family node above it: it is a
-  # sibling alternative, so `03_candidate/run.sh` routes past it to the main path and
-  # would have run candidate 1 twice under a name saying `boosted`.
+  "hier_nb:analysis/03_models/03_candidate/a_hierNB"
   "boosted:analysis/03_models/03_candidate/b_boosted"
+  "ensemble:analysis/03_models/03_candidate/c_ensemble"
 )
 
 # The seed is a project setting and is declared in one place. Read, not copied: a second

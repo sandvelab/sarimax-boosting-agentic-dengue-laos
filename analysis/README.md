@@ -62,8 +62,11 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
     the seasonal distribution).
   - **`02_reference`** — WHO EWARS-csd at its own defaults, pinned by image digest, served
     as a container, run four times because it is unseeded.
-  - **`03_candidate`** (alternatives) — our own model families, one child per family.
-    `a_hierNB` is the main path: a hierarchical
+  - **`03_candidate`** (alternatives) — our own model families, one child per family, with
+    **`c_ensemble` on the main path since batch 11**. The three are compared at their own
+    main paths in `AI-generated/candidate-forks/families/family_leaderboard.csv`, and the
+    rule the fork was moved by is `family_rule.md` beside it.
+    `a_hierNB` is candidate 1: a hierarchical
     negative-binomial GLM, with **six** sub-analysis forks deciding what it is —
     `01_observation`, `02_covariates`, `03_population`, `04_fitTime`, `05_autoregressive`
     and `06_yearVariance`, the last two added in batch 9. Each writes a
@@ -71,7 +74,9 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
     `assemble_candidate_config.py` discovers the forks, merges whichever child of each ran
     into the one `model_configuration.yaml` that `chap eval` is pointed at, and adds the
     component seed. **Every child of every fork is built and has been run**; batch 9
-    promoted `c_hurdle`, `c_climateFree` and `b_provinceScaled` onto the main path.
+    promoted `c_hurdle`, `c_climateFree` and `b_provinceScaled` onto the main path. Since
+    batch 11 it runs under its own combination `family_hierNB`, where its per-cell scores
+    are identical to the ones it produced when it was the main path.
     `b_boosted` is candidate 2, added in batch 10: gradient-boosted trees with a
     probabilistic head, and **two** forks — `01_features` (a block of lags, or that block
     plus the calendar and the map) and `02_head` (a negative binomial around a fitted mean,
@@ -81,6 +86,20 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
     which family the main path takes is chosen in batch 11, when `c_ensemble` exists. Its
     model directory is the first in the project to depend on scikit-learn, and the first to
     store a fitted object this repository's own code walks rather than a library's.
+    `c_ensemble` is candidate 3, added in batch 11 and **the model the project now
+    reports**: a linear opinion pool over the other two families and both required
+    baselines, with **one** fork — `01_weighting` (equal weights, or the weights minimising
+    the pool's CRPS on a validation period held back inside the training frame). The fork
+    does not move; estimating the weights costs 4.021 CRPS. The pool scores **18.817** on
+    development against the reference's 22.098, the first positive skill score this project
+    has produced. It contains no model code of its own: each member is run through **its
+    own Chap entry points**, read out of the member's own `MLproject`, so there is one copy
+    of every member's code in the repository, at the node that owns it. Which models it
+    contains and how they are configured is `results/$COMBO/members.json`, whose path and
+    hash are in the model configuration; `prepare_members.py` assembles it by running each
+    member family's fork main-path children and that family's own assembler under the
+    running combination, so a perturbation of a member's fork moves the pool's member with
+    it.
     **Every fork here moves only our model**, which is what distinguishes this subtree from
     `02_setup`.
   - `scripts/lib/chap_eval.py` is the single route by which a model of ours reaches

@@ -1,0 +1,71 @@
+# Provenance — the pool rebuilt by a second path, and its registered premise
+
+```
+result:              main/pool_check.json
+                     family_ensemble/pool_check.json
+                     weighting_crpsWeighted/pool_check.json
+script:              scripts/check_pool.py
+                     sha256:6f1155c05561ddff1ab7fc7c7a852f0440d1b2edf800cc693a3c710eb0a0835c
+                     imports allocate() and pool() from scripts/ensemble_model/ensemble.py,
+                     so the reconstruction uses the model's own allocation rule rather than
+                     a second statement of it
+invocation:          "$PYTHON" scripts/check_pool.py, with COMBO set
+inputs:              results/<combo>/eval.nc, fitted_model.json, candidate_spec.json,
+                     members.json, model_spec.json
+                     and, for each member, the stored eval.nc of a run of that member whose
+                     configuration_sha256, dataset_sha256 and eval_flags are the ones the
+                     pool gave it — matched by those fields, never by combination name:
+                       persistence   01_baselines/01_persistence/.../results/main
+                       climatology   01_baselines/02_climatology/.../results/main
+                       hier_nb       03_candidate/a_hierNB/results/family_hierNB
+                       boosted       03_candidate/b_boosted/results/family_boosted
+environment:         environment/ (project main); the CRPS and both coverage figures come
+                     from chap-core's own registered metrics, asked for by id
+seeds:               the pool's component seed 1648567750, so the reconstruction allocates
+                     as the model does; the subsample it takes is a different one, which is
+                     what the residual difference measures
+commit:              5e1de04
+instructions-commit: cf97b81
+node:                analysis/03_models/03_candidate/c_ensemble
+produced:            2026-08-28
+```
+
+**What it establishes.** That the pool is what it claims to be. Rebuilt from the members'
+own stored evaluations and scored with chap-core's own CRPS, it gives **18.801** against the
+**18.817** the model scored — a difference of **0.016**, the sampling error of the pool's
+own allocation. The members' scores computed by that second path reproduce their leaderboard
+rows to every printed digit, so the models inside the pool are the models on the leaderboard
+and not versions of them.
+
+**And that the registered premises were tested rather than remembered.** Each child of
+`01_weighting` writes, before anything is fitted, what it expects to happen; this script
+reads it back and measures it. `a_equal`'s prediction that the pool would score worse than
+its best member is **false** — the pool beats it by 1.954 CRPS — and its prediction about
+coverage is true. `b_crpsWeighted`'s two predictions about the shape of the fitted weights
+are true and its prediction about the size of the loss understates it.
+
+**One diagnostic exists to kill an explanation rather than to support one.** The pool's
+25–75 coverage is 0.749 against a nominal 0.50, and the obvious innocent reading is that a
+count distribution with a 56 % zero share has a degenerate central interval in which every
+zero outcome falls. The share of cells where each model's own 25th and 75th percentiles
+coincide is therefore measured: 24 % for the pool against 41 % to 55 % for three of its four
+members. The pool over-covers while being *less* exposed to the artefact than they are, so
+the artefact is not the explanation and the over-dispersion is real.
+
+**Why it degrades rather than fails when a member has no matching run.** The reconstruction
+needs each member to have been evaluated on its own under the configuration the pool gave
+it, and which combinations have been run is a fact about the project's history rather than
+about the pool. When one is missing the file records which member and why, and the premise
+check still runs. Failing would make `analysis/run.sh` depend on results it does not itself
+produce.
+
+alternatives-considered: resolving the members' evaluations by combination name through
+COMBO_BASE (rejected — candidate 2 has never run under `main` or under any base the pool
+inherits from, and a name-based lookup would either fail or, worse, find a differently
+configured run of the same member and compare against it silently); comparing the members'
+draws inside the pool with their stored draws cell by cell (rejected for now — the pool does
+not store its members' raw forecasts, only its own, and storing four more sample sets per
+combination is 30 MB per run for a check the CRPS agreement already makes); reporting the
+25–75 coverage without the flat-interval share (rejected — it would have left a plausible
+excuse standing that the data disproves).
+agency: agent-autonomous

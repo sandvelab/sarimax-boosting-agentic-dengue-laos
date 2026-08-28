@@ -3,26 +3,26 @@
  "choice": "a_equal",
  "combo": "family_ensemble",
  "description": "every member of the pool carries weight 1/M; no weight in this model is estimated from data",
- "input_from_combo": "main",
+ "input_from_combo": "family_ensemble",
  "node": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal",
  "order": 1,
  "premise": {
-  "best_of_ours": "hier_nb",
-  "coverage_10_90_of_our_models": {
-   "climatology": 0.6495956873315364,
-   "hier_nb": 0.7008086253369272,
-   "persistence": 0.6657681940700808
-  },
-  "development_mean_crps_of_our_models": {
-   "climatology": 24.336908636118597,
-   "hier_nb": 23.697926164420487,
-   "persistence": 24.879338288409706
-  },
-  "members_are_weighted_by_this": false,
+  "member_count": 4,
+  "members": [
+   "analysis/03_models/01_baselines/01_persistence/a_empiricalChange",
+   "analysis/03_models/01_baselines/02_climatology/a_expandingWindow",
+   "analysis/03_models/03_candidate/a_hierNB",
+   "analysis/03_models/03_candidate/b_boosted"
+  ],
   "nominal_coverage_10_90": 0.8,
-  "source": "analysis/04_score/03_compare/results/main/leaderboard.csv",
-  "spread_best_to_worst": 1.1814121239892188,
-  "worst_of_ours": "persistence"
+  "nothing_downstream_is_read": "no score, no leaderboard, no evaluation. This node runs before 04_score, and a model node that read a scoring node would be a circular dependency that only shows up when the scoring node has not run yet",
+  "required_baselines_among_them": [
+   "analysis/03_models/01_baselines/01_persistence/a_empiricalChange",
+   "analysis/03_models/01_baselines/02_climatology/a_expandingWindow"
+  ],
+  "share_of_the_pool_on_the_required_baselines": 0.5,
+  "source": "the shape of the tree: every Chap contract directory under analysis/03_models except the pool's own",
+  "weight_each_member_will_carry": 0.25
  },
  "stage": "weighting",
  "user_option_values": {

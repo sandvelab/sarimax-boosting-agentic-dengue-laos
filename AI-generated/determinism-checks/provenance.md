@@ -150,3 +150,47 @@ models, which is the tree's semantics restated in a shell script; worth revisiti
 candidate makes it four families).
 
 agency: agent-autonomous.
+
+## model_determinism.json — 2026-08-28, batch 11 (candidate 3, and all three named by their own paths)
+
+```
+produced:            2026-08-28, batch 11
+script:              AI-internal/useful-scripts/verify_model_determinism.sh
+invocation:          bash AI-internal/useful-scripts/verify_model_determinism.sh
+inputs:              the tree itself: 02_setup, each model's node, and 04_score/01_collect,
+                     run twice under one scratch combination per model
+environment:         environment/ (project main); the pool's members build their own
+                     environments through chap-core, as they do on the main path
+commit:              PENDING
+instructions-commit: cf97b81
+```
+
+**What changed in the check.** Every candidate is now named by **its own** node path.
+`hier_nb` had been named by the family node `03_candidate` since batch 8, which was correct
+for as long as candidate 1 was the main path and stopped being correct the moment batch 11
+promoted `c_ensemble`: the check would have run the pool twice and reported it `identical`
+under the name `hier_nb`. Batch 10 caught the same shape of error for candidate 2 and fixed
+it for candidate 2 alone; this generalises the fix rather than repeating it. The list is now
+five leaves and no switches.
+
+**What it says.** `identical` for all five: persistence, climatology, `hier_nb`, `boosted`
+and `ensemble` — identical per-cell scores, identical model listings, identical fitted
+objects.
+
+**Why candidate 3's fitted object is the strongest of the five checks.** The pool's fitted
+object **embeds its four members' fitted objects whole**, so a single diff of one file
+verifies that all four members were fitted identically as well as that the pool's own draw is
+seeded. Under `min_crps` it would also verify the weight solve, though the combination checked
+here is the main path's `equal`. The pool contributes exactly one source of randomness of its
+own — which of each member's thousand draws it takes, and in what order it writes them, from
+component seed `1648567750` — and how *many* draws each member contributes is not random at
+all: it is the largest-remainder allocation of the weights.
+
+alternatives-considered: discovering the leaves of `03_candidate` automatically rather than
+listing them (rejected again, and for the reason recorded on 2026-08-28 for candidate 2 — a
+discovery rule would have to encode which nodes are switches and which are models, which is
+the tree's semantics restated in a shell script — but the cost of the manual list is now
+visible: it had to be edited twice for the same reason. If a fourth family arrives, discover
+them); checking only the promoted family (rejected — the demoted families are re-run in phase
+D and on the holdout, so their reproducibility is as load-bearing as the main path's).
+agency: agent-autonomous.

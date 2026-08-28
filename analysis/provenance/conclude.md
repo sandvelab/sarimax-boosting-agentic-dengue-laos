@@ -81,3 +81,43 @@ the script to have.
 alternatives-considered: none new.
 
 agency: agent-autonomous.
+
+---
+
+## Batch 11 — the conclusion turns positive
+
+```
+result:              main/conclusion.json
+script:              scripts/conclude.py
+                     sha256:37aa72469d283a78d622a94f44a17b3f016b10d160fefe523336fb7946abac7b
+invocation:          bash analysis/run.sh, or the step alone, with COMBO=<combination>
+                     and COMBO_BASE=main
+environment:         environment/ (project main)
+commit:              PENDING
+instructions-commit: cf97b81
+node:                analysis
+produced:            2026-08-28
+```
+
+**What it establishes.** The project's reported conclusion, recomputed after the family fork
+moved. `our_model` is now `ensemble`, resolved as always from the main path through
+`03_models/03_candidate` rather than chosen here, and the skill score against the reference is
+**+0.1485** — mean CRPS 18.817 against 22.098. `beats_reference` and `beats_all_baselines` are
+both true for the first time in this project.
+
+**What the file also says, and what must be read with it.** The paired difference is −3.282 at
+a split-clustered standard error of 1.726: 1.90 standard errors, which does not separate the
+two models. The reported coverage is 0.863 at the 10–90 level against a nominal 0.80 and 0.749
+at 25–75 against 0.50, so the model that wins is also the most over-dispersed the project has
+produced. The plan's §2 is explicit that a model winning on mean CRPS while badly calibrated
+has not won; the honest reading of these two figures is that the 10–90 error is small and on
+the conservative side, that the 25–75 error is large, and that
+`03_models/03_candidate/c_ensemble/results/main/pool_check.json` rules out the zero-atom
+artefact as its explanation.
+
+**Nothing about this script changed.** Which model is ours is resolved from the tree, so the
+promotion moved the conclusion without a line of this file being touched — which is the
+property it was written to have.
+
+alternatives-considered: none new.
+agency: agent-autonomous

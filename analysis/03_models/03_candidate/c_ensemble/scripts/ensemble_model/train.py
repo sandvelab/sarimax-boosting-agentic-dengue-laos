@@ -21,10 +21,11 @@ chap-core's splitter says the training data is, and the hold-back is taken from 
 *that*. The weights are therefore fitted on data the members were going to be fitted on
 anyway, which is the only way an estimated weight can be honest in a backtest.
 
-Seeds: the validation forecasts are draws, so the members' own seeded generators are used
-through their own entry points, and this script adds no randomness of its own -- the
-weight fit is a deterministic solve over the resulting arrays. Everything the pool itself
-draws happens in `predict.py`.
+Seeds: this script draws nothing of its own. The validation forecasts are draws, and they
+come from each member's own generator through the member's own entry point; the weight fit
+on top of them is a deterministic solve. The pool's own component seed is recorded in the
+fitted object under `seed`, where `predict.py` and the node's record can both find it, and
+it is spent there rather than here.
 
 Usage:  python train.py <train_data.csv> <model_out.json> <model_config.yaml>
 """
@@ -152,6 +153,9 @@ def main(train_data_path: str, model_path: str, config_path: str) -> dict:
         "model": "ensemble_candidate",
         "fitted_in": "train",
         "options": options,
+        # The pool's own component seed, recorded here as well as inside `options`, so the
+        # fitted object states on its face which stream every draw in `predict` came from.
+        "seed": options["seed"],
         "members": [
             {k: v for k, v in member.items() if k != "entry_points"} | {
                 "entry_points": member["entry_points"],

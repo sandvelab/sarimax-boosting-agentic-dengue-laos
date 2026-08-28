@@ -59,3 +59,41 @@ two components cannot silently share a stream, and two models whose draws are co
 would make the family comparison depend on the correlation); deriving the seed from the
 candidate's name rather than its path (rejected, the path is what is unique in the tree).
 agency: agent-autonomous
+
+---
+
+## Batch 11 — candidate 2's configuration under the ensemble's three combinations
+
+```
+result:              main/candidate_spec.json
+                     main/model_configuration.yaml
+                     family_ensemble/candidate_spec.json
+                     family_ensemble/model_configuration.yaml
+                     weighting_crpsWeighted/candidate_spec.json
+                     weighting_crpsWeighted/model_configuration.yaml
+script:              scripts/assemble_candidate_config.py
+                     sha256:95b9b004ba7f5761b58d20087e8046a38d45a08a96969669fabda5004c1c7f44
+invocation:          bash analysis/03_models/03_candidate/b_boosted/run.sh, or the step alone, with COMBO=<combination>
+                     and COMBO_BASE=main
+environment:         environment/ (project main)
+commit:              PENDING
+instructions-commit: cf97b81
+node:                analysis/03_models/03_candidate/b_boosted
+produced:            2026-08-28
+```
+
+**What it establishes.** The configuration the ensemble gives its candidate-2 member, under
+each of the pool's three combinations — `main` among them, because batch 11 promoted
+`c_ensemble` and `analysis/run.sh` now reaches candidate 2 as a member of the pool. Each is
+**byte-identical** to the one this node wrote under `family_boosted`: the same two choices,
+the same three covariates and the same component seed **1877199108**. Checked by diff.
+
+**A configuration under `main` is not an evaluation under `main`.** There is no
+`model_spec.json` at this node under `main` and there should not be: candidate 2 is a sibling
+alternative under an alternatives node, it is evaluated on its own under `family_boosted`, and
+`04_score` collects models by the `model_spec.json` they write. What `main` holds here is the
+configuration the pool handed to one of its members, and the pool's own `members.json` names
+the file and its hash.
+
+alternatives-considered: as in the parallel record at candidate 1.
+agency: agent-autonomous

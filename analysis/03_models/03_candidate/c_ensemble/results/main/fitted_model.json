@@ -50765,6 +50765,7 @@
   "weight_samples": 200,
   "weighting": "equal"
  },
+ "seed": 1648567750,
  "training": {
   "first_period": "1998-01",
   "last_period": "2007-12",

@@ -75,10 +75,10 @@
    },
    "hier_nb": {
     "cells": 408,
-    "combination": "main",
+    "combination": "family_hierNB",
     "configuration_sha256": "28c7c617d5c26fa0f37f0c9601d690debc3ad9c05d63cb3e14512c16d385faf2",
     "draws": 1000,
-    "evaluation": "analysis/03_models/03_candidate/a_hierNB/results/main/eval.nc"
+    "evaluation": "analysis/03_models/03_candidate/a_hierNB/results/family_hierNB/eval.nc"
    },
    "persistence": {
     "cells": 408,

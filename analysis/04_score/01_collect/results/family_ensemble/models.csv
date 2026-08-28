@@ -6,5 +6,4 @@ reference_r2,external,chapkit-service,analysis/03_models/02_reference,False,1000
 reference_r3,external,chapkit-service,analysis/03_models/02_reference,False,1000,reference,eval_repeat_3.nc,main
 reference_r4,external,chapkit-service,analysis/03_models/02_reference,False,1000,reference,eval_repeat_4.nc,main
 reference,external,repeat-mean,analysis/03_models/02_reference,False,4000,,mean of 4 repeats,main
-hier_nb,ours,local-mlproject,analysis/03_models/03_candidate/a_hierNB,True,1000,,eval.nc,main
 ensemble,ours,local-mlproject,analysis/03_models/03_candidate/c_ensemble,True,1000,,eval.nc,family_ensemble

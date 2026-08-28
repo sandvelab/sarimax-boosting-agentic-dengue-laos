@@ -139,3 +139,35 @@ whatever the manifest re-scores, and its quantile head is the only configuration
 project whose fitted object is measured in megabytes. If tier 2's pairs include the ladder
 head, budget 2.6 MB per such combination for fitted objects alone — still nothing against
 the NetCDF, and still not what binds.
+
+## Added in batch 11 — candidate 3, and the family promotion
+
+**The pool costs what a fourth model costs, and its fitted object is the only one in the
+project that contains four other models.** `c_ensemble/results/` holds three combinations at
+about 11 MB each — **33 MB** — of which 29.5 MB is again NetCDF that rebuilds in about a
+minute a piece. The promotion also gives candidate 1 a combination of its own,
+`a_hierNB/results/family_hierNB/` at **9.5 MB**, in exchange for the `results/main/` of the
+same size that was removed with it: the tree's total is unchanged by the promotion itself.
+
+| Artifact | Size, all combinations | Role | Regenerable | Transparency | Note |
+|---|---|---|---|---|---|
+| `c_ensemble/results/*/eval.nc` | 29.5 MB | **main result** | yes, ~60–80 s each, identically | medium | The reported model's forecasts. Same trade as the other two candidates', with one difference that matters for pruning: rebuilding one of these refits all four members, so the cost is the pool's, not a member's. **First to go if anything ever binds**, and the last of the three candidates to be pruned, because it is the reported model. |
+| `c_ensemble/results/*/fitted_model.json` | 1.9 MB (652 KB, 652 KB, 630 KB) | **main result** | yes, ~60–80 s | **highest** | **The only fitted object in this project that embeds four others.** Each member's fitted model, whole, plus the weights, plus — under `min_crps` — the validation periods, every member's score on them, the pairwise terms of the pooled-CRPS quadratic and the solve's objective at every vertex of the simplex. It is the evidence for the batch's central negative result and it is not summarisable: `pool_check.json` beside it is a different measurement, not a digest of this. |
+| `c_ensemble/results/*/members.json` | 7.6 KB each | **main result** | yes, seconds | **highest** | Which four models were pooled, where their code is, their entry points, their configurations, and the sha256 of every file behind each of them. Small, and the only artifact that says *what the model was* rather than what it did. Never prune. |
+| `c_ensemble/results/*/pool_check.json` | 4.6 KB each | **main result** | yes, ~30 s | **highest** | The pool rebuilt from its members' own stored evaluations, the registered premise measured against what happened, and the flat-interval diagnostic. Tiny. It depends on the members' `eval.nc` surviving, which is an argument for pruning our own evaluations last rather than for pruning this. |
+| `a_hierNB/results/family_hierNB/` | 9.5 MB | side result | yes, ~25 s | medium | Candidate 1 after the demotion. Identical per-cell scores to the `results/main/` it replaces, which is what makes the promotion cost measurable rather than argued. |
+| `AI-generated/candidate-forks/ensemble_round1/`, `families/` | 28 KB | **main result** | yes — every combination behind both tables is still in the tree | **highest** | Regenerable, unlike `round1_batch8Defaults`. `families/family_leaderboard.csv` is the table the family promotion was decided from and `family_rule.md` beside it is the rule. |
+
+**One dependency worth recording before phase D prunes anything.** `pool_check.json` is
+produced by reconstructing the pool from **its members' own stored evaluations**, matched by
+configuration hash. Pruning `a_hierNB/results/family_hierNB/eval.nc` or
+`b_boosted/results/family_boosted/eval.nc` would therefore not merely lose a side result — it
+would disable the only independent check on the reported model, and the check degrades
+silently by design so that `analysis/run.sh` does not depend on results it does not produce.
+If our own evaluations are ever pruned, prune the pool's before its members'.
+
+**What this implies for batch 12, revised again.** The reported model now costs a minute to
+re-run and refits four models when it does, so a manifest entry that moves a *setup* fork
+re-runs all four inside the pool as well as separately. Budget on the order of 11 MB and
+90 seconds per combination that includes the pool, against 10 MB and 50 seconds for
+candidate 2 alone.

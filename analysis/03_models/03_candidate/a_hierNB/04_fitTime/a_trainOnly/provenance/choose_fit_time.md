@@ -67,3 +67,43 @@ the promoted main path: `b_refitAtPredict` +0.873, the best combination in the s
 script sha256: 55205731fdb2cf1e963cd991d25d18aa2ba44a04322f145bb7d65f8b2e7b69eb
 
 agency: agent-autonomous.
+
+---
+
+## Batch 11 — the same choice under three further combinations
+
+```
+result:              family_hierNB/model_option_spec.json
+                     family_ensemble/model_option_spec.json
+                     weighting_crpsWeighted/model_option_spec.json
+script:              scripts/choose_fit_time.py
+                     sha256:55205731fdb2cf1e963cd991d25d18aa2ba44a04322f145bb7d65f8b2e7b69eb
+invocation:          bash analysis/03_models/03_candidate/a_hierNB/04_fitTime/a_trainOnly/run.sh, or the step alone, with COMBO=<combination>
+                     and COMBO_BASE=main
+environment:         environment/ (project main)
+commit:              PENDING
+instructions-commit: cf97b81
+node:                analysis/03_models/03_candidate/a_hierNB/04_fitTime/a_trainOnly
+produced:            2026-08-28
+```
+
+**Why these combinations exist.** `family_hierNB` is candidate 1's own combination: batch 11
+promoted the family fork to `c_ensemble`, so candidate 1 no longer runs under `main` and its
+results live under a combination of its own, exactly as candidate 2's have since batch 10.
+`family_ensemble` and `weighting_crpsWeighted` are the ensemble's two combinations, and this
+step ran under them because **the pool configures its candidate-1 member from these same fork
+nodes**: `c_ensemble/scripts/prepare_members.py` runs each family's fork main-path children
+and that family's assembler under the running combination, rather than pointing the pool at a
+configuration assembled somewhere else. That is what makes a perturbation of this fork move
+the pool's member with it in phase D.
+
+**Nothing here chose anything new.** The child that ran is the one this fork already declared
+as its main path, and the specification it wrote under each of the three combinations differs
+from the one it wrote under `main` in exactly one line — the `combo` field naming the
+combination — because the step reads the dataset and nothing else. Verified by diff.
+
+alternatives-considered: pointing the pool at the configuration stored under `main` instead of
+assembling one under the running combination (rejected — the pool would then be configured
+from a combination it is not running under, and a perturbation that moved this fork would
+leave the pool's member behind).
+agency: agent-autonomous

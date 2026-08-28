@@ -148,3 +148,48 @@ persistence, climatology and `hier_nb` under `main` — nine model rows against 
 eight. Candidate 2 is a sibling family under an alternatives node, so it never appears
 under `main` at all, and candidate 1 never appears under these three except as an
 inherited row.
+
+---
+
+## Batch 11 — three further combinations, and `main` re-collected after the promotion
+
+```
+result:              family_hierNB/metrics_cell.csv
+                     family_hierNB/models.csv
+                     family_ensemble/metrics_cell.csv
+                     family_ensemble/models.csv
+                     weighting_crpsWeighted/metrics_cell.csv
+                     weighting_crpsWeighted/models.csv
+script:              scripts/collect_metrics.py
+                     sha256:6b70fd8074a9b326efdfc2cb88d1fb50c180843a7b5906c01340395b715f7ff6
+invocation:          bash analysis/04_score/01_collect/run.sh, or the step alone, with COMBO=<combination>
+                     and COMBO_BASE=main
+environment:         environment/ (project main)
+commit:              PENDING
+instructions-commit: cf97b81
+node:                analysis/04_score/01_collect
+produced:            2026-08-28
+```
+
+**What it establishes.** The per-cell scores of every model under the ensemble's two
+combinations and under candidate 1's own. `family_ensemble` and `weighting_crpsWeighted` carry
+nine model rows — the pool scored under the combination, and the reference's five rows,
+persistence, climatology and `hier_nb` inherited from `main` as it stood before the promotion;
+`family_hierNB` carries eight, candidate 1 under the combination and the rest inherited.
+Candidate 2 appears in none of them, because it has never run under `main` or under anything
+these inherit from.
+
+**`main` was re-collected, and what it contains changed.** The promotion moved
+`03_candidate`'s main path from `a_hierNB` to `c_ensemble` and candidate 1's `results/main/`
+were removed with it, so `main` now holds eight model rows rather than nine: the ensemble, the
+two required baselines and the reference's five. That is exactly the set `analysis/run.sh`
+produces, which is the property this node's discovery-by-glob exists to give — a model is
+scored by the fact of having run, and after the promotion candidate 1 does not run on the main
+path.
+
+alternatives-considered: keeping candidate 1's `main` rows on the reported leaderboard for
+context (rejected — the leaderboard would then carry a row produced by a version of the tree
+that no longer exists; the cross-family comparison lives in
+`AI-generated/candidate-forks/families/family_leaderboard.csv`, which says under which
+combination each family ran).
+agency: agent-autonomous

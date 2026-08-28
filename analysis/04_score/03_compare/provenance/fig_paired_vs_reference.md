@@ -120,3 +120,42 @@ two figures to be comparable); keying the palette off the leaderboard's rank so 
 model is always the same colour (rejected — the rank changes between combinations, which is
 exactly the instability the fix is for).
 agency: agent-autonomous
+
+---
+
+## Batch 11 — redrawn for `main` after the promotion, and for `family_ensemble`
+
+```
+result:              
+script:              scripts/fig_paired_vs_reference.py
+                     sha256:fdf8e6f58a2eaad7384fa3307d5167a44e248380aa9ec291aafd682bbde6b626
+invocation:          bash analysis/04_score/03_compare/run.sh, or the step alone, with COMBO=<combination>
+                     and COMBO_BASE=main
+environment:         environment/ (project main)
+commit:              PENDING
+instructions-commit: cf97b81
+node:                analysis/04_score/03_compare
+produced:            2026-08-28
+```
+
+```
+result:              main/fig_paired_vs_reference.png
+                     main/fig_paired_vs_reference.csv
+                     main/fig_paired_vs_reference_preaggregation.csv
+                     family_ensemble/fig_paired_vs_reference.png
+                     family_ensemble/fig_paired_vs_reference.csv
+                     family_ensemble/fig_paired_vs_reference_preaggregation.csv
+```
+
+**What changed.** The figure's model set. Under `main` it now draws the ensemble in place of
+candidate 1, because the promotion changed which models `analysis/run.sh` produces; under
+`family_ensemble` it draws the same models plus the inherited `hier_nb` row. Each figure
+carries its plotted values and its pre-aggregation values beside it, as Rule 7 asks.
+
+The colours are unaffected by the change in membership, and that is batch 10's fix working as
+intended: `analysis/scripts/lib/palette.py` derives a model's colour from its own name rather
+than from its position among the models present, so the two combinations' figures can be laid
+side by side and every model keeps its colour across the promotion.
+
+alternatives-considered: none new.
+agency: agent-autonomous

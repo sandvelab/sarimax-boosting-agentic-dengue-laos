@@ -153,3 +153,67 @@ fork sweep's table (rejected — the sweep's table is copied from `02_aggregate`
 no paired comparison, so the question of what the margin can resolve would have gone
 unanswered for the only model of ours that has ever led).
 agency: agent-autonomous
+
+---
+
+## Batch 11 — `main` after the promotion, and the ensemble's own combination
+
+```
+result:              main/comparison_notes.json
+                     main/fig_accuracy_and_spread.csv
+                     main/fig_accuracy_and_spread.png
+                     main/fig_accuracy_and_spread_preaggregation.csv
+                     main/fig_crps_by_location.csv
+                     main/fig_crps_by_location.png
+                     main/fig_crps_by_location_preaggregation.csv
+                     main/fig_paired_vs_reference.csv
+                     main/fig_paired_vs_reference.png
+                     main/fig_paired_vs_reference_preaggregation.csv
+                     main/leaderboard.csv
+                     main/paired_by_split.csv
+                     main/paired_summary.csv
+                     main/paired_vs_reference.csv
+                     main/reference_repeat_noise.csv
+                     family_ensemble/comparison_notes.json
+                     family_ensemble/fig_accuracy_and_spread.csv
+                     family_ensemble/fig_accuracy_and_spread.png
+                     family_ensemble/fig_accuracy_and_spread_preaggregation.csv
+                     family_ensemble/fig_crps_by_location.csv
+                     family_ensemble/fig_crps_by_location.png
+                     family_ensemble/fig_crps_by_location_preaggregation.csv
+                     family_ensemble/fig_paired_vs_reference.csv
+                     family_ensemble/fig_paired_vs_reference.png
+                     family_ensemble/fig_paired_vs_reference_preaggregation.csv
+                     family_ensemble/leaderboard.csv
+                     family_ensemble/paired_by_split.csv
+                     family_ensemble/paired_summary.csv
+                     family_ensemble/paired_vs_reference.csv
+                     family_ensemble/reference_repeat_noise.csv
+script:              scripts/compare_models.py
+                     sha256:6d6748b30ef2c185f6742f1e7586f3f85f4c5614f4dd6b200b94c97e2d8ae9d2
+invocation:          bash analysis/04_score/03_compare/run.sh, or the step alone, with COMBO=<combination>
+                     and COMBO_BASE=main
+environment:         environment/ (project main)
+commit:              PENDING
+instructions-commit: cf97b81
+node:                analysis/04_score/03_compare
+produced:            2026-08-28
+```
+
+**What it establishes.** The project's reported comparison, and the first one that goes our
+way. On `main`: the ensemble at mean CRPS **18.817** against the reference's 22.098, a paired
+per-cell difference of **−3.282** with a split-clustered standard error of **1.726**, winning
+43 % of individual cells. That is 1.90 standard errors and nearly six times the 0.565 CRPS
+noise floor the reference's own unseeded repeats occupy — a margin large enough to be
+attributable to a model, and short of separating the two. The leaderboard under `main` now
+carries eight rows rather than nine, for the reason in the record at `01_collect`.
+
+**The win rate and the mean point in different directions, and that is the finding under
+them.** The pool wins only 43 % of cells while being 3.282 CRPS better on average, so what it
+buys is not being right more often — it is being much less wrong where it is wrong. A pool is
+a hedge, and this is what a hedge looks like in a paired comparison.
+
+alternatives-considered: reporting the comparison against the reference's best repeat rather
+than its four-repeat mean (rejected in batch 7 and unchanged: the mean is the denominator that
+does not move with an external model's sampler, and the repeats are reported beside it).
+agency: agent-autonomous

@@ -10,9 +10,10 @@ finishes; what survives is the verdict.
 
 ## Currently
 
-- `model_determinism.json` — 2026-08-28. **All four of our models are byte-identical across
+- `model_determinism.json` — 2026-08-28. **All five of our models are byte-identical across
   two independent runs**: the per-cell scores, the model listing and the fitted model all
-  match, for persistence, climatology, candidate 1 (`hier_nb`) and candidate 2 (`boosted`).
+  match, for persistence, climatology, candidate 1 (`hier_nb`), candidate 2 (`boosted`) and
+  candidate 3 (`ensemble`).
   The two baselines contain no randomness, so Rule 6 is satisfied for them by there being
   nothing to seed. Candidate 1 does draw — from a Laplace posterior, from a prior on the
   province-year effect, and from the negative binomial on top — and its claim is that one
@@ -28,11 +29,20 @@ finishes; what survives is the verdict.
   component from candidate 1, derived from the same project seed by the node's own path, so
   the two families cannot silently share a stream.
 
-  **Candidate 2 is named in the check by its own path**, `03_models/03_candidate/b_boosted`,
-  and not by the family node above it. `03_candidate` is an alternatives node, so running it
-  routes past candidate 2 to the main path — the check would have run candidate 1 twice
-  under a name saying `boosted` and reported it identical, which is true and about the
-  wrong model.
+  **Candidate 3, added in batch 11, is the pool**, and its check is the strongest of the
+  five for a structural reason: its fitted object embeds all four members' fitted objects
+  whole, so one diff verifies that every member was fitted identically as well as that the
+  pool's own draw is seeded. Its component seed is `1648567750`, and what it governs is only
+  which of each member's thousand draws the pool takes — how many each contributes is the
+  largest-remainder allocation of the weights and is not random at all.
+
+  **Every candidate is named in the check by its own path**, never by the family node
+  `03_candidate` above them. That node is an alternatives node, so running it routes to
+  whichever child is on the main path: naming candidate 2 that way would have run candidate 1
+  twice under a name saying `boosted`, and after batch 11 promoted the pool, naming
+  candidate 1 that way would have run the pool twice under a name saying `hier_nb`. Both are
+  true results about the wrong model. The list was edited twice for the same reason, which is
+  the argument for discovering the leaves if a fourth family ever arrives.
 
 **One thing to know about this file's history.** Between batch 9 and 2026-08-27 it reported
 `status: differs` for every model, and that was a defect in the check rather than in the

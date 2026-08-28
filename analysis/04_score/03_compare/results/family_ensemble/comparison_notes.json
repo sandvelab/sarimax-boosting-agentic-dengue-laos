@@ -27,19 +27,6 @@
    "splits_model_better": 6,
    "win_rate_cells": 0.431266846361186
   },
-  "hier_nb": {
-   "mean_crps_against": 22.098446493261452,
-   "mean_crps_model": 23.697926164420487,
-   "mean_diff": 1.59947967115903,
-   "n_splits": 8,
-   "se_cell_naive": 0.9934356445402169,
-   "se_cluster_location": 1.6748160373978702,
-   "se_cluster_split": 1.551286701344703,
-   "se_split_level": 1.6311845582696154,
-   "skill_score": -0.07237973364538397,
-   "splits_model_better": 2,
-   "win_rate_cells": 0.40700808625336926
-  },
   "persistence": {
    "mean_crps_against": 22.098446493261452,
    "mean_crps_model": 24.879338288409706,

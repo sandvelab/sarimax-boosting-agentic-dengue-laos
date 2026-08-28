@@ -8,6 +8,6 @@
  },
  "model": "ensemble",
  "route": "MLproject with uv_env, native",
- "seconds_per_split": 7.9,
- "wall_clock_seconds": 63.1
+ "seconds_per_split": 7.4,
+ "wall_clock_seconds": 59.5
 }

@@ -111,3 +111,63 @@ chain of inheritance were one deep (rejected — `combos.py` resolves one level 
 design, and `family_boosted` holds neither the dataset nor the other models, so the lookup
 would have failed rather than inherited).
 agency: agent-autonomous
+
+## ensemble_round1/ — the sweep around candidate 3's main path
+
+```
+produced:            2026-08-28, batch 11
+script:              AI-internal/useful-scripts/candidate_fork_sweep.py run
+invocation:          .venv/bin/python AI-internal/useful-scripts/candidate_fork_sweep.py \
+                       --candidate c_ensemble --base family_ensemble --inherit-from main \
+                       run --label ensemble_round1
+inputs:              analysis/04_score/02_aggregate/a_unweighted/results/<combo>/metrics_summary.csv
+                     analysis/03_models/03_candidate/c_ensemble/results/<combo>/run_cost.json
+                     analysis/03_models/03_candidate/c_ensemble/results/<combo>/candidate_spec.json
+                     for <combo> in family_ensemble and weighting_crpsWeighted
+environment:         .venv (the repository's own machinery) drives; every step it runs
+                     executes under environment/ (project main)
+commit:              PENDING
+instructions-commit: cf97b81
+```
+
+The base is candidate 3's own main path, `family_ensemble`, mean CRPS **18.817**. One fork
+with one non-main child, so the table has two rows. `weighting_crpsWeighted` scores **22.838**
+— the fork's alternative is worth **−4.021** CRPS, seven times the resolvable floor and in the
+wrong direction, so `a_equal` stays on the main path. **Regenerable**: both combinations are
+still in the tree.
+
+The table was rebuilt with `summarise` after `ensemble_model/train.py` changed to record the
+pool's component seed in the fitted object, and both combinations were re-run first; every
+figure in it came back identical.
+
+## families/ — what each candidate family scores at its own main path
+
+```
+produced:            2026-08-28, batch 11
+script:              AI-internal/useful-scripts/family_leaderboard.py
+                     — new in this batch, and a different question from the fork sweep:
+                     across the three families rather than within one candidate
+invocation:          .venv/bin/python AI-internal/useful-scripts/family_leaderboard.py \
+                       --label families
+inputs:              analysis/04_score/02_aggregate/a_unweighted/results/<combo>/metrics_summary.csv
+                     and each family's run_cost.json and candidate_spec.json under the
+                     combination it ran at its own main path — main for c_ensemble,
+                     family_boosted for b_boosted, family_hierNB for a_hierNB
+environment:         .venv (the repository's own machinery)
+commit:              PENDING
+instructions-commit: cf97b81
+```
+
+**The table the family fork was promoted from**, and `../family_rule.md` beside it is the rule,
+committed before the promoted family was run under `main`. Each family is read from the
+combination in which it ran with every one of its internal forks at the child that fork
+declares — found by matching the stored specification's chosen child nodes against the forks'
+current main paths, never by naming a combination, so a family whose forks moved since it last
+ran has no row rather than a stale one. **Regenerable.**
+
+alternatives-considered: extending `candidate_fork_sweep.py` with a subcommand instead of
+adding a script (rejected — it would change that file's sha256, which is named in the
+provenance of the two sweeps it has already produced, to add a function that shares almost
+nothing with it); reading the families from one combination's leaderboard (impossible — an
+alternatives node runs one child, so no combination contains all three).
+agency: agent-autonomous

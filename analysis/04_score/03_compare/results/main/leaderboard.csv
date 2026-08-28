@@ -1,5 +1,5 @@
 model,weighting,n_cells,mean_crps,mae,coverage_10_90,coverage_25_75,n_locations,n_splits,observed_total,origin,kind,node,seeded,wall_clock_seconds,seconds_per_split,skill_vs_reference
-ensemble,unweighted,371,18.816872064690028,23.214285714285715,0.862533692722372,0.7493261455525606,16,8,12291.0,ours,local-mlproject,analysis/03_models/03_candidate/c_ensemble,True,63.1,7.9,0.14849796928359138
+ensemble,unweighted,371,18.816872064690028,23.214285714285715,0.862533692722372,0.7493261455525606,16,8,12291.0,ours,local-mlproject,analysis/03_models/03_candidate/c_ensemble,True,59.5,7.4,0.14849796928359138
 reference_r4,unweighted,371,21.81956718059299,28.626684636118597,0.816711590296496,0.6091644204851752,16,8,12291.0,external,chapkit-service,analysis/03_models/02_reference,False,,,0.012619860529721194
 reference_r1,unweighted,371,21.917403964959565,28.556603773584907,0.8086253369272237,0.6064690026954178,16,8,12291.0,external,chapkit-service,analysis/03_models/02_reference,False,,,0.008192545496675363
 reference,unweighted,371,22.098446493261456,28.901954177897576,0.8039083557951483,0.6024258760107817,16,8,12291.0,external,repeat-mean,analysis/03_models/02_reference,False,1069.9,33.4,0.0

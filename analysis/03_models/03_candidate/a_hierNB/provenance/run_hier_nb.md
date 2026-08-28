@@ -214,3 +214,52 @@ because the parameters are already stable to six figures and the cap is the hone
 of where the procedure stopped.
 
 agency: agent-autonomous.
+
+---
+
+## Batch 11 — candidate 1 under its own combination, `family_hierNB`
+
+```
+result:              family_hierNB/candidate_spec.json
+                     family_hierNB/eval.log
+                     family_hierNB/eval.nc
+                     family_hierNB/fitted_model.json
+                     family_hierNB/model_configuration.yaml
+                     family_hierNB/model_spec.json
+                     family_hierNB/run_cost.json
+script:              scripts/run_hier_nb.py
+                     sha256:f6f6a96aefe64e6dba05a5b3e7f9c98667f4935eb514bbc1824aed575e7b420b
+invocation:          bash analysis/03_models/03_candidate/a_hierNB/run.sh, or the step alone, with COMBO=<combination>
+                     and COMBO_BASE=main
+environment:         environment/ (project main)
+commit:              PENDING
+instructions-commit: cf97b81
+node:                analysis/03_models/03_candidate/a_hierNB
+produced:            2026-08-28
+```
+
+**What it establishes.** That the demotion cost nothing. Batch 11 promoted the family fork to
+`c_ensemble`, so candidate 1 stops being the model `analysis/run.sh` produces and moves to a
+combination of its own — the same arrangement candidate 2 has had since batch 10. Run there,
+it produces **per-cell scores identical to the ones it produced as the main path**: mean CRPS
+23.698, MAE 27.569, 10–90 coverage 0.701, and `metrics_cell.csv` restricted to this model
+diffs clean against the file `main` held before the promotion.
+
+**Why the results it produced as the main path were removed rather than kept.** They described
+a main path that no longer exists, and `04_score/01_collect` discovers models by the fact of
+having run — a `model_spec.json` under `main` would have put a row on the reported leaderboard
+that `analysis/run.sh` does not produce. Batch 9 removed the demoted fork children's
+`results/main/` for the same reason and this follows it. Git holds them at commit `4cdfd16`.
+
+**What did not move.** The component seed is still **849487747** and the configuration is the
+one batch 9 promoted; only the combination the results are filed under changed. The
+`model_configuration.yaml` under `family_hierNB` is byte-identical to the one that was under
+`main`.
+
+alternatives-considered: renaming the `main` result directory to `family_hierNB` rather than
+re-running (rejected — every file in it records `"combo": "main"` internally, so the rename
+would leave a directory whose name contradicts its contents, which is batch 9's stated reason
+for removing rather than renaming); leaving the results under `main` (rejected — see above);
+not giving candidate 1 a combination at all until phase D (rejected — the pool's check
+reconstructs itself from its members' own evaluations, and candidate 1 is a member).
+agency: agent-autonomous

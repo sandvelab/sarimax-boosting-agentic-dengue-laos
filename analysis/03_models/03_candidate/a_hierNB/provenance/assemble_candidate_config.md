@@ -126,3 +126,49 @@ configuration change and a seed change arriving together, with no way to attribu
 difference to either.
 
 agency: agent-autonomous.
+
+---
+
+## Batch 11 — candidate 1's configuration under three further combinations
+
+```
+result:              family_hierNB/candidate_spec.json
+                     family_hierNB/eval.log
+                     family_hierNB/eval.nc
+                     family_hierNB/fitted_model.json
+                     family_hierNB/model_configuration.yaml
+                     family_hierNB/model_spec.json
+                     family_hierNB/run_cost.json
+                     family_ensemble/candidate_spec.json
+                     family_ensemble/model_configuration.yaml
+                     weighting_crpsWeighted/candidate_spec.json
+                     weighting_crpsWeighted/model_configuration.yaml
+script:              scripts/assemble_candidate_config.py
+                     sha256:d8937abc233899a222ca45643766eeb4c2eb1e9b6f38680a17cb6a9b6430bfd9
+invocation:          bash analysis/03_models/03_candidate/a_hierNB/run.sh, or the step alone, with COMBO=<combination>
+                     and COMBO_BASE=main
+environment:         environment/ (project main)
+commit:              PENDING
+instructions-commit: cf97b81
+node:                analysis/03_models/03_candidate/a_hierNB
+produced:            2026-08-28
+```
+
+**What it establishes.** The same configuration, assembled three more times: once for
+candidate 1's own combination after the family fork moved, and twice as the configuration the
+ensemble gives its candidate-1 member. In every one the assembled `model_configuration.yaml`
+is **byte-identical** to the one this node wrote under `main` — the same options, the same
+covariate list and the same component seed **849487747**, reached through a different
+combination. That was checked by diff rather than assumed, and it is the property that lets
+`c_ensemble/scripts/check_pool.py` match a member to a stored evaluation by configuration hash
+instead of by combination name.
+
+**This script was not changed in this batch**, and that is a decision rather than an omission.
+Batch 10 logged that the shared part of the two candidates' assemblers belongs in
+`03_models/scripts/lib/`, and batch 11 adds a third. Lifting it would change this file's
+sha256, which is named in the record above for every one of the combinations it configured,
+and their results would then name a script that never produced them. The lift is scheduled for
+batches 13–14, where the frozen manifest re-runs every combination anyway.
+
+alternatives-considered: as above, and in the plan's §4b.
+agency: agent-autonomous

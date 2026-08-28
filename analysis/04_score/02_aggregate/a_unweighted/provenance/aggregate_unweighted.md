@@ -163,3 +163,48 @@ produced:            2026-08-28
 
 The nine rows per combination are the eight `main` already had plus `boosted`. Nothing
 about the aggregation changed; a ninth model simply arrived.
+
+---
+
+## Batch 11 — three further combinations, and `main` re-aggregated after the promotion
+
+```
+result:              family_hierNB/crps_by_horizon.csv
+                     family_hierNB/crps_by_location.csv
+                     family_hierNB/crps_by_region_split.csv
+                     family_hierNB/crps_by_split.csv
+                     family_hierNB/metrics_summary.csv
+                     family_ensemble/crps_by_horizon.csv
+                     family_ensemble/crps_by_location.csv
+                     family_ensemble/crps_by_region_split.csv
+                     family_ensemble/crps_by_split.csv
+                     family_ensemble/metrics_summary.csv
+                     weighting_crpsWeighted/crps_by_horizon.csv
+                     weighting_crpsWeighted/crps_by_location.csv
+                     weighting_crpsWeighted/crps_by_region_split.csv
+                     weighting_crpsWeighted/crps_by_split.csv
+                     weighting_crpsWeighted/metrics_summary.csv
+script:              scripts/aggregate_unweighted.py
+                     sha256:cc1df71851d253c94bbfce7c9a1aecb7b3ef5bc7c0046aa707da0b08f880af93
+invocation:          bash analysis/04_score/02_aggregate/a_unweighted/run.sh, or the step alone, with COMBO=<combination>
+                     and COMBO_BASE=main
+environment:         environment/ (project main)
+commit:              PENDING
+instructions-commit: cf97b81
+node:                analysis/04_score/02_aggregate/a_unweighted
+produced:            2026-08-28
+```
+
+**What it establishes.** The headline means for the batch's combinations, taken over the same
+371 cells as every other combination in the project. Under `main` the best model is now the
+ensemble at mean CRPS **18.817**, against the reference's 22.098; under
+`weighting_crpsWeighted` the same pool with fitted weights scores 22.838; under
+`family_hierNB` candidate 1 scores 23.698, identical to what it scored as the main path.
+
+Nothing about the aggregation changed. The weighting is still unweighted — one cell, one
+vote — and `02_aggregate` remains the fork where that choice will be perturbed in phase D,
+where it matters more than before: the pool's margin over the reference is concentrated in the
+highest-burden provinces.
+
+alternatives-considered: none new; the fork's two siblings are unbuilt until batch 12.
+agency: agent-autonomous

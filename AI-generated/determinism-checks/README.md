@@ -10,14 +10,29 @@ finishes; what survives is the verdict.
 
 ## Currently
 
-- `model_determinism.json` — 2026-08-27. **All three of our models are byte-identical across
+- `model_determinism.json` — 2026-08-28. **All four of our models are byte-identical across
   two independent runs**: the per-cell scores, the model listing and the fitted model all
-  match, for persistence, climatology and the candidate. The two baselines contain no
-  randomness, so Rule 6 is satisfied for them by there being nothing to seed. The candidate
-  does draw — from a Laplace posterior, from a prior on the province-year effect, and from
-  the negative binomial on top — and its claim is that one generator seeded with component
-  seed `849487747`, derived from the project seed `20260822`, serves all three; two runs and
-  a diff are what test it.
+  match, for persistence, climatology, candidate 1 (`hier_nb`) and candidate 2 (`boosted`).
+  The two baselines contain no randomness, so Rule 6 is satisfied for them by there being
+  nothing to seed. Candidate 1 does draw — from a Laplace posterior, from a prior on the
+  province-year effect, and from the negative binomial on top — and its claim is that one
+  generator seeded with component seed `849487747`, derived from the project seed
+  `20260822`, serves all three; two runs and a diff are what test it.
+
+  **Candidate 2, added in batch 10, is a different case worth stating.** It has only one
+  source of randomness — the head's draw around what the trees return — because a boosted
+  ensemble has no posterior to draw parameters from. Its fit is not random at all: early
+  stopping is disabled and the round count is fixed before the final fit, so the boosters
+  are deterministic whether or not their `random_state` is set. What the check therefore
+  verifies for it is mostly the head, seeded with component seed `1877199108` — a different
+  component from candidate 1, derived from the same project seed by the node's own path, so
+  the two families cannot silently share a stream.
+
+  **Candidate 2 is named in the check by its own path**, `03_models/03_candidate/b_boosted`,
+  and not by the family node above it. `03_candidate` is an alternatives node, so running it
+  routes past candidate 2 to the main path — the check would have run candidate 1 twice
+  under a name saying `boosted` and reported it identical, which is true and about the
+  wrong model.
 
 **One thing to know about this file's history.** Between batch 9 and 2026-08-27 it reported
 `status: differs` for every model, and that was a defect in the check rather than in the

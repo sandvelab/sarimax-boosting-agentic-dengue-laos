@@ -723,6 +723,14 @@ parameter expansions; `/validate invariants` caught it. And `boosted.py` changed
 three evaluations had run, leaving every `model_spec.json` naming a hash no longer on disk,
 so all three were re-run — identical, as the determinism check had already implied.
 
+*The determinism check names candidate 2 by its leaf, not by the family node.* Every other
+model of ours is named by the node that routes to it, because that node's `run.sh` runs the
+main path. `03_candidate` routes *past* candidate 2, so naming it that way would have run
+candidate 1 twice under a combination called `determinism_boosted` and reported it identical
+— true, and about the wrong model. A green check hiding a wrong model is the same shape as
+the defect repaired on 2026-08-27. Worth revisiting whether the model list should discover
+the leaves of `03_candidate` once a third family exists.
+
 **The defect worth remembering.** All three comparison figures built their colour and marker
 maps by zipping the models present against a four-entry list. `zip` stops at the shorter
 argument, so the fifth model would have drawn as **no series at all** in two of the three

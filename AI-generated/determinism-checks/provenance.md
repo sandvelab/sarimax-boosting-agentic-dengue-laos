@@ -101,3 +101,52 @@ same set of models.
 agency: agent-on-human-assessment. The defect and the three candidate repairs were the
 agent's; the choice among them, and the decision to make it now rather than in phase E, was
 the human's on 2026-08-27.
+
+## 2026-08-28 — re-run with candidate 2, and the model list extended
+
+```
+result:              model_determinism.json
+script:              AI-internal/useful-scripts/verify_model_determinism.sh
+invocation:          bash AI-internal/useful-scripts/verify_model_determinism.sh
+                     (from the repository root)
+inputs:              the tree's own nodes, run twice each under a scratch combination
+                     `determinism_<model>`, which the script removes when it finishes
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0; each
+                     model's own environment is built by chap-core from the uv.lock beside
+                     it
+seeds:               project seed 20260822, read from readme-at-start.md by the script
+                     rather than copied into it; component seeds 849487747 (candidate 1)
+                     and 1877199108 (candidate 2), derived by each node's own path
+commit:              95df846
+instructions-commit: cf97b81
+produced:            2026-08-28
+```
+
+**What changed in the script.** One line: `boosted:analysis/03_models/03_candidate/b_boosted`
+added to the model list. The path matters and is commented in the file. Every other model of
+ours is named by the node that routes to it — `03_models/03_candidate` for candidate 1 —
+because that node's `run.sh` runs the main path. Candidate 2 is a **sibling alternative**, so
+the same node routes *past* it; naming it that way would have run candidate 1 a second time
+under a scratch combination called `determinism_boosted` and reported a true result about the
+wrong model. That is a failure a green check would have hidden, which is the same shape as
+the defect repaired on 2026-08-27, and it is why the entry names the leaf rather than the
+switch.
+
+**What it says.** `identical` for all four: persistence, climatology, `hier_nb` and
+`boosted` — identical per-cell scores, identical model listings, identical fitted objects.
+
+**Why candidate 2's fitted object is the interesting half of its check.** It is 71 trees
+written out as JSON, and the model's own traversal of that stored form is a second prediction
+path beside scikit-learn's. Two runs producing an identical file therefore verifies both that
+the head's draw is seeded and that the same ensemble was fitted twice — and the fit's own
+internal check, which compares the stored form against scikit-learn's `predict` and raises if
+they differ, is what verifies that the stored form means what the ensemble meant.
+
+alternatives-considered: naming candidate 2 by the family node for symmetry with candidate 1
+(rejected, as above — it would have checked the wrong model and passed); making the model
+list discover the leaves of `03_candidate` automatically (rejected for now — the list is four
+lines and a discovery rule would have to encode which nodes are switches and which are
+models, which is the tree's semantics restated in a shell script; worth revisiting if a third
+candidate makes it four families).
+
+agency: agent-autonomous.

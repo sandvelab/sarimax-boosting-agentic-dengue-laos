@@ -84,3 +84,44 @@ forks, that tier 2 is eight pairs chosen by a rule fixed in advance, and that th
 recorded with what fell below it are the plan's (`readme-at-start.md`, §Compute budget, and
 `AGENTS.md` §4, human-set). Which forks exist, how they are costed and ranked, the 12-hour
 budget figure and the tier-2 rule's exact form are the agent's.
+
+---
+
+## Correction within the batch — the storage projection, 2026-08-29
+
+```
+result:              results/manifest.csv        (gains a `projected_bytes` column)
+                     results/manifest_notes.json (gains a `storage` block)
+script:              scripts/plan_manifest.py
+                     sha256:6af7be46dfabe494c831ab469918dd5ec59cb6b50208a2d612057be50090a15b
+commit:              2e186f6
+instructions-commit: cf97b81
+produced:            2026-08-29
+```
+
+**The section above names a hash that is no longer on disk.** The planner was extended
+after that record was written, to project the manifest's stored bytes the same way it
+projects its seconds — each row's parts summed from the largest measured example of that
+part on disk — because `/annotate-criticality` is asked to cover "the storage the manifest
+implies" and a projection typed into a criticality table would be a number with no file
+behind it. The earlier hash is `f65032149dfd55953f5c082add7c00547b3db9183132ed6da79905711311be35`
+at commit `26dca49`, and git holds that version; **the manifest as committed at `2e186f6`
+was produced by the script named here**, not by that one.
+
+Recorded as its own section rather than by correcting the line above, because `AGENTS.md`
+§8 says provenance is appended and never overwritten, and because the sequence is the
+finding: a script edited after its output has been recorded leaves a record naming bytes
+that are not on disk. Batches 10 and 11 each ended this way and each paid for it with a
+re-run; here the output is a two-second regeneration, so the cost was the paragraph.
+
+**What did not change**: the row set, the ranking, the tier-2 rule and its sha256, and
+every cost in seconds. The projection adds a column and reads no new inputs beyond the
+sizes of directories already in the tree.
+
+alternatives-considered: putting the projection in `criticality.md` by hand, which is what
+every other `criticality.md` in this repository does — rejected here because the figure is
+an aggregate over 24 rows rather than a size anyone can read off a directory listing, and
+Rule 1 does not have an exception for annotations. Computing it in a separate script so
+this one's hash would have stayed put — rejected as the wrong reason to split a file.
+
+agency: agent-autonomous.

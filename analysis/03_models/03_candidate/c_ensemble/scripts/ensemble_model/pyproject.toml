@@ -1,0 +1,31 @@
+[project]
+name = "ensemble-candidate"
+version = "1.0.0"
+description = "Linear opinion pool over this project's models, for the Lao dengue forecasting case"
+
+# Pinned to the patch, as every other model in this project is, and for the reason
+# batch 2 gave: `>=3.13,<3.14` resolves to whichever 3.13 the building machine holds,
+# and a version that depends on the machine is not a specification. 3.13.0 is the
+# interpreter `environment/chapenv` runs on and the one every other model pins.
+requires-python = "==3.13.0"
+
+# **This model's environment is the union of its members', and that is a consequence of
+# the design rather than a choice made here.** The pool runs each member's own `train`
+# and `predict` through the member's own entry points, so there is one copy of each
+# member's code in the repository and no risk of a member being re-implemented here --
+# but the interpreter that runs them is this model's, so everything any member imports
+# has to be installed in it.
+#
+# The alternative was to build each member's environment separately and shell out to
+# four interpreters. It would keep the environments apart, and it would mean this model
+# reproducing chap-core's `uv_env` machinery inside itself: resolving four lockfiles,
+# building four virtual environments, and being wrong in a different way than chap-core
+# whenever the two disagreed. The union is the smaller cost, and it is exact -- every
+# pin below is the pin the member that needs it declares, and `prepare_members.py`
+# fails the run if a member's lockfile asks for a version this file does not carry.
+dependencies = [
+    "numpy==2.5.2",
+    "pandas==3.0.5",
+    "pyyaml==6.0.3",
+    "scikit-learn==1.7.2",
+]

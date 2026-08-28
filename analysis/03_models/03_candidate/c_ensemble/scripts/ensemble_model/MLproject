@@ -1,0 +1,100 @@
+# Chap model contract for the ensemble candidate.
+#
+# The same shape as the other two candidates' contracts: a directory with this file,
+# parsed by chap-core into ModelTemplateConfigV2, which forbids unknown fields;
+# `uv_env`, so chap-core builds the model's environment from the pyproject.toml and
+# uv.lock that travel with the model; and a `{model_config}` parameter on both entry
+# points, so the model reads its configuration from a file rather than a command line.
+#
+# What is new here is what the configuration has to carry. This model pools other
+# models, so it has to be told which ones, where their contract directories are and
+# what configuration each of them takes. That is more than fits in a scalar option, so
+# it is a **file**: `members_file` names it and `members_sha256` pins its contents,
+# and the node above assembles it. A model configuration whose interesting part is a
+# path is exactly what `chap_eval.py` asks for -- a stored artifact rather than a
+# command line nobody kept -- and the hash is what stops the two from drifting apart.
+
+name: ensemble_candidate
+
+target: disease_cases
+supported_period_type: month
+required_covariates:
+  - population
+allow_free_additional_continuous_covariates: true
+requires_geo: false
+
+user_options:
+  weighting:
+    type: string
+    default: equal
+    description: >
+      How much weight each member of the pool carries. `equal` -- every member 1/M,
+      nothing estimated from data. `min_crps` -- the weights on the simplex that
+      minimise the pool's own CRPS on a validation period held back from inside the
+      training frame. Set by the 01_weighting fork.
+  validation_blocks:
+    type: integer
+    default: 4
+    description: >
+      How many forecast blocks are held back from the end of the training frame to fit
+      the weights on. Used only by `min_crps`. Each block is the length of the forecast
+      horizon, so a validation block is the same shape of problem as an evaluated one.
+      Set by the 01_weighting fork.
+  weight_samples:
+    type: integer
+    default: 200
+    description: >
+      Draws per member per validation cell used to form the pooled-CRPS quadratic. The
+      members produce a thousand; the pairwise term is quadratic in that count, so it is
+      reduced here deliberately and the number is recorded rather than being whatever
+      ran fast enough. Used only by `min_crps`. Set by the 01_weighting fork.
+  members_file:
+    type: string
+    default: ""
+    description: >
+      Repository-relative path to the JSON file naming the members of the pool: for each,
+      its name, its node, its Chap contract directory, the configuration it takes, and
+      the sha256 of every file in it. Assembled by ../prepare_members.py.
+  members_sha256:
+    type: string
+    default: ""
+    description: >
+      sha256 of that file. Checked before anything is pooled, so a members file edited
+      after the configuration was assembled is a failure rather than a run whose record
+      names something other than what it pooled.
+  seed:
+    type: integer
+    default: 0
+    description: >
+      Seed for the pool's own draw -- which member each of the thousand draws is taken
+      from, and which of that member's draws it is. Derived from the project seed by
+      analysis/scripts/lib/project_seed.py and written in by the assembler; the default
+      here is never the one used. The members draw from their own seeds, through their
+      own entry points.
+
+meta_data:
+  display_name: Linear opinion pool over this project's models (Lao dengue case)
+  description: >
+    The two candidate families and the two required baselines, run through their own
+    Chap entry points and combined into one predictive distribution by a linear opinion
+    pool. Candidate 3 of the Lao dengue forecasting case.
+  author: this repository
+  organization: none
+
+uv_env: pyproject.toml
+
+entry_points:
+  train:
+    parameters:
+      train_data: path
+      model: str
+      model_config: path
+    command: "python train.py {train_data} {model} {model_config}"
+  predict:
+    parameters:
+      historic_data: path
+      future_data: path
+      model: str
+      out_file: path
+      model_config: path
+    command: "python predict.py {model} {historic_data} {future_data} {out_file} {model_config}"

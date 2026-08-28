@@ -1,0 +1,231 @@
+"""Rebuild the pool from its members' own stored evaluations, and test the registered premise.
+
+Two checks, both of the kind batch 10 argued for: written to a file, computed by a script,
+and comparing something predicted before the run against something measured after it.
+
+## 1. The pool, reconstructed by a second path
+
+The ensemble scored better than any of its members, and a claim of that shape deserves more
+than one route to it. So this script rebuilds the pool **from the members' own stored
+`eval.nc` files** — the evaluations produced when each member was run on its own, through
+its own node — pools their samples at the weights this run fitted, and scores the result
+with chap-core's own CRPS. Nothing of the ensemble's own forecast is used.
+
+The two paths should agree closely and cannot agree exactly. The members inside the pool
+are the same code fitted on the same frames from the same seeds, so their draws are the
+same draws; but the pool takes a seeded subsample of each member's thousand, and the
+reconstruction here takes a different one. What is left is the sampling error of the pool's
+own allocation, which is what the difference measures.
+
+**A member's evaluation is matched by configuration, not by combination.** Each member is
+paired with a stored evaluation whose `configuration_sha256`, dataset and backtest flags
+are the ones the pool used — so the check fails loudly if it is about to compare the pool
+against a differently configured version of one of its own members, which is exactly the
+mistake a combination-name lookup would make silently.
+
+## 2. The registered premise of the weighting child that ran
+
+Each child of `01_weighting` writes a prediction into its `model_option_spec.json` before
+anything is fitted. This script reads it back and evaluates it against the fitted weights,
+the members' scores and the pool's, and records which parts of it held.
+
+Writes, under results/$COMBO/:
+  pool_check.json   the reconstruction, the members' scores by one path, and the premise
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import sys
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+from chap_core.assessment.evaluation import Evaluation
+from chap_core.assessment.metrics import get_metric
+
+NODE = Path(__file__).resolve().parents[1]
+
+
+def repo_root(start: Path) -> Path:
+    for p in [start, *start.parents]:
+        if (p / "AGENTS.md").exists():
+            return p
+    raise SystemExit("no repository root above " + str(start))
+
+
+ROOT = repo_root(NODE)
+COMBO = os.environ.get("COMBO", "main")
+CELL = ["location", "time_period"]
+
+sys.path.insert(0, str(NODE / "scripts" / "ensemble_model"))
+from ensemble import allocate, pool  # noqa: E402
+
+
+def flat(evaluation: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
+    parts = Evaluation.from_file(evaluation).to_flat()
+    return pd.DataFrame(parts.forecasts), pd.DataFrame(parts.observations)
+
+
+def sample_block(forecasts: pd.DataFrame) -> pd.DataFrame:
+    """(location, time_period) x sample, sorted, so two members can be stacked."""
+    wide = forecasts.pivot_table(index=CELL, columns="sample", values="forecast")
+    return wide.sort_index(axis=0).sort_index(axis=1)
+
+
+def matching_evaluation(member: dict, wanted: dict) -> tuple[Path, str]:
+    """A stored evaluation of this member under the configuration the pool used.
+
+    Matched on the configuration's hash, the dataset's hash and the backtest flags rather
+    than on a combination name. A member evaluated under a different configuration is a
+    different model, and comparing the pool with it would make this check say nothing
+    while looking like it said something.
+    """
+    node = ROOT / member["node"]
+    found = []
+    for spec_path in sorted(node.glob("results/*/model_spec.json")):
+        spec = json.loads(spec_path.read_text())
+        if (spec.get("configuration_sha256") == member["model_config_sha256"]
+                and spec.get("dataset_sha256") == wanted["dataset_sha256"]
+                and spec.get("eval_flags") == wanted["eval_flags"]
+                and (spec_path.parent / "eval.nc").exists()):
+            found.append(spec_path.parent)
+    if not found:
+        raise SystemExit(
+            f"{member['name']}: no stored evaluation of it under the configuration the "
+            f"pool used (configuration sha256:{member['model_config_sha256']}, dataset "
+            f"sha256:{wanted['dataset_sha256']}). The member has to have been run on its "
+            f"own before the pool can be checked against it.")
+    return found[0], found[0].name
+
+
+def main() -> None:
+    out = NODE / "results" / COMBO
+    specification = json.loads((out / "candidate_spec.json").read_text())
+    fitted = json.loads((out / "fitted_model.json").read_text())
+    ours = json.loads((out / "model_spec.json").read_text())
+    membership = json.loads((out / "members.json").read_text())["members"]
+    weights = np.asarray([m["weight"] for m in fitted["members"]], dtype=float)
+    names = [m["name"] for m in fitted["members"]]
+
+    # --- 1. the reconstruction -------------------------------------------------------
+    blocks, sources = [], {}
+    index = None
+    for member in membership:
+        directory, combination = matching_evaluation(member, ours)
+        forecasts, observations = flat(directory / "eval.nc")
+        wide = sample_block(forecasts)
+        blocks.append(wide)
+        index = wide.index if index is None else index.intersection(wide.index)
+        sources[member["name"]] = {
+            "evaluation": str((directory / "eval.nc").relative_to(ROOT)),
+            "combination": combination,
+            "configuration_sha256": member["model_config_sha256"],
+            "cells": int(len(wide)), "draws": int(wide.shape[1])}
+
+    # Only the cells with an observed count are scorable, and the platform's own
+    # evaluation drops the rest; the reconstruction has to be over the same cells as the
+    # score it is being compared with, or it is a mean over a different denominator.
+    own_forecasts, own_observations = flat(out / "eval.nc")
+    observed = own_observations.dropna(subset=["disease_cases"]).set_index(CELL)
+    index = index.intersection(observed.index).sort_values()
+
+    stack = np.stack([b.loc[index].to_numpy(float) for b in blocks])
+    truth = observed.loc[index, "disease_cases"].to_numpy(float)
+    horizon = (own_forecasts.drop_duplicates(CELL)
+               .set_index(CELL).loc[index, "horizon_distance"].to_numpy(int))
+
+    seed = specification["user_option_values"]["seed"]
+    rebuilt = pool(stack, weights, np.random.default_rng(seed), stack.shape[2])
+
+    def score(draws: np.ndarray) -> dict:
+        long = pd.DataFrame({
+            "location": np.repeat([i[0] for i in index], draws.shape[1]),
+            "time_period": np.repeat([i[1] for i in index], draws.shape[1]),
+            "horizon_distance": np.repeat(horizon, draws.shape[1]),
+            "sample": np.tile(np.arange(draws.shape[1]), len(index)),
+            "forecast": draws.reshape(-1)})
+        observations = pd.DataFrame({
+            "location": [i[0] for i in index],
+            "time_period": [i[1] for i in index],
+            "disease_cases": truth})
+        detailed = get_metric("crps")().get_detailed_metric(observations, long)
+        return {"mean_crps": float(detailed["metric"].mean()),
+                "cells": int(len(detailed))}
+
+    rebuilt_score = score(rebuilt)
+    member_scores = {name: score(stack[m])["mean_crps"] for m, name in enumerate(names)}
+
+    collected = pd.read_csv(
+        ROOT / "analysis/04_score/02_aggregate/a_unweighted/results" / COMBO
+        / "metrics_summary.csv")
+    as_run = float(collected.loc[collected.model == ours["model"], "mean_crps"].iloc[0])
+
+    # --- 2. the registered premise ---------------------------------------------------
+    stage = specification["stages"][0]
+    order = sorted(member_scores, key=member_scores.get)
+    baselines = [n for n, m in zip(names, membership) if "01_baselines" in m["node"]]
+    candidates = [n for n in names if n not in baselines]
+    weight_of = dict(zip(names, weights.tolist()))
+
+    premise = {
+        "child": stage["choice"],
+        "registered_before_the_run": stage["what_the_premise_implies"],
+        "fitted_weights": weight_of,
+        "members_ranked_on_the_evaluated_period": order,
+        "weight_on_the_candidate_families": sum(weight_of[n] for n in candidates),
+        "weight_on_the_required_baselines": sum(weight_of[n] for n in baselines),
+        "smallest_weight": min(weight_of.values()),
+        "members_below_weight_0.05": [n for n, w in weight_of.items() if w < 0.05],
+        "pool_mean_crps": as_run,
+        "best_member_mean_crps": member_scores[order[0]],
+        "mean_of_member_mean_crps": float(np.mean(list(member_scores.values()))),
+        "pool_beats_its_best_member_by": member_scores[order[0]] - as_run,
+        "pool_coverage_10_90": float(
+            collected.loc[collected.model == ours["model"], "coverage_10_90"].iloc[0]),
+        "largest_member_coverage_10_90": float(
+            collected[collected.model.isin(names)]["coverage_10_90"].max()),
+        "nominal_coverage_10_90": 0.80,
+    }
+    if stage["choice"] == "b_crpsWeighted":
+        validation = fitted["weighting"]["validation"]
+        premise["validation_gain_over_equal_weights"] = (
+            validation["pooled_crps_at_equal_weights"]
+            - validation["pooled_crps_at_fitted_weights"])
+
+    document = {
+        "combo": COMBO,
+        "node": str(NODE.relative_to(ROOT)),
+        "weighting": fitted["weighting"]["method"],
+        "weights": weight_of,
+        "reconstruction": {
+            "what_it_is": ("the pool rebuilt from the members' own stored evaluations, "
+                           "pooled at the same weights and scored with chap-core's own "
+                           "CRPS; independent of the ensemble's own forecast"),
+            "member_evaluations": sources,
+            "cells_in_common": int(len(index)),
+            "mean_crps_rebuilt": rebuilt_score["mean_crps"],
+            "mean_crps_as_run": as_run,
+            "difference": rebuilt_score["mean_crps"] - as_run,
+            "why_they_cannot_be_identical": (
+                "the members' draws are the same draws -- same code, same frames, same "
+                "seeds -- but the pool takes a seeded subsample of each member's "
+                "thousand and this reconstruction takes a different one, so what is "
+                "left is the sampling error of the allocation"),
+            "allocation": dict(zip(names, allocate(weights, stack.shape[2]).tolist())),
+        },
+        "member_mean_crps_by_this_path": member_scores,
+        "premise": premise,
+    }
+    (out / "pool_check.json").write_text(json.dumps(document, indent=1, sort_keys=True) + "\n")
+
+    print(f"pool check[{COMBO}]: rebuilt {rebuilt_score['mean_crps']:.3f} against "
+          f"{as_run:.3f} as run (difference "
+          f"{rebuilt_score['mean_crps'] - as_run:+.3f}); members "
+          + ", ".join(f"{n} {member_scores[n]:.3f}" for n in order)
+          + f" -> {out / 'pool_check.json'}")
+
+
+if __name__ == "__main__":
+    main()

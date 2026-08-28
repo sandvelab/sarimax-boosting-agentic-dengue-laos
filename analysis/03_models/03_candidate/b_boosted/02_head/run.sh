@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# Main script for node: 03_candidate
+# Main script for node: 02_head
 # Generated shape -- edit the "own scripts" block; the child calls are maintained
 # by `node.py rebuild`, which enforces the alternatives/sub-analyses semantics.
 set -euo pipefail
 cd "$(dirname "$0")"
-REPO_ROOT="$(cd "../../.." && pwd)"
+REPO_ROOT="$(cd "../../../../.." && pwd)"
 # Node scripts run under the pinned analysis environment (AGENTS.md §2), not under
 # .venv, which is the repository's own machinery. A node needing something beyond it
 # declares env/ and overrides PYTHON below.
 PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 
 # Alternatives: only the main path is run here.
-# Not taken: b_boosted
-bash "a_hierNB/run.sh"
+# Not taken: b_quantileEnsemble
+bash "a_negBinomial/run.sh"

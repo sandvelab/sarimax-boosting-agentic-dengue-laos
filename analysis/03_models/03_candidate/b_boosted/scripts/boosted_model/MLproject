@@ -1,0 +1,135 @@
+# Chap model contract for the gradient-boosted-tree candidate.
+#
+# The same shape as candidate 1's contract, for the same reasons: a directory with
+# this file, parsed by chap-core into ModelTemplateConfigV2, which forbids unknown
+# fields; `uv_env`, so chap-core builds the model's environment itself from the
+# pyproject.toml and uv.lock that travel with the model; and a `{model_config}`
+# parameter on both entry points, so the model reads its configuration from a file
+# chap-core writes into the run directory rather than from a command line.
+#
+# What differs from candidate 1 is what the options are. This model's two forks ask
+# what the trees see and where the spread of the forecast comes from, and nothing
+# else about the model is configurable -- the choices that are forks on candidate 1
+# and are not forks here are made in the code and named in the node's claim, which
+# is the difference between a decision that is visible and one that is silent.
+
+name: boosted_candidate
+
+target: disease_cases
+supported_period_type: month
+required_covariates:
+  - population
+allow_free_additional_continuous_covariates: true
+requires_geo: false
+
+user_options:
+  features:
+    type: string
+    default: lag_block
+    description: >
+      Which feature matrix the boosters are fitted on. `lag_block` -- the climate
+      columns at the lags a three-month forecast can see, the province's own counts
+      at the lags it can see, and log population. `rich_calendar` -- that block plus
+      month harmonics, a year index, the province as an identifier, and rolling
+      summaries of the province's own history. Set by the 01_features fork.
+  head:
+    type: string
+    default: negative_binomial
+    description: >
+      How the predictive distribution is built around what the trees return.
+      `negative_binomial` -- one booster for the conditional mean under a Poisson
+      deviance loss, and a negative binomial around it whose dispersion is estimated
+      by maximum likelihood on the training fit. `quantile_ensemble` -- a ladder of
+      quantile boosters on the log1p scale, and draws taken from the distribution
+      they trace out. Set by the 02_head fork.
+  count_lags:
+    type: array
+    items:
+      type: integer
+    default: [3, 4, 5, 6, 12]
+    description: >
+      Lags of the target itself, in months. Every one of them must be at least 3: Chap
+      asks for three months at a time, so a shorter lag would be a model that cannot
+      forecast the third month of a block. Enforced in the code, not only declared.
+      Set by the 01_features fork.
+  climate_lags:
+    type: array
+    items:
+      type: integer
+    default: [0, 1, 2, 3]
+    description: >
+      Lags, in months, at which every climate column enters. Lag 0 is available
+      because Chap hands the model the covariates of the months it is asked to
+      forecast; only the target has to be lagged by three. Set by the 01_features fork.
+  climate_columns:
+    type: array
+    items:
+      type: string
+    default: [rainfall, mean_temperature, mean_relative_humidity]
+    description: >
+      Which climate columns enter, at every lag above. Set by the 01_features fork.
+  learning_rate:
+    type: number
+    default: 0.05
+    description: >
+      Shrinkage applied to each boosting round. Set in the code, not by a fork; see
+      the node's claim for why the boosting hyper-parameters are a logged decision
+      rather than a fork.
+  max_iter:
+    type: integer
+    default: 400
+    description: Boosting rounds, before early stopping.
+  max_leaf_nodes:
+    type: integer
+    default: 15
+    description: Leaves per tree.
+  min_samples_leaf:
+    type: integer
+    default: 20
+    description: Minimum training rows behind a leaf.
+  l2_regularization:
+    type: number
+    default: 1.0
+    description: L2 penalty on the leaf values.
+  validation_fraction:
+    type: number
+    default: 0.15
+    description: >
+      Share of the training rows held back for early stopping. Taken as the **last**
+      rows in time rather than at random, so the stopping decision is made on the
+      period after the one being fitted rather than on rows interleaved with it.
+  seed:
+    type: integer
+    default: 0
+    description: >
+      Seed for every draw the model makes and for the boosters' own random state.
+      Derived from the project seed by analysis/scripts/lib/project_seed.py and
+      written in by the assembler; the default here is never the one used.
+
+meta_data:
+  display_name: Gradient-boosted trees with a probabilistic head (Lao dengue case)
+  description: >
+    Monthly province counts forecast by histogram gradient-boosted trees over a
+    block of lagged climate and lagged counts, with the predictive distribution
+    built around the trees' output by a separately estimated head. Candidate 2 of
+    the Lao dengue forecasting case.
+  author: this repository
+  organization: none
+
+uv_env: pyproject.toml
+
+entry_points:
+  train:
+    parameters:
+      train_data: path
+      model: str
+      model_config: path
+    command: "python train.py {train_data} {model} {model_config}"
+  predict:
+    parameters:
+      historic_data: path
+      future_data: path
+      model: str
+      out_file: path
+      model_config: path
+    command: "python predict.py {model} {historic_data} {future_data} {out_file} {model_config}"

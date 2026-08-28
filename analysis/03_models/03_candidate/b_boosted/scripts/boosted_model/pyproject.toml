@@ -1,0 +1,30 @@
+[project]
+name = "boosted-candidate"
+version = "1.0.0"
+description = "Gradient-boosted trees with a probabilistic head, for the Lao dengue forecasting case"
+
+# Pinned to the patch, as every other model in this project is, and for the reason
+# batch 2 gave: `>=3.13,<3.14` resolves to whichever 3.13 the building machine holds,
+# and a version that depends on the machine is not a specification. 3.13.0 is the
+# interpreter `environment/chapenv` runs on and the one every other model pins.
+requires-python = "==3.13.0"
+
+# **This model brings a dependency the project did not have.** Candidate 1's pyproject
+# argues that a statistics package is a large dependency for two functions and that a
+# fitter nobody can read is not what a node is for; both halves of that argument point
+# the other way here. Gradient boosting is not two functions -- it is binning, split
+# finding, shrinkage, and an early-stopping rule, each with choices in it -- and a
+# hand-written version would be a fitter nobody can read *and* one whose behaviour
+# could not be compared with anything published. scikit-learn's implementation is the
+# standard one, it is pinned exactly by the lockfile beside this file, and what it does
+# is documented where a reader can check it against what this model claims.
+#
+# The cost is stated rather than waved past: the model's environment is now four
+# packages rather than three, scipy comes with scikit-learn, and the clean-room check
+# has that much more to build. Nothing here is optional to the model.
+dependencies = [
+    "numpy==2.5.2",
+    "pandas==3.0.5",
+    "pyyaml==6.0.3",
+    "scikit-learn==1.7.2",
+]

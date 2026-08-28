@@ -58,3 +58,12 @@ re-running a batch produces a different report rather than the same one.
   prediction the head fork registered before it ran and a script that measured it afterwards:
   seven of eight named quantile levels flat at zero, the eighth flat in the one province that
   never reports one.
+- `26-08-28_b11_ensembleCandidate.md` — batch 11, phase C and its close: candidate 3, a linear
+  opinion pool over the two candidate families and both required baselines, holding no member
+  code of its own — each member runs through its own Chap entry points. It scores **18.817**
+  against the reference's 22.098, the family fork is promoted to it, and the project's
+  reported conclusion turns positive for the first time at skill **+0.148**. Its two most
+  useful results are both negative: a prediction registered before the run — that an equal
+  pool would score worse than its best member — was **wrong** by 1.954 CRPS, and fitting the
+  pool's weights on a year held back inside the training frame **cost 4.021 CRPS**, because
+  the member that was best on that year is the worst on the years the backtest scores.

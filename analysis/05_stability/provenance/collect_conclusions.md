@@ -43,3 +43,35 @@ repository that states the conclusion, and a second computation of it is a secon
 drift.
 
 agency: agent-autonomous.
+
+
+---
+
+## Batch 22 — ten of thirty-three rows
+
+```
+result:              results/conclusions.csv
+                     results/conclusions_notes.json
+script:              scripts/collect_conclusions.py — unchanged by this batch
+invocation:          environment/chapenv/bin/python \
+                       analysis/05_stability/scripts/collect_conclusions.py
+inputs:              analysis/results/<combination>/conclusion.json for every combination
+                     the manifest names, and results/manifest.csv
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none
+commit:              d8f93ca
+instructions-commit: cf97b81
+node:                analysis/05_stability
+produced:            2026-08-29
+```
+
+**What it establishes.** Ten of the twenty-four tier-1 rows now have conclusions. Skill
+across them spans **+0.1206 to +0.2320**, and the two new rows are the extremes of the
+*model* forks: `persistence_negBinomialFloor` is the lowest skill score in the set so far and
+`climatology_frozenWindow` is the closest to the main path of any row at all. **The main path
+is no longer at the bottom of the range**, which it was after batch 13.
+
+alternatives-considered: none at this node.
+
+agency: agent-autonomous.
+information: agent-retrieved — read from results/conclusions.csv.

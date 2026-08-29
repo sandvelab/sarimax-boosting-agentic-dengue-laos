@@ -31,3 +31,16 @@ exact (0.491), and both have tails far too thin (0.650 and 0.666 against 0.80).
 Both contain no randomness, and that is verified rather than asserted: two independent runs
 of each produced identical per-cell scores and identical fitted models
 (`AI-generated/determinism-checks/model_determinism.json`).
+
+**Batch 22 ran both baselines' alternative constructions, and they are the two extremes of
+the stability set so far.** Wrapping the persistence point in a fitted negative binomial
+rather than in the empirical distribution of past changes is worth **4.181 CRPS** (24.879 →
+20.698) and takes the baseline past the reference model; freezing the climatology's estimation
+window is worth **0.532 CRPS** (24.337 → 24.869), inside the noise floor. The better
+persistence construction reaches the reported model too, because the pool takes both baselines
+as members — and makes it **worse**, 18.817 → 19.434.
+
+So the honest reading of "knowing the season and knowing the last observation are worth about
+the same here" is narrower than it looked: it is true of the two constructions the main path
+happens to run, and knowing the last observation is worth considerably more when its
+uncertainty is wrapped the other published way.

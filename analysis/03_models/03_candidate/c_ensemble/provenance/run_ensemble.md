@@ -137,3 +137,48 @@ for combinations the stability manifest names, and its `combos` check keeps that
 
 agency: agent-autonomous.
 information: agent-retrieved.
+
+
+---
+
+## Batch 22 — the two baseline-fork combinations
+
+```
+result:              results/$COMBO/eval.nc · eval.log · fitted_model.json · model_spec.json ·
+                     run_cost.json
+combinations:        climatology_frozenWindow, persistence_negBinomialFloor
+script:              unchanged from the section(s) above; this batch changed no script at
+                     this node except scripts/prepare_members.py, recorded separately
+invocation:          unchanged, with COMBO set by
+                     analysis/05_stability/scripts/run_manifest.py --batch 22, and
+                     COMBO_BASE=main
+inputs:              unchanged in kind; each combination's own inputs and their sha256 are
+                     recorded in the specification this step writes under that combination
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               unchanged: the pool's own component seed, derived from project seed
+                     20260822 and carried in the assembled configuration
+commit:              d8f93ca
+instructions-commit: cf97b81
+node:                analysis/03_models/03_candidate/c_ensemble
+produced:            2026-08-29
+```
+
+**What it establishes.** The reported model re-run with one member replaced, which is what the
+baseline forks now reach. It scores **19.434** under `persistence_negBinomialFloor` and
+**18.872** under `climatology_frozenWindow`, against **18.817** on the main path.
+
+**The pool got worse when a member got better.** Under `persistence_negBinomialFloor` the
+members are better on every summary — best member 20.698 against 20.771, mean of the members'
+means 22.376 against 23.421 — and the pool is 0.617 CRPS worse
+(`results/$COMBO/pool_check.json`). What shrank is the pool's advantage over its own best
+member, from 1.954 to 1.264. A linear opinion pool is wide because its members disagree;
+replacing a wide, badly-centred member with a sharper one narrows it, and here it lost more
+from being narrower than it gained from the member being better. Its 10–90 coverage falls
+from 0.863 to 0.817, which is *closer* to the 0.80 nominal.
+
+alternatives-considered: none at this node; what changed is the membership, which is resolved
+by scripts/prepare_members.py and recorded there.
+
+agency: agent-autonomous.
+information: agent-retrieved — every figure quoted above is read from the files this batch
+produced.

@@ -252,3 +252,35 @@ was created to prevent, one node over.
 
 agency: agent-autonomous.
 information: agent-retrieved — the byte-identity claim is `git status`, not recollection.
+
+
+---
+
+## Batch 22 — the two baseline-fork combinations
+
+```
+result:              results/$COMBO/metrics_summary.csv and the files beside it
+combinations:        climatology_frozenWindow, persistence_negBinomialFloor
+script:              unchanged from the section(s) above; this batch changed no script at
+                     this node
+invocation:          unchanged, with COMBO set by
+                     analysis/05_stability/scripts/run_manifest.py --batch 22, and
+                     COMBO_BASE=main
+inputs:              unchanged in kind; each combination's own inputs and their sha256 are
+                     recorded in the specification this step writes under that combination
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none; the step is an aggregation
+commit:              d8f93ca
+instructions-commit: cf97b81
+node:                analysis/04_score/02_aggregate/a_unweighted
+produced:            2026-08-29
+```
+
+**What it establishes.** Both batch-22 rows are unweighted rows: the fork they move is a model
+fork, so the scoring fork stays on its main path and the headline mean is Chap's own.
+
+alternatives-considered: none at this node.
+
+agency: agent-autonomous.
+information: agent-retrieved — every figure quoted above is read from the files this batch
+produced.

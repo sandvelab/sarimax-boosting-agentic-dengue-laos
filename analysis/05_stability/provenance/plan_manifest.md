@@ -125,3 +125,43 @@ Rule 1 does not have an exception for annotations. Computing it in a separate sc
 this one's hash would have stayed put — rejected as the wrong reason to split a file.
 
 agency: agent-autonomous.
+
+
+---
+
+## Batch 22 — both baseline children are built
+
+```
+result:              results/manifest.csv
+                     results/manifest_notes.json
+                     results/forks.csv
+script:              scripts/plan_manifest.py — unchanged by this batch
+invocation:          environment/chapenv/bin/python \
+                       analysis/05_stability/scripts/plan_manifest.py
+inputs:              the tree, through scripts/lib/inventory.py; results/step_costs.json;
+                     each model's results/*/run_cost.json
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none
+commit:              d8f93ca
+instructions-commit: cf97b81
+node:                analysis/05_stability
+produced:            2026-08-29
+```
+
+**What it establishes.** Re-planned once the two children had scripts. The only change to
+the manifest is the `built` column on rows 9 and 10, from `False` to `True` — **no row was
+added, removed, renamed or re-ordered**, and the count is still 24 tier-1 rows plus 8 tier-2
+slots plus the held row. `0 children have no scripts yet` is now the planner's own statement
+of the thing batch 12 recorded as what bound: every reasonable alternative the tree names is
+now a path the tree carries.
+
+**Tier 2 stays unselected.** Fourteen tier-1 rows have not been attempted, and batch 13's
+rule that the tier-2 rule may not read a partial tier 1 still holds. `tier2_rule.md` is
+untouched and its sha256 is unchanged.
+
+alternatives-considered: not re-planning at all, and letting the `built` column stay stale
+until batch 14. Rejected — `/validate invariants` compares the manifest against the tree, and
+a manifest that says a built child is unbuilt is the drift that check exists to catch.
+
+agency: agent-autonomous.
+information: agent-retrieved — read from results/manifest.csv.

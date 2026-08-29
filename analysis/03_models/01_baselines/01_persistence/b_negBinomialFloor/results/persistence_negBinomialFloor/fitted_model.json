@@ -1,0 +1,556 @@
+{
+ "construction": "negative binomial about the last observed count, mean floored at 0.2, dispersion by maximum likelihood from the last 5 observations",
+ "dispersion_bounds": [
+  0.01,
+  1000.0
+ ],
+ "dispersion_by_province": {
+  "LA-AT": {
+   "at_bound": "",
+   "dispersion": 0.21667519077922684,
+   "log_likelihood": -9.080668559364408,
+   "means_used": [
+    1.0,
+    2.0,
+    12.0,
+    0.2,
+    0.2
+   ],
+   "observed_values": [
+    2.0,
+    12.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "pairs": 5
+  },
+  "LA-BK": {
+   "at_bound": "",
+   "dispersion": 0.4060004789712331,
+   "log_likelihood": -3.164733575669067,
+   "means_used": [
+    0.2,
+    0.2,
+    1.0,
+    0.2,
+    0.2
+   ],
+   "observed_values": [
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "pairs": 5
+  },
+  "LA-BL": {
+   "at_bound": "",
+   "dispersion": 0.9286277392420274,
+   "log_likelihood": -21.772210207844005,
+   "means_used": [
+    40.0,
+    23.0,
+    75.0,
+    31.0,
+    11.0
+   ],
+   "observed_values": [
+    23.0,
+    75.0,
+    31.0,
+    11.0,
+    1.0
+   ],
+   "pairs": 5
+  },
+  "LA-CH": {
+   "at_bound": "",
+   "dispersion": 5.196265306666792,
+   "log_likelihood": -27.431731881413416,
+   "means_used": [
+    194.0,
+    314.0,
+    218.0,
+    94.0,
+    80.0
+   ],
+   "observed_values": [
+    314.0,
+    218.0,
+    94.0,
+    80.0,
+    64.0
+   ],
+   "pairs": 5
+  },
+  "LA-HO": {
+   "at_bound": "upper",
+   "dispersion": 1000.0,
+   "log_likelihood": -2.609537905768463,
+   "means_used": [
+    0.2,
+    0.2,
+    0.2,
+    0.2,
+    0.2
+   ],
+   "observed_values": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pairs": 5
+  },
+  "LA-KH": {
+   "at_bound": "",
+   "dispersion": 0.3920154243563543,
+   "log_likelihood": -19.58933500717525,
+   "means_used": [
+    40.0,
+    100.0,
+    4.0,
+    17.0,
+    4.0
+   ],
+   "observed_values": [
+    100.0,
+    4.0,
+    17.0,
+    4.0,
+    0.0
+   ],
+   "pairs": 5
+  },
+  "LA-LM": {
+   "at_bound": "lower",
+   "dispersion": 0.01,
+   "log_likelihood": -0.15222612188617116,
+   "means_used": [
+    0.2,
+    0.2,
+    0.2,
+    0.2,
+    0.2
+   ],
+   "observed_values": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "pairs": 5
+  },
+  "LA-LP": {
+   "at_bound": "",
+   "dispersion": 1.6393517137961124,
+   "log_likelihood": -17.819368820670313,
+   "means_used": [
+    39.0,
+    12.0,
+    5.0,
+    13.0,
+    16.0
+   ],
+   "observed_values": [
+    12.0,
+    5.0,
+    13.0,
+    16.0,
+    5.0
+   ],
+   "pairs": 5
+  },
+  "LA-OU": {
+   "at_bound": "lower",
+   "dispersion": 0.01,
+   "log_likelihood": -0.16793210267734954,
+   "means_used": [
+    1.0,
+    0.2,
+    0.2,
+    0.2,
+    0.2
+   ],
+   "observed_values": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "pairs": 5
+  },
+  "LA-PH": {
+   "at_bound": "lower",
+   "dispersion": 0.01,
+   "log_likelihood": -0.15222612188617116,
+   "means_used": [
+    0.2,
+    0.2,
+    0.2,
+    0.2,
+    0.2
+   ],
+   "observed_values": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "pairs": 5
+  },
+  "LA-SL": {
+   "at_bound": "",
+   "dispersion": 0.10715469092999304,
+   "log_likelihood": -24.911978735742153,
+   "means_used": [
+    4.0,
+    42.0,
+    32.0,
+    6.0,
+    0.2
+   ],
+   "observed_values": [
+    42.0,
+    32.0,
+    6.0,
+    0.0,
+    7.0
+   ],
+   "pairs": 5
+  },
+  "LA-SV": {
+   "at_bound": "",
+   "dispersion": 0.6197914813797356,
+   "log_likelihood": -27.365587061774054,
+   "means_used": [
+    387.0,
+    352.0,
+    398.0,
+    107.0,
+    14.0
+   ],
+   "observed_values": [
+    352.0,
+    398.0,
+    107.0,
+    14.0,
+    0.0
+   ],
+   "pairs": 5
+  },
+  "LA-VT": {
+   "at_bound": "",
+   "dispersion": 10.60852403058047,
+   "log_likelihood": -27.745134732437265,
+   "means_used": [
+    240.0,
+    252.0,
+    317.0,
+    250.0,
+    140.0
+   ],
+   "observed_values": [
+    252.0,
+    317.0,
+    250.0,
+    140.0,
+    98.0
+   ],
+   "pairs": 5
+  },
+  "LA-XA": {
+   "at_bound": "",
+   "dispersion": 0.5234768008266506,
+   "log_likelihood": -16.875875120412136,
+   "means_used": [
+    70.0,
+    39.0,
+    74.0,
+    1.0,
+    0.2
+   ],
+   "observed_values": [
+    39.0,
+    74.0,
+    1.0,
+    0.0,
+    1.0
+   ],
+   "pairs": 5
+  },
+  "LA-XE": {
+   "at_bound": "",
+   "dispersion": 0.9813891276535598,
+   "log_likelihood": -8.119416795917433,
+   "means_used": [
+    0.2,
+    0.2,
+    2.0,
+    1.0,
+    0.2
+   ],
+   "observed_values": [
+    0.0,
+    2.0,
+    1.0,
+    0.0,
+    1.0
+   ],
+   "pairs": 5
+  },
+  "LA-XI": {
+   "at_bound": "lower",
+   "dispersion": 0.01,
+   "log_likelihood": -0.15222612188617116,
+   "means_used": [
+    0.2,
+    0.2,
+    0.2,
+    0.2,
+    0.2
+   ],
+   "observed_values": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "pairs": 5
+  },
+  "LA-XN": {
+   "at_bound": "lower",
+   "dispersion": 0.01,
+   "log_likelihood": -9.744225273843961,
+   "means_used": [
+    0.2,
+    0.2,
+    0.2,
+    0.2,
+    0.2
+   ],
+   "observed_values": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    32.0
+   ],
+   "pairs": 5
+  }
+ },
+ "dispersion_pooled": {
+  "at_bound": "",
+  "dispersion": 0.226518807496629,
+  "log_likelihood": -263.1350581072897,
+  "means_used": [
+   1.0,
+   2.0,
+   12.0,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   1.0,
+   0.2,
+   0.2,
+   40.0,
+   23.0,
+   75.0,
+   31.0,
+   11.0,
+   194.0,
+   314.0,
+   218.0,
+   94.0,
+   80.0,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   40.0,
+   100.0,
+   4.0,
+   17.0,
+   4.0,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   39.0,
+   12.0,
+   5.0,
+   13.0,
+   16.0,
+   1.0,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   4.0,
+   42.0,
+   32.0,
+   6.0,
+   0.2,
+   387.0,
+   352.0,
+   398.0,
+   107.0,
+   14.0,
+   240.0,
+   252.0,
+   317.0,
+   250.0,
+   140.0,
+   70.0,
+   39.0,
+   74.0,
+   1.0,
+   0.2,
+   0.2,
+   0.2,
+   2.0,
+   1.0,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   0.2
+  ],
+  "observed_values": [
+   2.0,
+   12.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   23.0,
+   75.0,
+   31.0,
+   11.0,
+   1.0,
+   314.0,
+   218.0,
+   94.0,
+   80.0,
+   64.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   100.0,
+   4.0,
+   17.0,
+   4.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   12.0,
+   5.0,
+   13.0,
+   16.0,
+   5.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   42.0,
+   32.0,
+   6.0,
+   0.0,
+   7.0,
+   352.0,
+   398.0,
+   107.0,
+   14.0,
+   0.0,
+   252.0,
+   317.0,
+   250.0,
+   140.0,
+   98.0,
+   39.0,
+   74.0,
+   1.0,
+   0.0,
+   1.0,
+   0.0,
+   2.0,
+   1.0,
+   0.0,
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   32.0
+  ],
+  "pairs": 85
+ },
+ "dispersion_window": "training frame; predict.py re-estimates from the historic frame at each split and falls back to this",
+ "floor": 0.2,
+ "min_pairs_for_own_dispersion": 2,
+ "model": "persistence_negbinomial_floor",
+ "provinces_at_a_dispersion_bound": {
+  "lower": [
+   "LA-LM",
+   "LA-OU",
+   "LA-PH",
+   "LA-XI",
+   "LA-XN"
+  ],
+  "upper": [
+   "LA-HO"
+  ]
+ },
+ "provinces_on_pooled_fallback": [],
+ "recent_observations": 5,
+ "source": "KIT baseline, German COVID-19 Forecast Hub (https://github.com/KITmetricslab/KIT-baseline)",
+ "training": {
+  "first_period": "1998-01",
+  "last_period": "2007-12",
+  "missing_target_cells": 28,
+  "observed_target_cells": 2012,
+  "provinces": 17,
+  "rows": 2040
+ }
+}

@@ -254,3 +254,46 @@ for combinations the stability manifest names, and its `combos` check keeps that
 
 agency: agent-autonomous.
 information: agent-retrieved.
+
+
+---
+
+## Batch 22 — the two baseline-fork combinations
+
+```
+result:              results/$COMBO/leaderboard.csv · paired_summary.csv ·
+                     comparison_notes.json and the split-level files beside them
+combinations:        climatology_frozenWindow, persistence_negBinomialFloor
+script:              unchanged from the section(s) above; this batch changed no script at
+                     this node
+invocation:          unchanged, with COMBO set by
+                     analysis/05_stability/scripts/run_manifest.py --batch 22, and
+                     COMBO_BASE=main
+inputs:              unchanged in kind; each combination's own inputs and their sha256 are
+                     recorded in the specification this step writes under that combination
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none; the step is arithmetic on the collected per-cell scores
+commit:              d8f93ca
+instructions-commit: cf97b81
+node:                analysis/04_score/03_compare
+produced:            2026-08-29
+```
+
+**What it establishes.** Under `persistence_negBinomialFloor` the paired difference between
+the reported pool and the reference is **−2.664 CRPS with a split-clustered standard error of
+1.351** — 1.97 standard errors, which is *more* than the main path's 1.90 even though the pool
+scores worse there. The gap narrowed and its spread narrowed further. It still does not
+separate the two models and is not reported as though it did.
+
+The same file records that the **persistence baseline itself** beats the reference on this
+row: −1.400 CRPS, standard error 1.424, 0.98 standard errors, cell win rate 0.518.
+
+**The known gap is unchanged and does not bite here.** This step computes its paired spread
+from the unweighted per-cell file while the leaderboard mean follows the weighting fork; both
+batch-22 rows are unweighted, so the two agree on them. Batch 14 still owns the fix.
+
+alternatives-considered: none at this node.
+
+agency: agent-autonomous.
+information: agent-retrieved — every figure quoted above is read from the files this batch
+produced.

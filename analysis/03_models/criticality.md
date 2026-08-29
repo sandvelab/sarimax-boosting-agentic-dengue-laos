@@ -185,3 +185,24 @@ re-runs a model writes that model's `eval.nc`, and this node is where those land
 The projection is measured rather than assumed, in
 `05_stability/results/manifest_notes.json["storage"]`, and
 `05_stability/criticality.md` carries it in full. Nothing is deleted now.
+
+## Added in batch 22 — the two baseline forks' children
+
+Two new model directories and the two combinations they produce. The sizes are measured, not
+projected: this is the first batch whose rows this table costed before they ran.
+
+| Artifact | Size | Role | Regenerable | Transparency | Note |
+|---|---|---|---|---|---|
+| `01_persistence/b_negBinomialFloor/results/persistence_negBinomialFloor/` | 9.4 MB | **main result** | yes, ~25 s | **highest** | The row that says the reported analysis sits on the worse of two published constructions of a required baseline, by 4.181 CRPS. Cheap to regenerate and the most quotable single row in tier 1. |
+| `01_persistence/b_negBinomialFloor/results/*/fitted_model.json` | 8 KB | side result | yes, with the evaluation | **highest** | Holds `provinces_at_a_dispersion_bound`, which is the only stored evidence for the claim that this construction needs two arbitrary constants on this dataset rather than one. Keep well ahead of the NetCDF beside it. |
+| `02_climatology/b_frozenWindow/results/climatology_frozenWindow/` | 9.4 MB | side result | yes, ~20 s | medium | The row that moves nothing. Its value is entirely in being beside its sibling: "the shape of a baseline's distribution matters and the window does not" needs both. |
+| `03_candidate/c_ensemble/results/$COMBO/member_selection.json` | 1.8 KB | side result | yes, seconds | **highest per byte** | Which contract directory was a member of the pool under each combination and which fork decided it. Two kilobytes standing between the record and an unanswerable question about what the pool contained. |
+| `03_candidate/c_ensemble/results/{persistence_negBinomialFloor,climatology_frozenWindow}/` | 9.9 MB each | **main result** | yes, ~90 s | high | The reported model with one member swapped. `pool_check.json` inside each is the independent reconstruction, and it depends on the member evaluations above — the dependency recorded for batch 12 now has two more instances. |
+
+**What the measured rows say about the projection.** Batch 12 budgeted ~11 MB and 90 s per
+combination that includes the pool. Measured: 31.6–31.9 MB and 137–156 s for a baseline row, which
+runs the pool *and* two baselines. The storage projection is close; the time is 1.4–1.5× the
+estimate, in the same direction and for the same reason batch 13 recorded — the cost model
+prices each part as measured under `main`, and under these rows the pool rebuilds its members.
+
+Nothing is deleted.

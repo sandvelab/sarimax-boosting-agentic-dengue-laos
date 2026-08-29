@@ -49,3 +49,27 @@ interval is a single point in 24 % of cells against 41 % to 55 % for three of it
 members, so it over-covers while being *less* exposed to the artefact than they are. A
 linear opinion pool is over-dispersed even when every member is calibrated, and this is
 that, plainly.
+
+**A better member is a worse pool, and that is batch 22's finding.** Under
+`persistence_negBinomialFloor` the pool's persistence member is replaced by the construction
+that scores 4.181 CRPS better, so every summary of the members improves — best member 20.771
+→ 20.698, mean of the members' means 23.421 → 22.376 — and **the pool scores 0.617 CRPS
+worse**, 18.817 → 19.434 (`results/*/pool_check.json`). What shrank is the pool's own
+contribution: its margin over its best member falls from 1.954 to 1.264 CRPS.
+
+The mechanism is the one the node's registered prediction got half right. A linear opinion
+pool's spread is the mean of its members' spreads plus the spread *between* their means, and
+its advantage comes from covering the outcome when the members disagree. Replacing a wide,
+badly-centred member with a sharper and better-centred one narrows the pool — 10–90 coverage
+0.863 → 0.817, 25–75 coverage 0.749 → 0.674 — and here it lost more from being narrower than
+it gained from the member being better. **The pool is better calibrated at the tails on the
+row where it scores worse.**
+
+Set beside batch 11's result that estimating the weights costs 4.021 CRPS, the two say one
+thing: this pool's win comes from the disagreement among its members, not from their quality,
+and both ways of improving on member quality — weighting them by it, and replacing one with a
+better one — make it worse.
+
+The second path to the claim survives the swap: rebuilt from the members' own stored
+evaluations, the pool gives 19.455 against the 19.434 it scored, a residual of 0.021, the
+same size as the main path's 0.016.

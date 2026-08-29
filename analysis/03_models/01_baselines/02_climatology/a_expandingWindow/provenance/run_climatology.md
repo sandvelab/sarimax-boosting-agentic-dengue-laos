@@ -120,3 +120,38 @@ paragraph above rather than in a section of its own.
 agency: agent-autonomous.
 information: agent-retrieved — every figure quoted above is read from the files this batch
 produced.
+
+
+---
+
+## Batch 22 — the two baseline-fork combinations
+
+```
+result:              results/$COMBO/eval.nc · eval.log · fitted_model.json · model_spec.json ·
+                     run_cost.json
+combinations:        climatology_frozenWindow, persistence_negBinomialFloor
+script:              unchanged from the section(s) above; this batch changed no script at
+                     this node
+invocation:          unchanged, with COMBO set by
+                     analysis/05_stability/scripts/run_manifest.py --batch 22, and
+                     COMBO_BASE=main
+inputs:              unchanged in kind; each combination's own inputs and their sha256 are
+                     recorded in the specification this step writes under that combination
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none; unchanged
+commit:              d8f93ca
+instructions-commit: cf97b81
+node:                analysis/03_models/01_baselines/02_climatology/a_expandingWindow
+produced:            2026-08-29
+```
+
+**What it establishes.** Run under `persistence_negBinomialFloor`, where the driver takes this
+fork's main-path child, it scores **24.337** — identical to the main path and to the five setup
+rows. Its own sibling's row, `climatology_frozenWindow`, is where it is absent, and the
+difference between the two is 0.532 CRPS, inside the 0.565 floor.
+
+alternatives-considered: none at this node; what changed is which combinations reach it.
+
+agency: agent-autonomous.
+information: agent-retrieved — every figure quoted above is read from the files this batch
+produced.

@@ -106,3 +106,42 @@ paragraph above rather than in a section of its own.
 agency: agent-autonomous.
 information: agent-retrieved — every figure quoted above is read from the files this batch
 produced.
+
+
+---
+
+## Batch 22 — the two baseline rows
+
+```
+result:              results/run_status.csv
+                     results/logs/climatology_frozenWindow.log
+                     results/logs/persistence_negBinomialFloor.log
+script:              scripts/run_manifest.py — unchanged by this batch
+invocation:          environment/chapenv/bin/python \
+                       analysis/05_stability/scripts/run_manifest.py --batch 22
+inputs:              results/manifest.csv (rows 9 and 10), and the tree, through
+                     scripts/lib/inventory.py
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none at this node; each model carries its own
+commit:              d8f93ca
+instructions-commit: cf97b81
+node:                analysis/05_stability
+produced:            2026-08-29
+```
+
+**What it establishes.** Both rows ran, at 137 s (`climatology_frozenWindow`) and 156 s
+(`persistence_negBinomialFloor`) against the manifest's estimates of 100.7 s and 103.6 s —
+1.36 and 1.51 times the plan, the same over-run direction and rough size the setup rows
+showed, and for the same reason: the cost model sums each row's parts as measured under
+`main`, and under these rows the pool's members are rebuilt rather than reused.
+
+**The first attempt failed at the first step of both rows**, with `ModuleNotFoundError: No
+module named 'chap_eval'` — the two new runners resolved the shared library one level too
+high in the tree. Nothing was written and the failure is in `run_status.csv`'s history
+through the commit that fixed it (`d8f93ca`); the run recorded here is the second.
+
+alternatives-considered: none at this node; the step list for a `baseline` row is what
+`steps_for` derives from the manifest, unchanged since batch 12.
+
+agency: agent-autonomous.
+information: agent-retrieved — the timings are read from results/run_status.csv.

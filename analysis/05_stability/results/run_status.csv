@@ -7,5 +7,5 @@ provinces_reportingOnly,ran,835.9,13,analysis/05_stability/results/logs/province
 popColumn_backCast,ran,970.2,13,analysis/05_stability/results/logs/popColumn_backCast.log,2026-08-29T12:04:44+00:00
 provinces_mergeVientiane,ran,1148.3,13,analysis/05_stability/results/logs/provinces_mergeVientiane.log,2026-08-29T12:23:52+00:00
 retrain_everySplit,ran,2226.2,13,analysis/05_stability/results/logs/retrain_everySplit.log,2026-08-29T14:48:32+00:00
-climatology_frozenWindow,failed at climatology/b_frozenWindow,22.9,7,analysis/05_stability/results/logs/climatology_frozenWindow.log,2026-08-29T19:25:21+00:00
-persistence_negBinomialFloor,failed at persistence/b_negBinomialFloor,0.0,7,analysis/05_stability/results/logs/persistence_negBinomialFloor.log,2026-08-29T19:25:21+00:00
+climatology_frozenWindow,ran,136.9,7,analysis/05_stability/results/logs/climatology_frozenWindow.log,2026-08-29T19:27:59+00:00
+persistence_negBinomialFloor,ran,156.5,7,analysis/05_stability/results/logs/persistence_negBinomialFloor.log,2026-08-29T19:30:36+00:00

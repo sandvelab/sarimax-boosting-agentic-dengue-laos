@@ -172,3 +172,42 @@ would break the record of the batches that ran then.
 agency: agent-autonomous.
 information: agent-retrieved — the defect was read out of the produced `conclusion.json` files,
 not anticipated.
+
+
+---
+
+## Batch 22 — the two baseline-fork combinations
+
+```
+result:              results/$COMBO/conclusion.json
+combinations:        climatology_frozenWindow, persistence_negBinomialFloor
+script:              unchanged from the section(s) above; this batch changed no script at
+                     this node
+invocation:          unchanged, with COMBO set by
+                     analysis/05_stability/scripts/run_manifest.py --batch 22, and
+                     COMBO_BASE=main
+inputs:              unchanged in kind; each combination's own inputs and their sha256 are
+                     recorded in the specification this step writes under that combination
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none; the step reads stored scores
+commit:              d8f93ca
+instructions-commit: cf97b81
+node:                analysis
+produced:            2026-08-29
+```
+
+**What it establishes.** Both rows resolve the reported model correctly — `candidate_exists:
+true`, `our_model: ensemble`, resolved from the family fork's own results under the
+combination rather than through the batch-13 fallback, because a baseline row does re-run a
+model of ours. Skill **+0.1206** under `persistence_negBinomialFloor` and **+0.1460** under
+`climatology_frozenWindow`, against the main path's +0.1485.
+
+**`beats_all_baselines` stays true on both**, including the row where a required baseline is
+4.181 CRPS better than the main path's version of it: the pool at 19.434 is still below the
+parametric persistence at 20.698.
+
+alternatives-considered: none at this node.
+
+agency: agent-autonomous.
+information: agent-retrieved — every figure quoted above is read from the files this batch
+produced.

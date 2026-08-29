@@ -66,3 +66,27 @@ Sixteen tier-1 rows remain: two baseline children batch 22 builds, and fourteen 
 family rows batch 14 runs. Tier 2 stays unselected until every tier-1 row has been attempted —
 `plan_manifest.py` now refuses to apply `tier2_rule.md` before then, which is a change to when
 the rule is applied and not to the rule, whose sha256 is unchanged.
+
+**Batch 22 ran the two baseline rows, and they are the widest pair in the set.**
+`results/conclusions.csv` now has **10 of 33**.
+
+**The persistence fork is the largest single-row move of the reported conclusion so far**, and
+it is downward: skill **+0.1206** against the main path's +0.1485, from the pool's mean CRPS
+rising to 19.434. **The climatology fork is the smallest move of any row**: +0.1460, 0.0025
+of skill. Two forks of the same kind, on the two baselines the plan requires, an order of
+magnitude apart in what they are worth.
+
+**The main path is no longer at the bottom of the range.** After batch 13, six of seven
+perturbations improved the reported skill and the honest reading was that a conservative main
+path and a flattering set of alternatives look the same from there. Both new rows are below
+the main path, which is the first evidence for conservatism rather than flattery — two rows,
+which is not much, and the fourteen candidate rows are still the ones that would settle it.
+
+**The most useful thing in the pair is not a skill score.** The alternative construction of
+the persistence baseline scores 20.698 against the main path's 24.879 and beats the reference
+model at 22.098. The reported analysis is built on the worse of two published constructions
+of a model the plan's §4 requires, and the pool that contains it is *better off* for that,
+because a linear opinion pool profits from its members disagreeing.
+
+Fourteen tier-1 rows remain, all of them batch 14's, and tier 2 stays unselected until they
+have been attempted.

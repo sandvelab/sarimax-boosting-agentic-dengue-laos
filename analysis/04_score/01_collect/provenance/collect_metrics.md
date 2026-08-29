@@ -236,3 +236,58 @@ paragraph above rather than in a section of its own.
 agency: agent-autonomous.
 information: agent-retrieved — every figure quoted above is read from the files this batch
 produced.
+
+---
+
+## Batch 22 — inheritance becomes per fork rather than per node
+
+```
+result:              results/$COMBO/metrics_cell.csv
+                     results/$COMBO/models.csv
+combinations:        persistence_negBinomialFloor, climatology_frozenWindow
+script:              scripts/collect_metrics.py
+                     sha256:bc037b8924b76585fc00d51460d0baa4f8e15ea4fce76220308c1fec6e7cb228
+invocation:          unchanged: bash analysis/04_score/01_collect/run.sh, with COMBO set by
+                     analysis/05_stability/scripts/run_manifest.py --batch 22 and
+                     COMBO_BASE=main
+inputs:              every analysis/03_models/**/results/$COMBO/model_spec.json, and those
+                     under COMBO_BASE for the model nodes this combination did not re-run;
+                     each row's origin is in models.csv's scored_under_combo column
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none; every value comes from chap-core's own registered metrics
+commit:              d8f93ca
+instructions-commit: cf97b81
+node:                analysis/04_score/01_collect
+produced:            2026-08-29
+```
+
+**What it establishes, and the defect it removes.** A model node with no results under the
+running combination is inherited from `COMBO_BASE`. That was right for every combination run
+before batch 22, because none of them moved a fork whose children are models. A baseline row
+does: it runs `b_negBinomialFloor` and not `a_empiricalChange`, so the sibling had no results
+under the combination and would have been inherited from `main` — putting **two persistence
+baselines on one leaderboard**, one of them produced by the very analysis the row is defined
+against, and giving `conclusion.json` two baselines to be compared with where the plan's §4
+requires one. Inheritance now skips a node whose sibling ran under this combination: the fork
+moved, and this node is the path not taken.
+
+**Verified.** Re-run with the change under `main`, `weighting_crpsWeighted` and
+`provinces_reportingOnly`, `metrics_cell.csv` and `models.csv` are **byte-identical** in all
+three — the fix reaches only combinations that move a model fork, and no such combination had
+run before. On the two batch-22 rows the leaderboard carries one `persistence` row and one
+`climatology` row, and `models.csv`'s `node` column names which construction produced each.
+
+**It will change what batch 14's family rows collect.** A family row runs `a_hierNB` and not
+`c_ensemble`, so by the same rule the pool is no longer inherited onto that row's
+leaderboard — which is correct, and is adjacent to the separate `conclude.py` defect batch 14
+is assigned. Flagged rather than assumed: batch 14 should confirm it against the row it
+produces.
+
+alternatives-considered: leaving inheritance per node and letting `conclude.py` pick the
+right baseline. Rejected — the leaderboard is what every downstream file reads, and a
+leaderboard with a row from an analysis that did not run is wrong wherever it is later
+corrected.
+
+agency: agent-autonomous.
+information: agent-retrieved — every figure quoted above is read from the files this batch
+produced.

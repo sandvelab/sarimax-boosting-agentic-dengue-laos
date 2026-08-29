@@ -87,3 +87,36 @@ for combinations the stability manifest names, and its `combos` check keeps that
 
 agency: agent-autonomous.
 information: agent-retrieved.
+
+
+---
+
+## Batch 22 — the two baseline-fork combinations
+
+```
+result:              results/$COMBO/model_configuration.yaml · candidate_spec.json
+combinations:        climatology_frozenWindow, persistence_negBinomialFloor
+script:              unchanged from the section(s) above; this batch changed no script at
+                     this node
+invocation:          unchanged, with COMBO set by
+                     analysis/05_stability/scripts/run_manifest.py --batch 22, and
+                     COMBO_BASE=main
+inputs:              unchanged in kind; each combination's own inputs and their sha256 are
+                     recorded in the specification this step writes under that combination
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               unchanged: the pool's component seed enters here
+commit:              d8f93ca
+instructions-commit: cf97b81
+node:                analysis/03_models/03_candidate/c_ensemble
+produced:            2026-08-29
+```
+
+**What it establishes.** The configuration under each row carries a different
+`members_sha256`, because the membership moved — which is what makes a perturbation of a
+member visible in the model's own record rather than only in the leaderboard.
+
+alternatives-considered: none at this node.
+
+agency: agent-autonomous.
+information: agent-retrieved — every figure quoted above is read from the files this batch
+produced.

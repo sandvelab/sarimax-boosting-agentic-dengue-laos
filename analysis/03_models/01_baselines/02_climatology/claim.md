@@ -25,3 +25,14 @@ point — a set of past Julys is a distribution already. What it does need is a 
 which window estimates that distribution, and the main path re-estimates from the expanding
 historic frame at each split. The frozen-training-window sibling is not built yet;
 `train.py` stores the table it would have used.
+
+**The window does not matter.** Estimating the seasonal table once from the training frame
+and holding it fixed scores **24.869** against the expanding window's **24.337**: 0.532 CRPS,
+inside the 0.565 floor. The main path re-estimates from everything observed by forecast time
+and gains nothing measurable by it, although the frozen table misses the last two years of a
+twelve-year series.
+
+Set beside its sibling fork — where the *construction* of the persistence baseline's
+uncertainty is worth 4.181 CRPS — the pair says something the two rows do not say separately:
+**on this dataset the shape of a baseline's predictive distribution matters and the window it
+is estimated over does not.**

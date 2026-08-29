@@ -59,3 +59,18 @@ shape.
 **Nothing is deleted now.** `AGENTS.md` §6: keep everything while it is affordable and
 annotate it well enough that pruning later is targeted. At 2 GB on a laptop it is
 affordable, and the annotation is here for the day it is not.
+
+## Added in batch 22 — two more rows against the projection
+
+| Artifact | Size | Role | Regenerable | Transparency | Note |
+|---|---|---|---|---|---|
+| `results/logs/{climatology_frozenWindow,persistence_negBinomialFloor}.log` | 12 KB together | intermediate | yes, with the row | medium | Each row's step-by-step transcript. Small, and the only place a row's failure mode is legible after the fact — the first attempt at both rows failed here before anything was written. |
+| `results/conclusions.csv` | 4 KB | **main result** | yes, seconds, from the conclusion files | **highest** | Ten of thirty-three rows. It is the distribution phase D exists to produce. |
+
+**Ten rows of the twenty-four, and the storage projection holds.** Tier 1 was budgeted at
+roughly 1.0 GB over both datasets. The ten development rows that have run come to **495 MB**
+and every combination on disk, the fourteen phase-C ones included, to **658 MB** — measured
+over `analysis/**/results/<combination>/`, excluding the untracked `work/` scratch. On that
+trajectory tier 1 lands near the projection on development alone and above it across both
+datasets, so the number to watch before phase E is storage rather than compute. Nothing is
+deleted, and the table above says what would go first if anything did.

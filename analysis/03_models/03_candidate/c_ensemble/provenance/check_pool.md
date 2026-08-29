@@ -101,3 +101,38 @@ for combinations the stability manifest names, and its `combos` check keeps that
 
 agency: agent-autonomous.
 information: agent-retrieved.
+
+
+---
+
+## Batch 22 — the two baseline-fork combinations
+
+```
+result:              results/$COMBO/pool_check.json
+combinations:        climatology_frozenWindow, persistence_negBinomialFloor
+script:              unchanged from the section(s) above; this batch changed no script at
+                     this node
+invocation:          unchanged, with COMBO set by
+                     analysis/05_stability/scripts/run_manifest.py --batch 22, and
+                     COMBO_BASE=main
+inputs:              unchanged in kind; each combination's own inputs and their sha256 are
+                     recorded in the specification this step writes under that combination
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               unchanged
+commit:              d8f93ca
+instructions-commit: cf97b81
+node:                analysis/03_models/03_candidate/c_ensemble
+produced:            2026-08-29
+```
+
+**What it establishes.** The pool rebuilt from its members' own stored evaluations reproduces
+the pool that ran, on both rows: 19.455 against 19.434, and 18.854 against 18.872 — residuals
+of 0.021 and 0.018, the sampling error of the pool's own allocation, the same size as the
+main path's 0.016. The second path to the claim survives a member being swapped, which is the
+case it was built for.
+
+alternatives-considered: none at this node.
+
+agency: agent-autonomous.
+information: agent-retrieved — every figure quoted above is read from the files this batch
+produced.

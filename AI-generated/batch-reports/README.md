@@ -72,3 +72,14 @@ re-running a batch produces a different report rather than the same one.
   taken created as nodes, and a new `combos` invariant that closes the combination space.
   Seventeen forks where batch 5 counted ten; 124 development minutes against a 12-hour
   budget, 89 of them re-running the reference model.
+- `26-08-29_b13_setupAndScoringRows.md` — batch 13, phase D: the seven setup and scoring
+  children built and their rows run, so 8 of the 24 tier-1 combinations have conclusions, plus
+  the external population series `b_backCast` needed, archived from the World Bank. **The five
+  `02_setup` forks move the conclusion less than the reference's own re-run noise; the single
+  scoring fork moves it four times as much**, from re-weighting a stored file and re-running no
+  model — and under case weighting the persistence baseline beats the reported pool while its
+  coverage inverts. Three of the five setup rows move the score by moving the *reference*
+  rather than our model. Where batch 12 found two defects by planning, this one found three by
+  running: `conclude.py` naming a baseline as the project's model, an intermittent crash in the
+  reference at about one job in a hundred, and a failed re-run leaving a results directory that
+  looked complete while spanning two commits.

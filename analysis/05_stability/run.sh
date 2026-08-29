@@ -11,21 +11,23 @@ REPO_ROOT="$(cd "../.." && pwd)"
 PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 
 
-# Own scripts
+# Own scripts -- in dependency order, not the alphabetical order `node.py rebuild`
+# writes. Costs are measured before the manifest is planned from them; conclusions are
+# collected after; and the planned-against-actual comparison reads the run record last.
 "$PYTHON" "scripts/measure_step_costs.py"
 "$PYTHON" "scripts/plan_manifest.py"
 "$PYTHON" "scripts/collect_conclusions.py"
+"$PYTHON" "scripts/compare_planned_cost.py"
 
 # `scripts/run_manifest.py` -- the driver -- is deliberately NOT called here yet, and
-# joins this list in batch 15.
+# joins this list in batch 15. `node.py rebuild` will add it back every time it is run
+# here; if it appears above, it has been re-added by accident and must come out again.
 #
-# Nine of the manifest's children have no scripts, and twelve of the built ones need two
-# defects fixed before they mean what their row says (manifest_notes.json, and batch 12's
-# report §5). Calling the driver from here today would put a dozen failed or misleading
-# combinations into the tree every time anyone ran `analysis/run.sh`. Batches 13, 22 and
-# 14 run it with `--batch`, one part of the manifest each; batch 15 adds the line below
-# once every row runs, which is what makes `analysis/run.sh` reproduce the stability
-# result as well as the main one.
+# Two of the manifest's children still have no scripts (batch 22) and fourteen candidate
+# and family rows need two defects fixed before they mean what their row says (batch 14).
+# Calling the driver from here today would put failed or misleading combinations into the
+# tree every time anyone ran `analysis/run.sh`. Batch 15 adds the line below once every
+# row can run, which is what makes `analysis/run.sh` reproduce the stability result as
+# well as the main one.
 #
 #   "$PYTHON" "scripts/run_manifest.py"
-

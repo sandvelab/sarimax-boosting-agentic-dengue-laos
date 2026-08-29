@@ -363,6 +363,23 @@ below is read from a file there.)*
 | **A new invariant: the combination space is closed.** `/validate invariants` gains a `combos` check | Every `results/<name>/` directory must be a combination the manifest names, and the manifest's tier-1 rows must agree exactly with the tree's non-main children. It found something on its first run — `family_ensemble`, a real combination with no manifest row — and the fix was to make the manifest complete rather than to exempt the directory. Provenance records may now name an artefact by its combination-invariant path, `results/$COMBO/eval.nc`, which is what the record of a combination-parameterised step actually says; the placeholder only satisfies files whose combination the manifest names, so the two checks close over each other | agent-autonomous |
 | **Batch 22 is appended**: the two baseline forks' children, built and run | Batch 13 already has seven children to write and five twenty-minute setup rows to run. The baseline children are two new Chap-contract models and they move the reported model, so they are not a footnote on somebody else's batch. The ledger is executed top to bottom and the number is an identifier — batch 21 already broke the number-equals-position property | agent-autonomous |
 
+### 2026-08-29 — settled by batch 13, from the first rows to run
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **The five `02_setup` forks do not move the conclusion; the one scoring fork moves it four times as much as any of them** | Skill spans +0.1266 to +0.1861 around the main path's +0.1485 across the five dataset choices, every gap smaller than the reference's own 0.57 CRPS re-run spread. Re-weighting the same per-cell file, re-running nothing, gives +0.2288 and +0.2320. The cheapest row in the manifest at thirteen seconds is the one the conclusion is most sensitive to, and the twenty-minute rows are the ones it is not | agent-autonomous |
+| **Under case weighting, persistence beats the model this project reports** — 86.598 against 88.484 — and the pool's 10–90 coverage falls from 0.863 to 0.701 | The pool is too wide on the quiet months that dominate the unweighted mean and too narrow on the outbreak months that dominate this one; no single weighting shows that. It does not overturn the headline, which is defined against Chap's own unweighted mean, and §2's rule that a badly calibrated winner has not won is why it is reported beside the score. It is the most useful thing tier 1 has produced | agent-autonomous |
+| **Three of the five setup rows move the reference rather than our model** | Removing the two unevaluable provinces costs the reference 1.05 CRPS and our pool 0.03; merging Vientiane costs it 0.84 against our 0.19. EWARS pools across provinces while fitting and our pool's members largely do not, so a setup choice that looks like data hygiene is, for this comparison, a change to the opponent. Invisible in a headline that reports only our own score, and an argument for the ratio §4b already fixed | agent-autonomous |
+| **The reference model crashes about once in a hundred jobs**, and each repeat is now retried up to three times | `Prediction script did not create output file`: the R process exits without writing. A setup row asks for 36 jobs and `retrain_everySplit` for 64, so rows failed about a third of the time for reasons that say nothing about the row. Legitimate only because the model is unseeded — every repeat is already a draw, so a retry replaces a crash and not an unfavourable number — and `attempts_per_repeat` records the count. Both re-run rows needed one attempt per repeat. This is a finding about the platform's model library of the kind §2 asks to be reported | agent-autonomous |
+| **A failed re-run of the reference left a results directory that looked complete**, and the node now clears it first | Three repeats from the new run, one from the old, and the previous run's `model_spec.json` beside them: a per-cell reference mean spanning two commits, which nothing downstream could detect. The most dangerous thing this batch found, because it produces a wrong number no check was looking for | agent-autonomous |
+| **`conclude.py` reported a required baseline as the project's model** on both scoring rows | It resolved our model by globbing under `results/$COMBO/` only, and a combination that re-runs no model of ours has none, so it fell through to "best-scoring model of ours" — persistence, under case weighting. The fix falls back to `COMBO_BASE` only when no child of the family fork produced a spec under the combination, so batch 14's separate family-row defect is untouched. Found by reading the output, not by a check | agent-autonomous |
+| **The tier-2 rule is not applied until every tier-1 row has been attempted.** `tier2_rule.md` is unchanged and its sha256 is unchanged | Applied after batch 13 the rule would have filled group A and half of group S, selected two pairs instead of eight, and recorded a shortfall that is an artefact of the running order — and batch 15 would then have got a different tier 2 with nothing to say which was frozen. What changed is when a rule about the ranking of tier 1 may read a tier 1, which is why the rule's hash did not have to move | agent-autonomous |
+| **Batch 12's cost model predicts the total to 2 % and every individual row wrongly** | Planned 6 041 s against 5 901 s actual, with row ratios from 0.577 to 1.851 and all five setup rows costed identically at 1 202.9 s. The model summed each row's parts as measured under `main` and could not know that a row changes how much work a part does — `retrain_everySplit` makes the reference run sixteen jobs a repeat instead of two. **The cut order within a kind is ranked on a constant.** Nothing was cut, so nothing rests on it; it is recorded because it could not have been relied on | agent-autonomous |
+| **The archived population column does not have the level its schema claims** | It sums to 4 961 076; the national total at the schema's stated 2020 reference was 7 346 533, and the nearest year is 1995. The third statement in that schema found not to describe the file, after the row count and the rainfall unit. The back-cast anchors where the schema says anyway, because under a log offset the anchor is a constant the intercept absorbs, so the two anchors are the same analysis and using our own inference instead would trade a recorded discrepancy for a silent correction | agent-autonomous |
+| The population back-cast uses a **national** series, so it probes a trend and not a provincial differential | The provincial censuses of 1995, 2005 and 2015 have no pinnable machine-readable release, and an input transcribed by hand from a PDF is the manual step Rule 2 exists to keep out. The World Bank series can be fetched, checksummed and re-obtained; the loss is stated where it bites rather than buried in the archive | agent-autonomous |
+| The three children of the weighting fork share **one** implementation, and `a_unweighted` was moved onto it | The fork's whole content is the weight, so three copies of one aggregation is the drift `chap_eval.py` was created to prevent, one node over. The unweighted case is kept as its own code path inside the library because weighting by ones and taking a mean are the same number in arithmetic and not always the same float; re-run, `results/main/` is byte-identical, which is the check that no reported number moved | agent-autonomous |
+| **`node.py rebuild` will re-add the stability driver to `run.sh` every time it is run there** | Adding a script to the node meant regenerating `run.sh`, and the generator lists `scripts/` alphabetically — which put `run_manifest.py` back into the file batch 12 deliberately kept it out of, and reordered the rest out of dependency order. The block now carries a warning saying what to do when it happens again | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -423,9 +440,9 @@ at the end of every batch, and append newly created batches to it.
 | 10 | C | Candidate 2: gradient-boosted trees with a probabilistic head | done — produced | [[26-08-28_b10_boostedCandidate]] |
 | 11 | C | Candidate 3: the ensemble; close phase C | done — produced | [[26-08-28_b11_ensembleCandidate]] |
 | 12 | D | `/perturb plan`: the stability node, the driver, the frozen development manifest | done — produced | [[26-08-29_b12_perturbationManifest]] |
-| 13 | D | `/perturb run`: build the seven setup and scoring children, archive the population series `b_backCast` needs, and run those eight rows | open | |
+| 13 | D | `/perturb run`: build the seven setup and scoring children, archive the population series `b_backCast` needs, and run those rows | done — produced | [[26-08-29_b13_setupAndScoringRows]] |
 | 22 | D | `/perturb run`: build and run the two baseline forks' children, which move the pool as well as their own leaderboard row | open | |
-| 14 | D | `/perturb run`: fix the two defects blocking the candidate rows, lift the shared assembler, re-run the twelve candidate rows and the two family rows, then tier 2 | open | |
+| 14 | D | `/perturb run`: fix the two defects blocking the candidate rows **and the third, that `03_compare` computes its paired spread unweighted while the leaderboard mean follows the weighting fork**, lift the shared assembler, re-run the twelve candidate rows and the two family rows, then tier 2 | open | |
 | 15 | D | `/perturb report`; freeze and commit the holdout manifest | open | |
 | 16 | E | The holdout, opened once, on the frozen manifest | open | |
 | 17 | E | Claims and the hierarchical report | open | |
@@ -706,6 +723,16 @@ cost of running the set twice: once on development, once on holdout. If the budg
 carry the whole set to the holdout, cut the manifest here and record the cut; do not discover
 the problem in phase E with the holdout already open.
 
+**What running the first seven rows found.** The five `02_setup` forks move the conclusion
+less than the reference model's own re-run noise, and the single `04_score` fork moves it four
+times as much as any of them — from re-weighting a stored file and re-running no model. Three
+of the five setup rows move the score by moving *the reference* rather than our model, which a
+headline reporting only our own score would hide entirely. Under case weighting the required
+persistence baseline beats the model this project reports, and our pool's interval coverage
+inverts from over-dispersed to under-dispersed. The batch also measured an intermittent crash
+in the reference — about one job in a hundred — which is a finding about the platform's model
+library rather than about any row. Batch 13's report has all of it.
+
 **What planning the manifest found, before running any of it.** Nine of the twenty-four
 tier-1 rows were sentences in a `claim.md` rather than paths in the tree, and are now nodes.
 Twelve of the fifteen that had scripts hold results produced around a main path that has since
@@ -914,6 +941,10 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 12 — `/perturb plan`: the perturbation manifest
 
 - [[26-08-29_b12_perturbationManifest]]
+
+### Batch 13 — `/perturb run`: the setup and scoring rows
+
+- [[26-08-29_b13_setupAndScoringRows]]
 
 ### Batch 21 — the greedy branch
 

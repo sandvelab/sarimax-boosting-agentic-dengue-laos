@@ -1,0 +1,9 @@
+combination,kind,planned_seconds,actual_seconds,ratio_actual_over_planned,error_seconds
+retrain_everySplit,setup,1202.9,2226.2,1.851,1023.3
+provinces_mergeVientiane,setup,1202.9,1148.3,0.955,-54.6
+popColumn_backCast,setup,1202.9,970.2,0.807,-232.7
+provinces_reportingOnly,setup,1202.9,835.9,0.695,-367.0
+trainingWindow_from2004,setup,1202.9,694.0,0.577,-508.9
+aggregate_caseWeighted,scoring,13.4,13.8,1.03,0.4
+aggregate_populationWeighted,scoring,13.4,12.9,0.963,-0.5
+main,main,0.3,0.5,1.667,0.2

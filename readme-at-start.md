@@ -36,7 +36,7 @@ representative research problem, and where it fails.
 
 - **Target venue**: not fixed in the source material. The manuscript this case serves updates
   Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013), which is the obvious precedent.
-- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; phase C complete, batches 8–11; **phase D under way — batch 12 done, batch 13 next**). Twenty batches in the ledger, plus one optional, plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result. What it settled is in the plan's §4b. **The ledger is executed top to bottom and a batch's number is an identifier, not a position**: batch 22 was added between 13 and 14.
+- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; phase C complete, batches 8–11; **phase D under way — batches 12 and 13 done, batch 22 next**). Twenty batches in the ledger, plus one optional, plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result. What it settled is in the plan's §4b. **The ledger is executed top to bottom and a batch's number is an identifier, not a position**: batch 22 was added between 13 and 14.
 - **Manuscript**: `Human-AI-collaboration/manuscript/`
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`. It carries the
@@ -51,6 +51,7 @@ representative research problem, and where it fails.
 | Repository machinery interpreter | `.venv/bin/python` — CPython 3.13.7, created 2026-08-23 with `python3 -m venv .venv` on macOS 26.6.2 (arm64). |
 | Tracking level | **full** (`AGENTS.md` §6). This project is *about* tracking, so the usual argument for a lighter touch does not apply. Raise it with me rather than drifting. |
 | Compute budget for stability work | Phase D is batches 12, 13, 22, 14, 15. The perturbation manifest is two tiers — every fork taken alone, then eight pairs selected by a rule fixed in advance — over **seventeen** forks, run on development and again on the holdout. Batch 12 wrote it: **24 tier-1 combinations, 8 tier-2 slots**, in `analysis/05_stability/results/manifest.csv`, committed before any of it ran. It costs **124 minutes on development and 75 on the holdout**, against a **12-hour budget** the agent set so the cut order has something to be a cut against; nothing is cut and the cut order is recorded. Compute is not what binds and it is not close — **89 of the 124 minutes are re-running the reference model**, four unseeded repeats on each of five setup rows, for the one model the plan forbids perturbing. |
+| Stability, so far | **8 of the 24 tier-1 rows have conclusions** (batch 13). The five `02_setup` forks span skill **+0.1266 to +0.1861** around the main path's +0.1485 — every gap smaller than the reference's own 0.57 CRPS re-run spread. The single `04_score` weighting fork moves it four times as much: **+0.2288** population-weighted, **+0.2320** case-weighted, from re-weighting a stored file and re-running no model. **Under case weighting persistence beats the reported pool**, 86.598 to 88.484, and the pool's 10–90 coverage falls from 0.863 to 0.701. |
 | Data governance | Public and redistributable. The Lao files are pinned by repository commit hash, copied into `Archive/` unmodified, marked `(IS_SHADOW)`, with `provenance.md`. Nothing here is access-restricted, so the release scan is about secrets, not permissions. |
 | Target | `disease_cases` (reported dengue), monthly, admin-1, Laos. |
 | What the metric is a mean over | **16 provinces, 371 cells** on development — not the 18 provinces in the file. Vientiane (LA-VI) reports nothing and is dropped by Chap's region filter; Xaisomboun (LA-XN) stops reporting after 2005 and contributes no evaluable cell. Established in batch 3. |
@@ -168,6 +169,12 @@ do if EWARS cannot be run on this dataset, which the plan's §2 answers.
   those numbers is a result of this project.
 - Source material — the manuscript, the 2013 rules, the proposal and its supplement, and the
   Chap orientation note — is in `Archive/case-source-material/`.
+- The annual national population series the population fork back-casts from is in
+  `Archive/lao-population/`, fetched from the World Bank by
+  `AI-internal/data-acquisition/fetch_lao_population.sh`. Batch 13 established from it that
+  **the dataset's population column does not have the level its schema claims**: it sums to
+  4.96 M against a stated 2020 reference whose national total was 7.35 M, matching the country
+  around 1995. That is the third statement in that schema found not to describe the file.
 - The data is in `Archive/lao-dataset/`, at commit `af362d52` of `dhis2/climate-health-data`,
   with a checksum manifest that `analysis/01_data/01_partition` re-verifies on every run. That
   node is the only one licensed to read the full file; everything else reads the development

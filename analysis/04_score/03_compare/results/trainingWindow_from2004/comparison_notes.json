@@ -1,0 +1,57 @@
+{
+ "combo": "trainingWindow_from2004",
+ "models": {
+  "climatology": {
+   "mean_crps_against": 21.469145993935314,
+   "mean_crps_model": 24.134000749326145,
+   "mean_diff": 2.6648547553908357,
+   "n_splits": 8,
+   "se_cell_naive": 1.429580550092945,
+   "se_cluster_location": 3.403371507551185,
+   "se_cluster_split": 1.9457811837225842,
+   "se_split_level": 2.076603742828624,
+   "skill_score": -0.12412486067883699,
+   "splits_model_better": 3,
+   "win_rate_cells": 0.48247978436657685
+  },
+  "ensemble": {
+   "mean_crps_against": 21.469145993935314,
+   "mean_crps_model": 18.750661778975743,
+   "mean_diff": -2.718484214959569,
+   "n_splits": 8,
+   "se_cell_naive": 1.0157280026339512,
+   "se_cluster_location": 2.91228426235568,
+   "se_cluster_split": 1.2466396285329173,
+   "se_split_level": 1.3154694120637822,
+   "skill_score": 0.12662283892090997,
+   "splits_model_better": 7,
+   "win_rate_cells": 0.48517520215633425
+  },
+  "persistence": {
+   "mean_crps_against": 21.469145993935314,
+   "mean_crps_model": 24.616087997304582,
+   "mean_diff": 3.146942003369274,
+   "n_splits": 8,
+   "se_cell_naive": 2.0146100492600736,
+   "se_cluster_location": 3.907087821025343,
+   "se_cluster_split": 2.64812339484469,
+   "se_split_level": 2.7893392305983973,
+   "skill_score": -0.14657974771135418,
+   "splits_model_better": 3,
+   "win_rate_cells": 0.4555256064690027
+  }
+ },
+ "n_cells": 371,
+ "noise_floor_largest_repeat_pair_mean_diff": 0.09748572776280336,
+ "noise_floor_largest_repeat_pair_se_cluster_split": 0.18723726358791648,
+ "reference": "reference",
+ "reference_repeats": [
+  "reference_r1",
+  "reference_r2",
+  "reference_r3",
+  "reference_r4"
+ ],
+ "resolvable_difference_note": "The largest mean paired difference between two repeats of the same unseeded reference model is the size of a difference this comparison cannot attribute to anything but the reference's own sampler.",
+ "unpaired_sd_across_splits_reference": 15.096289568887537,
+ "unpaired_se_across_splits_reference": 5.337344362458059
+}

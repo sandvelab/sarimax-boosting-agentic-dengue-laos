@@ -1,0 +1,39 @@
+{
+ "additional_continuous_covariates": [],
+ "choice": "b_provinceScaled",
+ "combo": "trainingWindow_from2004",
+ "description": "one province-year variance per province, from that province's own years",
+ "input_from_combo": "trainingWindow_from2004",
+ "node": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/b_provinceScaled",
+ "order": 6,
+ "premise": {
+  "by_province": {
+   "LA-AT": 1.7710795226125948,
+   "LA-BK": 2.2949634521328446,
+   "LA-BL": 0.7499943757229691,
+   "LA-CH": 0.2642553581673687,
+   "LA-HO": 0.46549114337043596,
+   "LA-KH": 1.565677920942006,
+   "LA-LM": 1.1969339227877545,
+   "LA-LP": 0.8392846734334424,
+   "LA-OU": 1.6575023478933835,
+   "LA-PH": 0.7197625155536004,
+   "LA-SL": 2.354973228984657,
+   "LA-SV": 1.4243078076788338,
+   "LA-VT": 0.5162312935684445,
+   "LA-XA": 1.7209653101116391,
+   "LA-XE": 1.0885732256450553,
+   "LA-XI": 1.7243045116402955
+  },
+  "log_annual_spread_max": 2.354973228984657,
+  "log_annual_spread_median": 1.310620865233294,
+  "log_annual_spread_min": 0.2642553581673687,
+  "log_annual_spread_ratio_max_to_min": 8.911733125551656,
+  "province_years": 97,
+  "provinces_compared": 16
+ },
+ "stage": "year_variance",
+ "user_option_values": {
+  "year_variance": "province_scaled"
+ }
+}

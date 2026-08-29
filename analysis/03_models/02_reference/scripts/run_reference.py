@@ -33,7 +33,8 @@ Rule 6 cannot be satisfied for this model. It is quantified instead, which is th
 alternative, and the asymmetry -- our baselines are bit-reproducible, the model we are
 measured against is not -- is one of the project's findings rather than an inconvenience.
 
-**Each repeat gets its own container.** See the comment at the loop: batch 13 found that
+**Each repeat gets its own container, and a crashed repeat is retried.** See the comments
+at the loop: batch 13 found that
 one service shared across four repeats accumulates state and dies under a setup
 combination that asks it for sixteen jobs a repeat instead of two.
 """
@@ -41,6 +42,7 @@ combination that asks it for sixteen jobs a repeat instead of two.
 from __future__ import annotations
 
 import json
+import shutil
 import subprocess
 import sys
 import time
@@ -56,6 +58,14 @@ IMAGE = ("ghcr.io/chap-models/chapkit_ewars_model@sha256:"
 CONTAINER = "chap-reference-node"
 PORT = 8010
 REPEATS = 4
+# Attempts allowed per repeat before the node gives up. The reference crashes
+# intermittently -- "Prediction script did not create output file" -- at a rate batch 13
+# measured at roughly one job in a hundred, so a 36-job row fails about a third of the
+# time and nothing about the row is wrong when it does. A crashed repeat is replaced by
+# another draw, not by a better one: the model is unseeded, so every repeat is a draw
+# already, and `attempts_per_repeat` in the specification records how many it took. That
+# is what keeps this a retry rather than a selection.
+ATTEMPTS = 3
 
 ROOT = repo_root(NODE)
 COMBO = combo()
@@ -111,6 +121,13 @@ def start_service(out: Path) -> None:
 
 def main() -> None:
     out = NODE / "results" / COMBO
+    # Cleared, not merged into. A failed re-run used to leave some repeats from this run
+    # and some from the last, with the previous run's model_spec.json and run_cost.json
+    # still beside them -- a set that looks complete and is a mean over draws from two
+    # different commits. Nothing downstream could have detected that. The repeats are
+    # not reproducible, so this does destroy draws; it destroys them at the point where
+    # keeping them would mean reporting a mixture.
+    shutil.rmtree(out, ignore_errors=True)
     out.mkdir(parents=True, exist_ok=True)
     work = NODE / "work" / COMBO
 
@@ -129,16 +146,26 @@ def main() -> None:
     # thirty seconds of start-up each.
     try:
         seconds = []
+        attempts = []
         for repeat in range(1, REPEATS + 1):
             print(f"reference repeat {repeat} of {REPEATS}")
-            start_service(out)
-            seconds.append(chap_eval(
-                ROOT, model_name=f"http://localhost:{PORT}",
-                dataset=common["dataset_path"],
-                output=out / f"eval_repeat_{repeat}.nc",
-                log=out / f"eval_repeat_{repeat}.log",
-                flags=flags, runs_dir=work / f"runs_{repeat}",
-                extra=["--run-config.is-chapkit-model"]))
+            for attempt in range(1, ATTEMPTS + 1):
+                start_service(out)
+                try:
+                    seconds.append(chap_eval(
+                        ROOT, model_name=f"http://localhost:{PORT}",
+                        dataset=common["dataset_path"],
+                        output=out / f"eval_repeat_{repeat}.nc",
+                        log=out / f"eval_repeat_{repeat}.log",
+                        flags=flags, runs_dir=work / f"runs_{repeat}",
+                        extra=["--run-config.is-chapkit-model"]))
+                except SystemExit:
+                    if attempt == ATTEMPTS:
+                        raise
+                    print(f"  repeat {repeat} attempt {attempt} crashed; retrying")
+                    continue
+                attempts.append(attempt)
+                break
     finally:
         run("docker", "rm", "-f", CONTAINER, check=False)
 
@@ -150,6 +177,7 @@ def main() -> None:
         "combo": COMBO,
         "evaluations": [f"eval_repeat_{r}.nc" for r in range(1, REPEATS + 1)],
         "repeats": REPEATS,
+        "attempts_per_repeat": attempts,
         "repeat_names": [f"reference_r{r}" for r in range(1, REPEATS + 1)],
         "route": "chapkit REST service, amd64 image under emulation",
         "n_samples": 1000,

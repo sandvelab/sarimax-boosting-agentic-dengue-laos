@@ -16,35 +16,25 @@ $ assemble_setup: /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgen
 setup[provinces_mergeVientiane]: 2448 rows, 17 locations, 1998-01..2009-12, flags {'n_periods': 3, 'n_splits': 8, 'stride': 3, 'n_retrain': 1}, choices {'population': 'a_static', 'trainingWindow': 'a_from1998', 'provinces': 'c_mergeVientiane', 'retrain': 'a_once'}
 
 $ persistence/a_empiricalChange: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/01_persistence/a_empiricalChange/run.sh
-persistence[provinces_mergeVientiane]: 17 s (2.1 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/provinces_mergeVientiane
+persistence[provinces_mergeVientiane]: 22 s (2.8 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/provinces_mergeVientiane
 
 $ climatology/a_expandingWindow: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/run.sh
-climatology[provinces_mergeVientiane]: 17 s (2.1 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/results/provinces_mergeVientiane
+climatology[provinces_mergeVientiane]: 21 s (2.7 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/results/provinces_mergeVientiane
 
 $ reference: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/02_reference/run.sh
 reference repeat 1 of 4
 reference repeat 2 of 4
 reference repeat 3 of 4
 reference repeat 4 of 4
-reference[provinces_mergeVientiane]: 4 repeats, 746 s total (23.3 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/02_reference/results/provinces_mergeVientiane
+reference[provinces_mergeVientiane]: 4 repeats, 988 s total (30.9 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/02_reference/results/provinces_mergeVientiane
 
 $ family/c_ensemble: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/run.sh
 weighting/a_equal[provinces_mergeVientiane]: equal weights, nothing estimated; 4 members at 0.250 each, 2 of them required baselines -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/provinces_mergeVientiane
-  a_hierNB: assembling its configuration under 'provinces_mergeVientiane' from its forks' main paths
-    observation/c_hurdle[provinces_mergeVientiane]: hurdle; zeros 0.56, mean over all months 32.3 against 73.9 over reporting months -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/01_observation/c_hurdle/results/provinces_mergeVientiane
-    covariates/c_climateFree[provinces_mergeVientiane]: no climate columns; ['rainfall', 'mean_temperature', 'mean_relative_humidity'] left out, 34 rows the main path drops are kept -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/02_covariates/c_climateFree/results/provinces_mergeVientiane
-    population/a_offset[provinces_mergeVientiane]: log(population) offset; largest/smallest 32.5 -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/03_population/a_offset/results/provinces_mergeVientiane
-    fitTime/a_trainOnly[provinces_mergeVientiane]: fit in train, n_retrain 1, 21 months of later history unused -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/04_fitTime/a_trainOnly/results/provinces_mergeVientiane
-    autoregressive/a_none[provinces_mergeVientiane]: no lagged-count term; the correlation it leaves unused at lag 3 is 0.701 -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/05_autoregressive/a_none/results/provinces_mergeVientiane
-    yearVariance/b_provinceScaled[provinces_mergeVientiane]: one variance per province; the widest province's annual spread is 5.6 times the narrowest -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/06_yearVariance/b_provinceScaled/results/provinces_mergeVientiane
-    candidate[provinces_mergeVientiane]: {'observation': 'c_hurdle', 'covariates': 'c_climateFree', 'population': 'a_offset', 'fit_time': 'a_trainOnly', 'autoregressive': 'a_none', 'year_variance': 'b_provinceScaled'}, covariates [], seed 849487747; taken here: ['observation=c_hurdle', 'covariates=c_climateFree', 'population=a_offset', 'fit_time=a_trainOnly', 'autoregressive=a_none', 'year_variance=b_provinceScaled'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/results/provinces_mergeVientiane
-  b_boosted: assembling its configuration under 'provinces_mergeVientiane' from its forks' main paths
-    features/a_lagBlock[provinces_mergeVientiane]: 18 features; climate [0, 1, 2, 3], counts [3, 4, 5, 6, 12] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/01_features/a_lagBlock/results/provinces_mergeVientiane
-    head/a_negBinomial[provinces_mergeVientiane]: variance-to-mean by province 2.9..842.4 (Poisson would be 1.0) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/02_head/a_negBinomial/results/provinces_mergeVientiane
-    boosted[provinces_mergeVientiane]: {'features': 'a_lagBlock', 'head': 'a_negBinomial'}, covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'], seed 1877199108; taken here: ['features=a_lagBlock', 'head=a_negBinomial'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/results/provinces_mergeVientiane
+  a_hierNB: configuration already assembled under 'provinces_mergeVientiane'
+  b_boosted: configuration already assembled under 'provinces_mergeVientiane'
 ensemble members[provinces_mergeVientiane]: 4 — persistence, climatology, hier_nb, boosted; covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/provinces_mergeVientiane/members.json
 ensemble[provinces_mergeVientiane]: {'weighting': 'a_equal'}, 4 members, covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'], seed 1648567750; taken here: ['weighting=a_equal'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/provinces_mergeVientiane
-ensemble[provinces_mergeVientiane]: 73 s (9.1 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/provinces_mergeVientiane
+ensemble[provinces_mergeVientiane]: 79 s (9.8 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/provinces_mergeVientiane
 pool check[provinces_mergeVientiane]: 19.006 as run; reconstruction not done, no stored evaluation of ['hier_nb', 'boosted'] under the configuration the pool gave them -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/provinces_mergeVientiane/pool_check.json
 
 $ collect: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/run.sh
@@ -54,14 +44,14 @@ $ aggregate/a_unweighted: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/Re
 aggregate/a_unweighted[provinces_mergeVientiane]: 8 models over 371 cells, unweighted; best ensemble at CRPS 19.006
 
 $ compare: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/run.sh
-compare[provinces_mergeVientiane]: 8 leaderboard rows; reference CRPS 21.909 over 371 cells
-  ensemble       diff   -2.903  se(split-clustered) 1.689  skill +0.132  wins 42% of cells
-  climatology    diff   +2.427  se(split-clustered) 1.833  skill -0.111  wins 43% of cells
-  persistence    diff   +2.970  se(split-clustered) 2.855  skill -0.136  wins 46% of cells
-  noise floor (reference vs its own repeats): largest |mean diff| 0.358
+compare[provinces_mergeVientiane]: 8 leaderboard rows; reference CRPS 22.937 over 371 cells
+  ensemble       diff   -3.931  se(split-clustered) 1.757  skill +0.171  wins 50% of cells
+  climatology    diff   +1.400  se(split-clustered) 1.901  skill -0.061  wins 48% of cells
+  persistence    diff   +1.942  se(split-clustered) 2.801  skill -0.085  wins 51% of cells
+  noise floor (reference vs its own repeats): largest |mean diff| 4.600
 fig_accuracy_and_spread.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/provinces_mergeVientiane
 fig_crps_by_location.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/provinces_mergeVientiane
 fig_paired_vs_reference.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/provinces_mergeVientiane
 
 $ conclude: /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/scripts/conclude.py
-conclusion[provinces_mergeVientiane]: ensemble CRPS 19.006 vs reference 21.909 -> skill +0.1325
+conclusion[provinces_mergeVientiane]: ensemble CRPS 19.006 vs reference 22.937 -> skill +0.1714

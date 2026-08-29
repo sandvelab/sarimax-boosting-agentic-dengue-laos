@@ -17,4 +17,4 @@ fig_crps_by_location.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/Repro
 fig_paired_vs_reference.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/aggregate_caseWeighted
 
 $ conclude: /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/scripts/conclude.py
-conclusion[aggregate_caseWeighted]: persistence CRPS 86.598 vs reference 115.216 -> skill +0.2484  (placeholder: no candidate node yet)
+conclusion[aggregate_caseWeighted]: ensemble CRPS 88.484 vs reference 115.216 -> skill +0.2320

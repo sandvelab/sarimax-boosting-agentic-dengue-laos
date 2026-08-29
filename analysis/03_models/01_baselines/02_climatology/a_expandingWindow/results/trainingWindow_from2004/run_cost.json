@@ -1,0 +1,13 @@
+{
+ "combo": "trainingWindow_from2004",
+ "eval_flags": {
+  "n_periods": 3,
+  "n_retrain": 1,
+  "n_splits": 8,
+  "stride": 3
+ },
+ "model": "climatology",
+ "route": "MLproject with uv_env, native",
+ "seconds_per_split": 2.2,
+ "wall_clock_seconds": 17.3
+}

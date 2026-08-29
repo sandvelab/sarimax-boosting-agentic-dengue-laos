@@ -16,14 +16,12 @@ $ assemble_setup: /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgen
 setup[retrain_everySplit]: 2592 rows, 18 locations, 1998-01..2009-12, flags {'n_periods': 3, 'n_splits': 8, 'stride': 3, 'n_retrain': 8}, choices {'population': 'a_static', 'trainingWindow': 'a_from1998', 'provinces': 'a_chapFilter', 'retrain': 'b_everySplit'}
 
 $ persistence/a_empiricalChange: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/01_persistence/a_empiricalChange/run.sh
-persistence[retrain_everySplit]: 20 s (2.5 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/retrain_everySplit
+persistence[retrain_everySplit]: 23 s (2.8 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/retrain_everySplit
 
 $ climatology/a_expandingWindow: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/run.sh
-climatology[retrain_everySplit]: 22 s (2.7 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/results/retrain_everySplit
+climatology[retrain_everySplit]: 20 s (2.5 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/results/retrain_everySplit
 
 $ reference: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/02_reference/run.sh
 reference repeat 1 of 4
 reference repeat 2 of 4
-reference repeat 3 of 4
-reference repeat 4 of 4
-chap eval failed (1); see /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/02_reference/results/retrain_everySplit/eval_repeat_4.log
+chap eval failed (1); see /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/02_reference/results/retrain_everySplit/eval_repeat_2.log

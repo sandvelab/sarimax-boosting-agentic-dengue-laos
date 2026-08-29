@@ -9,5 +9,5 @@
  "model": "climatology",
  "route": "MLproject with uv_env, native",
  "seconds_per_split": 2.1,
- "wall_clock_seconds": 16.7
+ "wall_clock_seconds": 16.8
 }

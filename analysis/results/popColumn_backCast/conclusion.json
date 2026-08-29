@@ -8,21 +8,21 @@
  "candidate_exists": true,
  "combo": "popColumn_backCast",
  "coverage_10_90_ours": 0.8652291105121294,
- "coverage_10_90_reference": 0.8180592991913747,
+ "coverage_10_90_reference": 0.8194070080862533,
  "coverage_25_75_ours": 0.7681940700808625,
- "coverage_25_75_reference": 0.6159029649595688,
+ "coverage_25_75_reference": 0.6185983827493261,
  "crps_by_model": {
   "climatology": 24.336908636118597,
   "ensemble": 19.011371735849057,
   "persistence": 24.879338288409706,
-  "reference": 21.910239361185983,
-  "reference_r1": 21.887237433962262,
-  "reference_r2": 21.709377231805927,
-  "reference_r3": 21.960492506738543,
-  "reference_r4": 22.083850272237196
+  "reference": 21.969695783018867,
+  "reference_r1": 22.08225370080863,
+  "reference_r2": 21.94282822102426,
+  "reference_r3": 21.87678831536388,
+  "reference_r4": 21.976912894878705
  },
  "crps_ours": 19.011371735849057,
- "crps_reference": 21.910239361185983,
+ "crps_reference": 21.969695783018867,
  "dataset": "development",
  "mae_ours": 23.704851752021565,
  "n_cells": 371,
@@ -31,14 +31,14 @@
  "our_model": "ensemble",
  "our_model_basis": "the main path through 03_models/03_candidate (c_ensemble)",
  "our_model_is_a_baseline": false,
- "paired_mean_diff_vs_reference": -2.898867625336927,
- "paired_se_cluster_split": 1.7161906146990455,
- "paired_win_rate_cells": 0.4123989218328841,
- "resolvable_difference_floor": 0.3744730404312669,
+ "paired_mean_diff_vs_reference": -2.958324047169812,
+ "paired_se_cluster_split": 1.7258922025121275,
+ "paired_win_rate_cells": 0.4150943396226415,
+ "resolvable_difference_floor": 0.20546538544474569,
  "skill_by_model": {
-  "climatology": -0.1107550326096145,
-  "ensemble": 0.13230652470516935,
-  "persistence": -0.135511934775276
+  "climatology": -0.10774900465073478,
+  "ensemble": 0.13465475700653085,
+  "persistence": -0.13243890739897268
  },
- "skill_score": 0.13230652470516935
+ "skill_score": 0.13465475700653085
 }

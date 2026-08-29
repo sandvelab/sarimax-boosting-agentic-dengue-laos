@@ -17,4 +17,4 @@ fig_crps_by_location.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/Repro
 fig_paired_vs_reference.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/aggregate_populationWeighted
 
 $ conclude: /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/scripts/conclude.py
-conclusion[aggregate_populationWeighted]: ensemble CRPS 28.577 vs reference 37.055 -> skill +0.2288  (placeholder: no candidate node yet)
+conclusion[aggregate_populationWeighted]: ensemble CRPS 28.577 vs reference 37.055 -> skill +0.2288

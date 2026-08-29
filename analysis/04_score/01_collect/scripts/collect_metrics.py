@@ -23,6 +23,14 @@ what makes a candidate-internal fork cheap: it changed nothing the reference or 
 baselines face, so re-running them would only replace an unseeded model's draw with a
 different one. `analysis/run.sh` sets no base and therefore inherits nothing.
 
+**Inheritance is per fork, not per node**, which is what keeps the sentence above true.
+A combination that moves a baseline fork runs one child of it and not the other, so the
+other has no results under `COMBO` and would otherwise be inherited from the base —
+putting two persistence baselines on one leaderboard, one of them produced by the very
+analysis the row is defined against. A node whose sibling ran under `COMBO` is therefore
+the path not taken, and is not inherited. Which child was scored is on the face of
+`models.csv`, in its `node` column.
+
 **The unseeded reference is carried as its repeats and as their mean.** Its evaluation is
 a draw, not a constant, so each repeat becomes its own row and a further row holds the
 per-cell mean over them. Downstream, the mean is the denominator of the skill score --
@@ -39,6 +47,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -107,6 +116,23 @@ def cell_table(evaluation: Path, model: str) -> pd.DataFrame:
     return table
 
 
+def fork_choice(node: Path) -> tuple[str, str] | None:
+    """The nearest alternatives fork above `node`, and the child of it `node` sits in.
+
+    `(None, None)` where there is none -- the reference model is not a child of any fork,
+    and neither is a model node that sits directly under a sub-analyses parent.
+    """
+    current = node
+    while current != MODELS and MODELS in current.parents:
+        parent = current.parent
+        claim = parent / "claim.md"
+        if claim.exists() and re.search(r"^kind:\s*alternatives\s*$",
+                                        claim.read_text(), re.M):
+            return str(parent.relative_to(MODELS)), current.name
+        current = parent
+    return None, None
+
+
 def specs() -> list[tuple[Path, dict, str]]:
     """Every model scored for this combination, in tree order, with where it came from.
 
@@ -126,9 +152,24 @@ def specs() -> list[tuple[Path, dict, str]]:
              for p in sorted(MODELS.glob(f"**/results/{COMBO}/model_spec.json"))]
     seen = {node for node, _, _ in found}
     if BASE:
-        found += [(p.parents[2], p, BASE)
-                  for p in sorted(MODELS.glob(f"**/results/{BASE}/model_spec.json"))
-                  if p.parents[2] not in seen]
+        taken = {fork: child for fork, child in
+                 (fork_choice(node) for node in seen) if fork}
+        for p in sorted(MODELS.glob(f"**/results/{BASE}/model_spec.json")):
+            node = p.parents[2]
+            if node in seen:
+                continue
+            # Inheritance is per fork, not per node. A node with no results under this
+            # combination is normally a model the combination did not need to re-run --
+            # but if a *sibling* of it ran, the fork moved, and this node is the path not
+            # taken. Inheriting it would put both children of one fork on the leaderboard:
+            # two persistence baselines, one of them from an analysis this row is defined
+            # against. The docstring above says exactly one child of a fork has results
+            # under any one combination, and until batch 22 nothing made that true across
+            # the inheritance boundary.
+            fork, child = fork_choice(node)
+            if fork and taken.get(fork, child) != child:
+                continue
+            found.append((node, p, BASE))
     if not found:
         raise SystemExit(f"no model has results for combination {COMBO!r}"
                          + (f" or its base {BASE!r}" if BASE else "")

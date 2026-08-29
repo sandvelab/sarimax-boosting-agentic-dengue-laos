@@ -41,7 +41,7 @@
  "n_tier2": 8,
  "not_costed": {
   "02_setup on non-setup rows": "not run there, so not charged",
-  "building the children that do not exist yet": "2 of the tier-1 rows have no scripts. Writing them is implementation effort, which this manifest does not cost, and it is what batches 13 and 22 are for.",
+  "building the children that do not exist yet": "0 of the tier-1 rows have no scripts. Writing them is implementation effort, which this manifest does not cost, and it is what batches 13 and 22 are for.",
   "the external population series b_backCast needs": "an annual Lao population series is an input the repository does not hold. Acquiring and archiving it is a batch-13 dependency, not a compute cost."
  },
  "our_reported_family": "c_ensemble",
@@ -225,8 +225,5 @@
  },
  "tier2_rule_file": "results/tier2_rule.md",
  "tier2_rule_sha256": "30f23af3cc6411e0ca5df52b9cb76b1f389a39c9116d1135940d7abe20401ea8",
- "unbuilt_children": [
-  "climatology_frozenWindow",
-  "persistence_negBinomialFloor"
- ]
+ "unbuilt_children": []
 }

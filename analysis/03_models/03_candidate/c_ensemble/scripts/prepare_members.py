@@ -4,9 +4,16 @@ Candidate 3 is a pool over the models this project already has, and the one thin
 not do is contain copies of them. So this step does not describe the members — it
 **discovers** them, and writes down where they are:
 
-* every Chap contract directory in `03_models` that is not this node's own is a member,
-  found by globbing for `MLproject`. A model added to the tree joins the pool by existing,
-  and a model removed from it leaves by the same route;
+* every Chap contract directory in `03_models` that is not this node's own is a **candidate**
+  member, found by globbing for `MLproject`. A model added to the tree joins the pool by
+  existing, and a model removed from it leaves by the same route. **One of them is a member
+  per model, not per directory**: from batch 22 the glob finds two contracts for the
+  persistence baseline and two for climatology, because how uncertainty is wrapped around a
+  point baseline is a fork with two published answers. Every alternatives fork above a
+  contract is therefore resolved and only the child this combination takes is a member —
+  except the family fork, whose children are the candidate families this node exists to
+  pool. `member_selection.json` records the resolution; a doubled member name is a hard
+  failure rather than a silently doubled weight;
 * each member's `train` and `predict` command lines are copied out of its own `MLproject`,
   so the pool talks to its members through the platform's contract rather than through an
   interface invented here;
@@ -34,8 +41,10 @@ obscurely:
   running that assembler rather than by reimplementing it.
 
 Writes, under results/$COMBO/:
-  members.json   the pool's membership: nodes, contract directories, entry points,
-                 configurations, and the sha256 of every file behind them
+  members.json            the pool's membership: nodes, contract directories, entry
+                          points, configurations, and the sha256 of every file behind them
+  member_selection.json   every contract the glob found, whether it is a member of this
+                          combination's pool, and which fork decided that
 """
 
 from __future__ import annotations
@@ -65,6 +74,14 @@ COMBO = os.environ.get("COMBO", "main")
 MODELS = ROOT / "analysis" / "03_models"
 PYTHON = ROOT / "environment" / "chapenv" / "bin" / "python"
 OURS = NODE / "scripts" / "ensemble_model"
+
+# The one alternatives fork whose children are all members. Every other fork above a
+# contract directory chooses between constructions of *one* member, and the pool takes
+# the child this combination takes; see `on_this_combinations_path`.
+FAMILY_FORK = MODELS / "03_candidate"
+
+sys.path.insert(0, str(ROOT / "analysis" / "scripts" / "lib"))
+from combos import resolve_glob  # noqa: E402
 
 DEPENDENCY = re.compile(r'"\s*([A-Za-z0-9_.-]+)\s*==\s*([^"\s]+)\s*"')
 
@@ -120,6 +137,74 @@ def field(text: str, key: str) -> str | None:
     return value or None
 
 
+def alternatives_above(node: Path) -> list[tuple[Path, str]]:
+    """Every alternatives fork between `03_models` and `node`, with the child node sits in."""
+    out: list[tuple[Path, str]] = []
+    current = node
+    while current != MODELS and MODELS in current.parents:
+        parent = current.parent
+        claim = parent / "claim.md"
+        if claim.exists() and field(claim.read_text(), "kind") == "alternatives":
+            out.append((parent, current.name))
+        current = parent
+    return out
+
+
+def taken_child(fork: Path) -> tuple[str, str]:
+    """The child of `fork` this combination scores, and how that was resolved.
+
+    Whichever child has a `model_spec.json` under this combination, else under the base
+    one, else the child the fork's `claim.md` names as its main path. The first two
+    answers come from `resolve_glob`, which is the same lookup every other combination-
+    aware step in the project uses, so a fork is resolved here exactly as `04_score`
+    resolves it -- one rule, not two that can disagree about which model ran.
+    """
+    found, where = resolve_glob(fork, "*/results/{combo}/model_spec.json")
+    children = sorted({p.parents[2].name for p in found})
+    if len(children) > 1:
+        raise SystemExit(
+            f"{fork.relative_to(ROOT)}: {children} all have results under "
+            f"{where!r}. Exactly one child of a fork is on any one combination's path, "
+            f"and the pool cannot decide which of two constructions of one member it "
+            f"contains.")
+    if children:
+        return children[0], f"has results under {where!r}"
+    main = field((fork / "claim.md").read_text(), "main-path")
+    if not main:
+        raise SystemExit(f"{fork.relative_to(ROOT)} has no main path and no child with "
+                         f"results under {COMBO!r}; the pool cannot resolve it")
+    return main, "the fork's main path; no child has results under this combination"
+
+
+def on_this_combinations_path(owner: Path) -> tuple[bool, list[dict]]:
+    """Whether this contract is the member the combination takes, and the forks it passed.
+
+    **The pool contains one model per member, not one per contract directory.** Discovery
+    globs for `MLproject`, and from batch 22 that glob finds two contracts for the
+    persistence baseline and two for climatology -- the two published constructions of
+    each, which are the children of a fork. Taking both would put two persistence models
+    in a pool whose claim is that it pools *the* persistence baseline, and would do it
+    silently, under every combination including `main`.
+
+    So every alternatives fork above a contract is resolved and only the child this
+    combination takes is a member. The one exception is the family fork itself, whose
+    children are the candidate families: pooling those is what this node is for, and they
+    are members precisely because they are siblings under it.
+    """
+    passed = []
+    for fork, child in alternatives_above(owner):
+        if fork == FAMILY_FORK:
+            passed.append({"fork": str(fork.relative_to(ROOT)), "child": child,
+                           "resolved_by": "the family fork: every child of it is a member"})
+            continue
+        taken, how = taken_child(fork)
+        passed.append({"fork": str(fork.relative_to(ROOT)), "child": child,
+                       "taken": taken, "resolved_by": how})
+        if taken != child:
+            return False, passed
+    return True, passed
+
+
 def ensure_configuration(owner: Path) -> Path:
     """The member family's assembled configuration for this combination, produced if absent.
 
@@ -156,12 +241,20 @@ def main() -> None:
 
     ours = pins(OURS)
     members, covariates = [], []
+    selection: list[dict] = []
     for contract_path in sorted(MODELS.glob("**/scripts/*/MLproject")):
         model_dir = contract_path.parent
         if OURS in [model_dir, *model_dir.parents] or model_dir == OURS:
             continue
         contract = yaml.safe_load(contract_path.read_text())
         owner = model_dir.parents[1]
+
+        taken, forks_passed = on_this_combinations_path(owner)
+        selection.append({"model_dir": str(model_dir.relative_to(ROOT)),
+                          "node": str(owner.relative_to(ROOT)),
+                          "is_a_member": taken, "forks": forks_passed})
+        if not taken:
+            continue
 
         # The environment check, at the top rather than three subprocesses down.
         theirs = pins(model_dir)
@@ -205,6 +298,35 @@ def main() -> None:
         raise SystemExit(f"no member contracts found under {MODELS}; the pool has "
                          f"nothing to pool")
 
+    # Two members under one name is the failure `on_this_combinations_path` exists to
+    # prevent, stated as an assertion rather than trusted to it. The pool weights its
+    # members equally, so a doubled member is a doubled weight, and the leaderboard would
+    # carry one row for two models. Checked here because the names are what every file
+    # downstream -- members.json, the fitted object, models.csv -- identifies them by.
+    doubled = sorted({m["name"] for m in members
+                      if sum(1 for other in members if other["name"] == m["name"]) > 1})
+    if doubled:
+        raise SystemExit(
+            f"the pool would contain {doubled} twice under one name, from "
+            f"{[m['model_dir'] for m in members if m['name'] in doubled]}. Two contract "
+            f"directories resolved onto this combination's path; a fork above one of "
+            f"them is not being taken.")
+
+    # How discovery narrowed, as a file. It is beside `members.json` rather than inside it
+    # because the pool's configuration carries `members.json`'s sha256 and the model
+    # refuses to run when the two disagree -- so a line of prose added to that file
+    # re-hashes the reported model's configuration and forces the headline analysis to be
+    # re-run to say it. The account belongs in the record either way; this is where it
+    # costs nothing.
+    (out / "member_selection.json").write_text(json.dumps({
+        "combo": COMBO,
+        "resolution": "one member per model, not one per contract directory: every "
+                      "alternatives fork above a contract is resolved to the child this "
+                      "combination takes. The family fork is the exception -- pooling "
+                      "its children is what this node is for.",
+        "contracts": selection,
+    }, indent=1, sort_keys=True) + "\n")
+
     document = {
         "combo": COMBO,
         "node": str(NODE.relative_to(ROOT)),
@@ -217,8 +339,10 @@ def main() -> None:
     (out / "members.json").write_text(json.dumps(document, indent=1, sort_keys=True) + "\n")
 
     listed = ", ".join(m["name"] for m in members)
+    off_path = [s["model_dir"] for s in selection if not s["is_a_member"]]
     print(f"ensemble members[{COMBO}]: {len(members)} — {listed}; covariates "
-          f"{covariates or 'none'} -> {out / 'members.json'}")
+          f"{covariates or 'none'} -> {out / 'members.json'}"
+          + (f"; not on this combination's path: {off_path}" if off_path else ""))
 
 
 if __name__ == "__main__":

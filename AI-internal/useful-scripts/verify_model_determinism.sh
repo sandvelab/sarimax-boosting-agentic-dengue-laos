@@ -59,9 +59,23 @@ mkdir -p "$OUT"
 # miss and named candidate 2 by its own path; batch 11 promoted the family fork, which
 # would have turned `hier_nb:analysis/03_models/03_candidate` into a check of the
 # ensemble reported as `hier_nb`. All three now name themselves.
+#
+# Batch 22 applies the same rule to the two baselines, which had been named by their fork
+# nodes because each fork had one built child. Both now have two, and a fork node routes
+# to whichever is on the main path -- so `persistence:.../01_persistence` would have
+# checked one construction, called it `persistence`, and left the other unchecked. Every
+# model in this project is now named by the leaf that holds its contract directory.
+#
+# The list has been edited three times for one reason, which is the argument for
+# discovering the leaves instead. What stops that here is naming: the leaves of a fork
+# hold models that score under the *same* name on the leaderboard -- both persistence
+# constructions write `persistence` -- so a discovered list needs a rule for naming the
+# check that the check does not currently have. Left explicit, and said out loud.
 MODELS=(
-  "persistence:analysis/03_models/01_baselines/01_persistence"
-  "climatology:analysis/03_models/01_baselines/02_climatology"
+  "persistence:analysis/03_models/01_baselines/01_persistence/a_empiricalChange"
+  "persistence_negBinomialFloor:analysis/03_models/01_baselines/01_persistence/b_negBinomialFloor"
+  "climatology:analysis/03_models/01_baselines/02_climatology/a_expandingWindow"
+  "climatology_frozenWindow:analysis/03_models/01_baselines/02_climatology/b_frozenWindow"
   "hier_nb:analysis/03_models/03_candidate/a_hierNB"
   "boosted:analysis/03_models/03_candidate/b_boosted"
   "ensemble:analysis/03_models/03_candidate/c_ensemble"

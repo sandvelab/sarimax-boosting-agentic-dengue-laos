@@ -217,3 +217,40 @@ alternatives-considered: reporting the comparison against the reference's best r
 than its four-repeat mean (rejected in batch 7 and unchanged: the mean is the denominator that
 does not move with an external model's sampler, and the repeats are reported beside it).
 agency: agent-autonomous
+
+---
+
+## Batch 13 — the seven setup and scoring combinations
+
+```
+result:
+                     results/$COMBO/leaderboard.csv
+                     results/$COMBO/paired_vs_reference.csv
+                     results/$COMBO/paired_summary.csv
+                     results/$COMBO/paired_by_split.csv
+                     results/$COMBO/reference_repeat_noise.csv
+                     results/$COMBO/comparison_notes.json
+script:              unchanged from the section(s) above; this batch changed no script at
+                     this node
+invocation:          unchanged, with COMBO set by
+                     analysis/05_stability/scripts/run_manifest.py --batch 13, and
+                     COMBO_BASE=main
+combinations:        aggregate_caseWeighted, aggregate_populationWeighted, popColumn_backCast, provinces_mergeVientiane, provinces_reportingOnly, retrain_everySplit, trainingWindow_from2004
+inputs:              unchanged in kind; each combination's own inputs are recorded in the
+                     specification this step writes under that combination
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+commit:              ce0eb34, except rows provinces_reportingOnly and retrain_everySplit
+                     which were re-run at 7035515 after the reference node gained a retry
+instructions-commit: 030bee2 (AGENTS.md unchanged by this batch)
+node:                analysis/04_score/03_compare
+produced:            2026-08-29
+```
+
+**What it establishes.** The leaderboard and the paired comparison under each row. **A caveat belongs on the two scoring rows**: everything this script computes — the paired difference, the clustered standard errors, the split-level comparison and the noise floor — is computed from the unweighted per-cell file, while the leaderboard's `mean_crps` comes from whichever aggregation child ran. So under `aggregate_populationWeighted` and `aggregate_caseWeighted` the headline is weighted and the spread beside it is not. That is recorded here, in `04_score/02_aggregate/claim.md` and in batch 13's report, and assigned to batch 14; it is not a defect in these files, it is a limit on how they may be read.
+
+**Why one section covers seven combinations.** The artefacts are named by their
+combination-invariant path, `results/$COMBO/…`. `/validate invariants` accepts that form only
+for combinations the stability manifest names, and its `combos` check keeps that set closed.
+
+agency: agent-autonomous.
+information: agent-retrieved.

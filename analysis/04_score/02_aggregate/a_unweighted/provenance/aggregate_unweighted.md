@@ -208,3 +208,47 @@ highest-burden provinces.
 
 alternatives-considered: none new; the fork's two siblings are unbuilt until batch 12.
 agency: agent-autonomous
+
+---
+
+## Batch 13 — moved onto the shared aggregation library
+
+```
+result:              results/$COMBO/metrics_summary.csv
+                     results/$COMBO/crps_by_location.csv
+                     results/$COMBO/crps_by_split.csv
+                     results/$COMBO/crps_by_region_split.csv
+                     results/$COMBO/crps_by_horizon.csv
+                     (the same five tables; unchanged)
+script:              scripts/aggregate_unweighted.py
+                     sha256:058de172193fd6024f259a99aad8fe217b16cb29d9edb00d957c2d6102fb1136
+                     analysis/04_score/scripts/lib/aggregate.py
+                     sha256:93dfb354e605db7bd7f281de89e66b06a8bc3201e4454f34aa4c2d45e502cef0
+invocation:          unchanged
+inputs:              unchanged
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+commit:              40b6936
+instructions-commit: 030bee2
+node:                analysis/04_score/02_aggregate/a_unweighted
+produced:            2026-08-29
+```
+
+**What changed and what did not.** Batch 13 built this fork's two other children, and rather
+than let three implementations of the headline mean exist side by side, all three now call
+`04_score/scripts/lib/aggregate.py`. This child became a one-screen runner naming its
+weighting and nothing else.
+
+**No reported number moved, and that is checked rather than argued.** The script was re-run
+under `COMBO=main` and `git status` reports `results/main/` unchanged — byte-identical across
+the refactor. The unweighted case is kept as its own code path inside the library for exactly
+this reason: weighting by a vector of ones and taking a mean are the same number in arithmetic
+and not always the same float, and this child produced the project's reported result before the
+library existed.
+
+alternatives-considered: leaving this child on its own implementation and writing the two new
+ones separately — rejected because the fork's whole point is that its children differ only in
+the weight, and three copies of one aggregation is the drift `03_models/scripts/lib/chap_eval.py`
+was created to prevent, one node over.
+
+agency: agent-autonomous.
+information: agent-retrieved — the byte-identity claim is `git status`, not recollection.

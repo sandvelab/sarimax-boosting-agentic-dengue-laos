@@ -1,0 +1,57 @@
+{
+ "combo": "retrain_everySplit",
+ "models": {
+  "climatology": {
+   "mean_crps_against": 22.220493938005394,
+   "mean_crps_model": 24.3369086361186,
+   "mean_diff": 2.116414698113208,
+   "n_splits": 8,
+   "se_cell_naive": 1.3833003859608721,
+   "se_cluster_location": 2.7459892386546816,
+   "se_cluster_split": 1.9742985545644562,
+   "se_split_level": 2.1150820131280232,
+   "skill_score": -0.09524606896759136,
+   "splits_model_better": 3,
+   "win_rate_cells": 0.4501347708894879
+  },
+  "ensemble": {
+   "mean_crps_against": 22.220493938005394,
+   "mean_crps_model": 18.551604981132076,
+   "mean_diff": -3.6688889568733143,
+   "n_splits": 8,
+   "se_cell_naive": 0.9888720094829693,
+   "se_cluster_location": 2.436126942137598,
+   "se_cluster_split": 1.8017229489983984,
+   "se_split_level": 1.9111755543759357,
+   "skill_score": 0.16511284434582885,
+   "splits_model_better": 6,
+   "win_rate_cells": 0.4393530997304582
+  },
+  "persistence": {
+   "mean_crps_against": 22.220493938005394,
+   "mean_crps_model": 24.57824721832884,
+   "mean_diff": 2.357753280323451,
+   "n_splits": 8,
+   "se_cell_naive": 2.058589600838887,
+   "se_cluster_location": 4.112552867100064,
+   "se_cluster_split": 2.946490378830408,
+   "se_split_level": 3.09540206043349,
+   "skill_score": -0.10610714986361325,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.4743935309973046
+  }
+ },
+ "n_cells": 371,
+ "noise_floor_largest_repeat_pair_mean_diff": 0.6425781859838271,
+ "noise_floor_largest_repeat_pair_se_cluster_split": 0.3738728557706347,
+ "reference": "reference",
+ "reference_repeats": [
+  "reference_r1",
+  "reference_r2",
+  "reference_r3",
+  "reference_r4"
+ ],
+ "resolvable_difference_note": "The largest mean paired difference between two repeats of the same unseeded reference model is the size of a difference this comparison cannot attribute to anything but the reference's own sampler.",
+ "unpaired_sd_across_splits_reference": 15.908061595125794,
+ "unpaired_se_across_splits_reference": 5.624349114723367
+}

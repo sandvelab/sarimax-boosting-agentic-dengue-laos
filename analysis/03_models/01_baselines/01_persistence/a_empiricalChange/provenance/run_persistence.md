@@ -79,3 +79,49 @@ recorded there and held as this node's unbuilt sibling.
 agency: agent-autonomous. The requirement for a persistence baseline is the plan's
 (`human-set`, §4); the construction of its predictive distribution was decided in batch 6;
 routing it through the tree is this batch's mechanical work.
+
+---
+
+## Batch 13 — the seven setup and scoring combinations
+
+```
+result:
+                     results/$COMBO/eval.nc
+                     results/$COMBO/eval.log
+                     results/$COMBO/fitted_model.json
+                     results/$COMBO/model_spec.json
+                     results/$COMBO/run_cost.json
+script:              unchanged from the section(s) above; this batch changed no script at
+                     this node
+invocation:          unchanged, with COMBO set by
+                     analysis/05_stability/scripts/run_manifest.py --batch 13, and
+                     COMBO_BASE=main
+combinations:        aggregate_caseWeighted, aggregate_populationWeighted, popColumn_backCast, provinces_mergeVientiane, provinces_reportingOnly, retrain_everySplit, trainingWindow_from2004
+inputs:              unchanged in kind; each combination's own inputs and their sha256 are
+                     recorded in the specification this step writes under that combination
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+commit:              ce0eb34, except rows provinces_reportingOnly and retrain_everySplit
+                     which were re-run at 7035515 after the reference node gained a retry
+instructions-commit: 030bee2 (AGENTS.md unchanged by this batch)
+node:                analysis/03_models/01_baselines/01_persistence/a_empiricalChange
+produced:            2026-08-29
+```
+
+**What it establishes.** Re-run on each of the five setup rows. **Its mean CRPS is 24.879 on every one of them, identical to the main path's** — the model uses neither population nor covariates, and merging a province that never reports cannot change the series it does read. An unseeded model reproducing exactly across five datasets is a determinism signal worth having.
+
+**Why one section covers seven combinations.** The artefacts are named by their
+combination-invariant path, `results/$COMBO/…`, because one script produces the same artefact
+under every combination from the same invocation — the combination is a parameter, and each
+file records its own in a `combo` field. `/validate invariants` accepts that form only for
+combinations the stability manifest names, and its `combos` check is what keeps that set
+closed, so the two checks close over each other rather than either being weakened.
+
+alternatives-considered: a section per combination, as batches 10 and 11 wrote for the family
+rows — rejected here because seven near-identical sections at twenty-odd nodes is 150 sections
+that say the same sentence, and the placeholder exists precisely so that a parameterised step
+is recorded once. Where a combination made this node do something *different*, that is in the
+paragraph above rather than in a section of its own.
+
+agency: agent-autonomous.
+information: agent-retrieved — every figure quoted above is read from the files this batch
+produced.

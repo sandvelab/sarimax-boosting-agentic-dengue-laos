@@ -121,3 +121,54 @@ property it was written to have.
 
 alternatives-considered: none new.
 agency: agent-autonomous
+
+---
+
+## Batch 13 — resolving our reported model through COMBO_BASE
+
+```
+result:              results/$COMBO/conclusion.json
+script:              scripts/conclude.py
+                     sha256:4d5c04b0c3d9384fbd4271db1f8a45c1cf19ea0568a0e102d108f3fafcc8e764
+invocation:          "$PYTHON" analysis/scripts/conclude.py
+                     (COMBO set by the stability driver; COMBO_BASE=main for every
+                     batch-13 row)
+inputs:              analysis/04_score/03_compare/results/$COMBO/leaderboard.csv
+                     analysis/04_score/03_compare/results/$COMBO/paired_summary.csv
+                     analysis/04_score/03_compare/results/$COMBO/comparison_notes.json
+                     analysis/03_models/03_candidate/claim.md  (the main-path field)
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none.
+commit:              ce0eb34
+instructions-commit: 030bee2
+node:                analysis
+produced:            2026-08-29
+```
+
+**The defect, found by running rather than by planning.** The script resolved our reported
+model by globbing for a `model_spec.json` under `results/$COMBO/` only. A combination that
+re-runs no model of ours has none — re-weighting a mean re-runs nothing — so both of batch 13's
+scoring rows fell through to the fallback branch, reported `candidate_exists: false`, and took
+"the best-scoring model of ours" instead. Under case weighting that is **persistence**, so
+`aggregate_caseWeighted/conclusion.json` named a required baseline as the model this project
+reports, with a skill score computed for it. The file was internally consistent and wrong.
+
+**The fix.** The lookup falls back to `COMBO_BASE`, and the basis string records that it did.
+It is deliberately narrow: it applies only when **no** child of the family fork produced a spec
+under this combination, and only when the inherited model is on this combination's leaderboard.
+A row that did move a family therefore still resolves against its own results — which is the
+separate defect batch 12 recorded for batch 14, and this must not paper over it.
+
+**Checked against the main path.** Re-run under `COMBO=main`, `results/main/conclusion.json` is
+byte-identical, so the change cannot have moved the reported conclusion.
+
+alternatives-considered: **resolving from `models.csv`'s `scored_under_combo`** rather than from
+the family fork — rejected because that file says which combination scored a model, not which
+model the project reports, and conflating the two is how a baseline became the answer in the
+first place. **Failing loudly when no candidate spec is found under COMBO** — rejected because
+the fallback branch has a legitimate use, from before `03_candidate` existed, and removing it
+would break the record of the batches that ran then.
+
+agency: agent-autonomous.
+information: agent-retrieved — the defect was read out of the produced `conclusion.json` files,
+not anticipated.

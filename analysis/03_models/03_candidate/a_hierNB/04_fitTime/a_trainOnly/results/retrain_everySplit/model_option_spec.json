@@ -1,0 +1,20 @@
+{
+ "additional_continuous_covariates": [],
+ "choice": "a_trainOnly",
+ "combo": "retrain_everySplit",
+ "description": "fit once in train; predict applies the stored fit",
+ "input_from_combo": "retrain_everySplit",
+ "node": "analysis/03_models/03_candidate/a_hierNB/04_fitTime/a_trainOnly",
+ "order": 4,
+ "premise": {
+  "months_of_history_the_fit_never_sees_at_the_last_split": 21,
+  "n_periods": 3,
+  "n_retrain": 8,
+  "n_splits": 8,
+  "one_fit_serves_every_split": false
+ },
+ "stage": "fit_time",
+ "user_option_values": {
+  "fit_time": "train"
+ }
+}

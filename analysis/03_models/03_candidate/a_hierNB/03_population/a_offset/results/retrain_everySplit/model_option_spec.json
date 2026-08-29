@@ -1,0 +1,19 @@
+{
+ "additional_continuous_covariates": [],
+ "choice": "a_offset",
+ "combo": "retrain_everySplit",
+ "description": "log(population) as a fixed offset; the model forecasts a rate",
+ "input_from_combo": "retrain_everySplit",
+ "node": "analysis/03_models/03_candidate/a_hierNB/03_population/a_offset",
+ "order": 3,
+ "premise": {
+  "population_max": 960194,
+  "population_min": 40280,
+  "population_ratio_largest_to_smallest": 23.83798411122145,
+  "provinces_with_nonpositive_population": []
+ },
+ "stage": "population",
+ "user_option_values": {
+  "population": "offset"
+ }
+}

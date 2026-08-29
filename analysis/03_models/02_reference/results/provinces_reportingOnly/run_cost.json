@@ -9,12 +9,12 @@
  "model": "reference",
  "repeats": 4,
  "route": "chapkit REST service, amd64 image under emulation",
- "seconds_per_split": 24.9,
- "wall_clock_seconds": 796.8,
+ "seconds_per_split": 21.9,
+ "wall_clock_seconds": 702.1,
  "wall_clock_seconds_per_repeat": [
-  139.3,
-  245.1,
-  188.2,
-  224.1
+  147.8,
+  192.6,
+  184.6,
+  177.0
  ]
 }

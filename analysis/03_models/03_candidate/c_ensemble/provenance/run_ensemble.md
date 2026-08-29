@@ -102,3 +102,38 @@ cell instead of by luck); giving the pool a fit-time fork as candidate 1 has (re
 pool does not fit anything of its own beyond the weights, and where the members fit is the
 members' fork).
 agency: agent-autonomous
+
+---
+
+## Batch 13 — the seven setup and scoring combinations
+
+```
+result:
+                     results/$COMBO/eval.log
+                     results/$COMBO/fitted_model.json
+                     results/$COMBO/model_spec.json
+                     results/$COMBO/run_cost.json
+script:              unchanged from the section(s) above; this batch changed no script at
+                     this node
+invocation:          unchanged, with COMBO set by
+                     analysis/05_stability/scripts/run_manifest.py --batch 13, and
+                     COMBO_BASE=main
+combinations:        aggregate_caseWeighted, aggregate_populationWeighted, popColumn_backCast, provinces_mergeVientiane, provinces_reportingOnly, retrain_everySplit, trainingWindow_from2004
+inputs:              unchanged in kind; each combination's own inputs are recorded in the
+                     specification this step writes under that combination
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+commit:              ce0eb34, except rows provinces_reportingOnly and retrain_everySplit
+                     which were re-run at 7035515 after the reference node gained a retry
+instructions-commit: 030bee2 (AGENTS.md unchanged by this batch)
+node:                analysis/03_models/03_candidate/c_ensemble
+produced:            2026-08-29
+```
+
+**What it establishes.** The reported model, re-run on each of the five setup rows. Its mean CRPS spans **18.552 to 19.011** across them, against 18.817 on the main path — a range of 0.46 CRPS, smaller than the reference's own 0.57 CRPS re-run spread. The pool is insensitive to every `02_setup` choice this project identified.
+
+**Why one section covers seven combinations.** The artefacts are named by their
+combination-invariant path, `results/$COMBO/…`. `/validate invariants` accepts that form only
+for combinations the stability manifest names, and its `combos` check keeps that set closed.
+
+agency: agent-autonomous.
+information: agent-retrieved.

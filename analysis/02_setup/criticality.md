@@ -21,3 +21,23 @@ this node contributes roughly **36 MB** across the whole stability run, of which
 stage copies. That is not enough to act on. If it ever were, the rule would be: keep the
 assembled dataset and the specification for every combination, drop the stage copies for
 combinations where `setup_spec.json` records all four transforms as the identity.
+
+## Added in batch 13 — the five children the main path does not take
+
+The five alternatives now produce the same two files per combination as the main-path
+children, so the table above applies to them unchanged. Two artifacts are new.
+
+| Artifact | Size | Role | Regenerable | Transparency | Note |
+|---|---|---|---|---|---|
+| `01_population/b_backCast/results/$COMBO/population_series.csv` | 12 KB | side result | yes, ~2 s | high | The per-province per-year population, with the national total and the scale factor beside it. Strictly derivable from the archived series and the snapshot, and kept because it is the only place the column that reached the models can be read without re-deriving it — which is what Rule 5 asks of a step that transforms a covariate. |
+| `03_provinces/c_mergeVientiane/results/$COMBO/merge_weights.csv` | 4 KB | side result | yes, ~2 s — **but only while the archived geojson survives** | high | The geodesic areas behind the climate merge. Four rows, and it is what a reader has to see to check that the merged rainfall is a defensible number rather than an average of two things. |
+
+**The storage picture does not change.** Five more children at 227 KB per combination each,
+and each child has results under exactly one combination, so batch 13 added about **1.1 MB**
+to a node whose total was already unremarkable. The stage-copy pruning rule stated above still
+applies and still has nothing to act on.
+
+**One thing here is not regenerable and it is not a file.** The rows these children were run
+under carry reference-model evaluations that cannot be reproduced — the model is unseeded —
+so `analysis_dataset.csv` regenerating in two seconds says nothing about the row regenerating.
+That question is settled at `03_models`, as before.

@@ -38,6 +38,31 @@ prose and did not carry them until this batch created them. And twelve of the fi
 do have scripts hold results produced around a main path that has since moved, so their
 directories describe a different analysis from the one their manifest row now names.
 
-No conclusion is stated here yet. `results/conclusions.csv` has 1 of 33 rows and says why
-the other 32 are empty, which is the honest state of a manifest that has been written and
-not yet run.
+**Batch 13 ran the seven setup and scoring rows.** `results/conclusions.csv` now has **8 of
+33**, and the shape of the answer is already visible.
+
+**The five `02_setup` forks do not move the conclusion.** Skill spans **+0.1266 to +0.1861**
+around the main path's +0.1485, and every one of those gaps is smaller than the reference's
+own 0.57 CRPS re-run spread. Three of the five move the score by moving *the reference*
+rather than our model: dropping two unevaluable provinces costs the reference 1.05 CRPS and
+our pool 0.03.
+
+**The one scoring fork moves it four times as much as any of them.** Population weighting
+gives +0.2288 and case weighting +0.2320, both about +0.08 of skill from the main path, from
+re-weighting a stored file and re-running nothing. The cheapest fork in the manifest —
+thirteen seconds against twenty minutes — is the one the conclusion is most sensitive to.
+
+**The main path sits near the bottom of the range.** Six of the seven perturbations improve
+the reported skill score. That is what a conservative main path looks like, and it is also
+what a systematically flattering set of alternatives would look like; eight rows cannot tell
+those apart, and the remaining sixteen tier-1 rows are what would.
+
+**Under case weighting, persistence beats the reported model** (86.598 against 88.484) and
+the pool's 10-90 coverage falls from 0.863 to 0.701. The pool is too wide on the quiet months
+and too narrow on the outbreak months, which no single weighting shows on its own. This is
+the most useful thing tier 1 has produced so far and it is not a skill score.
+
+Sixteen tier-1 rows remain: two baseline children batch 22 builds, and fourteen candidate and
+family rows batch 14 runs. Tier 2 stays unselected until every tier-1 row has been attempted —
+`plan_manifest.py` now refuses to apply `tier2_rule.md` before then, which is a change to when
+the rule is applied and not to the rule, whose sha256 is unchanged.

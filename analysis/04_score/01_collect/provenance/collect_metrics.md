@@ -193,3 +193,46 @@ that no longer exists; the cross-family comparison lives in
 `AI-generated/candidate-forks/families/family_leaderboard.csv`, which says under which
 combination each family ran).
 agency: agent-autonomous
+
+---
+
+## Batch 13 — the seven setup and scoring combinations
+
+```
+result:
+                     results/$COMBO/metrics_cell.csv
+                     results/$COMBO/models.csv
+script:              unchanged from the section(s) above; this batch changed no script at
+                     this node
+invocation:          unchanged, with COMBO set by
+                     analysis/05_stability/scripts/run_manifest.py --batch 13, and
+                     COMBO_BASE=main
+combinations:        aggregate_caseWeighted, aggregate_populationWeighted, popColumn_backCast, provinces_mergeVientiane, provinces_reportingOnly, retrain_everySplit, trainingWindow_from2004
+inputs:              unchanged in kind; each combination's own inputs and their sha256 are
+                     recorded in the specification this step writes under that combination
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+commit:              ce0eb34, except rows provinces_reportingOnly and retrain_everySplit
+                     which were re-run at 7035515 after the reference node gained a retry
+instructions-commit: 030bee2 (AGENTS.md unchanged by this batch)
+node:                analysis/04_score/01_collect
+produced:            2026-08-29
+```
+
+**What it establishes.** Collected under all seven rows. On the five setup rows every model was re-run and `scored_under_combo` names the row itself; on the two scoring rows every model was inherited from `main`, which is what makes a re-weighting cost thirteen seconds.
+
+**Why one section covers seven combinations.** The artefacts are named by their
+combination-invariant path, `results/$COMBO/…`, because one script produces the same artefact
+under every combination from the same invocation — the combination is a parameter, and each
+file records its own in a `combo` field. `/validate invariants` accepts that form only for
+combinations the stability manifest names, and its `combos` check is what keeps that set
+closed, so the two checks close over each other rather than either being weakened.
+
+alternatives-considered: a section per combination, as batches 10 and 11 wrote for the family
+rows — rejected here because seven near-identical sections at twenty-odd nodes is 150 sections
+that say the same sentence, and the placeholder exists precisely so that a parameterised step
+is recorded once. Where a combination made this node do something *different*, that is in the
+paragraph above rather than in a section of its own.
+
+agency: agent-autonomous.
+information: agent-retrieved — every figure quoted above is read from the files this batch
+produced.

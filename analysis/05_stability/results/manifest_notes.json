@@ -6,10 +6,10 @@
   "the reference's four repeats on tier-2 setup rows, reduced to two -- this doubles the noise on those rows' denominators and is recorded as such",
   "tier-1 rows below the rank line, in rank order, never by kind"
  ],
- "estimated_hours_tier1_both_datasets": 3.33,
+ "estimated_hours_tier1_both_datasets": 3.23,
  "estimated_seconds": {
-  "tier1_development": 7469.5,
-  "tier1_holdout": 4500.9,
+  "tier1_development": 7231.1,
+  "tier1_holdout": 4381.9,
   "tier2_development": "unresolved until tier 1 has conclusions"
  },
  "leaderboard_models": [
@@ -169,15 +169,15 @@
    "04_score": 1.5,
    "a_hierNB": 10.0,
    "b_boosted": 12.5,
-   "c_ensemble": 10.5,
+   "c_ensemble": 11.0,
    "climatology": 9.9,
    "persistence": 10.0,
    "reference": 39.5
   },
   "method": "each row's parts summed from the largest measured example of that part on disk; the holdout run is assumed the same size, which slightly overstates it at four splits rather than eight",
-  "on_disk_now_results_mb": 234.2,
-  "projected_tier1_both_datasets_mb": 1150.0,
-  "projected_tier1_development_mb": 575.0,
+  "on_disk_now_results_mb": 595.5,
+  "projected_tier1_both_datasets_mb": 1169.4,
+  "projected_tier1_development_mb": 584.7,
   "what_dominates": "chap eval's NetCDF: one eval.nc is about 9.4 MB and the per-cell CSV derived from it is about 0.18 MB, so the prune target is unambiguous and is annotated at 03_models rather than here"
  },
  "sweeps_consulted": [
@@ -221,7 +221,7 @@
   "family_ensemble"
  ],
  "tier2_group_shortfall": {
-  "reason": "tier 1 has not been run through: no attempt recorded for aggregate_caseWeighted, aggregate_populationWeighted, autoregressive_lag3, climatology_frozenWindow, covariates_lagged, covariates_rich, family_boosted, family_hierNB, features_richCalendar, fitTime_refitAtPredict, head_quantileEnsemble, observation_negBinomial, observation_zeroInflated, persistence_negBinomialFloor, popColumn_backCast, population_covariate, population_ignored, provinces_mergeVientiane, provinces_reportingOnly, retrain_everySplit, trainingWindow_from2004, weighting_crpsWeighted, yearVariance_shared"
+  "reason": "tier 1 has not been run through: no attempt recorded for autoregressive_lag3, climatology_frozenWindow, covariates_lagged, covariates_rich, family_boosted, family_hierNB, features_richCalendar, fitTime_refitAtPredict, head_quantileEnsemble, observation_negBinomial, observation_zeroInflated, persistence_negBinomialFloor, population_covariate, population_ignored, weighting_crpsWeighted, yearVariance_shared"
  },
  "tier2_rule_file": "results/tier2_rule.md",
  "tier2_rule_sha256": "30f23af3cc6411e0ca5df52b9cb76b1f389a39c9116d1135940d7abe20401ea8",

@@ -4,6 +4,6 @@ aggregate_caseWeighted,ran,13.8,4,analysis/05_stability/results/logs/aggregate_c
 aggregate_populationWeighted,ran,12.9,4,analysis/05_stability/results/logs/aggregate_populationWeighted.log,2026-08-29T11:48:33+00:00
 popColumn_backCast,ran,970.2,13,analysis/05_stability/results/logs/popColumn_backCast.log,2026-08-29T12:04:44+00:00
 provinces_mergeVientiane,ran,1148.3,13,analysis/05_stability/results/logs/provinces_mergeVientiane.log,2026-08-29T12:23:52+00:00
-provinces_reportingOnly,failed at reference,601.8,13,analysis/05_stability/results/logs/provinces_reportingOnly.log,2026-08-29T13:55:21+00:00
-retrain_everySplit,failed at reference,511.2,13,analysis/05_stability/results/logs/retrain_everySplit.log,2026-08-29T12:33:31+00:00
+provinces_reportingOnly,ran,835.9,13,analysis/05_stability/results/logs/provinces_reportingOnly.log,2026-08-29T14:11:26+00:00
+retrain_everySplit,ran,2226.2,13,analysis/05_stability/results/logs/retrain_everySplit.log,2026-08-29T14:48:32+00:00
 trainingWindow_from2004,ran,694.0,13,analysis/05_stability/results/logs/trainingWindow_from2004.log,2026-08-29T12:45:05+00:00

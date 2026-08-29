@@ -33,3 +33,16 @@ here binds.
 |---|---|---|---|---|---|
 | `03_compare/results/$COMBO/fig_accuracy_and_spread.png` + `.csv` | 132 KB + 1 KB | **main result** | yes, ~2 s | **highest** | The figure that shows CRPS and MAE ranking the models in opposite orders. Its plotted-values file is eight rows and is the cheapest way to read the batch's central finding. |
 | `03_compare/results/$COMBO/fig_accuracy_and_spread_preaggregation.csv` | 132 KB | side result | yes, ~2 s | medium | The per-cell scores the eight summary rows average — a subset of `metrics_cell.csv`'s columns. Prunable in the same breath as the other two pre-aggregation files, and after them, since it is the smallest. |
+
+## Added in batch 13 — the two weighted children of the aggregation fork
+
+| Artifact | Size | Role | Regenerable | Transparency | Note |
+|---|---|---|---|---|---|
+| `02_aggregate/{b,c}_*/results/$COMBO/` (the five tables) | ~75 KB per combination | **main result** | yes, ~1 s | **highest** | The same five tables `a_unweighted` writes, under a different weight. The headline of a scoring row is read from `metrics_summary.csv` here. |
+| `02_aggregate/{b,c}_*/results/$COMBO/weights.csv` | 12 KB | side result | yes, ~1 s | **high** | The weight of every cell. Small, and it is the only way to check that a weighted headline is a weighting of what it claims — the population column at each province-month, or the observed count. Also the file a weighted paired comparison would read when batch 14 adds one. |
+| `02_aggregate/{b,c}_*/results/$COMBO/weighting_notes.json` | 4 KB | **main result** | yes, ~1 s | **highest** | What the weighting concentrated and what it silenced: effective sample size, share of weight in the top decile and per province, and the count of groups with no weighted mean. For `c_caseWeighted` this is the file carrying the batch's most useful finding — 137 of 371 cells at zero weight, effective sample 65 — and it is 4 KB. |
+
+**Nothing here binds.** About 90 KB per weighted combination, and only two combinations take a
+weighted child. The pruning order stated above is unchanged: `paired_vs_reference.csv` first,
+then the figure pre-aggregation files. Neither new file is a candidate — they are among the
+smallest and most load-bearing files at this node.

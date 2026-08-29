@@ -1,0 +1,11 @@
+# climatology_frozenWindow [baseline] base=main
+
+$ persistence/a_empiricalChange: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/01_persistence/a_empiricalChange/run.sh
+persistence[climatology_frozenWindow]: 23 s (2.8 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/climatology_frozenWindow
+
+$ climatology/b_frozenWindow: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/b_frozenWindow/run.sh
+Traceback (most recent call last):
+  File "/Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/b_frozenWindow/scripts/run_climatology_frozen.py", line 31, in <module>
+    from chap_eval import run_local_model  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'chap_eval'

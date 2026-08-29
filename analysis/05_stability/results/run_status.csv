@@ -2,8 +2,10 @@ combination,status,seconds,steps,log,at
 main,ran,0.5,1,analysis/05_stability/results/logs/main.log,2026-08-28T22:19:26+00:00
 aggregate_caseWeighted,ran,13.8,4,analysis/05_stability/results/logs/aggregate_caseWeighted.log,2026-08-29T11:48:20+00:00
 aggregate_populationWeighted,ran,12.9,4,analysis/05_stability/results/logs/aggregate_populationWeighted.log,2026-08-29T11:48:33+00:00
+trainingWindow_from2004,ran,694.0,13,analysis/05_stability/results/logs/trainingWindow_from2004.log,2026-08-29T12:45:05+00:00
+provinces_reportingOnly,ran,835.9,13,analysis/05_stability/results/logs/provinces_reportingOnly.log,2026-08-29T14:11:26+00:00
 popColumn_backCast,ran,970.2,13,analysis/05_stability/results/logs/popColumn_backCast.log,2026-08-29T12:04:44+00:00
 provinces_mergeVientiane,ran,1148.3,13,analysis/05_stability/results/logs/provinces_mergeVientiane.log,2026-08-29T12:23:52+00:00
-provinces_reportingOnly,ran,835.9,13,analysis/05_stability/results/logs/provinces_reportingOnly.log,2026-08-29T14:11:26+00:00
 retrain_everySplit,ran,2226.2,13,analysis/05_stability/results/logs/retrain_everySplit.log,2026-08-29T14:48:32+00:00
-trainingWindow_from2004,ran,694.0,13,analysis/05_stability/results/logs/trainingWindow_from2004.log,2026-08-29T12:45:05+00:00
+climatology_frozenWindow,failed at climatology/b_frozenWindow,22.9,7,analysis/05_stability/results/logs/climatology_frozenWindow.log,2026-08-29T19:25:21+00:00
+persistence_negBinomialFloor,failed at persistence/b_negBinomialFloor,0.0,7,analysis/05_stability/results/logs/persistence_negBinomialFloor.log,2026-08-29T19:25:21+00:00

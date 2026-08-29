@@ -25,7 +25,7 @@ import sys
 from pathlib import Path
 
 NODE = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(NODE.parents[3] / "scripts" / "lib"))
+sys.path.insert(0, str(NODE.parents[2] / "scripts" / "lib"))
 
 from chap_eval import run_local_model  # noqa: E402
 

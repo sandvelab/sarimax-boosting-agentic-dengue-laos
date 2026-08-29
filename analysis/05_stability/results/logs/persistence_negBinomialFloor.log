@@ -1,0 +1,8 @@
+# persistence_negBinomialFloor [baseline] base=main
+
+$ persistence/b_negBinomialFloor: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/01_persistence/b_negBinomialFloor/run.sh
+Traceback (most recent call last):
+  File "/Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/01_persistence/b_negBinomialFloor/scripts/run_persistence_nb.py", line 30, in <module>
+    from chap_eval import run_local_model  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'chap_eval'

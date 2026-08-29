@@ -1,0 +1,9 @@
+additional_continuous_covariates:
+- rainfall
+- mean_temperature
+- mean_relative_humidity
+user_option_values:
+  members_file: analysis/03_models/03_candidate/c_ensemble/results/provinces_reportingOnly/members.json
+  members_sha256: af645c8a360773423afdede6626f568c1e2010964dc72b5a81297b42f598e9b6
+  seed: 1648567750
+  weighting: equal

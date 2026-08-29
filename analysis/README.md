@@ -55,7 +55,15 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
   `03_provinces`, `04_retrain`. The node's own script assembles their output into the one
   `analysis_dataset.csv` and the one set of evaluation flags every model reads, so a model
   never needs to know how many stages the setup has. **Every fork here re-scores every
-  model, ours and the reference alike.**
+  model, ours and the reference alike.** Batch 13 built the five children the main path does
+  not take: `b_backCast` (the snapshot scaled to each year by the archived national
+  population series), `b_from2004` (the second half of the record only, cut at the calendar
+  midpoint so the cut is not chosen by the zero rate it probes), `b_reportingOnly` (the two
+  provinces with no evaluable cell removed before the platform sees them, by a rule rather
+  than by name), `c_mergeVientiane` (the silent province folded into the capital, counts and
+  population summed and climate area-weighted from the archived polygons) and `b_everySplit`
+  (`n_retrain` set to the scheme's `n_splits`, read from the same file `assemble_setup.py`
+  reads it from).
 - **`03_models`** (sub-analyses) — what each model forecasts on that common ground.
   - **`01_baselines`** — `01_persistence` (a fork on how a predictive distribution is
     wrapped around a point forecast) and `02_climatology` (a fork on which window estimates
@@ -106,11 +114,16 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
     `chap eval`. It is a library, not a step.
 - **`04_score`** (sub-analyses) — `01_collect` (per-cell scores for every model that ran,
   from chap-core's own metrics), `02_aggregate` (a fork on the weighting of the headline
-  mean, whose `b_populationWeighted` and `c_caseWeighted` children batch 12 declared and
-  batch 13 builds), `03_compare` (the leaderboard, and the paired per-cell comparison
-  against the reference with the noise floor beside it). This fork re-scores every model
+  mean), `03_compare` (the leaderboard, and the paired per-cell comparison against the
+  reference with the noise floor beside it). The weighting fork re-scores every model
   without re-running any of them, which makes it the cheapest row in the manifest by three
-  orders of magnitude.
+  orders of magnitude. Batch 13 built `b_populationWeighted` and `c_caseWeighted`, and put
+  all three children on one implementation — `scripts/lib/aggregate.py`, a library rather
+  than a step — so that the diff between two children of the fork is the weight and the
+  reason for it. `a_unweighted` was moved onto it and reproduces its main-path output byte
+  for byte, which is the check that the refactor changed no reported number. The two
+  weighted children also write `weights.csv` and `weighting_notes.json`, which say how
+  concentrated the weighting is and how much of the cell set it silences.
 - `scripts/lib/palette.py` gives every model one colour and one marker, keyed on the model's
   own name so that a model keeps its colour across combinations and two figures drawn for
   different combinations can be laid side by side. A library, not a step; imported by the

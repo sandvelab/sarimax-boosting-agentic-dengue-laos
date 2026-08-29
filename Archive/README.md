@@ -23,3 +23,8 @@ Where an import has a binary original and a markdown conversion, they go in `ori
   pinned commit, with a checksum manifest the partition node re-verifies on every run. The
   `(IS_SHADOW)` line marker does not apply to them — inserting a line into a CSV would be an
   edit — so the folder's README and `provenance.md` carry that statement instead.
+- `lao-population/` — the World Bank's annual national population series for Lao PDR, the
+  one input the analysis needs that the dengue dataset does not carry. The population fork
+  under `analysis/02_setup` scales the dataset's static provincial snapshot by it. Same
+  write-once treatment and the same reason the `(IS_SHADOW)` line marker is in the README
+  rather than in the file.

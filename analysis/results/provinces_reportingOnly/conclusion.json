@@ -1,0 +1,44 @@
+{
+ "baselines": [
+  "climatology",
+  "persistence"
+ ],
+ "beats_all_baselines": true,
+ "beats_reference": true,
+ "candidate_exists": true,
+ "combo": "provinces_reportingOnly",
+ "coverage_10_90_ours": 0.862533692722372,
+ "coverage_10_90_reference": 0.7816711590296496,
+ "coverage_25_75_ours": 0.77088948787062,
+ "coverage_25_75_reference": 0.6179245283018868,
+ "crps_by_model": {
+  "climatology": 24.336908636118597,
+  "ensemble": 18.843148671159028,
+  "persistence": 24.879338288409706,
+  "reference": 23.485174665768195,
+  "reference_r1": 24.020547051212937,
+  "reference_r2": 23.38250707816712,
+  "reference_r3": 23.282516350404315,
+  "reference_r4": 23.25512818328841
+ },
+ "crps_ours": 18.843148671159028,
+ "crps_reference": 23.485174665768195,
+ "dataset": "development",
+ "mae_ours": 23.483827493261455,
+ "n_cells": 371,
+ "n_locations": 16,
+ "n_splits": 8,
+ "our_model": "ensemble",
+ "our_model_basis": "the main path through 03_models/03_candidate (c_ensemble)",
+ "our_model_is_a_baseline": false,
+ "paired_mean_diff_vs_reference": -4.642025994609164,
+ "paired_se_cluster_split": 1.9907051212444504,
+ "paired_win_rate_cells": 0.3773584905660377,
+ "resolvable_difference_floor": 0.7654188679245278,
+ "skill_by_model": {
+  "climatology": -0.03626687825285302,
+  "ensemble": 0.1976577164391009,
+  "persistence": -0.059363562012320514
+ },
+ "skill_score": 0.1976577164391009
+}

@@ -1,0 +1,29 @@
+# retrain_everySplit [setup] base=main
+
+$ popColumn/a_static: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/01_population/a_static/run.sh
+population/a_static: 2592 rows, constant per province True -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/01_population/a_static/results/retrain_everySplit
+
+$ trainingWindow/a_from1998: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/02_trainingWindow/a_from1998/run.sh
+trainingWindow/a_from1998: 2592 -> 2592 rows (1998-01..2009-12)
+
+$ provinces/a_chapFilter: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/03_provinces/a_chapFilter/run.sh
+provinces/a_chapFilter: 18 provinces in the file, 16 expected to contribute 371 cells
+
+$ retrain/b_everySplit: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/04_retrain/b_everySplit/run.sh
+retrain/b_everySplit: n_retrain=8 (= n_splits), 2592 rows pass through
+
+$ assemble_setup: /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/scripts/assemble_setup.py
+setup[retrain_everySplit]: 2592 rows, 18 locations, 1998-01..2009-12, flags {'n_periods': 3, 'n_splits': 8, 'stride': 3, 'n_retrain': 8}, choices {'population': 'a_static', 'trainingWindow': 'a_from1998', 'provinces': 'a_chapFilter', 'retrain': 'b_everySplit'}
+
+$ persistence/a_empiricalChange: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/01_persistence/a_empiricalChange/run.sh
+persistence[retrain_everySplit]: 20 s (2.5 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/retrain_everySplit
+
+$ climatology/a_expandingWindow: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/run.sh
+climatology[retrain_everySplit]: 22 s (2.7 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/results/retrain_everySplit
+
+$ reference: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/02_reference/run.sh
+reference repeat 1 of 4
+reference repeat 2 of 4
+reference repeat 3 of 4
+reference repeat 4 of 4
+chap eval failed (1); see /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/02_reference/results/retrain_everySplit/eval_repeat_4.log

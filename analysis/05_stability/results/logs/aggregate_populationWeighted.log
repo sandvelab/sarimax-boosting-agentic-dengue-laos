@@ -1,0 +1,20 @@
+# aggregate_populationWeighted [scoring] base=main
+
+$ collect: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/run.sh
+collect[aggregate_populationWeighted]: 8 model rows, 2968 cells, 16 locations -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/results/aggregate_populationWeighted; inherited from main: ['climatology', 'ensemble', 'persistence', 'reference', 'reference_r1', 'reference_r2', 'reference_r3', 'reference_r4']
+
+$ aggregate/b_populationWeighted: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/02_aggregate/b_populationWeighted/run.sh
+aggregate/b_populationWeighted[aggregate_populationWeighted]: 8 models over 371 cells, population; best ensemble at CRPS 28.577
+
+$ compare: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/run.sh
+compare[aggregate_populationWeighted]: 8 leaderboard rows; reference CRPS 37.055 over 371 cells
+  ensemble       diff   -3.282  se(split-clustered) 1.726  skill +0.148  wins 43% of cells
+  persistence    diff   +2.781  se(split-clustered) 2.985  skill -0.126  wins 47% of cells
+  climatology    diff   +2.238  se(split-clustered) 1.919  skill -0.101  wins 44% of cells
+  noise floor (reference vs its own repeats): largest |mean diff| 0.565
+fig_accuracy_and_spread.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/aggregate_populationWeighted
+fig_crps_by_location.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/aggregate_populationWeighted
+fig_paired_vs_reference.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/aggregate_populationWeighted
+
+$ conclude: /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/scripts/conclude.py
+conclusion[aggregate_populationWeighted]: ensemble CRPS 28.577 vs reference 37.055 -> skill +0.2288  (placeholder: no candidate node yet)

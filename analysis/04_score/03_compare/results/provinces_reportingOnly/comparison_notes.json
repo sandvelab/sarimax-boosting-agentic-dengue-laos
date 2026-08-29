@@ -1,0 +1,57 @@
+{
+ "combo": "provinces_reportingOnly",
+ "models": {
+  "climatology": {
+   "mean_crps_against": 23.485174665768195,
+   "mean_crps_model": 24.3369086361186,
+   "mean_diff": 0.8517339703504042,
+   "n_splits": 8,
+   "se_cell_naive": 1.713605545724135,
+   "se_cluster_location": 3.5299559854085825,
+   "se_cluster_split": 1.4843170558686847,
+   "se_split_level": 1.5884596567249072,
+   "skill_score": -0.03626687825285302,
+   "splits_model_better": 3,
+   "win_rate_cells": 0.4797843665768194
+  },
+  "ensemble": {
+   "mean_crps_against": 23.485174665768195,
+   "mean_crps_model": 18.843148671159028,
+   "mean_diff": -4.642025994609164,
+   "n_splits": 8,
+   "se_cell_naive": 1.3763384476411284,
+   "se_cluster_location": 2.7983517984035458,
+   "se_cluster_split": 1.9907051212444504,
+   "se_split_level": 2.138970338275847,
+   "skill_score": 0.1976577164391009,
+   "splits_model_better": 5,
+   "win_rate_cells": 0.37735849056603776
+  },
+  "persistence": {
+   "mean_crps_against": 23.485174665768195,
+   "mean_crps_model": 24.879338288409706,
+   "mean_diff": 1.39416362264151,
+   "n_splits": 8,
+   "se_cell_naive": 2.2279343607116076,
+   "se_cluster_location": 3.9622130491606,
+   "se_cluster_split": 2.2995192416657284,
+   "se_split_level": 2.395423152498785,
+   "skill_score": -0.059363562012320514,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.4339622641509434
+  }
+ },
+ "n_cells": 371,
+ "noise_floor_largest_repeat_pair_mean_diff": 0.7654188679245278,
+ "noise_floor_largest_repeat_pair_se_cluster_split": 0.39231433310025243,
+ "reference": "reference",
+ "reference_repeats": [
+  "reference_r1",
+  "reference_r2",
+  "reference_r3",
+  "reference_r4"
+ ],
+ "resolvable_difference_note": "The largest mean paired difference between two repeats of the same unseeded reference model is the size of a difference this comparison cannot attribute to anything but the reference's own sampler.",
+ "unpaired_sd_across_splits_reference": 15.851334976670666,
+ "unpaired_se_across_splits_reference": 5.604293226431666
+}

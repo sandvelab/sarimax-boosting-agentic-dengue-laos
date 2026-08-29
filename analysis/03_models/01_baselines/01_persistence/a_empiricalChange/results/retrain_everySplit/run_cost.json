@@ -1,0 +1,13 @@
+{
+ "combo": "retrain_everySplit",
+ "eval_flags": {
+  "n_periods": 3,
+  "n_retrain": 8,
+  "n_splits": 8,
+  "stride": 3
+ },
+ "model": "persistence",
+ "route": "MLproject with uv_env, native",
+ "seconds_per_split": 2.5,
+ "wall_clock_seconds": 19.6
+}

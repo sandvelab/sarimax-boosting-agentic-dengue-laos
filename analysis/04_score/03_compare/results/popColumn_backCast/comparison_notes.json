@@ -1,0 +1,57 @@
+{
+ "combo": "popColumn_backCast",
+ "models": {
+  "climatology": {
+   "mean_crps_against": 21.910239361185987,
+   "mean_crps_model": 24.3369086361186,
+   "mean_diff": 2.4266692749326135,
+   "n_splits": 8,
+   "se_cell_naive": 1.3309598401740361,
+   "se_cluster_location": 2.6276659907653492,
+   "se_cluster_split": 1.8717137020164178,
+   "se_split_level": 2.009139079576187,
+   "skill_score": -0.1107550326096145,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.4393530997304582
+  },
+  "ensemble": {
+   "mean_crps_against": 21.910239361185987,
+   "mean_crps_model": 19.011371735849053,
+   "mean_diff": -2.898867625336927,
+   "n_splits": 8,
+   "se_cell_naive": 0.944627368553795,
+   "se_cluster_location": 2.2900833886904044,
+   "se_cluster_split": 1.7161906146990455,
+   "se_split_level": 1.8243248749821763,
+   "skill_score": 0.13230652470516957,
+   "splits_model_better": 6,
+   "win_rate_cells": 0.4123989218328841
+  },
+  "persistence": {
+   "mean_crps_against": 21.910239361185987,
+   "mean_crps_model": 24.879338288409706,
+   "mean_diff": 2.9690989272237194,
+   "n_splits": 8,
+   "se_cell_naive": 2.054250989625131,
+   "se_cluster_location": 4.081740828765938,
+   "se_cluster_split": 2.901262135751641,
+   "se_split_level": 3.0488255186707742,
+   "skill_score": -0.135511934775276,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.4555256064690027
+  }
+ },
+ "n_cells": 371,
+ "noise_floor_largest_repeat_pair_mean_diff": 0.3744730404312669,
+ "noise_floor_largest_repeat_pair_se_cluster_split": 0.2135609996803506,
+ "reference": "reference",
+ "reference_repeats": [
+  "reference_r1",
+  "reference_r2",
+  "reference_r3",
+  "reference_r4"
+ ],
+ "resolvable_difference_note": "The largest mean paired difference between two repeats of the same unseeded reference model is the size of a difference this comparison cannot attribute to anything but the reference's own sampler.",
+ "unpaired_sd_across_splits_reference": 15.914988345944217,
+ "unpaired_se_across_splits_reference": 5.626798090961015
+}

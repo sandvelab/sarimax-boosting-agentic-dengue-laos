@@ -1,0 +1,20 @@
+{
+ "combo": "provinces_mergeVientiane",
+ "eval_flags": {
+  "n_periods": 3,
+  "n_retrain": 1,
+  "n_splits": 8,
+  "stride": 3
+ },
+ "model": "reference",
+ "repeats": 4,
+ "route": "chapkit REST service, amd64 image under emulation",
+ "seconds_per_split": 23.3,
+ "wall_clock_seconds": 745.9,
+ "wall_clock_seconds_per_repeat": [
+  162.1,
+  184.1,
+  193.6,
+  206.0
+ ]
+}

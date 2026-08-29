@@ -1,0 +1,238 @@
+{
+ "additional_continuous_covariates": [
+  "rainfall",
+  "mean_temperature",
+  "mean_relative_humidity"
+ ],
+ "combo": "popColumn_backCast",
+ "discovered_by": "glob analysis/03_models/**/scripts/*/MLproject, excluding this node's own contract directory",
+ "members": [
+  {
+   "configured_by": null,
+   "contract_name": "persistence_baseline",
+   "dependencies": {
+    "numpy": "2.5.2",
+    "pandas": "3.0.5"
+   },
+   "entry_points": {
+    "predict": {
+     "command": "python predict.py {model} {historic_data} {future_data} {out_file}",
+     "parameters": [
+      "future_data",
+      "historic_data",
+      "model",
+      "out_file"
+     ]
+    },
+    "train": {
+     "command": "python train.py {train_data} {model}",
+     "parameters": [
+      "model",
+      "train_data"
+     ]
+    }
+   },
+   "model_config": null,
+   "model_config_contents": null,
+   "model_config_sha256": null,
+   "model_dir": "analysis/03_models/01_baselines/01_persistence/a_empiricalChange/scripts/persistence_model",
+   "model_files_sha256": {
+    "MLproject": "cbd3158db12438ac9dc2ce94d4397b9cce2e02170c76f3715004a83221d7f0d6",
+    "README.md": "07f3a0db7175e91221e593ad979e207b767c92812df87f25938302ac5dd94278",
+    "predict.py": "e9e96b8fb0290b70fc6db7ca0d865b940a2987cce563d68172d49df77db5ab7e",
+    "pyproject.toml": "d9bea910f823bf3b61d4b70192ca4f330a7fc2ad2d026e97dce4e44d636357f7",
+    "train.py": "8ddad23fbbced15af6e31b1321dc6ccd91348754c734137c94aac80f0ef3a42c",
+    "uv.lock": "b02aa38515b1a2112f949bdfe9eee55ba9c7a7baf3163f3b97630c5991c28311"
+   },
+   "name": "persistence",
+   "node": "analysis/03_models/01_baselines/01_persistence/a_empiricalChange"
+  },
+  {
+   "configured_by": null,
+   "contract_name": "seasonal_climatology",
+   "dependencies": {
+    "numpy": "2.5.2",
+    "pandas": "3.0.5"
+   },
+   "entry_points": {
+    "predict": {
+     "command": "python predict.py {model} {historic_data} {future_data} {out_file}",
+     "parameters": [
+      "future_data",
+      "historic_data",
+      "model",
+      "out_file"
+     ]
+    },
+    "train": {
+     "command": "python train.py {train_data} {model}",
+     "parameters": [
+      "model",
+      "train_data"
+     ]
+    }
+   },
+   "model_config": null,
+   "model_config_contents": null,
+   "model_config_sha256": null,
+   "model_dir": "analysis/03_models/01_baselines/02_climatology/a_expandingWindow/scripts/climatology_model",
+   "model_files_sha256": {
+    "MLproject": "88629436ded4b7624f7883ebfe93d415eaa9755b9b2104e3b25d43134bc8e7b3",
+    "README.md": "6d9846191e654715a3d221710c5f672a53ba077ed7e316e7ea0a7c2c9ab8b58e",
+    "predict.py": "bcc27e087e107044352f015072d1cc1df872958d4d3da655c0d9632f9d576709",
+    "pyproject.toml": "ad4e90168d860af875a403c34ea4c0da26a1dcbe99d2ee7db14b4fb551a374a6",
+    "train.py": "aefaaea693b57dfbbc913275eeac53b9e98d0d87f8a2effaa0e8e0df8557e75a",
+    "uv.lock": "9867dae7038607dad50ea7ea0eac209ae6bc6828041700c0d0afddd94ac009d4"
+   },
+   "name": "climatology",
+   "node": "analysis/03_models/01_baselines/02_climatology/a_expandingWindow"
+  },
+  {
+   "configured_by": {
+    "autoregressive": "a_none",
+    "covariates": "c_climateFree",
+    "fit_time": "a_trainOnly",
+    "observation": "c_hurdle",
+    "population": "a_offset",
+    "year_variance": "b_provinceScaled"
+   },
+   "contract_name": "hier_nb_candidate",
+   "dependencies": {
+    "numpy": "2.5.2",
+    "pandas": "3.0.5",
+    "pyyaml": "6.0.3"
+   },
+   "entry_points": {
+    "predict": {
+     "command": "python predict.py {model} {historic_data} {future_data} {out_file} {model_config}",
+     "parameters": [
+      "future_data",
+      "historic_data",
+      "model",
+      "model_config",
+      "out_file"
+     ]
+    },
+    "train": {
+     "command": "python train.py {train_data} {model} {model_config}",
+     "parameters": [
+      "model",
+      "model_config",
+      "train_data"
+     ]
+    }
+   },
+   "model_config": "analysis/03_models/03_candidate/a_hierNB/results/popColumn_backCast/model_configuration.yaml",
+   "model_config_contents": {
+    "additional_continuous_covariates": [],
+    "user_option_values": {
+     "autoregressive": "none",
+     "covariate_lags": [],
+     "covariates": [],
+     "fit_time": "train",
+     "observation": "hurdle",
+     "population": "offset",
+     "seed": 849487747,
+     "year_variance": "province_scaled"
+    }
+   },
+   "model_config_sha256": "28c7c617d5c26fa0f37f0c9601d690debc3ad9c05d63cb3e14512c16d385faf2",
+   "model_dir": "analysis/03_models/03_candidate/a_hierNB/scripts/hier_nb_model",
+   "model_files_sha256": {
+    "MLproject": "38964b3208a2662a13ff832357310794aa5ac778d4cf7d75080447e389ccdde3",
+    "README.md": "68c2899733ff5c959abeb1b82d6e08c1bd918d4193086ee5e49173829916ea83",
+    "hier_nb.py": "5bdb59a5b3986d68dec84d66afd1e199a927acf4829f7807be4d759bcdea35be",
+    "predict.py": "1cdb6ce0e971bbb3f3a86a4d60e3b52ab93eab300b316736cd1af007c6cd3135",
+    "pyproject.toml": "0ef5cfe8cf7ef0dc9edcfa517146055a3b6eeb0e55ecc03a278698fd9f5142da",
+    "train.py": "1f53ccdb593e62f044c4358e7555fc6b2ba5eb58258eda75853b710529276f0f",
+    "uv.lock": "a5a6840b752fc538f0d664f5ad2731c69008a973c17342d30180c342b1f5871a"
+   },
+   "name": "hier_nb",
+   "node": "analysis/03_models/03_candidate/a_hierNB"
+  },
+  {
+   "configured_by": {
+    "features": "a_lagBlock",
+    "head": "a_negBinomial"
+   },
+   "contract_name": "boosted_candidate",
+   "dependencies": {
+    "numpy": "2.5.2",
+    "pandas": "3.0.5",
+    "pyyaml": "6.0.3",
+    "scikit-learn": "1.7.2"
+   },
+   "entry_points": {
+    "predict": {
+     "command": "python predict.py {model} {historic_data} {future_data} {out_file} {model_config}",
+     "parameters": [
+      "future_data",
+      "historic_data",
+      "model",
+      "model_config",
+      "out_file"
+     ]
+    },
+    "train": {
+     "command": "python train.py {train_data} {model} {model_config}",
+     "parameters": [
+      "model",
+      "model_config",
+      "train_data"
+     ]
+    }
+   },
+   "model_config": "analysis/03_models/03_candidate/b_boosted/results/popColumn_backCast/model_configuration.yaml",
+   "model_config_contents": {
+    "additional_continuous_covariates": [
+     "rainfall",
+     "mean_temperature",
+     "mean_relative_humidity"
+    ],
+    "user_option_values": {
+     "climate_columns": [
+      "rainfall",
+      "mean_temperature",
+      "mean_relative_humidity"
+     ],
+     "climate_lags": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "count_lags": [
+      3,
+      4,
+      5,
+      6,
+      12
+     ],
+     "features": "lag_block",
+     "head": "negative_binomial",
+     "seed": 1877199108
+    }
+   },
+   "model_config_sha256": "208c71c747d8a5924fb54bd60b9ff16ddb020b8874c7bb8df5394c6bbc1ba8ae",
+   "model_dir": "analysis/03_models/03_candidate/b_boosted/scripts/boosted_model",
+   "model_files_sha256": {
+    "MLproject": "8be1d6513c59c4bf966587a6a02da7b28f32e6ddbbb0ec14b2ddba65194593c2",
+    "README.md": "39011321352c08125d980c6f91620448ec348c8db11293871539a893a63e75be",
+    "boosted.py": "fc2f86efbde8dbad1c697ca71969f36e4a1c9d5d3c8f824fa9f47dc451d7303b",
+    "predict.py": "44e65d9b4ec69d4f89f0d6da87f8f34aedf1e5259548042b1108f6d5ba8cfa3d",
+    "pyproject.toml": "d2f5a08403481c6921069341c628cf39297c97351ad916fb86ad7b9bd948f5d1",
+    "train.py": "1c787a11fd59938042235a6c50412f544640a97fc447309d16c5953fa1774aff",
+    "uv.lock": "794f21a324e02564a6768c66b2fadef613f78bc136a41420d1f483965e83393c"
+   },
+   "name": "boosted",
+   "node": "analysis/03_models/03_candidate/b_boosted"
+  }
+ ],
+ "node": "analysis/03_models/03_candidate/c_ensemble",
+ "pool_environment_pins": {
+  "numpy": "2.5.2",
+  "pandas": "3.0.5",
+  "pyyaml": "6.0.3",
+  "scikit-learn": "1.7.2"
+ }
+}

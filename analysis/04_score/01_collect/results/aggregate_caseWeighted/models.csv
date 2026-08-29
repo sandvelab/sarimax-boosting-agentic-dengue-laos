@@ -1,0 +1,9 @@
+model,origin,kind,node,seeded,n_samples,repeat_of,evaluation,scored_under_combo
+persistence,ours,local-mlproject,analysis/03_models/01_baselines/01_persistence/a_empiricalChange,False,1000,,eval.nc,main
+climatology,ours,local-mlproject,analysis/03_models/01_baselines/02_climatology/a_expandingWindow,False,1000,,eval.nc,main
+reference_r1,external,chapkit-service,analysis/03_models/02_reference,False,1000,reference,eval_repeat_1.nc,main
+reference_r2,external,chapkit-service,analysis/03_models/02_reference,False,1000,reference,eval_repeat_2.nc,main
+reference_r3,external,chapkit-service,analysis/03_models/02_reference,False,1000,reference,eval_repeat_3.nc,main
+reference_r4,external,chapkit-service,analysis/03_models/02_reference,False,1000,reference,eval_repeat_4.nc,main
+reference,external,repeat-mean,analysis/03_models/02_reference,False,4000,,mean of 4 repeats,main
+ensemble,ours,local-mlproject,analysis/03_models/03_candidate/c_ensemble,True,1000,,eval.nc,main

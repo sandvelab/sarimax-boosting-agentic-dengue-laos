@@ -1,0 +1,21 @@
+{
+ "additional_continuous_covariates": [],
+ "choice": "c_hurdle",
+ "combo": "popColumn_backCast",
+ "description": "a logistic model for reporting at all and a count model for how much",
+ "input_from_combo": "popColumn_backCast",
+ "node": "analysis/03_models/03_candidate/a_hierNB/01_observation/c_hurdle",
+ "order": 1,
+ "premise": {
+  "largest_month": 2643,
+  "mean_over_all_months": 32.32522031053294,
+  "mean_over_reporting_months": 73.92610364683301,
+  "median_over_reporting_months": 16.5,
+  "observed_cells": 2383,
+  "zero_share": 0.5627360469995804
+ },
+ "stage": "observation",
+ "user_option_values": {
+  "observation": "hurdle"
+ }
+}

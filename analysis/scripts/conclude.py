@@ -33,6 +33,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -41,6 +42,11 @@ NODE = Path(__file__).resolve().parents[1]
 COMBO = os.environ.get("COMBO", "main")
 REFERENCE = "reference"
 CANDIDATE_NODE = NODE / "03_models" / "03_candidate"
+
+sys.path.insert(0, str(NODE / "scripts" / "lib"))
+from combos import base  # noqa: E402
+
+BASE = base()
 
 
 def field(text: str, key: str) -> str | None:
@@ -58,9 +64,37 @@ def our_reported_model(board: pd.DataFrame) -> tuple[str, str, bool]:
     if (CANDIDATE_NODE / "claim.md").exists():
         main = field((CANDIDATE_NODE / "claim.md").read_text(), "main-path")
         spec = sorted((CANDIDATE_NODE / main).glob(f"**/results/{COMBO}/model_spec.json"))
+        inherited = None
+
+        # A combination that re-ran no model of ours has no spec under its own name --
+        # the scoring fork's children are the whole class of these, since re-weighting
+        # a mean re-runs nothing. Their models were inherited from COMBO_BASE and so is
+        # the answer to which of them is the reported one. Without this, batch 13's two
+        # weighting rows both reported `candidate_exists: false`, and the case-weighted
+        # row named *persistence* as the project's model, because the fallback below
+        # picks the best-scoring model of ours and under that weighting a baseline wins.
+        #
+        # The fallback is deliberately narrow. It applies only when *no* child of the
+        # family fork produced a spec under this combination, so a row that did move a
+        # family still resolves against its own results rather than being answered by
+        # the main path's -- which is the separate defect batch 14 fixes, and this must
+        # not paper over it.
+        if main and not spec and BASE and not sorted(
+                CANDIDATE_NODE.glob(f"**/results/{COMBO}/model_spec.json")):
+            candidate = sorted(
+                (CANDIDATE_NODE / main).glob(f"**/results/{BASE}/model_spec.json"))
+            # Only if the inherited model is actually on this combination's leaderboard.
+            if candidate and json.loads(
+                    candidate[0].read_text())["model"] in set(board.model):
+                spec, inherited = candidate, BASE
+
         if main and spec:
             name = json.loads(spec[0].read_text())["model"]
-            return name, f"the main path through 03_models/03_candidate ({main})", True
+            basis = f"the main path through 03_models/03_candidate ({main})"
+            if inherited:
+                basis += (f", resolved under combination {inherited!r} because this "
+                          f"combination re-ran no model of ours")
+            return name, basis, True
 
     best = ours.sort_values("mean_crps").iloc[0]
     return (best.model,

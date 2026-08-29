@@ -1,0 +1,18 @@
+# trainingWindow_from2004 [setup] base=main
+
+$ popColumn/a_static: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/01_population/a_static/run.sh
+population/a_static: 2592 rows, constant per province True -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/01_population/a_static/results/trainingWindow_from2004
+
+$ trainingWindow/b_from2004: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/02_trainingWindow/b_from2004/run.sh
+trainingWindow/b_from2004: 2592 -> 1296 rows (2004-01..2009-12), 1296 dropped, latest dropped 2003-12
+
+$ provinces/a_chapFilter: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/03_provinces/a_chapFilter/run.sh
+provinces/a_chapFilter: 18 provinces in the file, 16 expected to contribute 371 cells
+
+$ retrain/a_once: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/04_retrain/a_once/run.sh
+retrain/a_once: n_retrain=1, 1296 rows pass through
+
+$ assemble_setup: /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/scripts/assemble_setup.py
+setup[trainingWindow_from2004]: 1296 rows, 18 locations, 2004-01..2009-12, flags {'n_periods': 3, 'n_splits': 8, 'stride': 3, 'n_retrain': 1}, choices {'population': 'a_static', 'trainingWindow': 'b_from2004', 'provinces': 'a_chapFilter', 'retrain': 'a_once'}
+
+$ persistence/a_empiricalChange: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/01_persistence/a_empiricalChange/run.sh

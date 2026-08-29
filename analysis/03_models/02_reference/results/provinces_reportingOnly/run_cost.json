@@ -1,0 +1,20 @@
+{
+ "combo": "provinces_reportingOnly",
+ "eval_flags": {
+  "n_periods": 3,
+  "n_retrain": 1,
+  "n_splits": 8,
+  "stride": 3
+ },
+ "model": "reference",
+ "repeats": 4,
+ "route": "chapkit REST service, amd64 image under emulation",
+ "seconds_per_split": 24.9,
+ "wall_clock_seconds": 796.8,
+ "wall_clock_seconds_per_repeat": [
+  139.3,
+  245.1,
+  188.2,
+  224.1
+ ]
+}

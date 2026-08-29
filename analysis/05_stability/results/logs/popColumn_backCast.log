@@ -1,0 +1,67 @@
+# popColumn_backCast [setup] base=main
+
+$ popColumn/b_backCast: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/01_population/b_backCast/run.sh
+population/b_backCast: 2592 rows, anchor 2020, scale 0.7144..0.8496, snapshot total 4961076 vs national 7346533 at anchor (nearest year 1995)
+
+$ trainingWindow/a_from1998: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/02_trainingWindow/a_from1998/run.sh
+trainingWindow/a_from1998: 2592 -> 2592 rows (1998-01..2009-12)
+
+$ provinces/a_chapFilter: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/03_provinces/a_chapFilter/run.sh
+provinces/a_chapFilter: 18 provinces in the file, 16 expected to contribute 371 cells
+
+$ retrain/a_once: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/04_retrain/a_once/run.sh
+retrain/a_once: n_retrain=1, 2592 rows pass through
+
+$ assemble_setup: /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/scripts/assemble_setup.py
+setup[popColumn_backCast]: 2592 rows, 18 locations, 1998-01..2009-12, flags {'n_periods': 3, 'n_splits': 8, 'stride': 3, 'n_retrain': 1}, choices {'population': 'b_backCast', 'trainingWindow': 'a_from1998', 'provinces': 'a_chapFilter', 'retrain': 'a_once'}
+
+$ persistence/a_empiricalChange: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/01_persistence/a_empiricalChange/run.sh
+persistence[popColumn_backCast]: 18 s (2.3 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/popColumn_backCast
+
+$ climatology/a_expandingWindow: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/run.sh
+climatology[popColumn_backCast]: 17 s (2.1 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/results/popColumn_backCast
+
+$ reference: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/02_reference/run.sh
+reference repeat 1 of 4
+reference repeat 2 of 4
+reference repeat 3 of 4
+reference repeat 4 of 4
+reference[popColumn_backCast]: 4 repeats, 608 s total (19.0 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/02_reference/results/popColumn_backCast
+
+$ family/c_ensemble: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/run.sh
+weighting/a_equal[popColumn_backCast]: equal weights, nothing estimated; 4 members at 0.250 each, 2 of them required baselines -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/popColumn_backCast
+  a_hierNB: assembling its configuration under 'popColumn_backCast' from its forks' main paths
+    observation/c_hurdle[popColumn_backCast]: hurdle; zeros 0.56, mean over all months 32.3 against 73.9 over reporting months -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/01_observation/c_hurdle/results/popColumn_backCast
+    covariates/c_climateFree[popColumn_backCast]: no climate columns; ['rainfall', 'mean_temperature', 'mean_relative_humidity'] left out, 36 rows the main path drops are kept -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/02_covariates/c_climateFree/results/popColumn_backCast
+    population/a_offset[popColumn_backCast]: log(population) offset; largest/smallest 28.4 -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/03_population/a_offset/results/popColumn_backCast
+    fitTime/a_trainOnly[popColumn_backCast]: fit in train, n_retrain 1, 21 months of later history unused -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/04_fitTime/a_trainOnly/results/popColumn_backCast
+    autoregressive/a_none[popColumn_backCast]: no lagged-count term; the correlation it leaves unused at lag 3 is 0.701 -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/05_autoregressive/a_none/results/popColumn_backCast
+    yearVariance/b_provinceScaled[popColumn_backCast]: one variance per province; the widest province's annual spread is 5.6 times the narrowest -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/06_yearVariance/b_provinceScaled/results/popColumn_backCast
+    candidate[popColumn_backCast]: {'observation': 'c_hurdle', 'covariates': 'c_climateFree', 'population': 'a_offset', 'fit_time': 'a_trainOnly', 'autoregressive': 'a_none', 'year_variance': 'b_provinceScaled'}, covariates [], seed 849487747; taken here: ['observation=c_hurdle', 'covariates=c_climateFree', 'population=a_offset', 'fit_time=a_trainOnly', 'autoregressive=a_none', 'year_variance=b_provinceScaled'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/results/popColumn_backCast
+  b_boosted: assembling its configuration under 'popColumn_backCast' from its forks' main paths
+    features/a_lagBlock[popColumn_backCast]: 18 features; climate [0, 1, 2, 3], counts [3, 4, 5, 6, 12] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/01_features/a_lagBlock/results/popColumn_backCast
+    head/a_negBinomial[popColumn_backCast]: variance-to-mean by province 2.9..842.4 (Poisson would be 1.0) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/02_head/a_negBinomial/results/popColumn_backCast
+    boosted[popColumn_backCast]: {'features': 'a_lagBlock', 'head': 'a_negBinomial'}, covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'], seed 1877199108; taken here: ['features=a_lagBlock', 'head=a_negBinomial'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/results/popColumn_backCast
+ensemble members[popColumn_backCast]: 4 — persistence, climatology, hier_nb, boosted; covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/popColumn_backCast/members.json
+ensemble[popColumn_backCast]: {'weighting': 'a_equal'}, 4 members, covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'], seed 1648567750; taken here: ['weighting=a_equal'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/popColumn_backCast
+ensemble[popColumn_backCast]: 62 s (7.8 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/popColumn_backCast
+pool check[popColumn_backCast]: 19.011 as run; reconstruction not done, no stored evaluation of ['hier_nb', 'boosted'] under the configuration the pool gave them -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/popColumn_backCast/pool_check.json
+
+$ collect: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/run.sh
+collect[popColumn_backCast]: 8 model rows, 2968 cells, 16 locations -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/results/popColumn_backCast
+
+$ aggregate/a_unweighted: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/02_aggregate/a_unweighted/run.sh
+aggregate/a_unweighted[popColumn_backCast]: 8 models over 371 cells, unweighted; best ensemble at CRPS 19.011
+
+$ compare: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/run.sh
+compare[popColumn_backCast]: 8 leaderboard rows; reference CRPS 21.910 over 371 cells
+  ensemble       diff   -2.899  se(split-clustered) 1.716  skill +0.132  wins 41% of cells
+  climatology    diff   +2.427  se(split-clustered) 1.872  skill -0.111  wins 44% of cells
+  persistence    diff   +2.969  se(split-clustered) 2.901  skill -0.136  wins 46% of cells
+  noise floor (reference vs its own repeats): largest |mean diff| 0.374
+fig_accuracy_and_spread.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/popColumn_backCast
+fig_crps_by_location.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/popColumn_backCast
+fig_paired_vs_reference.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/popColumn_backCast
+
+$ conclude: /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/scripts/conclude.py
+conclusion[popColumn_backCast]: ensemble CRPS 19.011 vs reference 21.910 -> skill +0.1323

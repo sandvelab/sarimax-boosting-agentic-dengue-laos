@@ -32,6 +32,10 @@ beside it, so the spread stays visible rather than being averaged away silently.
 Rule 6 cannot be satisfied for this model. It is quantified instead, which is the honest
 alternative, and the asymmetry -- our baselines are bit-reproducible, the model we are
 measured against is not -- is one of the project's findings rather than an inconvenience.
+
+**Each repeat gets its own container.** See the comment at the loop: batch 13 found that
+one service shared across four repeats accumulates state and dies under a setup
+combination that asks it for sixteen jobs a repeat instead of two.
 """
 
 from __future__ import annotations
@@ -114,11 +118,20 @@ def main() -> None:
     flags = common["eval_flags"]
     pin = image_pin()
 
-    start_service(out)
+    # One container per repeat, not one for all four. The repeats are meant to be
+    # independent draws of an unseeded model, and serving them from a single long-lived
+    # service was a convenience that made them share accumulated state. Batch 13 found
+    # what that costs: under `n_retrain = 8` the reference runs sixteen jobs per repeat
+    # instead of two, the service slowed monotonically across the run -- 3.6, 5.6, then
+    # 7.5 minutes -- and died nine jobs into the fourth repeat with "Server disconnected
+    # without sending a response". A fresh container per repeat removes the accumulation
+    # and makes the repeats independent in fact as well as in intent; it costs about
+    # thirty seconds of start-up each.
     try:
         seconds = []
         for repeat in range(1, REPEATS + 1):
             print(f"reference repeat {repeat} of {REPEATS}")
+            start_service(out)
             seconds.append(chap_eval(
                 ROOT, model_name=f"http://localhost:{PORT}",
                 dataset=common["dataset_path"],

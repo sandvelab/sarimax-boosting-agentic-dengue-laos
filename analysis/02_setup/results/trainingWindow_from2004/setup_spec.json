@@ -1,0 +1,140 @@
+{
+ "choice_nodes": {
+  "population": "analysis/02_setup/01_population/a_static",
+  "provinces": "analysis/02_setup/03_provinces/a_chapFilter",
+  "retrain": "analysis/02_setup/04_retrain/a_once",
+  "trainingWindow": "analysis/02_setup/02_trainingWindow/b_from2004"
+ },
+ "choices": {
+  "population": "a_static",
+  "provinces": "a_chapFilter",
+  "retrain": "a_once",
+  "trainingWindow": "b_from2004"
+ },
+ "columns": [
+  "time_period",
+  "location",
+  "disease_cases",
+  "population",
+  "location_name",
+  "rainfall",
+  "mean_temperature",
+  "mean_relative_humidity"
+ ],
+ "combo": "trainingWindow_from2004",
+ "dataset": "analysis_dataset.csv",
+ "dataset_sha256": "4b541140e96cb1d0bd346935c84891ea5ae0eeac17633ec71fb93306e4ef5588",
+ "eval_flags": {
+  "n_periods": 3,
+  "n_retrain": 1,
+  "n_splits": 8,
+  "stride": 3
+ },
+ "eval_flags_source": {
+  "n_periods": "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json",
+  "n_retrain": "analysis/02_setup/04_retrain/a_once",
+  "n_splits": "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json",
+  "stride": "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json"
+ },
+ "identical_to_development_file": false,
+ "locations": 18,
+ "period_first": "2004-01",
+ "period_last": "2009-12",
+ "rows": 1296,
+ "stages": [
+  {
+   "choice": "a_static",
+   "combo": "trainingWindow_from2004",
+   "dataset_transform": "identity",
+   "description": "the archived population column, one constant per province",
+   "eval_flags": {},
+   "input": "analysis/01_data/01_partition/results/development_1998-01_2009-12.csv",
+   "input_sha256": "c9bf8b0849c768bfe6c65d54975dd08fa390204f8b59e76904170222a7a87d4c",
+   "locations": 18,
+   "node": "analysis/02_setup/01_population/a_static",
+   "order": 1,
+   "output_sha256": "c9bf8b0849c768bfe6c65d54975dd08fa390204f8b59e76904170222a7a87d4c",
+   "period_first": "1998-01",
+   "period_last": "2009-12",
+   "population_constant_per_province": true,
+   "population_max": 960194,
+   "population_min": 40280,
+   "provinces_with_varying_population": [],
+   "rows_in": 2592,
+   "rows_out": 2592,
+   "stage": "population"
+  },
+  {
+   "choice": "b_from2004",
+   "combo": "trainingWindow_from2004",
+   "cut_rule": "the calendar midpoint of the development period, fixed before the run and not chosen by the zero rate the fork exists to probe",
+   "dataset_transform": "rows before the cut removed; every kept row unchanged",
+   "description": "the second half of the development period; 1998-01 to 2003-12 dropped",
+   "eval_flags": {},
+   "evaluated_span": [
+    "2008-01",
+    "2009-12"
+   ],
+   "evaluated_span_untouched": true,
+   "first_period_kept": "2004-01",
+   "input": "analysis/02_setup/01_population/a_static/results/trainingWindow_from2004/analysis_dataset.csv",
+   "input_sha256": "c9bf8b0849c768bfe6c65d54975dd08fa390204f8b59e76904170222a7a87d4c",
+   "latest_period_dropped": "2003-12",
+   "locations": 18,
+   "node": "analysis/02_setup/02_trainingWindow/b_from2004",
+   "order": 2,
+   "output_sha256": "4b541140e96cb1d0bd346935c84891ea5ae0eeac17633ec71fb93306e4ef5588",
+   "period_first": "2004-01",
+   "period_last": "2009-12",
+   "rows_dropped": 1296,
+   "rows_in": 2592,
+   "rows_out": 1296,
+   "stage": "trainingWindow"
+  },
+  {
+   "choice": "a_chapFilter",
+   "combo": "trainingWindow_from2004",
+   "dataset_transform": "identity",
+   "description": "every province passed to the platform; inclusion left to its region filter",
+   "eval_flags": {},
+   "evaluated_span": [
+    "2008-01",
+    "2009-12"
+   ],
+   "expected_evaluable_cells": 371,
+   "expected_locations_contributing": 16,
+   "input": "analysis/02_setup/02_trainingWindow/b_from2004/results/trainingWindow_from2004/analysis_dataset.csv",
+   "input_sha256": "4b541140e96cb1d0bd346935c84891ea5ae0eeac17633ec71fb93306e4ef5588",
+   "locations_in_file": 18,
+   "locations_never_reporting": [
+    "LA-VI"
+   ],
+   "locations_with_no_observation_in_evaluated_span": [
+    "LA-XN"
+   ],
+   "node": "analysis/02_setup/03_provinces/a_chapFilter",
+   "order": 3,
+   "output_sha256": "4b541140e96cb1d0bd346935c84891ea5ae0eeac17633ec71fb93306e4ef5588",
+   "rows_in": 1296,
+   "rows_out": 1296,
+   "stage": "provinces"
+  },
+  {
+   "choice": "a_once",
+   "combo": "trainingWindow_from2004",
+   "dataset_transform": "identity",
+   "description": "chap-core's default: one fit on the training period, expanding historic window at predict",
+   "eval_flags": {
+    "n_retrain": 1
+   },
+   "input": "analysis/02_setup/03_provinces/a_chapFilter/results/trainingWindow_from2004/analysis_dataset.csv",
+   "input_sha256": "4b541140e96cb1d0bd346935c84891ea5ae0eeac17633ec71fb93306e4ef5588",
+   "node": "analysis/02_setup/04_retrain/a_once",
+   "order": 4,
+   "output_sha256": "4b541140e96cb1d0bd346935c84891ea5ae0eeac17633ec71fb93306e4ef5588",
+   "rows_in": 1296,
+   "rows_out": 1296,
+   "stage": "retrain"
+  }
+ ]
+}

@@ -18,3 +18,10 @@ does not belong on the same footing as a finding about the data.
   overwrite an existing file, because `Archive/` is write-once; on a populated archive it
   checks the checksums instead. `--verify` fails rather than fetching if anything is
   missing.
+- `fetch_lao_population.sh` — fetches the World Bank's annual national population series
+  for Lao PDR (indicator `SP.POP.TOTL`, 1990–2021) into `Archive/lao-population/`, and
+  writes `sha256sums.txt`. Same write-once behaviour and the same `--verify`. The archived
+  dengue dataset carries one static population figure per province; this series is what
+  `analysis/02_setup/01_population/b_backCast` scales it by. An API cannot be pinned by
+  commit the way the dataset is, so the request fixes the year range and the response's
+  own `lastupdated` vintage is recorded in the provenance file beside the checksum.

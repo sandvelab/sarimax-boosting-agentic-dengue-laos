@@ -1,0 +1,57 @@
+{
+ "combo": "provinces_mergeVientiane",
+ "models": {
+  "climatology": {
+   "mean_crps_against": 21.90947819137466,
+   "mean_crps_model": 24.3369086361186,
+   "mean_diff": 2.427430444743935,
+   "n_splits": 8,
+   "se_cell_naive": 1.322527280815313,
+   "se_cluster_location": 2.61749692381775,
+   "se_cluster_split": 1.8326410996803377,
+   "se_split_level": 1.9716102830313926,
+   "skill_score": -0.11079362199048504,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.4339622641509434
+  },
+  "ensemble": {
+   "mean_crps_against": 21.90947819137466,
+   "mean_crps_model": 19.006490361185985,
+   "mean_diff": -2.9029878301886787,
+   "n_splits": 8,
+   "se_cell_naive": 0.9206674625348157,
+   "se_cluster_location": 2.1828992078133087,
+   "se_cluster_split": 1.6894562168888716,
+   "se_split_level": 1.7956207117089973,
+   "skill_score": 0.1324991770607994,
+   "splits_model_better": 6,
+   "win_rate_cells": 0.41509433962264153
+  },
+  "persistence": {
+   "mean_crps_against": 21.90947819137466,
+   "mean_crps_model": 24.879338288409706,
+   "mean_diff": 2.969860097035041,
+   "n_splits": 8,
+   "se_cell_naive": 2.0341680643630653,
+   "se_cluster_location": 4.045220720885297,
+   "se_cluster_split": 2.8546155553724044,
+   "se_split_level": 3.004484868713335,
+   "skill_score": -0.1355513842499554,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.4582210242587601
+  }
+ },
+ "n_cells": 371,
+ "noise_floor_largest_repeat_pair_mean_diff": 0.35786903773584766,
+ "noise_floor_largest_repeat_pair_se_cluster_split": 0.37396565851130653,
+ "reference": "reference",
+ "reference_repeats": [
+  "reference_r1",
+  "reference_r2",
+  "reference_r3",
+  "reference_r4"
+ ],
+ "resolvable_difference_note": "The largest mean paired difference between two repeats of the same unseeded reference model is the size of a difference this comparison cannot attribute to anything but the reference's own sampler.",
+ "unpaired_sd_across_splits_reference": 16.073008908508523,
+ "unpaired_se_across_splits_reference": 5.682666796639082
+}

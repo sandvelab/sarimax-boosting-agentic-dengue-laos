@@ -1,0 +1,17 @@
+{
+ "choice": "a_once",
+ "combo": "popColumn_backCast",
+ "dataset_transform": "identity",
+ "description": "chap-core's default: one fit on the training period, expanding historic window at predict",
+ "eval_flags": {
+  "n_retrain": 1
+ },
+ "input": "analysis/02_setup/03_provinces/a_chapFilter/results/popColumn_backCast/analysis_dataset.csv",
+ "input_sha256": "458b8aaf125cb3de4fbb349a6bb7d11e33fa4bd52d67985f12a6fde74218bdb1",
+ "node": "analysis/02_setup/04_retrain/a_once",
+ "order": 4,
+ "output_sha256": "458b8aaf125cb3de4fbb349a6bb7d11e33fa4bd52d67985f12a6fde74218bdb1",
+ "rows_in": 2592,
+ "rows_out": 2592,
+ "stage": "retrain"
+}

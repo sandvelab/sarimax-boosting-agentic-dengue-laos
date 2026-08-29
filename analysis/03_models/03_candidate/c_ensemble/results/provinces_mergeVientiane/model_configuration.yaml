@@ -1,0 +1,9 @@
+additional_continuous_covariates:
+- rainfall
+- mean_temperature
+- mean_relative_humidity
+user_option_values:
+  members_file: analysis/03_models/03_candidate/c_ensemble/results/provinces_mergeVientiane/members.json
+  members_sha256: ab867dbf1d197c3b214b799af0f1dba9b55e28071eaf0978d3aae30a65e2b7c8
+  seed: 1648567750
+  weighting: equal

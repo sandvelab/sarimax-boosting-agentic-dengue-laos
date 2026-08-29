@@ -1032,3 +1032,70 @@ would move the reported denominator — the same call batch 11 made and for the 
 
 **Commits.** `26dca49` (node, manifest, invariant), `2e186f6` (records, annotations, report,
 plan), `5d21182` (the provenance correction).
+
+## T22 — Batch 22: the two baseline forks' children (2026-08-29)
+
+**What was built.** The two children the tree has named in prose since batch 5 and carried as
+empty nodes since batch 12. `01_persistence/b_negBinomialFloor` is the parametric construction
+of a probabilistic persistence baseline: mean = last observed count floored at 0.2, dispersion
+by maximum likelihood from the last five observations, the same distribution at every horizon.
+Every constant is the KIT baseline's (`github.com/KITmetricslab/KIT-baseline`, re-read for the
+horizon rule), because a stability alternative whose constants the agent chose could be tuned
+against the path taken. `02_climatology/b_frozenWindow` estimates the seasonal table once from
+the training frame and holds it fixed where the main path re-estimates from the expanding
+historic frame.
+
+Both are separate Chap contract directories rather than one directory with a switch: chap-core
+copies a contract directory whole into its run directory, so a library outside it does not
+travel with the model, and a switch would have re-hashed a model that produced six committed
+combinations' results. The cost, paid explicitly, is a duplicated table build in the
+climatology pair.
+
+**What the rows found.** They are the extremes of the tier-1 set. `climatology_frozenWindow`
+moves the reported skill by 0.0025 and its own baseline by 0.532 CRPS, inside the 0.565 floor,
+although the frozen table forecasts two dengue seasons it never saw.
+`persistence_negBinomialFloor` moves the reported skill by −0.0279, the largest move of any row
+and the first downward one that clears the noise, and its baseline by **4.181 CRPS** — in the
+direction the main path did not take. That baseline beats the reference model at −1.400 ±
+1.424 (0.98 standard errors, which does not separate them).
+
+**The finding worth carrying.** A better member is a worse pool. With the sharper persistence
+member every summary of the pool's inputs improves — best member 20.771 → 20.698, mean of the
+members' means 23.421 → 22.376 — and the pool scores 0.617 CRPS worse, its margin over its own
+best member falling from 1.954 to 1.264. Its 10–90 coverage falls from 0.863 to 0.817, closer
+to nominal on the row where it scores worse. A linear opinion pool's advantage comes from its
+members disagreeing, and this is the second independent demonstration of that after batch 11's
+weight-fitting result.
+
+**Two defects, both a glob that ignores the tree's forks**, neither reachable until a fork had
+two built children. `prepare_members.py` discovered pool membership by globbing for `MLproject`,
+so the two new contracts would have made the reported model a six-member pool containing two
+persistence baselines and two climatologies — silently, at equal weights, under every
+combination including `main`. `01_collect` inherited a missing model from `COMBO_BASE` per node
+rather than per fork, so a baseline row would have carried the sibling construction over from
+`main` and put both on one leaderboard. Both now resolve the fork by the same `resolve_glob`
+lookup `04_score` already used; both leave every existing result byte-identical, verified by
+re-running and comparing. With batch 12's two, that is four instances of the same shape.
+
+**What went wrong, kept.** Both rows failed at their first step on the first attempt —
+`ModuleNotFoundError`, because the two new runners resolved the shared `chap_eval` library with
+`parents[3]` where a fork child needs `parents[2]`; the siblings they were written from sit one
+level shallower. And a comment in the parametric model's `train.py` gave the zero share as
+52 %, which is zeros over every row including the missing ones rather than over the observed
+ones; correcting it changed the script's sha256 after the row had run, so the row was **re-run
+at the correcting commit** rather than the record adjusted. Every number came out identical.
+
+**A gap recorded, not closed.** The dispersion the parametric baseline forecast with was
+re-estimated inside `predict` at every split and chap-core does not surface a model's stdout,
+so those estimates are in no file. Third instance of moving fitting into `predict` costing the
+record rather than the score, after batch 4 on the reference and batch 21 on
+`04_fitTime/b_refitAtPredict`. Left to batch 14, which touches the shared `chap_eval.py`.
+
+**Compute and storage.** 139 s and 137 s for the two rows against 104.5 s and 117.9 s planned.
+Storage, not compute, is now the number to watch: 660.2 MB on disk against the planner's
+projection of 584.7 MB for the whole of tier 1 on development and 1 169.4 MB across both
+datasets.
+
+**Commits.** `f83acf7` (the children and the two fixes), `d8f93ca` (the import-path repair),
+`a5bec23` (results, records, claims, criticality), `5c41aad` (the zero-share correction, plan,
+readme, report), `5ec569b` (the re-run at the correcting commit).

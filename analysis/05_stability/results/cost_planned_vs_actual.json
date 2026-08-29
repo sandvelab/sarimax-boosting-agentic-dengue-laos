@@ -1,13 +1,15 @@
 {
- "actual_seconds_total": 5901.3,
+ "actual_seconds_total": 6194.7,
  "distinct_planned_values": [
   13.4,
+  100.7,
+  103.6,
   1202.9
  ],
  "manifest_frozen_at_commit": "2e186f6",
- "planned_seconds_total": 6041.3,
- "ratio_total": 0.977,
- "rows_compared": 7,
+ "planned_seconds_total": 6245.6,
+ "ratio_total": 0.992,
+ "rows_compared": 9,
  "spread_of_actual_seconds": [
   12.9,
   2226.2

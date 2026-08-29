@@ -51,7 +51,7 @@ from negbinom import R_MAX, R_MIN, fit_dispersion
 
 # The floor on the predictive mean, from the source named above. It is what stops the
 # distribution collapsing when the previous observation is zero -- which on this dataset is
-# 52 % of observed months, so it is the constant this node's claim says is doing visible
+# 56 % of observed months, so it is the constant this node's claim says is doing visible
 # work, and it is the source's rather than ours.
 FLOOR = 0.2
 

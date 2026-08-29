@@ -67,10 +67,12 @@ affordable, and the annotation is here for the day it is not.
 | `results/logs/{climatology_frozenWindow,persistence_negBinomialFloor}.log` | 12 KB together | intermediate | yes, with the row | medium | Each row's step-by-step transcript. Small, and the only place a row's failure mode is legible after the fact — the first attempt at both rows failed here before anything was written. |
 | `results/conclusions.csv` | 4 KB | **main result** | yes, seconds, from the conclusion files | **highest** | Ten of thirty-three rows. It is the distribution phase D exists to produce. |
 
-**Ten rows of the twenty-four, and the storage projection holds.** Tier 1 was budgeted at
-roughly 1.0 GB over both datasets. The ten development rows that have run come to **495 MB**
-and every combination on disk, the fourteen phase-C ones included, to **658 MB** — measured
-over `analysis/**/results/<combination>/`, excluding the untracked `work/` scratch. On that
-trajectory tier 1 lands near the projection on development alone and above it across both
-datasets, so the number to watch before phase E is storage rather than compute. Nothing is
-deleted, and the table above says what would go first if anything did.
+**Ten rows of the twenty-four, and the storage projection is the number to watch.** Every
+combination on disk now holds **660.2 MB**, against a projection of **584.7 MB for the whole
+of tier 1 on development** and **1 169.4 MB across both datasets**
+(`results/manifest_notes.json["storage"]`, where all three are computed by the planner from
+measured parts rather than estimated). The development projection is already exceeded, because
+what is on disk includes the fourteen phase-C combinations the manifest does not count as tier
+1 — so the projection is not wrong, but the disk is filling from two sources and only one of
+them was budgeted. Compute is still four times inside its budget; storage is the one that will
+bind first. Nothing is deleted, and the table above says what would go first if anything did.

@@ -66,8 +66,13 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
   reads it from).
 - **`03_models`** (sub-analyses) — what each model forecasts on that common ground.
   - **`01_baselines`** — `01_persistence` (a fork on how a predictive distribution is
-    wrapped around a point forecast) and `02_climatology` (a fork on which window estimates
-    the seasonal distribution).
+    wrapped around a point forecast: `a_empiricalChange`, the symmetrised distribution of past
+    h-step changes, against `b_negBinomialFloor`, a negative binomial about the last count
+    with the mean floored and the dispersion fitted) and `02_climatology` (a fork on which
+    window estimates the seasonal distribution: `a_expandingWindow`, re-estimated from the
+    historic frame at each split, against `b_frozenWindow`, the training-frame table held
+    fixed). Batch 22 built both `b_` children and ran their rows. **Since batch 11 these two
+    forks also move the reported model**, which takes both baselines as pool members.
   - **`02_reference`** — WHO EWARS-csd at its own defaults, pinned by image digest, served
     as a container, run four times because it is unseeded.
   - **`03_candidate`** (alternatives) — our own model families, one child per family, with

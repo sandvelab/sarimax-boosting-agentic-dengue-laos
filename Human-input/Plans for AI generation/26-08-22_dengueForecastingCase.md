@@ -380,6 +380,21 @@ below is read from a file there.)*
 | The three children of the weighting fork share **one** implementation, and `a_unweighted` was moved onto it | The fork's whole content is the weight, so three copies of one aggregation is the drift `chap_eval.py` was created to prevent, one node over. The unweighted case is kept as its own code path inside the library because weighting by ones and taking a mean are the same number in arithmetic and not always the same float; re-run, `results/main/` is byte-identical, which is the check that no reported number moved | agent-autonomous |
 | **`node.py rebuild` will re-add the stability driver to `run.sh` every time it is run there** | Adding a script to the node meant regenerating `run.sh`, and the generator lists `scripts/` alphabetically — which put `run_manifest.py` back into the file batch 12 deliberately kept it out of, and reordered the rest out of dependency order. The block now carries a warning saying what to do when it happens again | agent-autonomous |
 
+### 2026-08-29 — settled by batch 22, from the two baseline forks
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **The reported analysis stands on the worse of two published constructions of a required baseline, by 4.181 CRPS, and the fork is not promoted** | The parametric persistence construction scores 20.698 against the main path's 24.879 and beats the reference model at 22.098 (paired −1.400 ± 1.424, 0.98 standard errors). Batch 6's reasoning for rejecting it was sound — an arbitrary floor doing visible work in the 52 % of months that report zero — and it understated the problem, because the maximum-likelihood dispersion does not exist for an all-zero window and needs a second arbitrary constant, a bound, which binds for six of seventeen provinces. It wins anyway. It is **not promoted**: phase C closed at batch 11 and the manifest was frozen before this row ran, so moving a main path on a stability row would make the reported analysis a function of the stability run — the ordering the whole design exists to prevent. Reopening phase C for it is the human's | agent-autonomous |
+| **A better member is a worse pool**, and this is the second independent demonstration that the pool's win comes from disagreement rather than member quality | With the sharper persistence member every summary of the pool's inputs improves — best member 20.771 → 20.698, mean of the members' means 23.421 → 22.376 — and the pool scores 0.617 CRPS worse, its margin over its own best member falling from 1.954 to 1.264. A linear pool's spread is the mean of its members' spreads plus the spread between their means; a sharper, better-centred member narrows it, and it lost more from being narrower than it gained. Its 10–90 coverage falls from 0.863 to **0.817**, the closest to nominal the reported model has been — better calibrated on the row where it scores worse. Batch 11's result that fitting the weights costs 4.021 CRPS is the same fact from the other side | agent-autonomous |
+| **The shape of a baseline's predictive distribution matters here and the window it is estimated over does not** | Two forks of the same kind on the two required baselines, an order of magnitude apart: the persistence construction is worth 4.181 CRPS and freezing the climatology's estimation window 0.532, which is inside the 0.565 floor. The frozen table forecasts two dengue seasons it never saw, on a series whose reporting improved throughout, and the difference does not clear the noise — the node's own claim had argued before the run that it would | agent-autonomous |
+| **Every constant in the alternative construction is the source's**, including a five-observation window that is five weeks there and five months here | Floor 0.2, window five, maximum likelihood, and one distribution at every horizon, all from the KIT baseline for the German COVID-19 Forecast Hub, re-read for the horizon rule. A stability alternative whose constants the agent chose could be tuned against the path taken, which is the one thing a perturbation must not permit. The transplant is recorded where it bites rather than repaired by picking a different number | agent-autonomous |
+| The alternative's dispersion is re-estimated at **predict** time, so the fork moves *where* the spread is estimated as well as its form | The source re-estimates from the last five observations available at forecast time, and the sibling construction already takes its anchor from the historic frame, so a frozen dispersion beside a moving mean is a hybrid neither published construction describes. The confound is stated rather than hidden, and the fork next door isolates the window question on its own | agent-autonomous |
+| **Two more fork-blind globs, and this is now the fourth instance** | `prepare_members.py` discovered pool members by globbing for `MLproject`, so the two new contracts would have made the reported model a **six-member pool containing two persistence baselines and two climatologies** — silently, at equal weights, under every combination including `main`. And `01_collect` inherited from `COMBO_BASE` per node rather than per fork, so a baseline row would have carried the sibling construction over from `main` and put two persistence rows on one leaderboard. Both now resolve the fork the way `04_score` already did. Both leave every existing result byte-identical, verified by re-running and comparing. The origin is the same each time: a step that discovers things from the tree, written when every fork had one child that did anything | agent-autonomous |
+| Two contract directories rather than one with a construction switch, accepting a duplicated table build in the climatology pair | A Chap contract directory is copied whole into chap-core's run directory, so a library shared between two children does not travel with either model; and a switch would re-hash a model that produced six committed combinations' results, which is batch 11's objection to the assembler lift. The fork stays a path in the tree rather than becoming a configuration option | agent-autonomous |
+| **Moving fitting into `predict` costs the record rather than the score — the third instance** | The dispersion this model forecast with was re-estimated at every split and chap-core does not surface a model's stdout, so those estimates are in no file; `fitted_model.json` holds the training-frame fit, which is the fallback and not the parameters behind the forecasts. Batch 4 found the reference has no stored fit at all and batch 21 found the same for `04_fitTime/b_refitAtPredict`. Closing it needs a place for a model to write per-split diagnostics that outlives the run directory, in the shared `chap_eval.py`, which batch 14 already touches | agent-autonomous |
+| **Storage, not compute, is the number to watch before phase E** | The planner's own measurement: every combination on disk holds **660.2 MB** against its projection of 584.7 MB for the whole of tier 1 on development and 1 169.4 MB across both datasets (`manifest_notes.json["storage"]`). The development projection is already exceeded because the disk carries the fourteen phase-C combinations as well as the manifest's rows, and only one of those was budgeted — the projection is not wrong, the budget was drawn around the wrong set. Compute remains four times inside its budget. Nothing is deleted and the criticality tables say what would go first | agent-autonomous |
+| `verify_model_determinism.sh` names all seven models by their **leaf** nodes | The two baselines were named by their fork nodes, which was correct only while each fork had one built child: with two, the check would have run whichever construction is on the main path, called it `persistence`, and left the other unchecked. Batch 11's rule for the candidates, applied where a second built child makes it bite. The list has now been edited three times for one reason; discovering the leaves instead needs a naming rule the check does not have, because the leaves of a fork score under the *same* leaderboard name | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -441,7 +456,7 @@ at the end of every batch, and append newly created batches to it.
 | 11 | C | Candidate 3: the ensemble; close phase C | done — produced | [[26-08-28_b11_ensembleCandidate]] |
 | 12 | D | `/perturb plan`: the stability node, the driver, the frozen development manifest | done — produced | [[26-08-29_b12_perturbationManifest]] |
 | 13 | D | `/perturb run`: build the seven setup and scoring children, archive the population series `b_backCast` needs, and run those rows | done — produced | [[26-08-29_b13_setupAndScoringRows]] |
-| 22 | D | `/perturb run`: build and run the two baseline forks' children, which move the pool as well as their own leaderboard row | open | |
+| 22 | D | `/perturb run`: build and run the two baseline forks' children, which move the pool as well as their own leaderboard row | done — produced | [[26-08-29_b22_baselineForkRows]] |
 | 14 | D | `/perturb run`: fix the two defects blocking the candidate rows **and the third, that `03_compare` computes its paired spread unweighted while the leaderboard mean follows the weighting fork**, lift the shared assembler, re-run the twelve candidate rows and the two family rows, then tier 2 | open | |
 | 15 | D | `/perturb report`; freeze and commit the holdout manifest | open | |
 | 16 | E | The holdout, opened once, on the frozen manifest | open | |
@@ -723,6 +738,19 @@ cost of running the set twice: once on development, once on holdout. If the budg
 carry the whole set to the holdout, cut the manifest here and record the cut; do not discover
 the problem in phase E with the holdout already open.
 
+**What running the two baseline rows found.** They are the extremes of the set. Freezing the
+climatology's estimation window moves the reported conclusion by 0.0025 of skill, the smallest
+move of any row; wrapping the persistence point in a fitted negative binomial rather than in
+the empirical distribution of past changes moves it by −0.0279, the largest, and downward.
+That construction — the one this section's fork exists to compare, and the one batch 6
+rejected — scores 4.181 CRPS better than the main path's and **beats the reference model**.
+So the reported analysis stands on the worse of two published constructions of a baseline §4
+requires, and it is not promoted, because phase C is closed and the manifest was frozen before
+the row ran. **The pool that contains it is better off for that**: with the sharper member its
+margin over its own best member falls from 1.954 to 1.264 CRPS, which with batch 11's
+weight-fitting result is the second independent demonstration that this pool's win comes from
+its members disagreeing rather than from their quality. Batch 22's report has all of it.
+
 **What running the first seven rows found.** The five `02_setup` forks move the conclusion
 less than the reference model's own re-run noise, and the single `04_score` fork moves it four
 times as much as any of them — from re-weighting a stored file and re-running no model. Three
@@ -734,7 +762,8 @@ in the reference — about one job in a hundred — which is a finding about the
 library rather than about any row. Batch 13's report has all of it.
 
 **What planning the manifest found, before running any of it.** Nine of the twenty-four
-tier-1 rows were sentences in a `claim.md` rather than paths in the tree, and are now nodes.
+tier-1 rows were sentences in a `claim.md` rather than paths in the tree, and are now nodes;
+after batch 22 the planner reports **none** unbuilt.
 Twelve of the fifteen that had scripts hold results produced around a main path that has since
 moved, so their directories describe a different analysis from the one their row now names.
 Two code defects — the pool's member assembler and the root's resolution of which model is
@@ -945,6 +974,10 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 13 — `/perturb run`: the setup and scoring rows
 
 - [[26-08-29_b13_setupAndScoringRows]]
+
+### Batch 22 — `/perturb run`: the two baseline forks' children
+
+- [[26-08-29_b22_baselineForkRows]]
 
 ### Batch 21 — the greedy branch
 

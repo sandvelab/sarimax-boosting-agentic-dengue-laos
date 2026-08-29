@@ -83,3 +83,15 @@ re-running a batch produces a different report rather than the same one.
   running: `conclude.py` naming a baseline as the project's model, an intermittent crash in the
   reference at about one job in a hundred, and a failed re-run leaving a results directory that
   looked complete while spanning two commits.
+- `26-08-29_b22_baselineForkRows.md` — batch 22, phase D: the two baseline forks' children
+  built and their rows run, so 10 of the 24 tier-1 combinations have conclusions and no child
+  the tree names is unbuilt. **They are the extremes of the set**: freezing the climatology's
+  estimation window moves the conclusion by 0.0025 of skill, and the persistence construction
+  by −0.0279, the largest move of any row and the first downward one that clears the noise.
+  The alternative persistence construction scores **4.181 CRPS better** than the main path's
+  and beats the reference model, so the reported analysis stands on the worse of two published
+  constructions of a required baseline — and **the pool that contains it is better off for
+  that**, which with batch 11's weight-fitting result is the second demonstration that this
+  pool's win comes from its members disagreeing rather than from their quality. Two more
+  fork-blind globs found by building the rows: one would have made the reported model a
+  six-member pool with two copies of each baseline, silently, under `main`.

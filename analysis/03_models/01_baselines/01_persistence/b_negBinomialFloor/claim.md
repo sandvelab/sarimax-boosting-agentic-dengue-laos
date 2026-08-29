@@ -28,7 +28,7 @@ separate them. A model the plan requires as a *baseline* is ahead of the field's
 on the point estimate, and says something about the reference rather than about this node.
 
 **The claim's own criticism holds and understates the problem.** The floor of 0.2 is an
-arbitrary constant doing visible work in the 52 % of observed months that report zero — and
+arbitrary constant doing visible work in the 56 % of observed months that report zero — and
 it is the *first* of two. On this dataset the maximum-likelihood dispersion frequently does
 not exist: with an all-zero window the likelihood rises monotonically toward a point mass at
 zero. The estimator therefore needs bounds, and on the training frame those bounds bind for

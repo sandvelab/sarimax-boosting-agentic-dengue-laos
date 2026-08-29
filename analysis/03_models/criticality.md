@@ -201,7 +201,8 @@ projected: this is the first batch whose rows this table costed before they ran.
 
 **What the measured rows say about the projection.** Batch 12 budgeted ~11 MB and 90 s per
 combination that includes the pool. Measured: 31.6–31.9 MB and 137–156 s for a baseline row, which
-runs the pool *and* two baselines. The storage projection is close; the time is 1.4–1.5× the
+runs the pool *and* two baselines. The manifest re-costed itself from those runs and
+now prices the two rows at 104.5 s and 117.9 s. The storage projection is close; the time is 1.4–1.5× the
 estimate, in the same direction and for the same reason batch 13 recorded — the cost model
 prices each part as measured under `main`, and under these rows the pool rebuilds its members.
 

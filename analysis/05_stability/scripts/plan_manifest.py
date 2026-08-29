@@ -392,7 +392,8 @@ def main() -> None:
     conclusions = out / "conclusions.csv"
     tier2, shortfall = [], {}
     if conclusions.exists():
-        tier2, shortfall = select_tier2(conclusions, {r["combination"]: r for r in ordered})
+        tier2, shortfall = select_tier2(
+            conclusions, {r["combination"]: r for r in ordered}, attempted_rows(out))
     if not tier2:
         tier2 = [{"combination": "", "kind": "pair", "fork": "-", "child": "-",
                   "combo_base": "main", "built": False, "owner": "-",
@@ -551,13 +552,48 @@ def stale_directories(rows: list[dict], our: str, baselines: list[str],
     return out
 
 
-def select_tier2(conclusions: Path, tier1: dict) -> tuple[list[dict], dict]:
+def attempted_rows(out: Path) -> set[str]:
+    """The combinations the driver has actually tried, from its own run record.
+
+    `run_status.csv` is written by `run_manifest.py` and is the only file that
+    distinguishes "ran and concluded nothing" from "nobody has run it yet". Read here
+    rather than inferred from what is on disk, because a directory left by an earlier
+    phase is not evidence that this manifest's row was run.
+    """
+    path = out / "run_status.csv"
+    if not path.exists():
+        return set()
+    return {r["combination"] for r in csv.DictReader(path.open())
+            if r["status"] == "ran" or r["status"].startswith("failed")}
+
+
+def select_tier2(conclusions: Path, tier1: dict,
+                 attempted: set[str]) -> tuple[list[dict], dict]:
     """Apply `tier2_rule.md` to tier 1's conclusions. Nothing here is a judgment call."""
     rows = list(csv.DictReader(conclusions.open()))
     have = {r["combination"]: float(r["skill_score"]) for r in rows
             if r.get("skill_score") not in (None, "")}
     if "main" not in have:
         return [], {"reason": "no conclusion for the main path"}
+
+    # The rule ranks "every tier-1 row that has a conclusion", and step 7 lets a group
+    # contribute fewer rows than it asks for. Both are written for a tier 1 that has
+    # *run* and come out wrong for one that is part-way through: after batch 13 the
+    # setup and scoring rows have conclusions and no row that moves our model does, so
+    # the rule would fill group A and half of group S, select two pairs instead of
+    # eight, and record a shortfall that is an artefact of the running order. Batch 15
+    # would then re-run it and get a different tier 2, with nothing in the record to
+    # say which was the frozen one.
+    #
+    # So the rule is applied once, when every tier-1 row has been attempted. This does
+    # not change `tier2_rule.md` -- its text and its sha256 are what batch 12 fixed --
+    # it fixes *when* a rule about the ranking of tier 1 is allowed to read a tier 1.
+    # A row that ran and produced no conclusion still counts as attempted, which is the
+    # case step 7 is for.
+    waiting = sorted(c for c in tier1 if c != "main" and c not in attempted)
+    if waiting:
+        return [], {"reason": "tier 1 has not been run through: no attempt recorded for "
+                              + ", ".join(waiting)}
     ranked = sorted(
         (c for c in have if c != "main" and c in tier1),
         key=lambda c: (-abs(have[c] - have["main"]), c))

@@ -189,7 +189,11 @@ def main() -> None:
     for row in rows:
         if args.only and row["combination"] != args.only:
             continue
-        if args.batch and int(row["assigned_batch"]) != args.batch:
+        # `assigned_batch` is "-" for the held row, which no batch runs. Selecting by
+        # batch has to skip it rather than fail on it: a filter that crashes on the one
+        # row it is meant to exclude would have stopped every `--batch` invocation the
+        # driver exists to be used with.
+        if args.batch and row["assigned_batch"].strip() != str(args.batch):
             continue
         if args.tier and int(row["tier"]) != args.tier:
             continue

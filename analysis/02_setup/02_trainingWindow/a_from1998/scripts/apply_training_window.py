@@ -8,7 +8,8 @@ from two regimes at once.
 
 This child keeps the whole development period. It is the alternative that assumes least:
 discarding years is a claim that they are uninformative, and nothing in the data
-establishes that. The sibling that starts at 2003 is the other reading.
+establishes that. The sibling that starts at 2004, the calendar midpoint of the
+period, is the other reading.
 
 What the fork does **not** change is what gets evaluated. chap-core lays its splits out
 backwards from the last period of the file, so truncating the early years leaves the

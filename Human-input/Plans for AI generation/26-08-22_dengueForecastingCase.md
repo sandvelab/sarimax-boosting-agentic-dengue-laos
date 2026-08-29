@@ -395,6 +395,13 @@ below is read from a file there.)*
 | **Storage, not compute, is the number to watch before phase E** | The planner's own measurement: every combination on disk holds **660.2 MB** against its projection of 584.7 MB for the whole of tier 1 on development and 1 169.4 MB across both datasets (`manifest_notes.json["storage"]`). The development projection is already exceeded because the disk carries the fourteen phase-C combinations as well as the manifest's rows, and only one of those was budgeted — the projection is not wrong, the budget was drawn around the wrong set. Compute remains four times inside its budget. Nothing is deleted and the criticality tables say what would go first | agent-autonomous |
 | `verify_model_determinism.sh` names all seven models by their **leaf** nodes | The two baselines were named by their fork nodes, which was correct only while each fork had one built child: with two, the check would have run whichever construction is on the main path, called it `persistence`, and left the other unchecked. Batch 11's rule for the candidates, applied where a second built child makes it bite. The list has now been edited three times for one reason; discovering the leaves instead needs a naming rule the check does not have, because the leaves of a fork score under the *same* leaderboard name | agent-autonomous |
 
+### 2026-08-29 — settled by the human, on batch 22's storage question
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **Storage is not a constraint on this project.** A few gigabytes for the whole repository is fine, and no batch is to plan, cut or rank around disk | The human's, in response to batch 22 raising 660.2 MB on disk against a 1 169.4 MB projection for tier 1 across both datasets as the number to watch. It settles the second half of `AGENTS.md` §6's reproducibility-against-storage trade-off the way the first half was already settled: neither compute nor storage binds here, so `/annotate-criticality` keeps annotating and nothing is pruned | human-set |
+
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**

@@ -76,3 +76,17 @@ what is on disk includes the fourteen phase-C combinations the manifest does not
 1 — so the projection is not wrong, but the disk is filling from two sources and only one of
 them was budgeted. Compute is still four times inside its budget; storage is the one that will
 bind first. Nothing is deleted, and the table above says what would go first if anything did.
+
+## 2026-08-29 — the storage question is answered, by the human
+
+The paragraph above named storage as the number that would bind first. **It does not bind.**
+A few gigabytes for the whole repository is fine (human-set, 2026-08-29; the plan's §4b and
+`readme-at-start.md` carry it). So neither half of `AGENTS.md` §6's
+reproducibility-against-storage trade-off is live on this project: compute is four times
+inside its budget and disk is not a budget at all.
+
+That does not make these tables idle. `/annotate-criticality` exists to **defer** the pruning
+decision rather than to make it, and the value of an annotation written now is that if the
+question ever arises — a release size limit, a different machine — it is answered from a record
+made while the details were fresh, rather than from a guess made under pressure. Nothing is
+deleted, nothing is planned around disk, and no batch ranks or cuts on it.

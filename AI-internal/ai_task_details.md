@@ -1033,6 +1033,103 @@ would move the reported denominator — the same call batch 11 made and for the 
 **Commits.** `26dca49` (node, manifest, invariant), `2e186f6` (records, annotations, report,
 plan), `5d21182` (the provenance correction).
 
+## T13 — Batch 13: the setup and scoring rows (2026-08-29)
+
+**What ran.** The first batch of phase D that runs anything. Seven of the manifest's
+twenty-four tier-1 combinations, and the seven fork children they needed, which the tree had
+named in prose since batch 5 and carried as empty nodes since batch 12: `01_population/b_backCast`,
+`02_trainingWindow/b_from2004`, `03_provinces/b_reportingOnly`, `03_provinces/c_mergeVientiane`,
+`04_retrain/b_everySplit`, and `02_aggregate/b_populationWeighted` and `c_caseWeighted`.
+
+**The five `02_setup` forks do not move the conclusion.** Skill spans +0.1266 to +0.1861 around
+the main path's +0.1485, and every gap is smaller than the reference model's own 0.57 CRPS
+re-run spread; our pool's raw CRPS spans 18.552 to 19.011 across the five, a range smaller than
+the noise on the number it is compared against.
+
+**The one scoring fork moves it four times as much**, from re-weighting a stored per-cell file
+and re-running no model: +0.2288 population-weighted and +0.2320 case-weighted, both about
++0.08 of skill from the main path. The cheapest row in the manifest — thirteen seconds against
+twenty minutes — is the one the conclusion is most sensitive to.
+
+**The finding worth carrying.** Under case weighting the required persistence baseline beats
+the model this project reports, 86.598 against 88.484, and the pool's 10–90 coverage falls from
+0.863 to 0.701. It is too wide on the quiet months that dominate the unweighted mean and too
+narrow on the outbreak months that dominate this one, and no single weighting shows that. It
+does not overturn the headline, which is defined against Chap's own unweighted mean; §2's rule
+that a badly calibrated winner has not won is why it is reported beside the score. Case
+weighting is not a better summary either: it gives 137 of 371 cells zero weight, shrinks the
+Kish effective sample to 65, and puts 62.3 % of the weight in the top decile of cells, because
+its weight is a function of the outcome.
+
+**Three of the five setup rows move the reference rather than us.** Removing the two
+unevaluable provinces costs the reference 1.052 CRPS and our pool 0.026; merging Vientiane
+costs it 0.839 against our 0.189. EWARS pools across provinces while fitting and our pool's
+members largely do not, so a setup choice that looks like data hygiene is, for this comparison,
+a change to the opponent — invisible in a headline reporting only our own score, and an
+argument for the ratio §4b had already fixed.
+
+**The population series.** `Archive/lao-population/` holds the World Bank's annual national
+series for Lao PDR (`SP.POP.TOTL`, 1990–2021), fetched by a script, checksummed and
+provenanced; the back-cast scales the snapshot by 0.7144 in 1998 to 0.8496 in 2009. From it,
+**the archived population column does not have the level its schema claims**: it sums to
+4 961 076, where the national total at the schema's stated 2020 reference was 7 346 533 and the
+nearest year is 1995 — the third statement in that schema found not to describe the file, after
+the row count and the rainfall unit. The anchor is used as declared and the discrepancy
+recorded, because under a log offset the anchor is a constant the intercept absorbs. The series
+is national, so the fork probes a trend and not a provincial differential; the provincial
+censuses that would answer that have no pinnable machine-readable release, and a PDF
+transcribed by hand is the manual step Rule 2 exists to keep out.
+
+**Where batch 12 found two defects by planning, this batch found three by running.**
+`conclude.py` resolved our reported model by globbing under `results/$COMBO/` only, so on a
+combination that re-runs no model of ours it fell through to "best-scoring model of ours" — and
+under case weighting that is *persistence*, so `aggregate_caseWeighted/conclusion.json` named a
+required baseline as the project's model, internally consistent and wrong. **The reference
+model crashes about once in a hundred jobs** (`Prediction script did not create output file`),
+so a 36-job setup row failed about a third of the time for reasons that say nothing about the
+row; each repeat now gets up to three attempts and `attempts_per_repeat` is recorded, which is
+legitimate only because the model is unseeded. **One container was serving all four repeats**,
+slowing monotonically — 3.6, 5.6, then 7.5 minutes — until it disconnected; each repeat now gets
+its own. And **a failed re-run left a results directory that looked complete**: three repeats
+from the new run, one from the old, and the previous run's `model_spec.json` beside them, a
+per-cell reference mean spanning two commits with nothing downstream able to detect it. That
+one is the most dangerous, because it produces a wrong number no check was looking for; the node
+now clears `results/$COMBO/` before writing.
+
+**The cost model predicts the total and not the rows.** 6 041 s planned against 5 901 s actual,
+ratio 0.977, with individual rows from 0.577 to 1.851 and all five setup rows costed
+identically — the model summed each row's parts as measured under `main` and could not know
+that a row changes how much work a part does. The cut order within a kind is therefore ranked
+on a constant. Nothing was cut, so nothing rests on it.
+
+**Two decisions about method.** `plan_manifest.py` now refuses to apply the tier-2 rule until
+every tier-1 row has been attempted: applied after this batch it would have selected two pairs
+instead of eight and recorded a shortfall that is an artefact of the running order. What
+changed is *when* a rule about the ranking of tier 1 may read a tier 1, so `tier2_rule.md` and
+its sha256 are unchanged. And the weighting fork's three children were put on one shared
+implementation, `04_score/scripts/lib/aggregate.py`, with the unweighted case kept as its own
+code path inside it — weighting by ones and taking a mean are the same number in arithmetic and
+not always the same float; re-run, `results/main/` is byte-identical.
+
+**What went wrong, kept.** A diagnosis of host memory pressure was made under time pressure and
+was wrong — the retry disproved it, and the correct reading, an intermittent per-job crash at
+about 1 %, only became visible after counting failures across every attempt. `node.py rebuild`
+silently re-added the stability driver to `run.sh`, because the generator lists `scripts/`
+alphabetically and batch 12 had deliberately kept it out; caught by reading the generated file,
+and the block now carries a warning. And the first driver run was killed mid-row by the
+session, which is how the mixed reference directory went unnoticed for an hour — `run_status.csv`
+is written once at the end of an invocation, so a killed run leaves no record of itself.
+
+**Compute.** 5 901 seconds over seven rows, from 13 s for a scoring row to 2 226 s for
+`retrain_everySplit`.
+
+**Commits.** `40b6936` (the seven children, the archived population series, two driver fixes),
+`ce0eb34` (a fresh reference container per repeat, and `conclude.py` resolving through
+`COMBO_BASE`), `7035515` (the reference node's retry and its results-directory clear),
+`6a68f23` (results, provenance records, claim answers, criticality), `bb834e1` (the report, the
+cost comparison, the plan's phase D). Rows were produced at `ce0eb34` except the two re-run at
+`7035515`, and each record says which.
+
 ## T22 — Batch 22: the two baseline forks' children (2026-08-29)
 
 **What was built.** The two children the tree has named in prose since batch 5 and carried as

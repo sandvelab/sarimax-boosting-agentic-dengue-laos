@@ -14,7 +14,7 @@ script:              scripts/run_persistence_nb.py
                      the model itself, scripts/persistence_model/:
                      MLproject       sha256:d629e5c92e033a85…
                      negbinom.py     sha256:3eeaeddc9c4dde2a…
-                     train.py        sha256:8cb8222f9cbb4c50…
+                     train.py        sha256:e008c0457d1c4025…
                      predict.py      sha256:121de7f5cfda0d4f…
                      pyproject.toml  sha256:b468929b6e64b7d7…
                      uv.lock         sha256:5cb8569317a55511…
@@ -52,11 +52,17 @@ seeds:               none. The dispersion is fitted by a deterministic search on
                      surface here. Verified rather than asserted:
                      AI-generated/determinism-checks/model_determinism.json, which names
                      this node from batch 22 onward.
-commit:              d8f93ca
+commit:              5c41aad
 instructions-commit: cf97b81
 node:                analysis/03_models/01_baselines/01_persistence/b_negBinomialFloor
 produced:            2026-08-29
 ```
+
+**Run twice, at two commits, to the same numbers.** The row first ran at `d8f93ca` in 139–157
+seconds; a wrong figure in a comment in `train.py` was then corrected, which changed the
+script's sha256 and left this record naming bytes no longer on disk, so the row was re-run at
+`5c41aad` rather than the record being adjusted to match. **Every number below is identical
+across the two runs**, which is the determinism this model claims, obtained for free.
 
 **What it establishes.** The second of the two published constructions for a probabilistic
 persistence baseline, scored on the identical path as the first. It scores **20.698 mean

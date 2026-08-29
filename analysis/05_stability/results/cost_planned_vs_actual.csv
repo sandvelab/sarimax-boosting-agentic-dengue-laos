@@ -4,7 +4,7 @@ provinces_mergeVientiane,setup,1202.9,1148.3,0.955,-54.6
 popColumn_backCast,setup,1202.9,970.2,0.807,-232.7
 provinces_reportingOnly,setup,1202.9,835.9,0.695,-367.0
 trainingWindow_from2004,setup,1202.9,694.0,0.577,-508.9
-persistence_negBinomialFloor,baseline,103.6,156.5,1.511,52.9
+persistence_negBinomialFloor,baseline,103.6,138.6,1.338,35.0
 climatology_frozenWindow,baseline,100.7,136.9,1.359,36.2
 aggregate_caseWeighted,scoring,13.4,13.8,1.03,0.4
 aggregate_populationWeighted,scoring,13.4,12.9,0.963,-0.5

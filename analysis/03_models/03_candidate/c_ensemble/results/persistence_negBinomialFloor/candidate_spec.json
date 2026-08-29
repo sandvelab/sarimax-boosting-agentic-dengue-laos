@@ -16,7 +16,7 @@
  },
  "combo": "persistence_negBinomialFloor",
  "configuration": "model_configuration.yaml",
- "configuration_sha256": "e46535c71c189e5b2675c1400879fccce09e645fec7b9b96a8ba498eb680b4fc",
+ "configuration_sha256": "eb05a76cf0f4c084cddfabde850663582bc50e1bc0754421a0f3ee7ead1139ed",
  "members": [
   {
    "configured_by": null,
@@ -58,7 +58,7 @@
   }
  ],
  "members_file": "analysis/03_models/03_candidate/c_ensemble/results/persistence_negBinomialFloor/members.json",
- "members_sha256": "cd3854f1e0888d98a0bb3d074fdfc57707d0be00ca2e7eeffd22b74e5f81d41d",
+ "members_sha256": "106222f83c82ff353b33164ec0846b56d42b962bb84146f6fe0ddb08bc85558a",
  "node": "analysis/03_models/03_candidate/c_ensemble",
  "route": "chap eval --model-configuration-yaml -> ModelConfiguration -> model_configuration_for_run.yaml -> {model_config} in the MLproject entry points",
  "seed_derivation": {
@@ -108,7 +108,7 @@
  ],
  "user_option_values": {
   "members_file": "analysis/03_models/03_candidate/c_ensemble/results/persistence_negBinomialFloor/members.json",
-  "members_sha256": "cd3854f1e0888d98a0bb3d074fdfc57707d0be00ca2e7eeffd22b74e5f81d41d",
+  "members_sha256": "106222f83c82ff353b33164ec0846b56d42b962bb84146f6fe0ddb08bc85558a",
   "seed": 1648567750,
   "weighting": "equal"
  }

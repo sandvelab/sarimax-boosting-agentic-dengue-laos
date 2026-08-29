@@ -35,7 +35,7 @@ children, and one of them would have silently changed the reported model.
 
 | combination | kind | skill | Δ vs main | our CRPS | that baseline's CRPS | seconds |
 |---|---|---|---|---|---|---|
-| `persistence_negBinomialFloor` | baseline | **+0.1206** | **−0.0279** | 19.434 | **20.698** (was 24.879) | 157 |
+| `persistence_negBinomialFloor` | baseline | **+0.1206** | **−0.0279** | 19.434 | **20.698** (was 24.879) | 139 |
 | **`main`** | — | **+0.1485** | — | 18.817 | 24.879 / 24.337 | — |
 | `climatology_frozenWindow` | baseline | +0.1460 | −0.0025 | 18.872 | 24.869 (was 24.337) | 137 |
 
@@ -204,6 +204,15 @@ level shallower and use `parents[2]`, without re-counting. `ModuleNotFoundError`
 and 0 seconds. The fix is its own commit so the failure is in the history rather than smoothed
 out of it, and it is the argument for the dry run: `--dry-run` prints the step list a child
 has to satisfy and cannot tell you the child imports from the wrong place.
+
+**I edited a comment in a model's `train.py` after its row had run.** The comment gave the
+share of zero months as 52 %, which is zeros over every row of the development file including
+the missing ones; over the *observed* ones it is 56.3 %, which is what the sentence means and
+what batch 6 used. Correcting it changed the script's sha256, so `model_spec.json` and the
+provenance record named bytes no longer on disk. The row was **re-run at the correcting
+commit** rather than the record adjusted to match, which is what Rule 2 prescribes. Every
+number came out identical, so the cost was 139 seconds and the gain is a determinism check
+nobody had to design.
 
 **A gap in the record I did not close.** The dispersion the parametric baseline actually
 forecast with was re-estimated inside `predict` at every split, and chap-core does not surface

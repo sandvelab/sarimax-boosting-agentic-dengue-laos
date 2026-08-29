@@ -27239,7 +27239,7 @@
     "negbinom.py": "3eeaeddc9c4dde2a8191b4d38fa760aec7aed7a9ed3eb89a84c97141f4c0c62d",
     "predict.py": "121de7f5cfda0d4f01ecc68336fd83b99d2bc247828904ccca903c914e6379f2",
     "pyproject.toml": "b468929b6e64b7d7386911ed9a13ab4522ecd55d8e1a5e6342dcd3ace03ef790",
-    "train.py": "8cb8222f9cbb4c50b67a1f26e7375f63d41e3df77c448b07434f0e4acdb49358",
+    "train.py": "e008c0457d1c4025853c579ae5d7e49f2739d4e91f697c6a932e20e5e5c2f6d5",
     "uv.lock": "5cb8569317a555110f59e36fddd290b5912e6dd2cf89734809e4419fad242715"
    },
    "name": "persistence",
@@ -27434,7 +27434,7 @@
  "n_samples": 1000,
  "options": {
   "members_file": "analysis/03_models/03_candidate/c_ensemble/results/persistence_negBinomialFloor/members.json",
-  "members_sha256": "cd3854f1e0888d98a0bb3d074fdfc57707d0be00ca2e7eeffd22b74e5f81d41d",
+  "members_sha256": "106222f83c82ff353b33164ec0846b56d42b962bb84146f6fe0ddb08bc85558a",
   "seed": 1648567750,
   "validation_blocks": 4,
   "weight_samples": 200,

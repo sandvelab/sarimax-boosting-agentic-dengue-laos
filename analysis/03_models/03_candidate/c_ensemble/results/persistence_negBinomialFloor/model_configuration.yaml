@@ -4,6 +4,6 @@ additional_continuous_covariates:
 - mean_relative_humidity
 user_option_values:
   members_file: analysis/03_models/03_candidate/c_ensemble/results/persistence_negBinomialFloor/members.json
-  members_sha256: cd3854f1e0888d98a0bb3d074fdfc57707d0be00ca2e7eeffd22b74e5f81d41d
+  members_sha256: 106222f83c82ff353b33164ec0846b56d42b962bb84146f6fe0ddb08bc85558a
   seed: 1648567750
   weighting: equal

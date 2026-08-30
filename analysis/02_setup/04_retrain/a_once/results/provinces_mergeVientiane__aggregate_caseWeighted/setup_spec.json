@@ -1,0 +1,17 @@
+{
+ "choice": "a_once",
+ "combo": "provinces_mergeVientiane__aggregate_caseWeighted",
+ "dataset_transform": "identity",
+ "description": "chap-core's default: one fit on the training period, expanding historic window at predict",
+ "eval_flags": {
+  "n_retrain": 1
+ },
+ "input": "analysis/02_setup/03_provinces/c_mergeVientiane/results/provinces_mergeVientiane__aggregate_caseWeighted/analysis_dataset.csv",
+ "input_sha256": "dda36569563afb3ff844f4c4a6e6e420eff559ecca9d71828f823bc56466ca38",
+ "node": "analysis/02_setup/04_retrain/a_once",
+ "order": 4,
+ "output_sha256": "dda36569563afb3ff844f4c4a6e6e420eff559ecca9d71828f823bc56466ca38",
+ "rows_in": 2448,
+ "rows_out": 2448,
+ "stage": "retrain"
+}

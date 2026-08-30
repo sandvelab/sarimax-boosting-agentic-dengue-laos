@@ -215,3 +215,47 @@ paragraph above rather than in a section of its own.
 agency: agent-autonomous.
 information: agent-retrieved — every figure quoted above is read from the files this batch
 produced.
+
+---
+
+## Batch 14 — the assembler lifted into a shared library
+
+```
+result:              results/$COMBO/model_configuration.yaml · candidate_spec.json
+combinations:        main, family_hierNB, and every combination this batch re-ran that
+                     configures candidate 1 as a pool member
+script:              scripts/assemble_candidate_config.py
+                     sha256:0a717e7ef16015a24425227da346b191965de46a82f97fc432b3d0d623c883ee
+                     analysis/03_models/scripts/lib/assemble_config.py
+                     sha256:8b97f2d78063051ce7b3e1ad74dc3300b1ccf106d0654c68962045044a2af46b
+invocation:          "$PYTHON" scripts/assemble_candidate_config.py, via this node's
+                     run.sh or by the pool's prepare_members.py, with COMBO set
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               component seed derived from project seed 20260822 by
+                     analysis/scripts/lib/project_seed.py, from this node's path — the
+                     derivation is unchanged and so is the number
+commit:              9993d37
+instructions-commit: cf97b81
+node:                analysis/03_models/03_candidate/a_hierNB
+produced:            2026-08-30
+```
+
+**What changed.** Nothing about what this node produces. The three candidate families
+assembled their configurations from three near-copies of one script; batch 10 logged the
+duplication, batch 11 logged it again and scheduled the lift for the batch that re-runs the
+combinations those scripts configured, because rewriting them changes their sha256 and that
+hash is in the provenance of every such combination. This is that batch. The mechanism is
+now `03_models/scripts/lib/assemble_config.py` and this file is the runner that names the
+candidate — the shape `04_score/scripts/lib/aggregate.py` gave the weighting fork's three
+children.
+
+**The check that no reported number moved is git.** The three assemblers were re-run under
+`main` before anything else in this batch, and every `model_configuration.yaml` and
+`candidate_spec.json` came out byte-identical.
+
+alternatives-considered: leaving the duplication in place (rejected — it has been logged
+twice already and the cost of the lift only ever rises); a base class rather than a function
+with three keyword arguments (rejected — two of the three families pass none of the three,
+so the whole of what distinguishes them is data, and inheritance would hide that).
+
+agency: agent-autonomous.

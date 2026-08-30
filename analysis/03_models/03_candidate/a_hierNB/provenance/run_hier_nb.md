@@ -263,3 +263,53 @@ for removing rather than renaming); leaving the results under `main` (rejected �
 not giving candidate 1 a combination at all until phase D (rejected — the pool's check
 reconstructs itself from its members' own evaluations, and candidate 1 is a member).
 agency: agent-autonomous
+
+---
+
+## Batch 14 — candidate 1 as the family a combination runs
+
+```
+result:              results/$COMBO/eval.nc
+                     results/$COMBO/eval.log
+                     results/$COMBO/model_spec.json
+                     results/$COMBO/run_cost.json
+                     results/$COMBO/fitted_model.json
+                     results/$COMBO/model_configuration.yaml
+                     results/$COMBO/candidate_spec.json
+combinations:        family_hierNB (re-run), provinces_reportingOnly__family_hierNB,
+                     provinces_mergeVientiane__family_hierNB,
+                     family_hierNB__aggregate_caseWeighted
+script:              scripts/run_hier_nb.py
+                     sha256:f6f6a96aefe64e6dba05a5b3e7f9c98667f4935eb514bbc1824aed575e7b420b
+                     (unchanged; the batch changed this node's assembler, not its runner)
+invocation:          bash analysis/03_models/03_candidate/a_hierNB/run.sh, with COMBO set
+                     by analysis/05_stability/scripts/run_manifest.py and COMBO_BASE=main
+inputs:              analysis/02_setup/results/$COMBO/analysis_dataset.csv and
+                     setup_spec.json, resolved under the combination or its base
+                     results/$COMBO/model_configuration.yaml (the options and the seed)
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               component seed 849487747, derived from project seed 20260822 from
+                     this node's path; unchanged
+commit:              3fb1280 (family_hierNB), ba3cf8d (the three pairs)
+instructions-commit: cf97b81
+node:                analysis/03_models/03_candidate/a_hierNB
+produced:            2026-08-30
+```
+
+**What it establishes.** Candidate 1's score on the four combinations that run it as the
+family, which is the largest single-fork move in the whole stability set. Under
+`family_hierNB` it is **23.698 CRPS against the reference's 22.098** — identical to batch
+11's re-run of the demoted family, which is a determinism check nobody had to design — for a
+skill score of −0.0724 and `beats_reference: false`. Its 10–90 coverage is 0.701 against a
+nominal 0.80: candidate 1 is the under-dispersed end of the project's models, the pool the
+over-dispersed end.
+
+Paired with the two province rows it moves very little — 23.602 and 23.656 — and paired with
+case weighting it goes to 112.258 with 10–90 coverage **0.458**, the worst calibration any
+row of this project has recorded. Under case weighting the outbreak months carry the mean,
+and candidate 1's intervals are far too narrow there.
+
+alternatives-considered: none new at this node; its configuration is batch 9's promoted one
+and this batch did not touch it.
+
+agency: agent-autonomous.

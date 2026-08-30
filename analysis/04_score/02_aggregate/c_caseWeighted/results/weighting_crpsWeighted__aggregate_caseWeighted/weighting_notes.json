@@ -1,0 +1,35 @@
+{
+ "cells_with_zero_weight": 137,
+ "combo": "weighting_crpsWeighted__aggregate_caseWeighted",
+ "effective_sample_size_kish": 64.69581779662288,
+ "groups_with_no_weight": {
+  "crps_by_horizon": 0,
+  "crps_by_location": 8,
+  "crps_by_region_split": 240,
+  "crps_by_split": 0
+ },
+ "n_cells": 371,
+ "share_of_weight_by_location": {
+  "LA-AT": 0.04604995525181027,
+  "LA-BK": 0.07542103978520869,
+  "LA-BL": 0.018550158652672687,
+  "LA-CH": 0.19778699861687413,
+  "LA-HO": 0.000488162069807176,
+  "LA-KH": 0.08591652428606297,
+  "LA-LM": 0.0018712879342608413,
+  "LA-LP": 0.10869742087706452,
+  "LA-OU": 0.0043120982832967215,
+  "LA-PH": 0.0,
+  "LA-SL": 0.11837930192824017,
+  "LA-SV": 0.015621186233829631,
+  "LA-VT": 0.3016027987958669,
+  "LA-XA": 0.010170043120982833,
+  "LA-XE": 0.008298755186721992,
+  "LA-XI": 0.006834268977300464
+ },
+ "share_of_weight_in_largest_cell": 0.042876901798063624,
+ "share_of_weight_in_top_decile_of_cells": 0.622569359694085,
+ "weight_basis": "observed dengue cases per province-month, from the same per-cell file the scores are read from",
+ "weight_total": 12291.0,
+ "weighting": "cases"
+}

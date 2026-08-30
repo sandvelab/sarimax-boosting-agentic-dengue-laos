@@ -23,3 +23,11 @@ population_covariate,ran,92.0,6,analysis/05_stability/results/logs/population_co
 covariates_lagged,ran,82.5,6,analysis/05_stability/results/logs/covariates_lagged.log,2026-08-30T20:24:13+00:00
 yearVariance_shared,ran,85.6,6,analysis/05_stability/results/logs/yearVariance_shared.log,2026-08-30T20:25:39+00:00
 population_ignored,ran,121.5,6,analysis/05_stability/results/logs/population_ignored.log,2026-08-30T20:27:40+00:00
+provinces_reportingOnly__family_hierNB,ran,952.5,13,analysis/05_stability/results/logs/provinces_reportingOnly__family_hierNB.log,2026-08-30T21:46:50+00:00
+provinces_reportingOnly__weighting_crpsWeighted,ran,1245.9,17,analysis/05_stability/results/logs/provinces_reportingOnly__weighting_crpsWeighted.log,2026-08-30T22:07:36+00:00
+provinces_mergeVientiane__family_hierNB,ran,944.9,13,analysis/05_stability/results/logs/provinces_mergeVientiane__family_hierNB.log,2026-08-30T22:23:21+00:00
+provinces_mergeVientiane__weighting_crpsWeighted,ran,810.3,17,analysis/05_stability/results/logs/provinces_mergeVientiane__weighting_crpsWeighted.log,2026-08-30T22:36:51+00:00
+provinces_reportingOnly__aggregate_caseWeighted,ran,841.5,13,analysis/05_stability/results/logs/provinces_reportingOnly__aggregate_caseWeighted.log,2026-08-30T22:50:53+00:00
+provinces_mergeVientiane__aggregate_caseWeighted,ran,772.8,13,analysis/05_stability/results/logs/provinces_mergeVientiane__aggregate_caseWeighted.log,2026-08-30T23:03:45+00:00
+family_hierNB__aggregate_caseWeighted,ran,38.0,5,analysis/05_stability/results/logs/family_hierNB__aggregate_caseWeighted.log,2026-08-30T23:04:23+00:00
+weighting_crpsWeighted__aggregate_caseWeighted,ran,96.6,9,analysis/05_stability/results/logs/weighting_crpsWeighted__aggregate_caseWeighted.log,2026-08-30T23:06:00+00:00

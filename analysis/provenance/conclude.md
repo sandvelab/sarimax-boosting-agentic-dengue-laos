@@ -211,3 +211,71 @@ alternatives-considered: none at this node.
 agency: agent-autonomous.
 information: agent-retrieved — every figure quoted above is read from the files this batch
 produced.
+
+---
+
+## Batch 14 — the reported model is read off the results, and the fourteen candidate and family combinations
+
+```
+result:              results/$COMBO/conclusion.json
+combinations:        main, aggregate_caseWeighted, aggregate_populationWeighted,
+                     family_hierNB, family_boosted, weighting_crpsWeighted,
+                     autoregressive_lag3, covariates_lagged, covariates_rich,
+                     features_richCalendar, fitTime_refitAtPredict,
+                     head_quantileEnsemble, observation_negBinomial,
+                     observation_zeroInflated, population_covariate, population_ignored,
+                     yearVariance_shared
+script:              scripts/conclude.py
+                     sha256:3acf80d9c46bdbec096010c14864b6348dda11437411aab01c15ed26e73efd4a
+invocation:          environment/chapenv/bin/python analysis/scripts/conclude.py, with
+                     COMBO set by analysis/05_stability/scripts/run_manifest.py --batch 14
+                     and COMBO_BASE=main; on `main`, neither set
+inputs:              analysis/04_score/03_compare/results/$COMBO/leaderboard.csv
+                     analysis/04_score/03_compare/results/$COMBO/paired_summary.csv
+                     analysis/04_score/03_compare/results/$COMBO/comparison_notes.json
+                     analysis/03_models/03_candidate/**/results/$COMBO/model_spec.json —
+                     the tree's own results are what say which family this combination ran
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none.
+commit:              9993d37 (the script), 3fb1280 (the combinations)
+instructions-commit: cf97b81
+node:                analysis
+produced:            2026-08-30
+```
+
+**What changed in the script.** Which model is ours was resolved from `claim.md`'s
+`main-path` field at `03_models/03_candidate`. That field names the child the **reported**
+analysis takes and does not move with the combination, so a family row — one that runs a
+sibling family in place of the reported one — found no results under the child it named,
+fell through to "the best-scoring model of ours", and would have written
+`candidate_exists: false` on a row whose whole content is which candidate ran. Batch 12
+predicted it from the manifest and batch 13's narrower fix for the scoring rows was written
+so as not to paper over it.
+
+The family fork is now read off the results, in the order every other combination-aware step
+in this project reads a fork: the child with a model scored under this combination, else the
+one under `COMBO_BASE`, else — only before any candidate has run — the placeholder. **Two
+children with results under one combination is now a hard failure**, because exactly one
+family is on any one combination's path and a project cannot report two models as its own.
+That check is what caught the twelve phase-C directories this batch removed, had they been
+left in place.
+
+Verified on `main`: every value in `conclusion.json` is unchanged and only the wording of
+`our_model_basis` moves, from naming the tree's main path to naming the family the
+combination ran. On the two scoring rows the same holds, with the inherited-from-base clause
+batch 13 added still applying and still saying so.
+
+**What it establishes.** All 24 tier-1 rows now have a conclusion, and the two family rows
+name `hier_nb` and `boosted` rather than falling back. `family_hierNB` is the only row in
+the set where our model does not beat the reference: skill **−0.0724**, CRPS 23.698, and
+`beats_reference: false` with `beats_all_baselines: true`.
+
+alternatives-considered: keeping `claim.md` as the source and having the driver rewrite its
+`main-path` per combination (rejected — that is a step editing the tree to describe the run
+it is in the middle of, and it would leave the field wrong whenever a run failed midway);
+resolving the family from the manifest row instead of from the tree (rejected — the manifest
+would then be an input to the conclusion, and a conclusion that depends on the perturbation
+plan cannot be produced by `analysis/run.sh` on its own).
+
+agency: agent-autonomous.
+information: agent-retrieved.

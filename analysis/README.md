@@ -109,14 +109,22 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
     own Chap entry points**, read out of the member's own `MLproject`, so there is one copy
     of every member's code in the repository, at the node that owns it. Which models it
     contains and how they are configured is `results/$COMBO/members.json`, whose path and
-    hash are in the model configuration; `prepare_members.py` assembles it by running each
-    member family's fork main-path children and that family's own assembler under the
-    running combination, so a perturbation of a member's fork moves the pool's member with
-    it.
+    hash are in the model configuration; `prepare_members.py` assembles it by running the
+    fork children the running combination has not already chosen and that family's own
+    assembler, so a perturbation of a member's fork moves the pool's member with it. **A
+    fork it can already resolve — under `COMBO` or from `COMBO_BASE` — is left alone**, which
+    is batch 14's fix: running the main child as well would give the family's assembler two
+    children of one fork, and that is what blocked every candidate row until then.
     **Every fork here moves only our model**, which is what distinguishes this subtree from
     `02_setup`.
   - `scripts/lib/chap_eval.py` is the single route by which a model of ours reaches
-    `chap eval`. It is a library, not a step.
+    `chap eval`, and `scripts/lib/assemble_config.py` the single way a candidate family's
+    configuration is assembled from the forks above it — the lift batches 10 and 11 both
+    logged and batch 14 carried out, because it rewrites scripts whose hash is in the
+    provenance of every combination they configured. Both are libraries, not steps; the
+    three families are one-screen runners naming the candidate, and what is particular to
+    the pool — its membership document and the union of its members' covariates — is passed
+    in as data.
 - **`04_score`** (sub-analyses) — `01_collect` (per-cell scores for every model that ran,
   from chap-core's own metrics), `02_aggregate` (a fork on the weighting of the headline
   mean), `03_compare` (the leaderboard, and the paired per-cell comparison against the
@@ -128,7 +136,14 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
   reason for it. `a_unweighted` was moved onto it and reproduces its main-path output byte
   for byte, which is the check that the refactor changed no reported number. The two
   weighted children also write `weights.csv` and `weighting_notes.json`, which say how
-  concentrated the weighting is and how much of the cell set it silences.
+  concentrated the weighting is and how much of the cell set it silences. **Batch 14 made
+  `03_compare` follow that fork too**: its paired difference, its three standard errors, its
+  split-level comparison and its noise floor are taken under the chosen child's own
+  `weights.csv`, where before they counted every cell once beside a leaderboard that did
+  not — so the two weighted rows had been reporting the main path's spread under a
+  re-weighted mean. Within a split the cells carry their weights; across splits the eight
+  numbers count equally, because that is the figure which assumes nothing about
+  independence inside a split.
 - `scripts/lib/palette.py` gives every model one colour and one marker, keyed on the model's
   own name so that a model keeps its colour across combinations and two figures drawn for
   different combinations can be laid side by side. A library, not a step; imported by the
@@ -140,7 +155,12 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
   which is the first component in the project that draws at all.
 - The root's own `scripts/conclude.py` writes `results/$COMBO/conclusion.json`: the skill
   score against the reference, with raw CRPS and coverage beside it. **Nothing anywhere else
-  in the repository states the conclusion**, so nothing can drift from it.
+  in the repository states the conclusion**, so nothing can drift from it. Which model is
+  ours is **read off the results** — the child of `03_candidate` with a model scored under
+  this combination, else under `COMBO_BASE` — not off `claim.md`'s `main-path`, which names
+  the reported analysis's family and does not move with the combination. Two families with
+  results under one combination is a hard failure: exactly one is on any one combination's
+  path, and the project cannot report two models as its own.
 
 - **`05_stability`** (no children) — the perturbation manifest and the driver, built in
   batch 12. `scripts/lib/inventory.py` walks the tree for alternatives nodes rather than
@@ -151,10 +171,16 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
   owning batch. `run_manifest.py` is the driver: it calls **the tree's own scripts** with
   `COMBO` set, substituting the moved child for the main one at each fork, because both
   assemblers in this project fail if they find two children of one fork under a
-  combination. It is **not in `run.sh` yet** and joins it in batch 15, once every row can
-  run; `--dry-run` prints each row's step list, which is the specification the batches that
-  build the missing children work to. `collect_conclusions.py` gathers every combination's
-  `conclusion.json` into one table **and keeps the rows that have none, with the reason**.
+  combination. Where the moved fork belongs to the family that is *running*, it takes that
+  family's forks itself and then the family's **own scripts**, read out of its `run.sh`
+  under the `# Own scripts` marker — calling the family's `run.sh` would run the moved
+  fork's sibling, which is what an alternatives parent does. It is **not in `run.sh` yet**
+  and joins it in batch 15; `--dry-run` prints each row's step list, which is the
+  specification the batches that build the missing children work to.
+  `collect_conclusions.py` gathers every combination's `conclusion.json` into one table
+  **and keeps the rows that have none, with the reason**. Batches 13, 22 and 14 ran all 24
+  tier-1 rows, and batch 14 filled the eight tier-2 slots from `tier2_rule.md`, whose
+  sha256 is unchanged from the day it was written.
 
 Still to come: `06_holdout` (batch 16). The holdout node does not exist while the seal is
 on, because `analysis/run.sh` must not be able to open the sealed file by accident.

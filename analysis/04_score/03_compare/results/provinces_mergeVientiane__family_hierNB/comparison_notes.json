@@ -1,0 +1,58 @@
+{
+ "combo": "provinces_mergeVientiane__family_hierNB",
+ "models": {
+  "climatology": {
+   "mean_crps_against": 22.51058850134771,
+   "mean_crps_model": 24.3369086361186,
+   "mean_diff": 1.8263201347708897,
+   "n_splits": 8,
+   "se_cell_naive": 1.283309779528783,
+   "se_cluster_location": 2.629560149567638,
+   "se_cluster_split": 1.7638432473442966,
+   "se_split_level": 1.905103257563918,
+   "skill_score": -0.08113160323025537,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.4743935309973046
+  },
+  "hier_nb": {
+   "mean_crps_against": 22.51058850134771,
+   "mean_crps_model": 23.656004010781672,
+   "mean_diff": 1.1454155094339624,
+   "n_splits": 8,
+   "se_cell_naive": 0.9367543932240237,
+   "se_cluster_location": 1.5889517292261832,
+   "se_cluster_split": 1.344827109063507,
+   "se_split_level": 1.4230100669321766,
+   "skill_score": -0.05088341023893661,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.444743935309973
+  },
+  "persistence": {
+   "mean_crps_against": 22.51058850134771,
+   "mean_crps_model": 24.879338288409706,
+   "mean_diff": 2.3687497870619953,
+   "n_splits": 8,
+   "se_cell_naive": 2.057705235096022,
+   "se_cluster_location": 4.037225023303651,
+   "se_cluster_split": 2.765199412493865,
+   "se_split_level": 2.917395529962539,
+   "skill_score": -0.10522824789410468,
+   "splits_model_better": 3,
+   "win_rate_cells": 0.49595687331536387
+  }
+ },
+ "n_cells": 371,
+ "noise_floor_largest_repeat_pair_mean_diff": 0.9627265606468989,
+ "noise_floor_largest_repeat_pair_se_cluster_split": 1.285612497055301,
+ "reference": "reference",
+ "reference_repeats": [
+  "reference_r1",
+  "reference_r2",
+  "reference_r3",
+  "reference_r4"
+ ],
+ "resolvable_difference_note": "The largest mean paired difference between two repeats of the same unseeded reference model is the size of a difference this comparison cannot attribute to anything but the reference's own sampler.",
+ "unpaired_sd_across_splits_reference": 16.17063608917222,
+ "unpaired_se_across_splits_reference": 5.717183217376794,
+ "weighting": "unweighted"
+}

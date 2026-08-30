@@ -1,0 +1,58 @@
+{
+ "combo": "provinces_mergeVientiane__aggregate_caseWeighted",
+ "models": {
+  "climatology": {
+   "mean_crps_against": 116.49777739498413,
+   "mean_crps_model": 102.89885811317224,
+   "mean_diff": -13.598919281811899,
+   "n_splits": 8,
+   "se_cell_naive": 7.007226162714233,
+   "se_cluster_location": 10.707697139700754,
+   "se_cluster_split": 12.592969734955735,
+   "se_split_level": 7.0226728108934555,
+   "skill_score": 0.11673114788881278,
+   "splits_model_better": 3,
+   "win_rate_cells": 0.4636118598382749
+  },
+  "ensemble": {
+   "mean_crps_against": 116.49777739498413,
+   "mean_crps_model": 90.41046637564071,
+   "mean_diff": -26.08731101934342,
+   "n_splits": 8,
+   "se_cell_naive": 5.286646339227517,
+   "se_cluster_location": 13.897999423185212,
+   "se_cluster_split": 9.558446380633887,
+   "se_split_level": 7.393475347255941,
+   "skill_score": 0.22392968864027973,
+   "splits_model_better": 7,
+   "win_rate_cells": 0.4501347708894879
+  },
+  "persistence": {
+   "mean_crps_against": 116.49777739498413,
+   "mean_crps_model": 86.59836223090068,
+   "mean_diff": -29.899415164083482,
+   "n_splits": 8,
+   "se_cell_naive": 9.534863473160017,
+   "se_cluster_location": 21.456660426670513,
+   "se_cluster_split": 13.703892859332111,
+   "se_split_level": 11.470472496655487,
+   "skill_score": 0.2566522369153009,
+   "splits_model_better": 5,
+   "win_rate_cells": 0.5121293800539084
+  }
+ },
+ "n_cells": 371,
+ "noise_floor_largest_repeat_pair_mean_diff": 4.837286954600916,
+ "noise_floor_largest_repeat_pair_se_cluster_split": 2.7223006603912183,
+ "reference": "reference",
+ "reference_repeats": [
+  "reference_r1",
+  "reference_r2",
+  "reference_r3",
+  "reference_r4"
+ ],
+ "resolvable_difference_note": "The largest mean paired difference between two repeats of the same unseeded reference model is the size of a difference this comparison cannot attribute to anything but the reference's own sampler.",
+ "unpaired_sd_across_splits_reference": 52.54383195199706,
+ "unpaired_se_across_splits_reference": 18.577049941391756,
+ "weighting": "cases"
+}

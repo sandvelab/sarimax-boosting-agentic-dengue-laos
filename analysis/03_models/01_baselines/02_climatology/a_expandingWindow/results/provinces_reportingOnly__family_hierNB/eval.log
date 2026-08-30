@@ -1,0 +1,17 @@
+$ /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/chap eval --model-name /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/scripts/climatology_model --dataset-csv /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/results/provinces_reportingOnly__family_hierNB/analysis_dataset.csv --output-file /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/results/provinces_reportingOnly__family_hierNB/eval.nc --backtest-params.n-periods 3 --backtest-params.n-splits 8 --backtest-params.stride 3 --backtest-params.n-retrain 1
+
+2026-08-30T23:31:20 [INFO   ] Database URL not set [chap_core.database.database]
+2026-08-30T23:31:20 [INFO   ] Database url not set. Database operations will not work [chap_core.database.database]
+2026-08-30T23:31:20 [INFO   ] Evaluating model /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/scripts/climatology_model with xarray/NetCDF output [chap_core.cli_endpoints.evaluate]
+2026-08-30T23:31:20 [INFO   ] Level set to INFO [root]
+2026-08-30T23:31:20 [INFO   ] Loading dataset from /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/results/provinces_reportingOnly__family_hierNB/analysis_dataset.csv [root]
+2026-08-30T23:31:20 [INFO   ] Remaining regions: ['LA-AT', 'LA-BK', 'LA-BL', 'LA-CH', 'LA-HO', 'LA-KH', 'LA-LM', 'LA-LP', 'LA-OU', 'LA-PH', 'LA-SL', 'LA-SV', 'LA-VT', 'LA-XA', 'LA-XE', 'LA-XI'] with 16 entries [chap_core.rest_api.db_worker_functions]
+2026-08-30T23:31:20 [INFO   ] Loading model template from /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/scripts/climatology_model [chap_core.cli_endpoints.evaluate]
+2026-08-30T23:31:20 [WARNING] Column 'mean_relative_humidity' is present in the dataset but not used by the model [chap_core.cli_endpoints._common]
+2026-08-30T23:31:20 [WARNING] Column 'mean_temperature' is present in the dataset but not used by the model [chap_core.cli_endpoints._common]
+2026-08-30T23:31:20 [WARNING] Column 'population' is present in the dataset but not used by the model [chap_core.cli_endpoints._common]
+2026-08-30T23:31:20 [WARNING] Column 'rainfall' is present in the dataset but not used by the model [chap_core.cli_endpoints._common]
+2026-08-30T23:31:20 [WARNING] Model has not specified minimum and maximum predicted length [chap_core.cli_endpoints.evaluate]
+2026-08-30T23:31:20 [INFO   ] Running backtest with 8 splits, 3 periods, stride 3 [chap_core.cli_endpoints.evaluate]
+2026-08-30T23:31:34 [INFO   ] Exporting evaluation to /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/results/provinces_reportingOnly__family_hierNB/eval.nc [chap_core.cli_endpoints.evaluate]
+2026-08-30T23:31:34 [INFO   ] Evaluation complete. Results saved to /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/results/provinces_reportingOnly__family_hierNB/eval.nc [chap_core.cli_endpoints.evaluate]

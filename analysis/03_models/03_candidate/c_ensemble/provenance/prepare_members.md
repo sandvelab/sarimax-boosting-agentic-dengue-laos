@@ -112,3 +112,61 @@ considered: resolving forks by the tree's `main-path` field alone — rejected b
 not move with the combination, which is the whole point.
 
 agency: agent-autonomous.
+
+---
+
+## Batch 14 — a fork is only run where this combination cannot already resolve it
+
+```
+result:              results/$COMBO/members.json · member_selection.json
+combinations:        main, and the twelve candidate and family combinations this batch ran
+script:              scripts/prepare_members.py
+                     sha256:5c20b7e769dfb13e5991e8102fe142b04a9194235977d3be9a30e2f8a8f137a4
+invocation:          "$PYTHON" scripts/prepare_members.py, via this node's run.sh or by
+                     the stability driver's own-scripts path, with COMBO set
+inputs:              analysis/03_models/**/scripts/*/MLproject and the contract directories
+                     around them; each member family's results/$COMBO/candidate_spec.json
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none at this step; each member's seed is derived at its own node
+commit:              9993d37 (the script), 3fb1280 (the combinations)
+instructions-commit: cf97b81
+node:                analysis/03_models/03_candidate/c_ensemble
+produced:            2026-08-30
+```
+
+**What changed.** `ensure_configuration` ran **every** fork of a member family at its main
+path when that family had no configuration under the running combination. A
+candidate-internal row runs its moved child before the pool, so that fork already had a
+choice under `COMBO`, and running the main child as well gave the family's assembler two
+children of one fork — which it refuses, correctly. That is what blocked all twelve
+candidate rows, and batch 12 found it by planning rather than by running.
+
+A fork is now run only where this combination cannot resolve it at all: not under `COMBO`,
+and not under `COMBO_BASE`. The lookup is `resolve_glob`, which is the same one the family's
+own assembler resolves a fork with, because two rules for which child a combination takes
+are two rules that can disagree.
+
+**A consequence worth stating.** On a row that moves no fork of a member family, that
+family's choices are now resolved from `COMBO_BASE` rather than re-run under the
+combination's own name, so its `candidate_spec.json` records `choice_combos` pointing at
+the base. That is the same form batch 9's candidate combinations already have and it is what
+`COMBO_BASE` exists to express; the configuration itself is identical either way, so no
+number moves. Batch 22's two baseline rows were run before the change and record their
+choices under their own names; they are not re-run for a difference in bookkeeping that
+leaves every value the same.
+
+**A stale file found and corrected.** `member_selection.json` under `main` was committed by
+batch 22 in a state written before that batch's own two contract directories existed, so it
+did not record them as contracts considered and rejected. Re-running either version of this
+script produces the corrected record, which is what establishes it as staleness rather than
+a consequence of this change. `members.json` — the file the model's configuration hashes —
+is unchanged.
+
+alternatives-considered: running the fork's main child whenever nothing exists under `COMBO`
+alone, ignoring the base (rejected — it would re-run every fork of every member family on
+every candidate row, and would record a combination as having taken choices it inherited);
+having the driver rather than this step decide which forks to run (rejected — the pool
+prepares its own members, and a driver that knew how to configure candidate 1 would be a
+second place that could be wrong about it).
+
+agency: agent-autonomous.

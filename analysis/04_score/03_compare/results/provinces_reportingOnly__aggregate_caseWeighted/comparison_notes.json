@@ -1,0 +1,58 @@
+{
+ "combo": "provinces_reportingOnly__aggregate_caseWeighted",
+ "models": {
+  "climatology": {
+   "mean_crps_against": 107.07779333123831,
+   "mean_crps_model": 102.89885811317224,
+   "mean_diff": -4.1789352180660675,
+   "n_splits": 8,
+   "se_cell_naive": 6.466063471829807,
+   "se_cluster_location": 9.719546123241804,
+   "se_cluster_split": 5.78122437147361,
+   "se_split_level": 5.119236487701782,
+   "skill_score": 0.039027095049846694,
+   "splits_model_better": 3,
+   "win_rate_cells": 0.48517520215633425
+  },
+  "ensemble": {
+   "mean_crps_against": 107.07779333123831,
+   "mean_crps_model": 89.2793940886014,
+   "mean_diff": -17.79839924263689,
+   "n_splits": 8,
+   "se_cell_naive": 6.131704223784668,
+   "se_cluster_location": 11.998463656093925,
+   "se_cluster_split": 11.355852830685455,
+   "se_split_level": 9.378326424577056,
+   "skill_score": 0.16621933165524516,
+   "splits_model_better": 5,
+   "win_rate_cells": 0.40970350404312667
+  },
+  "persistence": {
+   "mean_crps_against": 107.07779333123831,
+   "mean_crps_model": 86.59836223090068,
+   "mean_diff": -20.47943110033765,
+   "n_splits": 8,
+   "se_cell_naive": 11.498239451778561,
+   "se_cluster_location": 18.717684383033834,
+   "se_cluster_split": 20.096633852375696,
+   "se_split_level": 14.672057374365023,
+   "skill_score": 0.19125750039493083,
+   "splits_model_better": 3,
+   "win_rate_cells": 0.46630727762803237
+  }
+ },
+ "n_cells": 371,
+ "noise_floor_largest_repeat_pair_mean_diff": 1.8460354214465884,
+ "noise_floor_largest_repeat_pair_se_cluster_split": 1.1389996879523627,
+ "reference": "reference",
+ "reference_repeats": [
+  "reference_r1",
+  "reference_r2",
+  "reference_r3",
+  "reference_r4"
+ ],
+ "resolvable_difference_note": "The largest mean paired difference between two repeats of the same unseeded reference model is the size of a difference this comparison cannot attribute to anything but the reference's own sampler.",
+ "unpaired_sd_across_splits_reference": 51.61755849137754,
+ "unpaired_se_across_splits_reference": 18.249562818773157,
+ "weighting": "cases"
+}

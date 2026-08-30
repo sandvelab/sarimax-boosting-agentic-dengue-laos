@@ -1,0 +1,30 @@
+{
+ "choice": "b_reportingOnly",
+ "combo": "provinces_reportingOnly__family_hierNB",
+ "dataset_transform": "rows of the removed provinces dropped; every kept row unchanged",
+ "description": "provinces with no evaluable cell removed before the platform sees them",
+ "eval_flags": {},
+ "evaluated_span": [
+  "2008-01",
+  "2009-12"
+ ],
+ "expected_evaluable_cells": 371,
+ "expected_locations_contributing": 16,
+ "input": "analysis/02_setup/02_trainingWindow/a_from1998/results/provinces_reportingOnly__family_hierNB/analysis_dataset.csv",
+ "input_sha256": "c9bf8b0849c768bfe6c65d54975dd08fa390204f8b59e76904170222a7a87d4c",
+ "locations_in_file": 16,
+ "locations_never_reporting": [
+  "LA-VI"
+ ],
+ "locations_removed": [
+  "LA-VI",
+  "LA-XN"
+ ],
+ "node": "analysis/02_setup/03_provinces/b_reportingOnly",
+ "order": 3,
+ "output_sha256": "b9acc3e8bc01ec47e51a1e5da2874a466aa1d6c1075ee580519eb01ea41b2287",
+ "removal_rule": "a province is removed when it carries no non-missing disease_cases inside the evaluated span read from the stored backtest scheme",
+ "rows_in": 2592,
+ "rows_out": 2304,
+ "stage": "provinces"
+}

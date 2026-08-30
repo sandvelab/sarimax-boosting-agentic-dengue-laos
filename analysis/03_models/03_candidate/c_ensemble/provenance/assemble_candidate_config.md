@@ -120,3 +120,43 @@ alternatives-considered: none at this node.
 agency: agent-autonomous.
 information: agent-retrieved — every figure quoted above is read from the files this batch
 produced.
+
+---
+
+## Batch 14 — the assembler lifted into a shared library
+
+```
+result:              results/$COMBO/model_configuration.yaml · candidate_spec.json
+combinations:        main and every combination in which the pool is our model — this
+                     batch re-ran twelve of them
+script:              scripts/assemble_candidate_config.py
+                     sha256:d2f1bbae36e3385d4ad702ed2bf0c218340f2793f0552450b203d8dc64b06fc7
+                     analysis/03_models/scripts/lib/assemble_config.py
+                     sha256:8b97f2d78063051ce7b3e1ad74dc3300b1ccf106d0654c68962045044a2af46b
+invocation:          "$PYTHON" scripts/assemble_candidate_config.py, via this node's
+                     run.sh, with COMBO set
+inputs:              results/$COMBO/members.json, written by prepare_members.py, whose
+                     path and sha256 this step puts into the configuration
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               component seed derived from project seed 20260822 from this node's
+                     own path; unchanged by the lift
+commit:              9993d37
+instructions-commit: cf97b81
+node:                analysis/03_models/03_candidate/c_ensemble
+produced:            2026-08-30
+```
+
+**What changed.** The lift this script's own docstring scheduled. What is particular to
+candidate 3 stays here and is passed into the shared assembler as data: the membership
+document's path and hash, which are not option values any fork owns, and the union of the
+members' covariates, which goes into the merge before any fork of this node speaks. The
+other two families pass none of it, and that is the whole of what distinguishes the three.
+
+Re-run under `main` before anything else in this batch, `model_configuration.yaml` and
+`candidate_spec.json` came out byte-identical — which matters more here than at the
+siblings, because this configuration's sha256 is what the reported model's `model_spec.json`
+records.
+
+alternatives-considered: as recorded at candidate 1.
+
+agency: agent-autonomous.

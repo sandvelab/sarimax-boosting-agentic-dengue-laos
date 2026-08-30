@@ -145,3 +145,133 @@ alternatives-considered: none at this node; the step list for a `baseline` row i
 
 agency: agent-autonomous.
 information: agent-retrieved — the timings are read from results/run_status.csv.
+
+---
+
+## Batch 14 — the fourteen candidate and family rows, and the running family's own fork
+
+```
+result:              results/run_status.csv
+                     results/logs/family_hierNB.log
+                     results/logs/family_boosted.log
+                     results/logs/weighting_crpsWeighted.log
+                     results/logs/autoregressive_lag3.log
+                     results/logs/covariates_lagged.log
+                     results/logs/covariates_rich.log
+                     results/logs/features_richCalendar.log
+                     results/logs/fitTime_refitAtPredict.log
+                     results/logs/head_quantileEnsemble.log
+                     results/logs/observation_negBinomial.log
+                     results/logs/observation_zeroInflated.log
+                     results/logs/population_covariate.log
+                     results/logs/population_ignored.log
+                     results/logs/yearVariance_shared.log
+                     results/logs/aggregate_caseWeighted.log
+                     results/logs/aggregate_populationWeighted.log
+                     and, per row, everything the tree's own steps write under that
+                     combination
+combinations:        family_hierNB, family_boosted, weighting_crpsWeighted,
+                     autoregressive_lag3, covariates_lagged, covariates_rich,
+                     features_richCalendar, fitTime_refitAtPredict,
+                     head_quantileEnsemble, observation_negBinomial,
+                     observation_zeroInflated, population_covariate, population_ignored,
+                     yearVariance_shared; and aggregate_caseWeighted and
+                     aggregate_populationWeighted re-run under the corrected 03_compare
+script:              scripts/run_manifest.py
+                     sha256:0f6378b3f440dfd09abb7a9898aa97cb33a5a94021e08c2bd63ec0b3830b06a9
+invocation:          environment/chapenv/bin/python analysis/05_stability/scripts/run_manifest.py --batch 14
+                     then ... --only weighting_crpsWeighted after the driver was fixed
+inputs:              results/manifest.csv; the tree's own run.sh files and node scripts
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none of its own; each step seeds itself from the project seed
+commit:              3fb1280
+instructions-commit: cf97b81
+node:                analysis/05_stability
+produced:            2026-08-30
+```
+
+**What it establishes.** Thirteen of the fourteen rows ran on the first attempt, in 1 123
+seconds against 1 224 planned. `weighting_crpsWeighted` failed at its second step in two
+seconds, was fixed, and ran in 172.
+
+**The failure, kept.** The driver ran the moved fork child and then the family's `run.sh`.
+An alternatives parent runs every fork below it at its main path — that is what the
+relationship means — so on the one row whose moved fork belongs to the family that is
+*running*, `c_ensemble/run.sh` ran `01_weighting/a_equal` after the driver had already run
+`b_crpsWeighted`, and the assembler refused two children of one fork. The refusal is the
+design working; the driver was what was wrong.
+
+A row moving the running family's own fork now takes that family's forks itself — the moved
+child where one moved, the main one otherwise — and then runs the family's **own scripts**,
+read out of its `run.sh` under the `# Own scripts` marker `node.py` writes. It is the
+treatment `02_setup` already has one kind up, where the driver calls `assemble_setup.py`
+rather than `02_setup/run.sh`. Reading the list rather than carrying it is the same choice
+`inventory.py` made about forks: a list kept here is a second copy of a file that is free to
+change without it.
+
+**This is the fourth fork-blind step in the project and the first found by running.** The
+other three — `prepare_members.py`'s member discovery, `01_collect`'s inheritance, and this
+batch's `ensure_configuration` — were found by planning or by reading output. All four have
+the same origin: a step written when every fork had exactly one child that did anything.
+
+**Verified against the whole dry run.** The step lists of all 33 rows before and after the
+change differ in exactly one row and by exactly the four commands above.
+
+**Two rows the failed attempt touched.** It wrote a `model_option_spec.json` for
+`a_equal` under `weighting_crpsWeighted`, which is the sibling's choice under a combination
+that does not take it; it was removed before the re-run, and the re-run wrote the
+combination fresh.
+
+alternatives-considered: hard-coding each family's own scripts in the driver (rejected — it
+is a second copy of `run.sh`, and the same objection the driver's own docstring makes to a
+second implementation of the analysis); having the family's `run.sh` skip a fork whose
+sibling already ran (rejected — `run.sh` is a short list of shell lines by `AGENTS.md` §2
+and putting resolution logic in it would make every node's main script conditional on the
+combination).
+
+agency: agent-autonomous.
+
+---
+
+## Batch 14 — tier 2: the eight pairs
+
+```
+result:              results/run_status.csv
+                     results/logs/provinces_reportingOnly__family_hierNB.log
+                     results/logs/provinces_reportingOnly__weighting_crpsWeighted.log
+                     results/logs/provinces_mergeVientiane__family_hierNB.log
+                     results/logs/provinces_mergeVientiane__weighting_crpsWeighted.log
+                     results/logs/provinces_reportingOnly__aggregate_caseWeighted.log
+                     results/logs/provinces_mergeVientiane__aggregate_caseWeighted.log
+                     results/logs/family_hierNB__aggregate_caseWeighted.log
+                     results/logs/weighting_crpsWeighted__aggregate_caseWeighted.log
+                     and, per row, everything the tree's own steps write under that
+                     combination
+script:              scripts/run_manifest.py
+                     sha256:0f6378b3f440dfd09abb7a9898aa97cb33a5a94021e08c2bd63ec0b3830b06a9
+invocation:          environment/chapenv/bin/python analysis/05_stability/scripts/run_manifest.py --tier 2
+inputs:              results/manifest.csv, with its eight tier-2 rows resolved by
+                     plan_manifest.py from results/tier2_rule.md and results/conclusions.csv
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none of its own
+commit:              ba3cf8d
+instructions-commit: cf97b81
+node:                analysis/05_stability
+produced:            2026-08-31
+```
+
+**What it establishes.** All eight pairs ran on the first attempt, in **5 703 seconds**
+against 6 047 planned — 5.7 % under, and the same total-accurate, row-inaccurate pattern
+batches 12 and 13 recorded. Six of the eight move a `02_setup` fork and therefore re-run the
+reference at four repeats under emulation, which is where 87 % of the time went; the two that
+do not took 38 and 97 seconds.
+
+**Two of the eight are the first rows to use the driver's own-scripts path**, because their
+moved fork belongs to the family that runs. Neither needed anything further.
+
+**No row was retried.** Batch 13 gave the reference node three attempts per repeat after
+measuring an intermittent crash at about one job in a hundred; across the twenty-four
+reference evaluations these eight rows asked for, `attempts_per_repeat` is 1 throughout.
+
+agency: agent-autonomous.
+information: agent-retrieved.

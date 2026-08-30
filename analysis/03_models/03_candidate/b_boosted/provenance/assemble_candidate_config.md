@@ -139,3 +139,35 @@ paragraph above rather than in a section of its own.
 agency: agent-autonomous.
 information: agent-retrieved — every figure quoted above is read from the files this batch
 produced.
+
+---
+
+## Batch 14 — the assembler lifted into a shared library
+
+```
+result:              results/$COMBO/model_configuration.yaml · candidate_spec.json
+combinations:        main, family_boosted, and every combination this batch re-ran that
+                     configures candidate 2 as a pool member
+script:              scripts/assemble_candidate_config.py
+                     sha256:1708e780c1e4bea6bd535a3239a6adb76006cbbd4b820bda316af9645ba60bdf
+                     analysis/03_models/scripts/lib/assemble_config.py
+                     sha256:8b97f2d78063051ce7b3e1ad74dc3300b1ccf106d0654c68962045044a2af46b
+invocation:          "$PYTHON" scripts/assemble_candidate_config.py, via this node's
+                     run.sh or by the pool's prepare_members.py, with COMBO set
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               component seed derived from project seed 20260822 from this node's
+                     own path; unchanged by the lift
+commit:              9993d37
+instructions-commit: cf97b81
+node:                analysis/03_models/03_candidate/b_boosted
+produced:            2026-08-30
+```
+
+**What changed.** The same lift as at candidate 1, and for the same reason: this script's
+own docstring named `03_models/scripts/lib/` as the right end state and batch 11 as the
+place, and batch 11 moved it here because this is the batch that re-runs what these scripts
+configured. Re-run under `main` before anything else, both files came out byte-identical.
+
+alternatives-considered: as recorded at candidate 1.
+
+agency: agent-autonomous.

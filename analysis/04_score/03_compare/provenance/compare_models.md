@@ -297,3 +297,89 @@ alternatives-considered: none at this node.
 agency: agent-autonomous.
 information: agent-retrieved — every figure quoted above is read from the files this batch
 produced.
+
+---
+
+## Batch 14 — the paired comparison follows the weighting fork, and the twelve candidate and family combinations
+
+```
+result:              results/$COMBO/leaderboard.csv · paired_vs_reference.csv ·
+                     paired_summary.csv · paired_by_split.csv ·
+                     reference_repeat_noise.csv · comparison_notes.json
+                     and the three figures beside them
+combinations:        main, aggregate_caseWeighted, aggregate_populationWeighted,
+                     family_hierNB, family_boosted, weighting_crpsWeighted,
+                     autoregressive_lag3, covariates_lagged, covariates_rich,
+                     features_richCalendar, fitTime_refitAtPredict,
+                     head_quantileEnsemble, observation_negBinomial,
+                     observation_zeroInflated, population_covariate, population_ignored,
+                     yearVariance_shared
+script:              scripts/compare_models.py
+                     sha256:f75ea678438f4a8b28dc98c2a235386b1a8534258dae06955f268c5d641de83e
+invocation:          bash analysis/04_score/03_compare/run.sh, with COMBO set by
+                     analysis/05_stability/scripts/run_manifest.py --batch 14 and
+                     COMBO_BASE=main; on `main`, the step alone with neither set
+inputs:              01_collect/results/$COMBO/metrics_cell.csv · models.csv
+                     the one child of 02_aggregate with results under this combination:
+                     its metrics_summary.csv and, where it is a weighted child, its
+                     weights.csv
+                     analysis/03_models/**/results/$COMBO/run_cost.json
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none; the step is arithmetic on the collected per-cell scores
+commit:              9993d37 (the script), 3fb1280 (the combinations)
+instructions-commit: cf97b81
+node:                analysis/04_score/03_compare
+produced:            2026-08-30
+```
+
+**What changed in the script.** The caveat batch 13 recorded here and batch 22 repeated is
+closed. Everything this node computes — the paired difference, the three standard errors,
+the split-level comparison and the noise floor — is now taken under the weighting the fork
+at `02_aggregate` chose, read from that child's own `weights.csv` rather than recomputed.
+The leaderboard always followed the fork, because it is that child's summary; the paired
+figures did not, so a weighted row reported a weighted CRPS with an unweighted spread
+against it and nothing in the file said which was which. Every file this node writes now
+carries a `weighting` column, and `comparison_notes.json` a `weighting` field.
+
+**The unweighted case is its own code path**, for the reason
+`04_score/scripts/lib/aggregate.py` gives one node up: weighting by a vector of ones and
+taking a mean are the same number in arithmetic and not always the same float, and these
+are the figures the project reports. Verified on `main` before anything else in this batch
+ran — every existing value in `paired_summary.csv`, `paired_by_split.csv`,
+`reference_repeat_noise.csv` and `fig_paired_vs_reference.csv` is unchanged, and the only
+difference is the added column.
+
+**Within a split the cells carry their weights; across splits the eight numbers count
+equally.** The split-level comparison exists as the figure that assumes nothing about
+independence inside a split, and weighting the splits by their totals would collapse it
+into the cell-level statistic it is reported beside.
+
+**What it establishes on the two weighting rows.** Under case weighting the pool's paired
+difference against the reference is **−26.732 with a split-clustered standard error of
+9.321** against a noise floor of 5.502 — 2.87 standard errors, the largest margin in this
+project. Under population weighting, −8.478 ± 3.693 against a floor of 0.835, or 2.30.
+Both are larger than `main`'s 1.90, and both were previously reported as `main`'s own
+−3.282 ± 1.726, which is what the defect amounted to: the same comparison copied under
+three headline means. The noise floor grows with the weighting because the reference's own
+sampler is re-weighted along with everything else, which is what keeps the two comparable.
+
+**What it establishes on the twelve candidate and two family rows.** The eleven forks
+inside the two member families move the paired difference between 1.85 and 1.99 standard
+errors around `main`'s 1.90. The pool's own weighting fork takes it to **0.48** — the
+CRPS-fitted pool is 22.838 against the reference's 22.098, and the comparison stops
+resolving anything at all. `family_hierNB` is 1.03 and `family_boosted` 1.20, both
+reproducing what batches 9 and 10 measured for those models when they were the main path.
+
+alternatives-considered: weighting the split-level statistic across splits as well as
+within them (rejected above, and recorded in the script's own docstring); leaving
+`win_rate_cells` weighted (rejected — it is a count of cells, its name says so, and a
+weighted version of it would be a different quantity reported under an unchanged name);
+recomputing the weights here from the analysis dataset rather than reading the aggregation
+child's `weights.csv` (rejected — a second place that knew what a cell is worth is a second
+place that can be wrong about it, which is the argument `aggregate.py` was created on).
+
+agency: agent-autonomous. The defect was found by batch 13 reading its own output and
+recorded in three places before this batch existed; the fix, and the choice of which
+statistics follow the weighting, are this batch's.
+information: agent-retrieved — every figure quoted above is read from the files this batch
+produced.

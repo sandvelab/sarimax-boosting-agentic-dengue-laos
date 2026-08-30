@@ -1,0 +1,9 @@
+additional_continuous_covariates:
+- rainfall
+- mean_temperature
+- mean_relative_humidity
+user_option_values:
+  members_file: analysis/03_models/03_candidate/c_ensemble/results/yearVariance_shared/members.json
+  members_sha256: 75f2eee594f6482c71c294e04a481b7abf1138bea309af1d2406fd0c8240b9bd
+  seed: 1648567750
+  weighting: equal

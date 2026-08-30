@@ -1,0 +1,13 @@
+{
+ "combo": "autoregressive_lag3",
+ "eval_flags": {
+  "n_periods": 3,
+  "n_retrain": 1,
+  "n_splits": 8,
+  "stride": 3
+ },
+ "model": "ensemble",
+ "route": "MLproject with uv_env, native",
+ "seconds_per_split": 8.1,
+ "wall_clock_seconds": 64.8
+}

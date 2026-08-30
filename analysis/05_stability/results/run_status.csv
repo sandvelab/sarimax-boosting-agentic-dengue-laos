@@ -1,7 +1,7 @@
 combination,status,seconds,steps,log,at
 main,ran,0.5,1,analysis/05_stability/results/logs/main.log,2026-08-28T22:19:26+00:00
-aggregate_caseWeighted,ran,13.8,4,analysis/05_stability/results/logs/aggregate_caseWeighted.log,2026-08-29T11:48:20+00:00
-aggregate_populationWeighted,ran,12.9,4,analysis/05_stability/results/logs/aggregate_populationWeighted.log,2026-08-29T11:48:33+00:00
+aggregate_caseWeighted,ran,13.2,4,analysis/05_stability/results/logs/aggregate_caseWeighted.log,2026-08-30T20:06:42+00:00
+aggregate_populationWeighted,ran,12.3,4,analysis/05_stability/results/logs/aggregate_populationWeighted.log,2026-08-30T20:06:55+00:00
 trainingWindow_from2004,ran,694.0,13,analysis/05_stability/results/logs/trainingWindow_from2004.log,2026-08-29T12:45:05+00:00
 provinces_reportingOnly,ran,835.9,13,analysis/05_stability/results/logs/provinces_reportingOnly.log,2026-08-29T14:11:26+00:00
 popColumn_backCast,ran,970.2,13,analysis/05_stability/results/logs/popColumn_backCast.log,2026-08-29T12:04:44+00:00
@@ -9,3 +9,17 @@ provinces_mergeVientiane,ran,1148.3,13,analysis/05_stability/results/logs/provin
 retrain_everySplit,ran,2226.2,13,analysis/05_stability/results/logs/retrain_everySplit.log,2026-08-29T14:48:32+00:00
 climatology_frozenWindow,ran,136.9,7,analysis/05_stability/results/logs/climatology_frozenWindow.log,2026-08-29T19:27:59+00:00
 persistence_negBinomialFloor,ran,138.6,7,analysis/05_stability/results/logs/persistence_negBinomialFloor.log,2026-08-29T19:58:45+00:00
+family_hierNB,ran,37.5,5,analysis/05_stability/results/logs/family_hierNB.log,2026-08-30T20:09:36+00:00
+weighting_crpsWeighted,ran,172.3,9,analysis/05_stability/results/logs/weighting_crpsWeighted.log,2026-08-30T21:28:48+00:00
+family_boosted,ran,56.8,5,analysis/05_stability/results/logs/family_boosted.log,2026-08-30T20:10:34+00:00
+fitTime_refitAtPredict,ran,131.9,6,analysis/05_stability/results/logs/fitTime_refitAtPredict.log,2026-08-30T20:12:46+00:00
+covariates_rich,ran,79.1,6,analysis/05_stability/results/logs/covariates_rich.log,2026-08-30T20:14:05+00:00
+observation_negBinomial,ran,83.5,6,analysis/05_stability/results/logs/observation_negBinomial.log,2026-08-30T20:15:28+00:00
+observation_zeroInflated,ran,81.7,6,analysis/05_stability/results/logs/observation_zeroInflated.log,2026-08-30T20:16:50+00:00
+features_richCalendar,ran,85.9,6,analysis/05_stability/results/logs/features_richCalendar.log,2026-08-30T20:18:16+00:00
+autoregressive_lag3,ran,83.5,6,analysis/05_stability/results/logs/autoregressive_lag3.log,2026-08-30T20:19:39+00:00
+head_quantileEnsemble,ran,99.2,6,analysis/05_stability/results/logs/head_quantileEnsemble.log,2026-08-30T20:21:19+00:00
+population_covariate,ran,92.0,6,analysis/05_stability/results/logs/population_covariate.log,2026-08-30T20:22:51+00:00
+covariates_lagged,ran,82.5,6,analysis/05_stability/results/logs/covariates_lagged.log,2026-08-30T20:24:13+00:00
+yearVariance_shared,ran,85.6,6,analysis/05_stability/results/logs/yearVariance_shared.log,2026-08-30T20:25:39+00:00
+population_ignored,ran,121.5,6,analysis/05_stability/results/logs/population_ignored.log,2026-08-30T20:27:40+00:00

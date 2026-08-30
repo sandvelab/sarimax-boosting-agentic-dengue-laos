@@ -7,11 +7,11 @@ $ aggregate/b_populationWeighted: bash /Users/geirksa_1_2_3/ai/special-purpose v
 aggregate/b_populationWeighted[aggregate_populationWeighted]: 8 models over 371 cells, population; best ensemble at CRPS 28.577
 
 $ compare: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/run.sh
-compare[aggregate_populationWeighted]: 8 leaderboard rows; reference CRPS 37.055 over 371 cells
-  ensemble       diff   -3.282  se(split-clustered) 1.726  skill +0.148  wins 43% of cells
-  persistence    diff   +2.781  se(split-clustered) 2.985  skill -0.126  wins 47% of cells
-  climatology    diff   +2.238  se(split-clustered) 1.919  skill -0.101  wins 44% of cells
-  noise floor (reference vs its own repeats): largest |mean diff| 0.565
+compare[aggregate_populationWeighted]: 8 leaderboard rows; reference CRPS 37.055 over 371 cells, population
+  ensemble       diff   -8.478  se(split-clustered) 3.693  skill +0.229  wins 43% of cells
+  persistence    diff   -3.311  se(split-clustered) 4.226  skill +0.089  wins 47% of cells
+  climatology    diff   +2.257  se(split-clustered) 5.008  skill -0.061  wins 44% of cells
+  noise floor (reference vs its own repeats): largest |mean diff| 0.835
 fig_accuracy_and_spread.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/aggregate_populationWeighted
 fig_crps_by_location.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/aggregate_populationWeighted
 fig_paired_vs_reference.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/aggregate_populationWeighted

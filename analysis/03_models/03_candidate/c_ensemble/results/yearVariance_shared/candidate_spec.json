@@ -1,0 +1,115 @@
+{
+ "additional_continuous_covariates": [
+  "rainfall",
+  "mean_temperature",
+  "mean_relative_humidity"
+ ],
+ "candidate": "ensemble",
+ "choice_combos": {
+  "weighting": "yearVariance_shared"
+ },
+ "choice_nodes": {
+  "weighting": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal"
+ },
+ "choices": {
+  "weighting": "a_equal"
+ },
+ "combo": "yearVariance_shared",
+ "configuration": "model_configuration.yaml",
+ "configuration_sha256": "97f7dac534d68ce11303150a9cbb9fdbcc8d76d2f3182e44a50dcbfc43686a15",
+ "members": [
+  {
+   "configured_by": null,
+   "model_config": null,
+   "model_dir": "analysis/03_models/01_baselines/01_persistence/a_empiricalChange/scripts/persistence_model",
+   "name": "persistence",
+   "node": "analysis/03_models/01_baselines/01_persistence/a_empiricalChange"
+  },
+  {
+   "configured_by": null,
+   "model_config": null,
+   "model_dir": "analysis/03_models/01_baselines/02_climatology/a_expandingWindow/scripts/climatology_model",
+   "name": "climatology",
+   "node": "analysis/03_models/01_baselines/02_climatology/a_expandingWindow"
+  },
+  {
+   "configured_by": {
+    "autoregressive": "a_none",
+    "covariates": "c_climateFree",
+    "fit_time": "a_trainOnly",
+    "observation": "c_hurdle",
+    "population": "a_offset",
+    "year_variance": "a_shared"
+   },
+   "model_config": "analysis/03_models/03_candidate/a_hierNB/results/yearVariance_shared/model_configuration.yaml",
+   "model_dir": "analysis/03_models/03_candidate/a_hierNB/scripts/hier_nb_model",
+   "name": "hier_nb",
+   "node": "analysis/03_models/03_candidate/a_hierNB"
+  },
+  {
+   "configured_by": {
+    "features": "a_lagBlock",
+    "head": "a_negBinomial"
+   },
+   "model_config": "analysis/03_models/03_candidate/b_boosted/results/yearVariance_shared/model_configuration.yaml",
+   "model_dir": "analysis/03_models/03_candidate/b_boosted/scripts/boosted_model",
+   "name": "boosted",
+   "node": "analysis/03_models/03_candidate/b_boosted"
+  }
+ ],
+ "members_file": "analysis/03_models/03_candidate/c_ensemble/results/yearVariance_shared/members.json",
+ "members_sha256": "75f2eee594f6482c71c294e04a481b7abf1138bea309af1d2406fd0c8240b9bd",
+ "node": "analysis/03_models/03_candidate/c_ensemble",
+ "route": "chap eval --model-configuration-yaml -> ModelConfiguration -> model_configuration_for_run.yaml -> {model_config} in the MLproject entry points",
+ "seed_derivation": {
+  "component": "analysis/03_models/03_candidate/c_ensemble",
+  "derivation": "int(blake2b('<project_seed>:<component>', digest_size=8), 16) % 4294967296",
+  "project_seed": 20260822,
+  "seed": 1648567750
+ },
+ "stages": [
+  {
+   "additional_continuous_covariates": [],
+   "choice": "a_equal",
+   "chosen_under_combo": "yearVariance_shared",
+   "combo": "yearVariance_shared",
+   "description": "every member of the pool carries weight 1/M; no weight in this model is estimated from data",
+   "input_from_combo": "yearVariance_shared",
+   "node": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal",
+   "order": 1,
+   "premise": {
+    "member_count": 6,
+    "members": [
+     "analysis/03_models/01_baselines/01_persistence/a_empiricalChange",
+     "analysis/03_models/01_baselines/01_persistence/b_negBinomialFloor",
+     "analysis/03_models/01_baselines/02_climatology/a_expandingWindow",
+     "analysis/03_models/01_baselines/02_climatology/b_frozenWindow",
+     "analysis/03_models/03_candidate/a_hierNB",
+     "analysis/03_models/03_candidate/b_boosted"
+    ],
+    "nominal_coverage_10_90": 0.8,
+    "nothing_downstream_is_read": "no score, no leaderboard, no evaluation. This node runs before 04_score, and a model node that read a scoring node would be a circular dependency that only shows up when the scoring node has not run yet",
+    "required_baselines_among_them": [
+     "analysis/03_models/01_baselines/01_persistence/a_empiricalChange",
+     "analysis/03_models/01_baselines/01_persistence/b_negBinomialFloor",
+     "analysis/03_models/01_baselines/02_climatology/a_expandingWindow",
+     "analysis/03_models/01_baselines/02_climatology/b_frozenWindow"
+    ],
+    "share_of_the_pool_on_the_required_baselines": 0.6666666666666666,
+    "source": "the shape of the tree: every Chap contract directory under analysis/03_models except the pool's own",
+    "weight_each_member_will_carry": 0.16666666666666666
+   },
+   "stage": "weighting",
+   "user_option_values": {
+    "weighting": "equal"
+   },
+   "what_the_premise_implies": "an equally weighted pool puts half its mass on the two required baselines, which are the two worst-scoring models of ours, so it is predicted to score worse than the best member and better than the mean of the members; and because a linear pool's variance is the mean of its members' variances plus the spread between their means, its 10-90 coverage is predicted to be at least the largest of its members' -- that is, wider than any member, and so over-covering if any member already over-covers"
+  }
+ ],
+ "user_option_values": {
+  "members_file": "analysis/03_models/03_candidate/c_ensemble/results/yearVariance_shared/members.json",
+  "members_sha256": "75f2eee594f6482c71c294e04a481b7abf1138bea309af1d2406fd0c8240b9bd",
+  "seed": 1648567750,
+  "weighting": "equal"
+ }
+}

@@ -1,0 +1,19 @@
+additional_continuous_covariates:
+- rainfall
+- mean_temperature
+- mean_relative_humidity
+user_option_values:
+  autoregressive: none
+  covariate_lags:
+  - 1
+  - 2
+  - 3
+  covariates:
+  - rainfall
+  - mean_temperature
+  - mean_relative_humidity
+  fit_time: train
+  observation: hurdle
+  population: offset
+  seed: 849487747
+  year_variance: province_scaled

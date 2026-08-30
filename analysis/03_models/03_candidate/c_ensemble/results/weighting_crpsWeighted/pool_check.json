@@ -82,10 +82,10 @@
    },
    "persistence": {
     "cells": 408,
-    "combination": "main",
+    "combination": "climatology_frozenWindow",
     "configuration_sha256": null,
     "draws": 1000,
-    "evaluation": "analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/main/eval.nc"
+    "evaluation": "analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/climatology_frozenWindow/eval.nc"
    }
   },
   "members_without_a_matching_stored_evaluation": [],

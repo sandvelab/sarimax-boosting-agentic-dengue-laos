@@ -1,0 +1,42 @@
+# autoregressive_lag3 [candidate] base=main
+
+$ autoregressive/b_lag3: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/05_autoregressive/b_lag3/run.sh
+autoregressive/b_lag3[autoregressive_lag3]: log1p cases at lag 3; autocorrelation 0.701 at lag 3 against 0.758 at lag 12 -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/05_autoregressive/b_lag3/results/autoregressive_lag3
+
+$ family/c_ensemble: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/run.sh
+weighting/a_equal[autoregressive_lag3]: equal weights, nothing estimated; 6 members at 0.167 each, 4 of them required baselines -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/autoregressive_lag3
+  a_hierNB: assembling its configuration under 'autoregressive_lag3'
+    01_observation: ['c_hurdle'] already chosen under 'main'
+    02_covariates: ['c_climateFree'] already chosen under 'main'
+    03_population: ['a_offset'] already chosen under 'main'
+    04_fitTime: ['a_trainOnly'] already chosen under 'main'
+    05_autoregressive: ['b_lag3'] already chosen under 'autoregressive_lag3'
+    06_yearVariance: ['b_provinceScaled'] already chosen under 'main'
+    candidate[autoregressive_lag3]: {'observation': 'c_hurdle', 'covariates': 'c_climateFree', 'population': 'a_offset', 'fit_time': 'a_trainOnly', 'autoregressive': 'b_lag3', 'year_variance': 'b_provinceScaled'}, covariates [], seed 849487747; taken here: ['autoregressive=b_lag3'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/results/autoregressive_lag3
+  b_boosted: assembling its configuration under 'autoregressive_lag3'
+    01_features: ['a_lagBlock'] already chosen under 'main'
+    02_head: ['a_negBinomial'] already chosen under 'main'
+    boosted[autoregressive_lag3]: {'features': 'a_lagBlock', 'head': 'a_negBinomial'}, covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'], seed 1877199108; taken here: [] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/results/autoregressive_lag3
+ensemble members[autoregressive_lag3]: 4 — persistence, climatology, hier_nb, boosted; covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/autoregressive_lag3/members.json; not on this combination's path: ['analysis/03_models/01_baselines/01_persistence/b_negBinomialFloor/scripts/persistence_model', 'analysis/03_models/01_baselines/02_climatology/b_frozenWindow/scripts/climatology_model']
+ensemble[autoregressive_lag3]: {'weighting': 'a_equal'}, 4 members, covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'], seed 1648567750; taken here: ['weighting=a_equal'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/autoregressive_lag3
+ensemble[autoregressive_lag3]: 65 s (8.1 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/autoregressive_lag3
+pool check[autoregressive_lag3]: 18.813 as run; reconstruction not done, no stored evaluation of ['hier_nb'] under the configuration the pool gave them -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/autoregressive_lag3/pool_check.json
+
+$ collect: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/run.sh
+collect[autoregressive_lag3]: 8 model rows, 2968 cells, 16 locations -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/results/autoregressive_lag3; inherited from main: ['climatology', 'persistence', 'reference', 'reference_r1', 'reference_r2', 'reference_r3', 'reference_r4']
+
+$ aggregate/a_unweighted: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/02_aggregate/a_unweighted/run.sh
+aggregate/a_unweighted[autoregressive_lag3]: 8 models over 371 cells, unweighted; best ensemble at CRPS 18.813
+
+$ compare: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/run.sh
+compare[autoregressive_lag3]: 8 leaderboard rows; reference CRPS 22.098 over 371 cells, unweighted
+  ensemble       diff   -3.285  se(split-clustered) 1.731  skill +0.149  wins 43% of cells
+  climatology    diff   +2.238  se(split-clustered) 1.919  skill -0.101  wins 44% of cells
+  persistence    diff   +2.781  se(split-clustered) 2.985  skill -0.126  wins 47% of cells
+  noise floor (reference vs its own repeats): largest |mean diff| 0.565
+fig_accuracy_and_spread.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/autoregressive_lag3
+fig_crps_by_location.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/autoregressive_lag3
+fig_paired_vs_reference.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/autoregressive_lag3
+
+$ conclude: /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/scripts/conclude.py
+conclusion[autoregressive_lag3]: ensemble CRPS 18.813 vs reference 22.098 -> skill +0.1487

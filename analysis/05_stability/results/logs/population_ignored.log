@@ -1,0 +1,42 @@
+# population_ignored [candidate] base=main
+
+$ population/c_ignored: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/03_population/c_ignored/run.sh
+population/c_ignored[population_ignored]: population dropped; it is constant within a province (True), so a pooled intercept stands in for it exactly -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/03_population/c_ignored/results/population_ignored
+
+$ family/c_ensemble: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/run.sh
+weighting/a_equal[population_ignored]: equal weights, nothing estimated; 6 members at 0.167 each, 4 of them required baselines -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/population_ignored
+  a_hierNB: assembling its configuration under 'population_ignored'
+    01_observation: ['c_hurdle'] already chosen under 'main'
+    02_covariates: ['c_climateFree'] already chosen under 'main'
+    03_population: ['c_ignored'] already chosen under 'population_ignored'
+    04_fitTime: ['a_trainOnly'] already chosen under 'main'
+    05_autoregressive: ['a_none'] already chosen under 'main'
+    06_yearVariance: ['b_provinceScaled'] already chosen under 'main'
+    candidate[population_ignored]: {'observation': 'c_hurdle', 'covariates': 'c_climateFree', 'population': 'c_ignored', 'fit_time': 'a_trainOnly', 'autoregressive': 'a_none', 'year_variance': 'b_provinceScaled'}, covariates [], seed 849487747; taken here: ['population=c_ignored'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/results/population_ignored
+  b_boosted: assembling its configuration under 'population_ignored'
+    01_features: ['a_lagBlock'] already chosen under 'main'
+    02_head: ['a_negBinomial'] already chosen under 'main'
+    boosted[population_ignored]: {'features': 'a_lagBlock', 'head': 'a_negBinomial'}, covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'], seed 1877199108; taken here: [] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/results/population_ignored
+ensemble members[population_ignored]: 4 — persistence, climatology, hier_nb, boosted; covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/population_ignored/members.json; not on this combination's path: ['analysis/03_models/01_baselines/01_persistence/b_negBinomialFloor/scripts/persistence_model', 'analysis/03_models/01_baselines/02_climatology/b_frozenWindow/scripts/climatology_model']
+ensemble[population_ignored]: {'weighting': 'a_equal'}, 4 members, covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'], seed 1648567750; taken here: ['weighting=a_equal'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/population_ignored
+ensemble[population_ignored]: 92 s (11.5 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/population_ignored
+pool check[population_ignored]: 18.860 as run; reconstruction not done, no stored evaluation of ['hier_nb'] under the configuration the pool gave them -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/population_ignored/pool_check.json
+
+$ collect: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/run.sh
+collect[population_ignored]: 8 model rows, 2968 cells, 16 locations -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/results/population_ignored; inherited from main: ['climatology', 'persistence', 'reference', 'reference_r1', 'reference_r2', 'reference_r3', 'reference_r4']
+
+$ aggregate/a_unweighted: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/02_aggregate/a_unweighted/run.sh
+aggregate/a_unweighted[population_ignored]: 8 models over 371 cells, unweighted; best ensemble at CRPS 18.860
+
+$ compare: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/run.sh
+compare[population_ignored]: 8 leaderboard rows; reference CRPS 22.098 over 371 cells, unweighted
+  ensemble       diff   -3.238  se(split-clustered) 1.714  skill +0.147  wins 43% of cells
+  climatology    diff   +2.238  se(split-clustered) 1.919  skill -0.101  wins 44% of cells
+  persistence    diff   +2.781  se(split-clustered) 2.985  skill -0.126  wins 47% of cells
+  noise floor (reference vs its own repeats): largest |mean diff| 0.565
+fig_accuracy_and_spread.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/population_ignored
+fig_crps_by_location.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/population_ignored
+fig_paired_vs_reference.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/population_ignored
+
+$ conclude: /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/scripts/conclude.py
+conclusion[population_ignored]: ensemble CRPS 18.860 vs reference 22.098 -> skill +0.1465

@@ -1,0 +1,27 @@
+# family_boosted [family] base=main
+
+$ family/b_boosted: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/run.sh
+features/a_lagBlock[family_boosted]: 18 features; climate [0, 1, 2, 3], counts [3, 4, 5, 6, 12] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/01_features/a_lagBlock/results/family_boosted
+head/a_negBinomial[family_boosted]: variance-to-mean by province 2.9..842.4 (Poisson would be 1.0) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/02_head/a_negBinomial/results/family_boosted
+boosted[family_boosted]: {'features': 'a_lagBlock', 'head': 'a_negBinomial'}, covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'], seed 1877199108; taken here: ['features=a_lagBlock', 'head=a_negBinomial'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/results/family_boosted
+boosted[family_boosted]: 43 s (5.4 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/results/family_boosted
+head premise[family_boosted]: one dispersion 0.313 fitted where the data's variance-to-mean runs 2.9..842.4 -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/results/family_boosted
+
+$ collect: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/run.sh
+collect[family_boosted]: 8 model rows, 2968 cells, 16 locations -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/results/family_boosted; inherited from main: ['climatology', 'persistence', 'reference', 'reference_r1', 'reference_r2', 'reference_r3', 'reference_r4']
+
+$ aggregate/a_unweighted: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/02_aggregate/a_unweighted/run.sh
+aggregate/a_unweighted[family_boosted]: 8 models over 371 cells, unweighted; best boosted at CRPS 20.771
+
+$ compare: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/run.sh
+compare[family_boosted]: 8 leaderboard rows; reference CRPS 22.098 over 371 cells, unweighted
+  boosted        diff   -1.327  se(split-clustered) 1.110  skill +0.060  wins 40% of cells
+  climatology    diff   +2.238  se(split-clustered) 1.919  skill -0.101  wins 44% of cells
+  persistence    diff   +2.781  se(split-clustered) 2.985  skill -0.126  wins 47% of cells
+  noise floor (reference vs its own repeats): largest |mean diff| 0.565
+fig_accuracy_and_spread.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/family_boosted
+fig_crps_by_location.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/family_boosted
+fig_paired_vs_reference.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/family_boosted
+
+$ conclude: /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/scripts/conclude.py
+conclusion[family_boosted]: boosted CRPS 20.771 vs reference 22.098 -> skill +0.0601

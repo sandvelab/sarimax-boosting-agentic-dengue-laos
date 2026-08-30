@@ -26,6 +26,16 @@ It therefore builds the step list per row, substituting the moved child for the 
 | `candidate` | the moved fork child · our reported family · the scoring chain · `conclude.py` |
 | `pair` | the union of its two rows' steps, in tree order, each fork's child taken once |
 
+**A fork of the family that is running is the case that rule does not cover**, and batch 14
+found it by running into it. `c_ensemble/run.sh` runs `01_weighting/run.sh` at the main
+path, as an alternatives parent must, so a row moving the pool's own weighting fork had the
+moved child and the main one under one combination and the assembler failed by design. Such
+a row therefore takes that family's forks itself and then runs the family's **own scripts**,
+read out of its `run.sh` under the `# Own scripts` marker `node.py` writes -- which is what
+`02_setup` already gets, one kind up, where the driver names `assemble_setup.py` rather than
+calling `02_setup/run.sh`. It is the same fork-blindness this project has now found four
+times, in the last place that had it.
+
 Everything a combination does not run is inherited from `COMBO_BASE` by
 `analysis/scripts/lib/combos.py`, per artefact and on the face of the file that reports it.
 The reference model is inherited wherever a fork cannot have moved it, which is not an
@@ -53,6 +63,7 @@ import argparse
 import csv
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -79,6 +90,32 @@ def python(path: Path) -> list[str]:
 
 def fork_by_rel(forks: list[inv.Fork], rel: str) -> inv.Fork:
     return next(f for f in forks if f.rel == rel)
+
+
+OWN_SCRIPT = re.compile(r'^"\$PYTHON"\s+"(scripts/[^"]+)"\s*$')
+
+
+def own_scripts(node: Path) -> list[tuple[str, list[str]]]:
+    """A node's own scripts, in the order its own `run.sh` runs them.
+
+    Read out of that file rather than listed here. The driver's rule is that every command
+    it issues is one the main path also issues, and a list of a node's scripts kept in the
+    driver would be a second copy of its `run.sh` free to fall out of step with it -- the
+    same objection this project has made four times now to a step that carries what it
+    could read. The block is the one `node.py` generates under `# Own scripts`, and the
+    child calls above it are exactly what this function exists to leave out.
+    """
+    lines = (node / "run.sh").read_text().splitlines()
+    if "# Own scripts" not in lines:
+        raise SystemExit(f"{node}/run.sh has no '# Own scripts' marker; the driver "
+                         f"cannot run this node without also re-running the fork child "
+                         f"this row moves")
+    steps = [(Path(m.group(1)).stem, python(node / m.group(1)))
+             for m in (OWN_SCRIPT.match(line.strip())
+                       for line in lines[lines.index("# Own scripts") + 1:]) if m]
+    if not steps:
+        raise SystemExit(f"{node}/run.sh lists no own scripts under its marker")
+    return steps
 
 
 def steps_for(row: dict, forks: list[inv.Fork]) -> list[tuple[str, list[str]]]:
@@ -115,10 +152,28 @@ def steps_for(row: dict, forks: list[inv.Fork]) -> list[tuple[str, list[str]]]:
     if kinds != {"scoring"}:
         # A candidate-internal fork's child writes the option spec the family's assembler
         # then picks up, so it runs before the family and never after it.
-        for fork, child in moved:
-            if fork.kind == "candidate":
+        internal = [(fork, child) for fork, child in moved if fork.kind == "candidate"]
+        for fork, child in internal:
+            if fork.owner != family:
                 out.append((f"{fork.stage}/{child}", bash(fork.node / child / "run.sh")))
-        out.append((f"family/{family}", bash(family_fork.node / family / "run.sh")))
+
+        # A fork of the family that is *running* cannot be taken that way. Its own
+        # `run.sh` runs every fork below it at the main path -- that is what an
+        # alternatives parent does -- so calling it after the moved child would put both
+        # children of one fork under this combination and the family's assembler fails by
+        # design. So the family's forks are taken here, the moved child where one moved,
+        # and then the family's own scripts, which is what its `run.sh` does minus the
+        # child calls. It is the treatment `02_setup` already gets one kind up.
+        own = [f for f, _ in internal if f.owner == family]
+        node = family_fork.node / family
+        if own:
+            chosen = {fork.rel: child for fork, child in internal}
+            for fork in [f for f in forks if f.owner == family]:
+                child = chosen.get(fork.rel, fork.main)
+                out.append((f"{fork.stage}/{child}", bash(fork.node / child / "run.sh")))
+            out.extend(own_scripts(node))
+        else:
+            out.append((f"family/{family}", bash(node / "run.sh")))
 
     out.append(("collect", bash(ANALYSIS / "04_score/01_collect/run.sh")))
     take("scoring")

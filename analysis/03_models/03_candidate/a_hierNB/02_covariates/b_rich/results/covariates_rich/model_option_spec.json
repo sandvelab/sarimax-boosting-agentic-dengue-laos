@@ -1,0 +1,47 @@
+{
+ "additional_continuous_covariates": [
+  "rainfall",
+  "mean_temperature",
+  "mean_relative_humidity"
+ ],
+ "choice": "b_rich",
+ "combo": "covariates_rich",
+ "description": "all three climate columns at lags 1, 2 and 3, standardised",
+ "input_from_combo": "main",
+ "node": "analysis/03_models/03_candidate/a_hierNB/02_covariates/b_rich",
+ "order": 2,
+ "premise": {
+  "columns_present": [
+   "rainfall",
+   "mean_temperature",
+   "mean_relative_humidity"
+  ],
+  "design_columns_added": 9,
+  "lags": [
+   1,
+   2,
+   3
+  ],
+  "missing_values": {
+   "mean_relative_humidity": 0,
+   "mean_temperature": 0,
+   "rainfall": 0
+  },
+  "provinces": 18,
+  "rows": 2592,
+  "rows_lost_to_the_longest_lag": 54
+ },
+ "stage": "covariates",
+ "user_option_values": {
+  "covariate_lags": [
+   1,
+   2,
+   3
+  ],
+  "covariates": [
+   "rainfall",
+   "mean_temperature",
+   "mean_relative_humidity"
+  ]
+ }
+}

@@ -24,11 +24,11 @@ not do is contain copies of them. So this step does not describe the members —
 
 `AGENTS.md` §2 sanctions a node running its siblings' scripts — it is how the stability
 node executes the paths not taken — and this node does it for the same reason: its claim is
-about the other models, so it cannot be answered without them. What it runs is each family's
-**fork children on the main path and that family's own assembler**, which write configuration
-and nothing else; it never runs a sibling's evaluation. And it runs them only where this
-combination has no configuration already, so a combination whose configuration was produced
-by the family's own step is left exactly as that step left it.
+about the other models, so it cannot be answered without them. What it runs is **the fork
+children this combination has not already chosen, and that family's own assembler**, which
+write configuration and nothing else; it never runs a sibling's evaluation. And it runs them
+only where this combination has no configuration already, so a combination whose configuration
+was produced by the family's own step is left exactly as that step left it.
 
 Two things are checked rather than assumed, because both would otherwise fail late and
 obscurely:
@@ -208,20 +208,36 @@ def on_this_combinations_path(owner: Path) -> tuple[bool, list[dict]]:
 def ensure_configuration(owner: Path) -> Path:
     """The member family's assembled configuration for this combination, produced if absent.
 
-    Produced by the family's **own** scripts: each of its forks' main-path children, then
-    its assembler. Nothing about how that family is configured is decided here, which is
-    the point -- a second place that knew how to configure candidate 1 would be a second
-    place that could be wrong about it.
+    Produced by the family's **own** scripts: the fork children this combination still
+    needs, then its assembler. Nothing about how that family is configured is decided
+    here, which is the point -- a second place that knew how to configure candidate 1
+    would be a second place that could be wrong about it.
+
+    **A fork is only run where this combination cannot already resolve it.** A
+    candidate-internal row runs its moved child before the pool, so that fork already has
+    a choice under `COMBO`; running the fork's main child as well would give the family's
+    assembler two children of one fork and it fails by design -- which is what blocked
+    every candidate row until batch 14. And a fork this combination did not move is
+    answered by `COMBO_BASE`, so it needs nothing run either. The lookup is
+    `resolve_glob`, the same one the assembler itself resolves a fork with, because two
+    rules for which child a combination takes are two rules that can disagree.
+
+    What remains -- a fork with no child resolvable under this combination or its base --
+    is run at its main path, which is the case a fresh combination with no base starts in.
     """
     configuration = owner / "results" / COMBO / "model_configuration.yaml"
     if configuration.exists():
         print(f"  {owner.name}: configuration already assembled under {COMBO!r}")
         return configuration
 
-    print(f"  {owner.name}: assembling its configuration under {COMBO!r} "
-          f"from its forks' main paths")
+    print(f"  {owner.name}: assembling its configuration under {COMBO!r}")
     for fork in sorted(p for p in owner.iterdir()
                        if p.is_dir() and (p / "claim.md").exists()):
+        found, where = resolve_glob(fork, "*/results/{combo}/model_option_spec.json")
+        if found:
+            print(f"    {fork.name}: {sorted(p.parents[2].name for p in found)} "
+                  f"already chosen under {where!r}")
+            continue
         main = field((fork / "claim.md").read_text(), "main-path")
         if not main:
             raise SystemExit(f"{fork} has no main path; the pool cannot configure "

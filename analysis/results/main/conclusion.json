@@ -29,7 +29,7 @@
  "n_locations": 16,
  "n_splits": 8,
  "our_model": "ensemble",
- "our_model_basis": "the main path through 03_models/03_candidate (c_ensemble)",
+ "our_model_basis": "the family of 03_models/03_candidate this combination ran (c_ensemble)",
  "our_model_is_a_baseline": false,
  "paired_mean_diff_vs_reference": -3.281574428571429,
  "paired_se_cluster_split": 1.725702872552236,

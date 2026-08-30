@@ -17,6 +17,19 @@
   {
    "forks": [
     {
+     "child": "b_negBinomialFloor",
+     "fork": "analysis/03_models/01_baselines/01_persistence",
+     "resolved_by": "has results under 'main'",
+     "taken": "a_empiricalChange"
+    }
+   ],
+   "is_a_member": false,
+   "model_dir": "analysis/03_models/01_baselines/01_persistence/b_negBinomialFloor/scripts/persistence_model",
+   "node": "analysis/03_models/01_baselines/01_persistence/b_negBinomialFloor"
+  },
+  {
+   "forks": [
+    {
      "child": "a_expandingWindow",
      "fork": "analysis/03_models/01_baselines/02_climatology",
      "resolved_by": "has results under 'main'",
@@ -26,6 +39,19 @@
    "is_a_member": true,
    "model_dir": "analysis/03_models/01_baselines/02_climatology/a_expandingWindow/scripts/climatology_model",
    "node": "analysis/03_models/01_baselines/02_climatology/a_expandingWindow"
+  },
+  {
+   "forks": [
+    {
+     "child": "b_frozenWindow",
+     "fork": "analysis/03_models/01_baselines/02_climatology",
+     "resolved_by": "has results under 'main'",
+     "taken": "a_expandingWindow"
+    }
+   ],
+   "is_a_member": false,
+   "model_dir": "analysis/03_models/01_baselines/02_climatology/b_frozenWindow/scripts/climatology_model",
+   "node": "analysis/03_models/01_baselines/02_climatology/b_frozenWindow"
   },
   {
    "forks": [

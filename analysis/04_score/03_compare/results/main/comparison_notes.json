@@ -53,5 +53,6 @@
  ],
  "resolvable_difference_note": "The largest mean paired difference between two repeats of the same unseeded reference model is the size of a difference this comparison cannot attribute to anything but the reference's own sampler.",
  "unpaired_sd_across_splits_reference": 16.07885107809622,
- "unpaired_se_across_splits_reference": 5.684732315505234
+ "unpaired_se_across_splits_reference": 5.684732315505234,
+ "weighting": "unweighted"
 }

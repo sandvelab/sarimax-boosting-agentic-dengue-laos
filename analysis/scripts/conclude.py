@@ -55,16 +55,38 @@ def field(text: str, key: str) -> str | None:
     return v or None if v not in ("", "-", "none", "n/a") else None
 
 
+def family_taken(where: str) -> list[Path]:
+    """The children of the family fork with a model of ours scored under `where`.
+
+    The family fork is an alternatives node, so exactly one of its children is on any one
+    combination's path. Which one is **read off the results**, not off `claim.md`:
+    `main-path` names the child the *reported* analysis takes and does not move with the
+    combination, so a family row -- one that runs a sibling family in place of the
+    reported one -- would be answered by a model it did not run.
+    """
+    by_child: dict[str, Path] = {}
+    for spec in sorted(CANDIDATE_NODE.glob(f"*/**/results/{where}/model_spec.json")):
+        child = spec.relative_to(CANDIDATE_NODE).parts[0]
+        by_child.setdefault(child, spec)
+    return [by_child[name] for name in sorted(by_child)]
+
+
 def our_reported_model(board: pd.DataFrame) -> tuple[str, str, bool]:
-    """The model the project reports, and how it was arrived at."""
+    """The model the project reports, and how it was arrived at.
+
+    Resolved in the order every other combination-aware step in this project resolves a
+    fork: the child with results under this combination, else the one under `COMBO_BASE`,
+    else -- when neither has any, which is only true before any candidate has run -- the
+    fallback below.
+    """
     ours = board[board.origin == "ours"]
     if ours.empty:
         raise SystemExit("no model of ours has been scored for this combination")
 
     if (CANDIDATE_NODE / "claim.md").exists():
-        main = field((CANDIDATE_NODE / "claim.md").read_text(), "main-path")
-        spec = sorted((CANDIDATE_NODE / main).glob(f"**/results/{COMBO}/model_spec.json"))
-        inherited = None
+        # Under this combination first. A family row runs one family and not the
+        # reported one, and this is the branch that answers it correctly.
+        spec, inherited = family_taken(COMBO), None
 
         # A combination that re-ran no model of ours has no spec under its own name --
         # the scoring fork's children are the whole class of these, since re-weighting
@@ -73,24 +95,24 @@ def our_reported_model(board: pd.DataFrame) -> tuple[str, str, bool]:
         # weighting rows both reported `candidate_exists: false`, and the case-weighted
         # row named *persistence* as the project's model, because the fallback below
         # picks the best-scoring model of ours and under that weighting a baseline wins.
-        #
-        # The fallback is deliberately narrow. It applies only when *no* child of the
-        # family fork produced a spec under this combination, so a row that did move a
-        # family still resolves against its own results rather than being answered by
-        # the main path's -- which is the separate defect batch 14 fixes, and this must
-        # not paper over it.
-        if main and not spec and BASE and not sorted(
-                CANDIDATE_NODE.glob(f"**/results/{COMBO}/model_spec.json")):
-            candidate = sorted(
-                (CANDIDATE_NODE / main).glob(f"**/results/{BASE}/model_spec.json"))
+        if not spec and BASE:
+            candidate = family_taken(BASE)
             # Only if the inherited model is actually on this combination's leaderboard.
-            if candidate and json.loads(
+            if len(candidate) == 1 and json.loads(
                     candidate[0].read_text())["model"] in set(board.model):
                 spec, inherited = candidate, BASE
 
-        if main and spec:
+        if len(spec) > 1:
+            raise SystemExit(
+                f"03_models/03_candidate: {[p.relative_to(CANDIDATE_NODE).parts[0] for p in spec]} "
+                f"all have a model scored under {COMBO if not inherited else inherited!r}. "
+                f"Exactly one family is on any one combination's path, and the project "
+                f"cannot report two models as its own.")
+
+        if spec:
+            child = spec[0].relative_to(CANDIDATE_NODE).parts[0]
             name = json.loads(spec[0].read_text())["model"]
-            basis = f"the main path through 03_models/03_candidate ({main})"
+            basis = f"the family of 03_models/03_candidate this combination ran ({child})"
             if inherited:
                 basis += (f", resolved under combination {inherited!r} because this "
                           f"combination re-ran no model of ours")

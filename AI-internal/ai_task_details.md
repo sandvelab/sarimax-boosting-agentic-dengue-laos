@@ -1196,3 +1196,62 @@ datasets.
 **Commits.** `f83acf7` (the children and the two fixes), `d8f93ca` (the import-path repair),
 `a5bec23` (results, records, claims, criticality), `5c41aad` (the zero-share correction, plan,
 readme, report), `5ec569b` (the re-run at the correcting commit).
+
+## T14 — Batch 14: the candidate and family rows, and tier 2 (2026-08-31)
+
+**What it produced.** The last fourteen tier-1 rows of the frozen perturbation manifest and
+all eight tier-2 pairs, so 32 of the manifest's 33 rows have a `conclusion.json` and phase D's
+development set is complete. Batch 15 has a distribution to report and a holdout manifest to
+freeze; nothing is left open in tier 1.
+
+**The result, and it is a ratio rather than a score.** The model family moves the reported
+conclusion 0.2209 of skill; the eleven forks inside the two member families move it by at most
+0.0081, spanning 18.638 to 18.933 CRPS against the reference's own 0.57 re-run spread. Three
+phase-C batches and a whole counterfactual branch went into choosing among analyses this
+evaluation cannot separate. The exception is the pool's own weighting fork at 0.1820 — the one
+candidate-internal fork that is not inside a member — which takes the reported model behind the
+reference. If the manuscript keeps one number from phase D, the 27:1 ratio is the one.
+
+**Tier 2 justified itself.** The interaction column now in `conclusions.csv` runs −0.1033 to
++0.0424; the extreme is bigger than either main effect behind it, because removing the two
+unevaluable provinces and weighting by cases are largely the same re-weighting reached twice
+and almost exactly cancel. Batch 12 declined to cut tier 2 on two prior demonstrations that
+forks do not compose; this is the third and the first on the reported conclusion.
+
+**Four defects, one class.** Every one is a step that discovers something from the tree,
+written when every fork had exactly one child that did anything: the pool's member assembler,
+the root's resolution of which model is ours, the comparison node's weighting, and the
+stability driver's handling of a fork belonging to the family that runs. Three were named in
+advance by batch 12's planning and batch 13's reading; the fourth surfaced two seconds into
+the fourteenth row, and the assembler that refused it was the invariant working. I believe
+that is now all of them within reach of the manifest, but the class is created by the tree
+growing rather than by any one script being careless, so a fifth would not be surprising.
+
+**Files affected.** New: `analysis/03_models/scripts/lib/assemble_config.py`. Changed:
+`c_ensemble/scripts/prepare_members.py`, `analysis/scripts/conclude.py`,
+`04_score/03_compare/scripts/compare_models.py`, all three
+`assemble_candidate_config.py`, `05_stability/scripts/run_manifest.py` and
+`collect_conclusions.py`. Removed with git as the witness: the twelve phase-C combination
+directories the manifest's rows replace. Provenance sections added at eight nodes; the plan's
+§4b, `readme-at-start.md`, `analysis/README.md`, `05_stability/claim.md` and its
+`criticality.md` all updated.
+
+**A correction made before it could be read as a result.** A draft sentence said a linear pool
+"moves a quarter as far as one member does". The eleven ratios actually run from about zero to
+1.7 and one is negative, so it was replaced by two figures read from phase C's committed
+sweeps. The negative one is the more useful half: candidate 2's quantile head makes candidate
+2 worse and the pool better.
+
+**Two things a future session needs.** First, the per-split diagnostics gap batch 22 left here
+is **still open**, and the reason is in the plan's §4b — closing it re-hashes the models and
+forces a re-run of the reported analysis, which must not happen between the manifest freezing
+and the holdout opening. If it is to be closed, it is a post-holdout batch. Second, tier 2's
+two setup slots both landed on children of `03_provinces`, so nothing in the manifest says how
+the training window, the population column or the retraining frequency interact with anything.
+The rule was hashed before that was knowable and was not adjusted; if the human wants that
+coverage it is a new batch, not an edit to `tier2_rule.md`.
+
+**Commits.** `9993d37` (the three fixes and the assembler lift, before the run), `679772c`
+(the twelve stale directories removed), `3fb1280` (the tier-1 run and the driver's fourth
+fork-blindness), `ba3cf8d` (tier 2 selected by the frozen rule), `c31da5a` (the tier-2 run and
+the interaction columns), and the report commit.

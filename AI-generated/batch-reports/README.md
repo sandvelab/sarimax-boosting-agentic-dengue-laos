@@ -95,3 +95,16 @@ re-running a batch produces a different report rather than the same one.
   pool's win comes from its members disagreeing rather than from their quality. Two more
   fork-blind globs found by building the rows: one would have made the reported model a
   six-member pool with two copies of each baseline, silently, under `main`.
+- `26-08-30_b14_candidateAndFamilyRows.md` — batch 14, phase D: the twelve candidate rows, the
+  two family rows and all eight tier-2 pairs, so **32 of the manifest's 33 rows have
+  conclusions** and the development set is complete. **The model family is what the conclusion
+  is sensitive to and the choices inside a family are not**: swapping the reported pool for
+  candidate 1 costs 0.2209 of skill, while the eleven forks phase C spent three batches
+  selecting among span 18.638 to 18.933 CRPS — about half the reference's own re-run noise.
+  The one exception is the pool's own weighting fork, worth 0.1820. **Tier 2 shows the forks do
+  not compose**: its largest interaction, −0.1033, is bigger than either main effect behind it,
+  because the province filter and case weighting each improve the reported skill alone and
+  almost exactly cancel together. Three defects fixed as planned and a fourth found by running
+  into it — all four the same fork-blindness — plus the assembler lift batches 10 and 11 both
+  deferred here, and the discovery that batch 13's two weighting rows had been reporting the
+  main path's own paired spread under a re-weighted mean.

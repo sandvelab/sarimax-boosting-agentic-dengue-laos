@@ -90,3 +90,49 @@ because a linear opinion pool profits from its members disagreeing.
 
 Fourteen tier-1 rows remain, all of them batch 14's, and tier 2 stays unselected until they
 have been attempted.
+
+**Batch 14 ran the twelve candidate rows, the two family rows and all eight tier-2 pairs.**
+`results/conclusions.csv` now has **32 of 33** — the thirty-third is `family_ensemble`, the
+main path's own choice under its own name, which perturbs nothing.
+
+**The choice of model family moves the conclusion twenty-seven times further than any choice
+inside a family.** Swapping the reported pool for candidate 1 costs **0.2209** of skill, for
+candidate 2 **0.0884**. The eleven forks inside those two families span **18.638 to 18.933
+CRPS** — a range of 0.295, about half the reference's own 0.57 re-run spread — so nothing in
+that block can be attributed to a model at all. The mechanism is the pool. Phase C's own sweeps
+record candidate 1's observation model as a 0.601 CRPS swing to candidate 1 alone; the same
+fork is a 0.102 swing to the pool, because three of its four members did not move. And
+candidate 2's quantile head makes candidate 2 worse on its own while making the pool better,
+so the damping is not simple scaling — the same fact batch 22 found when a sharper
+persistence member made a worse pool.
+
+**The exception is the one candidate-internal fork that is not inside a member.** Fitting the
+pool's weights by minimising its CRPS on a year held back inside the training frame is worth
+**0.1820** of skill and takes the reported model to 22.838 CRPS, *behind* the reference, with
+its paired comparison falling to 0.48 standard errors. It is the second-largest single-fork
+move in the set.
+
+**The pairs are not the sum of their parts.** `conclusions.csv` now carries
+`delta_skill_additive` and `interaction` for every tier-2 row. Across the eight the
+interaction runs from **−0.1033 to +0.0424**, and the extreme is larger than either main
+effect behind it: removing the two provinces with no evaluable cell is worth +0.0376 alone,
+weighting the headline mean by cases +0.0835 alone, and together they come to **+0.0177**
+against an additive +0.1211. Both work by re-weighting what the mean is over, so taking both
+does not do it twice. This is the third demonstration that fork effects do not compose —
+batches 9 and 21 were the first two — and the first on the reported conclusion. It is why
+tier 2 was not cut.
+
+**Case weighting is the one condition under which a required baseline beats the reported
+model**, and it does so in every combination it appears in: five rows of the 32, all five
+case-weighted. The five rows where our model does not beat the reference are the five that
+replace it or refit its weights. No choice about the data, the evaluation, the scoring or the
+baselines takes our model below the reference on any row.
+
+**Calibration moves far more than the score does.** 10–90 coverage runs from **0.458 to
+0.920** against a nominal 0.80 while the skill score stays positive on 27 of 32 rows. Both
+extremes involve a re-weighted mean: the pool under population weighting is badly
+over-dispersed and candidate 1 under case weighting badly under-dispersed. §2's rule that a
+badly calibrated CRPS winner has not won bites hardest exactly where the CRPS looks best.
+
+The development set is complete. Batch 15 turns it into the reported distribution, puts the
+driver into `analysis/run.sh` now that every row can run, and freezes the holdout manifest.

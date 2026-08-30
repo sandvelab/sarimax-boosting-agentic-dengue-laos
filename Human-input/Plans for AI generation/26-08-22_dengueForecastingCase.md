@@ -402,6 +402,22 @@ below is read from a file there.)*
 | **Storage is not a constraint on this project.** A few gigabytes for the whole repository is fine, and no batch is to plan, cut or rank around disk | The human's, in response to batch 22 raising 660.2 MB on disk against a 1 169.4 MB projection for tier 1 across both datasets as the number to watch. It settles the second half of `AGENTS.md` §6's reproducibility-against-storage trade-off the way the first half was already settled: neither compute nor storage binds here, so `/annotate-criticality` keeps annotating and nothing is pruned | human-set |
 
 
+### 2026-08-31 — settled by batch 14, from the completed development manifest
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **The choice of model family moves the reported conclusion twenty-seven times more than any choice inside a family** | Swapping the pool for candidate 1 costs 0.2209 of skill, for candidate 2 0.0884; the eleven forks inside those families move it by at most 0.0081, and their whole span in CRPS — 18.638 to 18.933 — is about half the reference's own 0.57 re-run spread. The mechanism is the pool: phase C's own sweeps record candidate 1's observation model as a 0.601 CRPS swing to candidate 1 alone and the same fork as a 0.102 swing to the pool, because three of four members did not move — and candidate 2's quantile head makes candidate 2 worse while making the pool better, so the damping is not simple scaling. Phase C spent batches 8, 9 and 10 selecting among analyses this evaluation cannot separate, and batch 21 spent a branch iterating that selection. The ratio, not the score, is what phase D has to say to the manuscript | agent-autonomous |
+| **The one candidate-internal fork that is not inside a member is the second-largest move in the set** | Fitting the pool's weights on a year held back inside the training frame costs 0.1820 of skill and takes the reported model to 22.838 CRPS, behind the reference, with its paired comparison falling to 0.48 standard errors. Batch 11 measured the same fork as 4.021 CRPS and called it that batch's most useful result; read on the skill scale the whole set is read on, it is second only to replacing the pool | agent-autonomous |
+| **The pairs are not the sum of their parts, and the largest interaction exceeds both main effects behind it** | The province filter is worth +0.0376 alone and case weighting +0.0835 alone; together they come to +0.0177 against an additive +0.1211, an interaction of −0.1033. Both work by re-weighting what the mean is over, so taking both does not do it twice. It is the third demonstration that fork effects do not compose — batches 9 and 21 were the first two — and the first on the reported conclusion. It is computed by `collect_conclusions.py` into `conclusions.csv` rather than in a report, because arithmetic that looks too simple to need a file is exactly where §1 fails | agent-autonomous |
+| **Case weighting is the one condition under which a required baseline beats the reported model**, in every combination it appears in | Five of the 32 rows, all five case-weighted. Batch 13 reported it from one row; with five it is a property of the weighting rather than of an analysis. The reported model is over-dispersed on the quiet months that dominate the unweighted mean and under-dispersed on the outbreak months that dominate this one, and 10–90 coverage across the set runs from 0.458 to 0.920 against a nominal 0.80 while the skill score stays positive on 27 of 32 | agent-autonomous |
+| **A fourth fork-blind step, and the first found by running rather than by planning** | The driver ran the family's `run.sh` after the moved child, and an alternatives parent runs every fork below it at the main path — so the one row whose fork belongs to the family that runs had both children of it under one combination. A row like that now takes the family's forks itself and runs the family's **own scripts**, read out of its `run.sh` under the `# Own scripts` marker rather than listed in the driver. All four instances have one origin: a step that discovers something from the tree, written when every fork had exactly one child that did anything | agent-autonomous |
+| **A member family's fork is run only where the combination cannot already resolve it**, from `COMBO` or `COMBO_BASE` | The alternative would re-run every fork of every member family on every candidate row and record a combination as having taken choices it inherited. The consequence is that batch 22's two rows record their inherited choices under their own names and this batch's twelve record them as inherited; the configurations are identical, so no number moves, and the earlier rows are not re-run for bookkeeping | agent-autonomous |
+| **The two weighting rows had been reporting the main path's paired spread**, and are re-run | `03_compare` computed its paired difference, its standard errors and its noise floor unweighted while the leaderboard beside it followed the fork, so both rows carried `main`'s −3.282 ± 1.726 against a 0.565 floor under a re-weighted mean. Under their own weighting the pool separates from the reference further than anywhere else in the project: 2.87 and 2.30 standard errors against `main`'s 1.90, with the noise floor growing alongside because the reference's own sampler is re-weighted too | agent-autonomous |
+| **Tier 2's setup dimension is one fork asked twice**, and the rule is not adjusted for it | Ranking by \|Δ skill\| put both group-S slots on children of `03_provinces`, so tier 2 crosses the province filter with the model choices and says nothing about the training window, the population column or the retraining frequency. No pair joins two children of one fork — pairs are drawn from different groups — so the rule holds. It was fixed and hashed before any of this was knowable, and changing it now is what the freeze exists to prevent | agent-autonomous |
+| **The per-split diagnostics gap stays open**, against batch 22's expectation of this batch | Its premise was that batch 14 touches `chap_eval.py`; the lift was of the assemblers. A model can only write per-split diagnostics from inside its own contract directory, which re-hashes the model, the pool's membership and the reported model's configuration — so closing it forces a re-run of the reported analysis and of the frozen manifest, between the manifest freezing and the holdout opening. Deferred with the reason rather than done quietly | agent-autonomous |
+| **Batch 12's cost model is confirmed a second time: right on the total, wrong on every row** | Tier 1's fourteen rows came to 1 293 s against 1 224 planned and tier 2's eight to 5 703 against 6 047 — 6 % either way — with per-row ratios from 0.52 to 1.91. Batch 13 measured the same pattern. Nothing rests on it because nothing was cut, and phase D has used about 3.2 of its 12 budgeted hours on development | agent-autonomous |
+| **The repository is 1.1 GB and the disk holds 10 GB**, and the whole difference is disposable | `analysis/**/work/` — chap-core's per-split run directories, a `.venv` per model per combination — is 8.8 GB, gitignored since batch 7, cleared by each node before it runs and read by nothing afterwards. The tracked repository is inside the human's "a few gigabytes", and phase E's holdout backtest is four splits rather than eight, so it stays there | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -464,7 +480,7 @@ at the end of every batch, and append newly created batches to it.
 | 12 | D | `/perturb plan`: the stability node, the driver, the frozen development manifest | done — produced | [[26-08-29_b12_perturbationManifest]] |
 | 13 | D | `/perturb run`: build the seven setup and scoring children, archive the population series `b_backCast` needs, and run those rows | done — produced | [[26-08-29_b13_setupAndScoringRows]] |
 | 22 | D | `/perturb run`: build and run the two baseline forks' children, which move the pool as well as their own leaderboard row | done — produced | [[26-08-29_b22_baselineForkRows]] |
-| 14 | D | `/perturb run`: fix the two defects blocking the candidate rows **and the third, that `03_compare` computes its paired spread unweighted while the leaderboard mean follows the weighting fork**, lift the shared assembler, re-run the twelve candidate rows and the two family rows, then tier 2 | open | |
+| 14 | D | `/perturb run`: fix the two defects blocking the candidate rows **and the third, that `03_compare` computes its paired spread unweighted while the leaderboard mean follows the weighting fork**, lift the shared assembler, re-run the twelve candidate rows and the two family rows, then tier 2 | done — produced | [[26-08-30_b14_candidateAndFamilyRows]] |
 | 15 | D | `/perturb report`; freeze and commit the holdout manifest | open | |
 | 16 | E | The holdout, opened once, on the frozen manifest | open | |
 | 17 | E | Claims and the hierarchical report | open | |
@@ -745,6 +761,21 @@ cost of running the set twice: once on development, once on holdout. If the budg
 carry the whole set to the holdout, cut the manifest here and record the cut; do not discover
 the problem in phase E with the holdout already open.
 
+**What running the candidate and family rows found, and what tier 2 found.** The
+development manifest is complete: **32 of its 33 rows have a conclusion**, the 33rd being the
+main path's own choice under its own name. The reported skill spans **−0.0724 to +0.2320**
+around +0.1485, our model beats the reference on 27 of the 32 and both required baselines on
+27, and 10–90 coverage runs from 0.458 to 0.920 against a nominal 0.80. **The choice of model
+family moves the conclusion twenty-seven times further than any choice inside a family**: the
+eleven forks phase C spent three batches selecting among span 18.638 to 18.933 CRPS, about
+half the reference's own re-run noise, while swapping the pool for candidate 1 costs 0.2209
+of skill. The exception is the pool's own weighting fork, worth 0.1820 and the second-largest
+move in the set. **Tier 2 shows the forks do not compose**: the largest interaction, −0.1033,
+is bigger than either main effect behind it — the province filter and case weighting each
+improve the reported skill alone and almost exactly cancel together — so a one-at-a-time
+stability report would have been wrong about that pair by two thirds of the whole main-path
+score. Batch 14's report has all of it.
+
 **What running the two baseline rows found.** They are the extremes of the set. Freezing the
 climatology's estimation window moves the reported conclusion by 0.0025 of skill, the smallest
 move of any row; wrapping the persistence point in a fitted negative binomial rather than in
@@ -985,6 +1016,10 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 22 — `/perturb run`: the two baseline forks' children
 
 - [[26-08-29_b22_baselineForkRows]]
+
+### Batch 14 — `/perturb run`: the candidate and family rows, and tier 2
+
+- [[26-08-30_b14_candidateAndFamilyRows]]
 
 ### Batch 21 — the greedy branch
 

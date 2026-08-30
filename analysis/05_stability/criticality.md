@@ -90,3 +90,32 @@ decision rather than to make it, and the value of an annotation written now is t
 question ever arises — a release size limit, a different machine — it is answered from a record
 made while the details were fresh, rather than from a guess made under pressure. Nothing is
 deleted, nothing is planned around disk, and no batch ranks or cuts on it.
+
+## 2026-08-31 — what the completed manifest actually took, measured
+
+Tier 1 and tier 2 have both run, so the projections above can be replaced by measurement.
+
+| | Measured |
+|---|---|
+| Everything under `analysis/**/results/` | **1.1 GB** |
+| Everything git tracks, whole repository | **1.1 GB** |
+| `analysis/**/work/` — chap-core's per-split run directories | **8.8 GB**, gitignored |
+| Whole `analysis/` tree on disk | 10 GB |
+
+**The repository is 1.1 GB and the disk is 10 GB, and the difference is entirely
+disposable.** `work/` holds the run directories chap-core builds per split, including a
+`.venv` per model per combination; `.gitignore` has excluded `analysis/**/work/` since batch
+7, every node clears its own before running, and nothing anywhere reads them after a run
+finishes. They are the one thing in this project that can be deleted without a decision,
+and they are not what the storage question was ever about.
+
+Against the human's settlement of 2026-08-29 — a few gigabytes for the whole repository is
+fine — **the tracked repository is inside that and the manifest is now complete**, so the
+projection that worried batch 22 (1 260 MB for tier 1 across both datasets) will not be
+exceeded by phase E either: the holdout run is four splits rather than eight.
+
+| Artifact | Size | Role | Regenerable | Transparency | Note |
+|---|---|---|---|---|---|
+| `analysis/**/work/**` | 8.8 GB | intermediate | yes, by re-running the combination | **none** — no file in it is ever read after the run | Gitignored, cleared by each node before it runs. Deletable at any moment without asking, which is the one exception `/annotate-criticality` allows. |
+| `results/conclusions.csv` | 12 KB | **main result** | yes, ~1 s, **only while the combinations' `conclusion.json` files survive** | **highest** | Now 32 of 33 rows, with `delta_skill_additive` and `interaction` beside the deltas — the columns that say whether the one-at-a-time picture can be added up. |
+| `results/logs/*.log` | ~2 MB total | intermediate | no — a re-run writes a new one | medium | Thirty-two transcripts now, one per combination the driver ran, including the two failures. |

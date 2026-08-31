@@ -52,4 +52,4 @@ analysis/**/work/
 # whether *this* tree opened the held-out year, and a versioned seal would seal every
 # clone, which is what stopped analysis/run.sh from reproducing phase E from nothing.
 # The versioned half, results/run_status_holdout.csv, stays tracked as the evidence.
-analysis/05_stability/results/.holdout_opened
+analysis/05_stability/.holdout_opened

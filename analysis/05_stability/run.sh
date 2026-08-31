@@ -44,7 +44,7 @@ PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 #
 # A row already recorded as run is not run again (plan §3). The seal takes two conditions
 # and needs both: the row is recorded as `ran` in the versioned `run_status_holdout.csv`,
-# and `results/.holdout_opened` — gitignored — says this working tree is the one that
+# and the gitignored `.holdout_opened`, at this node's root, says this tree is the one that
 # opened the year. A clean checkout carries the first and not the second, so the whole set
 # runs, which is what keeps `analysis/run.sh` a reproduction of phase E rather than a
 # description of it. Batch 18's clean-room check found that the versioned condition alone

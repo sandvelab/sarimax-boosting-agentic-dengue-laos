@@ -86,7 +86,7 @@ These override everything else here.
    batch 15.** The driver enforces the second half, on **two conditions and needing both**:
    the row is recorded as `ran` in `05_stability/results/run_status_holdout.csv`, which is
    versioned, so re-running one means deleting its row and that shows in git; and
-   `05_stability/results/.holdout_opened`, which is gitignored, says that *this working
+   `05_stability/.holdout_opened`, which is gitignored, says that *this working
    tree* is the one that opened the year. **Batch 18's clean-room check found that the
    versioned condition alone sealed every clone of the repository too**, so all thirty-two
    rows were skipped in a fresh checkout and the phase-E half of `analysis/run.sh`

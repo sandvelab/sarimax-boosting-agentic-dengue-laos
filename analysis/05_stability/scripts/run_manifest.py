@@ -67,10 +67,12 @@ second pass would replace the denominator of every reported number with a differ
 The seal has **two conditions and needs both**, because it is protecting two different
 things and one file cannot carry both. `results/run_status_holdout.csv` names the rows that
 ran and is versioned, so forcing a re-run by deleting a row shows in git.
-`results/.holdout_opened` is gitignored, so it says whether *this working tree* is the one
-that opened the year. A row is skipped only when it is recorded as `ran` **and** the marker
-is present; the driver writes the marker itself, after the first invocation in which a
-holdout row actually ran.
+`.holdout_opened`, at this node's root, is gitignored, so it says whether *this working
+tree* is the one that opened the year. A row is skipped only when it is recorded as `ran`
+**and** the marker is present; the driver writes the marker itself, after the first
+invocation in which a holdout row actually ran. It sits beside `run.sh` rather than under
+`results/`, because it is working-tree state and not a result — `/validate invariants`
+says so, by requiring a provenance record for everything under `results/`.
 
 The second condition is the correction of a defect the clean-room check found in batch 18.
 The seal originally rested on the versioned file alone -- and a versioned seal seals every
@@ -119,7 +121,7 @@ LOGS = NODE / "results" / "logs"
 # The seal's second half, and the half that is a property of *this working tree* rather
 # than of the repository. Gitignored, so a fresh checkout does not carry it. See the
 # module docstring's "The holdout half".
-OPENED = NODE / "results" / ".holdout_opened"
+OPENED = NODE / ".holdout_opened"
 
 
 def bash(path: Path) -> list[str]:

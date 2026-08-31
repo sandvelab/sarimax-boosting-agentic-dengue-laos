@@ -1373,3 +1373,64 @@ this setup was more trouble than it was worth should be theirs rather than the a
 
 **Commits.** `895a9f8` (the switch, the opened seal and the main holdout row, before the rest
 of the set), `609e1be` (the once-only guard) and `48edaea` (the results and records).
+
+## T17 — batch 17: the claim collection completed, and the report that descends to the values
+
+**What was produced.** Eighteen claims, C22–C39, appended through `claims.py add` — the
+phase-A, -B and -C half of the collection, which batches 15 and 16 had not written because
+their own work was the perturbation set and the held-out year. And
+`AI-generated/hierarchical-report/`, built for the first time from a substantially extended
+`AI-internal/useful-scripts/build_hierarchical_report.py`. Nothing under `analysis/` changed,
+which is the constraint every batch after the holdout opening works under.
+
+**What the report is.** Four levels below the tree, one directory per scored combination:
+the conclusion as `conclusion.json` states it; the national mean from `metrics_summary.csv`,
+also cut by split and by horizon; the province means from `crps_by_location.csv`; and each
+province month by month from `metrics_cell.csv`, with the observed count, the split and
+horizon, each model's CRPS, and whether the outcome fell inside its 10–90 interval. 65
+combinations, 1 040 province pages, 69 node pages, 1 175 in all. The node pages gained a
+"Claims resting on this node" section fed from the collection, so descending the tree reaches
+the statement and the values it rests on in one place. Which child of the weighting fork a
+combination was aggregated under is **discovered** — the one child of `04_score/02_aggregate`
+with results under that combination — never named, which is the rule the tree itself follows.
+
+**Three design decisions a future session should not undo.** The report **displays and never
+computes**: every figure comes from the file that holds it, because a report that re-derived
+its own means could disagree with the analysis and look right doing it. It is built for
+**every** scored combination, not only `main`, because the project's finding is that the
+reported analysis is one member of a distribution and a report that let a reader descend only
+that member would contradict it structurally. And what it lists is decided by **git** —
+`ls-files --others --ignored --exclude-standard --directory` — not by a skip list, so what is
+not part of the method cannot appear in it.
+
+**Two defects found by building.** `c_ensemble`'s "Scripts" section was 6 117 files of a
+`uv`-built virtual environment against 11 of the node's own; that is what the git filter fixes,
+and it took the first build from 21 MB to 18. And the build crashed sorting a province whose
+mean CRPS is empty — Xaisomboun contributes no evaluable cell, so an empty mean is correct
+and a zero would be a score; blanks now sort last and print as an em dash.
+
+**One rule that changed what several claims say.** A claim states the figures a file holds and
+never a ratio between two of them that no file computes. `readme-at-start.md` reports the pool
+as 1.90 standard errors from the reference; the paired difference and its standard error are
+stored and the ratio is not, so C23 gives both stored figures instead. C29 and C31 were shaped
+the same way. The alternative — a two-line step at `04_score/03_compare` that divides and
+stores — is a change to the analysis, and phase E forbids re-running anything, so it is the
+human's call and is flagged in the batch report.
+
+**Files affected.** `Human-AI-collaboration/claims/claims.md` (C22–C39);
+`AI-internal/useful-scripts/build_hierarchical_report.py`; `.gitignore` (the report's contents
+ignored rather than its directory, so the build record can be tracked);
+`AI-generated/hierarchical-report/provenance.md` (the only versioned file in that folder);
+`AI-generated/README.md`, `AI-generated/batch-reports/README.md`, `readme-at-start.md`, and
+the plan's ledger, report links and §4b.
+
+**For a future session.** Forty-nine stored results are cited by no claim; twenty-four are
+figures and their plotted values, and the way to find out about the rest is to write the case
+study and see what it needs, which is batch 19. `/validate outsider` in batch 18 is the first
+time anyone but the author looks at the report, and legibility is the thing the link check
+cannot test. The report is gitignored, so `/release` in batch 19 has to build it rather than
+assume it.
+
+**Commits.** `ce43d47` (the claims and the extended builder, before the build), `cf6005e` (the
+report, its provenance record and the surrounding documents) and `e69870c` (the rebuild once
+C39 closed the collection).

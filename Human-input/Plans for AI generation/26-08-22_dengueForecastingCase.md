@@ -480,6 +480,17 @@ below is read from a file there.)*
 | **The manuscript's target venue is *PLoS Computational Biology*** | The obvious precedent: the manuscript this case serves updates Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013). It had been recorded as not fixed in the source material | human-set |
 | **What `/validate outsider` finds in the instruction files is fixed by the agent and logged, not brought back for approval first** | The findings are what an outsider misunderstands, and fixing them is a methodological change under Rule 4 — so each one is committed in those terms, with what it changed and why. The human reads the log rather than the proposal | human-set |
 
+### 2026-08-31 — settled by batch 18, from the clean-room and outsider checks
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **The holdout seal takes two conditions and needs both** | The seal rested on `run_status_holdout.csv`, which is versioned — so it sealed every clone of the repository, not just the copy that opened the year. In a fresh clone all thirty-two rows were skipped and the phase-E half of `analysis/run.sh` reproduced its outputs byte-identically while running none of the analysis behind them. The versioned file stays as the evidence, so deleting a row to force a re-run still shows in git; a gitignored `.holdout_opened` at the node root says whether *this working tree* opened the year. §3's rule is unchanged and only where the flag lives has moved | agent-autonomous |
+| **The wrong counts are corrected in the live records and left standing in the batch reports and in this section** | Three of them: "eleven forks" for eight forks and their eleven combinations, "nine of the eleven" below the noise band for eight, and a per-row cost ratio rounded up from 0.514 to 0.52. The claim collection is what batch 19 writes the manuscript from and had to be right. The batch reports and §4b are accounts of what was established at the time, and correcting them in place would hide that the project carried a wrong noun through four batches — which is itself a result about this method | agent-autonomous |
+| **`check_invariants.py` requires ancestry, and reads every hash on a `commit:` line** | Six records named a commit that is not an ancestor of HEAD, orphaned by a history rewrite in batch 14. `git cat-file -e` passed it because the object is still in the store, and a *local* clone hardlinks the object directory so every clone passed too — it would have vanished on batch 19's push. The anchored pattern separately skipped `conclude.md` entirely, for annotating its two hashes, so the headline result's record was the one the check never read | agent-autonomous |
+| **The root `README.md` stops restating project state** | It described batch 1 through the whole of phases B, C and D, and its build command never worked. The durable fix is not a fresher copy of the state but no copy: `readme-at-start.md` answers that question, and a second document answering it goes stale silently, which is exactly what happened | agent-autonomous |
+| **The provenance hash gap and the recomputed freeze become batches 23 and 24 rather than edits here** | Both are real and neither is reachable today: the tree cannot grow while phase E is closed, and the sixteen stale hashes need appended sections describing runs this batch did not do. Plan §5 says a batch running long splits the remainder rather than pushing on. The alternative — adding the hash invariant now — leaves a failing check, which is worse than a scheduled one | agent-autonomous |
+| **The outsider check is two agents on two tasks, not one** | One writing into the tree and one tracing the headline result back to the archived data. They failed in disjoint places: the first found the machinery defects, the second found the wrong numbers and the broken commit link. A single agent would have produced one of those two lists | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -550,6 +561,8 @@ at the end of every batch, and append newly created batches to it.
 | 19 | E | The case write-up, the reproducibility report, the release | open | |
 | 20 | E | The external check on `tha` and `vnm` — **confirmed, not cut; runs before batch 19** | open | |
 | 21 | C, on branch `greedy` | The counterfactual: iterate batch 9's promotion rule to a fixpoint on a branch, and measure what stopping once cost | done — produced | `26-08-27_b21_greedyBranch.md`, on branch `greedy` |
+| 23 | E | The provenance records' script hashes: the invariant that a script's current sha256 must appear in its own record, and the sixteen appended sections that make it pass — including `conclude.py`, whose newest section predates batch 16 changing it | open | |
+| 24 | E | The frozen phase-E manifest is recomputed on every run of `analysis/run.sh`, so a tree that grew a fork child would silently grow the frozen set; make the freeze win over the recomputation | open | |
 
 ---
 

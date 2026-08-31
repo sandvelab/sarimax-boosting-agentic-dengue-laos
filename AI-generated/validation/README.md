@@ -18,5 +18,11 @@ here.
   their per-cell scores exactly. Two small differences reported rather than waved away, and
   one defect found on the way: `install-chap.sh` was writing `lock.txt` rather than
   installing from it.
-
-`/validate outsider` has not been run in this repository yet. It is batch 18's.
+- `26-08-31_outsider.md` — batch 18, and the first outsider run here. Two fresh agents with
+  no context, one writing into the tree and one tracing the headline result back to the
+  archived data. Six defects, three wrong counts — one of them in the claim collection — and
+  a provenance record naming a commit that is not in the history and would have vanished on
+  the first push. What was fixed, what was deferred to batches 23 and 24, and the two
+  questions carried to the human are all in it.
+- `26-08-31_cleanroom.md` — batch 18. The first clean-room run since the tree grew a
+  stability node and a phase E, and the first that could reach the reference model.

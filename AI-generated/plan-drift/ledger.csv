@@ -1,0 +1,26 @@
+batch,in_delivered,in_live,delivered_aim,live_aim,live_status,aim_unchanged
+1,True,True,"Orient: read the source material, fix project settings, set up the repository","Orient: read the source material, fix project settings, set up the repository",done — produced,True
+2,True,True,"Reconnaissance — Chap: install it, learn the model contract, learn the evaluation","Reconnaissance — Chap: install it, learn the model contract, learn the evaluation",done — produced,True
+3,True,True,"Reconnaissance — data: acquire, characterise, and fix the split scheme","Reconnaissance — data: acquire, characterise, and fix the split scheme",done — produced,True
+4,True,True,Reconnaissance — methods: candidate model families and existing Chap models,"Reconnaissance — methods: candidate model families, and run `chapkit_ewars_model` to get the reference score",done — produced,False
+5,True,True,Bootstrap: turn phases C–E into concrete batches,Bootstrap: turn phases C–E into concrete batches,done — expanded,True
+6,True,True,"Vertical slice: one trivial model, end to end, first CRPS number","Vertical slice: one trivial model, end to end, first CRPS number",done — produced,True
+7,True,True,Erect the claim tree and route the vertical slice through it,"Erect the claim tree, route the vertical slice through it, add the reference",done — produced,False
+8,False,True,,"The candidate contract, and candidate 1 (hierarchical NB GLM) at its defaults",done — produced,False
+9,False,True,,"Candidate 1's internal forks, plus a proposed fifth on an autoregressive term, and the width defect batch 8 diagnosed; promote the main path",done — produced,False
+10,False,True,,Candidate 2: gradient-boosted trees with a probabilistic head,done — produced,False
+11,False,True,,Candidate 3: the ensemble; close phase C,done — produced,False
+12,False,True,,"`/perturb plan`: the stability node, the driver, the frozen development manifest",done — produced,False
+13,False,True,,"`/perturb run`: build the seven setup and scoring children, archive the population series `b_backCast` needs, and run those rows",done — produced,False
+14,False,True,,"`/perturb run`: fix the two defects blocking the candidate rows **and the third, that `03_compare` computes its paired spread unweighted while the leaderboard mean follows the weighting fork**, lift the shared assembler, re-run the twelve candidate rows and the two family rows, then tier 2",done — produced,False
+15,False,True,,`/perturb report`; put the driver into `run.sh`; freeze and commit the holdout manifest,done — produced,False
+16,False,True,,"The holdout, opened once, on the frozen manifest",done — produced,False
+17,False,True,,Claims and the hierarchical report,done — produced,False
+18,False,True,,Clean-room and outsider validation; the plan's own drift,open,False
+19,False,True,,"The case write-up, the reproducibility report, the release",open,False
+20,False,True,,"The external check on `tha` and `vnm` — **confirmed, not cut; runs before batch 19**",open,False
+21,False,True,,"The counterfactual: iterate batch 9's promotion rule to a fixpoint on a branch, and measure what stopping once cost",done — produced,False
+22,False,True,,"`/perturb run`: build and run the two baseline forks' children, which move the pool as well as their own leaderboard row",done — produced,False
+—C,True,False,*Model development — batches written by batch 5*,,,False
+—D,True,False,*Stability and veridical work — batches written by batch 5*,,,False
+—E,True,False,"*Closing: claims, report, validation, release — batches written by batch 5*",,,False

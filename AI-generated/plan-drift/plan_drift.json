@@ -1,0 +1,130 @@
+{
+  "delivered_file": "Archive/plan-as-delivered/26-08-22_dengueForecastingCase_asDelivered.md",
+  "live_file": "Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md",
+  "measured_at_commit": "ad7e64f5f",
+  "by_line": {
+    "delivered": 468,
+    "live": 1116,
+    "survived": 417,
+    "deleted": 51,
+    "added": 699,
+    "survival_fraction": 0.891
+  },
+  "by_word": {
+    "delivered": 4614,
+    "live": 24355,
+    "survived": 4363,
+    "deleted": 251,
+    "added": 19992,
+    "survival_fraction": 0.9456
+  },
+  "sections": {
+    "delivered": 12,
+    "live": 13,
+    "delivered_and_still_named": 12,
+    "delivered_and_gone": 0,
+    "new_since_delivery": 1,
+    "least_survived": "6. Batch ledger",
+    "fully_survived": [
+      "(preamble)",
+      "1. The aim",
+      "4. Decisions already made",
+      "Batch ledger \u2014 reports"
+    ]
+  },
+  "ledger": {
+    "delivered_named_batches": 7,
+    "delivered_placeholders": 3,
+    "live_batches": 22,
+    "added_since_delivery": 15,
+    "aim_unchanged": 5,
+    "aim_reworded": 2
+  },
+  "decisions": {
+    "total": 169,
+    "by_agency": {
+      "human-set": 15,
+      "agent-on-human-assessment": 8,
+      "agent-autonomous": 145
+    },
+    "unrecognised_agency": [
+      "agent-on-human-assessment; the configuration was `agent-retrieved`"
+    ],
+    "settling_occasions": 23,
+    "human_initiated_occasions": 5,
+    "human_set_at_batch_occasions": 6,
+    "decisions_at_human_occasions": 11,
+    "by_agency_fraction": {
+      "human-set": 0.0888,
+      "agent-on-human-assessment": 0.0473,
+      "agent-autonomous": 0.858
+    }
+  },
+  "commits": {
+    "count": 27,
+    "first": "2026-08-23",
+    "last": "2026-08-31",
+    "lines_added": 1202,
+    "lines_removed": 86,
+    "revisions_after_the_first": 26,
+    "lines_added_after_the_first": 730,
+    "lines_removed_after_the_first": 86,
+    "largest_revision": {
+      "commit": "bd33f715e",
+      "date": "2026-08-26",
+      "subject": "Batch 5, the bootstrap: the claim tree design and concrete batches for phases C-E",
+      "lines_added": 104,
+      "lines_removed": 22
+    },
+    "three_largest_revisions": [
+      {
+        "commit": "bd33f715e",
+        "date": "2026-08-26",
+        "subject": "Batch 5, the bootstrap: the claim tree design and concrete batches for phases C-E",
+        "lines_added": 104,
+        "lines_removed": 22
+      },
+      {
+        "commit": "15b4ba96d",
+        "date": "2026-08-23",
+        "subject": "Settle \u00a72's success criterion and extend the stability spread to the holdout",
+        "lines_added": 87,
+        "lines_removed": 24
+      },
+      {
+        "commit": "782be5f07",
+        "date": "2026-08-27",
+        "subject": "Batch 21 in the ledger: the greedy branch, and the decision not to iterate on main",
+        "lines_added": 56,
+        "lines_removed": 0
+      }
+    ],
+    "revisions_naming_a_batch": 20,
+    "revisions_not_naming_a_batch": [
+      {
+        "date": "2026-08-23",
+        "subject": "Settle \u00a72's success criterion and extend the stability spread to the holdout"
+      },
+      {
+        "date": "2026-08-23",
+        "subject": "Archive the plan as delivered; log the settled decisions with their agency"
+      },
+      {
+        "date": "2026-08-27",
+        "subject": "Repair the determinism check: both passes under one combination name"
+      },
+      {
+        "date": "2026-08-29",
+        "subject": "A wrong zero-share figure in a comment, and the plan, readme and report for batch 22"
+      },
+      {
+        "date": "2026-08-31",
+        "subject": "C23 states the 1.90 standard errors, on the human's ruling"
+      },
+      {
+        "date": "2026-08-31",
+        "subject": "Phase E's remaining decisions, settled by the human"
+      }
+    ]
+  }
+}

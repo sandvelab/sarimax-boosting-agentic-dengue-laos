@@ -1,0 +1,14 @@
+section,in_live,delivered_lines,live_lines,survived_lines,survival_fraction
+(preamble),True,20,20,20,1.0
+1. The aim,True,23,23,23,1.0
+"2. What ""decently"" means",True,18,47,11,0.6111
+3. Non-negotiables,True,53,61,50,0.9434
+4. Decisions already made,True,20,23,20,1.0
+5. How this plan is executed,True,39,41,38,0.9744
+6. Batch ledger,True,20,32,10,0.5
+7. Phase A — orientation and bootstrap,True,133,140,130,0.9774
+8. Phases B–E — what has to be true,True,112,304,94,0.8393
+9. Budget,True,16,23,9,0.5625
+"10. Left to me, not to you",True,11,13,9,0.8182
+Batch ledger — reports,True,3,81,3,1.0
+4b. Decisions settled during execution,True,0,308,0,

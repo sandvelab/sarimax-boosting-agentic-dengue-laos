@@ -4,8 +4,12 @@ __pycache__/
 .venv/
 .env
 
-# Derived and regenerable — rebuilt by /hierarchical-report
-AI-generated/hierarchical-report/
+# Derived and regenerable — rebuilt by /hierarchical-report. The contents are ignored
+# rather than the directory, so that one file inside it can be kept: provenance.md is the
+# append-only record of each build, written by hand and versioned like every other
+# provenance record. A record of a build that is itself untracked records nothing.
+AI-generated/hierarchical-report/*
+!AI-generated/hierarchical-report/provenance.md
 
 # Large intermediates belong in a data store with content-addressed references,
 # not in git history. Uncomment and adjust for this project's data:

@@ -174,3 +174,132 @@ grounds: analysis/05_stability/results/holdout_distribution.json · analysis/05_
 node: analysis/05_stability
 scope: eight pairs selected by a rule fixed and hashed before tier 1 ran; the development set's largest interaction was -0.1033
 by: agent-autonomous
+
+## C22
+On the development backtest the model this project reports beats the reference model and both required baselines: mean CRPS 18.817 against the reference's 22.098, a skill score of +0.1485, and the lower CRPS in six of the eight splits. The model is a linear opinion pool over two candidate families and the two required baselines.
+grounds: analysis/results/main/conclusion.json · analysis/04_score/03_compare/results/main/leaderboard.csv
+node: analysis
+scope: 371 evaluated cells in 16 provinces over eight splits, 2008-01 to 2009-12, from a training set ending 2007-12; the same model on the held-out year is C14
+alternatives: the eleven configuration forks inside the two member families move this score by at most 0.0081 of skill (C3), so it is not sensitive to how the members were configured
+by: agent-autonomous
+
+## C23
+The margin is not large enough to separate the two models. The paired difference is 3.282 CRPS per cell against a split-clustered standard error of 1.726, and our model has the lower mean while winning only 43.1 % of the individual cells. This is the largest margin the project produced against the reference, and a comparison at this resolution still cannot say the two models differ.
+grounds: analysis/04_score/03_compare/results/main/comparison_notes.json · analysis/04_score/03_compare/results/main/paired_summary.csv
+node: analysis/04_score/03_compare
+scope: development; the standard error is clustered at the split, which is the level the eight numbers are exchangeable at
+alternatives: the naive per-cell standard error is 0.948 and would have made the margin look nearly twice as decisive; it assumes 371 independent cells, which a panel of 16 provinces over eight quarters is not
+by: agent-autonomous
+
+## C24
+The reference model cannot be seeded, and its own re-run spread is the floor on what this backtest can attribute to a model at all. Four repeats score 21.820, 21.917, 22.272 and 22.385 mean CRPS, and the largest paired difference between two of them is 0.565 CRPS. Anything smaller than that belongs to the reference's sampler rather than to any model.
+grounds: analysis/04_score/03_compare/results/main/reference_repeat_noise.csv · analysis/03_models/02_reference/results/main/model_spec.json · analysis/04_score/03_compare/results/main/comparison_notes.json
+node: analysis/03_models/02_reference
+scope: development; the reported reference figure is the per-cell mean of the four repeats, so no reported ratio divides by a single draw
+alternatives: running the reference once, which is what batch 4's reconnaissance figure of 21.9 was, and which would have put an unmeasured share of the sampler's noise into every number reported against it
+by: agent-autonomous
+
+## C25
+Pooling beats every model that goes into it. The pool scores 18.817 mean CRPS against its best member's 20.771 and the mean of its members' 23.421, with half its weight on the two required baselines, which are the two worst-scoring models in the comparison. The premise registered before the run -- that a pool would land between the best member and the members' mean -- is wrong: it beat the best member by 1.954 CRPS. The half of that premise about spread holds, and the pool over-covers because of it.
+grounds: analysis/03_models/03_candidate/c_ensemble/results/main/pool_check.json · analysis/results/main/conclusion.json
+node: analysis/03_models/03_candidate/c_ensemble
+scope: development, equal weights over four members
+alternatives: a pool over the two candidate families only, which was not built; what the manifest perturbs instead is the weighting (C26) and each member's own configuration
+by: agent-autonomous
+
+## C26
+Fitting the pool's weights costs far more than it buys. Weights chosen by minimising the pool's CRPS on a validation period held back inside the training frame score 22.838 mean CRPS against equal weights' 18.817 -- 4.021 CRPS worse, and enough to lose to the reference model that equal weighting beats.
+grounds: analysis/results/weighting_crpsWeighted/conclusion.json · analysis/results/main/conclusion.json
+node: analysis/03_models/03_candidate/c_ensemble/01_weighting
+scope: development; the same fork is worth 0.1820 of skill there and collapses to 0.0121 on the held-out year, below that year's noise band (C19)
+alternatives: equal weighting, which is the main path and the reported model
+by: agent-autonomous
+
+## C27
+The model family the project built first never beat the reference model. The hierarchical negative-binomial GLM scores 23.698 mean CRPS against 22.098, a skill score of -0.0724, and it is the lowest of the thirty-two analyses in the development distribution. It does beat both required baselines, and it stays in the reported model as a pool member.
+grounds: analysis/results/family_hierNB/conclusion.json · analysis/05_stability/results/distribution_rows.csv
+node: analysis/03_models/03_candidate/a_hierNB
+scope: development, at the configuration batch 9 promoted after sweeping its six forks over two rounds
+alternatives: dropping the family once candidate 2 beat it, which would have removed a member the pool is measurably better with (C25)
+by: agent-autonomous
+
+## C28
+The second family beat the reference model on its own, before any pooling. Gradient-boosted trees with a probabilistic head score 20.771 mean CRPS against 22.098, a skill score of +0.0601, at 10-90 interval coverage of 0.825 against a nominal 0.80 -- the closest to nominal of any single model of ours.
+grounds: analysis/results/family_boosted/conclusion.json · analysis/04_score/03_compare/results/main/leaderboard.csv
+node: analysis/03_models/03_candidate/b_boosted
+scope: development; neither of its two forks moves it beyond the noise band (C3, C4)
+by: agent-autonomous
+
+## C29
+The reported model is cheaper to run than the model it beats. One eight-split evaluation of the pool takes 59.5 seconds natively; one repeat of the reference takes between 241 and 285 seconds through an amd64 image under emulation, and the reported reference figure needs four of them, at 1 070 seconds.
+grounds: analysis/03_models/03_candidate/c_ensemble/results/main/run_cost.json · analysis/03_models/02_reference/results/main/run_cost.json
+node: analysis/03_models
+scope: this machine, Darwin arm64; the emulation penalty is a property of the host, not of the reference model, and the repeats are needed because it is unseeded (C24)
+by: agent-autonomous
+
+## C30
+On this dataset the 25-75 coverage figures are not a clean reading of calibration and the 10-90 figures are. 56 % of observed province-months are exactly zero, and at 24 % to 55 % of evaluated cells a member's 25-75 quantiles coincide, so its interval is the single point zero and every zero outcome falls inside it whatever the model believes. At 10-90 that share is under 27 % for the members and 0.3 % for the pool.
+grounds: analysis/03_models/03_candidate/c_ensemble/results/main/pool_check.json · analysis/01_data/02_characterise/results/dev_overview.json
+node: analysis/03_models/03_candidate/c_ensemble
+scope: development; every coverage figure this project reports beside a score is the 10-90 one
+by: agent-autonomous
+
+## C31
+Both required baselines lose to the reference model, so beating the baselines is not the bar that binds. Persistence scores 24.879 and seasonal climatology 24.337 against the reference's 22.098, skill scores of -0.126 and -0.101. The reference is the harder bar by about 2.5 CRPS, and it is the one every reported ratio is taken against.
+grounds: analysis/04_score/03_compare/results/main/leaderboard.csv · analysis/results/main/conclusion.json
+node: analysis/04_score/03_compare
+scope: development, at the baselines' main-path constructions; the alternative persistence construction does beat the reference (C9)
+by: agent-autonomous
+
+## C32
+The headline mean is over 16 provinces and 371 cells, not the 18 provinces the file contains. Chap's own region filter rejects Vientiane province, which reports nothing anywhere in the record, and keeps Xaisomboun, which stops reporting after 2005 and contributes no evaluable cell to the evaluated span; Phongsaly contributes 11 cells of a possible 24. Of the 408 province-months in the span, 371 are scored.
+grounds: analysis/01_data/02_characterise/results/backtest_scheme_chosen.json · analysis/01_data/02_characterise/results/evaluable_cells_by_province.csv
+node: analysis/01_data/02_characterise
+scope: development; the held-out year is 192 cells in the same 16 provinces over four splits
+alternatives: removing the silent provinces before the platform sees them, or folding Vientiane into the capital; both are alternatives nodes rather than a silent cleaning step, and the first turns out to be the largest judgment call in the project on the held-out year (C18, C19)
+by: agent-autonomous
+
+## C33
+Three statements in the dataset's own schema do not describe the file it ships with. The schema states 2 575 rows where the file carries 2 808 -- the stated figure is the count of rows whose target is not null. It declares rainfall as a monthly total in millimetres, which would put a province's whole year at a few tens of millimetres; read as a mean daily rate the same column puts the year in the thousands, a factor of 30.4 apart, and the second reading is the one the file supports. And the population column, declared against a 2020 reference, sums to 4.96 million where the national total that year was 7.35 million, matching the country around 1995.
+grounds: analysis/01_data/01_partition/results/rowcount_reconciliation.json · analysis/01_data/02_characterise/results/covariate_units_check.json · analysis/02_setup/01_population/b_backCast/results/popColumn_backCast/setup_spec.json
+node: analysis/01_data
+scope: nothing downstream turns on the rainfall reading, because every model sees a monotone transform of the same column; anything importing an external rainfall threshold would be wrong by about thirty
+alternatives: taking the schema at its word, which is what a pipeline reading the metadata rather than the data would do
+by: agent-autonomous
+
+## C34
+The target is mostly zeros, and the record gets less complete as it goes on. Of the 2 383 observed province-months in the development period 56.3 % are exactly zero and a further 8.1 % of the grid is missing; reporting completeness holds at 94.4 % through 2005 and falls to 83.3 % by 2008, so the evaluated span is the least complete part of the record.
+grounds: analysis/01_data/02_characterise/results/dev_overview.json · analysis/01_data/02_characterise/results/cases_by_year.csv · analysis/01_data/02_characterise/results/zero_structure.csv
+node: analysis/01_data/02_characterise
+scope: the development period, 1998-01 to 2009-12; the holdout was not characterised
+by: agent-autonomous
+
+## C35
+The development file and the sealed holdout partition the archived source exactly, and this was verified rather than assumed: 2 592 and 216 lines against the source's 2 808, no line in both, and the sorted union byte-identical to the source under sha256. The check runs again on every run of the analysis, against the archive's own checksum manifest.
+grounds: analysis/01_data/01_partition/results/partition_check.json · analysis/01_data/01_partition/results/partition_outputs.sha256
+node: analysis/01_data/01_partition
+scope: this is what made batch 16's reassembly of the full file legitimate rather than a second import of the data (C13)
+by: agent-autonomous
+
+## C36
+The evaluation scheme was fixed before any model ran and never moved: three-month horizons, eight splits, stride three, retrained once, evaluating 2008-01 to 2009-12 from a training set ending 2007-12. The schedule was read out of chap-core's own splitter rather than reimplemented, and the phase-E arrangement -- same horizon and stride, four splits -- evaluates exactly 2010 from training that never reaches into it.
+grounds: analysis/01_data/02_characterise/results/split_schedule.csv · analysis/01_data/02_characterise/results/backtest_scheme_chosen.json
+node: analysis/01_data/02_characterise
+scope: fixed in batch 3; a horizon changed midway would make every earlier number incomparable
+alternatives: the schemes considered and rejected are kept, with their span and split counts, in backtest_scheme_candidates.csv beside the chosen one
+by: agent-autonomous
+
+## C37
+Every model this project wrote reproduces byte-identically when it is run again -- per-cell scores, model listing and fitted object, for all seven of them. The reference model cannot be made to do this: it calls its sampler without ever setting a seed and the service exposes no seed, so its variability is quantified by repetition instead of removed.
+grounds: AI-generated/determinism-checks/model_determinism.json · analysis/03_models/02_reference/results/main/model_spec.json
+node: analysis/03_models
+scope: the evaluation NetCDF is excluded from the comparison because chap-core stamps a creation date into it; everything computed from it is compared
+alternatives: making the check a node inside the tree, so that every run re-verified determinism; rejected because it would double the cost of every model run to re-establish something that changes only when a model changes
+by: agent-autonomous
+
+## C38
+The pool holds no model code of its own, and that is checkable rather than asserted. Each member runs through its own Chap entry points, read out of that member's own contract directory with every file's hash recorded; and the pool rebuilt independently from its members' stored evaluations scores 18.801 against the 18.817 it scored as run, a difference of 0.016 CRPS, which is the sampling error of which draws each member contributed.
+grounds: analysis/03_models/03_candidate/c_ensemble/results/main/pool_check.json · analysis/03_models/03_candidate/c_ensemble/results/main/members.json
+node: analysis/03_models/03_candidate/c_ensemble
+scope: development, main path; the reconstruction is computed from the members' own stored forecasts and is independent of the ensemble's
+by: agent-autonomous

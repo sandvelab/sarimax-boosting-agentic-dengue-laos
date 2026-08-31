@@ -36,7 +36,7 @@ representative research problem, and where it fails.
 
 - **Target venue**: not fixed in the source material. The manuscript this case serves updates
   Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013), which is the obvious precedent.
-- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; phase C complete, batches 8–11; **phase D complete — batches 12, 13, 22, 14 and 15; phase E under way — batch 16 has opened the holdout and run the frozen set on it, and batch 17 is next**). Twenty batches in the ledger, plus one optional, plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result. What it settled is in the plan's §4b. **The ledger is executed top to bottom and a batch's number is an identifier, not a position**: batch 22 was added between 13 and 14.
+- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; phase C complete, batches 8–11; **phase D complete — batches 12, 13, 22, 14 and 15; phase E under way — batch 16 opened the holdout and ran the frozen set on it, batch 17 completed the claim collection and built the hierarchical report, and batch 18 is next**). Twenty batches in the ledger, plus one optional, plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result. What it settled is in the plan's §4b. **The ledger is executed top to bottom and a batch's number is an identifier, not a position**: batch 22 was added between 13 and 14.
 - **Manuscript**: `Human-AI-collaboration/manuscript/`
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`. It carries the
@@ -106,7 +106,13 @@ do if EWARS cannot be run on this dataset, which the plan's §2 answers.
 ## Where things are
 
 - The analysis is a tree of questions under `analysis/`. Start at
-  `AI-generated/hierarchical-report/index.html`, or `/node tree`. Its full design — every node,
+  `AI-generated/hierarchical-report/index.html`, or `/node tree`. **Batch 17 built that
+  report**: 1 175 pages, the tree above and four levels below it — the national mean each
+  model was scored at, that mean by province, each province month by month, and the
+  per-cell scores everything above is an average of, for each of the 65 combinations that
+  were scored. Every number on it is displayed from the file the analysis wrote. It is
+  gitignored and rebuilt in about two seconds by `/hierarchical-report`; only its
+  `provenance.md` is versioned. Its full design — every node,
   every fork, the file contract between them, and the `COMBO` mechanism that lets one code path
   serve both the main analysis and the stability run — is in
   `AI-generated/batch-reports/26-08-26_b05_bootstrapPlan.md`. **Batch 7 built it**, and
@@ -229,7 +235,7 @@ do if EWARS cannot be run on this dataset, which the plan's §2 answers.
   `Archive/plan-as-delivered/`. The live plan is edited as the project runs; how far the two
   have drifted, and who drove each change, is a reported result rather than bookkeeping. The
   plan's §4b logs each decision settled during execution, with its agency.
-- Everything the analysis supports is in `Human-AI-collaboration/claims/claims.md`. **Batch 15 wrote the first twelve**, all of them phase D's, and **batch 16 added nine more**, all of them phase E's; the rest of the collection is batch 17's.
+- Everything the analysis supports is in `Human-AI-collaboration/claims/claims.md` — **39 claims**. Batch 15 wrote the first twelve, all of them phase D's; batch 16 added nine, all of them phase E's; and **batch 17 added eighteen**, which are the phase-A, -B and -C half the file had been missing — the development headline and what its margin cannot separate, the reference model's own re-run floor, what pooling bought and what fitting its weights cost, the family that never beat the reference, three statements in the dataset's schema that do not describe the file, and the determinism of every model we wrote. **A claim states the figures a file holds and never a ratio between two of them that no file computes**, which is why the paired margin is reported as 3.282 CRPS against a split-clustered standard error of 1.726 rather than as the 1.90 standard errors stated above.
 - Nothing enters the manuscript that is not in that file.
 
 ## How to work here

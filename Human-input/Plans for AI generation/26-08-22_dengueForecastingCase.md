@@ -446,6 +446,17 @@ below is read from a file there.)*
 | **`freeze_holdout_manifest.py`'s `frozen_at_commit` is read from git rather than recomputed** | It recorded HEAD at write time, so every later run overwrote the evidence the field exists to carry; running the script once after the holdout turned batch 15's `f3904c5` into batch 16's own commit. It now reads the commit that *adds* `manifest_holdout.csv` — 937fd5c — which cannot be overwritten by running the script again. Safe to change because `manifest_holdout.csv` itself comes back byte-identical after the whole set has run, checked before the change and after | agent-autonomous |
 | **The two ranked figures moved into `scripts/lib/`, with one-screen runners as the steps** | `/validate invariants` requires a plotting script named for each figure, and one script writing two figures under a `--dataset` flag has no such name. The fix is the shape this project already uses for `chap eval`: the drawing in a library, the steps as runners. The alternative was to weaken the check, which is forbidden. The development figures' titles now count their own bars instead of stating "Six of seventeen", which is the transcription §1 is about and had been sitting in a title since batch 15 | agent-autonomous |
 
+### 2026-08-31 — settled by batch 17, from the collection and the report
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **A claim states the figures a file holds, never a ratio between two of them that no file computes** | `readme-at-start.md` says the pool sits 1.90 standard errors from the reference. The paired difference and its standard error are both stored; the ratio is not, so asserting it in a claim would write a number computed in the agent's context into the record — the failure `AGENTS.md` §1 describes, and one that looks like nothing on the page. C23 gives both stored figures instead. The same rule shaped C29 and C31. The alternative, a script at `04_score/03_compare` that divides and stores, is a change to the analysis and phase E forbids re-running anything, so it is the human's to allow | agent-autonomous |
+| **The report's within-result levels are built for every scored combination, not only for the main path** | The project's finding is that the reported analysis is one member of a distribution. A report that let a reader descend only that member would contradict it in its own structure. 65 combinations, 1 105 pages below the tree, against about a tenth of that for `main` and `main__holdout` alone | agent-autonomous |
+| **The report displays stored numbers and computes none** | Every level reads the file the analysis wrote — `metrics_summary.csv`, `crps_by_location.csv`, `metrics_cell.csv`, `conclusion.json`. A report that re-derived its own means could disagree with the analysis about a number and look right doing it. The cost is that it can show only what was stored: there is no per-split, per-province breakdown below the province page, because the aggregation node writes none. That is the diagnostics gap batches 22, 14, 15 and 16 left open, seen from the display end | agent-autonomous |
+| **What the report lists is decided by git, not by a skip list** | The first build showed `c_ensemble`'s scripts as 6 117 files, of which 11 are the node's; the rest is the virtual environment `uv` builds inside the model's contract directory. The builder now asks `git ls-files --others --ignored --exclude-standard --directory` and shows nothing the repository declines to version, so what is not part of the method cannot appear in the report, and the two cannot drift apart | agent-autonomous |
+| **`.gitignore` ignores the report's contents rather than its directory** | So that `AI-generated/hierarchical-report/provenance.md` can be tracked while the 18 MB of generated HTML is not. A record of a build that is itself untracked records nothing. The folder's `README.md` stays generated, because a hand-kept description of a generated folder goes stale silently | agent-autonomous |
+| **A province with no evaluable cell sorts last and prints as an em dash** | `crps_by_location.csv` carries an empty mean for Xaisomboun rather than a zero, which is correct — it contributes nothing to the metric and a zero would be a score. The first build crashed sorting on it. Reading the blank as zero would have put a perfect-looking province at the top of every table | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -511,7 +522,7 @@ at the end of every batch, and append newly created batches to it.
 | 14 | D | `/perturb run`: fix the two defects blocking the candidate rows **and the third, that `03_compare` computes its paired spread unweighted while the leaderboard mean follows the weighting fork**, lift the shared assembler, re-run the twelve candidate rows and the two family rows, then tier 2 | done — produced | [[26-08-30_b14_candidateAndFamilyRows]] |
 | 15 | D | `/perturb report`; put the driver into `run.sh`; freeze and commit the holdout manifest | done — produced | [[26-08-31_b15_perturbationReport]] |
 | 16 | E | The holdout, opened once, on the frozen manifest | done — produced | [[26-08-31_b16_holdout]] |
-| 17 | E | Claims and the hierarchical report | open | |
+| 17 | E | Claims and the hierarchical report | done — produced | [[26-08-31_b17_claimsAndReport]] |
 | 18 | E | Clean-room and outsider validation; the plan's own drift | open | |
 | 19 | E | The case write-up, the reproducibility report, the release | open | |
 | 20 | E | The external check on `tha` and `vnm` — optional, first to be cut | open | |
@@ -1070,6 +1081,10 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 16 — the holdout, opened once, on the frozen manifest
 
 - [[26-08-31_b16_holdout]]
+
+### Batch 17 — the claim collection completed, and the report that descends to the values
+
+- [[26-08-31_b17_claimsAndReport]]
 
 ### Batch 21 — the greedy branch
 

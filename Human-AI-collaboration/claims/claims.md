@@ -303,3 +303,11 @@ grounds: analysis/03_models/03_candidate/c_ensemble/results/main/pool_check.json
 node: analysis/03_models/03_candidate/c_ensemble
 scope: development, main path; the reconstruction is computed from the members' own stored forecasts and is independent of the ensemble's
 by: agent-autonomous
+
+## C39
+The cost model was tested as a prediction for the first time on the held-out half and it held at the total: 8 602 seconds actual against 7 468 planned, a ratio of 1.15 over 32 rows, where the development half's 1.00 was measured over runs that had already happened. The worst row is again the one that changes how much work a part does -- refitting at every split, at 1.97 -- so the total being right a second time does not make any individual estimate right, and the cut order those estimates rank still carries no information.
+grounds: analysis/05_stability/results/holdout_cost_planned_vs_actual.json · analysis/05_stability/results/cost_planned_vs_actual.json
+node: analysis/05_stability
+scope: the 32 phase-E rows, costed by the same model against the same parts and read out of the manifest at the commit that froze it, 937fd5c, before the year was opened
+alternatives: re-costing the phase-E half after seeing the development half's per-row errors, which the freeze forbids and which would have made the comparison a fit rather than a prediction
+by: agent-autonomous

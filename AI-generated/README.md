@@ -31,7 +31,9 @@ meantime. If a derived document is wrong, its source is wrong.
   vertical slice), 7 (erecting the tree), 8 (the candidate contract and candidate 1),
   9 (candidate 1's forks, swept and promoted), 10 (candidate 2, gradient-boosted trees with
   a probabilistic head), 11 (candidate 3, the ensemble, and the close of phase C) and
-  12 (the perturbation manifest, and the opening of phase D).
+  12 (the perturbation manifest, and the opening of phase D), 13, 22 and 14 (the
+  perturbation rows), 15 (the distribution, and the frozen holdout set), 16 (the holdout,
+  opened once) and 17 (the claim collection completed, and this report).
   Batch 21's report is on the branch `greedy` and is deliberately not copied here.
 - `candidate-forks/` — what every alternative to a candidate's configuration scores on the
   development data, what each candidate *family* scores at its own main path, and the two
@@ -65,5 +67,12 @@ meantime. If a derived document is wrong, its source is wrong.
   a directory that has since moved, and batch 6 is reproducible from the commit its
   provenance records name.
 
-Neither the hierarchical report nor the reproducibility report exists yet; both are phase-E
-deliverables.
+- `hierarchical-report/` — the linked drill-down over the claim tree, built in batch 17.
+  The tree supplies the upper levels; below them are four more, one page per scored
+  combination: the national mean each model is reported at, that mean by province, each
+  province by month, and the per-cell scores every mean above is an average of. 1 175 pages
+  over 65 combinations, and every number on them is displayed from the file the analysis
+  wrote rather than recomputed. **Its contents are gitignored and its `provenance.md` is
+  not**, because a record of a build that is itself untracked records nothing.
+
+The reproducibility report does not exist yet; it is batch 19's.

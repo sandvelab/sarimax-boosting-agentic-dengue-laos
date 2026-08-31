@@ -139,3 +139,22 @@ re-running a batch produces a different report rather than the same one.
   it and verifies it byte for byte. Three things kept: the driver began re-running the main
   holdout row before a guard was added, the freeze script was overwriting the commit that
   evidences its own freeze, and a figure title had been carrying a number nothing computed.
+- `26-08-31_b17_claimsAndReport.md` — batch 17, phase E: the claim collection completed and
+  the hierarchical report built. **Eighteen claims added, C22–C39, for 39 in total** — the
+  phase-A, -B and -C half the file had been missing, since batches 15 and 16 had written only
+  about the perturbation set and the held-out year: the development headline (**+0.1485**,
+  18.817 against 22.098) and the fact that its margin — 3.282 CRPS against a split-clustered
+  standard error of 1.726 — cannot separate the two models; the reference's own **0.565** CRPS
+  re-run floor; what pooling bought (**1.954** over the best member, against a premise
+  registered before the run that said it would not) and what fitting the pool's weights cost
+  (**4.021**); the family that never beat the reference; three statements in the dataset's own
+  schema that do not describe the file; and the byte-identical re-runs of all seven models we
+  wrote. **The report is 1 175 pages** — the tree above, and four levels below it running
+  national mean → province → month → per-cell score, for each of the 65 scored combinations on
+  both datasets, with every number displayed from the file the analysis wrote rather than
+  recomputed. Each node page now also carries the claims resting on it. Two things kept: the
+  report was listing a `uv`-built virtual environment as **6 117 of one node's scripts**, fixed
+  by asking git what the repository versions rather than by carrying a skip list; and it
+  crashed sorting a province whose mean is empty because it contributes no evaluable cell.
+  One discipline point, which changed what several claims say: **a claim states the figures a
+  file holds and never a ratio between two of them that no file computes.**

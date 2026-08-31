@@ -88,3 +88,21 @@ still opens in twenty years if it is moved on its own, and storage is not a cons
 agency: agent-autonomous. Rule 8 and the requirement that the levels run national → province
 → month down to the values are the plan's; how the tree and the stored files are turned into
 those levels is this batch's.
+
+## Rebuilt after the collection closed — 2026-08-31, batch 17
+
+```
+result:              AI-generated/hierarchical-report/   (unchanged in structure)
+script:              unchanged
+invocation:          unchanged
+inputs:              Human-AI-collaboration/claims/claims.md, which gained C39 after the
+                     first build; the rest unchanged
+commit:              cf6005e
+produced:            2026-08-31
+```
+
+The claim collection is an input to the report — each node page carries the claims resting
+on it — so adding a claim after a build leaves the report a claim short. Rebuilt, and the
+count on the node pages is now the 39 the collection holds. Recorded rather than folded into
+the entry above, because the first build's commit is what its own README and index page
+state, and overwriting that would make the page disagree with the record of it.

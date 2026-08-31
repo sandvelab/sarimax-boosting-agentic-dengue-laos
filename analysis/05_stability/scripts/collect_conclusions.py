@@ -28,13 +28,25 @@ So every row of the manifest appears, and the ones that did not run say whether 
 because the child has no scripts yet, because its batch has not happened, or because it
 failed -- read from `run_status.csv` where that file has something to say.
 
+## The holdout half
+
+`--dataset holdout` reads the frozen phase-E manifest and the status file its run wrote,
+and produces the same table for the held-out year. It is the same code because it is the
+same question asked of the other dataset; what it must not do is put the two in one table,
+because a row of each would then be summarised together and the whole point of phase E is
+that the two spreads are read side by side rather than pooled. `report_holdout.py` is where
+they are joined, row by row, on the pairing batch 15 froze.
+
 Writes, at this node:
-  results/conclusions.csv       one row per manifest combination
-  results/conclusions_notes.json  how much of the manifest is answered, and by what
+  results/conclusions.csv               one row per manifest combination
+  results/conclusions_notes.json        how much of the manifest is answered, and by what
+  results/holdout_conclusions.csv       the same, for the phase-E set
+  results/holdout_conclusions_notes.json
 """
 
 from __future__ import annotations
 
+import argparse
 import csv
 import json
 from pathlib import Path
@@ -53,13 +65,24 @@ CARRIED = ["our_model", "skill_score", "crps_ours", "crps_reference", "mae_ours"
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    parser.add_argument("--dataset", choices=("development", "holdout"),
+                        default="development",
+                        help="which manifest to collect: the development set, or the "
+                             "phase-E set frozen in batch 15")
+    args = parser.parse_args()
+    holdout = args.dataset == "holdout"
+    prefix = "holdout_" if holdout else ""
+
     out = NODE / "results"
-    manifest = out / "manifest.csv"
+    manifest = out / ("manifest_holdout.csv" if holdout else "manifest.csv")
     if not manifest.exists():
-        raise SystemExit("no manifest: run plan_manifest.py first")
+        raise SystemExit(f"no {manifest.name}: run "
+                         f"{'freeze_holdout_manifest.py' if holdout else 'plan_manifest.py'}"
+                         f" first")
     rows = list(csv.DictReader(manifest.open()))
 
-    status_path = out / "run_status.csv"
+    status_path = out / ("run_status_holdout.csv" if holdout else "run_status.csv")
     status = {}
     if status_path.exists():
         status = {r["combination"]: r for r in csv.DictReader(status_path.open())}
@@ -82,10 +105,15 @@ def main() -> None:
             entry["why_not"] = "tier-2 slot, unresolved until tier 1 has conclusions"
         elif row["built"] != "True":
             entry["why_not"] = (f"the child has no scripts yet; batch "
-                                f"{row['assigned_batch']} writes them")
+                                f"{row.get('assigned_batch', '?')} writes them")
         elif combo in status and status[combo]["status"].startswith("failed"):
             entry["why_not"] = f"{status[combo]['status']}; see {status[combo]['log']}"
-        elif row["assigned_batch"].strip() == "-":
+        elif combo in status and status[combo]["status"].startswith("not run"):
+            # The holdout's unpaired row. Development did not run its twin either, so
+            # there is nothing for it to be reported beside; the driver said so and this
+            # carries the reason rather than restating it.
+            entry["why_not"] = status[combo]["status"]
+        elif row.get("assigned_batch", "-").strip() == "-":
             # The held row: a combination that exists and perturbs nothing, which no
             # batch runs and which `conclude.py` was deliberately never pointed at. It is
             # not a row waiting for a batch, and saying so would put a phantom absence
@@ -95,7 +123,10 @@ def main() -> None:
             entry["why_not"] = f"not run yet; assigned to batch {row['assigned_batch']}"
         table.append(entry)
 
-    main_row = next((r for r in table if r["combination"] == "main"), None)
+    # The row every delta is measured from: this manifest's own main path, found by
+    # its kind. Naming the combination would work on development and silently find
+    # nothing on the holdout, where it is called `main__holdout`.
+    main_row = next((r for r in table if r["kind"] == "main"), None)
     if main_row and main_row["skill_score"] != "":
         for entry in table:
             if entry["skill_score"] != "":
@@ -121,14 +152,14 @@ def main() -> None:
         entry["interaction"] = round(
             float(entry["delta_skill_vs_main"]) - additive, 6)
 
-    with (out / "conclusions.csv").open("w", newline="") as handle:
+    with (out / f"{prefix}conclusions.csv").open("w", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(table[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(table)
 
     scored = [e for e in table if e["skill_score"] != ""]
     paired = [e for e in table if e["interaction"] != ""]
-    (out / "conclusions_notes.json").write_text(json.dumps({
+    (out / f"{prefix}conclusions_notes.json").write_text(json.dumps({
         "manifest_rows": len(table),
         "rows_with_a_conclusion": answered,
         "rows_without": len(table) - answered,
@@ -153,13 +184,15 @@ def main() -> None:
                      "deltas. Zero would mean the two forks compose; tier 2 exists "
                      "because batches 9 and 21 each found that they do not."),
         } if paired else None),
+        "dataset": args.dataset,
+        "manifest": str(manifest.relative_to(ROOT)),
         "note": ("This is not yet the phase-D result. It becomes one when every row it "
                  "names has run; until then it is the record of how much of the frozen "
                  "manifest has been answered."),
     }, indent=1, sort_keys=True) + "\n")
 
-    print(f"{answered} of {len(table)} manifest rows have a conclusion "
-          f"-> {(out / 'conclusions.csv').relative_to(ROOT)}")
+    print(f"{answered} of {len(table)} {args.dataset} manifest rows have a conclusion "
+          f"-> {(out / f'{prefix}conclusions.csv').relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

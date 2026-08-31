@@ -44,7 +44,7 @@ REFERENCE = "reference"
 CANDIDATE_NODE = NODE / "03_models" / "03_candidate"
 
 sys.path.insert(0, str(NODE / "scripts" / "lib"))
-from combos import base  # noqa: E402
+from combos import base, dataset  # noqa: E402
 
 BASE = base()
 
@@ -141,7 +141,11 @@ def main() -> None:
 
     conclusion = {
         "combo": COMBO,
-        "dataset": "development",
+        # Which of the two datasets this combination faced. Derived from the combination
+        # name by the same function the setup chain uses to pick the file, so a
+        # conclusion cannot say it is a development number while the analysis behind it
+        # read the holdout.
+        "dataset": dataset(),
         "our_model": name,
         "our_model_basis": basis,
         "candidate_exists": bool(candidate_exists),
@@ -178,7 +182,7 @@ def main() -> None:
     }
     (out / "conclusion.json").write_text(json.dumps(conclusion, indent=1, sort_keys=True) + "\n")
 
-    print(f"conclusion[{COMBO}]: {name} CRPS {conclusion['crps_ours']:.3f} vs reference "
+    print(f"conclusion[{COMBO}] on {conclusion['dataset']}: {name} CRPS {conclusion['crps_ours']:.3f} vs reference "
           f"{conclusion['crps_reference']:.3f} -> skill {conclusion['skill_score']:+.4f}"
           f"{'' if candidate_exists else '  (placeholder: no candidate node yet)'}")
 

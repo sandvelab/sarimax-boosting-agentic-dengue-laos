@@ -31,6 +31,10 @@ variable, so the main path resolves everything under `main` and a missing input 
 error rather than a quiet substitution. The reported analysis cannot inherit from
 anything, because there is nothing for it to inherit from.
 
+Batch 16 added a third thing a combination decides: **which of the two datasets it is
+evaluated on**. Phase E re-runs the frozen set on the held-out year under `__holdout`
+names, and the functions at the foot of this file are the one place that suffix is read.
+
 Not a step: `scripts/lib/` is a subdirectory, so `node.py` does not put it in any node's
 `run.sh`. It is imported by the scripts that need it.
 """
@@ -94,3 +98,73 @@ def resolve_glob(root: Path, pattern: str) -> tuple[list[Path], str]:
         if found:
             return found, name
     return [], combo()
+
+
+# ---------------------------------------------------------------------------
+# Which dataset a combination is evaluated on.
+#
+# Phase E re-runs the frozen perturbation set on the held-out year, and every one of
+# its rows is a development combination with `__holdout` appended
+# (`05_stability/results/manifest_holdout.csv`). Three things differ on that side and
+# nothing else does: the file the setup chain starts from, the backtest scheme, and the
+# span the province and training-window forks call "evaluated".
+#
+# All three are answered here rather than in the six setup scripts that need them. That
+# is the shape this project has had to learn four times: a step that discovers something
+# and carries its own copy of the rule is a step that goes out of date alone. A holdout
+# row must run *the same analysis* as its development twin, differing only in the data it
+# faces, and the way to make that checkable is for there to be one place where the
+# difference lives.
+#
+# The suffix is the signal because it is what the frozen manifest already names the rows.
+# Deriving the phase from the combination name means the driver sets one variable, COMBO,
+# exactly as it does for every other row, and no second switch can be set inconsistently
+# with it.
+# ---------------------------------------------------------------------------
+
+HOLDOUT_SUFFIX = "__holdout"
+
+#: The dataset each phase's setup chain starts from, relative to the repository root.
+#: Both files are written by `01_data/01_partition`, which stays the only node that reads
+#: the archived source.
+SOURCE_BY_DATASET = {
+    "development": "analysis/01_data/01_partition/results/development_1998-01_2009-12.csv",
+    "holdout": "analysis/01_data/01_partition/results/phase_e_1998-01_2010-12.csv",
+}
+
+#: Keys into `01_data/02_characterise/results/backtest_scheme_chosen.json`. Batch 3 wrote
+#: both schemes into that file and said neither moves again.
+SCHEME_KEY_BY_DATASET = {
+    "development": "development_scheme",
+    "holdout": "phase_e_scheme",
+}
+
+SPAN_KEY_BY_DATASET = {
+    "development": "development_evaluated_span",
+    "holdout": "phase_e_evaluated_span",
+}
+
+
+def is_holdout(name: str | None = None) -> bool:
+    """Is this combination evaluated on the held-out year?"""
+    return (name if name is not None else combo()).endswith(HOLDOUT_SUFFIX)
+
+
+def dataset(name: str | None = None) -> str:
+    """`"holdout"` or `"development"` -- which of the two datasets this combination faces."""
+    return "holdout" if is_holdout(name) else "development"
+
+
+def source_dataset(root: Path, name: str | None = None) -> Path:
+    """The file the setup chain's first stage reads for this combination."""
+    return root / SOURCE_BY_DATASET[dataset(name)]
+
+
+def scheme_key(name: str | None = None) -> str:
+    """Which backtest scheme in the stored scheme file this combination is evaluated under."""
+    return SCHEME_KEY_BY_DATASET[dataset(name)]
+
+
+def span_key(name: str | None = None) -> str:
+    """Which evaluated span in the stored scheme file this combination's forks read."""
+    return SPAN_KEY_BY_DATASET[dataset(name)]

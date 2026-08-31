@@ -33,16 +33,33 @@ an artefact of the unit. So every CRPS statistic here is computed **within a wei
 group**, and which group a row is in is read from its own fork and child columns rather
 than guessed from the size of the number.
 
+## The holdout half
+
+`--dataset holdout` reports the same three files for the frozen phase-E set, from
+`holdout_conclusions.csv` and the holdout's own main path. Every yardstick is recomputed on
+that dataset rather than carried over: the reference was re-scored four times on 2010 too,
+so the noise band the holdout's forks are judged against is 2010's, not development's. A
+band imported from the other dataset would be a number from one analysis deciding what
+counts as a move in another.
+
+The two are **not** pooled. `pair_holdout_development.py` joins them row by row on the
+pairing batch 15 froze, which is where the question phase E exists to answer -- how far the
+development spread transfers -- is actually answered.
+
 Writes, at this node:
   results/distribution.json         the phase-D answer, and the counts behind it
   results/distribution_rows.csv     one row per analysis, ranked by skill score
   results/sensitivity_by_fork.csv   one row per fork: how far the conclusion moved
+  results/holdout_distribution.json         the same three, for the held-out year
+  results/holdout_distribution_rows.csv
+  results/holdout_sensitivity_by_fork.csv
 
 Seeds: none. Every number is an arithmetic summary of stored scores.
 """
 
 from __future__ import annotations
 
+import argparse
 import csv
 import json
 from pathlib import Path
@@ -75,7 +92,7 @@ def number(value: str) -> float | None:
     return float(value) if value not in ("", None) else None
 
 
-def noise_band(our_model: str) -> dict:
+def noise_band(our_model: str, main_combo: str) -> dict:
     """How far the reported skill score moves when only the reference's sampler does.
 
     The reference is unseeded and was evaluated four times. `03_compare` scores our model
@@ -83,22 +100,22 @@ def noise_band(our_model: str) -> dict:
     four skill scores is a measurement of the conclusion's own irreducible noise -- in the
     units the conclusion is reported in, which the CRPS floor is not.
     """
-    paired = rows_of(COMPARE / "main" / "paired_summary.csv")
+    paired = rows_of(COMPARE / main_combo / "paired_summary.csv")
     repeats = [r for r in paired
                if r["model"] == our_model and r["against"].startswith("reference_r")
                and r["weighting"] == "unweighted"]
     if not repeats:
-        raise SystemExit("no per-repeat comparison for our model in "
-                         "04_score/03_compare/results/main/paired_summary.csv")
+        raise SystemExit(f"no per-repeat comparison for our model in "
+                         f"04_score/03_compare/results/{main_combo}/paired_summary.csv")
     skills = sorted(float(r["skill_score"]) for r in repeats)
-    notes = json.loads((COMPARE / "main" / "comparison_notes.json").read_text())
+    notes = json.loads((COMPARE / main_combo / "comparison_notes.json").read_text())
     return {
         "repeats": [r["against"] for r in repeats],
         "skill_against_each_repeat": skills,
         "skill_band": round(skills[-1] - skills[0], 6),
         "crps_floor": notes["noise_floor_largest_repeat_pair_mean_diff"],
-        "source": ["analysis/04_score/03_compare/results/main/paired_summary.csv",
-                   "analysis/04_score/03_compare/results/main/comparison_notes.json"],
+        "source": [f"analysis/04_score/03_compare/results/{main_combo}/paired_summary.csv",
+                   f"analysis/04_score/03_compare/results/{main_combo}/comparison_notes.json"],
         "means": ("the spread of our model's skill score against the four repeats of the "
                   "unseeded reference. A fork whose largest move is inside this band has "
                   "not been shown to move the conclusion."),
@@ -118,23 +135,39 @@ def spread(values: list[float]) -> dict:
 
 
 def main() -> None:
-    conclusions = rows_of(RESULTS / "conclusions.csv")
+    parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    parser.add_argument("--dataset", choices=("development", "holdout"),
+                        default="development",
+                        help="which set to report: the development perturbation set, or "
+                             "the frozen phase-E set on the held-out year")
+    args = parser.parse_args()
+    holdout = args.dataset == "holdout"
+    prefix = "holdout_" if holdout else ""
+    # The combination this distribution is reported around. Everything below that used to
+    # say "main" says this instead, including which `03_compare` directory the noise band
+    # is measured in: the holdout's forks are judged against 2010's reference re-runs.
+    main_combo = "main__holdout" if holdout else "main"
+
+    conclusions = rows_of(RESULTS / f"{prefix}conclusions.csv")
     forks = rows_of(RESULTS / "forks.csv")
     notes = json.loads((RESULTS / "manifest_notes.json").read_text())
+    freeze = (json.loads((RESULTS / "holdout_freeze.json").read_text())
+              if holdout else None)
     # What the set actually cost, summed from the driver's own record rather than from
     # `cost_planned_vs_actual.json`, which compares only the rows the manifest costed.
-    ran = sum(float(r["seconds"]) for r in rows_of(RESULTS / "run_status.csv")
+    ran = sum(float(r["seconds"]) for r in rows_of(RESULTS / f"run_status{'_holdout' if holdout else ''}.csv")
               if r["seconds"] not in ("", None))
-    reported = json.loads((ROOT / "analysis/results/main/conclusion.json").read_text())
+    reported = json.loads(
+        (ROOT / f"analysis/results/{main_combo}/conclusion.json").read_text())
 
     aggregate_fork = next(f for f in forks if f["kind"] == "scoring")
-    band = noise_band(reported["our_model"])
+    band = noise_band(reported["our_model"], main_combo)
 
     scored = [r for r in conclusions if r["skill_score"] != ""]
     unscored = [r for r in conclusions if r["skill_score"] == ""]
-    if not any(r["combination"] == "main" for r in scored):
-        raise SystemExit("no conclusion for the main path: there is nothing to report a "
-                         "distribution around")
+    if not any(r["combination"] == main_combo for r in scored):
+        raise SystemExit(f"no conclusion for {main_combo}: there is nothing to report a "
+                         f"distribution around")
 
     # ---- one row per analysis -------------------------------------------------------
     table = []
@@ -163,7 +196,7 @@ def main() -> None:
             "interaction": row["interaction"],
         })
     table.sort(key=lambda r: -float(r["skill_score"]))
-    with (RESULTS / "distribution_rows.csv").open("w", newline="") as handle:
+    with (RESULTS / f"{prefix}distribution_rows.csv").open("w", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(table[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(table)
@@ -197,7 +230,7 @@ def main() -> None:
     by_fork.sort(key=lambda f: -(f["largest_abs_delta_skill"] or 0))
     for rank, entry in enumerate(by_fork, start=1):
         entry["sensitivity_rank"] = rank
-    with (RESULTS / "sensitivity_by_fork.csv").open("w", newline="") as handle:
+    with (RESULTS / f"{prefix}sensitivity_by_fork.csv").open("w", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(by_fork[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(by_fork)
@@ -205,7 +238,7 @@ def main() -> None:
     # ---- the answer -----------------------------------------------------------------
     skills = [float(r["skill_score"]) for r in table]
     main_skill = next(float(r["skill_score"]) for r in table
-                      if r["combination"] == "main")
+                      if r["combination"] == main_combo)
     weightings = sorted({r["weighting"] for r in table})
     crps_by_weighting = {
         w: spread([float(r["crps_ours"]) for r in table if r["weighting"] == w])
@@ -215,14 +248,14 @@ def main() -> None:
     pairs = [r for r in table if r["interaction"] != ""]
     coverage = [float(r["coverage_10_90_ours"]) for r in table]
 
-    (RESULTS / "distribution.json").write_text(json.dumps({
+    (RESULTS / f"{prefix}distribution.json").write_text(json.dumps({
         "what_this_is": (
             "The phase-D result: the conclusion this project reports, computed once per "
             "analysis in a set of analyses fixed before any of them ran. It is a "
             "distribution, and the reported number is one member of it."),
         "dataset": reported["dataset"],
         "reported_conclusion": {
-            "combination": "main",
+            "combination": main_combo,
             "our_model": reported["our_model"],
             "skill_score": main_skill,
             "crps_ours": reported["crps_ours"],
@@ -238,6 +271,13 @@ def main() -> None:
                         for r in unscored],
             "cut_for_budget": [],
             "cut_note": (
+                (f"Nothing was cut. The phase-E set was frozen at "
+                 f"{freeze['estimated_hours_total']} h against a "
+                 f"{freeze['budget_hours_both_datasets']} h budget for both datasets, of "
+                 f"which development spent 3.66, and it ran in {ran / 3600:.2f} h "
+                 f"(`results/run_status_holdout.csv`, summed). Nothing may be cut here "
+                 f"in any case: the set was fixed before the year was opened.")
+                if holdout else
                 f"Nothing was cut. Tier 1 was planned at "
                 f"{notes['estimated_hours_tier1_both_datasets']} h across both datasets "
                 f"against a {notes['budget_hours_both_datasets']} h budget, and the "
@@ -304,18 +344,18 @@ def main() -> None:
                      "it, the one-at-a-time table above cannot be added up."),
         },
         "sources": {
-            "one row per analysis": "results/distribution_rows.csv",
-            "one row per fork": "results/sensitivity_by_fork.csv",
-            "the table they summarise": "results/conclusions.csv",
+            "one row per analysis": f"results/{prefix}distribution_rows.csv",
+            "one row per fork": f"results/{prefix}sensitivity_by_fork.csv",
+            "the table they summarise": f"results/{prefix}conclusions.csv",
             "each row's own conclusion": "analysis/results/<combination>/conclusion.json",
         },
     }, indent=1, sort_keys=False) + "\n")
 
-    print(f"{len(table)} analyses; skill {min(skills):.4f} to {max(skills):.4f} "
+    print(f"{args.dataset}: {len(table)} analyses; skill {min(skills):.4f} to {max(skills):.4f} "
           f"around {main_skill:.4f}; reference noise band {band['skill_band']:.4f}")
     print(f"{len(moved)} of {len(by_fork)} forks move the conclusion further than that: "
           f"{', '.join(f['stage'] for f in moved)}")
-    print(f"-> {(RESULTS / 'distribution.json').relative_to(ROOT)}")
+    print(f"-> {(RESULTS / f'{prefix}distribution.json').relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

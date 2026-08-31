@@ -51,10 +51,27 @@ that failed on the first unbuilt row would leave that record in nobody's notes. 
 outcome lands in `results/run_status.csv`, which says for each row what happened, how long
 it took, and where its log is.
 
+## The holdout half
+
+`--dataset holdout` runs the frozen phase-E set, `results/manifest_holdout.csv`, whose rows
+are the same analyses under `__holdout` names. Nothing about the step lists changes: the
+combination name carries the dataset, `analysis/scripts/lib/combos.py` turns the suffix into
+the file the setup chain starts from and the backtest scheme it is evaluated under, and
+every command issued is the same command the development twin issued. That is the point --
+a holdout row that ran different code would not measure what phase E is for.
+
+**One row differs, and it is the `main` row.** On development it runs `conclude.py` and
+nothing else, because the main path is the analysis that already ran. On the holdout it has
+never run, so it runs the whole pipeline: every setup fork at its main child, the
+assembler, both baselines, the reference, the reported family, and the scoring chain. That
+is `analysis/run.sh` minus `01_data`, which is not combination-scoped, and minus this node.
+It runs first, and every other holdout row inherits from it.
+
 Usage, from the repository root:
   environment/chapenv/bin/python analysis/05_stability/scripts/run_manifest.py --dry-run
   ... --batch 13            only the rows the manifest assigns to that batch
   ... --only trainingWindow_from2004
+  ... --dataset holdout     the frozen phase-E set, on the held-out year
 """
 
 from __future__ import annotations
@@ -118,14 +135,28 @@ def own_scripts(node: Path) -> list[tuple[str, list[str]]]:
     return steps
 
 
-def steps_for(row: dict, forks: list[inv.Fork]) -> list[tuple[str, list[str]]]:
-    """The ordered commands one combination runs. Named steps, so a log can be read."""
-    if row["kind"] == "main":
+def steps_for(row: dict, forks: list[inv.Fork],
+              full_main: bool = False) -> list[tuple[str, list[str]]]:
+    """The ordered commands one combination runs. Named steps, so a log can be read.
+
+    `full_main` is what the holdout's `main` row needs: no fork has moved, and every
+    stage still has to run, because on that dataset nothing has. Expressed by moving
+    nothing and declaring the setup gate open, so the row goes down the same code path
+    every other row does and picks up each fork's main child by the ordinary rule --
+    rather than by a second list of the pipeline kept here, which is the failure this
+    driver has already had to correct four times.
+    """
+    if row["kind"] == "main" and not full_main:
         return [("conclude", python(ANALYSIS / "scripts/conclude.py"))]
 
-    moved = [(fork_by_rel(forks, rel), child) for rel, child
-             in zip(row["fork"].split("+"), row["child"].split("+"))]
-    kinds = {fork.kind for fork, _ in moved}
+    if row["kind"] == "main":
+        moved: list[tuple[inv.Fork, str]] = []
+        kinds = {"setup"}
+    else:
+        moved = [(fork_by_rel(forks, rel), child) for rel, child
+                 in zip(row["fork"].split("+"), row["child"].split("+"))]
+        kinds = {fork.kind for fork, _ in moved}
+
     out: list[tuple[str, list[str]]] = []
 
     def take(kind: str) -> None:
@@ -182,9 +213,10 @@ def steps_for(row: dict, forks: list[inv.Fork]) -> list[tuple[str, list[str]]]:
     return out
 
 
-def run_row(row: dict, forks: list[inv.Fork], dry: bool) -> dict:
+def run_row(row: dict, forks: list[inv.Fork], dry: bool,
+            full_main: bool = False) -> dict:
     combo = row["combination"]
-    steps = steps_for(row, forks)
+    steps = steps_for(row, forks, full_main=full_main)
     if dry:
         mark = "" if row["built"] == "True" else "   (not built: this is its specification)"
         print(f"\n{combo}  [{row['kind']}]  base={row['combo_base']}{mark}")
@@ -232,11 +264,23 @@ def main() -> None:
     parser.add_argument("--batch", type=int, help="only rows this batch is assigned")
     parser.add_argument("--tier", type=int)
     parser.add_argument("--only", help="one combination name")
+    parser.add_argument("--dataset", choices=("development", "holdout"),
+                        default="development",
+                        help="which manifest to run: the development set, or the "
+                             "phase-E set frozen in batch 15")
     args = parser.parse_args()
 
-    manifest = NODE / "results" / "manifest.csv"
+    # The two manifests, and the two status files that record what each one did. Kept
+    # apart rather than merged on a column: a holdout row is a different analysis facing
+    # a different year, and one file holding both would invite a summary over the union.
+    holdout = args.dataset == "holdout"
+    manifest = NODE / "results" / ("manifest_holdout.csv" if holdout else "manifest.csv")
+    status_file = NODE / "results" / (
+        "run_status_holdout.csv" if holdout else "run_status.csv")
     if not manifest.exists():
-        raise SystemExit("no manifest: run plan_manifest.py first")
+        raise SystemExit(f"no {manifest.name}: run "
+                         f"{'freeze_holdout_manifest.py' if holdout else 'plan_manifest.py'}"
+                         f" first")
     forks = inv.forks()
     rows = list(csv.DictReader(manifest.open()))
 
@@ -248,7 +292,7 @@ def main() -> None:
         # batch has to skip it rather than fail on it: a filter that crashes on the one
         # row it is meant to exclude would have stopped every `--batch` invocation the
         # driver exists to be used with.
-        if args.batch and row["assigned_batch"].strip() != str(args.batch):
+        if args.batch and row.get("assigned_batch", "").strip() != str(args.batch):
             continue
         if args.tier and int(row["tier"]) != args.tier:
             continue
@@ -256,6 +300,19 @@ def main() -> None:
             outcomes.append({"combination": f"tier2 slot (rank {row['rank']})",
                              "status": "pending-selection", "seconds": "", "steps": "",
                              "log": "", "at": ""})
+            continue
+        # A holdout row whose development twin was never run has nothing to be
+        # reported beside, and phase E's whole shape is the two spreads on one axis.
+        # The held row is the only one: it is the main path under a second name, and
+        # development did not run it either. Skipping it here keeps the two halves
+        # paired at 32 rows rather than adding a thirty-third that exists on one side.
+        # Read off the frozen manifest's own column, not off the row's kind.
+        if holdout and not row.get("development_skill_score", "").strip():
+            outcomes.append({
+                "combination": row["combination"],
+                "status": "not run: its development twin has no conclusion "
+                          f"({row['status']})",
+                "seconds": "", "steps": "", "log": "", "at": ""})
             continue
         if row["built"] != "True":
             # In a dry run the step list of a child nobody has written yet is the most
@@ -267,7 +324,7 @@ def main() -> None:
                              "status": "not-built: the child has no scripts yet",
                              "seconds": "", "steps": "", "log": "", "at": ""})
             continue
-        outcomes.append(run_row(row, forks, args.dry_run))
+        outcomes.append(run_row(row, forks, args.dry_run, full_main=holdout))
 
     if args.dry_run:
         skipped = [o for o in outcomes if o["status"] != "dry-run"]
@@ -279,7 +336,7 @@ def main() -> None:
 
     # Merged into the existing record rather than replacing it: batches 13, 14, 22 and 15
     # each run part of the manifest, and the file has to end up describing all of them.
-    path = NODE / "results" / "run_status.csv"
+    path = status_file
     fields = ["combination", "status", "seconds", "steps", "log", "at"]
     known = {}
     if path.exists():

@@ -25,6 +25,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -41,7 +42,12 @@ def repo_root(start: Path) -> Path:
 
 ROOT = repo_root(NODE)
 COMBO = os.environ.get("COMBO", "main")
-SOURCE = ROOT / "analysis/01_data/01_partition/results/development_1998-01_2009-12.csv"
+sys.path.insert(0, str(ROOT / "analysis" / "scripts" / "lib"))
+import combos  # noqa: E402
+
+# Which of the two files `01_partition` wrote: the development period, or the whole
+# record phase E evaluates on. The suffix on the combination name decides, in one place.
+SOURCE = combos.source_dataset(ROOT)
 
 
 def sha256(path: Path) -> str:

@@ -35,14 +35,13 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import sys
 from pathlib import Path
 
 NODE = Path(__file__).resolve().parents[1]
 SETUP = NODE.parents[1]
 
 SCHEME = "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json"
-# The same key `assemble_setup.py` reads the rest of the backtest flags from.
-SCHEME_KEY = "development_scheme"
 
 
 def repo_root(start: Path) -> Path:
@@ -54,6 +53,9 @@ def repo_root(start: Path) -> Path:
 
 ROOT = repo_root(NODE)
 COMBO = os.environ.get("COMBO", "main")
+sys.path.insert(0, str(ROOT / "analysis" / "scripts" / "lib"))
+import combos  # noqa: E402
+
 
 
 def upstream(fork: str, combo: str) -> Path:
@@ -85,7 +87,11 @@ def main() -> None:
     out.mkdir(parents=True, exist_ok=True)
 
     scheme = json.loads((ROOT / SCHEME).read_text())
-    n_splits = int(scheme[SCHEME_KEY]["n_splits"])
+    # The same key `assemble_setup.py` reads the rest of the backtest flags from, and
+    # it is the phase's key: refitting at every split means every split of *this*
+    # backtest, which is eight on development and four on the holdout.
+    scheme_key = combos.scheme_key()
+    n_splits = int(scheme[scheme_key]["n_splits"])
 
     source = upstream("03_provinces", COMBO)
     header, rows = read_table(source)
@@ -99,7 +105,7 @@ def main() -> None:
         "choice": "b_everySplit",
         "description": "refit at every split: n_retrain set to the scheme's n_splits",
         "dataset_transform": "identity",
-        "n_retrain_source": f"{SCHEME} -> {SCHEME_KEY}.n_splits",
+        "n_retrain_source": f"{SCHEME} -> {scheme_key}.n_splits",
         "input": str(source.relative_to(ROOT)),
         "input_sha256": sha256(source),
         "output_sha256": sha256(out / "analysis_dataset.csv"),

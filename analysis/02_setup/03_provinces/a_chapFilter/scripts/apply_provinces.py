@@ -28,6 +28,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -50,6 +51,9 @@ def repo_root(start: Path) -> Path:
 
 ROOT = repo_root(NODE)
 COMBO = os.environ.get("COMBO", "main")
+sys.path.insert(0, str(ROOT / "analysis" / "scripts" / "lib"))
+import combos  # noqa: E402
+
 
 
 def upstream(fork: str, combo: str) -> Path:
@@ -99,7 +103,11 @@ def main() -> None:
 
     # What the platform's filter and the evaluated span imply, from this dataset.
     scheme = json.loads((ROOT / SCHEME).read_text())
-    span_first, span_last = scheme["development_evaluated_span"]
+    # The span this combination is evaluated over: 2008-01..2009-12 on development,
+    # 2010-01..2010-12 on the holdout. Read from the stored scheme by the key
+    # `combos` derives from the combination name, so a holdout row applies this fork's
+    # rule to the year it is actually scored on rather than to development's.
+    span_first, span_last = scheme[combos.span_key()]
     observed = frame.dropna(subset=["disease_cases"])
     never_reports = sorted(set(frame["location"]) - set(observed["location"]))
     in_span = observed[(observed["time_period"] >= span_first)

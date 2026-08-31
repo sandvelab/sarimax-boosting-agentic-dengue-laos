@@ -14,3 +14,4 @@ PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 # Own scripts
 "$PYTHON" "scripts/partition_dataset.py"
 "$PYTHON" "scripts/verify_chap_ingest.py"
+"$PYTHON" "scripts/open_holdout.py"

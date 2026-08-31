@@ -23,6 +23,12 @@ Colour is the fork's kind, which is what the figure is really about: the block t
 scatters is the one that changes which model is ours, and the block that does not is the
 one phase C spent three batches choosing inside.
 
+`--dataset holdout` draws the same figure for the frozen phase-E set on the held-out
+year, from that dataset's own rows and its own noise band. The two are separate figures
+rather than two series on one, because the axis is a skill score against a reference that
+faced a different year: the numbers are comparable, but a reader looking at one cloud
+would read a spread across both datasets as a spread across analyses.
+
 Plotted values: results/fig_skill_distribution.csv -- one row per point.
 Pre-aggregation: none. Each point is one stored conclusion, not a summary of several;
 the values these conclusions aggregate are the per-cell scores under
@@ -33,6 +39,7 @@ Seeds: none.
 """
 from __future__ import annotations
 
+import argparse
 import csv
 import json
 import sys
@@ -47,11 +54,18 @@ from palette import assign, PALETTE  # noqa: E402
 
 NODE = Path(__file__).resolve().parent.parent
 RESULTS = NODE / "results"
-STEM = "fig_skill_distribution"
 
-with (RESULTS / "distribution_rows.csv").open() as handle:
+parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+parser.add_argument("--dataset", choices=("development", "holdout"),
+                    default="development")
+args = parser.parse_args()
+HOLDOUT = args.dataset == "holdout"
+PREFIX = "holdout_" if HOLDOUT else ""
+STEM = f"{PREFIX}fig_skill_distribution"
+
+with (RESULTS / f"{PREFIX}distribution_rows.csv").open() as handle:
     rows = list(csv.DictReader(handle))
-summary = json.loads((RESULTS / "distribution.json").read_text())
+summary = json.loads((RESULTS / f"{PREFIX}distribution.json").read_text())
 band = summary["reference_noise_band"]["skill_against_each_repeat"]
 main_skill = summary["reported_conclusion"]["skill_score"]
 
@@ -86,8 +100,9 @@ ax.annotate("the reference\nscores the same", (0.0, len(shown) - 0.6), fontsize=
             ha="center", va="top", color="black")
 ax.annotate("reported", (main_skill, -0.7), fontsize=8, ha="center", va="bottom",
             color="0.35")
-ax.set_title("Thirty-two analyses that all looked reasonable\n"
-             "Diamonds move two forks at once; circles move one",
+ax.set_title(f"{len(shown)} analyses that all looked reasonable, on the "
+             f"{'held-out year' if HOLDOUT else 'development period'}\n"
+             f"Diamonds move two forks at once; circles move one",
              fontsize=11, loc="left")
 handles = [plt.Line2D([], [], marker="o", linestyle="", color=c, label=k)
            for k, c in sorted(colour.items())]

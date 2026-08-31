@@ -30,6 +30,8 @@ import json
 import os
 from pathlib import Path
 
+import sys
+
 import pandas as pd
 
 NODE = Path(__file__).resolve().parents[1]
@@ -46,6 +48,9 @@ def repo_root(start: Path) -> Path:
 
 ROOT = repo_root(NODE)
 COMBO = os.environ.get("COMBO", "main")
+sys.path.insert(0, str(ROOT / "analysis" / "scripts" / "lib"))
+import combos  # noqa: E402
+
 
 
 def chosen_child(fork: str, combo: str) -> Path:
@@ -82,20 +87,33 @@ def main() -> None:
     (out / "analysis_dataset.csv").write_bytes(last.read_bytes())
     frame = pd.read_csv(out / "analysis_dataset.csv", dtype={"time_period": str})
 
+    # Which of the two schemes batch 3 fixed: 3/8/3 over 2008-2009 on development,
+    # 3/4/3 over 2010 on the holdout. Both are in the stored file and neither moves; the
+    # combination's name decides which one it is evaluated under, in the one place that
+    # decision is made.
     scheme = json.loads((ROOT / SCHEME).read_text())
+    scheme_key = combos.scheme_key()
     flags = {
-        "n_periods": scheme["development_scheme"]["n_periods"],
-        "n_splits": scheme["development_scheme"]["n_splits"],
-        "stride": scheme["development_scheme"]["stride"],
+        "n_periods": scheme[scheme_key]["n_periods"],
+        "n_splits": scheme[scheme_key]["n_splits"],
+        "stride": scheme[scheme_key]["stride"],
     }
     for spec in stages:
         flags.update(spec["eval_flags"])
 
-    source = ROOT / "analysis/01_data/01_partition/results/development_1998-01_2009-12.csv"
+    development = ROOT / combos.SOURCE_BY_DATASET["development"]
+    source = combos.source_dataset(ROOT)
     assembled = {
         "combo": COMBO,
+        "evaluated_on": combos.dataset(),
         "dataset": "analysis_dataset.csv",
-        "identical_to_development_file": sha256(out / "analysis_dataset.csv") == sha256(source),
+        "source_dataset": str(source.relative_to(ROOT)),
+        "identical_to_source_dataset":
+            sha256(out / "analysis_dataset.csv") == sha256(source),
+        # Kept as it was: it says whether what the models face is the development file,
+        # and on a holdout combination the honest answer to that is no.
+        "identical_to_development_file":
+            sha256(out / "analysis_dataset.csv") == sha256(development),
         "dataset_sha256": sha256(out / "analysis_dataset.csv"),
         "rows": int(len(frame)),
         "locations": int(frame["location"].nunique()),
@@ -106,7 +124,9 @@ def main() -> None:
         "choice_nodes": {s["stage"]: s["node"] for s in stages},
         "eval_flags": flags,
         "eval_flags_source": {
-            "n_periods": SCHEME, "n_splits": SCHEME, "stride": SCHEME,
+            "n_periods": f"{SCHEME} -> {scheme_key}",
+            "n_splits": f"{SCHEME} -> {scheme_key}",
+            "stride": f"{SCHEME} -> {scheme_key}",
             "n_retrain": next(s["node"] for s in stages if "n_retrain" in s["eval_flags"]),
         },
         "stages": stages,
@@ -114,7 +134,8 @@ def main() -> None:
     (out / "setup_spec.json").write_text(json.dumps(assembled, indent=1, sort_keys=True) + "\n")
     (out / "setup_inputs.sha256").write_text("\n".join(lines) + "\n")
 
-    print(f"setup[{COMBO}]: {assembled['rows']} rows, {assembled['locations']} locations, "
+    print(f"setup[{COMBO}] on {assembled['evaluated_on']}: "
+          f"{assembled['rows']} rows, {assembled['locations']} locations, "
           f"{assembled['period_first']}..{assembled['period_last']}, "
           f"flags {flags}, choices {assembled['choices']}")
 

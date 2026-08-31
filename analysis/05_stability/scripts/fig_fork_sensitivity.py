@@ -13,6 +13,10 @@ mattered was which pool to build rather than how to configure its members. And t
 move that touches no model at all is **how the headline mean is weighted**, which re-runs
 nothing and re-aggregates a stored file.
 
+`--dataset holdout` draws the same ranking for the held-out year, against that year's own
+noise band. Whether the same forks come out above the line is the phase-E question about
+this figure, and `results/fork_sensitivity_both.csv` is where the two rankings are joined.
+
 Plotted values: results/fig_fork_sensitivity.csv -- one row per bar.
 Pre-aggregation: results/fig_fork_sensitivity_preaggregation.csv -- the per-combination
 moves each bar takes a maximum over, so a fork whose two children disagree can be seen to.
@@ -21,6 +25,7 @@ Seeds: none.
 """
 from __future__ import annotations
 
+import argparse
 import csv
 import json
 import sys
@@ -35,13 +40,20 @@ from palette import assign, PALETTE  # noqa: E402
 
 NODE = Path(__file__).resolve().parent.parent
 RESULTS = NODE / "results"
-STEM = "fig_fork_sensitivity"
 
-with (RESULTS / "sensitivity_by_fork.csv").open() as handle:
+parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+parser.add_argument("--dataset", choices=("development", "holdout"),
+                    default="development")
+args = parser.parse_args()
+HOLDOUT = args.dataset == "holdout"
+PREFIX = "holdout_" if HOLDOUT else ""
+STEM = f"{PREFIX}fig_fork_sensitivity"
+
+with (RESULTS / f"{PREFIX}sensitivity_by_fork.csv").open() as handle:
     forks = list(csv.DictReader(handle))
-with (RESULTS / "distribution_rows.csv").open() as handle:
+with (RESULTS / f"{PREFIX}distribution_rows.csv").open() as handle:
     analyses = list(csv.DictReader(handle))
-summary = json.loads((RESULTS / "distribution.json").read_text())
+summary = json.loads((RESULTS / f"{PREFIX}distribution.json").read_text())
 floor = summary["reference_noise_band"]["skill_band"]
 
 shown = [{"fork": f["fork"], "stage": f["stage"], "kind": f["kind"],
@@ -89,8 +101,13 @@ ax.set_yticks(list(positions))
 ax.set_yticklabels([f"{f['stage']}" + (f"  ({f['owner']})" if f["owner"] != "-" else "")
                     for f in shown], fontsize=9)
 ax.set_xlabel("largest move in the reported skill score when this fork is taken differently")
-ax.set_title("Six of seventeen judgment calls move the conclusion\n"
-             "further than the reference model moves on its own",
+# Counted from the bars, not stated. The figure has to say the same thing on both
+# datasets, and a number in a title that nothing computes is exactly the transcription
+# `AGENTS.md` §1 is about.
+above = sum(1 for f in shown if f["moves_more_than_reference_noise"] == "True")
+ax.set_title(f"{above} of {len(shown)} judgment calls move the conclusion\n"
+             f"further than the reference model moves on its own, on the "
+             f"{'held-out year' if HOLDOUT else 'development period'}",
              fontsize=11, loc="left")
 handles = [plt.Line2D([], [], marker="s", linestyle="", color=c, label=k)
            for k, c in sorted(colour.items())]

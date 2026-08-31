@@ -31,16 +31,19 @@
   "stride": 3
  },
  "eval_flags_source": {
-  "n_periods": "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json",
+  "n_periods": "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json -> development_scheme",
   "n_retrain": "analysis/02_setup/04_retrain/a_once",
-  "n_splits": "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json",
-  "stride": "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json"
+  "n_splits": "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json -> development_scheme",
+  "stride": "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json -> development_scheme"
  },
+ "evaluated_on": "development",
  "identical_to_development_file": false,
+ "identical_to_source_dataset": false,
  "locations": 18,
  "period_first": "1998-01",
  "period_last": "2009-12",
  "rows": 2592,
+ "source_dataset": "analysis/01_data/01_partition/results/development_1998-01_2009-12.csv",
  "stages": [
   {
    "anchor_year": 2020,

@@ -1,5 +1,6 @@
 {
  "computed_here": "delta_skill_vs_main, delta_skill_additive and interaction, each a subtraction on this table's own columns",
+ "dataset": "development",
  "interaction": {
   "largest_absolute": 0.103349,
   "largest_tier1_main_effect_among_the_forks_paired": 0.220878,
@@ -10,6 +11,7 @@
    0.042428
   ]
  },
+ "manifest": "analysis/05_stability/results/manifest.csv",
  "manifest_rows": 33,
  "note": "This is not yet the phase-D result. It becomes one when every row it names has run; until then it is the record of how much of the frozen manifest has been answered.",
  "rows_with_a_conclusion": 32,

@@ -326,7 +326,7 @@ inputs:              01_collect/results/$COMBO/metrics_cell.csv · models.csv
                      analysis/03_models/**/results/$COMBO/run_cost.json
 environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
 seeds:               none; the step is arithmetic on the collected per-cell scores
-commit:              9993d37 (the script), 3fb1280 (the combinations)
+commit:              87440bc (the script), 3fb1280 (the combinations)
 instructions-commit: cf97b81
 node:                analysis/04_score/03_compare
 produced:            2026-08-30
@@ -383,3 +383,72 @@ recorded in three places before this batch existed; the fix, and the choice of w
 statistics follow the weighting, are this batch's.
 information: agent-retrieved — every figure quoted above is read from the files this batch
 produced.
+
+## Batch 18 correction — "the eleven forks" are eleven combinations over eight forks
+
+Appended rather than edited into the batch-14 section above, because a provenance record
+that quietly changes what it said is worth less than one that is wrong in a visible way.
+
+**What the batch-14 section says.** "What it establishes on the twelve candidate and two
+family rows. The eleven forks inside the two member families move the paired difference
+between 1.85 and 1.99 standard errors around `main`'s 1.90."
+
+**What is true.** The two member families hold **eight** forks between them —
+`a_hierNB/{01_observation, 02_covariates, 03_population, 04_fitTime, 05_autoregressive,
+06_yearVariance}` and `b_boosted/{01_features, 02_head}`. Those eight forks have **eleven**
+non-main children between them, which is where the eleven comes from: it is a count of
+perturbed *combinations*, one per non-main child, and the twelfth candidate row is
+`c_ensemble/01_weighting`, which is not inside a member. Both numbers are in
+`analysis/05_stability/results/sensitivity_by_fork.csv`: eight rows have `owner` in
+`{a_hierNB, b_boosted}`, and their `rows` column sums to eleven.
+
+**Nothing computed changes.** The range 1.85 to 1.99 is over the eleven combinations and is
+correct as stated; only the noun is wrong. No figure in `leaderboard.csv`,
+`paired_summary.csv` or `comparison_notes.json` is affected, and none was recomputed.
+
+**Where it came from, and how far it spread.** Batch 14's report carries a table whose
+column is a row count and whose label reads "the eleven forks inside the member families";
+the label was then copied into `readme-at-start.md`, `analysis/05_stability/claim.md`, claim
+C3 of the collection, and this record. Batch 18's `/validate outsider` run found it by
+counting the rows of `sensitivity_by_fork.csv` rather than reading any of them. The live
+records are corrected; the batch reports and the plan's §4b keep what they said, because
+they are accounts of what was established at the time and rewriting them would hide that
+this happened.
+
+agency: agent-autonomous. The error and the correction are both the agent's; the outsider
+check that surfaced it is the method's.
+information: agent-retrieved — the counts are read from `sensitivity_by_fork.csv`.
+
+## Batch 18 correction — the batch-14 commit `9993d37` is not in the history; read `87440bc`
+
+Appended rather than edited in place, because a provenance record that silently changes an
+address it once gave is worth less than one that shows the address went bad.
+
+The sections above named **`9993d37`** as batch 14's "before the run" commit. That commit is
+not an ancestor of `HEAD` and is on no branch: batch 14's history was rewritten after it was
+made, and the commit that survived is **`87440bc`** — same subject, same author timestamp,
+and **the same tree**, `f473a16ee75d23f4483d3d101b18119cd224b6d7`. So the *state* those
+sections describe is exactly right and only the address was dead.
+
+**Their `commit:` lines have therefore been corrected in place**, from `9993d37` to
+`87440bc`, and this section is the record that it happened. Appending alone was not enough:
+a provenance record exists so a reader can check out what it names, and one that keeps a
+dead hash and a footnote saying to read a different one has not been repaired. Nothing else
+in those sections is touched, and no result was recomputed — the two commits have the same
+tree, so the state they describe is byte-identical either way.
+
+It looked fine for eight days for two compounding reasons, both now closed in
+`AI-internal/useful-scripts/check_invariants.py`. The check tested `git cat-file -e`, which
+answers whether an object is in the store — and an orphaned object stays in the store of the
+tree that orphaned it, and is copied wholesale by a *local* `git clone`, which hardlinks the
+object directory. It would have vanished on the first push, which is batch 19. The check now
+requires ancestry of `HEAD`. And the pattern was anchored to a `commit:` line carrying one
+bare hash, so a line like `commit: 9993d37 (the script), 3fb1280 (the combinations)` was
+skipped entirely — a record that annotated its hashes was the one the check never read. It
+now takes every hash on every `commit:` line.
+
+Found by batch 18's `/validate outsider` run, which walked the headline result's chain from
+`conclusion.json` back to the archived dataset and tested each link rather than reading it.
+
+agency: agent-autonomous.
+information: agent-retrieved — `git merge-base --is-ancestor`, `git rev-parse <c>^{tree}`.

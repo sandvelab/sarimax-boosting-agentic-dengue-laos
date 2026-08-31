@@ -237,7 +237,7 @@ inputs:              analysis/04_score/03_compare/results/$COMBO/leaderboard.csv
                      the tree's own results are what say which family this combination ran
 environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
 seeds:               none.
-commit:              9993d37 (the script), 3fb1280 (the combinations)
+commit:              87440bc (the script), 3fb1280 (the combinations)
 instructions-commit: cf97b81
 node:                analysis
 produced:            2026-08-30
@@ -279,3 +279,37 @@ plan cannot be produced by `analysis/run.sh` on its own).
 
 agency: agent-autonomous.
 information: agent-retrieved.
+
+## Batch 18 correction — the batch-14 commit `9993d37` is not in the history; read `87440bc`
+
+Appended rather than edited in place, because a provenance record that silently changes an
+address it once gave is worth less than one that shows the address went bad.
+
+The sections above named **`9993d37`** as batch 14's "before the run" commit. That commit is
+not an ancestor of `HEAD` and is on no branch: batch 14's history was rewritten after it was
+made, and the commit that survived is **`87440bc`** — same subject, same author timestamp,
+and **the same tree**, `f473a16ee75d23f4483d3d101b18119cd224b6d7`. So the *state* those
+sections describe is exactly right and only the address was dead.
+
+**Their `commit:` lines have therefore been corrected in place**, from `9993d37` to
+`87440bc`, and this section is the record that it happened. Appending alone was not enough:
+a provenance record exists so a reader can check out what it names, and one that keeps a
+dead hash and a footnote saying to read a different one has not been repaired. Nothing else
+in those sections is touched, and no result was recomputed — the two commits have the same
+tree, so the state they describe is byte-identical either way.
+
+It looked fine for eight days for two compounding reasons, both now closed in
+`AI-internal/useful-scripts/check_invariants.py`. The check tested `git cat-file -e`, which
+answers whether an object is in the store — and an orphaned object stays in the store of the
+tree that orphaned it, and is copied wholesale by a *local* `git clone`, which hardlinks the
+object directory. It would have vanished on the first push, which is batch 19. The check now
+requires ancestry of `HEAD`. And the pattern was anchored to a `commit:` line carrying one
+bare hash, so a line like `commit: 9993d37 (the script), 3fb1280 (the combinations)` was
+skipped entirely — a record that annotated its hashes was the one the check never read. It
+now takes every hash on every `commit:` line.
+
+Found by batch 18's `/validate outsider` run, which walked the headline result's chain from
+`conclusion.json` back to the archived dataset and tested each link rather than reading it.
+
+agency: agent-autonomous.
+information: agent-retrieved — `git merge-base --is-ancestor`, `git rev-parse <c>^{tree}`.

@@ -99,8 +99,8 @@ re-running a batch produces a different report rather than the same one.
   two family rows and all eight tier-2 pairs, so **32 of the manifest's 33 rows have
   conclusions** and the development set is complete. **The model family is what the conclusion
   is sensitive to and the choices inside a family are not**: swapping the reported pool for
-  candidate 1 costs 0.2209 of skill, while the eleven forks phase C spent three batches
-  selecting among span 18.638 to 18.933 CRPS — about half the reference's own re-run noise.
+  candidate 1 costs 0.2209 of skill, while the eight forks phase C spent three batches
+  selecting among span 18.638 to 18.933 CRPS over their eleven combinations — about half the reference's own re-run noise.
   The one exception is the pool's own weighting fork, worth 0.1820. **Tier 2 shows the forks do
   not compose**: its largest interaction, −0.1033, is bigger than either main effect behind it,
   because the province filter and case weighting each improve the reported skill alone and

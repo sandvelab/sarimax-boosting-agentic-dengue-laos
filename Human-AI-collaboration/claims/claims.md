@@ -35,11 +35,11 @@ scope: development; no choice about the data, the evaluation, the scoring or the
 by: agent-autonomous
 
 ## C3
-The choice of model family is what the conclusion is sensitive to, and the choices made inside a family are not. Swapping the reported linear opinion pool for candidate 1 costs 0.2209 of skill and for candidate 2 0.0884, while the eleven forks inside those two families move it by at most 0.0081 and span 18.638 to 18.933 mean CRPS -- a range of 0.295 against the reference model's own 0.565 re-run spread.
+The choice of model family is what the conclusion is sensitive to, and the choices made inside a family are not. Swapping the reported linear opinion pool for candidate 1 costs 0.2209 of skill and for candidate 2 0.0884, while the eight forks inside those two families move it by at most 0.0081, and the eleven combinations they perturb span 18.638 to 18.933 mean CRPS -- a range of 0.295 against the reference model's own 0.565 re-run spread.
 grounds: analysis/05_stability/results/sensitivity_by_fork.csv · analysis/05_stability/results/fig_fork_sensitivity.csv
 node: analysis/05_stability
 scope: development; the exception is the pool's own weighting fork, which is not inside a member and is worth 0.1820
-alternatives: phase C selected among those eleven forks over three batches, on differences this evaluation cannot resolve
+alternatives: phase C selected among those eight forks over three batches, on differences this evaluation cannot resolve
 by: agent-autonomous
 
 ## C4
@@ -95,7 +95,7 @@ scope: the machine this project runs on, Darwin arm64, with the reference under 
 by: agent-autonomous
 
 ## C11
-A cost model that predicts the total to within a per cent can be uninformative about every individual row. Over the whole manifest the planned total is 7469 seconds against an actual 7469, a ratio of 1.00, while per-row ratios run from 0.52 to 1.91 -- because the model summed each row's parts as measured under the main path and could not know that a row changes how much work a part does. The manifest's cut order is ranked on those estimates, so it carries no information; nothing was cut, so nothing rests on it.
+A cost model that predicts the total to within a per cent can be uninformative about every individual row. Over the whole manifest the planned total is 7469 seconds against an actual 7469, a ratio of 1.00, while per-row ratios run from 0.51 to 1.91 -- because the model summed each row's parts as measured under the main path and could not know that a row changes how much work a part does. The manifest's cut order is ranked on those estimates, so it carries no information; nothing was cut, so nothing rests on it.
 grounds: analysis/05_stability/results/cost_planned_vs_actual.json · analysis/05_stability/results/cost_planned_vs_actual.csv
 node: analysis/05_stability
 scope: the twenty-three rows the frozen manifest costed; the comparison reads the manifest through git at the commit that froze it

@@ -21,7 +21,8 @@ Checks
   combos      every results/<combination>/ directory is one a stability manifest
               names -- the development manifest or the frozen holdout one -- and the
               development manifest names every non-main child in the tree
-  git         the working tree is clean, and recorded commits exist
+  git         the working tree is clean, and every commit a provenance record names is
+              an ancestor of HEAD -- not merely an object that exists
   crossing    no result file looks like a value transcribed between steps by hand
 
 Dual interface:
@@ -352,16 +353,39 @@ def check_git(root: Path) -> list[Finding]:
     if st:
         n = len(st.splitlines())
         out.append(Finding("git", ".", f"working tree not clean ({n} changed path(s))"))
+    # Every hash on every `commit:` line, and each one has to be an ancestor of HEAD.
+    #
+    # Both halves of that are corrections batch 18 made after `/validate outsider` walked
+    # the headline result's chain and found the link broken.
+    #
+    # The pattern used to be anchored -- `^commit:\s*([0-9a-f]{7,40})\s*$` -- so it matched
+    # only a line carrying one bare hash and nothing else. `analysis/provenance/conclude.md`
+    # reads `commit: 9993d37 (the script), 3fb1280 (the combinations)`, which matched
+    # nothing at all, so the provenance record for this project's headline result was the
+    # one record the check never looked at. A record that annotates its hashes is being
+    # more informative, not less, and was being punished for it.
+    #
+    # And the test was `cat-file -e`, which asks whether the object is in the store. An
+    # object orphaned by a rewritten commit is still in the store of the tree that
+    # rewrote it, and is still copied by a *local* `git clone`, which hardlinks the whole
+    # object directory -- so it looked fine here and in every clone taken from here. It
+    # would not survive a push, and `/release` is next. Ancestry is the property the
+    # record actually needs: the commit it names has to be one a reader can check out.
     for node in nodes(root):
         for rec_name, rec in _provenance_records(node).items():
-            m = re.search(r"^commit:\s*([0-9a-f]{7,40})\s*$", rec, re.M)
-            if not m:
-                continue
-            r = subprocess.run(["git", "-C", str(root), "cat-file", "-e", f"{m.group(1)}^{{commit}}"],
-                               capture_output=True)
-            if r.returncode != 0:
-                out.append(Finding("git", f"{node.relative_to(root)}/provenance/{rec_name}",
-                                   f"recorded commit {m.group(1)} does not exist"))
+            for line in re.findall(r"^commit:\s*(.+)$", rec, re.M):
+                for sha in re.findall(r"\b[0-9a-f]{7,40}\b", line):
+                    where = f"{node.relative_to(root)}/provenance/{rec_name}"
+                    if subprocess.run(["git", "-C", str(root), "merge-base",
+                                       "--is-ancestor", sha, "HEAD"],
+                                      capture_output=True).returncode == 0:
+                        continue
+                    known = subprocess.run(["git", "-C", str(root), "cat-file", "-e",
+                                            f"{sha}^{{commit}}"], capture_output=True)
+                    out.append(Finding("git", where, (
+                        f"recorded commit {sha} is not an ancestor of HEAD"
+                        if known.returncode == 0 else
+                        f"recorded commit {sha} does not exist")))
     return out
 
 

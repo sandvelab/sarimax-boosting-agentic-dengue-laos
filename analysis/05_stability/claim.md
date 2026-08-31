@@ -97,8 +97,8 @@ main path's own choice under its own name, which perturbs nothing.
 
 **The choice of model family moves the conclusion twenty-seven times further than any choice
 inside a family.** Swapping the reported pool for candidate 1 costs **0.2209** of skill, for
-candidate 2 **0.0884**. The eleven forks inside those two families span **18.638 to 18.933
-CRPS** — a range of 0.295, about half the reference's own 0.57 re-run spread — so nothing in
+candidate 2 **0.0884**. The eight forks inside those two families span **18.638 to 18.933
+CRPS** over the eleven combinations they perturb — a range of 0.295, about half the reference's own 0.57 re-run spread — so nothing in
 that block can be attributed to a model at all. The mechanism is the pool. Phase C's own sweeps
 record candidate 1's observation model as a 0.601 CRPS swing to candidate 1 alone; the same
 fork is a 0.102 swing to the pool, because three of its four members did not move. And
@@ -153,8 +153,9 @@ unseeded and was scored four times, and our model's skill against those four spa
 **0.0218**. Above it: the model family (0.2209), the pool's weighting (0.1820), the
 weighting of the headline mean (0.0835), the province filter (0.0376), the persistence
 construction (0.0279), the training window (0.0219, which is the band itself to within
-0.0001). Below it: everything else, including nine of the eleven candidate-internal forks
-phase C spent three batches selecting among. → `results/sensitivity_by_fork.csv`
+0.0001). Below it: everything else, including eight of the nine candidate-internal forks
+phase C spent three batches selecting among — eight of the eleven below the line,
+the other three being two `02_setup` forks and one baseline fork. → `results/sensitivity_by_fork.csv`
 
 **The manifest was re-planned and did not move.** `manifest.csv` came back byte-identical
 now that every row has been attempted and the frozen pair rule reads a complete tier 1 —
@@ -166,7 +167,7 @@ report.
 
 **The whole set cost 3.66 h against a 12 h budget** (`results/run_status.csv`, summed) and
 nothing was cut. The frozen cost model predicted the total to within one part in a thousand
-— 7 469 s against 7 469 s — and individual rows by ratios from 0.52 to 1.91, so the cut
+— 7 469 s against 7 469 s — and individual rows by ratios from 0.51 to 1.91, so the cut
 order it ranks would have carried no information had anything been cut.
 
 **The phase-E set is frozen.** Thirty-three rows under `__holdout` names, an estimated

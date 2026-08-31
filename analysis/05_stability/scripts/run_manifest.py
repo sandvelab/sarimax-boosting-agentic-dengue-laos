@@ -60,6 +60,14 @@ the file the setup chain starts from and the backtest scheme it is evaluated und
 every command issued is the same command the development twin issued. That is the point --
 a holdout row that ran different code would not measure what phase E is for.
 
+**A holdout row that has already run is not run again.** Plan §3: the year is opened once,
+and nothing is re-run after a holdout number has been seen. The driver therefore reads
+`results/run_status_holdout.csv` before it starts and skips every row recorded there as
+`ran`. From a clean checkout that file does not exist and the whole set runs, so
+`analysis/run.sh` still reproduces phase E from nothing; on a second invocation it protects
+the numbers rather than redrawing the unseeded reference underneath them. Re-running one
+deliberately means removing its row from that file, which leaves a trace in git.
+
 **One row differs, and it is the `main` row.** On development it runs `conclude.py` and
 nothing else, because the main path is the analysis that already ran. On the holdout it has
 never run, so it runs the whole pipeline: every setup fork at its main child, the
@@ -284,6 +292,15 @@ def main() -> None:
     forks = inv.forks()
     rows = list(csv.DictReader(manifest.open()))
 
+    # What has already run. On the holdout this is a seal, not an optimisation: plan §3
+    # says the year is opened once and nothing is re-run after a holdout number has been
+    # seen, and the reference is unseeded, so a second pass would replace every
+    # denominator with a different draw.
+    already_ran: set[str] = set()
+    if holdout and status_file.exists():
+        already_ran = {r["combination"] for r in csv.DictReader(status_file.open())
+                       if r["status"] == "ran"}
+
     outcomes = []
     for row in rows:
         if args.only and row["combination"] != args.only:
@@ -295,6 +312,9 @@ def main() -> None:
         if args.batch and row.get("assigned_batch", "").strip() != str(args.batch):
             continue
         if args.tier and int(row["tier"]) != args.tier:
+            continue
+        if row["combination"] in already_ran:
+            print(f"  {row['combination']}: already run; not run again (plan §3)")
             continue
         if not row["combination"]:
             outcomes.append({"combination": f"tier2 slot (rank {row['rank']})",

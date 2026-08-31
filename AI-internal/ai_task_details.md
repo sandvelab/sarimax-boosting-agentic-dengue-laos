@@ -1312,3 +1312,64 @@ the holdout side before batch 16 runs.
 
 **Commits.** `9ad6578` (the scripts, the rebuilt `run.sh` and the extended invariant, before
 the run) and the results-and-records commit after it.
+
+## T16 — Batch 16: the holdout, opened once, on the frozen manifest (2026-08-31)
+
+**What was produced.** The held-out year was opened and the thirty-two analyses frozen in
+batch 15 ran against it. `analysis/results/main__holdout/conclusion.json` carries the
+project's headline number and `analysis/05_stability/results/holdout_vs_development.json`
+carries the answer phase E exists for: the two datasets side by side, paired row by row on a
+pairing fixed before the seal came off. Beside it, `holdout_distribution.json`,
+`holdout_distribution_rows.csv`, `holdout_sensitivity_by_fork.csv`,
+`fork_sensitivity_both.csv`, `holdout_conclusions.csv`, `run_status_holdout.csv`,
+`holdout_cost_planned_vs_actual.{csv,json}` and four figures with their plotted values.
+
+**The mechanism, and why it is where it is.** Three things differ on the phase-E side — the
+file the setup chain starts from, the backtest scheme, and the span the province and
+training-window forks call "evaluated" — and six setup scripts plus `conclude.py` needed all
+three. They are answered in one place, the phase functions at the foot of
+`analysis/scripts/lib/combos.py`, keyed on the `__holdout` suffix the frozen manifest already
+names its rows with. Deriving the dataset from the combination name means the driver sets one
+variable, `COMBO`, exactly as for every other row, so there is no second switch to set
+inconsistently with it. `01_data/01_partition/scripts/open_holdout.py` opens the seal by
+reassembling the archived file from the two parts beside it, in the source's own line order,
+verified byte-identical — chosen over pointing `02_setup` at `Archive/` because the archive is
+`(IS_SHADOW)` material a setup stage reaching into it would read outside the tree, and because
+the proof that the two parts partition the source exactly, which is what makes reassembly
+legitimate, lives at that node.
+
+**No node was added.** `analysis/README.md` had reserved `06_holdout` for this batch. The
+holdout is the stability question asked of a second year, over the identical set of analyses,
+against the identical yardstick, with the frozen manifest and freeze record already at
+`05_stability`; a node whose claim restated that one's would make the tree larger and not
+clearer. The README now says so where it used to reserve the node.
+
+**Files affected.** New: `01_partition/scripts/open_holdout.py`,
+`05_stability/scripts/{pair_holdout_development,fig_holdout_vs_development,fig_fork_sensitivity_both,holdout_fig_skill_distribution,holdout_fig_fork_sensitivity}.py`,
+`05_stability/scripts/lib/stability_figures.py`. Changed: `combos.py`, `conclude.py`,
+`assemble_setup.py`, six setup fork scripts, `run_manifest.py`, `collect_conclusions.py`,
+`report_distribution.py`, `compare_planned_cost.py`, `freeze_holdout_manifest.py`, both
+`run.sh` files that gained steps. Records: four new provenance records, phase-E sections
+appended to seven at `05_stability` and thirteen at the candidate nodes the holdout rows
+reach, a criticality section, and the root and stability `claim.md` answers.
+
+**Three defects kept in the record.** The driver had no reason to skip a row that had already
+run, so its first pass over the whole manifest began re-running `main__holdout`; since the
+reference is unseeded that would have replaced the denominator of every reported number with a
+different draw. Stopped at the persistence baseline, files restored from the previous commit,
+the reference never reached, and the guard added — plan §3's second half turned from an
+instruction into code. `freeze_holdout_manifest.py` wrote HEAD into `frozen_at_commit`, so
+every run overwrote the evidence the field carries; it now reads the commit that adds the
+manifest from git. And `fig_fork_sensitivity.py` had "Six of seventeen" in a title string
+rather than counting its bars.
+
+**For a future session.** `analysis/run.sh` is now about six hours and has never been run end
+to end from cold; `/validate cleanroom` in batch 18 is where that gets a number, and it is the
+largest untested claim in the repository. Nothing may be re-run or re-tuned now that holdout
+numbers have been seen, which closes the per-split diagnostics gap permanently on both sides.
+Two questions stand for the human: whether `analysis/run.sh` should be split so the stability
+and phase-E runs are invoked separately, and whether the case write-up's judgment about where
+this setup was more trouble than it was worth should be theirs rather than the agent's.
+
+**Commits.** `895a9f8` (the switch, the opened seal and the main holdout row, before the rest
+of the set), `609e1be` (the once-only guard) and `48edaea` (the results and records).

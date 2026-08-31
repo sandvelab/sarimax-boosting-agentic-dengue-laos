@@ -83,9 +83,14 @@ These override everything else here.
    perturbation manifest — and that is only honest because the manifest was fixed beforehand:
    **nothing is added, dropped, re-tuned or re-run after a holdout number has been seen.**
    **This has happened: batch 16 opened it, on 2026-08-31, and ran exactly the set frozen in
-   batch 15.** The driver now enforces the second half — it reads
-   `05_stability/results/run_status_holdout.csv` and refuses to run a row it already
-   records — so re-running one means deleting its row, which shows in git.
+   batch 15.** The driver enforces the second half, on **two conditions and needing both**:
+   the row is recorded as `ran` in `05_stability/results/run_status_holdout.csv`, which is
+   versioned, so re-running one means deleting its row and that shows in git; and
+   `05_stability/results/.holdout_opened`, which is gitignored, says that *this working
+   tree* is the one that opened the year. **Batch 18's clean-room check found that the
+   versioned condition alone sealed every clone of the repository too**, so all thirty-two
+   rows were skipped in a fresh checkout and the phase-E half of `analysis/run.sh`
+   reproduced its outputs without running the analysis behind them.
 2. **No number reaches a claim except through a file.** `chap eval` writes NetCDF, `chap
    export-metrics` writes CSV; every reported figure is read from one of those by a script,
    never from terminal output. (`AGENTS.md` §1.)

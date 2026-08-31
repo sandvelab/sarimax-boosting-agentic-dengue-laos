@@ -61,12 +61,24 @@ every command issued is the same command the development twin issued. That is th
 a holdout row that ran different code would not measure what phase E is for.
 
 **A holdout row that has already run is not run again.** Plan §3: the year is opened once,
-and nothing is re-run after a holdout number has been seen. The driver therefore reads
-`results/run_status_holdout.csv` before it starts and skips every row recorded there as
-`ran`. From a clean checkout that file does not exist and the whole set runs, so
-`analysis/run.sh` still reproduces phase E from nothing; on a second invocation it protects
-the numbers rather than redrawing the unseeded reference underneath them. Re-running one
-deliberately means removing its row from that file, which leaves a trace in git.
+and nothing is re-run after a holdout number has been seen. The reference is unseeded, so a
+second pass would replace the denominator of every reported number with a different draw.
+
+The seal has **two conditions and needs both**, because it is protecting two different
+things and one file cannot carry both. `results/run_status_holdout.csv` names the rows that
+ran and is versioned, so forcing a re-run by deleting a row shows in git.
+`results/.holdout_opened` is gitignored, so it says whether *this working tree* is the one
+that opened the year. A row is skipped only when it is recorded as `ran` **and** the marker
+is present; the driver writes the marker itself, after the first invocation in which a
+holdout row actually ran.
+
+The second condition is the correction of a defect the clean-room check found in batch 18.
+The seal originally rested on the versioned file alone -- and a versioned seal seals every
+copy of the repository, not just the copy that opened the year. In a fresh clone of the
+project all thirty-two rows were skipped, `collect_conclusions.py --dataset holdout` then
+re-read the committed conclusions, and the phase-E half of `analysis/run.sh` reproduced its
+outputs byte-identically while running none of the analysis behind them. The docstring here
+claimed the opposite in those words, and only an actual clean run could tell the two apart.
 
 **One row differs, and it is the `main` row.** On development it runs `conclude.py` and
 nothing else, because the main path is the analysis that already ran. On the holdout it has
@@ -103,6 +115,11 @@ ROOT = NODE.parents[1]
 ANALYSIS = ROOT / "analysis"
 PYTHON = ROOT / "environment/chapenv/bin/python"
 LOGS = NODE / "results" / "logs"
+
+# The seal's second half, and the half that is a property of *this working tree* rather
+# than of the repository. Gitignored, so a fresh checkout does not carry it. See the
+# module docstring's "The holdout half".
+OPENED = NODE / "results" / ".holdout_opened"
 
 
 def bash(path: Path) -> list[str]:
@@ -296,10 +313,21 @@ def main() -> None:
     # says the year is opened once and nothing is re-run after a holdout number has been
     # seen, and the reference is unseeded, so a second pass would replace every
     # denominator with a different draw.
+    #
+    # It takes two conditions, and needs both, because the two things it is protecting
+    # are different. `run_status_holdout.csv` is versioned evidence -- it names the rows,
+    # so deleting one to force a re-run shows in git. `.holdout_opened` is gitignored, so
+    # it says whether *this working tree* is the one that opened the year. A seal resting
+    # on the versioned file alone sealed every clone of the repository as well, which is
+    # what stopped `analysis/run.sh` from reproducing phase E from nothing.
     already_ran: set[str] = set()
-    if holdout and status_file.exists():
+    opened_here = OPENED.exists()
+    if holdout and status_file.exists() and opened_here:
         already_ran = {r["combination"] for r in csv.DictReader(status_file.open())
                        if r["status"] == "ran"}
+    elif holdout and status_file.exists():
+        print(f"  {status_file.name} is present but {OPENED.name} is not: this checkout "
+              f"inherited the record rather than writing it, so the frozen set runs.")
 
     outcomes = []
     for row in rows:
@@ -370,6 +398,22 @@ def main() -> None:
             writer.writerow(known[name])
     ran = sum(1 for o in outcomes if o["status"] == "ran")
     print(f"\n{ran} of {len(outcomes)} row(s) ran -> {path.relative_to(ROOT)}")
+
+    # This tree has now seen holdout numbers of its own, so it becomes the tree the seal
+    # applies to. Written after the status file, not before: a marker laid down by a run
+    # that then failed would seal a set that never finished.
+    if holdout and ran and not opened_here:
+        head = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"],
+                              capture_output=True, text=True).stdout.strip() or "unknown"
+        OPENED.write_text(
+            "# This working tree has opened the held-out year. Gitignored, so a fresh\n"
+            "# checkout does not inherit it and analysis/run.sh reproduces phase E from\n"
+            "# nothing. Its presence is half of the seal in run_manifest.py; the other\n"
+            "# half is results/run_status_holdout.csv, which is versioned.\n"
+            f"opened_at: {datetime.now(timezone.utc).isoformat(timespec='seconds')}\n"
+            f"at_commit: {head}\n"
+            f"rows_run_in_that_invocation: {ran}\n")
+        print(f"sealed: wrote {OPENED.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

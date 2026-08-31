@@ -42,9 +42,13 @@ PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 # that both come back byte-identical, so the set this runs is the one fixed before the
 # year was opened rather than one this invocation decided.
 #
-# A row already recorded as run is not run again (plan §3). From a clean checkout there is
-# no such record and the whole set runs, which is what keeps `analysis/run.sh` a
-# reproduction of phase E rather than a description of it.
+# A row already recorded as run is not run again (plan §3). The seal takes two conditions
+# and needs both: the row is recorded as `ran` in the versioned `run_status_holdout.csv`,
+# and `results/.holdout_opened` — gitignored — says this working tree is the one that
+# opened the year. A clean checkout carries the first and not the second, so the whole set
+# runs, which is what keeps `analysis/run.sh` a reproduction of phase E rather than a
+# description of it. Batch 18's clean-room check found that the versioned condition alone
+# had made it the description: every row was skipped and the outputs came back identical.
 "$PYTHON" "scripts/run_manifest.py" --dataset holdout
 "$PYTHON" "scripts/collect_conclusions.py" --dataset holdout
 "$PYTHON" "scripts/compare_planned_cost.py" --dataset holdout

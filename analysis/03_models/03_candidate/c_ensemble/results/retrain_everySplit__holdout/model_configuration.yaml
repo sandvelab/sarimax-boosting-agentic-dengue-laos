@@ -1,0 +1,9 @@
+additional_continuous_covariates:
+- rainfall
+- mean_temperature
+- mean_relative_humidity
+user_option_values:
+  members_file: analysis/03_models/03_candidate/c_ensemble/results/retrain_everySplit__holdout/members.json
+  members_sha256: 1038d92b0a6e4f9328d4fc5075737ddbeff657799c7120723e63767a8a8b6eb1
+  seed: 1648567750
+  weighting: equal

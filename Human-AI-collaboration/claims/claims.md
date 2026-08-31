@@ -23,7 +23,7 @@ perturbation set showed, and which choices the conclusion turned out to be sensi
 The conclusion this project reports is one member of a distribution over thirty-two analyses that all looked reasonable, fixed before any of them ran. The reported skill score against the reference model is +0.1485; across the set it runs from -0.0724 to +0.2320, with a median of +0.1469, and the reported analysis sits thirteenth of thirty-two.
 grounds: analysis/05_stability/results/distribution.json · analysis/05_stability/results/distribution_rows.csv
 node: analysis/05_stability
-scope: the development backtest, 1998-01 to 2009-12, eight splits; the holdout half of this set is frozen and not yet run
+scope: the development backtest, 1998-01 to 2009-12, eight splits; the holdout half of this set ran in batch 16 and is C15
 alternatives: reporting the main path alone with a robustness footnote, which would have hidden that twelve reasonable analyses conclude a better score and nineteen a worse one
 by: agent-autonomous
 
@@ -108,3 +108,69 @@ node: analysis/05_stability
 scope: the plan's non-negotiable 3 requires the freeze; what is in it is the agent's
 alternatives: freezing only tier 1 and running the pairs on the holdout if budget allowed, rejected because development has already shown the forks do not compose
 by: agent-on-human-assessment
+
+## C13
+The held-out year was opened once, and the set of analyses evaluated on it was fixed before it was opened. Thirty-two rows -- every row of the development set that has a conclusion -- ran on 2010 through the same scripts their development twins ran, none failed, and each row's development conclusion was frozen into the manifest beside it so the pairing could not be assembled after the seal came off.
+grounds: analysis/05_stability/results/manifest_holdout.csv · analysis/05_stability/results/holdout_freeze.json · analysis/05_stability/results/run_status_holdout.csv · analysis/01_data/01_partition/results/phase_e_opening.json
+node: analysis/05_stability
+scope: the manifest was committed at 937fd5c and the first file under analysis/results/*__holdout/ appears at 895a9f8, which is the evidence that the set predates the opening
+alternatives: freezing which analyses run and assembling the development half of the comparison afterwards, which would have left the comparison selectable even though neither half was
+by: agent-autonomous
+
+## C14
+The reported model beats the reference model and both required baselines on the held-out year as well as on the development period, at a skill score of +0.0868 against +0.1485. The gap between the two is -0.0617, and it is a gap in a ratio rather than in a raw score: 2010 was a much harder year, and the reference model, which nobody here tuned, scores 84.026 mean CRPS on it against 22.098 on development.
+grounds: analysis/results/main__holdout/conclusion.json · analysis/results/main/conclusion.json · analysis/05_stability/results/holdout_vs_development.json
+node: analysis
+scope: four splits over 2010-01 to 2010-12, 192 cells in 16 provinces, against eight splits and 371 cells on development; the two raw CRPS figures are not comparable and the skill scores are
+alternatives: reporting the raw CRPS gap, which would have confounded a model that flattered itself on development with 2010 simply being harder
+by: agent-autonomous
+
+## C15
+The distribution of conclusions over the frozen set is more than twice as wide on the held-out year as on the development period: -0.5038 to +0.2026 against -0.0724 to +0.2320. Six of the thirty-two analyses fall below zero on 2010, where none did on development, and the reported analysis moves from thirteenth of thirty-two to eighteenth.
+grounds: analysis/05_stability/results/holdout_distribution.json · analysis/05_stability/results/distribution.json · analysis/05_stability/results/holdout_vs_development.json
+node: analysis/05_stability
+scope: the same thirty-two analyses on both datasets; each dataset's noise band is measured on that dataset, 0.0218 on development and 0.0140 on the holdout
+by: agent-autonomous
+
+## C16
+Twenty-eight of the thirty-two analyses scored worse on the year they had not seen, with a median drop of 0.056 in skill. The four that scored better were all analyses that had been below the reference model on development.
+grounds: analysis/05_stability/results/holdout_vs_development.csv · analysis/05_stability/results/holdout_vs_development.json · analysis/05_stability/results/fig_holdout_vs_development.csv
+node: analysis/05_stability
+scope: skill scores, so each is already relative to a reference model that faced the same year
+by: agent-autonomous
+
+## C17
+Ranking these analyses on the development set is a weak guide to how they rank on a year they have not seen. The Spearman rank correlation between the development and holdout skill scores across the thirty-two is +0.396. The ranking of the judgment calls transfers better, at +0.679, with fourteen of seventeen forks agreeing on whether they move the conclusion beyond their own dataset's noise band.
+grounds: analysis/05_stability/results/holdout_vs_development.json · analysis/05_stability/results/fork_sensitivity_both.csv
+node: analysis/05_stability
+scope: thirty-two analyses and seventeen forks; the three forks that disagree are the pool's weighting and the persistence construction, which matter on development only, and the hierarchical model's covariate set, which matters on 2010 only
+by: agent-autonomous
+
+## C18
+The analysis the development set ranked highest among those that change the data or the models is twenty-ninth of thirty-two on the held-out year, and the fork behind it moved the reference model rather than ours. Removing the two provinces that contribute no evaluable cell before the platform sees them takes the reported skill from +0.1485 to +0.1861 on development and to -0.1828 on 2010; across that change our pool moves from 76.73 to 76.56 mean CRPS, inside the noise, while the reference model moves from 84.03 to 64.72.
+grounds: analysis/results/provinces_reportingOnly__holdout/conclusion.json · analysis/results/provinces_reportingOnly/conclusion.json · analysis/results/main__holdout/conclusion.json · analysis/05_stability/results/holdout_vs_development.csv
+node: analysis/02_setup/03_provinces
+scope: the same sixteen provinces and 192 cells are scored either way; what the fork changes is what every model is fitted on, not what the metric averages over. The row ranks fourth of thirty-two on development and twenty-ninth on the holdout; the three development rows above it all re-weight the headline mean, and its own case-weighted pair is the worst of all thirty-two on 2010
+alternatives: reading the row as evidence that our model is sensitive to the province filter, which the per-model CRPS shows it is not
+by: agent-autonomous
+
+## C19
+The province filter is the largest single judgment call in the project on the held-out year, at 0.2696 of skill, having been fourth at 0.0376 on development. Over the same change the model family halves, from 0.2209 to 0.0949, and the pool's own weighting fork collapses from 0.1820 to 0.0121 and falls below the noise band.
+grounds: analysis/05_stability/results/fork_sensitivity_both.csv · analysis/05_stability/results/holdout_sensitivity_by_fork.csv · analysis/05_stability/results/fig_fork_sensitivity_both.csv
+node: analysis/05_stability
+scope: each dataset's band measured on that dataset; five forks clear the holdout's band against six on development
+by: agent-autonomous
+
+## C20
+The reported model's over-dispersion on development does not survive the change of year. Its 10-90 interval coverage is 0.863 against a nominal 0.80 on the development backtest, the widest in the project, and 0.755 on the held-out year; across the frozen set coverage runs 0.458 to 0.920 on development and 0.210 to 0.854 on 2010.
+grounds: analysis/05_stability/results/holdout_distribution.json · analysis/05_stability/results/distribution.json · analysis/results/main__holdout/conclusion.json
+node: analysis/05_stability
+scope: 10-90 nominal 0.80; calibration is reported beside the score because a badly calibrated CRPS winner has not won
+by: agent-autonomous
+
+## C21
+The forks do not compose on the held-out year either. Across the eight frozen pairs the largest interaction is -0.2876, on the same row that carries the largest single move, and it is larger than either main effect behind it.
+grounds: analysis/05_stability/results/holdout_distribution.json · analysis/05_stability/results/holdout_conclusions.csv
+node: analysis/05_stability
+scope: eight pairs selected by a rule fixed and hashed before tier 1 ran; the development set's largest interaction was -0.1033
+by: agent-autonomous

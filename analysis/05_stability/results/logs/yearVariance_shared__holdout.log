@@ -1,0 +1,42 @@
+# yearVariance_shared__holdout [candidate] base=main__holdout
+
+$ yearVariance/a_shared: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/06_yearVariance/a_shared/run.sh
+yearVariance/a_shared[yearVariance_shared__holdout]: one pooled variance; across 17 provinces the log annual spread runs 0.49 to 2.76 -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/06_yearVariance/a_shared/results/yearVariance_shared__holdout
+
+$ family/c_ensemble: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/run.sh
+weighting/a_equal[yearVariance_shared__holdout]: equal weights, nothing estimated; 6 members at 0.167 each, 4 of them required baselines -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/yearVariance_shared__holdout
+  a_hierNB: assembling its configuration under 'yearVariance_shared__holdout'
+    01_observation: ['c_hurdle'] already chosen under 'main__holdout'
+    02_covariates: ['c_climateFree'] already chosen under 'main__holdout'
+    03_population: ['a_offset'] already chosen under 'main__holdout'
+    04_fitTime: ['a_trainOnly'] already chosen under 'main__holdout'
+    05_autoregressive: ['a_none'] already chosen under 'main__holdout'
+    06_yearVariance: ['a_shared'] already chosen under 'yearVariance_shared__holdout'
+    candidate[yearVariance_shared__holdout]: {'observation': 'c_hurdle', 'covariates': 'c_climateFree', 'population': 'a_offset', 'fit_time': 'a_trainOnly', 'autoregressive': 'a_none', 'year_variance': 'a_shared'}, covariates [], seed 849487747; taken here: ['year_variance=a_shared'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/results/yearVariance_shared__holdout
+  b_boosted: assembling its configuration under 'yearVariance_shared__holdout'
+    01_features: ['a_lagBlock'] already chosen under 'main__holdout'
+    02_head: ['a_negBinomial'] already chosen under 'main__holdout'
+    boosted[yearVariance_shared__holdout]: {'features': 'a_lagBlock', 'head': 'a_negBinomial'}, covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'], seed 1877199108; taken here: [] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/results/yearVariance_shared__holdout
+ensemble members[yearVariance_shared__holdout]: 4 — persistence, climatology, hier_nb, boosted; covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/yearVariance_shared__holdout/members.json; not on this combination's path: ['analysis/03_models/01_baselines/01_persistence/b_negBinomialFloor/scripts/persistence_model', 'analysis/03_models/01_baselines/02_climatology/b_frozenWindow/scripts/climatology_model']
+ensemble[yearVariance_shared__holdout]: {'weighting': 'a_equal'}, 4 members, covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'], seed 1648567750; taken here: ['weighting=a_equal'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/yearVariance_shared__holdout
+ensemble[yearVariance_shared__holdout]: 48 s (12.1 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/yearVariance_shared__holdout
+pool check[yearVariance_shared__holdout]: 76.457 as run; reconstruction not done, no stored evaluation of ['hier_nb'] under the configuration the pool gave them -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/yearVariance_shared__holdout/pool_check.json
+
+$ collect: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/run.sh
+collect[yearVariance_shared__holdout]: 8 model rows, 1536 cells, 16 locations -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/results/yearVariance_shared__holdout; inherited from main__holdout: ['climatology', 'persistence', 'reference', 'reference_r1', 'reference_r2', 'reference_r3', 'reference_r4']
+
+$ aggregate/a_unweighted: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/02_aggregate/a_unweighted/run.sh
+aggregate/a_unweighted[yearVariance_shared__holdout]: 8 models over 192 cells, unweighted; best ensemble at CRPS 76.457
+
+$ compare: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/run.sh
+compare[yearVariance_shared__holdout]: 8 leaderboard rows; reference CRPS 84.026 over 192 cells, unweighted
+  ensemble       diff   -7.569  se(split-clustered) 7.935  skill +0.090  wins 42% of cells
+  climatology    diff   -2.528  se(split-clustered) 7.866  skill +0.030  wins 48% of cells
+  persistence    diff  +44.026  se(split-clustered) 50.522  skill -0.524  wins 44% of cells
+  noise floor (reference vs its own repeats): largest |mean diff| 1.296
+fig_accuracy_and_spread.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/yearVariance_shared__holdout
+fig_crps_by_location.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/yearVariance_shared__holdout
+fig_paired_vs_reference.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/yearVariance_shared__holdout
+
+$ conclude: /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/scripts/conclude.py
+conclusion[yearVariance_shared__holdout] on holdout: ensemble CRPS 76.457 vs reference 84.026 -> skill +0.0901

@@ -1,0 +1,21 @@
+{
+ "additional_continuous_covariates": [],
+ "choice": "b_zeroInflated",
+ "combo": "observation_zeroInflated__holdout",
+ "description": "negative binomial mixed with a point mass at zero; the mixing weight is fitted",
+ "input_from_combo": "main__holdout",
+ "node": "analysis/03_models/03_candidate/a_hierNB/01_observation/b_zeroInflated",
+ "order": 1,
+ "premise": {
+  "observed_cells": 2575,
+  "province_years": 215,
+  "province_years_with_nothing_reported": 41,
+  "zero_share": 0.5359223300970873,
+  "zeros_in_a_year_that_did_report": 889,
+  "zeros_in_a_year_with_nothing_reported": 491
+ },
+ "stage": "observation",
+ "user_option_values": {
+  "observation": "zero_inflated"
+ }
+}

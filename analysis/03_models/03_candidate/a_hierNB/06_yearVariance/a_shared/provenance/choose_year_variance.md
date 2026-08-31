@@ -47,3 +47,35 @@ alternatives-considered: `b_provinceScaled`, which is now the main path. A per-p
     recorded as not built rather than left absent.
 
 agency: agent-autonomous
+
+---
+
+## The phase-E half (batch 16)
+
+```
+result:              results/$COMBO/model_option_spec.json
+                     for every `<combination>__holdout` the frozen phase-E manifest names
+                     that reaches this node -- here `yearVariance_shared__holdout`
+script:              unchanged; the same script, the same sha256, the same invocation
+inputs:              unchanged, except that the setup chain reaches this node from
+                     `01_data/01_partition/results/phase_e_1998-01_2010-12.csv` and under
+                     the phase-E backtest scheme (3 periods, 4 splits, stride 3). Which of
+                     the two a combination faces is decided by
+                     `analysis/scripts/lib/combos.py` from the `__holdout` suffix.
+environment:         unchanged
+seeds:               unchanged. A component seed is derived from the project seed and the
+                     component's name, and no part of that derivation is the dataset.
+commit:              609e1be
+instructions-commit: cf97b81
+produced:            2026-08-31
+alternatives-considered: none new. The holdout row runs the same alternative at the same
+                     fork; what differs is the year it is scored on, which is the whole
+                     design of phase E.
+agency:              agent-autonomous for running it; human-set for the constraint that the
+                     set was frozen before the year was opened (plan §3).
+```
+
+The artefact is named by its combination-invariant path above, which is the form
+`check_invariants` reads as covering every combination the manifests name. Nothing about
+what this step does changed; the record is extended because the set of combinations it runs
+under grew.

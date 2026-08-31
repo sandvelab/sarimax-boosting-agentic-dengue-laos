@@ -1,0 +1,9 @@
+additional_continuous_covariates:
+- rainfall
+- mean_temperature
+- mean_relative_humidity
+user_option_values:
+  members_file: analysis/03_models/03_candidate/c_ensemble/results/features_richCalendar__holdout/members.json
+  members_sha256: 00afedfbe4cb46523fed4197ea7450b3c309a0df031c3092fca5d33d9fdd924f
+  seed: 1648567750
+  weighting: equal

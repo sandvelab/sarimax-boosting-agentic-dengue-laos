@@ -1,0 +1,13 @@
+{
+ "combo": "trainingWindow_from2004__holdout",
+ "eval_flags": {
+  "n_periods": 3,
+  "n_retrain": 1,
+  "n_splits": 4,
+  "stride": 3
+ },
+ "model": "persistence",
+ "route": "MLproject with uv_env, native",
+ "seconds_per_split": 3.6,
+ "wall_clock_seconds": 14.4
+}

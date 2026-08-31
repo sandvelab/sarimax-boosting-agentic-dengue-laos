@@ -275,3 +275,80 @@ reference evaluations these eight rows asked for, `attempts_per_repeat` is 1 thr
 
 agency: agent-autonomous.
 information: agent-retrieved.
+
+---
+
+## The phase-E half (batch 16)
+
+```
+result:              results/run_status_holdout.csv
+                     results/logs/aggregate_caseWeighted__holdout.log
+                     results/logs/aggregate_populationWeighted__holdout.log
+                     results/logs/autoregressive_lag3__holdout.log
+                     results/logs/climatology_frozenWindow__holdout.log
+                     results/logs/covariates_lagged__holdout.log
+                     results/logs/covariates_rich__holdout.log
+                     results/logs/family_boosted__holdout.log
+                     results/logs/family_hierNB__aggregate_caseWeighted__holdout.log
+                     results/logs/family_hierNB__holdout.log
+                     results/logs/features_richCalendar__holdout.log
+                     results/logs/fitTime_refitAtPredict__holdout.log
+                     results/logs/head_quantileEnsemble__holdout.log
+                     results/logs/main__holdout.log
+                     results/logs/observation_negBinomial__holdout.log
+                     results/logs/observation_zeroInflated__holdout.log
+                     results/logs/persistence_negBinomialFloor__holdout.log
+                     results/logs/popColumn_backCast__holdout.log
+                     results/logs/population_covariate__holdout.log
+                     results/logs/population_ignored__holdout.log
+                     results/logs/provinces_mergeVientiane__aggregate_caseWeighted__holdout.log
+                     results/logs/provinces_mergeVientiane__family_hierNB__holdout.log
+                     results/logs/provinces_mergeVientiane__holdout.log
+                     results/logs/provinces_mergeVientiane__weighting_crpsWeighted__holdout.log
+                     results/logs/provinces_reportingOnly__aggregate_caseWeighted__holdout.log
+                     results/logs/provinces_reportingOnly__family_hierNB__holdout.log
+                     results/logs/provinces_reportingOnly__holdout.log
+                     results/logs/provinces_reportingOnly__weighting_crpsWeighted__holdout.log
+                     results/logs/retrain_everySplit__holdout.log
+                     results/logs/trainingWindow_from2004__holdout.log
+                     results/logs/weighting_crpsWeighted__aggregate_caseWeighted__holdout.log
+                     results/logs/weighting_crpsWeighted__holdout.log
+                     results/logs/yearVariance_shared__holdout.log
+script:              scripts/run_manifest.py
+                     sha256:48bd1c5b04e0abb468e914e1b197df9feef96de3b136f422b5b04b72ed6a68ca
+invocation:          "$PYTHON" scripts/run_manifest.py --dataset holdout
+                     (from 05_stability/, via run.sh)
+inputs:              analysis/05_stability/results/manifest_holdout.csv
+                     analysis/05_stability/results/run_status_holdout.csv (its own record
+                     of what has already run, read to refuse re-running it)
+                     the tree's own run.sh files and node scripts, unchanged
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               component seeds reach the models through their own configuration; the
+                     driver adds none. The reference model is unseeded and is re-scored four
+                     times on the holdout as on development, which is why the conclusion
+                     divides by their per-cell mean.
+commit:              609e1be (the run), 895a9f8 (the code and the main row)
+instructions-commit: cf97b81
+node:                analysis/05_stability
+produced:            2026-08-31
+alternatives-considered: run the holdout set with a second driver written for it. Rejected
+                     for the reason this script exists: a holdout row that ran different
+                     code would not measure what phase E is for. Every command is the one
+                     its development twin issued, and the dataset reaches the steps through
+                     the combination name.
+agency:              agent-autonomous for the mechanism; human-set for the constraint it
+                     works under (plan §3).
+```
+
+**What it establishes.** The 32 rows of the frozen set that have a development twin ran on
+the held-out year, none failed, and the whole set took **2.39 h** against the 2.07 h it was
+frozen at. The thirty-third row, `family_ensemble__holdout`, is not run: it is the main path
+under a second name and development did not run it either, so there is nothing for it to be
+reported beside. The absence is in `run_status_holdout.csv` with that reason.
+
+**A holdout row that has run is not run again.** Plan §3, enforced rather than remembered:
+the driver reads its own status file and skips every row recorded as `ran`. This was found
+by running the manifest without it, which began re-running `main__holdout` — and since the
+reference is unseeded, a second pass would have replaced the denominator of every number
+already reported with a different draw. It was stopped at the persistence baseline and those
+files restored; the reference was never reached.

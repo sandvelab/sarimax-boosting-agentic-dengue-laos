@@ -1,0 +1,10 @@
+additional_continuous_covariates: []
+user_option_values:
+  autoregressive: none
+  covariate_lags: []
+  covariates: []
+  fit_time: train
+  observation: hurdle
+  population: ignored
+  seed: 849487747
+  year_variance: province_scaled

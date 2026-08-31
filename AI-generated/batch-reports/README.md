@@ -122,3 +122,20 @@ re-running a batch produces a different report rather than the same one.
   claims are written. Two smaller findings kept: `plan_manifest.py` documents a
   `--freeze-check` flag that does not exist and could not work as described, and the
   completed development manifest took 3.66 hours rather than the 3.2 batch 14 reported.
+- `26-08-31_b16_holdout.md` — batch 16, phase E: the held-out year opened once, and the
+  thirty-two analyses frozen before it was opened run against it. The reported pool scores
+  **76.731** against the reference model's **84.026** — skill **+0.0868** where development
+  read **+0.1485** — and still beats the reference and both required baselines. The finding
+  is the distribution around it: **−0.5038 to +0.2026**, more than twice as wide as
+  development's, with **28 of 32 analyses worse** on the year they had not seen and a rank
+  correlation of only **+0.396** between the two orderings. The fork ranking transfers better
+  (+0.679, 14 of 17 agreeing) but reorders at the top: the **province filter goes from 0.0376
+  to 0.2696**, the largest fork effect in the project, and the analysis behind it — ranked
+  fourth on development and highest of every analysis that does not re-weight the headline
+  mean — is twenty-ninth on 2010, because the fork moves the **reference model** from 84.03
+  to 64.72 while our pool moves 0.17. The holdout is reached by one switch keyed on the
+  `__holdout` suffix, in `analysis/scripts/lib/combos.py` and nowhere else; the seal is opened
+  by a script at `01_data/01_partition` that reassembles the archive from the two parts beside
+  it and verifies it byte for byte. Three things kept: the driver began re-running the main
+  holdout row before a guard was added, the freeze script was overwriting the commit that
+  evidences its own freeze, and a figure title had been carrying a number nothing computed.

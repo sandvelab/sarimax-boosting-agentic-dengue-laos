@@ -1,0 +1,22 @@
+{
+ "additional_continuous_covariates": [],
+ "choice": "b_refitAtPredict",
+ "combo": "fitTime_refitAtPredict__holdout",
+ "description": "refit inside every predict call on the expanded history",
+ "input_from_combo": "main__holdout",
+ "node": "analysis/03_models/03_candidate/a_hierNB/04_fitTime/b_refitAtPredict",
+ "order": 4,
+ "premise": {
+  "fits_per_backtest": 4,
+  "matches_what_the_reference_model_does": true,
+  "months_of_history_the_train_time_fit_never_sees_at_the_last_split": 9,
+  "n_periods": 3,
+  "n_retrain": 1,
+  "n_splits": 4,
+  "stride": 3
+ },
+ "stage": "fit_time",
+ "user_option_values": {
+  "fit_time": "predict"
+ }
+}

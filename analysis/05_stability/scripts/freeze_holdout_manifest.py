@@ -98,6 +98,28 @@ def commit() -> str:
                           capture_output=True, text=True).stdout.strip()
 
 
+def frozen_at() -> str:
+    """The commit that first added the holdout manifest -- not HEAD.
+
+    This field is the evidence that the phase-E set predates the year being opened, and
+    writing HEAD into it meant that every later run overwrote that evidence with the
+    current commit. Batch 16 ran the script once after the holdout and watched f3904c5
+    become its own commit; the manifest itself came back byte-identical, so what was lost
+    was only the date stamp, and only because the script was recomputing something git
+    already records.
+
+    So it is read from git: the commit that *adds* `manifest_holdout.csv`. On the very
+    first run the file is not committed yet and there is no such commit, and HEAD is the
+    honest answer then -- it is the commit the freeze was computed at, and the commit that
+    adds the file is the next one, which is what the note beside this field says.
+    """
+    found = subprocess.run(
+        ["git", "log", "--diff-filter=A", "--format=%h", "--",
+         str((NODE / "results" / "manifest_holdout.csv").relative_to(ROOT))],
+        cwd=ROOT, capture_output=True, text=True).stdout.split()
+    return found[-1] if found else commit()
+
+
 def refuse_if_development_is_unfinished(manifest: list[dict],
                                         conclusions: list[dict]) -> None:
     by_combination = {r["combination"]: r for r in conclusions}
@@ -173,11 +195,15 @@ def main() -> None:
             "The set of analyses phase E runs on the held-out year, fixed before the "
             "year is opened (plan §3). Phase E runs exactly this and nothing else."),
         "frozen_on": date.today().isoformat(),
-        "frozen_at_commit": commit(),
-        "commit_note": ("The commit above is HEAD when this file was written. The "
-                        "evidence that the set predates the holdout is the commit that "
-                        "*adds* this file, which is the next one, and the fact that no "
-                        "file under `analysis/results/*__holdout/` exists at it."),
+        "frozen_at_commit": frozen_at(),
+        "commit_note": ("The commit above is the one that added "
+                        "`results/manifest_holdout.csv` to the repository, read from git "
+                        "rather than recomputed -- so a later run of this script cannot "
+                        "overwrite it. No file under `analysis/results/*__holdout/` "
+                        "exists at that commit, which is what makes the set one that was "
+                        "fixed before the year was opened. Before the manifest is "
+                        "committed at all there is no such commit and this is HEAD, "
+                        "which is then the commit the freeze was computed at."),
         "rows": len(out),
         "rows_by_tier": {tier: sum(1 for r in out if r["tier"] == tier)
                          for tier in sorted({r["tier"] for r in out})},

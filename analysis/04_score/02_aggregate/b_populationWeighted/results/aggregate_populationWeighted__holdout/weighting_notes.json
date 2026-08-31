@@ -1,0 +1,35 @@
+{
+ "cells_with_zero_weight": 0,
+ "combo": "aggregate_populationWeighted__holdout",
+ "effective_sample_size_kish": 108.36140240430322,
+ "groups_with_no_weight": {
+  "crps_by_horizon": 0,
+  "crps_by_location": 0,
+  "crps_by_region_split": 0,
+  "crps_by_split": 0
+ },
+ "n_cells": 192,
+ "share_of_weight_by_location": {
+  "LA-AT": 0.022032902403252383,
+  "LA-BK": 0.01949680251385994,
+  "LA-BL": 0.06671721466353962,
+  "LA-CH": 0.1287342113361011,
+  "LA-HO": 0.02136789722599407,
+  "LA-KH": 0.07142072258778255,
+  "LA-LM": 0.025960644063655385,
+  "LA-LP": 0.05073691215198264,
+  "LA-OU": 0.042787556068687664,
+  "LA-PH": 0.008834567460410588,
+  "LA-SL": 0.06349834395725894,
+  "LA-SV": 0.1578920125464895,
+  "LA-VT": 0.21059827875078163,
+  "LA-XA": 0.05827941315486396,
+  "LA-XE": 0.018993662053229804,
+  "LA-XI": 0.03264885906211021
+ },
+ "share_of_weight_in_largest_cell": 0.017549856562565136,
+ "share_of_weight_in_top_decile_of_cells": 0.3027019527362338,
+ "weight_basis": "population per province-month, from analysis/02_setup/results/main__holdout/analysis_dataset.csv (combination 'main__holdout')",
+ "weight_total": 54712356.0,
+ "weighting": "population"
+}

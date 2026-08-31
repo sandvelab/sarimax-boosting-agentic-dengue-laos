@@ -53,3 +53,36 @@ data file and in `sensitivity_by_fork.csv`.
 
 agency: agent-autonomous.
 information: agent-retrieved — plotted from the three files named above.
+
+---
+
+## The phase-E half (batch 16)
+
+```
+result:              results/holdout_fig_fork_sensitivity.png
+                     results/holdout_fig_fork_sensitivity.csv
+                     results/holdout_fig_fork_sensitivity_preaggregation.csv
+script:              scripts/fig_fork_sensitivity.py
+                     sha256:cfd1a61597187a74fb9a665bc0cd39c2845b2ada94985850f1dcec0ce002cd0c
+invocation:          "$PYTHON" scripts/fig_fork_sensitivity.py --dataset holdout
+inputs:              analysis/05_stability/results/holdout_sensitivity_by_fork.csv
+                     analysis/05_stability/results/holdout_distribution_rows.csv
+                     analysis/05_stability/results/holdout_distribution.json
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none.
+commit:              609e1be
+instructions-commit: cf97b81
+node:                analysis/05_stability
+produced:            2026-08-31
+alternatives-considered: none for the method. The title's count is now computed from the
+                     bars rather than written into the string, because the figure has to say
+                     the same thing on both datasets and a number nothing computes is the
+                     transcription AGENTS.md §1 is about. The development figure's title
+                     changed with it, from "Six of seventeen" to the same count read from
+                     the file.
+agency:              agent-autonomous.
+```
+
+**What it establishes.** Five of seventeen forks clear the holdout's own band, against six
+on development, and the ranking is reordered: the province filter is first at 0.2696 where
+it was fourth at 0.0376.

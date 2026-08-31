@@ -53,3 +53,30 @@ the forecast rows rather than the whole file (rejected — the premise was about
 the population is the file; the forecast rows are 371 of 2 592 and would make the strongest
 statement available the weakest one supportable).
 agency: agent-autonomous
+
+---
+
+## The phase-E half (batch 16)
+
+```
+result:              results/$COMBO/head_premise_check.json
+                     for every `<combination>__holdout` the frozen phase-E manifest names
+                     that runs this family — here `family_boosted__holdout`,
+                     `features_richCalendar__holdout` and `head_quantileEnsemble__holdout`
+script:              unchanged; the same script, the same sha256, the same invocation
+inputs:              unchanged, except that the family is fitted and scored on the phase-E
+                     dataset and backtest scheme. Which of the two a combination faces is
+                     decided by `analysis/scripts/lib/combos.py` from the `__holdout` suffix.
+environment:         unchanged
+seeds:               unchanged.
+commit:              609e1be
+instructions-commit: cf97b81
+produced:            2026-08-31
+alternatives-considered: none new. The premise the check tests is the one registered before
+                     candidate 2 ran, and testing it again on a second year is what the
+                     frozen set does to everything else as well.
+agency:              agent-autonomous.
+```
+
+The artefact is named by its combination-invariant path, which is the form
+`check_invariants` reads as covering every combination the manifests name.

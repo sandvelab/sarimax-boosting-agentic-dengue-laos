@@ -63,3 +63,23 @@ agency: agent-autonomous, inside a constraint that is human-set — the plan's �
 holdout manifest exists and is frozen before the holdout opens. What is in it is the
 agent's.
 information: agent-retrieved — every value read from the files named above.
+
+---
+
+## Correction (batch 16): `frozen_at_commit` is read from git, not recomputed
+
+The field recorded HEAD at the moment the file was written, so every later run of this
+script overwrote the evidence it exists to carry. Batch 16 ran the script once after the
+holdout and watched `f3904c5` become that run's own commit. It now reads the commit that
+*adds* `results/manifest_holdout.csv` — **937fd5c**, batch 15's — from `git log
+--diff-filter=A`, which cannot be overwritten by running the script again. Before the
+manifest is committed at all there is no such commit and the field is HEAD, which is then
+the commit the freeze was computed at, and the note beside it says so.
+
+The correction changes `holdout_freeze.json` and nothing else: `manifest_holdout.csv` comes
+back byte-identical after the whole holdout set has run, which is the property that makes
+editing this script safe at all. It was checked before the change and again after.
+
+`f3904c5` was one commit before `937fd5c` and both predate any file under
+`analysis/results/*__holdout/`, the first of which appears at `895a9f8`. So the earlier
+value was not misleading about the seal; it was simply a value that a re-run would destroy.

@@ -1,0 +1,58 @@
+{
+ "combo": "aggregate_populationWeighted__holdout",
+ "models": {
+  "climatology": {
+   "mean_crps_against": 171.39310596038317,
+   "mean_crps_model": 154.49341023510962,
+   "mean_diff": -16.899695725273542,
+   "n_splits": 4,
+   "se_cell_naive": 12.090056880785866,
+   "se_cluster_location": 14.670812779432175,
+   "se_cluster_split": 19.88024241420099,
+   "se_split_level": 22.955726618787914,
+   "skill_score": 0.09860195735749044,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.484375
+  },
+  "ensemble": {
+   "mean_crps_against": 171.39310596038317,
+   "mean_crps_model": 151.47820859407207,
+   "mean_diff": -19.914897366311084,
+   "n_splits": 4,
+   "se_cell_naive": 11.706373921463491,
+   "se_cluster_location": 13.918262749582771,
+   "se_cluster_split": 20.12874059320599,
+   "se_split_level": 23.24266759987125,
+   "skill_score": 0.11619427312854902,
+   "splits_model_better": 3,
+   "win_rate_cells": 0.4114583333333333
+  },
+  "persistence": {
+   "mean_crps_against": 171.39310596038317,
+   "mean_crps_model": 256.8665439683013,
+   "mean_diff": 85.4734380079182,
+   "n_splits": 4,
+   "se_cell_naive": 30.88399966240378,
+   "se_cluster_location": 26.31256197367514,
+   "se_cluster_split": 101.45290522735,
+   "se_split_level": 117.14772428616024,
+   "skill_score": -0.498698226681737,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.4375
+  }
+ },
+ "n_cells": 192,
+ "noise_floor_largest_repeat_pair_mean_diff": 3.1596876934328537,
+ "noise_floor_largest_repeat_pair_se_cluster_split": 2.519473916397988,
+ "reference": "reference",
+ "reference_repeats": [
+  "reference_r1",
+  "reference_r2",
+  "reference_r3",
+  "reference_r4"
+ ],
+ "resolvable_difference_note": "The largest mean paired difference between two repeats of the same unseeded reference model is the size of a difference this comparison cannot attribute to anything but the reference's own sampler.",
+ "unpaired_sd_across_splits_reference": 200.102506344961,
+ "unpaired_se_across_splits_reference": 100.0512531724805,
+ "weighting": "population"
+}

@@ -36,6 +36,25 @@ PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 "$PYTHON" "scripts/fig_pair_interaction.py"
 "$PYTHON" "scripts/freeze_holdout_manifest.py"
 
+# Phase E. The frozen set, on the held-out year, and then the two datasets side by side.
+# The driver is given the manifest it may not change: `run.sh` re-plans the development
+# manifest above on every run and re-freezes the holdout one, and batch 15 established
+# that both come back byte-identical, so the set this runs is the one fixed before the
+# year was opened rather than one this invocation decided.
+#
+# A row already recorded as run is not run again (plan §3). From a clean checkout there is
+# no such record and the whole set runs, which is what keeps `analysis/run.sh` a
+# reproduction of phase E rather than a description of it.
+"$PYTHON" "scripts/run_manifest.py" --dataset holdout
+"$PYTHON" "scripts/collect_conclusions.py" --dataset holdout
+"$PYTHON" "scripts/compare_planned_cost.py" --dataset holdout
+"$PYTHON" "scripts/report_distribution.py" --dataset holdout
+"$PYTHON" "scripts/pair_holdout_development.py"
+"$PYTHON" "scripts/holdout_fig_skill_distribution.py"
+"$PYTHON" "scripts/holdout_fig_fork_sensitivity.py"
+"$PYTHON" "scripts/fig_holdout_vs_development.py"
+"$PYTHON" "scripts/fig_fork_sensitivity_both.py"
+
 # The driver joined this list in batch 15, which is what makes `analysis/run.sh`
 # reproduce the stability result as well as the reported one. It was held out of it from
 # batch 12 to batch 14 because rows with no scripts and rows whose defects made them
@@ -45,3 +64,7 @@ PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 # The cost of that: `analysis/run.sh` is about four hours rather than about twenty
 # minutes, and most of it is the reference model's four unseeded repeats through an
 # amd64 image under emulation. `readme-at-start.md` says so.
+#
+# Batch 16 added the phase-E half above, on the same argument: the holdout distribution
+# is a reported result, and `run.sh` is what reproduces reported results. From cold it
+# is about six hours.

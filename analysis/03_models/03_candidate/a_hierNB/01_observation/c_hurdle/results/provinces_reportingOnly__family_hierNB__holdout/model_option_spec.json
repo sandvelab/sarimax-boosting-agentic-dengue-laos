@@ -1,0 +1,21 @@
+{
+ "additional_continuous_covariates": [],
+ "choice": "c_hurdle",
+ "combo": "provinces_reportingOnly__family_hierNB__holdout",
+ "description": "a logistic model for reporting at all and a count model for how much",
+ "input_from_combo": "provinces_reportingOnly__family_hierNB__holdout",
+ "node": "analysis/03_models/03_candidate/a_hierNB/01_observation/c_hurdle",
+ "order": 1,
+ "premise": {
+  "largest_month": 2643,
+  "mean_over_all_months": 40.28882613957241,
+  "mean_over_reporting_months": 84.0,
+  "median_over_reporting_months": 18.0,
+  "observed_cells": 2479,
+  "zero_share": 0.5203711173860428
+ },
+ "stage": "observation",
+ "user_option_values": {
+  "observation": "hurdle"
+ }
+}

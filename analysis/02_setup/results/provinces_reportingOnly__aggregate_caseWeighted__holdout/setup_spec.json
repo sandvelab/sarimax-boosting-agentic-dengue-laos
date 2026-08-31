@@ -1,0 +1,137 @@
+{
+ "choice_nodes": {
+  "population": "analysis/02_setup/01_population/a_static",
+  "provinces": "analysis/02_setup/03_provinces/b_reportingOnly",
+  "retrain": "analysis/02_setup/04_retrain/a_once",
+  "trainingWindow": "analysis/02_setup/02_trainingWindow/a_from1998"
+ },
+ "choices": {
+  "population": "a_static",
+  "provinces": "b_reportingOnly",
+  "retrain": "a_once",
+  "trainingWindow": "a_from1998"
+ },
+ "columns": [
+  "time_period",
+  "location",
+  "disease_cases",
+  "population",
+  "location_name",
+  "rainfall",
+  "mean_temperature",
+  "mean_relative_humidity"
+ ],
+ "combo": "provinces_reportingOnly__aggregate_caseWeighted__holdout",
+ "dataset": "analysis_dataset.csv",
+ "dataset_sha256": "ed7225a4a08a15e24de9651887f0832d86df7d029cd92430b5fcd98c2a4dbaa7",
+ "eval_flags": {
+  "n_periods": 3,
+  "n_retrain": 1,
+  "n_splits": 4,
+  "stride": 3
+ },
+ "eval_flags_source": {
+  "n_periods": "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json -> phase_e_scheme",
+  "n_retrain": "analysis/02_setup/04_retrain/a_once",
+  "n_splits": "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json -> phase_e_scheme",
+  "stride": "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json -> phase_e_scheme"
+ },
+ "evaluated_on": "holdout",
+ "identical_to_development_file": false,
+ "identical_to_source_dataset": false,
+ "locations": 16,
+ "period_first": "1998-01",
+ "period_last": "2010-12",
+ "rows": 2496,
+ "source_dataset": "analysis/01_data/01_partition/results/phase_e_1998-01_2010-12.csv",
+ "stages": [
+  {
+   "choice": "a_static",
+   "combo": "provinces_reportingOnly__aggregate_caseWeighted__holdout",
+   "dataset_transform": "identity",
+   "description": "the archived population column, one constant per province",
+   "eval_flags": {},
+   "input": "analysis/01_data/01_partition/results/phase_e_1998-01_2010-12.csv",
+   "input_sha256": "19488aa1fc4d961ae1a6aeb75b874789576877664fce47713628f497a06fff56",
+   "locations": 18,
+   "node": "analysis/02_setup/01_population/a_static",
+   "order": 1,
+   "output_sha256": "19488aa1fc4d961ae1a6aeb75b874789576877664fce47713628f497a06fff56",
+   "period_first": "1998-01",
+   "period_last": "2010-12",
+   "population_constant_per_province": true,
+   "population_max": 960194,
+   "population_min": 40280,
+   "provinces_with_varying_population": [],
+   "rows_in": 2808,
+   "rows_out": 2808,
+   "stage": "population"
+  },
+  {
+   "choice": "a_from1998",
+   "combo": "provinces_reportingOnly__aggregate_caseWeighted__holdout",
+   "dataset_transform": "identity",
+   "description": "the whole development period; no year discarded",
+   "eval_flags": {},
+   "first_period_kept": "(all)",
+   "input": "analysis/02_setup/01_population/a_static/results/provinces_reportingOnly__aggregate_caseWeighted__holdout/analysis_dataset.csv",
+   "input_sha256": "19488aa1fc4d961ae1a6aeb75b874789576877664fce47713628f497a06fff56",
+   "locations": 18,
+   "node": "analysis/02_setup/02_trainingWindow/a_from1998",
+   "order": 2,
+   "output_sha256": "19488aa1fc4d961ae1a6aeb75b874789576877664fce47713628f497a06fff56",
+   "period_first": "1998-01",
+   "period_last": "2010-12",
+   "rows_in": 2808,
+   "rows_out": 2808,
+   "stage": "trainingWindow"
+  },
+  {
+   "choice": "b_reportingOnly",
+   "combo": "provinces_reportingOnly__aggregate_caseWeighted__holdout",
+   "dataset_transform": "rows of the removed provinces dropped; every kept row unchanged",
+   "description": "provinces with no evaluable cell removed before the platform sees them",
+   "eval_flags": {},
+   "evaluated_span": [
+    "2010-01",
+    "2010-12"
+   ],
+   "expected_evaluable_cells": 192,
+   "expected_locations_contributing": 16,
+   "input": "analysis/02_setup/02_trainingWindow/a_from1998/results/provinces_reportingOnly__aggregate_caseWeighted__holdout/analysis_dataset.csv",
+   "input_sha256": "19488aa1fc4d961ae1a6aeb75b874789576877664fce47713628f497a06fff56",
+   "locations_in_file": 16,
+   "locations_never_reporting": [
+    "LA-VI"
+   ],
+   "locations_removed": [
+    "LA-VI",
+    "LA-XN"
+   ],
+   "node": "analysis/02_setup/03_provinces/b_reportingOnly",
+   "order": 3,
+   "output_sha256": "ed7225a4a08a15e24de9651887f0832d86df7d029cd92430b5fcd98c2a4dbaa7",
+   "removal_rule": "a province is removed when it carries no non-missing disease_cases inside the evaluated span read from the stored backtest scheme",
+   "rows_in": 2808,
+   "rows_out": 2496,
+   "stage": "provinces"
+  },
+  {
+   "choice": "a_once",
+   "combo": "provinces_reportingOnly__aggregate_caseWeighted__holdout",
+   "dataset_transform": "identity",
+   "description": "chap-core's default: one fit on the training period, expanding historic window at predict",
+   "eval_flags": {
+    "n_retrain": 1
+   },
+   "input": "analysis/02_setup/03_provinces/b_reportingOnly/results/provinces_reportingOnly__aggregate_caseWeighted__holdout/analysis_dataset.csv",
+   "input_sha256": "ed7225a4a08a15e24de9651887f0832d86df7d029cd92430b5fcd98c2a4dbaa7",
+   "node": "analysis/02_setup/04_retrain/a_once",
+   "order": 4,
+   "output_sha256": "ed7225a4a08a15e24de9651887f0832d86df7d029cd92430b5fcd98c2a4dbaa7",
+   "rows_in": 2496,
+   "rows_out": 2496,
+   "stage": "retrain"
+  }
+ ]
+}

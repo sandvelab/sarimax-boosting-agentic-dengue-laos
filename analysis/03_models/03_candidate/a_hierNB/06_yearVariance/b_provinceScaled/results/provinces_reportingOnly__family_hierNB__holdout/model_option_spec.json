@@ -1,0 +1,39 @@
+{
+ "additional_continuous_covariates": [],
+ "choice": "b_provinceScaled",
+ "combo": "provinces_reportingOnly__family_hierNB__holdout",
+ "description": "one province-year variance per province, from that province's own years",
+ "input_from_combo": "provinces_reportingOnly__family_hierNB__holdout",
+ "node": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/b_provinceScaled",
+ "order": 6,
+ "premise": {
+  "by_province": {
+   "LA-AT": 2.1921689957927866,
+   "LA-BK": 2.001733832577224,
+   "LA-BL": 0.9021266124593365,
+   "LA-CH": 1.3456942087633923,
+   "LA-HO": 0.8041854652908078,
+   "LA-KH": 2.757203978245709,
+   "LA-LM": 1.4314478151886785,
+   "LA-LP": 1.0007937818953136,
+   "LA-OU": 2.0156208506781996,
+   "LA-PH": 0.48886869080641593,
+   "LA-SL": 2.7361122578708033,
+   "LA-SV": 1.9003814431166821,
+   "LA-VT": 0.690544938438136,
+   "LA-XA": 1.599202184106113,
+   "LA-XE": 1.3722204292509577,
+   "LA-XI": 1.5944846639808798
+  },
+  "log_annual_spread_max": 2.757203978245709,
+  "log_annual_spread_median": 1.5129662395847792,
+  "log_annual_spread_min": 0.48886869080641593,
+  "log_annual_spread_ratio_max_to_min": 5.63996842116755,
+  "province_years": 207,
+  "provinces_compared": 16
+ },
+ "stage": "year_variance",
+ "user_option_values": {
+  "year_variance": "province_scaled"
+ }
+}

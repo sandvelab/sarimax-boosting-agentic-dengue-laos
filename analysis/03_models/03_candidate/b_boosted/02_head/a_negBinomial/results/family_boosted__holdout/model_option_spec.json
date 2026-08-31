@@ -1,0 +1,42 @@
+{
+ "additional_continuous_covariates": [],
+ "choice": "a_negBinomial",
+ "combo": "family_boosted__holdout",
+ "description": "one booster for the conditional mean under a Poisson deviance loss, and a negative binomial around it at a single dispersion estimated by maximum likelihood on the training fit",
+ "input_from_combo": "main__holdout",
+ "node": "analysis/03_models/03_candidate/b_boosted/02_head/a_negBinomial",
+ "order": 2,
+ "premise": {
+  "poisson_would_imply": 1.0,
+  "rows": 2808,
+  "target_observed": 2575,
+  "target_zero_share": 0.5359223300970873,
+  "variance_to_mean_by_province": {
+   "LA-AT": 65.24812030075188,
+   "LA-BK": 106.67597915812891,
+   "LA-BL": 98.87138206569989,
+   "LA-CH": 164.6461980650294,
+   "LA-HO": 3.031863067807769,
+   "LA-KH": 271.5038967741936,
+   "LA-LM": 20.09149560117302,
+   "LA-LP": 245.71427295834843,
+   "LA-OU": 155.8904356428648,
+   "LA-PH": 3.388732394366197,
+   "LA-SL": 308.0067385334262,
+   "LA-SV": 782.6482830385016,
+   "LA-VT": 453.7915760368664,
+   "LA-XA": 96.31578785258198,
+   "LA-XE": 43.23747680890539,
+   "LA-XI": 27.50414746543779,
+   "LA-XN": 22.80580762250454
+  },
+  "variance_to_mean_max": 782.6482830385016,
+  "variance_to_mean_median": 98.87138206569989,
+  "variance_to_mean_min": 3.031863067807769
+ },
+ "stage": "head",
+ "user_option_values": {
+  "head": "negative_binomial"
+ },
+ "what_the_premise_implies": "a single shared dispersion is being asked to cover the whole spread of variance-to-mean ratios recorded above; the wider that spread, the more of the calibration error this head cannot reach"
+}

@@ -75,3 +75,37 @@ alternatives-considered: none at this node.
 
 agency: agent-autonomous.
 information: agent-retrieved — read from results/conclusions.csv.
+
+---
+
+## The phase-E half (batch 16)
+
+```
+result:              results/holdout_conclusions.csv
+                     results/holdout_conclusions_notes.json
+script:              scripts/collect_conclusions.py
+                     sha256:c3f6dd74899b7440f178a1f8f6cd461ac217cb42745658cf29002cf97a787f89
+invocation:          "$PYTHON" scripts/collect_conclusions.py --dataset holdout
+                     (from 05_stability/, via run.sh)
+inputs:              analysis/05_stability/results/manifest_holdout.csv
+                     analysis/05_stability/results/run_status_holdout.csv
+                     analysis/results/<combination>__holdout/conclusion.json
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none. Every column is copied, and the three that are not are
+                     subtractions on this table's own columns.
+commit:              609e1be
+instructions-commit: cf97b81
+node:                analysis/05_stability
+produced:            2026-08-31
+alternatives-considered: one table with a dataset column, holding both. Rejected because a
+                     summary over it would pool 2009 and 2010 rows, and phase E's whole
+                     shape is the two spreads read side by side. They are joined, row by
+                     row on the frozen pairing, by pair_holdout_development.py.
+agency:              agent-autonomous.
+```
+
+**What it establishes.** 32 of the frozen set's 33 rows have a conclusion on the held-out
+year; the one that does not is the held row, and its reason is carried from the driver
+rather than restated. Deltas are measured from `main__holdout`, found by its kind rather
+than by its name — naming the combination would have worked on development and silently
+found nothing here.

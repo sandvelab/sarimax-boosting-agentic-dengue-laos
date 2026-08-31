@@ -1,0 +1,30 @@
+# family_hierNB__holdout [family] base=main__holdout
+
+$ family/a_hierNB: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/run.sh
+observation/c_hurdle[family_hierNB__holdout]: hurdle; zeros 0.54, mean over all months 38.8 against 83.6 over reporting months -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/01_observation/c_hurdle/results/family_hierNB__holdout
+covariates/c_climateFree[family_hierNB__holdout]: no climate columns; ['rainfall', 'mean_temperature', 'mean_relative_humidity'] left out, 36 rows the main path drops are kept -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/02_covariates/c_climateFree/results/family_hierNB__holdout
+population/a_offset[family_hierNB__holdout]: log(population) offset; largest/smallest 23.8 -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/03_population/a_offset/results/family_hierNB__holdout
+fitTime/a_trainOnly[family_hierNB__holdout]: fit in train, n_retrain 1, 9 months of later history unused -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/04_fitTime/a_trainOnly/results/family_hierNB__holdout
+autoregressive/a_none[family_hierNB__holdout]: no lagged-count term; the correlation it leaves unused at lag 3 is 0.704 -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/05_autoregressive/a_none/results/family_hierNB__holdout
+yearVariance/b_provinceScaled[family_hierNB__holdout]: one variance per province; the widest province's annual spread is 5.6 times the narrowest -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/06_yearVariance/b_provinceScaled/results/family_hierNB__holdout
+candidate[family_hierNB__holdout]: {'observation': 'c_hurdle', 'covariates': 'c_climateFree', 'population': 'a_offset', 'fit_time': 'a_trainOnly', 'autoregressive': 'a_none', 'year_variance': 'b_provinceScaled'}, covariates [], seed 849487747; taken here: ['observation=c_hurdle', 'covariates=c_climateFree', 'population=a_offset', 'fit_time=a_trainOnly', 'autoregressive=a_none', 'year_variance=b_provinceScaled'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/results/family_hierNB__holdout
+hier_nb[family_hierNB__holdout]: 22 s (5.6 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/results/family_hierNB__holdout
+
+$ collect: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/run.sh
+collect[family_hierNB__holdout]: 8 model rows, 1536 cells, 16 locations -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/results/family_hierNB__holdout; inherited from main__holdout: ['climatology', 'persistence', 'reference', 'reference_r1', 'reference_r2', 'reference_r3', 'reference_r4']
+
+$ aggregate/a_unweighted: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/02_aggregate/a_unweighted/run.sh
+aggregate/a_unweighted[family_hierNB__holdout]: 8 models over 192 cells, unweighted; best climatology at CRPS 81.498
+
+$ compare: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/run.sh
+compare[family_hierNB__holdout]: 8 leaderboard rows; reference CRPS 84.026 over 192 cells, unweighted
+  climatology    diff   -2.528  se(split-clustered) 7.866  skill +0.030  wins 48% of cells
+  hier_nb        diff   +0.680  se(split-clustered) 8.074  skill -0.008  wins 46% of cells
+  persistence    diff  +44.026  se(split-clustered) 50.522  skill -0.524  wins 44% of cells
+  noise floor (reference vs its own repeats): largest |mean diff| 1.296
+fig_accuracy_and_spread.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/family_hierNB__holdout
+fig_crps_by_location.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/family_hierNB__holdout
+fig_paired_vs_reference.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/family_hierNB__holdout
+
+$ conclude: /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/scripts/conclude.py
+conclusion[family_hierNB__holdout] on holdout: hier_nb CRPS 84.707 vs reference 84.026 -> skill -0.0081

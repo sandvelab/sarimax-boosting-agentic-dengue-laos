@@ -1,0 +1,44 @@
+{
+ "combo": "retrain_everySplit__holdout",
+ "configuration": null,
+ "configuration_contents": null,
+ "configuration_sha256": null,
+ "dataset": "analysis/02_setup/results/retrain_everySplit__holdout/analysis_dataset.csv",
+ "dataset_sha256": "19488aa1fc4d961ae1a6aeb75b874789576877664fce47713628f497a06fff56",
+ "eval_flags": {
+  "n_periods": 3,
+  "n_retrain": 4,
+  "n_splits": 4,
+  "stride": 3
+ },
+ "evaluations": [
+  "eval.nc"
+ ],
+ "kind": "local-mlproject",
+ "model": "climatology",
+ "model_dir": "analysis/03_models/01_baselines/02_climatology/a_expandingWindow/scripts/climatology_model",
+ "model_files_sha256": {
+  "MLproject": "88629436ded4b7624f7883ebfe93d415eaa9755b9b2104e3b25d43134bc8e7b3",
+  "README.md": "6d9846191e654715a3d221710c5f672a53ba077ed7e316e7ea0a7c2c9ab8b58e",
+  "predict.py": "bcc27e087e107044352f015072d1cc1df872958d4d3da655c0d9632f9d576709",
+  "pyproject.toml": "ad4e90168d860af875a403c34ea4c0da26a1dcbe99d2ee7db14b4fb551a374a6",
+  "train.py": "aefaaea693b57dfbbc913275eeac53b9e98d0d87f8a2effaa0e8e0df8557e75a",
+  "uv.lock": "9867dae7038607dad50ea7ea0eac209ae6bc6828041700c0d0afddd94ac009d4"
+ },
+ "n_samples": 1000,
+ "node": "analysis/03_models/01_baselines/02_climatology/a_expandingWindow",
+ "origin": "ours",
+ "randomness": "none. The draws are the empirical quantile function evaluated at the fixed levels (i + 0.5)/N, not sampled from it, so the model contains no randomness and Rule 6 is satisfied by there being nothing to seed.",
+ "repeats": 1,
+ "route": "MLproject with uv_env, native",
+ "seed": null,
+ "seeded": false,
+ "setup_choices": {
+  "population": "a_static",
+  "provinces": "a_chapFilter",
+  "retrain": "b_everySplit",
+  "trainingWindow": "a_from1998"
+ },
+ "setup_from_combo": "retrain_everySplit__holdout",
+ "shipped_lockfile_is_the_one_built_from": true
+}

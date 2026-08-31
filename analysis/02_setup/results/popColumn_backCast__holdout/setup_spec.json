@@ -1,0 +1,145 @@
+{
+ "choice_nodes": {
+  "population": "analysis/02_setup/01_population/b_backCast",
+  "provinces": "analysis/02_setup/03_provinces/a_chapFilter",
+  "retrain": "analysis/02_setup/04_retrain/a_once",
+  "trainingWindow": "analysis/02_setup/02_trainingWindow/a_from1998"
+ },
+ "choices": {
+  "population": "b_backCast",
+  "provinces": "a_chapFilter",
+  "retrain": "a_once",
+  "trainingWindow": "a_from1998"
+ },
+ "columns": [
+  "time_period",
+  "location",
+  "disease_cases",
+  "population",
+  "location_name",
+  "rainfall",
+  "mean_temperature",
+  "mean_relative_humidity"
+ ],
+ "combo": "popColumn_backCast__holdout",
+ "dataset": "analysis_dataset.csv",
+ "dataset_sha256": "3014d0a64a7221b0a34df70cfe74f5319ad9be5a53d1d3f507cd54b692fa14b4",
+ "eval_flags": {
+  "n_periods": 3,
+  "n_retrain": 1,
+  "n_splits": 4,
+  "stride": 3
+ },
+ "eval_flags_source": {
+  "n_periods": "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json -> phase_e_scheme",
+  "n_retrain": "analysis/02_setup/04_retrain/a_once",
+  "n_splits": "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json -> phase_e_scheme",
+  "stride": "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json -> phase_e_scheme"
+ },
+ "evaluated_on": "holdout",
+ "identical_to_development_file": false,
+ "identical_to_source_dataset": false,
+ "locations": 18,
+ "period_first": "1998-01",
+ "period_last": "2010-12",
+ "rows": 2808,
+ "source_dataset": "analysis/01_data/01_partition/results/phase_e_1998-01_2010-12.csv",
+ "stages": [
+  {
+   "anchor_year": 2020,
+   "anchor_year_source": "Archive/lao-dataset/chap_LAO_admin1_monthly_schema.json -> fields[population].source.snapshot_ref",
+   "choice": "b_backCast",
+   "combo": "popColumn_backCast__holdout",
+   "dataset_transform": "population column rewritten; every other field unchanged",
+   "description": "the archived snapshot scaled to each year by the national series",
+   "eval_flags": {},
+   "input": "analysis/01_data/01_partition/results/phase_e_1998-01_2010-12.csv",
+   "input_sha256": "19488aa1fc4d961ae1a6aeb75b874789576877664fce47713628f497a06fff56",
+   "locations": 18,
+   "national_at_anchor": 7346533,
+   "national_at_anchor_over_snapshot_total": 1.4808346012034486,
+   "node": "analysis/02_setup/01_population/b_backCast",
+   "order": 1,
+   "output_sha256": "3014d0a64a7221b0a34df70cfe74f5319ad9be5a53d1d3f507cd54b692fa14b4",
+   "period_first": "1998-01",
+   "period_last": "2010-12",
+   "population_max": 827881,
+   "population_min": 28775,
+   "provincial_growth_is_uniform_by_construction": true,
+   "rows_in": 2808,
+   "rows_out": 2808,
+   "scale_first_year": 0.7143867726450014,
+   "scale_last_year": 0.862201803217926,
+   "series_file": "Archive/lao-population/worldbank_SP.POP.TOTL_LAO_1990-2021.json",
+   "series_sha256": "b86c1fa0da08ce671c42ff0353f53432e5fb447b0f001333b77894046cbe85b1",
+   "series_vintage": "2026-07-13",
+   "snapshot_total_over_provinces": 4961076,
+   "stage": "population",
+   "year_whose_national_total_is_nearest_the_snapshot_total": 1995
+  },
+  {
+   "choice": "a_from1998",
+   "combo": "popColumn_backCast__holdout",
+   "dataset_transform": "identity",
+   "description": "the whole development period; no year discarded",
+   "eval_flags": {},
+   "first_period_kept": "(all)",
+   "input": "analysis/02_setup/01_population/b_backCast/results/popColumn_backCast__holdout/analysis_dataset.csv",
+   "input_sha256": "3014d0a64a7221b0a34df70cfe74f5319ad9be5a53d1d3f507cd54b692fa14b4",
+   "locations": 18,
+   "node": "analysis/02_setup/02_trainingWindow/a_from1998",
+   "order": 2,
+   "output_sha256": "3014d0a64a7221b0a34df70cfe74f5319ad9be5a53d1d3f507cd54b692fa14b4",
+   "period_first": "1998-01",
+   "period_last": "2010-12",
+   "rows_in": 2808,
+   "rows_out": 2808,
+   "stage": "trainingWindow"
+  },
+  {
+   "choice": "a_chapFilter",
+   "combo": "popColumn_backCast__holdout",
+   "dataset_transform": "identity",
+   "description": "every province passed to the platform; inclusion left to its region filter",
+   "eval_flags": {},
+   "evaluated_span": [
+    "2010-01",
+    "2010-12"
+   ],
+   "expected_evaluable_cells": 192,
+   "expected_locations_contributing": 16,
+   "input": "analysis/02_setup/02_trainingWindow/a_from1998/results/popColumn_backCast__holdout/analysis_dataset.csv",
+   "input_sha256": "3014d0a64a7221b0a34df70cfe74f5319ad9be5a53d1d3f507cd54b692fa14b4",
+   "locations_in_file": 18,
+   "locations_never_reporting": [
+    "LA-VI"
+   ],
+   "locations_with_no_observation_in_evaluated_span": [
+    "LA-XN"
+   ],
+   "node": "analysis/02_setup/03_provinces/a_chapFilter",
+   "order": 3,
+   "output_sha256": "3014d0a64a7221b0a34df70cfe74f5319ad9be5a53d1d3f507cd54b692fa14b4",
+   "rows_in": 2808,
+   "rows_out": 2808,
+   "stage": "provinces"
+  },
+  {
+   "choice": "a_once",
+   "combo": "popColumn_backCast__holdout",
+   "dataset_transform": "identity",
+   "description": "chap-core's default: one fit on the training period, expanding historic window at predict",
+   "eval_flags": {
+    "n_retrain": 1
+   },
+   "input": "analysis/02_setup/03_provinces/a_chapFilter/results/popColumn_backCast__holdout/analysis_dataset.csv",
+   "input_sha256": "3014d0a64a7221b0a34df70cfe74f5319ad9be5a53d1d3f507cd54b692fa14b4",
+   "node": "analysis/02_setup/04_retrain/a_once",
+   "order": 4,
+   "output_sha256": "3014d0a64a7221b0a34df70cfe74f5319ad9be5a53d1d3f507cd54b692fa14b4",
+   "rows_in": 2808,
+   "rows_out": 2808,
+   "stage": "retrain"
+  }
+ ]
+}

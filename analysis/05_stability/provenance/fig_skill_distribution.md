@@ -47,3 +47,33 @@ box plot asserts the set is a sample.
 
 agency: agent-autonomous.
 information: agent-retrieved — plotted from the two files named above.
+
+---
+
+## The phase-E half (batch 16)
+
+```
+result:              results/holdout_fig_skill_distribution.png
+                     results/holdout_fig_skill_distribution.csv
+script:              scripts/fig_skill_distribution.py
+                     sha256:6256e74d89ab60d7afd82f514ae366025bbdd2c6fc786d23dbf1983a64a2279d
+invocation:          "$PYTHON" scripts/fig_skill_distribution.py --dataset holdout
+inputs:              analysis/05_stability/results/holdout_distribution_rows.csv
+                     analysis/05_stability/results/holdout_distribution.json
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none.
+commit:              609e1be
+instructions-commit: cf97b81
+node:                analysis/05_stability
+produced:            2026-08-31
+alternatives-considered: draw both datasets on one axis. Rejected: the skill scores are
+                     comparable, but one cloud would read as a spread across analyses when
+                     half of it is a spread across years. The paired figure is where the two
+                     meet, one point per analysis.
+agency:              agent-autonomous.
+```
+
+**What it establishes.** The same figure on the held-out year: 32 analyses, the reported one
+eighteenth, six points below zero where development had none, and the band a third narrower.
+The title now names the dataset and counts the analyses from the file rather than stating a
+number.

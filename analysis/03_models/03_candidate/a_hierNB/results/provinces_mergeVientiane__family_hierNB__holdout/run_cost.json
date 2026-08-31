@@ -1,0 +1,13 @@
+{
+ "combo": "provinces_mergeVientiane__family_hierNB__holdout",
+ "eval_flags": {
+  "n_periods": 3,
+  "n_retrain": 1,
+  "n_splits": 4,
+  "stride": 3
+ },
+ "model": "hier_nb",
+ "route": "MLproject with uv_env, native",
+ "seconds_per_split": 5.5,
+ "wall_clock_seconds": 22.0
+}

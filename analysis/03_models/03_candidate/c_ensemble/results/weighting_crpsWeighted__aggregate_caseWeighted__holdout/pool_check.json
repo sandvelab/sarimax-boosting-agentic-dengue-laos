@@ -1,0 +1,124 @@
+{
+ "combo": "weighting_crpsWeighted__aggregate_caseWeighted__holdout",
+ "member_mean_crps_by_this_path": {
+  "boosted": 81.67928784895834,
+  "climatology": 81.49848834375,
+  "hier_nb": 84.70661672395833,
+  "persistence": 128.05232043750001
+ },
+ "node": "analysis/03_models/03_candidate/c_ensemble",
+ "premise": {
+  "best_member_mean_crps": 81.49848834375,
+  "child": "b_crpsWeighted",
+  "fitted_weights": {
+   "boosted": 0.4308683401879422,
+   "climatology": 0.0,
+   "hier_nb": 0.29670262287139887,
+   "persistence": 0.2724290369406589
+  },
+  "largest_member_coverage_10_90": 0.8541666666666666,
+  "mean_of_member_mean_crps": 93.98417833854167,
+  "member_coverage_10_90": {
+   "boosted": 0.8541666666666666,
+   "climatology": 0.4635416666666667,
+   "hier_nb": 0.515625,
+   "persistence": 0.4166666666666667
+  },
+  "members_below_weight_0.05": [
+   "climatology"
+  ],
+  "members_ranked_on_the_evaluated_period": [
+   "climatology",
+   "boosted",
+   "hier_nb",
+   "persistence"
+  ],
+  "nominal_coverage_10_90": 0.8,
+  "nominal_coverage_25_75": 0.5,
+  "pool_beats_its_best_member_by": 3.7526082447916735,
+  "pool_coverage_10_90": 0.796875,
+  "pool_coverage_25_75": 0.5833333333333334,
+  "pool_mean_crps": 77.74588009895832,
+  "registered_before_the_run": "the minimum-CRPS pool is a corner-seeking solution: it is predicted to put at least one member at a weight below 0.05, which the sibling cannot do at all. It is predicted to place more weight on the two candidate families than on the two required baselines. And because the weights are fitted on the last few blocks of the training frame while the score is taken on the blocks after it, the fitted weights are predicted to be a worse guide to the evaluated period than to the validation period -- so the pool is predicted to beat the equal pool by less than the difference between them on the validation period",
+  "smallest_weight": 0.0,
+  "validation_gain_over_equal_weights": 1.596264165622081,
+  "weight_on_the_candidate_families": 0.727570963059341,
+  "weight_on_the_required_baselines": 0.2724290369406589
+ },
+ "reconstruction": {
+  "allocation": {
+   "boosted": 431,
+   "climatology": 0,
+   "hier_nb": 297,
+   "persistence": 272
+  },
+  "cells_in_common": 192,
+  "difference": -0.13551118229165127,
+  "mean_crps_as_run": 77.74588009895832,
+  "mean_crps_rebuilt": 77.61036891666667,
+  "member_evaluations": {
+   "boosted": {
+    "cells": 204,
+    "combination": "family_boosted__holdout",
+    "configuration_sha256": "208c71c747d8a5924fb54bd60b9ff16ddb020b8874c7bb8df5394c6bbc1ba8ae",
+    "draws": 1000,
+    "evaluation": "analysis/03_models/03_candidate/b_boosted/results/family_boosted__holdout/eval.nc"
+   },
+   "climatology": {
+    "cells": 204,
+    "combination": "main__holdout",
+    "configuration_sha256": null,
+    "draws": 1000,
+    "evaluation": "analysis/03_models/01_baselines/02_climatology/a_expandingWindow/results/main__holdout/eval.nc"
+   },
+   "hier_nb": {
+    "cells": 204,
+    "combination": "family_hierNB__aggregate_caseWeighted__holdout",
+    "configuration_sha256": "28c7c617d5c26fa0f37f0c9601d690debc3ad9c05d63cb3e14512c16d385faf2",
+    "draws": 1000,
+    "evaluation": "analysis/03_models/03_candidate/a_hierNB/results/family_hierNB__aggregate_caseWeighted__holdout/eval.nc"
+   },
+   "persistence": {
+    "cells": 204,
+    "combination": "climatology_frozenWindow__holdout",
+    "configuration_sha256": null,
+    "draws": 1000,
+    "evaluation": "analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/climatology_frozenWindow__holdout/eval.nc"
+   }
+  },
+  "members_without_a_matching_stored_evaluation": [],
+  "not_done_because": null,
+  "what_it_is": "the pool rebuilt from the members' own stored evaluations, pooled at the same weights and scored with chap-core's own CRPS; independent of the ensemble's own forecast",
+  "why_they_cannot_be_identical": "the members' draws are the same draws -- same code, same frames, same seeds -- but the pool takes a seeded subsample of each member's thousand and this reconstruction takes a different one, so what is left is the sampling error of the allocation"
+ },
+ "share_of_cells_where_the_interval_is_a_point": {
+  "boosted": {
+   "10_90": 0.0,
+   "25_75": 0.0
+  },
+  "climatology": {
+   "10_90": 0.25,
+   "25_75": 0.359375
+  },
+  "hier_nb": {
+   "10_90": 0.17708333333333334,
+   "25_75": 0.3541666666666667
+  },
+  "persistence": {
+   "10_90": 0.25,
+   "25_75": 0.5416666666666666
+  },
+  "pool": {
+   "10_90": 0.0,
+   "25_75": 0.09895833333333333
+  },
+  "what_it_is": "the share of evaluated cells at which the model's own quantiles coincide, so that the interval is [0, 0] and every zero outcome falls inside it whatever the model believes. 56 % of this dataset's observed province-months are exactly zero, so the 25-75 coverage figure is bounded below by this and is not a clean reading of calibration; the 10-90 figure is the one to read"
+ },
+ "weighting": "min_crps",
+ "weights": {
+  "boosted": 0.4308683401879422,
+  "climatology": 0.0,
+  "hier_nb": 0.29670262287139887,
+  "persistence": 0.2724290369406589
+ }
+}

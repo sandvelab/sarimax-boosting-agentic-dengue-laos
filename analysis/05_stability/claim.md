@@ -174,4 +174,56 @@ order it ranks would have carried no information had anything been cut.
 is fixed with the set rather than assembled after the seal comes off.
 → `results/manifest_holdout.csv`, `results/holdout_freeze.json`
 
-Phase D is complete. Batch 16 opens the holdout, once, and runs exactly what is in that file.
+Phase D is complete.
+
+## Phase E — the same set, on the year it had never seen
+
+**The holdout was opened once and the frozen set ran on it.** Thirty-two of the thirty-three
+rows — every one with a development twin — ran, none failed, in **2.39 h** against the 2.07 h
+they were frozen at. The thirty-third is the main path under a second name and was not run on
+development either. → `results/run_status_holdout.csv`, `results/holdout_conclusions.csv`
+
+**The reported analysis scores +0.0868 on 2010 against +0.1485 on development**, a gap of
+**−0.0617**. It still beats the reference model and both required baselines. **2010 was a much
+harder year**: the reference, which nobody here tuned, scores 84.026 mean CRPS on it against
+22.098 on development — which is why the conclusion is a ratio and why raw CRPS is not
+compared across the two. → `results/holdout_vs_development.json`
+
+**The spread more than doubles.** −0.5038 to +0.2026 on the holdout, a range of 0.706,
+against −0.0724 to +0.2320 and 0.304 on development. Six analyses fall below zero where
+development had none. The reported analysis sits **eighteenth of thirty-two** where it sat
+thirteenth. → `results/holdout_distribution.json`
+
+**Twenty-eight of the thirty-two analyses did worse on the year they had not seen**, median
+gap −0.056. Four did better, and all four are analyses that were *below* the reference on
+development. → `results/holdout_vs_development.csv`
+
+**The ranking of the analyses barely transfers.** Spearman rank correlation between the two
+skill scores across the 32 is **+0.396**. A development set used to choose between these
+analyses would have been choosing on something only weakly related to what it was choosing
+for.
+
+**The ranking of the forks transfers better than the ranking of the analyses**: +0.679, and
+**14 of 17 forks agree** on whether they move the conclusion beyond their own dataset's noise
+band. But the order changes at the top. The **province filter goes from 0.0376 to 0.2696**,
+the largest fork effect anywhere in this project; the **model family halves**, to 0.0949; the
+**pool's own weighting collapses** from 0.1820 to 0.0121 and falls below the band. The
+hierarchical model's covariate set, worth 0.0081 on development, clears it here.
+→ `results/fork_sensitivity_both.csv`
+
+**The fork that moved most moved the reference, not our model.** Under
+`provinces_reportingOnly` — removing the two provinces that contribute no evaluable cell
+before the platform sees them — our pool scores 76.56 against 76.73 on the main path, a
+change inside the noise; the reference model goes from 84.03 to **64.72**. The row that was
+**fourth** of the thirty-two on development at +0.1861 — and the best of the analyses that
+do not re-weight the headline mean, the three above it all being weighting rows — and
+**twenty-ninth** on the holdout at −0.1828. Its case-weighted pair is the **worst of all
+thirty-two** at −0.5038. What development ranked highest among the analyses that change the
+data or the models is a denominator that happened to be large.
+
+**Calibration moved the other way from the score.** The reported model's 10–90 coverage was
+0.863 against a nominal 0.80 on development — the most over-dispersed model in the project —
+and is **0.755** on the holdout. Across the set it runs 0.210 to 0.854.
+
+**The forks still do not compose.** Eight pairs, largest interaction **−0.2876**, on the same
+row that carries the largest single move.

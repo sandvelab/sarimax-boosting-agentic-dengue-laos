@@ -1,0 +1,58 @@
+{
+ "combo": "provinces_mergeVientiane__weighting_crpsWeighted__holdout",
+ "models": {
+  "climatology": {
+   "mean_crps_against": 96.75282525781249,
+   "mean_crps_model": 81.49848834375,
+   "mean_diff": -15.2543369140625,
+   "n_splits": 4,
+   "se_cell_naive": 9.519148695654092,
+   "se_cluster_location": 11.893753484725694,
+   "se_cluster_split": 12.215357134961224,
+   "se_split_level": 14.105079460234554,
+   "skill_score": 0.15766296098759924,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.4947916666666667
+  },
+  "ensemble": {
+   "mean_crps_against": 96.75282525781249,
+   "mean_crps_model": 77.151802703125,
+   "mean_diff": -19.6010225546875,
+   "n_splits": 4,
+   "se_cell_naive": 9.243854857857992,
+   "se_cluster_location": 9.831539341142916,
+   "se_cluster_split": 14.494999749282899,
+   "se_split_level": 16.73738401430408,
+   "skill_score": 0.20258863245034564,
+   "splits_model_better": 3,
+   "win_rate_cells": 0.4583333333333333
+  },
+  "persistence": {
+   "mean_crps_against": 96.75282525781249,
+   "mean_crps_model": 128.05232043750001,
+   "mean_diff": 31.2994951796875,
+   "n_splits": 4,
+   "se_cell_naive": 16.919767370865248,
+   "se_cluster_location": 14.047140061605665,
+   "se_cluster_split": 54.68329699098103,
+   "se_split_level": 63.14283247583828,
+   "skill_score": -0.3234995473908415,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.4739583333333333
+  }
+ },
+ "n_cells": 192,
+ "noise_floor_largest_repeat_pair_mean_diff": 37.105538619791666,
+ "noise_floor_largest_repeat_pair_se_cluster_split": 30.799009778313078,
+ "reference": "reference",
+ "reference_repeats": [
+  "reference_r1",
+  "reference_r2",
+  "reference_r3",
+  "reference_r4"
+ ],
+ "resolvable_difference_note": "The largest mean paired difference between two repeats of the same unseeded reference model is the size of a difference this comparison cannot attribute to anything but the reference's own sampler.",
+ "unpaired_sd_across_splits_reference": 116.81576900404706,
+ "unpaired_se_across_splits_reference": 58.40788450202353,
+ "weighting": "unweighted"
+}

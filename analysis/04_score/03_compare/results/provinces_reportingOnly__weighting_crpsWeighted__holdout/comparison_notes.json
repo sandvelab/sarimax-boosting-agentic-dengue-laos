@@ -1,0 +1,58 @@
+{
+ "combo": "provinces_reportingOnly__weighting_crpsWeighted__holdout",
+ "models": {
+  "climatology": {
+   "mean_crps_against": 62.19627987890626,
+   "mean_crps_model": 81.49848834375,
+   "mean_diff": 19.302208464843744,
+   "n_splits": 4,
+   "se_cell_naive": 7.1339548223280005,
+   "se_cluster_location": 8.708767433554515,
+   "se_cluster_split": 17.825807010806276,
+   "se_split_level": 20.583468952422646,
+   "skill_score": -0.31034345627141025,
+   "splits_model_better": 1,
+   "win_rate_cells": 0.4270833333333333
+  },
+  "ensemble": {
+   "mean_crps_against": 62.19627987890626,
+   "mean_crps_model": 77.41277645312499,
+   "mean_diff": 15.216496574218747,
+   "n_splits": 4,
+   "se_cell_naive": 6.85361385405474,
+   "se_cluster_location": 7.742786540518657,
+   "se_cluster_split": 15.193391713540898,
+   "se_split_level": 17.54381759143253,
+   "skill_score": -0.2446528410355837,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.3229166666666667
+  },
+  "persistence": {
+   "mean_crps_against": 62.19627987890626,
+   "mean_crps_model": 128.05232043750001,
+   "mean_diff": 65.85604055859375,
+   "n_splits": 4,
+   "se_cell_naive": 15.228526963971943,
+   "se_cluster_location": 25.300886435868946,
+   "se_cluster_split": 43.497896130592665,
+   "se_split_level": 50.22704408036011,
+   "skill_score": -1.0588421154257603,
+   "splits_model_better": 1,
+   "win_rate_cells": 0.390625
+  }
+ },
+ "n_cells": 192,
+ "noise_floor_largest_repeat_pair_mean_diff": 3.3662603177083343,
+ "noise_floor_largest_repeat_pair_se_cluster_split": 2.9773369061164128,
+ "reference": "reference",
+ "reference_repeats": [
+  "reference_r1",
+  "reference_r2",
+  "reference_r3",
+  "reference_r4"
+ ],
+ "resolvable_difference_note": "The largest mean paired difference between two repeats of the same unseeded reference model is the size of a difference this comparison cannot attribute to anything but the reference's own sampler.",
+ "unpaired_sd_across_splits_reference": 59.93527084229178,
+ "unpaired_se_across_splits_reference": 29.96763542114589,
+ "weighting": "unweighted"
+}

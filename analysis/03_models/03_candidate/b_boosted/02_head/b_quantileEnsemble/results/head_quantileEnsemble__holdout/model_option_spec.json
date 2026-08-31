@@ -1,0 +1,68 @@
+{
+ "additional_continuous_covariates": [],
+ "choice": "b_quantileEnsemble",
+ "combo": "head_quantileEnsemble__holdout",
+ "description": "15 boosters, one per quantile of log1p(count), made monotone and inverted at a uniform draw",
+ "input_from_combo": "main__holdout",
+ "node": "analysis/03_models/03_candidate/b_boosted/02_head/b_quantileEnsemble",
+ "order": 2,
+ "predicted_before_the_run": "8 of the 15 ladder levels sit below the target's zero share of 0.536. A pinball loss at those levels starts at the marginal quantile \u2014 zero \u2014 and finds a residual of exactly zero at 54% of rows, where its gradient is at the kink and says nothing about direction. Those levels are predicted to stay flat at zero for every province, so the lower 50 % of every forecast distribution collapses onto zero \u2014 including for 1 province(s) that never report one.",
+ "premise": {
+  "levels_below_the_zero_share": [
+   0.01,
+   0.05,
+   0.1,
+   0.2,
+   0.25,
+   0.3,
+   0.4,
+   0.5
+  ],
+  "marginal_quantiles_of_the_target": {
+   "0.01": 0.0,
+   "0.05": 0.0,
+   "0.1": 0.0,
+   "0.2": 0.0,
+   "0.25": 0.0,
+   "0.3": 0.0,
+   "0.4": 0.0,
+   "0.5": 0.0,
+   "0.6": 1.0,
+   "0.7": 6.0,
+   "0.75": 14.0,
+   "0.8": 30.0,
+   "0.9": 98.0,
+   "0.95": 199.59999999999945,
+   "0.99": 598.039999999999
+  },
+  "n_levels": 15,
+  "n_levels_below_the_zero_share": 8,
+  "provinces_that_never_report_a_zero": [
+   "LA-VT"
+  ],
+  "quantile_levels": [
+   0.01,
+   0.05,
+   0.1,
+   0.2,
+   0.25,
+   0.3,
+   0.4,
+   0.5,
+   0.6,
+   0.7,
+   0.75,
+   0.8,
+   0.9,
+   0.95,
+   0.99
+  ],
+  "rows": 2808,
+  "target_observed": 2575,
+  "target_zero_share": 0.5359223300970873
+ },
+ "stage": "head",
+ "user_option_values": {
+  "head": "quantile_ensemble"
+ }
+}

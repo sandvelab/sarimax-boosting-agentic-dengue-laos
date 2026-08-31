@@ -1,0 +1,44 @@
+{
+ "baselines": [
+  "climatology",
+  "persistence"
+ ],
+ "beats_all_baselines": true,
+ "beats_reference": false,
+ "candidate_exists": true,
+ "combo": "provinces_reportingOnly__holdout",
+ "coverage_10_90_ours": 0.7708333333333334,
+ "coverage_10_90_reference": 0.76953125,
+ "coverage_25_75_ours": 0.5885416666666666,
+ "coverage_25_75_reference": 0.5520833333333334,
+ "crps_by_model": {
+  "climatology": 81.49848834375,
+  "ensemble": 76.55545746354167,
+  "persistence": 128.0523204375,
+  "reference": 64.72435402213542,
+  "reference_r1": 60.501027692708334,
+  "reference_r2": 58.758495171875005,
+  "reference_r3": 60.78442158854167,
+  "reference_r4": 78.85347163541667
+ },
+ "crps_ours": 76.55545746354167,
+ "crps_reference": 64.72435402213542,
+ "dataset": "holdout",
+ "mae_ours": 100.3125,
+ "n_cells": 192,
+ "n_locations": 16,
+ "n_splits": 4,
+ "our_model": "ensemble",
+ "our_model_basis": "the family of 03_models/03_candidate this combination ran (c_ensemble)",
+ "our_model_is_a_baseline": false,
+ "paired_mean_diff_vs_reference": 11.83110344140625,
+ "paired_se_cluster_split": 11.414394706831656,
+ "paired_win_rate_cells": 0.3385416666666667,
+ "resolvable_difference_floor": 20.09497646354167,
+ "skill_by_model": {
+  "climatology": -0.2591626378515559,
+  "ensemble": -0.18279214401058486,
+  "persistence": -0.9784256231233566
+ },
+ "skill_score": -0.18279214401058486
+}

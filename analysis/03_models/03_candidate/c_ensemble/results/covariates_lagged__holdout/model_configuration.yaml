@@ -1,0 +1,9 @@
+additional_continuous_covariates:
+- rainfall
+- mean_temperature
+- mean_relative_humidity
+user_option_values:
+  members_file: analysis/03_models/03_candidate/c_ensemble/results/covariates_lagged__holdout/members.json
+  members_sha256: 3cdb96e420a361cb03fa3ae5f0ac0af8e146d43c729ce3fec9c3586a4c8d2539
+  seed: 1648567750
+  weighting: equal

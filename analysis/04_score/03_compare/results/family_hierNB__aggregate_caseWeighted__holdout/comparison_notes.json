@@ -1,0 +1,58 @@
+{
+ "combo": "family_hierNB__aggregate_caseWeighted__holdout",
+ "models": {
+  "climatology": {
+   "mean_crps_against": 508.97378246495003,
+   "mean_crps_model": 499.98939141435613,
+   "mean_diff": -8.984391050593857,
+   "n_splits": 4,
+   "se_cell_naive": 24.875924748939568,
+   "se_cluster_location": 19.872074820927878,
+   "se_cluster_split": 24.72217816224052,
+   "se_split_level": 50.62780886719765,
+   "skill_score": 0.017651972184269837,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.484375
+  },
+  "hier_nb": {
+   "mean_crps_against": 508.97378246495003,
+   "mean_crps_model": 520.43505121495,
+   "mean_diff": 11.461268749999975,
+   "n_splits": 4,
+   "se_cell_naive": 25.70885344313778,
+   "se_cluster_location": 12.806376297558668,
+   "se_cluster_split": 25.794708427319847,
+   "se_split_level": 53.69380096916295,
+   "skill_score": -0.022518387282137287,
+   "splits_model_better": 1,
+   "win_rate_cells": 0.4635416666666667
+  },
+  "persistence": {
+   "mean_crps_against": 508.97378246495003,
+   "mean_crps_model": 553.1826630958391,
+   "mean_diff": 44.20888063088897,
+   "n_splits": 4,
+   "se_cell_naive": 47.110416231686266,
+   "se_cluster_location": 25.650727933778636,
+   "se_cluster_split": 77.24748308100294,
+   "se_split_level": 119.55308515123625,
+   "skill_score": -0.08685885629862167,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.4375
+  }
+ },
+ "n_cells": 192,
+ "noise_floor_largest_repeat_pair_mean_diff": 4.133928943238865,
+ "noise_floor_largest_repeat_pair_se_cluster_split": 3.7109274288250527,
+ "reference": "reference",
+ "reference_repeats": [
+  "reference_r1",
+  "reference_r2",
+  "reference_r3",
+  "reference_r4"
+ ],
+ "resolvable_difference_note": "The largest mean paired difference between two repeats of the same unseeded reference model is the size of a difference this comparison cannot attribute to anything but the reference's own sampler.",
+ "unpaired_sd_across_splits_reference": 273.1814673407365,
+ "unpaired_se_across_splits_reference": 136.59073367036825,
+ "weighting": "cases"
+}

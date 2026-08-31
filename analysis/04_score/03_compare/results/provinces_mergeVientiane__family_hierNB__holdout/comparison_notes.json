@@ -1,0 +1,58 @@
+{
+ "combo": "provinces_mergeVientiane__family_hierNB__holdout",
+ "models": {
+  "climatology": {
+   "mean_crps_against": 86.2650213984375,
+   "mean_crps_model": 81.49848834375,
+   "mean_diff": -4.766533054687501,
+   "n_splits": 4,
+   "se_cell_naive": 5.448017453640898,
+   "se_cluster_location": 8.475771392604022,
+   "se_cluster_split": 8.068326300430767,
+   "se_split_level": 9.316500722926882,
+   "skill_score": 0.05525452816700782,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.484375
+  },
+  "hier_nb": {
+   "mean_crps_against": 86.2650213984375,
+   "mean_crps_model": 84.93285266145834,
+   "mean_diff": -1.332168736979163,
+   "n_splits": 4,
+   "se_cell_naive": 5.5747800598157085,
+   "se_cluster_location": 7.73827725030894,
+   "se_cluster_split": 8.143397422397666,
+   "se_split_level": 9.403185387878791,
+   "skill_score": 0.015442745105529898,
+   "splits_model_better": 1,
+   "win_rate_cells": 0.484375
+  },
+  "persistence": {
+   "mean_crps_against": 86.2650213984375,
+   "mean_crps_model": 128.05232043750001,
+   "mean_diff": 41.78729903906251,
+   "n_splits": 4,
+   "se_cell_naive": 14.940326719575422,
+   "se_cluster_location": 15.601905244660992,
+   "se_cluster_split": 50.59455921120937,
+   "se_split_level": 58.42156476024437,
+   "skill_score": -0.4844060589292267,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.453125
+  }
+ },
+ "n_cells": 192,
+ "noise_floor_largest_repeat_pair_mean_diff": 9.68087598958333,
+ "noise_floor_largest_repeat_pair_se_cluster_split": 8.032547528911435,
+ "reference": "reference",
+ "reference_repeats": [
+  "reference_r1",
+  "reference_r2",
+  "reference_r3",
+  "reference_r4"
+ ],
+ "resolvable_difference_note": "The largest mean paired difference between two repeats of the same unseeded reference model is the size of a difference this comparison cannot attribute to anything but the reference's own sampler.",
+ "unpaired_sd_across_splits_reference": 101.209939040452,
+ "unpaired_se_across_splits_reference": 50.604969520226,
+ "weighting": "unweighted"
+}

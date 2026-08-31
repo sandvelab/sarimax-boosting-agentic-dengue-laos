@@ -1,0 +1,58 @@
+{
+ "combo": "provinces_reportingOnly__family_hierNB__holdout",
+ "models": {
+  "climatology": {
+   "mean_crps_against": 66.95487346354167,
+   "mean_crps_model": 81.49848834375,
+   "mean_diff": 14.543614880208331,
+   "n_splits": 4,
+   "se_cell_naive": 5.956533425478487,
+   "se_cluster_location": 7.0786695624969305,
+   "se_cluster_split": 14.178958183181697,
+   "se_split_level": 16.3724506477768,
+   "skill_score": -0.217215179834932,
+   "splits_model_better": 1,
+   "win_rate_cells": 0.4114583333333333
+  },
+  "hier_nb": {
+   "mean_crps_against": 66.95487346354167,
+   "mean_crps_model": 84.96673186979166,
+   "mean_diff": 18.01185840625,
+   "n_splits": 4,
+   "se_cell_naive": 6.353865404062564,
+   "se_cluster_location": 7.350359244814862,
+   "se_cluster_split": 15.464552510507444,
+   "se_split_level": 17.85692710967715,
+   "skill_score": -0.2690148972659596,
+   "splits_model_better": 1,
+   "win_rate_cells": 0.3854166666666667
+  },
+  "persistence": {
+   "mean_crps_against": 66.95487346354167,
+   "mean_crps_model": 128.05232043750001,
+   "mean_diff": 61.097446973958334,
+   "n_splits": 4,
+   "se_cell_naive": 14.837309218322186,
+   "se_cluster_location": 23.43124753472766,
+   "se_cluster_split": 43.843599223342444,
+   "se_split_level": 50.62622762767764,
+   "skill_score": -0.9125168014427982,
+   "splits_model_better": 1,
+   "win_rate_cells": 0.4010416666666667
+  }
+ },
+ "n_cells": 192,
+ "noise_floor_largest_repeat_pair_mean_diff": 17.747943255208334,
+ "noise_floor_largest_repeat_pair_se_cluster_split": 16.62622652849331,
+ "reference": "reference",
+ "reference_repeats": [
+  "reference_r1",
+  "reference_r2",
+  "reference_r3",
+  "reference_r4"
+ ],
+ "resolvable_difference_note": "The largest mean paired difference between two repeats of the same unseeded reference model is the size of a difference this comparison cannot attribute to anything but the reference's own sampler.",
+ "unpaired_sd_across_splits_reference": 68.50550130678245,
+ "unpaired_se_across_splits_reference": 34.252750653391224,
+ "weighting": "unweighted"
+}

@@ -46,8 +46,12 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
   development may happen.
   - **`01_partition`** — cuts the archived file into the development period (1998-01 to
     2009-12) and the sealed 2010 holdout, and verifies the two partition it exactly. **This
-    is the only node licensed to read the full file**, and the holdout it writes
-    (`holdout_2010_SEALED.csv`) stays unopened until phase E.
+    is the only node licensed to read the full file.** Batch 16 opened the seal here, with
+    `open_holdout.py`: it puts the two parts back together in the archived source's own
+    order and checks that the result is byte-identical to that source, so phase E reads a
+    file this node produced rather than reaching into `Archive/`. The licence is exercised,
+    not repealed — and the proof that the two parts partition the source exactly, which is
+    what makes putting them back together legitimate, is this node's too.
   - **`02_characterise`** — describes the development period only, and fixes the backtest
     scheme that every later number is computed under.
 - **`02_setup`** (sub-analyses) — the common ground every model faces. Four forks in
@@ -181,6 +185,18 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
   tier-1 rows, and batch 14 filled the eight tier-2 slots from `tier2_rule.md`, whose
   sha256 is unchanged from the day it was written.
 
+  **Batch 16 ran the same set on the held-out year, from this node.** `run_manifest.py
+  --dataset holdout` reads `manifest_holdout.csv` and issues, for each row, the same commands
+  its development twin issued — the dataset reaches the steps through the combination name
+  and nothing else. Its one different row is the main path: on development that is
+  `conclude.py` alone, because the analysis had already run, and on the holdout it is the
+  whole pipeline, expressed by moving no fork and opening the setup gate rather than by a
+  second list of the pipeline kept in the driver. A row already recorded as run is not run
+  again, which is plan §3 enforced rather than remembered. `pair_holdout_development.py`
+  joins the two halves on the pairing frozen in batch 15 and refuses to report if the
+  development half has moved since; the two ranked figures are drawn for either dataset from
+  `scripts/lib/stability_figures.py`, with one-screen runners as the steps.
+
   **Batch 15 put the driver into this node's `run.sh` and reported the set.** The order is
   the phase's own — cost, plan, run tier 1, collect, plan again so the frozen pair rule can
   select from a tier 1 that exists, run tier 2, collect, report — and the two repeated steps
@@ -192,11 +208,18 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
   `freeze_holdout_manifest.py` writes `manifest_holdout.csv` — the set phase E runs, fixed
   before the year is opened, under `__holdout` names so a holdout row cannot overwrite the
   development result it is to be compared against. **`bash analysis/run.sh` is therefore
-  about four hours rather than twenty minutes**, and reproduces the distribution as well as
+  about six hours rather than twenty minutes**, and reproduces both distributions as well as
   the reported result.
 
-Still to come: `06_holdout` (batch 16). The holdout node does not exist while the seal is
-on, because `analysis/run.sh` must not be able to open the sealed file by accident.
+The tree gained no node in batch 16. An earlier note here reserved `06_holdout` for it; the
+holdout turned out not to be a separate question but the same one — how far the conclusion
+survives a differently-but-equally-reasonably conducted analysis — asked of a second year,
+over the identical set of analyses, against the identical yardstick, with the frozen manifest
+and the freeze record already living here. A node whose claim would have restated this one's
+and whose scripts would have been this one's under other names is a node that makes the tree
+larger and not clearer. The headline holdout number is where the headline development number
+is: at the root, in `analysis/results/main__holdout/conclusion.json`, written by the same
+`conclude.py`.
 
 The tree's full design — every node, every fork, the file contract between them and the
 `COMBO` mechanism — is in `AI-generated/batch-reports/26-08-26_b05_bootstrapPlan.md` §2–4.

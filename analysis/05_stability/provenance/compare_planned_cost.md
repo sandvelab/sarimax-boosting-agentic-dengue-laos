@@ -96,3 +96,37 @@ whenever more rows have run, and this is that.
 
 agency: agent-autonomous.
 information: agent-retrieved — read from the two files named above.
+
+---
+
+## The phase-E half (batch 16)
+
+```
+result:              results/holdout_cost_planned_vs_actual.csv
+                     results/holdout_cost_planned_vs_actual.json
+script:              scripts/compare_planned_cost.py
+                     sha256:d42be8cbb6deb0e57fce43627f71b1455718334fab4a9107f7217dd7fe877284
+invocation:          "$PYTHON" scripts/compare_planned_cost.py --dataset holdout
+                     (from 05_stability/, via run.sh)
+inputs:              analysis/05_stability/results/manifest_holdout.csv at commit 937fd5c — the
+                     commit that added it, read out of git with `git show`
+                     analysis/05_stability/results/run_status_holdout.csv
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none.
+commit:              609e1be
+instructions-commit: cf97b81
+node:                analysis/05_stability
+produced:            2026-08-31
+alternatives-considered: none for the method; it is the development comparison against the
+                     other manifest. The frozen commit is read from git rather than named
+                     as a constant, because unlike the development manifest this one has a
+                     freeze the repository can point at.
+agency:              agent-autonomous.
+```
+
+**What it establishes.** Planned **7 468 s**, actual **8 602 s**, ratio **1.15** over all 32
+rows — and these are predictions in the strict sense, made before the year was opened, where
+the development half's estimates had been refreshed from runs that had already happened. The
+worst row is `retrain_everySplit__holdout` at **1.97**, which is the same row and the same
+reason the development comparison names: the cost model costs a row as the sum of its parts
+measured under `main` and cannot see that this row makes each part do eight times the work.

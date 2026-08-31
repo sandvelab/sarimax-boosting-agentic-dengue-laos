@@ -1,0 +1,44 @@
+{
+ "baselines": [
+  "climatology",
+  "persistence"
+ ],
+ "beats_all_baselines": true,
+ "beats_reference": true,
+ "candidate_exists": true,
+ "combo": "provinces_mergeVientiane__holdout",
+ "coverage_10_90_ours": 0.75,
+ "coverage_10_90_reference": 0.7356770833333334,
+ "coverage_25_75_ours": 0.5833333333333334,
+ "coverage_25_75_reference": 0.4934895833333333,
+ "crps_by_model": {
+  "climatology": 81.49848834375,
+  "ensemble": 76.24556227083333,
+  "persistence": 128.0523204375,
+  "reference": 89.43303580729167,
+  "reference_r1": 88.94287020833333,
+  "reference_r2": 89.82862184375,
+  "reference_r3": 91.04028547395832,
+  "reference_r4": 87.920365703125
+ },
+ "crps_ours": 76.24556227083333,
+ "crps_reference": 89.43303580729167,
+ "dataset": "holdout",
+ "mae_ours": 99.27604166666669,
+ "n_cells": 192,
+ "n_locations": 16,
+ "n_splits": 4,
+ "our_model": "ensemble",
+ "our_model_basis": "the family of 03_models/03_candidate this combination ran (c_ensemble)",
+ "our_model_is_a_baseline": false,
+ "paired_mean_diff_vs_reference": -13.187473536458327,
+ "paired_se_cluster_split": 9.434910672327002,
+ "paired_win_rate_cells": 0.4583333333333333,
+ "resolvable_difference_floor": 3.1199197708333286,
+ "skill_by_model": {
+  "climatology": 0.08872054260395301,
+  "ensemble": 0.1474564003940828,
+  "persistence": -0.4318234786687136
+ },
+ "skill_score": 0.1474564003940828
+}

@@ -1,0 +1,13 @@
+{
+ "combo": "climatology_frozenWindow__holdout",
+ "eval_flags": {
+  "n_periods": 3,
+  "n_retrain": 1,
+  "n_splits": 4,
+  "stride": 3
+ },
+ "model": "climatology",
+ "route": "MLproject with uv_env, native",
+ "seconds_per_split": 3.5,
+ "wall_clock_seconds": 14.1
+}

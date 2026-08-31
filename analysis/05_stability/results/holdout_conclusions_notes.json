@@ -1,0 +1,27 @@
+{
+ "computed_here": "delta_skill_vs_main, delta_skill_additive and interaction, each a subtraction on this table's own columns",
+ "dataset": "holdout",
+ "interaction": {
+  "largest_absolute": 0.287507,
+  "largest_tier1_main_effect_among_the_forks_paired": 0.269612,
+  "note": "interaction = the pair's own delta minus the sum of its two rows' deltas. Zero would mean the two forks compose; tier 2 exists because batches 9 and 21 each found that they do not.",
+  "pairs_measured": 8,
+  "range": [
+   -0.287507,
+   0.067209
+  ]
+ },
+ "manifest": "analysis/05_stability/results/manifest_holdout.csv",
+ "manifest_rows": 33,
+ "note": "This is not yet the phase-D result. It becomes one when every row it names has run; until then it is the record of how much of the frozen manifest has been answered.",
+ "rows_with_a_conclusion": 32,
+ "rows_without": 1,
+ "skill_score_range": [
+  -0.503843770981599,
+  0.20258863245034575
+ ],
+ "source": "analysis/results/<combination>/conclusion.json, one per combination",
+ "why_not_counts": {
+  "not run: its development twin has no conclusion (frozen; the main path's own choice, run under its own name; the same analysis as `main`)": 1
+ }
+}

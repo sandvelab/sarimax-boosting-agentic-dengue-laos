@@ -1,0 +1,36 @@
+{
+ "additional_continuous_covariates": [],
+ "choice": "a_equal",
+ "combo": "population_covariate__holdout",
+ "description": "every member of the pool carries weight 1/M; no weight in this model is estimated from data",
+ "input_from_combo": "population_covariate__holdout",
+ "node": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal",
+ "order": 1,
+ "premise": {
+  "member_count": 6,
+  "members": [
+   "analysis/03_models/01_baselines/01_persistence/a_empiricalChange",
+   "analysis/03_models/01_baselines/01_persistence/b_negBinomialFloor",
+   "analysis/03_models/01_baselines/02_climatology/a_expandingWindow",
+   "analysis/03_models/01_baselines/02_climatology/b_frozenWindow",
+   "analysis/03_models/03_candidate/a_hierNB",
+   "analysis/03_models/03_candidate/b_boosted"
+  ],
+  "nominal_coverage_10_90": 0.8,
+  "nothing_downstream_is_read": "no score, no leaderboard, no evaluation. This node runs before 04_score, and a model node that read a scoring node would be a circular dependency that only shows up when the scoring node has not run yet",
+  "required_baselines_among_them": [
+   "analysis/03_models/01_baselines/01_persistence/a_empiricalChange",
+   "analysis/03_models/01_baselines/01_persistence/b_negBinomialFloor",
+   "analysis/03_models/01_baselines/02_climatology/a_expandingWindow",
+   "analysis/03_models/01_baselines/02_climatology/b_frozenWindow"
+  ],
+  "share_of_the_pool_on_the_required_baselines": 0.6666666666666666,
+  "source": "the shape of the tree: every Chap contract directory under analysis/03_models except the pool's own",
+  "weight_each_member_will_carry": 0.16666666666666666
+ },
+ "stage": "weighting",
+ "user_option_values": {
+  "weighting": "equal"
+ },
+ "what_the_premise_implies": "an equally weighted pool puts half its mass on the two required baselines, which are the two worst-scoring models of ours, so it is predicted to score worse than the best member and better than the mean of the members; and because a linear pool's variance is the mean of its members' variances plus the spread between their means, its 10-90 coverage is predicted to be at least the largest of its members' -- that is, wider than any member, and so over-covering if any member already over-covers"
+}

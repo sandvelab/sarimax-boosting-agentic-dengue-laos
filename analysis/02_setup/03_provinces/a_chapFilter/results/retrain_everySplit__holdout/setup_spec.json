@@ -1,0 +1,28 @@
+{
+ "choice": "a_chapFilter",
+ "combo": "retrain_everySplit__holdout",
+ "dataset_transform": "identity",
+ "description": "every province passed to the platform; inclusion left to its region filter",
+ "eval_flags": {},
+ "evaluated_span": [
+  "2010-01",
+  "2010-12"
+ ],
+ "expected_evaluable_cells": 192,
+ "expected_locations_contributing": 16,
+ "input": "analysis/02_setup/02_trainingWindow/a_from1998/results/retrain_everySplit__holdout/analysis_dataset.csv",
+ "input_sha256": "19488aa1fc4d961ae1a6aeb75b874789576877664fce47713628f497a06fff56",
+ "locations_in_file": 18,
+ "locations_never_reporting": [
+  "LA-VI"
+ ],
+ "locations_with_no_observation_in_evaluated_span": [
+  "LA-XN"
+ ],
+ "node": "analysis/02_setup/03_provinces/a_chapFilter",
+ "order": 3,
+ "output_sha256": "19488aa1fc4d961ae1a6aeb75b874789576877664fce47713628f497a06fff56",
+ "rows_in": 2808,
+ "rows_out": 2808,
+ "stage": "provinces"
+}

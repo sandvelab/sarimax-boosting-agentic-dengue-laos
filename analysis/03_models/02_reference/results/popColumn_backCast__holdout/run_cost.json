@@ -1,0 +1,20 @@
+{
+ "combo": "popColumn_backCast__holdout",
+ "eval_flags": {
+  "n_periods": 3,
+  "n_retrain": 1,
+  "n_splits": 4,
+  "stride": 3
+ },
+ "model": "reference",
+ "repeats": 4,
+ "route": "chapkit REST service, amd64 image under emulation",
+ "seconds_per_split": 19.9,
+ "wall_clock_seconds": 318.5,
+ "wall_clock_seconds_per_repeat": [
+  71.8,
+  79.9,
+  79.9,
+  86.9
+ ]
+}

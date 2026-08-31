@@ -1,0 +1,19 @@
+{
+ "choice": "a_from1998",
+ "combo": "popColumn_backCast__holdout",
+ "dataset_transform": "identity",
+ "description": "the whole development period; no year discarded",
+ "eval_flags": {},
+ "first_period_kept": "(all)",
+ "input": "analysis/02_setup/01_population/b_backCast/results/popColumn_backCast__holdout/analysis_dataset.csv",
+ "input_sha256": "3014d0a64a7221b0a34df70cfe74f5319ad9be5a53d1d3f507cd54b692fa14b4",
+ "locations": 18,
+ "node": "analysis/02_setup/02_trainingWindow/a_from1998",
+ "order": 2,
+ "output_sha256": "3014d0a64a7221b0a34df70cfe74f5319ad9be5a53d1d3f507cd54b692fa14b4",
+ "period_first": "1998-01",
+ "period_last": "2010-12",
+ "rows_in": 2808,
+ "rows_out": 2808,
+ "stage": "trainingWindow"
+}

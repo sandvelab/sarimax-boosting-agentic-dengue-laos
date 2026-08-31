@@ -1,0 +1,13 @@
+{
+ "combo": "family_hierNB__aggregate_caseWeighted__holdout",
+ "eval_flags": {
+  "n_periods": 3,
+  "n_retrain": 1,
+  "n_splits": 4,
+  "stride": 3
+ },
+ "model": "hier_nb",
+ "route": "MLproject with uv_env, native",
+ "seconds_per_split": 5.7,
+ "wall_clock_seconds": 22.7
+}

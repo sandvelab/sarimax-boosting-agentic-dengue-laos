@@ -153,3 +153,36 @@ trade-off is annotated, and the human settled on 2026-08-29 that a few gigabytes
 
 **Nothing is deleted.** The one thing that could be, without asking, is still
 `analysis/**/work/` at 8.8 GB, and phase E will add to it.
+
+---
+
+## Phase E (batch 16)
+
+The holdout half doubles this node's own outputs and adds one more combination's worth of
+results to every model node it touches. Measured after the whole frozen set has run:
+`analysis/` is **18 GB**, of which **16 GB is `analysis/**/work/`** — chap-core's per-split
+run directories, gitignored since batch 7 and read by nothing after a run. What the
+repository would track is **1.6 GB** of `results/`. Storage is not a constraint (human-set,
+2026-08-29), nothing is pruned, and this table exists so that a later decision could be
+targeted.
+
+| Artifact | Size | Role | Regenerable | Transparency | Note |
+|---|---|---|---|---|---|
+| `results/manifest_holdout.csv` | 10 KB | **main result** | yes, ~2 s, and it comes back byte-identical | **highest** | The set phase E ran, frozen before the year was opened, with each row's development conclusion beside it. With its commit date it is the whole evidence that the comparison was not selected after the fact. |
+| `results/holdout_freeze.json` | 4 KB | **main result** | yes, ~2 s | **highest** | What the freeze binds: the rows, the scheme, the models, the pairing, and what batch 16 was not allowed to change. Its `frozen_at_commit` is now read from git, so re-running cannot overwrite it. |
+| `results/holdout_vs_development.json` | 5 KB | **main result** | yes, ~1 s | **highest** | The phase-E answer. If one file from this project had to survive, this and `distribution.json` are the two. |
+| `results/holdout_vs_development.csv` | 6 KB | **main result** | yes, ~1 s | **highest** | One row per paired analysis: the 32 points behind every statement above. |
+| `results/fork_sensitivity_both.csv` | 3 KB | **main result** | yes, ~1 s | **highest** | Whether the same judgment calls matter on a year the analysis had not seen. |
+| `results/holdout_conclusions.csv` | 12 KB | main result | yes, ~1 s, **only while the combinations' `conclusion.json` files survive** | highest | Same proviso as the development table, and the same answer: the proviso is settled at `03_models`, not here. |
+| `results/holdout_distribution.json`, `holdout_distribution_rows.csv`, `holdout_sensitivity_by_fork.csv` | 20 KB | main result | yes, ~1 s | high | The holdout's own distribution, reported on its own terms before being paired. |
+| `results/holdout_cost_planned_vs_actual.{csv,json}` | 4 KB | side result | yes, ~2 s | medium | Predictions made before the year was opened, against what the rows cost. |
+| `results/*fig_*.png` and their `.csv` | ~1 MB | main result (figures), side (their data is duplicated in the tables above) | yes, ~10 s | high | Four new images; each writes its plotted values beside it. |
+| `results/run_status_holdout.csv` | 2 KB | side result | **no** — it records what happened when the driver ran | **highest here** | It is also the seal: the driver reads it and refuses to re-run a row it names. Deleting a row from it is how a re-run would be authorised, and would show in git. |
+| `results/logs/*__holdout.log` | 560 KB for all 32 | intermediate | no | medium | The driver's transcript per row. First candidate for pruning at this node, and the node is still not where the storage question is. |
+| `analysis/01_data/01_partition/results/phase_e_1998-01_2010-12.csv` | 190 KB | **main result** | yes, ~1 s from the two parts beside it | **highest** | The file phase E evaluates on, byte-identical to the archived source. Not to be pruned: it is the thing the seal was about. |
+
+**What the holdout added to the rest of the tree.** One `results/<combination>__holdout/`
+per row at every node the row touches — 32 combinations, at four splits rather than eight,
+so each is roughly half the size of its development twin. The dominant part is unchanged and
+so is the conclusion drawn from it: `chap eval`'s NetCDF, about 4.7 MB per holdout `eval.nc`,
+and the prune target is annotated at `03_models`.

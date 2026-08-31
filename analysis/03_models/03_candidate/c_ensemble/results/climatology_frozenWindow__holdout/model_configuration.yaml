@@ -1,0 +1,9 @@
+additional_continuous_covariates:
+- rainfall
+- mean_temperature
+- mean_relative_humidity
+user_option_values:
+  members_file: analysis/03_models/03_candidate/c_ensemble/results/climatology_frozenWindow__holdout/members.json
+  members_sha256: f5289a36c9296eddc98f58fdbf34cae21af30cb2e4a68455ae82126296a868ac
+  seed: 1648567750
+  weighting: equal

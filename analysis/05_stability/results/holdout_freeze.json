@@ -1,8 +1,8 @@
 {
  "what_this_is": "The set of analyses phase E runs on the held-out year, fixed before the year is opened (plan \u00a73). Phase E runs exactly this and nothing else.",
  "frozen_on": "2026-08-31",
- "frozen_at_commit": "f3904c5",
- "commit_note": "The commit above is HEAD when this file was written. The evidence that the set predates the holdout is the commit that *adds* this file, which is the next one, and the fact that no file under `analysis/results/*__holdout/` exists at it.",
+ "frozen_at_commit": "937fd5c",
+ "commit_note": "The commit above is the one that added `results/manifest_holdout.csv` to the repository, read from git rather than recomputed -- so a later run of this script cannot overwrite it. No file under `analysis/results/*__holdout/` exists at that commit, which is what makes the set one that was fixed before the year was opened. Before the manifest is committed at all there is no such commit and this is HEAD, which is then the commit the freeze was computed at.",
  "rows": 33,
  "rows_by_tier": {
   "0": 1,

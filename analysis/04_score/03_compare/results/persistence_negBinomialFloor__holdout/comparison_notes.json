@@ -1,0 +1,58 @@
+{
+ "combo": "persistence_negBinomialFloor__holdout",
+ "models": {
+  "climatology": {
+   "mean_crps_against": 84.02620178776043,
+   "mean_crps_model": 81.49848834375,
+   "mean_diff": -2.5277134440104203,
+   "n_splits": 4,
+   "se_cell_naive": 5.319319848634456,
+   "se_cluster_location": 6.994545483294339,
+   "se_cluster_split": 7.866484904999301,
+   "se_split_level": 9.083434354954948,
+   "skill_score": 0.03008244321688036,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.484375
+  },
+  "ensemble": {
+   "mean_crps_against": 84.02620178776043,
+   "mean_crps_model": 77.50382808854168,
+   "mean_diff": -6.52237369921875,
+   "n_splits": 4,
+   "se_cell_naive": 4.8730452813382374,
+   "se_cluster_location": 5.5195874379319845,
+   "se_cluster_split": 6.866028073453729,
+   "se_split_level": 7.928206312944075,
+   "skill_score": 0.07762309327861139,
+   "splits_model_better": 3,
+   "win_rate_cells": 0.4479166666666667
+  },
+  "persistence": {
+   "mean_crps_against": 84.02620178776043,
+   "mean_crps_model": 99.13529603645833,
+   "mean_diff": 15.109094248697916,
+   "n_splits": 4,
+   "se_cell_naive": 8.763890862350099,
+   "se_cluster_location": 7.346172574057802,
+   "se_cluster_split": 23.212479064164228,
+   "se_split_level": 26.80346207250754,
+   "skill_score": -0.17981408093229723,
+   "splits_model_better": 2,
+   "win_rate_cells": 0.4479166666666667
+  }
+ },
+ "n_cells": 192,
+ "noise_floor_largest_repeat_pair_mean_diff": 1.2956994583333332,
+ "noise_floor_largest_repeat_pair_se_cluster_split": 0.8430414484379708,
+ "reference": "reference",
+ "reference_repeats": [
+  "reference_r1",
+  "reference_r2",
+  "reference_r3",
+  "reference_r4"
+ ],
+ "resolvable_difference_note": "The largest mean paired difference between two repeats of the same unseeded reference model is the size of a difference this comparison cannot attribute to anything but the reference's own sampler.",
+ "unpaired_sd_across_splits_reference": 100.0188012798201,
+ "unpaired_se_across_splits_reference": 50.00940063991005,
+ "weighting": "unweighted"
+}

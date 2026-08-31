@@ -1,0 +1,21 @@
+{
+ "additional_continuous_covariates": [],
+ "choice": "b_covariate",
+ "combo": "population_covariate__holdout",
+ "description": "standardised log population as an estimated coefficient",
+ "input_from_combo": "main__holdout",
+ "node": "analysis/03_models/03_candidate/a_hierNB/03_population/b_covariate",
+ "order": 3,
+ "premise": {
+  "correlation": 0.9274205982186835,
+  "intercept": -18.930783715943125,
+  "population_max": 960194,
+  "population_min": 40280,
+  "provinces": 17,
+  "slope_of_log_mean_cases_on_log_population": 1.7636112283483567
+ },
+ "stage": "population",
+ "user_option_values": {
+  "population": "covariate"
+ }
+}

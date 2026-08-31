@@ -103,6 +103,12 @@ Chap install for a hosted service; any change to the success criterion or to the
 above. The success criterion was settled on 2026-08-23 and is now fixed — including what to
 do if EWARS cannot be run on this dataset, which the plan's §2 answers.
 
+Two things that were open and are not: **the case write-up's judgment about where this
+setup was more trouble than it was worth is the agent's**, offered back for comment
+afterwards, and batch 19 labels it `agent-autonomous` rather than jointly held; and
+**`analysis/run.sh` is not split**, so it reproduces both distributions and the clean-room
+check in batch 18 is a six-hour run. Both human-set, 2026-08-31, on batch 16's questions.
+
 ## Where things are
 
 - The analysis is a tree of questions under `analysis/`. Start at

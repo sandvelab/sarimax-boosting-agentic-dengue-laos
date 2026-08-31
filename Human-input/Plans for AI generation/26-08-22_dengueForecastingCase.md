@@ -463,6 +463,13 @@ below is read from a file there.)*
 |---|---|---|
 | **A claim may state what follows trivially from the figures it cites — a ratio, a ranking, a difference — and may not state anything that needed a step nobody ran** | Batch 17 had drawn the line at "no file computes it, so no claim states it", which would have kept the paired margin as 3.282 CRPS against a standard error of 1.726 and never as the 1.90 standard errors that quotient makes it. The human's line is where the arithmetic stops being legible from the claim itself: a reader can check a quotient of two cited figures at a glance, and cannot check a number that stands for a computation nobody ran. Only the second is the transcription §1 forbids. C23 now states all three figures and is `agent-on-human-assessment`; the rule is in `Human-AI-collaboration/claims/README.md`, where a future session writing claims will meet it, and in `readme-at-start.md` | human-set |
 
+### 2026-08-31 — settled by the human, on batch 16's two open questions
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **The agent writes the judgment about where this setup was more trouble than it was worth, and the human comments and edits afterwards** | Phase E requires the case write-up to say it, and the manuscript's Appendix asks for it by name. Batch 16 asked whether the judgment should be the human's; it is the agent's, offered back for comment. **What that makes it is `agent-autonomous`, and batch 19 must label it so** — the delegation is the human's decision and the verdict is not, and this project reports its own agency as a result, so recording the verdict as jointly held because the human read it afterwards would overstate their part. If an edit changes what a sentence says rather than how it says it, that sentence becomes `agent-on-human-assessment` and the change is logged here | human-set |
+| **`analysis/run.sh` is not split; the stability and phase-E runs stay inside it** | The agent's recommendation, taken. Both distributions are reported results and `run.sh` is what reproduces reported results, so a `run.sh` that reproduced the headline number but not the spread around it would reproduce the weaker half of what this project claims. The cost is accepted with the decision: the whole run is about six hours, most of it the unseeded reference model's four repeats through an emulated amd64 image on each of two datasets, and `/validate cleanroom` in batch 18 is therefore a six-hour check rather than a twenty-minute one | agent-on-human-assessment |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**

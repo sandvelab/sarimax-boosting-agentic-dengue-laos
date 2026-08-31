@@ -34,9 +34,10 @@ representative research problem, and where it fails.
 
 ## The article
 
-- **Target venue**: not fixed in the source material. The manuscript this case serves updates
-  Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013), which is the obvious precedent.
-- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; phase C complete, batches 8–11; **phase D complete — batches 12, 13, 22, 14 and 15; phase E under way — batch 16 opened the holdout and ran the frozen set on it, batch 17 completed the claim collection and built the hierarchical report, and batch 18 is next**). Twenty batches in the ledger, plus one optional, plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result. What it settled is in the plan's §4b. **The ledger is executed top to bottom and a batch's number is an identifier, not a position**: batch 22 was added between 13 and 14.
+- **Target venue**: ***PLoS Computational Biology*** (human-set, 2026-08-31). The manuscript
+  this case serves updates Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013), which
+  is both the precedent and now the target.
+- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; phase C complete, batches 8–11; **phase D complete — batches 12, 13, 22, 14 and 15; phase E under way — batch 16 opened the holdout and ran the frozen set on it, batch 17 completed the claim collection and built the hierarchical report, and batch 18 is next**). Twenty batches in the ledger, plus **batch 20, which was optional and is confirmed — it runs before batch 19, so the remaining order is 18, 20, 19** — plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result. What it settled is in the plan's §4b. **The ledger is executed top to bottom and a batch's number is an identifier, not a position**: batch 22 was added between 13 and 14.
 - **Manuscript**: `Human-AI-collaboration/manuscript/`
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`. It carries the
@@ -67,7 +68,7 @@ representative research problem, and where it fails.
 | Development data | 1998-01 to 2009-12. The only file development ever sees. |
 | Held-out data | 2010-01 to 2010-12. **Opened once, in batch 16**, and evaluated across the manifest frozen in batch 15. The file phase E reads is `analysis/01_data/01_partition/results/phase_e_1998-01_2010-12.csv`, written by `open_holdout.py` from the two parts beside it and byte-identical to the archived source; which of the two files a combination reads is decided by the `__holdout` suffix, in `analysis/scripts/lib/combos.py` and nowhere else. |
 | Backtest scheme (`n-periods`, `n-splits`, `stride`) | **Development: 3, 8, 3** (`n-retrain` 1) — evaluates 2008-01 to 2009-12 from a training set ending 2007-12. **Phase E: 3, 4, 3** on the full file — evaluates exactly 2010. Fixed in batch 3; it does not move, because a horizon changed midway makes every earlier number incomparable. Verified against chap-core's own splitter in `analysis/01_data/02_characterise/results/split_schedule.csv`. |
-| Git remote | None, and none is to be created. `/release` prepares the repository and stops. |
+| Git remote | **`github.com/sandvelab/veridical-agentic-dengue-laos`** (human-set, 2026-08-31, reversing the earlier position that none was to be created). Created and pushed as the **last** step of batch 19's `/release`, after the secrets and data-permission scan, `/validate cleanroom`, `/validate outsider` and both generated reports — a release that pushes before its own scan has not run its scan. The agent asks before the push. Feasible as measured: `.git` is **131 MB** packed and no tracked file exceeds 50 MB, though the working tree is 1.6 GB. |
 
 ## What must not happen
 
@@ -98,9 +99,10 @@ These override everything else here.
 
 ## Left to the human, not to the agent
 
-Creating a git remote and naming it; anything that spends real money; abandoning the local
-Chap install for a hosted service; any change to the success criterion or to the five points
-above. The success criterion was settled on 2026-08-23 and is now fixed — including what to
+Anything that spends real money; abandoning the local Chap install for a hosted service; any
+change to the success criterion or to the five points above. **Creating the remote is no
+longer open** — it was settled on 2026-08-31, owner and name both, and the agent still asks
+before the push itself. The success criterion was settled on 2026-08-23 and is now fixed — including what to
 do if EWARS cannot be run on this dataset, which the plan's §2 answers.
 
 Two things that were open and are not: **the case write-up's judgment about where this

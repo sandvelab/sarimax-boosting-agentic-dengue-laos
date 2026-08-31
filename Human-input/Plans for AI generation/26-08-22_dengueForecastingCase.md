@@ -470,6 +470,16 @@ below is read from a file there.)*
 | **The agent writes the judgment about where this setup was more trouble than it was worth, and the human comments and edits afterwards** | Phase E requires the case write-up to say it, and the manuscript's Appendix asks for it by name. Batch 16 asked whether the judgment should be the human's; it is the agent's, offered back for comment. **What that makes it is `agent-autonomous`, and batch 19 must label it so** — the delegation is the human's decision and the verdict is not, and this project reports its own agency as a result, so recording the verdict as jointly held because the human read it afterwards would overstate their part. If an edit changes what a sentence says rather than how it says it, that sentence becomes `agent-on-human-assessment` and the change is logged here | human-set |
 | **`analysis/run.sh` is not split; the stability and phase-E runs stay inside it** | The agent's recommendation, taken. Both distributions are reported results and `run.sh` is what reproduces reported results, so a `run.sh` that reproduced the headline number but not the spread around it would reproduce the weaker half of what this project claims. The cost is accepted with the decision: the whole run is about six hours, most of it the unseeded reference model's four repeats through an emulated amd64 image on each of two datasets, and `/validate cleanroom` in batch 18 is therefore a six-hour check rather than a twenty-minute one | agent-on-human-assessment |
 
+### 2026-08-31 — settled by the human, closing phase E's open decisions
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **Batch 20 runs; the optional external check is not cut** | The same model, unchanged, on `tha` and `vnm`. It is the only thing in this plan that bears on batch 16's largest open question — whether the holdout spread is about 2010 or about one-year backtests — which this project cannot answer from inside itself, having one held-out year and four splits. Compute was never the constraint | human-set |
+| **Batch 20 runs before batch 19, so the order is 18, 20, 19** | Batch 19 writes the case study and does the release. An external check that lands after the write-up is a result the write-up cannot use, and after the release is a result nobody reads. The ledger's numbering is an identifier and not a position, which batch 22 already established | agent-autonomous |
+| **A git remote is created after all, at `github.com/sandvelab/`** | This reverses §10's standing position that no remote is to be created and that `/release` stops. The owner is the human's; the repository name was delegated, and is **`veridical-agentic-dengue-laos`** — the method and the case, without the local folder's misspelling. It is created and pushed as the last step of batch 19's `/release`, after the secrets and data-permission scan, `/validate cleanroom`, `/validate outsider` and both generated reports, because a release that pushes before its own scan has not run its scan. The agent asks before the push itself | human-set |
+| **The manuscript's target venue is *PLoS Computational Biology*** | The obvious precedent: the manuscript this case serves updates Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013). It had been recorded as not fixed in the source material | human-set |
+| **What `/validate outsider` finds in the instruction files is fixed by the agent and logged, not brought back for approval first** | The findings are what an outsider misunderstands, and fixing them is a methodological change under Rule 4 — so each one is committed in those terms, with what it changed and why. The human reads the log rather than the proposal | human-set |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -538,7 +548,7 @@ at the end of every batch, and append newly created batches to it.
 | 17 | E | Claims and the hierarchical report | done — produced | [[26-08-31_b17_claimsAndReport]] |
 | 18 | E | Clean-room and outsider validation; the plan's own drift | open | |
 | 19 | E | The case write-up, the reproducibility report, the release | open | |
-| 20 | E | The external check on `tha` and `vnm` — optional, first to be cut | open | |
+| 20 | E | The external check on `tha` and `vnm` — **confirmed, not cut; runs before batch 19** | open | |
 | 21 | C, on branch `greedy` | The counterfactual: iterate batch 9's promotion rule to a fixpoint on a branch, and measure what stopping once cost | done — produced | `26-08-27_b21_greedyBranch.md`, on branch `greedy` |
 
 ---
@@ -1004,7 +1014,7 @@ and the binding constraint is the work of building models, not of running them.
 | C — model development | 4 (8–11) | Three candidates and their internal forks. Extended only by the stopping rule in §8: the last batch must have moved the leaderboard by more than 0.4 CRPS. |
 | D — stability | 4 (12–15) | Cut *within* the phase if the budget binds — the manifest's tier 2 goes first — and record the cut. |
 | E — closing | 4 (16–19) | Not compressible. A project that ran out of budget before the closing phase has produced nothing this plan wanted. |
-| Optional | 1 (20) | The external check on `tha` and `vnm`. First thing cut. |
+| Optional | 1 (20) | The external check on `tha` and `vnm`. Was first to be cut; **confirmed on 2026-08-31 and not cut**, and moved ahead of batch 19 so the case study can use it. |
 | Counterfactual | 1 (21) | The greedy branch. Off the main path, on branch `greedy`; it produces no reported result and does not extend phase C. |
 
 **If the budget binds, protect phase E before phase C.** A well-recorded mediocre model is
@@ -1014,7 +1024,7 @@ worth more here than an excellent undocumented one — the manuscript is about t
 
 Bring these to me rather than deciding them:
 
-- Creating a git remote, and the owner and repository name.
+- Creating a git remote, and the owner and repository name. **Settled 2026-08-31**: `github.com/sandvelab/veridical-agentic-dengue-laos`, pushed as the last step of batch 19's `/release` and not before its scan. The agent still asks before the push.
 - Anything that would spend real money.
 - Abandoning the local Chap install in favour of a hosted service (§3).
 - Any change to §2's success criterion or §3's non-negotiables. (§2 was settled on

@@ -1434,3 +1434,55 @@ assume it.
 **Commits.** `ce43d47` (the claims and the extended builder, before the build), `cf6005e` (the
 report, its provenance record and the surrounding documents) and `e69870c` (the rebuild once
 C39 closed the collection).
+
+### T17, extended — the decisions settled after the batch report
+
+**What happened.** Batch 17's report ended with a question and repeated one of batch 16's;
+the human answered both and, asked what else was open, settled four more. Seven decisions,
+all in the plan's §4b with their agency. No analysis ran and nothing under `analysis/` moved.
+
+**The one that changed a claim.** Batch 17 had adopted a rule of its own — a claim states the
+figures a file holds and never a ratio between two of them that no file computes — and phrased
+C23, C29 and C31 by it. The human set a wider line: **a claim may state what follows trivially
+from the figures it cites, a ratio or a ranking, and may not state anything that needed a step
+nobody ran.** The reasoning recorded is that a reader can check a quotient of two cited figures
+at a glance and cannot check a number standing for a computation nobody ran; only the second is
+the transcription `AGENTS.md` §1 forbids. C23 now states 3.282 CRPS, its split-clustered
+standard error of 1.726, and the **1.90 standard errors** they come to, and its agency moved
+from `agent-autonomous` to `agent-on-human-assessment`. The rule lives in
+`Human-AI-collaboration/claims/README.md`, which is what a future session writing claims
+reads, and in `readme-at-start.md`. Batch 17's own narrower rule is marked superseded in §4b
+rather than deleted.
+
+**What the other six settle.** The case write-up's judgment about where this setup was more
+trouble than it was worth is the agent's, offered back for comment — and batch 19 must label it
+`agent-autonomous`, not jointly held, because the delegation is the human's decision and the
+verdict is not. `analysis/run.sh` is not split. Batch 20 is confirmed rather than cut, and
+**moves ahead of batch 19** (the agent's call, logged as such) so the case study can use it,
+making the remaining order 18, 20, 19. A remote is created after all, reversing §10, at
+`github.com/sandvelab/veridical-agentic-dengue-laos` — owner the human's, name delegated and
+chosen here — pushed as the last step of batch 19's `/release`, after the scan and both
+validations, with the agent asking first. The target venue is *PLoS Computational Biology*.
+And `/validate outsider`'s findings in the instruction files are fixed by the agent and
+committed as Rule 4 methodological changes rather than proposed first.
+
+**Checked before promising the push.** `.git` is 131 MB packed and no tracked file exceeds
+50 MB, against a 1.6 GB working tree — so GitHub's per-file limit is not near and the push is
+feasible. `gh` is authenticated as `sandve` with `repo` scope. The repository does not exist
+yet and the name is free to change until batch 19 creates it.
+
+**Files affected.** `Human-AI-collaboration/claims/claims.md` (C23),
+`Human-AI-collaboration/claims/README.md`, `readme-at-start.md` (remote, venue, status, "left
+to the human"), the plan's §4b, §10, ledger row 20 and budget table, and
+`AI-generated/hierarchical-report/provenance.md`, which gained a build record because the node
+pages carry the collection and a corrected claim leaves the report stale until it is rebuilt.
+The batch report itself is **not** edited: it is the record of batch 17 as it happened, and
+§4b is where a decision taken afterwards belongs.
+
+**For a future session.** Batch 18 is next and is the six-hour clean-room run. Batch 20 then
+batch 19. Batch 19 must remember three things this entry carries and the batch report does
+not: the write-up's judgment is labelled `agent-autonomous`, the push is the last step and is
+asked about first, and the venue is fixed.
+
+**Commits.** `a87f6ce` (the task log for batch 17 proper), then the ruling on C23, batch 16's
+two questions, and phase E's four remaining decisions.

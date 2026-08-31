@@ -106,3 +106,19 @@ on it — so adding a claim after a build leaves the report a claim short. Rebui
 count on the node pages is now the 39 the collection holds. Recorded rather than folded into
 the entry above, because the first build's commit is what its own README and index page
 state, and overwriting that would make the page disagree with the record of it.
+
+## Rebuilt after the human settled what a claim may say — 2026-08-31, batch 17
+
+```
+result:              AI-generated/hierarchical-report/   (unchanged in structure)
+script:              unchanged
+invocation:          unchanged
+inputs:              Human-AI-collaboration/claims/claims.md, in which C23 now states the
+                     1.90 standard errors as well as the two figures it divides; the rest
+                     unchanged
+commit:              a87f6ce
+produced:            2026-08-31
+```
+
+The node pages carry the collection, so a corrected claim is a stale report until it is
+rebuilt. Nothing under `analysis/` moved and no page's structure changed.

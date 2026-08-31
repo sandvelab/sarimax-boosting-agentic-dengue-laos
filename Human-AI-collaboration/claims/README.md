@@ -12,6 +12,16 @@ Maintained through `/claims`, which wraps `AI-internal/useful-scripts/claims.py`
     Human-AI-collaboration/manuscript/<draft>.md
 ```
 
+## What a claim may say
+
+**A claim may state what follows trivially from the figures it cites — a ratio between two of
+them, a ranking, a difference — and may not state anything that needed a step nobody ran.**
+*(human-set, 2026-08-31, settling batch 17's question.)* The line is between arithmetic a
+reader could do from the cited figures and a computation that would have been an analysis
+step: the first is legible and checkable from the claim itself, the second is a number with no
+provenance dressed as one that has some, which is what `AGENTS.md` §1 forbids. C23 states both
+the paired difference and its standard error, and the 1.90 standard errors they come to.
+
 Two things this file is for beyond writing the paper. It is the searchable record of what
 the analysis established, independent of what reached the manuscript — including the
 findings that did not. And it is the practical control against generated text drifting away

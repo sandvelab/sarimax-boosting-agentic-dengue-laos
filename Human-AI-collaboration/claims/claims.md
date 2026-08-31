@@ -184,12 +184,12 @@ alternatives: the eleven configuration forks inside the two member families move
 by: agent-autonomous
 
 ## C23
-The margin is not large enough to separate the two models. The paired difference is 3.282 CRPS per cell against a split-clustered standard error of 1.726, and our model has the lower mean while winning only 43.1 % of the individual cells. This is the largest margin the project produced against the reference, and a comparison at this resolution still cannot say the two models differ.
+The margin is not large enough to separate the two models. The paired difference is 3.282 CRPS per cell against a split-clustered standard error of 1.726 -- 1.90 standard errors -- and our model has the lower mean while winning only 43.1 % of the individual cells. This is the largest margin the project produced against the reference, and a comparison at this resolution still cannot say the two models differ.
 grounds: analysis/04_score/03_compare/results/main/comparison_notes.json · analysis/04_score/03_compare/results/main/paired_summary.csv
 node: analysis/04_score/03_compare
-scope: development; the standard error is clustered at the split, which is the level the eight numbers are exchangeable at
+scope: development; the standard error is clustered at the split, which is the level the eight numbers are exchangeable at. The 1.90 is the quotient of the two stored figures beside it and is not itself stored: a claim may state something that follows trivially from the figures it cites -- a ratio, a ranking -- and may not state anything that needed a step nobody ran (human-set, 2026-08-31)
 alternatives: the naive per-cell standard error is 0.948 and would have made the margin look nearly twice as decisive; it assumes 371 independent cells, which a panel of 16 provinces over eight quarters is not
-by: agent-autonomous
+by: agent-on-human-assessment
 
 ## C24
 The reference model cannot be seeded, and its own re-run spread is the floor on what this backtest can attribute to a model at all. Four repeats score 21.820, 21.917, 22.272 and 22.385 mean CRPS, and the largest paired difference between two of them is 0.565 CRPS. Anything smaller than that belongs to the reference's sampler rather than to any model.

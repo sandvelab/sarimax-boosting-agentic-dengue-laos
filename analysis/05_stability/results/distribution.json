@@ -1,0 +1,222 @@
+{
+ "what_this_is": "The phase-D result: the conclusion this project reports, computed once per analysis in a set of analyses fixed before any of them ran. It is a distribution, and the reported number is one member of it.",
+ "dataset": "development",
+ "reported_conclusion": {
+  "combination": "main",
+  "our_model": "ensemble",
+  "skill_score": 0.14849796928359138,
+  "crps_ours": 18.816872064690028,
+  "crps_reference": 22.098446493261456,
+  "rank_within_the_distribution": 13,
+  "of": 32
+ },
+ "manifest": {
+  "rows": 33,
+  "with_a_conclusion": 32,
+  "without": [
+   {
+    "combination": "family_ensemble",
+    "why": "the main path's own choice, run under its own name; the same analysis as `main`"
+   }
+  ],
+  "cut_for_budget": [],
+  "cut_note": "Nothing was cut. Tier 1 was planned at 3.23 h across both datasets against a 12.0 h budget, and the whole development manifest ran in 3.66 h (`results/run_status.csv`, summed). `manifest_notes.json` carries the cut order against the day something is cut.",
+  "forks_not_perturbed": {
+   "the forecast horizon": "forced by the reference model, so a combination at another horizon has no reference to be compared against and the root's conclusion -- a ratio to the reference -- is uncomputable there. Removed by batch 4's reconnaissance, not by a budget decision; the plan's phase D records it."
+  }
+ },
+ "reference_noise_band": {
+  "repeats": [
+   "reference_r1",
+   "reference_r2",
+   "reference_r3",
+   "reference_r4"
+  ],
+  "skill_against_each_repeat": [
+   0.13761478818762518,
+   0.14146437713273496,
+   0.15513213447301466,
+   0.15939232468003217
+  ],
+  "skill_band": 0.021778,
+  "crps_floor": 0.565277280323451,
+  "source": [
+   "analysis/04_score/03_compare/results/main/paired_summary.csv",
+   "analysis/04_score/03_compare/results/main/comparison_notes.json"
+  ],
+  "means": "the spread of our model's skill score against the four repeats of the unseeded reference. A fork whose largest move is inside this band has not been shown to move the conclusion."
+ },
+ "skill_score": {
+  "n": 32,
+  "min": -0.07238,
+  "median": 0.146882,
+  "max": 0.232015,
+  "main_path": 0.14849796928359138,
+  "rows_above_main": 12,
+  "rows_below_main": 19,
+  "rows_inside_the_reference_noise_band": 16
+ },
+ "does_the_conclusion_hold": {
+  "beats_the_reference": 27,
+  "beats_both_required_baselines": 27,
+  "of": 32,
+  "rows_where_it_does_not_beat_the_reference": [
+   "family_hierNB",
+   "provinces_mergeVientiane__family_hierNB",
+   "provinces_mergeVientiane__weighting_crpsWeighted",
+   "provinces_reportingOnly__family_hierNB",
+   "weighting_crpsWeighted"
+  ],
+  "rows_where_a_required_baseline_beats_it": [
+   "aggregate_caseWeighted",
+   "family_hierNB__aggregate_caseWeighted",
+   "provinces_mergeVientiane__aggregate_caseWeighted",
+   "provinces_reportingOnly__aggregate_caseWeighted",
+   "weighting_crpsWeighted__aggregate_caseWeighted"
+  ]
+ },
+ "crps_ours_by_weighting": {
+  "a_unweighted": {
+   "n": 26,
+   "min": 18.551605,
+   "median": 18.866066,
+   "max": 23.697926
+  },
+  "b_populationWeighted": {
+   "n": 1,
+   "min": 28.576665,
+   "median": 28.576665,
+   "max": 28.576665
+  },
+  "c_caseWeighted": {
+   "n": 5,
+   "min": 88.48424,
+   "median": 90.410466,
+   "max": 112.258096
+  }
+ },
+ "crps_note": "Mean CRPS is comparable only within a weighting: a re-weighted mean is over a different set of weights and is not on the same axis. The skill score is a ratio and is comparable across all of them, which is why the conclusion is reported as one.",
+ "coverage_10_90": {
+  "n": 32,
+  "min": 0.457571,
+  "median": 0.858491,
+  "max": 0.91994,
+  "nominal": 0.8,
+  "note": "Calibration moves further than the score does. \u00a72's rule is that a badly calibrated CRPS winner has not won, so this range is reported beside the skill range and not under it."
+ },
+ "sensitivity": {
+  "forks": 17,
+  "moving_more_than_the_reference_noise_band": [
+   {
+    "fork": "analysis/03_models/03_candidate",
+    "kind": "family",
+    "largest_abs_delta_skill": 0.220878
+   },
+   {
+    "fork": "analysis/03_models/03_candidate/c_ensemble/01_weighting",
+    "kind": "candidate",
+    "largest_abs_delta_skill": 0.181979
+   },
+   {
+    "fork": "analysis/04_score/02_aggregate",
+    "kind": "scoring",
+    "largest_abs_delta_skill": 0.083517
+   },
+   {
+    "fork": "analysis/02_setup/03_provinces",
+    "kind": "setup",
+    "largest_abs_delta_skill": 0.037553
+   },
+   {
+    "fork": "analysis/03_models/01_baselines/01_persistence",
+    "kind": "baseline",
+    "largest_abs_delta_skill": 0.027933
+   },
+   {
+    "fork": "analysis/02_setup/02_trainingWindow",
+    "kind": "setup",
+    "largest_abs_delta_skill": 0.021875
+   }
+  ],
+  "not_moving_more_than_it": [
+   {
+    "fork": "analysis/02_setup/04_retrain",
+    "kind": "setup",
+    "largest_abs_delta_skill": 0.016615
+   },
+   {
+    "fork": "analysis/02_setup/01_population",
+    "kind": "setup",
+    "largest_abs_delta_skill": 0.013843
+   },
+   {
+    "fork": "analysis/03_models/03_candidate/a_hierNB/02_covariates",
+    "kind": "candidate",
+    "largest_abs_delta_skill": 0.008098
+   },
+   {
+    "fork": "analysis/03_models/03_candidate/a_hierNB/04_fitTime",
+    "kind": "candidate",
+    "largest_abs_delta_skill": 0.005741
+   },
+   {
+    "fork": "analysis/03_models/03_candidate/a_hierNB/01_observation",
+    "kind": "candidate",
+    "largest_abs_delta_skill": 0.005243
+   },
+   {
+    "fork": "analysis/03_models/01_baselines/02_climatology",
+    "kind": "baseline",
+    "largest_abs_delta_skill": 0.00249
+   },
+   {
+    "fork": "analysis/03_models/03_candidate/a_hierNB/03_population",
+    "kind": "candidate",
+    "largest_abs_delta_skill": 0.001963
+   },
+   {
+    "fork": "analysis/03_models/03_candidate/b_boosted/02_head",
+    "kind": "candidate",
+    "largest_abs_delta_skill": 0.001834
+   },
+   {
+    "fork": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance",
+    "kind": "candidate",
+    "largest_abs_delta_skill": 0.001068
+   },
+   {
+    "fork": "analysis/03_models/03_candidate/b_boosted/01_features",
+    "kind": "candidate",
+    "largest_abs_delta_skill": 0.000211
+   },
+   {
+    "fork": "analysis/03_models/03_candidate/a_hierNB/05_autoregressive",
+    "kind": "candidate",
+    "largest_abs_delta_skill": 0.000169
+   }
+  ],
+  "by_kind_largest": {
+   "baseline": 0.027933,
+   "candidate": 0.181979,
+   "family": 0.220878,
+   "scoring": 0.083517,
+   "setup": 0.037553
+  }
+ },
+ "interaction": {
+  "pairs": 8,
+  "n": 8,
+  "min": -0.103349,
+  "median": 0.005175,
+  "max": 0.042428,
+  "largest_absolute": 0.103349,
+  "largest_absolute_pair": "provinces_reportingOnly__aggregate_caseWeighted",
+  "note": "A pair's interaction is its own move minus the sum of its two rows' moves. Where the largest one exceeds the main effects behind it, the one-at-a-time table above cannot be added up."
+ },
+ "sources": {
+  "one row per analysis": "results/distribution_rows.csv",
+  "one row per fork": "results/sensitivity_by_fork.csv",
+  "the table they summarise": "results/conclusions.csv",
+  "each row's own conclusion": "analysis/results/<combination>/conclusion.json"
+ }
+}

@@ -136,3 +136,42 @@ badly calibrated CRPS winner has not won bites hardest exactly where the CRPS lo
 
 The development set is complete. Batch 15 turns it into the reported distribution, puts the
 driver into `analysis/run.sh` now that every row can run, and freezes the holdout manifest.
+
+**Batch 15 reported the distribution, and the answer has two halves.**
+
+**The conclusion survives, and the reported number is not the middle of the range it
+survives across.** Skill runs **−0.0724 to +0.2320** around the reported +0.1485, which sits
+**thirteenth of thirty-two**; our model beats the reference on 27 and both required
+baselines on 27; 10–90 coverage runs 0.458 to 0.920 against a nominal 0.80. The failures are
+structured rather than scattered: the five rows the reference wins are the five that replace
+our model or refit its weights, and the five a required baseline wins are the five that
+weight the headline mean by cases. → `results/distribution.json`
+
+**Six of the seventeen forks move the conclusion further than the reference model moves on
+its own, and eleven do not.** The yardstick is measured, not chosen: the reference is
+unseeded and was scored four times, and our model's skill against those four spans
+**0.0218**. Above it: the model family (0.2209), the pool's weighting (0.1820), the
+weighting of the headline mean (0.0835), the province filter (0.0376), the persistence
+construction (0.0279), the training window (0.0219, which is the band itself to within
+0.0001). Below it: everything else, including nine of the eleven candidate-internal forks
+phase C spent three batches selecting among. → `results/sensitivity_by_fork.csv`
+
+**The manifest was re-planned and did not move.** `manifest.csv` came back byte-identical
+now that every row has been attempted and the frozen pair rule reads a complete tier 1 —
+which is what made it safe to put the driver into `run.sh`. `analysis/run.sh` now reproduces
+the stability result as well as the reported one, at about four hours rather than twenty
+minutes, and the node's own script order is the phase's: cost, plan, run tier 1, collect,
+re-plan so the frozen rule can pick tier 2 from a tier 1 that exists, run those, collect,
+report.
+
+**The whole set cost 3.66 h against a 12 h budget** (`results/run_status.csv`, summed) and
+nothing was cut. The frozen cost model predicted the total to within one part in a thousand
+— 7 469 s against 7 469 s — and individual rows by ratios from 0.52 to 1.91, so the cut
+order it ranks would have carried no information had anything been cut.
+
+**The phase-E set is frozen.** Thirty-three rows under `__holdout` names, an estimated
+2.07 h, each carrying the development conclusion it is to be reported beside, so the pairing
+is fixed with the set rather than assembled after the seal comes off.
+→ `results/manifest_holdout.csv`, `results/holdout_freeze.json`
+
+Phase D is complete. Batch 16 opens the holdout, once, and runs exactly what is in that file.

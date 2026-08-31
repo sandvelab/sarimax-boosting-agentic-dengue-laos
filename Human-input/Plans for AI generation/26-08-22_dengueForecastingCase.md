@@ -418,6 +418,19 @@ below is read from a file there.)*
 | **Batch 12's cost model is confirmed a second time: right on the total, wrong on every row** | Tier 1's fourteen rows came to 1 293 s against 1 224 planned and tier 2's eight to 5 703 against 6 047 — 6 % either way — with per-row ratios from 0.52 to 1.91. Batch 13 measured the same pattern. Nothing rests on it because nothing was cut, and phase D has used about 3.2 of its 12 budgeted hours on development | agent-autonomous |
 | **The repository is 1.1 GB and the disk holds 10 GB**, and the whole difference is disposable | `analysis/**/work/` — chap-core's per-split run directories, a `.venv` per model per combination — is 8.8 GB, gitignored since batch 7, cleared by each node before it runs and read by nothing afterwards. The tracked repository is inside the human's "a few gigabytes", and phase E's holdout backtest is four splits rather than eight, so it stays there | agent-autonomous |
 
+### 2026-08-31 — settled by batch 15, from the reported distribution
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **The scale on which "does the conclusion move" is answered is measured, not chosen: the reference model's own re-run spread in skill, 0.0218** | The reference is unseeded and was scored four times, and `03_compare` scores our model against each repeat separately — so the spread of those four is how far the reported conclusion moves when nothing about the analysis changes. Picking a threshold instead would have been a silent judgment call inside the node whose job is to make judgment calls visible. It is the skill-space twin of the 0.565 CRPS floor and comes from the same four repeats; the CRPS floor could not have been used, because the conclusion is a ratio and the weighting fork makes CRPS non-comparable across six of the 32 rows | agent-autonomous |
+| **Six of the seventeen forks move the conclusion further than that band and eleven do not**, and nine of the eleven are the candidate-internal forks phase C selected among | Family 0.2209, pool weighting 0.1820, headline mean weighting 0.0835, province filter 0.0376, persistence construction 0.0279, training window 0.0219 — the last of which clears the band by one part in two hundred and is reported as the borderline case it is. This is the plan's "most valuable single output", and what it says is that a system free to spend effort spent almost all of phase C below the resolution of its own evaluation | agent-autonomous |
+| **The reported analysis is the thirteenth of thirty-two, not the middle of the range**, and the failures are structured | Twelve reasonable analyses conclude a better skill score and nineteen a worse one. The five rows the reference wins are exactly the five that replace our model or refit its weights; the five a required baseline wins are exactly the five that weight the headline mean by cases. No choice about the data, the evaluation, the scoring or the baselines takes our model below the reference on any row | agent-autonomous |
+| **Mean CRPS is summarised within a weighting and never across one** | 18.55–23.70 unweighted, 28.58 population-weighted, 88.48–112.26 case-weighted. A re-weighted mean is over a different set of weights and one axis would report a spread that is an artefact of the unit. Which group a row is in is read from its own fork columns, never from the size of the number. It is the first time the project's reason for reporting a ratio rather than a CRPS has been load-bearing | agent-autonomous |
+| **`run_manifest.py` joins `run.sh`, and `analysis/run.sh` becomes about four hours rather than twenty minutes** | Every row can now run, so batch 12's reason for holding it out is gone, and the distribution is a reported result — `run.sh` is what reproduces reported results. The question that had to be answered first was whether re-planning moves the frozen manifest, since `run.sh` re-plans on every run: it does not, and `manifest.csv` came back byte-identical against a completed tier 1. The node's order now runs plan → tier 1 → collect → plan → tier 2 → collect, so the frozen pair rule can select from a tier 1 that exists even on a cold run | agent-on-human-assessment |
+| **The phase-E set is frozen with its development pairing, row by row**, under `__holdout` names | Thirty-three rows at an estimated 2.07 h. Freezing which analyses run and assembling the development half of the comparison afterwards would leave the comparison selectable after the fact even though neither half was. The rename is not cosmetic: a holdout row writes under `analysis/results/<combination>/` and would otherwise overwrite the result it is to be compared against. `check_invariants`' `combos` check now reads both manifests, so the combination space stays closed over the larger set of names | agent-autonomous |
+| **`plan_manifest.py`'s documented `--freeze-check` flag does not exist and could not work as described** | The script writes `tier2_rule.md` and its sha256 from the same in-script constant on every run, so comparing them can only succeed. What evidences the freeze is git — batch 12's commit of the rule before any tier-1 row ran — which is stronger. The check the flag describes is now enforced by `freeze_holdout_manifest.py`, against the hash in the existing notes. The docstring is left standing and the finding recorded, because correcting it means editing the script whose output is the frozen manifest | agent-autonomous |
+| **The completed development manifest took 3.66 hours, not the 3.2 batch 14 reported** | Summed from `run_status.csv`, which is the file that records it, over all 32 rows including the two that failed first time. `readme-at-start.md` is corrected; batch 14's report is an output and is not edited. The conclusion the figure supported — that compute does not bind — is unchanged and slightly stronger. Over the rows the manifest costed, planned and actual agree at 7 469 s, a ratio of 1.00, with per-row ratios from 0.52 to 1.91 | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -481,7 +494,7 @@ at the end of every batch, and append newly created batches to it.
 | 13 | D | `/perturb run`: build the seven setup and scoring children, archive the population series `b_backCast` needs, and run those rows | done — produced | [[26-08-29_b13_setupAndScoringRows]] |
 | 22 | D | `/perturb run`: build and run the two baseline forks' children, which move the pool as well as their own leaderboard row | done — produced | [[26-08-29_b22_baselineForkRows]] |
 | 14 | D | `/perturb run`: fix the two defects blocking the candidate rows **and the third, that `03_compare` computes its paired spread unweighted while the leaderboard mean follows the weighting fork**, lift the shared assembler, re-run the twelve candidate rows and the two family rows, then tier 2 | done — produced | [[26-08-30_b14_candidateAndFamilyRows]] |
-| 15 | D | `/perturb report`; freeze and commit the holdout manifest | open | |
+| 15 | D | `/perturb report`; put the driver into `run.sh`; freeze and commit the holdout manifest | done — produced | [[26-08-31_b15_perturbationReport]] |
 | 16 | E | The holdout, opened once, on the frozen manifest | open | |
 | 17 | E | Claims and the hierarchical report | open | |
 | 18 | E | Clean-room and outsider validation; the plan's own drift | open | |
@@ -761,6 +774,20 @@ cost of running the set twice: once on development, once on holdout. If the budg
 carry the whole set to the holdout, cut the manifest here and record the cut; do not discover
 the problem in phase E with the holdout already open.
 
+**What reporting the distribution found.** The conclusion survives, and the reported number
+is not the middle of what it survives across: skill runs **−0.0724 to +0.2320** around
++0.1485, which sits **thirteenth of thirty-two**. The plan's "stated answer to whether the
+headline conclusion moves at each fork" is `analysis/05_stability/results/sensitivity_by_fork.csv`
+and it is this: **six of the seventeen forks move the conclusion further than the reference
+model moves on its own, and eleven do not** — the yardstick being the 0.0218 spread of our
+model's skill score against the reference's four unseeded repeats, measured rather than
+chosen. Above the band: the model family, the pool's weighting, the weighting of the headline
+mean, the province filter, the persistence construction, and the training window by one part
+in two hundred. Below it: **nine of the eleven candidate-internal forks phase C spent three
+batches selecting among**. That ratio, and not the spread, is what phase D has to say. Batch
+15's report has all of it, and the phase-E set is frozen in
+`analysis/05_stability/results/manifest_holdout.csv`.
+
 **What running the candidate and family rows found, and what tier 2 found.** The
 development manifest is complete: **32 of its 33 rows have a conclusion**, the 33rd being the
 main path's own choice under its own name. The reported skill spans **−0.0724 to +0.2320**
@@ -1020,6 +1047,10 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 14 — `/perturb run`: the candidate and family rows, and tier 2
 
 - [[26-08-30_b14_candidateAndFamilyRows]]
+
+### Batch 15 — `/perturb report`: the distribution, and the frozen holdout set
+
+- [[26-08-31_b15_perturbationReport]]
 
 ### Batch 21 — the greedy branch
 

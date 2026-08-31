@@ -165,3 +165,60 @@ a manifest that says a built child is unbuilt is the drift that check exists to 
 
 agency: agent-autonomous.
 information: agent-retrieved — read from results/manifest.csv.
+
+
+---
+
+## Batch 15 — re-planned against a completed manifest, and it did not move
+
+```
+result:              results/manifest.csv — byte-identical to what batch 12 froze
+                     results/manifest_notes.json — one measured field changed
+script:              scripts/plan_manifest.py — unchanged by this batch
+invocation:          environment/chapenv/bin/python \
+                       analysis/05_stability/scripts/plan_manifest.py
+inputs:              the tree (scripts/lib/inventory.py), results/step_costs.json,
+                     results/conclusions.csv, results/run_status.csv,
+                     analysis/03_models/**/results/*/run_cost.json,
+                     AI-generated/candidate-forks/*/fork_sweep.json
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none
+commit:              f3904c5
+instructions-commit: cf97b81
+node:                analysis/05_stability
+produced:            2026-08-31
+```
+
+**What it establishes, and why it was worth running.** Batch 15 puts `run_manifest.py` into
+`run.sh`, and `run.sh` re-plans the manifest on every run — so before the driver could join
+it, the question was whether re-planning moves the frozen file. It does not.
+**`manifest.csv` came back byte-identical**, with the same 33 rows, the same ranks and the
+same eight tier-2 pairs, now that every row has been attempted and the pair rule reads a
+complete tier 1. The one field that changed is `manifest_notes.json`'s
+`on_disk_now_results_mb`, from 681.0 to 1126.3, which is a measurement of the disk and not
+a plan.
+
+That matters beyond this batch. The criticality note says the manifest is regenerable and
+must not be regenerated casually; the reason it is safe to regenerate it inside `run.sh` is
+that its inputs — the tree, the frozen rule, and a tier 1 that has now run — no longer
+change what it produces. The one input that would move it is `step_costs.json`, which
+`measure_step_costs.py` re-measures and which feeds only the rank order and the estimates.
+
+**A gap this run exposed and did not close.** `plan_manifest.py`'s docstring promises a
+`--freeze-check` flag that refuses to fill the tier-2 slots if the rule's text has changed
+since its hash was recorded. **The flag does not exist**, and could not work as described if
+it did: the script writes both the rule and its hash from the same constant on every run, so
+comparing them can only ever succeed. What actually evidences the freeze is git — batch 12's
+commit of `tier2_rule.md` — and `freeze_holdout_manifest.py`, which this batch added, does
+enforce the comparison the flag describes by checking the rule's text against the hash
+recorded in the *existing* notes before overwriting them. The docstring is left as it is
+because correcting it is a change to a script whose output is the frozen manifest, and this
+batch's finding is recorded here rather than smoothed away.
+
+alternatives-considered: not re-planning, and putting the driver into `run.sh` without
+knowing whether the surrounding steps preserve the frozen file. Rejected — it is the one
+question that had to be answered before batch 15 could make `analysis/run.sh` reproduce the
+stability result, and it is answered by running it and diffing, not by reading the code.
+
+agency: agent-autonomous.
+information: agent-retrieved — read from results/manifest.csv and `git diff`.

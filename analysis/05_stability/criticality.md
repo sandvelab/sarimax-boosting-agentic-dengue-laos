@@ -119,3 +119,37 @@ exceeded by phase E either: the holdout run is four splits rather than eight.
 | `analysis/**/work/**` | 8.8 GB | intermediate | yes, by re-running the combination | **none** — no file in it is ever read after the run | Gitignored, cleared by each node before it runs. Deletable at any moment without asking, which is the one exception `/annotate-criticality` allows. |
 | `results/conclusions.csv` | 12 KB | **main result** | yes, ~1 s, **only while the combinations' `conclusion.json` files survive** | **highest** | Now 32 of 33 rows, with `delta_skill_additive` and `interaction` beside the deltas — the columns that say whether the one-at-a-time picture can be added up. |
 | `results/logs/*.log` | ~2 MB total | intermediate | no — a re-run writes a new one | medium | Thirty-two transcripts now, one per combination the driver ran, including the two failures. |
+
+## 2026-08-31 — batch 15's outputs, and the two files that must outlive everything else
+
+The node gained the phase-D report and the frozen phase-E set. Together they are under
+**600 KB**, of which 520 KB is three figures.
+
+| Artifact | Size | Role | Regenerable | Transparency | Note |
+|---|---|---|---|---|---|
+| `results/distribution.json` | 8 KB | **main result** | yes, ~1 s, **only while the combinations' `conclusion.json` files survive** | **highest** | The phase-D answer. What the project concludes, across the set of analyses it concluded it over. |
+| `results/distribution_rows.csv` | 12 KB | **main result** | yes, ~1 s, same proviso | **highest** | One row per analysis. The table the distribution is a summary of, and what a reader checks the summary against. |
+| `results/sensitivity_by_fork.csv` | 4 KB | **main result** | yes, ~1 s, same proviso | **highest** | Which judgment calls the conclusion is sensitive to. The plan calls this the most valuable single output of the project. |
+| `results/manifest_holdout.csv` | 12 KB | **main result** | yes, ~1 s — **and regenerating it after the holdout has been opened would defeat it** | **highest** | The frozen phase-E set. Like `manifest.csv`, its value is its commit date as much as its content. |
+| `results/holdout_freeze.json` | 8 KB | **main result** | yes, but the commit is the evidence, not the file | **highest** | What was frozen, against which file hashes, under which obligations. |
+| `results/fig_skill_distribution.{png,csv}` | 200 KB | **main result** | yes, ~2 s | **highest** | The distribution as a picture, and the figure the manuscript's stability section is built on. |
+| `results/fig_fork_sensitivity.{png,csv,_preaggregation.csv}` | 140 KB | **main result** | yes, ~2 s | **highest** | The fork ranking. |
+| `results/fig_pair_interaction.{png,csv,_preaggregation.csv}` | 200 KB | main result | yes, ~2 s | high | Whether the one-at-a-time table can be added up. |
+
+**Two files here must not be regenerated casually, and the reason is different for each.**
+`manifest.csv` is the development set fixed before it ran, and batch 15 established by
+running the planner and diffing that re-planning no longer moves it — every input that could
+have is now settled. `manifest_holdout.csv` is the phase-E set fixed before the year is
+opened, and the thing that makes it evidence is that the commit adding it precedes any file
+under `analysis/results/*__holdout/`. Re-running `freeze_holdout_manifest.py` after phase E
+has begun would produce the same rows and destroy that ordering, so batch 16 runs the
+holdout and does not re-freeze it.
+
+**The proviso on the three main results is still the storage question and is still not
+settled here.** `distribution.json`, `distribution_rows.csv` and `sensitivity_by_fork.csv`
+are one second of arithmetic each, but only while the thirty-two `conclusion.json` files and
+the per-cell scores under them survive. Those live at `03_models` and `04_score`, where the
+trade-off is annotated, and the human settled on 2026-08-29 that a few gigabytes is fine.
+
+**Nothing is deleted.** The one thing that could be, without asking, is still
+`analysis/**/work/` at 8.8 GB, and phase E will add to it.

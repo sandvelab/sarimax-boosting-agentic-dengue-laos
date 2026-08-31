@@ -1,0 +1,9 @@
+combination,observed_delta_skill,additive_delta_skill,interaction,part_a,part_b,kinds
+provinces_reportingOnly__aggregate_caseWeighted,0.017721,0.12107,-0.103349,provinces_reportingOnly,aggregate_caseWeighted,setup+scoring
+provinces_mergeVientiane__aggregate_caseWeighted,0.075432,0.106394,-0.030962,provinces_mergeVientiane,aggregate_caseWeighted,setup+scoring
+provinces_mergeVientiane__weighting_crpsWeighted,-0.176956,-0.159102,-0.017854,provinces_mergeVientiane,weighting_crpsWeighted,setup+candidate
+provinces_mergeVientiane__family_hierNB,-0.199381,-0.198001,-0.00138,provinces_mergeVientiane,family_hierNB,setup+family
+weighting_crpsWeighted__aggregate_caseWeighted,-0.086732,-0.098462,0.01173,weighting_crpsWeighted,aggregate_caseWeighted,candidate+scoring
+family_hierNB__aggregate_caseWeighted,-0.122824,-0.137361,0.014537,family_hierNB,aggregate_caseWeighted,family+scoring
+provinces_reportingOnly__family_hierNB,-0.153429,-0.183325,0.029896,provinces_reportingOnly,family_hierNB,setup+family
+provinces_reportingOnly__weighting_crpsWeighted,-0.101998,-0.144426,0.042428,provinces_reportingOnly,weighting_crpsWeighted,setup+candidate

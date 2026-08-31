@@ -36,7 +36,7 @@ representative research problem, and where it fails.
 
 - **Target venue**: not fixed in the source material. The manuscript this case serves updates
   Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013), which is the obvious precedent.
-- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; phase C complete, batches 8–11; **phase D under way — batches 12, 13, 22 and 14 done, batch 15 next and last**). Twenty batches in the ledger, plus one optional, plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result. What it settled is in the plan's §4b. **The ledger is executed top to bottom and a batch's number is an identifier, not a position**: batch 22 was added between 13 and 14.
+- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; phase C complete, batches 8–11; **phase D complete — batches 12, 13, 22, 14 and 15; phase E next, and batch 16 opens the holdout**). Twenty batches in the ledger, plus one optional, plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result. What it settled is in the plan's §4b. **The ledger is executed top to bottom and a batch's number is an identifier, not a position**: batch 22 was added between 13 and 14.
 - **Manuscript**: `Human-AI-collaboration/manuscript/`
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`. It carries the
@@ -50,8 +50,8 @@ representative research problem, and where it fails.
 | Main environment | `environment/` — CPython 3.13.0 and `chap-core==2.1.0`, **installed from** `environment/lock.txt` by `environment/install-chap.sh`, which reports any difference between what it built and that file. Invoked as `environment/chapenv/bin/chap`. Not the same as `.venv`, which runs the repository's own machinery. The Docker layer builds (verified batch 7). |
 | Repository machinery interpreter | `.venv/bin/python` — CPython 3.13.7, created 2026-08-23 with `python3 -m venv .venv` on macOS 26.6.2 (arm64). |
 | Tracking level | **full** (`AGENTS.md` §6). This project is *about* tracking, so the usual argument for a lighter touch does not apply. Raise it with me rather than drifting. |
-| Compute budget for stability work | Phase D is batches 12, 13, 22, 14, 15. The perturbation manifest is two tiers — every fork taken alone, then eight pairs selected by a rule fixed in advance — over **seventeen** forks, run on development and again on the holdout. Batch 12 wrote it: **24 tier-1 combinations, 8 tier-2 slots**, in `analysis/05_stability/results/manifest.csv`, committed before any of it ran. It was planned at 124 minutes on development and 75 on the holdout, against a **12-hour budget** the agent set so the cut order has something to be a cut against; nothing is cut and the cut order is recorded. **The whole development manifest has now run and took 3.2 hours** — tier 1's rows to within 6 % of plan and tier 2's the same, with per-row ratios from 0.52 to 1.91, which is batch 13's finding confirmed a second time: the total is right and no individual row is. Compute is not what binds and it is not close — most of it is re-running the reference model, four unseeded repeats through an amd64 image under emulation, for the one model the plan forbids perturbing. |
-| Stability, so far | **The development manifest is complete: 32 of its 33 rows have conclusions** (batches 13, 22 and 14; the 33rd perturbs nothing). Reported skill spans **−0.0724 to +0.2320** around the main path's +0.1485; our model beats the reference on **27 of 32** and both required baselines on 27; 10–90 coverage runs **0.458 to 0.920** against a nominal 0.80. **The model family is what the conclusion is sensitive to and the choices inside a family are not** — swapping the pool for candidate 1 costs 0.2209 of skill, while the eleven forks inside the two member families span 18.638 to 18.933 CRPS, about half the reference's own 0.57 re-run spread. The exception is the pool's own weighting fork, worth 0.1820 and the second-largest move. The scoring fork is worth 0.0835, the five `02_setup` forks at most 0.0376, the two baseline forks at most 0.0279. **Under case weighting a required baseline beats the reported model in every combination it appears in**, five rows of the 32. **And the forks do not compose**: tier 2's largest interaction, −0.1033, is bigger than either main effect behind it — the province filter and case weighting each improve the reported skill alone and almost exactly cancel together. |
+| Compute budget for stability work | Phase D is batches 12, 13, 22, 14, 15. The perturbation manifest is two tiers — every fork taken alone, then eight pairs selected by a rule fixed in advance — over **seventeen** forks, run on development and again on the holdout. Batch 12 wrote it: **24 tier-1 combinations, 8 tier-2 slots**, in `analysis/05_stability/results/manifest.csv`, committed before any of it ran. It was planned at 124 minutes on development and 75 on the holdout, against a **12-hour budget** the agent set so the cut order has something to be a cut against; nothing is cut and the cut order is recorded. **The whole development manifest has run and took 3.66 hours**, summed from `run_status.csv` over all 32 rows. Over the rows the manifest costed, planned and actual agree at 7 469 s — a ratio of **1.00** — with per-row ratios from 0.52 to 1.91, which is batch 13's finding confirmed a second time: the total is right and no individual row is, so the cut order those estimates rank carries no information. Compute is not what binds and it is not close — most of it is re-running the reference model, four unseeded repeats through an amd64 image under emulation, for the one model the plan forbids perturbing. **The phase-E half is frozen at an estimated 2.07 hours** (`analysis/05_stability/results/manifest_holdout.csv`). |
+| Stability, reported | **Phase D is done. The development set is 32 analyses and the result is a distribution, not a number** (`analysis/05_stability/results/distribution.json`). Reported skill spans **−0.0724 to +0.2320** around the main path's +0.1485, **which sits thirteenth of thirty-two**; our model beats the reference on **27 of 32** and both required baselines on 27, and the failures are structured — the five rows the reference wins are the five that replace our model or refit its weights, the five a baseline wins are the five that weight the mean by cases. 10–90 coverage runs **0.458 to 0.920** against a nominal 0.80. **Six of the seventeen forks move the conclusion further than the reference model moves on its own and eleven do not** (`results/sensitivity_by_fork.csv`), the yardstick being the **0.0218** spread of our skill score against the reference's four unseeded repeats — measured, not chosen. Above it: family 0.2209, pool weighting 0.1820, headline-mean weighting 0.0835, province filter 0.0376, persistence construction 0.0279, training window 0.0219. Below it: nine of the eleven candidate-internal forks phase C spent three batches on. **The model family is what the conclusion is sensitive to and the choices inside a family are not** — swapping the pool for candidate 1 costs 0.2209 of skill, while the eleven forks inside the two member families span 18.638 to 18.933 CRPS, about half the reference's own 0.57 re-run spread. The exception is the pool's own weighting fork, worth 0.1820 and the second-largest move. The scoring fork is worth 0.0835, the five `02_setup` forks at most 0.0376, the two baseline forks at most 0.0279. **Under case weighting a required baseline beats the reported model in every combination it appears in**, five rows of the 32. **And the forks do not compose**: tier 2's largest interaction, −0.1033, is bigger than either main effect behind it — the province filter and case weighting each improve the reported skill alone and almost exactly cancel together. |
 | Storage budget | **Not a constraint.** A few gigabytes for the whole repository is fine (human-set, 2026-08-29, on batch 22's question). Nothing is pruned and no batch plans around disk; `/annotate-criticality` keeps annotating so that a future decision would be targeted. Measured now that the whole development manifest has run: **git tracks 1.1 GB**, and `analysis/` holds 10 GB because `analysis/**/work/` — chap-core's per-split run directories, gitignored since batch 7 and read by nothing after a run — is 8.8 GB of it. The tracked repository is inside what the human called fine, and phase E's backtest is four splits rather than eight. |
 | Data governance | Public and redistributable. The Lao files are pinned by repository commit hash, copied into `Archive/` unmodified, marked `(IS_SHADOW)`, with `provenance.md`. Nothing here is access-restricted, so the release scan is about secrets, not permissions. |
 | Target | `disease_cases` (reported dengue), monthly, admin-1, Laos. |
@@ -106,7 +106,10 @@ do if EWARS cannot be run on this dataset, which the plan's §2 answers.
   every fork, the file contract between them, and the `COMBO` mechanism that lets one code path
   serve both the main analysis and the stability run — is in
   `AI-generated/batch-reports/26-08-26_b05_bootstrapPlan.md`. **Batch 7 built it**, and
-  `bash analysis/run.sh` reproduces the whole reported analysis in about twenty minutes.
+  `bash analysis/run.sh` reproduces the whole reported analysis **and the distribution around
+  it**: batch 15 put the perturbation driver into `05_stability/run.sh`, so the run is about
+  four hours rather than the twenty minutes it was through batch 14. Most of the difference is
+  the reference model's four unseeded repeats through an amd64 image under emulation.
   `analysis/README.md` is the map. Every node below `01_data` reads and writes under
   `results/$COMBO/`, which defaults to `main`. **Batch 8 added `03_models/03_candidate`**,
   our own model families: `a_hierNB` and the four forks that configure it. Its
@@ -136,6 +139,12 @@ do if EWARS cannot be run on this dataset, which the plan's §2 answers.
   reported model as well as the persistence row. The driver, `run_manifest.py`, is written
   and deliberately **not** in `run.sh` until batch 15; the two defects that held fourteen
   built rows are fixed and those rows have run.
+  **Batch 15 reported the distribution and froze the phase-E set**: `distribution.json`,
+  `distribution_rows.csv`, `sensitivity_by_fork.csv` and three figures at `05_stability`,
+  the driver added to `run.sh` after checking that re-planning returns the frozen manifest
+  byte-identical, `manifest_holdout.csv` with each row's development conclusion frozen
+  beside it, and the `combos` invariant extended to read both manifests. The first twelve
+  claims are in `Human-AI-collaboration/claims/claims.md`.
   **Batch 14 ran them and tier 2, and fixed four things**: `prepare_members.py` ran every
   member fork's main-path child where the combination had already moved one; `conclude.py`
   read our reported model off `claim.md` rather than off the results, so every family row
@@ -204,7 +213,7 @@ do if EWARS cannot be run on this dataset, which the plan's §2 answers.
   `Archive/plan-as-delivered/`. The live plan is edited as the project runs; how far the two
   have drifted, and who drove each change, is a reported result rather than bookkeeping. The
   plan's §4b logs each decision settled during execution, with its agency.
-- Everything the analysis supports is in `Human-AI-collaboration/claims/claims.md`.
+- Everything the analysis supports is in `Human-AI-collaboration/claims/claims.md`. **Batch 15 wrote the first twelve**, all of them phase D's; the rest of the collection is batch 17's.
 - Nothing enters the manuscript that is not in that file.
 
 ## How to work here
@@ -219,7 +228,8 @@ do if EWARS cannot be run on this dataset, which the plan's §2 answers.
 
 ## What has to stay true
 
-1. `analysis/run.sh` reproduces the reported analysis from a clean environment.
+1. `analysis/run.sh` reproduces the reported analysis from a clean environment — and, since
+   batch 15, the whole perturbation set with it.
 2. Every reported result traces to a file that was executed.
 3. Every sentence in the manuscript traces to a claim, to a result, to a command.
 4. The alternatives not taken are still in the tree, runnable.

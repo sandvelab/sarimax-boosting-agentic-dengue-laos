@@ -108,3 +108,17 @@ re-running a batch produces a different report rather than the same one.
   into it — all four the same fork-blindness — plus the assembler lift batches 10 and 11 both
   deferred here, and the discovery that batch 13's two weighting rows had been reporting the
   main path's own paired spread under a re-weighted mean.
+- `26-08-31_b15_perturbationReport.md` — batch 15, phase D and its close: `/perturb report`.
+  The thirty-two analyses become the phase-D result — skill **−0.0724 to +0.2320** around a
+  reported +0.1485 that sits **thirteenth of thirty-two** — and the plan's "most valuable
+  single output" becomes one file and one figure: **six of the seventeen judgment calls move
+  the conclusion further than the reference model moves on its own, and eleven do not**,
+  against a band of 0.0218 measured from the reference's four unseeded repeats rather than
+  chosen. Nine of the eleven below the band are the candidate-internal forks phase C spent
+  three batches selecting among. The driver joins `analysis/run.sh`, which is now about four
+  hours and reproduces the distribution as well as the reported result — safe because
+  re-planning returns the frozen manifest byte-identical. The phase-E set is frozen at 33
+  rows and 2.07 h with each row's development conclusion beside it, and the first twelve
+  claims are written. Two smaller findings kept: `plan_manifest.py` documents a
+  `--freeze-check` flag that does not exist and could not work as described, and the
+  completed development manifest took 3.66 hours rather than the 3.2 batch 14 reported.

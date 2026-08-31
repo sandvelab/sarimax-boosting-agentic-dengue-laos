@@ -255,7 +255,7 @@ check in batch 18 is a six-hour run. Both human-set, 2026-08-31, on batch 16's q
 
 - **Bring source material in**: place it in `Archive/`, marked `(IS_SHADOW)` on line 2,
   with a `provenance.md` beside it. Never edit it in place.
-- **Add a question to the analysis**: `/node new <parent> <name> "<claim>"`.
+- **Add a question to the analysis**: `/node new <parent> <name> --claim "<claim>"`.
 - **After any analysis run**: `/track-result`, `/commit-run after`, `/validate invariants`.
 - **When something is worth saying**: `/claims add`.
 - **Before release**: `/validate cleanroom`, `/validate outsider`, `/hierarchical-report`,

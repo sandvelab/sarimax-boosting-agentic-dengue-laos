@@ -101,7 +101,13 @@ If a check fails, fix the cause. Never adjust the check to pass.
 - **Plans and their execution.** A plan under `Human-input/Plans for AI generation/` is executed by `/do`, which saves the output, wires bidirectional wiki links between plan and output, and never overwrites a previous iteration. Iterations accumulate as `_v2`, `_v3`.
 - **Provenance beside the file.** Any folder holding imported or generated documents carries a `provenance.md`, one section per file, with enough to re-obtain or re-generate it. Append; never overwrite an existing section.
 - **`Archive/` is read-only.** Imported material is marked `(IS_SHADOW)` on line 2 and never edited. Anything needing modification is copied out first.
-- **README per folder.** Every folder has a `README.md` saying what it is for and what is currently in it, 5–15 lines. Create it with the folder; update it when contents change materially.
+- **README per folder.** Every folder has a `README.md` saying what it is for and what is
+  currently in it, 5–15 lines. Create it with the folder; update it when contents change
+  materially. **Node directories under `analysis/` are the exception**: a node's `claim.md`
+  says what it is for and what it yielded, and a README beside it would be a second place
+  answering the same question. `/node` writes no README and none is owed. A README that
+  restates state recorded elsewhere goes stale silently, which is what happened to the
+  repository's own `README.md` between batch 1 and batch 18.
 - **Naming.** `YY-MM-DD_camelCaseName` for generated documents. Node directories are named
   by the relationship they stand in to their siblings: **sub-analyses children are numbered**
   `NN_shortName`, in the order the parent runs them, because that order is part of the
@@ -111,7 +117,8 @@ If a check fails, fix the cause. Never adjust the check to pass.
   checks this.
 - **Back up before editing.** Before editing any file under 1 MB, copy it to `/tmp/claude_backups/<filename>.<timestamp>.bak`.
 - **Task log.** `/log-tasks` records completed work to `AI-internal/ai_task_history.md` and `ai_task_details.md`. Auto-invoke it when a substantial task ends, when I change topic, and at session end.
-- **Python.** A virtual environment at `.venv`; invoke it directly as `.venv/bin/python`, never `source .venv/bin/activate && python`. Install into it with `.venv/bin/pip`.
+- **Python.** Two interpreters, and which one a script gets is decided by where the script lives, not by what it imports. **`.venv/bin/python`** runs the repository's own machinery — everything under `AI-internal/useful-scripts/`. **`environment/chapenv/bin/python`** runs anything under `analysis/`, because a node's scripts are part of the result and the result is pinned; every `run.sh` sets `PYTHON` to it, and a node script that happens to import only the standard library is no exception. Invoke both directly, never `source …/activate && python`. Install into `.venv` with `.venv/bin/pip`; `environment/` is built from its lockfile and not installed into by hand.
+- **Work that arrives outside a plan.** `/do` runs a batch of the plan. A request that does not come through the plan is still work this repository has to account for: give it a ledger row with an aim and a status, exactly as a batch added by a batch gets one, and log what it settled in the plan's §4b with its agency. Nothing is done here that the ledger does not name — a change with no row is a change with no record of why it was made.
 - **Git.** Commit incrementally. Ask me for the owner/organisation and repository name before creating a remote — do not infer either. `.gitignore` covers `__pycache__/`, `*.pyc`, `.DS_Store`, `.venv/`, `.env`.
 
 ## 9 — What is deliberately not here

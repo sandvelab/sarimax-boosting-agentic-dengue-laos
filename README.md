@@ -5,8 +5,9 @@ Laos, developed as autonomously as the setup allows and evaluated by Chap's own
 cross-validated backtest — together with the complete record of how it came about.
 
 A repository for carrying out **one research project** and producing **one article** from
-it, with full provenance. Read `readme-at-start.md` for what this particular project is,
-and `MOTIVATION.md` for why the repository is shaped this way.
+it, with full provenance. Read `readme-at-start.md` for what this particular project is and
+where it currently stands, `AGENTS.md` for how work is done here, and `MOTIVATION.md` for
+why the repository is shaped this way.
 
 ## Structure
 
@@ -17,28 +18,55 @@ and `MOTIVATION.md` for why the repository is shaped this way.
 | `Human-AI-collaboration/claims/` | The claim collection — every statement bound to its result. |
 | `Human-AI-collaboration/manuscript/` | The article, written from the claims. |
 | `Archive/` | Imported source material, never edited, marked `(IS_SHADOW)`. |
-| `AI-generated/` | Derived documents: the hierarchical report, the reproducibility report. |
+| `AI-generated/` | Derived documents: batch reports, validation, the hierarchical report. |
 | `AI-internal/` | Scripts, skill references, the task log. |
 | `Human-input/` | Plans that drive generation. |
 
 ## Reproducing this analysis
 
+Two environments, and they are not interchangeable. `environment/chapenv/` runs the
+analysis; `.venv/` runs the repository's own machinery. Neither is tracked, and both are
+built from a specification that is.
+
 ```bash
-# build the environment
-conda env create -f environment/environment.yml     # or: docker build environment/
-# run everything
+# 1. the analysis environment — CPython 3.13.0 and chap-core 2.1.0, installed from
+#    environment/lock.txt (174 packages, exact versions). Needs `uv` on PATH.
+bash environment/install-chap.sh
+
+# 2. run everything
 bash analysis/run.sh
-# check the record is complete
-python AI-internal/useful-scripts/check_invariants.py
+
+# 3. check the record is complete
+python3 -m venv .venv          # the machinery interpreter, stdlib only
+.venv/bin/python AI-internal/useful-scripts/check_invariants.py
 ```
 
+`environment/environment.yml` is the **declarative** half — what was asked for — and is not
+a conda file; `environment/lock.txt` is what actually reproduces, and `install-chap.sh`
+installs from it and reports any difference between what it built and what that file says.
+`environment/Dockerfile` freezes the same package set into an image.
+
+**`analysis/run.sh` is about six hours from cold**, because it reproduces the reported
+result, the distribution of 32 analyses around it on the development period, and the same
+set again on the held-out year. Most of that time is the reference model — an external
+container, unseeded, re-run four times per dataset through an emulated amd64 image. **Docker
+must be running**, and without it everything except the reference model and the comparisons
+that divide by it will still run.
+
 The alternatives explored and not taken are in the tree alongside the main path, complete
-and runnable. `AI-generated/hierarchical-report/index.html` is the way in.
+and runnable. `AI-generated/hierarchical-report/index.html` is the way in once it has been
+built — it is generated and gitignored, and `/hierarchical-report` rebuilds it in about two
+seconds.
 
-## Currently here
+## Where the project stands
 
-Phase A, batch 1. The repository knows what it is and nothing has been analysed yet: the
-source material is in `Archive/case-source-material/`, the plan being executed is
-`Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`, and the batch
-reports accumulate in `AI-generated/batch-reports/`. `analysis/` holds only the root node
-scaffold. No data has been acquired and Chap is not yet installed.
+**`readme-at-start.md` is the answer**, and it is the only place that answers it. This file
+deliberately does not repeat the project's state: an overview that restates what is recorded
+elsewhere goes stale silently, and this section did — it described the repository as it
+stood at batch 1, with nothing analysed and Chap not yet installed, for the whole of phases
+B, C and D. Batch 18's `/validate outsider` run found it by trying to follow it.
+
+For the shape of the work rather than its state: the plan being executed is
+`Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`, one batch per
+invocation; each executed batch leaves a report in `AI-generated/batch-reports/`; and
+`AI-generated/validation/` holds the checks on the method itself.

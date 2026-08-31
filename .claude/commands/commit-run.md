@@ -20,7 +20,10 @@ reading — it is an addressing scheme.
 
 ## The instructions are part of the method
 
-`AGENTS.md`, `.claude/commands/` and `.claude/agents/` determine what code gets written.
+`AGENTS.md` and `.claude/commands/` determine what code gets written, as does
+`.claude/agents/` where a project defines subagents. **This project defines none**, so that
+directory is empty and, git not tracking empty directories, absent from every checkout —
+do not go looking for it.
 Two runs of this repository under different instructions are **two different methods**, and
 a mid-project change to them is a methodological change a reader must be able to see. So:
 

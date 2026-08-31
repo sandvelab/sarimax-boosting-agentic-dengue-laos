@@ -174,13 +174,26 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
   combination. Where the moved fork belongs to the family that is *running*, it takes that
   family's forks itself and then the family's **own scripts**, read out of its `run.sh`
   under the `# Own scripts` marker — calling the family's `run.sh` would run the moved
-  fork's sibling, which is what an alternatives parent does. It is **not in `run.sh` yet**
-  and joins it in batch 15; `--dry-run` prints each row's step list, which is the
-  specification the batches that build the missing children work to.
-  `collect_conclusions.py` gathers every combination's `conclusion.json` into one table
+  fork's sibling, which is what an alternatives parent does. `--dry-run` prints each row's
+  step list, which is the specification the batches that build the missing children worked
+  to. `collect_conclusions.py` gathers every combination's `conclusion.json` into one table
   **and keeps the rows that have none, with the reason**. Batches 13, 22 and 14 ran all 24
   tier-1 rows, and batch 14 filled the eight tier-2 slots from `tier2_rule.md`, whose
   sha256 is unchanged from the day it was written.
+
+  **Batch 15 put the driver into this node's `run.sh` and reported the set.** The order is
+  the phase's own — cost, plan, run tier 1, collect, plan again so the frozen pair rule can
+  select from a tier 1 that exists, run tier 2, collect, report — and the two repeated steps
+  are what make the node reproducible from nothing rather than from the results already on
+  disk. It was safe to add because re-planning against a completed tier 1 returns
+  `manifest.csv` byte-identical, which batch 15 established by running it and diffing.
+  `report_distribution.py` writes the phase-D answer (`distribution.json`,
+  `distribution_rows.csv`, `sensitivity_by_fork.csv`) with three figures beside it, and
+  `freeze_holdout_manifest.py` writes `manifest_holdout.csv` — the set phase E runs, fixed
+  before the year is opened, under `__holdout` names so a holdout row cannot overwrite the
+  development result it is to be compared against. **`bash analysis/run.sh` is therefore
+  about four hours rather than twenty minutes**, and reproduces the distribution as well as
+  the reported result.
 
 Still to come: `06_holdout` (batch 16). The holdout node does not exist while the seal is
 on, because `analysis/run.sh` must not be able to open the sealed file by accident.

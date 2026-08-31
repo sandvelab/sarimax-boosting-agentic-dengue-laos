@@ -1255,3 +1255,60 @@ coverage it is a new batch, not an edit to `tier2_rule.md`.
 (the twelve stale directories removed), `3fb1280` (the tier-1 run and the driver's fourth
 fork-blindness), `ba3cf8d` (tier 2 selected by the frozen rule), `c31da5a` (the tier-2 run and
 the interaction columns), and the report commit.
+
+## T15 — Batch 15: `/perturb report`, and the close of phase D (2026-08-31)
+
+**What was produced.** Five scripts at `analysis/05_stability`: `report_distribution.py`
+(writing `distribution.json`, `distribution_rows.csv` and `sensitivity_by_fork.csv`), three
+figure scripts with their plotted values, and `freeze_holdout_manifest.py` (writing
+`manifest_holdout.csv` and `holdout_freeze.json`). The node's `run.sh` was rebuilt around
+them with `run_manifest.py` in it for the first time. Five provenance records written and two
+appended to. Twelve claims added — the first entries in the collection. `check_invariants`'
+`combos` check extended to read both manifests.
+
+**The design decision worth carrying forward is the yardstick.** "Does the conclusion move"
+needs a scale, and any threshold chosen here would have been a silent judgment call inside
+the node whose job is to prevent them. The scale is instead measured from the reference
+model's own unseededness: `03_compare` already scores our model against each of the four
+repeats, and the spread of those four skill scores — 0.0218 — is how far the reported
+conclusion moves when nothing about the analysis changes. It is the skill-space twin of the
+0.565 CRPS floor and comes from the same four repeats.
+
+**The second is that CRPS is summarised within a weighting and never across one**, with a
+row's weighting read from its own fork columns rather than inferred from the size of the
+number. Under case weighting the mean is near 90 rather than near 19; one range over all
+thirty-two would have reported an artefact of the unit.
+
+**Why re-planning the manifest was run rather than reasoned about.** `05_stability/run.sh`
+re-plans on every run, and the manifest is the frozen artefact whose commit date is the
+evidence that the perturbation set was not chosen after the numbers were in. Before the
+driver could join that file the question was whether re-planning moves it. It does not:
+`manifest.csv` came back byte-identical, same rows, ranks and pairs, and the only field that
+changed anywhere was a measurement of disk usage. That is what makes `analysis/run.sh` at
+four hours a legitimate reproduction rather than a rewrite of its own inputs.
+
+**Files affected.** `analysis/05_stability/{scripts,results,provenance,claim.md,criticality.md,run.sh}`,
+`AI-internal/useful-scripts/check_invariants.py`,
+`Human-AI-collaboration/claims/claims.md`, the plan's ledger, §4b and phase D section,
+`readme-at-start.md`, and `AI-generated/batch-reports/README.md`.
+
+**Three things a future session needs.** First, **`manifest_holdout.csv` must not be
+regenerated after phase E has begun.** It would produce the same rows and destroy the
+ordering that makes it evidence — the commit adding it precedes any file under
+`analysis/results/*__holdout/`. Batch 16 runs the holdout and does not re-freeze it. Second,
+**how `02_setup` reaches the full file does not exist yet** and is batch 16's implementation;
+`holdout_freeze.json["left_to_batch_16"]` records that it may not change the rows, the
+scheme, the models or the pairing. Third, **`plan_manifest.py`'s `--freeze-check` docstring
+is knowingly wrong** and was left standing rather than corrected, because correcting it means
+editing the script whose output is the frozen manifest; the finding is in
+`provenance/plan_manifest.md` and in the plan's §4b, and a later batch that touches that
+script for another reason should fix the docstring then.
+
+**Two open questions put to the human in the report.** Whether `analysis/run.sh` should stay
+a four-hour full reproduction or be split so the stability run is invoked separately; and
+whether the per-split diagnostics gap — now permanently closed off on the development side,
+since closing it would re-run the reported analysis after the freeze — should be closed on
+the holdout side before batch 16 runs.
+
+**Commits.** `9ad6578` (the scripts, the rebuilt `run.sh` and the extended invariant, before
+the run) and the results-and-records commit after it.

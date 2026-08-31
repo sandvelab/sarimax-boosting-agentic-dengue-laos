@@ -18,8 +18,9 @@ Checks
   plots       every plot image has its plotted values and its plotting script beside it
   seeds       every script that draws randomness has a recorded seed
   claims      every claim in the collection resolves to an existing result
-  combos      every results/<combination>/ directory is one the stability manifest
-              names, and the manifest names every non-main child in the tree
+  combos      every results/<combination>/ directory is one a stability manifest
+              names -- the development manifest or the frozen holdout one -- and the
+              development manifest names every non-main child in the tree
   git         the working tree is clean, and recorded commits exist
   crossing    no result file looks like a value transcribed between steps by hand
 
@@ -66,6 +67,10 @@ def script_files(directory: Path) -> list[Path]:
 
 
 MANIFEST = Path("analysis/05_stability/results/manifest.csv")
+# The frozen phase-E set. Its rows are the development rows under holdout names, so a
+# `results/` directory produced by the holdout run is planned exactly as a development one
+# is -- and a holdout directory whose name is in neither manifest is the same failure.
+MANIFEST_HOLDOUT = Path("analysis/05_stability/results/manifest_holdout.csv")
 # Combination directories a node may hold without the manifest naming them. `main` is the
 # reported analysis, which is not a perturbation of anything and so has no fork row.
 ALWAYS_ALLOWED = {"main"}
@@ -151,13 +156,23 @@ def check_tree(root: Path) -> list[Finding]:
 
 
 def combinations(root: Path) -> set[str] | None:
-    """Every combination the stability manifest names, or None before it exists."""
-    path = root / MANIFEST
-    if not path.exists():
-        return None
+    """Every combination either stability manifest names, or None before they exist.
+
+    Two manifests, because phase D freezes the holdout set before phase E runs it and the
+    holdout rows carry their own names. A directory is planned if either file names it.
+    """
+    names: set[str] = set()
+    found = False
     import csv
-    with path.open() as handle:
-        return {row["combination"] for row in csv.DictReader(handle) if row["combination"]}
+    for manifest in (MANIFEST, MANIFEST_HOLDOUT):
+        path = root / manifest
+        if not path.exists():
+            continue
+        found = True
+        with path.open() as handle:
+            names |= {row["combination"] for row in csv.DictReader(handle)
+                      if row["combination"]}
+    return names if found else None
 
 
 def _provenance_records(node: Path) -> dict[str, str]:
@@ -268,7 +283,9 @@ def check_combos(root: Path) -> list[Finding]:
     A `results/` subdirectory nobody planned -- a scratch run, a combination renamed
     halfway, a typo that created a second directory beside the real one -- is a set of
     numbers with no row in the manifest, and therefore an analysis that is in the
-    repository and not in the reported distribution.
+    repository and not in the reported distribution. Both manifests count: batch 15 froze
+    the holdout set, whose rows are the same analyses under `__holdout` names, and a
+    holdout directory nobody planned is the same failure on the other dataset.
 
     And a fork added to the tree after the manifest was written is a reasonable
     alternative the stability run does not know about. That is the silent absence
@@ -283,7 +300,7 @@ def check_combos(root: Path) -> list[Finding]:
         return out
     with path.open() as handle:
         rows = list(csv.DictReader(handle))
-    known = {r["combination"] for r in rows if r["combination"]} | ALWAYS_ALLOWED
+    known = (combinations(root) or set()) | ALWAYS_ALLOWED
 
     stability = (root / MANIFEST).parents[1]
     for node in nodes(root):

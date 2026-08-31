@@ -12,22 +12,36 @@ PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 
 
 # Own scripts -- in dependency order, not the alphabetical order `node.py rebuild`
-# writes. Costs are measured before the manifest is planned from them; conclusions are
-# collected after; and the planned-against-actual comparison reads the run record last.
+# writes. The order is the phase's own: cost the pipeline, plan the set, run tier 1,
+# read what it concluded, let the frozen rule pick tier 2 from that, run those, read the
+# whole set, and report it.
+#
+# `plan_manifest.py` and `collect_conclusions.py` each appear twice, and that is what
+# makes this node reproducible from nothing rather than from the results already on
+# disk. Tier 2 is selected by `tier2_rule.md` from tier 1's conclusions, so on a cold
+# run the first planning pass can only leave eight unresolved slots; the second pass,
+# after tier 1 has run and been collected, fills them by the rule. Both passes are the
+# same script and the same rule -- what differs is that the second has a tier 1 to read.
 "$PYTHON" "scripts/measure_step_costs.py"
 "$PYTHON" "scripts/plan_manifest.py"
+"$PYTHON" "scripts/run_manifest.py" --tier 1
+"$PYTHON" "scripts/collect_conclusions.py"
+"$PYTHON" "scripts/plan_manifest.py"
+"$PYTHON" "scripts/run_manifest.py" --tier 2
 "$PYTHON" "scripts/collect_conclusions.py"
 "$PYTHON" "scripts/compare_planned_cost.py"
+"$PYTHON" "scripts/report_distribution.py"
+"$PYTHON" "scripts/fig_skill_distribution.py"
+"$PYTHON" "scripts/fig_fork_sensitivity.py"
+"$PYTHON" "scripts/fig_pair_interaction.py"
+"$PYTHON" "scripts/freeze_holdout_manifest.py"
 
-# `scripts/run_manifest.py` -- the driver -- is deliberately NOT called here yet, and
-# joins this list in batch 15. `node.py rebuild` will add it back every time it is run
-# here; if it appears above, it has been re-added by accident and must come out again.
+# The driver joined this list in batch 15, which is what makes `analysis/run.sh`
+# reproduce the stability result as well as the reported one. It was held out of it from
+# batch 12 to batch 14 because rows with no scripts and rows whose defects made them
+# report the wrong thing would have been written into the tree every time anyone ran the
+# analysis. Every row can now run, so the reason is gone.
 #
-# Two of the manifest's children still have no scripts (batch 22) and fourteen candidate
-# and family rows need two defects fixed before they mean what their row says (batch 14).
-# Calling the driver from here today would put failed or misleading combinations into the
-# tree every time anyone ran `analysis/run.sh`. Batch 15 adds the line below once every
-# row can run, which is what makes `analysis/run.sh` reproduce the stability result as
-# well as the main one.
-#
-#   "$PYTHON" "scripts/run_manifest.py"
+# The cost of that: `analysis/run.sh` is about four hours rather than about twenty
+# minutes, and most of it is the reference model's four unseeded repeats through an
+# amd64 image under emulation. `readme-at-start.md` says so.

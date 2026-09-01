@@ -1684,3 +1684,78 @@ half-edited, the greedy branch's description having been orphaned onto batch 19'
 manifest is recomputed on every run of `analysis/run.sh`), **25** (the clean-room run to
 completion), **20** (the external check on `tha` and `vnm`), **19** (the case write-up, the
 reproducibility report and the release).
+
+## T20 — batch 24: the frozen set wins over the recomputation (2026-09-01)
+
+**What the batch was for.** Batch 18's outsider check found that
+`analysis/05_stability/scripts/freeze_holdout_manifest.py` rebuilt the frozen phase-E
+manifest on every run of `analysis/run.sh`, and deferred the fix. The manifest is the
+artefact plan §3 rests the whole holdout spread on: it fixes *what* is evaluated on 2010
+before 2010 is opened, so that the spread is a measurement rather than a selection. The
+script sits at the end of the development half of `05_stability/run.sh`, later in the same
+block than `plan_manifest.py`, which re-derives the **development** manifest from the tree — which it is
+supposed to do, and which the 2026-09-01 clarification permits to grow. So a fork child
+added after the opening was one run of the analysis away from entering the frozen set, and
+the byte-identity everyone had relied on was a property of the tree not having moved.
+
+**What was built.** The frozen file is authoritative and the script has two modes, chosen by
+whether it exists. Missing → the freeze, batch 15's path, with one new refusal. Present → a
+verification: the set the tree would produce now is derived by the *same function* that would
+have written it, `manifest_holdout.csv` and `holdout_freeze.json` are not touched, and the
+comparison goes to `results/holdout_freeze_check.json`. A development row with no frozen twin
+is reported **unpaired** and never added; a frozen row the tree no longer carries, or one
+whose structural columns moved, is **fatal** and stops the run; a frozen row whose numbers
+moved is recorded, because the reference model is unseeded and batch 25's clean-room run
+moves them by about 0.006 on an honest re-draw. And if the file is missing while the year has
+already been opened — `run_status_holdout.csv` records a row as `ran`, or a
+`results/*__holdout/` directory exists — the script refuses and says to restore it from git.
+The guard deliberately does not consult the gitignored `.holdout_opened`: that says only that
+*this working tree* opened the year, which is the driver's question, and batch 18 was caught
+by the mirror image of using the wrong one.
+
+**The second half of the fix.** `check_invariants.py` gains `freeze`, so the file is checked
+and not only the script that writes it: the frozen manifest must still hash to what
+`holdout_freeze.json` recorded, the row count must agree, and no file under
+`analysis/results/*__holdout/` may exist at the commit that added the frozen set. That last
+is the claim `holdout_freeze.json`'s own `commit_note` makes and it is the entire evidence
+that the set predates the opening; it was prose until now and it is one `git ls-tree` away.
+The other digests the record carries — `conclusions.csv`, `distribution.json`, the
+development manifest — are deliberately not checked, being context recorded at the freeze
+rather than the frozen artefact.
+
+**How it was checked.** `AI-internal/useful-scripts/check_freeze_defence.py`, new: eleven
+situations, seven to the script and four to the invariant, on throwaway copies built from the
+live files. Four of them corrupt the frozen manifest, which is why none runs against the live
+tree. All eleven behaved as specified
+(`AI-generated/validation/26-09-01_freezeDefence.json`, written up in the `.md` beside it).
+Two matter: `added` is batch 18's defect reproduced — 33 rows and one unpaired row where the
+superseded script produced 34 — and `refreeze_from_cold` is the regression test, deleting the
+frozen file with no trace of an opening and getting batch 15's manifest back byte for byte,
+which is what says restructuring the script did not restructure the set. **Run against the
+superseded version, six of the seven script scenarios fail and every one exits 0.**
+
+**A second hole, found on the way.** `holdout_freeze.json`'s `frozen_on` was written from
+`date.today()` on every invocation; run today the superseded script moved it 2026-08-31 →
+2026-09-01 with the other eighteen keys identical. Batch 16 found and fixed exactly this in
+`frozen_at_commit`, one line above, and left the date. The durable fix was never the field —
+it was that a value recording history must not be derived at run time.
+
+**Files.** Changed: `analysis/05_stability/scripts/freeze_holdout_manifest.py`,
+`analysis/05_stability/run.sh` (its comment asserted byte-identity as a guarantee),
+`AI-internal/useful-scripts/check_invariants.py`, that folder's `README.md`, and
+`.claude/commands/validate.md` — an instructions change under Rule 4. Added:
+`AI-internal/useful-scripts/check_freeze_defence.py`,
+`analysis/05_stability/results/holdout_freeze_check.json`, and the two validation documents.
+Records appended to `analysis/05_stability/provenance/freeze_holdout_manifest.md`,
+`AI-generated/validation/provenance.md`, `claim.md` and `criticality.md`. Commits `595c32d`
+(before the run) and the one after it. `/validate invariants`: all ten checks pass.
+
+**Nothing in the analysis was re-run** and no reported number moves. The frozen manifest and
+`holdout_freeze.json` are byte-for-byte what batch 15 froze and batch 16 ran.
+
+**Follow-ups.** Batch 25 runs `/validate cleanroom` to completion — batch 18's reached 8 of
+32 development rows, so both distributions are unverified from cold and the phase-E half has
+never run from a clean checkout. It is also the first run that exercises this batch's fix end
+to end, and `analysis/run.sh` can now fail in a way it could not before: a tree that has moved
+under the frozen set stops the run instead of quietly bringing the set along. Then batch 20
+(`tha` and `vnm`), then batch 19 (write-up, reproducibility report, release).

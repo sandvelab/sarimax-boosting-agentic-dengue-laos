@@ -151,10 +151,10 @@ produced:            2026-09-01
 
 **What it establishes.** That this script no longer rebuilds the set it exists to fix. It is
 the last step of the development half of `run.sh`, so every run of `analysis/run.sh`
-re-derived the frozen manifest from
-whatever the development manifest said at that moment; it returned the same bytes because
-the tree had not changed, not because anything made it. `plan_manifest.py`, five lines above,
-re-derives the development manifest by design, and since the clarification of 2026-09-01 that
+re-derived the frozen manifest from whatever the development manifest said at that moment; it
+returned the same bytes because the tree had not changed, not because anything made it.
+`plan_manifest.py`, earlier in the same block, re-derives the development manifest by design,
+and since the clarification of 2026-09-01 that
 manifest may legitimately grow — so a fork child added after the opening was one run of
 `analysis/run.sh` away from entering the frozen set with no batch and no decision behind it.
 Batch 18 added one and watched thirty-three rows become **thirty-four**.

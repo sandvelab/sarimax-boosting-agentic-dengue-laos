@@ -1619,3 +1619,68 @@ recomputed on every run of `analysis/run.sh` — loses its practical urgency, be
 does not grow again before release and the defect is therefore unreachable in this project.
 It stays in the ledger because it is a defect for anyone reproducing the method. The
 remaining order is unchanged: 23, 24, 25, 20, 19.
+
+## T19 — batch 23: a record's digest must be the file's (2026-09-01)
+
+**What was produced.** A new deterministic check, `hashes`, in
+`AI-internal/useful-scripts/check_invariants.py`, and twenty appended provenance sections
+that make it pass. They landed in one commit (`477115f`) because either alone is worse than
+neither: the check without the sections is a failing check, the sections without the check
+are twenty corrections with nothing to stop the twenty-first. The report is
+`AI-generated/batch-reports/26-09-01_b23_provenanceHashes.md`.
+
+**What the check says, and what it deliberately does not.** For every file a record gives a
+`sha256:` for, the file must exist and the record must name its current digest *somewhere* —
+not in the newest section, because an old section names the version that ran under it and is
+right to keep it. Abbreviated digests (`sha256:cbd3158db12438ac…`, the form the model
+contract files use) satisfy it as a prefix. It parses each `script:` field with its
+continuation lines and pairs a named file with the digest that is the next token after it, so
+`scripts/run_hier_nb.py   (unchanged)` followed by the model files that did change claims
+none of their digests. 109 file-digest pairs across the 77 records pass. It does **not**
+verify that a digest is paired with the run it sits beside, that a library a script imports
+is named at all, or that anything in the record is true.
+
+**Why twenty rather than batch 18's sixteen.** Batch 18 scanned `script:` lines. Four records
+— the two baselines, the reference model and candidate 1 — name
+`analysis/03_models/scripts/lib/chap_eval.py` on a continuation line with a digest of its
+own, and that library changed at `4563baf` (the `--model-configuration-yaml` route) and at
+`49825b5` (resolving `02_setup`'s output through `COMBO_BASE`). A check on the runner alone
+passes all four. This is the same shape as the defect batch 18 found in its own `commit:`
+pattern — a record more informative than the pattern expected, skipped for being so — found
+again in the estimate that diagnosis produced.
+
+**The cause, which is worth carrying forward.** Nineteen of the twenty are one failure: a
+batch appends its section when it runs the script, changes the script again later in the same
+batch, and does not append again. Nothing looks wrong afterwards and no number moves. The
+obligation "record what you produce" is discharged at a point in time; the property "the
+record describes what is there" is continuous, and nothing continuous was watching it.
+
+**Two judgment calls about re-running.** The development stability figures were re-drawn —
+batch 16's refactor moved the drawing into `scripts/lib/stability_figures.py` *after* they
+had been drawn — and came back byte-identical, PNG and CSV, so the archived figures are now
+ones the current scripts have actually produced. The reported development conclusion was not
+re-run: `results/main/conclusion.json` was written at `87440bc` by the batch-14 version of
+`conclude.py`, and re-running it would be a re-run made for a record's benefit rather than
+the analysis's. What covers it is batch 18's clean-room rebuild, which rebuilt every input as
+well as the script. The rule the batch worked to: where re-running would have meant re-running
+an analysis, it did not.
+
+**A gap recorded and not closed by code.** Both stability figure records attribute their
+held-out figures to `fig_*.py --dataset holdout`. The refactor removed that flag and gave each
+its own runner, `holdout_fig_*.py`, which no section named. `hashes` cannot catch this — it
+checks the files a record hashes — and `check_provenance` is satisfied because the file *is*
+named. The new sections carry both runners and the shared library; the check that would catch
+it in general is `/validate cleanroom`, at a different cost.
+
+**Files affected.** `AI-internal/useful-scripts/check_invariants.py`; twenty records under
+`analysis/**/provenance/`; `AI-internal/skill-references/provenance-record.md`,
+`.claude/commands/track-result.md` and `.claude/commands/validate.md` (a Rule 4 methodological
+change — the digest is required, and a changed script gets an appended section rather than an
+edited one); `AI-internal/useful-scripts/README.md`; the plan's ledger row, report link and a
+§4b table; `readme-at-start.md`, which also had a sentence repaired that batch 18 left
+half-edited, the greedy branch's description having been orphaned onto batch 19's release.
+
+**Follow-ups.** None from this batch. The remaining order is **24** (the frozen phase-E
+manifest is recomputed on every run of `analysis/run.sh`), **25** (the clean-room run to
+completion), **20** (the external check on `tha` and `vnm`), **19** (the case write-up, the
+reproducibility report and the release).

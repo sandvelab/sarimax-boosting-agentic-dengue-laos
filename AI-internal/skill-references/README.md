@@ -11,6 +11,8 @@ failure the split exists to prevent.
 
 ## Currently here
 
-- `provenance-record.md` — the full field list for a provenance record, with a worked example.
+- `provenance-record.md` — the full field list for a provenance record, with a worked
+  example; what to do when a script changes, which is to append a section rather than edit
+  the digest above it; and what `/validate invariants` can and cannot verify about a record.
 
 Add a reference when a skill starts wanting more than about seventy lines.

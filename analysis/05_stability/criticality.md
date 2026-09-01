@@ -186,3 +186,17 @@ per row at every node the row touches — 32 combinations, at four splits rather
 so each is roughly half the size of its development twin. The dominant part is unchanged and
 so is the conclusion drawn from it: `chap eval`'s NetCDF, about 4.7 MB per holdout `eval.nc`,
 and the prune target is annotated at `03_models`.
+
+## Batch 24 — the verification beside the freeze
+
+| File | Size | Kind | Regenerable | Transparency | Note |
+|---|---|---|---|---|---|
+| `results/holdout_freeze_check.json` | 3 KB | side result | yes, < 1 s | **high** | What the tree would freeze now, against what is frozen. Written on every run of `analysis/run.sh`; it is the whole of what `freeze_holdout_manifest.py` produces after the set exists. Cheap to regenerate and worth keeping, because a reader asking whether the frozen set is still the frozen set reads this rather than recomputing it. |
+
+And a correction to the two rows above: `results/manifest_holdout.csv` and
+`results/holdout_freeze.json` are annotated as regenerable in about two seconds, which is
+what made rebuilding them on every run look harmless. **They are no longer regenerable and
+that is deliberate** — the script refuses to rewrite either once the set exists, and refuses
+to re-derive the set at all once the year has been opened. Their column should be read as
+*no, by design; the commit that added them is the evidence and re-deriving them would destroy
+what they are for*.

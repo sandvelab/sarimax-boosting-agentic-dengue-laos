@@ -186,3 +186,17 @@ re-running a batch produces a different report rather than the same one.
   and the reported development conclusion was **not** re-run, resting instead on batch 18's
   clean-room rebuild, because where re-running would have meant re-running an analysis this
   batch did not.
+
+- `26-09-01_b24_frozenSetWins.md` — batch 24, phase E: the frozen phase-E set stops being
+  rebuilt. `freeze_holdout_manifest.py` is the last step of the development half of
+  `05_stability/run.sh`, so every run of `analysis/run.sh` re-derived the set that plan §3
+  freezes; it came back byte-identical because the tree had not changed, and batch 18 added
+  one fork child and got **34 rows**. The file is now authoritative — verified, never
+  rewritten; a development row with no frozen twin is reported unpaired; once the year has
+  been opened the set is restored from git rather than re-derived. A new `freeze` invariant
+  checks the file rather than the script that wrote it, including the claim
+  `holdout_freeze.json` makes about its own commit. Eleven situations were put to the two of
+  them and all eleven behaved as specified; against the superseded script **six of seven fail
+  and every one exits 0**, including the one batch 25 would have hit — a clean-room run
+  rewriting the frozen development pairing with its own re-drawn reference numbers.
+

@@ -122,3 +122,86 @@ above.
 agency: agent-autonomous.
 information: agent-retrieved — the digest is computed from the file and the change read from
 the diff at `48edaea`.
+
+
+---
+
+## Batch 24 — the freeze wins over the recomputation
+
+```
+result:              results/holdout_freeze_check.json
+                     results/manifest_holdout.csv (unchanged, and now unchangeable here)
+                     results/holdout_freeze.json (unchanged, and now written once)
+script:              scripts/freeze_holdout_manifest.py
+                     sha256:8bc160edcac6f70b0e28327d09f1cee76a10e30520d3e8ac881ca8cc4c9e59b2
+invocation:          "$PYTHON" scripts/freeze_holdout_manifest.py
+                     (from 05_stability/, via run.sh; PYTHON is
+                     environment/chapenv/bin/python)
+inputs:              analysis/05_stability/results/manifest.csv
+                     analysis/05_stability/results/conclusions.csv
+                     analysis/05_stability/results/manifest_holdout.csv
+                     analysis/05_stability/results/holdout_freeze.json
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none.
+commit:              595c32d
+instructions-commit: 595c32d
+node:                analysis/05_stability
+produced:            2026-09-01
+```
+
+**What it establishes.** That this script no longer rebuilds the set it exists to fix. It is
+the last step of the development half of `run.sh`, so every run of `analysis/run.sh`
+re-derived the frozen manifest from
+whatever the development manifest said at that moment; it returned the same bytes because
+the tree had not changed, not because anything made it. `plan_manifest.py`, five lines above,
+re-derives the development manifest by design, and since the clarification of 2026-09-01 that
+manifest may legitimately grow — so a fork child added after the opening was one run of
+`analysis/run.sh` away from entering the frozen set with no batch and no decision behind it.
+Batch 18 added one and watched thirty-three rows become **thirty-four**.
+
+The frozen file is now authoritative and the script has two modes. If it does not exist this
+is the freeze, as it was in batch 15. If it exists this is a verification: the set the tree
+would produce now is derived and compared, `manifest_holdout.csv` and `holdout_freeze.json`
+are not written at all, and the comparison goes to `results/holdout_freeze_check.json`.
+
+**What a difference does, and why it is not uniform.** A development row with no frozen twin
+is reported as **unpaired** and never added — that is plan §3 as clarified on 2026-09-01,
+which binds this manifest and not the tree. A frozen row the tree no longer carries, or one
+whose structural columns moved, is **fatal**: the frozen set can no longer be reproduced, and
+the run stops rather than the file being adjusted. A frozen row whose *numbers* moved is
+recorded and not fatal, because the reference model is unseeded and batch 18's clean-room run
+moved the development skill score by 0.0065 with nothing wrong.
+
+**A second hole, not previously reported, closed by the same change.** `holdout_freeze.json`
+carries `frozen_on`, and it was written from `date.today()` on every invocation. Batch 16
+found and fixed the same failure in `frozen_at_commit` and left the date beside it: run today,
+the superseded script rewrote **2026-08-31 → 2026-09-01**, and the other eighteen keys were
+identical. The date the phase-E set was frozen was being overwritten by every run of the
+analysis. It is now written once, because the file carrying it is.
+
+**What was checked, and how.** `AI-internal/useful-scripts/check_freeze_defence.py` puts
+eleven situations to the two defences on throwaway copies — four of them corrupt the frozen
+manifest, which is why none runs against the live tree. All eleven behave as specified
+(`AI-generated/validation/26-09-01_freezeDefence.json`). Two matter most: **`added`** produces
+a 34-row frozen set under the superseded script and a 33-row one plus an unpaired row under
+this one; and **`refreeze_from_cold`**, which deletes the frozen file with no trace of the
+opening and gets back a manifest **byte-identical** to the one frozen in batch 15 — the
+evidence that restructuring the script did not restructure the set. Run against the
+superseded version, six of the seven script scenarios fail and every one of them exits 0.
+
+alternatives-considered: **failing on an added development row rather than reporting it
+unpaired** — rejected, because `/validate invariants`'s `combos` check requires every non-main
+child in the tree to have a development row, so failing would make the two rules contradict
+each other, which is the ambiguity batch 18's outsider check hit and the human settled on
+2026-09-01 in favour of the narrow reading. **Failing on a drifted development conclusion** —
+rejected: the reference is unseeded, so a clean-room run of `analysis/run.sh` would fail on
+its own honest re-draw, and batch 25 is that run. **Deleting the freeze path entirely, since
+the set is frozen and never freezes again** — rejected, because it is the path a reader
+implementing this method runs, and a script that cannot demonstrate how the set was produced
+is a set with an assertion behind it rather than a derivation.
+
+agency: agent-autonomous, inside a constraint that is human-set — plan §3 fixes that the
+holdout manifest is frozen before the year opens, and the 2026-09-01 clarification fixes what
+that binds. Which failures are fatal and which are reported is the agent's.
+information: agent-retrieved — every value read from the files named above, and the
+superseded script's behaviour from running it.

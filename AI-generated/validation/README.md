@@ -1,6 +1,8 @@
 # validation
 
-What `/validate` produced, one file per run, named `YY-MM-DD_<check>.md`.
+What the checks on the method produced, one file per run, named `YY-MM-DD_<check>.md`.
+Mostly `/validate`; batch 24 added a targeted check written for one defect, which belongs
+here for the same reason.
 
 These are records of checks on the **method**, not analysis results: they say whether the
 repository does what it claims, and they belong here rather than in `analysis/` for the same
@@ -31,3 +33,7 @@ here.
   reference moves the headline skill score by 0.0065. The two distributions are unverified
   from cold and the phase-E half has never run from a clean checkout; that is batch 25.
   Its figures are in `26-09-01_cleanroom_comparison.json`, with `provenance.md` beside it.
+- `26-09-01_freezeDefence.md` — batch 24, and not a `/validate` run: eleven situations put
+  to the two defences of the frozen phase-E set, on throwaway copies. The set stops being
+  rebuilt on every run of `analysis/run.sh`, and the file is now checked as well as the
+  script that writes it. Its figures are in `26-09-01_freezeDefence.json`.

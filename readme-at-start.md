@@ -37,7 +37,7 @@ representative research problem, and where it fails.
 - **Target venue**: ***PLoS Computational Biology*** (human-set, 2026-08-31). The manuscript
   this case serves updates Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013), which
   is both the precedent and now the target.
-- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; phase C complete, batches 8–11; **phase D complete — batches 12, 13, 22, 14 and 15; phase E under way — batch 16 opened the holdout and ran the frozen set on it, batch 17 completed the claim collection and built the hierarchical report, batch 18 ran the clean-room and outsider checks and reported the plan's drift, and batch 23 closed the provenance records' digest gap**). Twenty-four batches in the ledger, plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result; what it settled is in the plan's §4b. **Batch 18 added 23, 24 and 25** — the provenance records' script hashes, the frozen phase-E manifest's recomputation, and completing the clean-room run it could not finish — so the remaining order is **24, 25, 20, 19**, with batch 19's release last because it must not claim more than the checks support. **The ledger is executed top to bottom and a batch's number is an identifier, not a position**: batch 22 was added between 13 and 14.
+- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; phase C complete, batches 8–11; **phase D complete — batches 12, 13, 22, 14 and 15; phase E under way — batch 16 opened the holdout and ran the frozen set on it, batch 17 completed the claim collection and built the hierarchical report, batch 18 ran the clean-room and outsider checks and reported the plan's drift, batch 23 closed the provenance records' digest gap, and batch 24 stopped the frozen phase-E set being rebuilt on every run**). Twenty-four batches in the ledger, plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result; what it settled is in the plan's §4b. **Batch 18 added 23, 24 and 25** — the provenance records' script hashes, the frozen phase-E manifest's recomputation, and completing the clean-room run it could not finish — so the remaining order is **25, 20, 19**, with batch 19's release last because it must not claim more than the checks support. **The ledger is executed top to bottom and a batch's number is an identifier, not a position**: batch 22 was added between 13 and 14.
 - **Manuscript**: `Human-AI-collaboration/manuscript/`
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`. It carries the
@@ -177,6 +177,20 @@ check in batch 18 is a six-hour run. Both human-set, 2026-08-31, on batch 16's q
   changed the script again later in the same batch, and did not append again. The worst was
   the record of the headline result, which named a version of `conclude.py` that had not
   existed since batch 16 ran it thirty-two times to produce phase E's conclusions.
+  **Batch 24 stopped the frozen phase-E set being rebuilt.**
+  `freeze_holdout_manifest.py` is the last step of the development half of
+  `05_stability/run.sh`, so every run of `analysis/run.sh` re-derived the frozen manifest
+  from the development one — which may legitimately grow. It came back byte-identical
+  because the tree had not changed, and batch 18 added one fork child and got **34 rows**.
+  The file is now authoritative: the script verifies it into
+  `results/holdout_freeze_check.json` and writes nothing to it, a development row with no
+  frozen twin is reported unpaired rather than added, and once the year has been opened the
+  set is restored from git rather than re-derived. `/validate invariants` gains a **`freeze`**
+  check, which also tests the claim `holdout_freeze.json` makes about its own commit — that no
+  holdout result exists at the commit that added the frozen set. Eleven situations were put to
+  the two of them (`AI-generated/validation/26-09-01_freezeDefence.md`); against the superseded
+  script six of seven fail and every one exits 0. A second field was being overwritten by every
+  run and nobody had noticed: `frozen_on`, one line above the field batch 16 repaired.
   **Batch 16 opened the holdout and ran the frozen set on it.** `01_data/01_partition`
   gained `open_holdout.py`, which reassembles the archived file from the two parts beside it
   and verifies the result byte for byte, so the node that was the only one licensed to read

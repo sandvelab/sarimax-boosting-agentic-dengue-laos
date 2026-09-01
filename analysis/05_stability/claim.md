@@ -228,3 +228,23 @@ and is **0.755** on the holdout. Across the set it runs 0.210 to 0.854.
 
 **The forks still do not compose.** Eight pairs, largest interaction **−0.2876**, on the same
 row that carries the largest single move.
+
+## Batch 24 — the frozen set stops being rebuilt
+
+**The set is verified on every run and rewritten on none.** `freeze_holdout_manifest.py` is
+the last step of the development half of this node's `run.sh`, so every run of
+`analysis/run.sh` re-derived the frozen
+phase-E manifest from the development manifest, which may legitimately grow. It returned the
+same bytes because the tree had not changed, not because anything made it: with one fork
+child added, thirty-three rows became **thirty-four**. The frozen file is now authoritative —
+a development row with no twin is reported as unpaired and never added, a frozen row the tree
+no longer carries or whose structure moved stops the run, and a development conclusion that
+drifted under the unseeded reference is recorded rather than absorbed.
+→ `results/holdout_freeze_check.json`
+
+**Eleven situations were put to it and to the new `freeze` invariant, and all eleven behaved
+as specified.** Deleting the frozen file with no trace of an opening and letting the script
+freeze from cold returns the manifest **byte-identical** to the one frozen in batch 15, which
+is what says the restructuring did not restructure the set. Against the superseded version,
+six of the seven script scenarios fail and every one of them exits 0.
+→ `AI-generated/validation/26-09-01_freezeDefence.json`

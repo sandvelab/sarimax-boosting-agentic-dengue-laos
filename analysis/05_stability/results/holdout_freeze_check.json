@@ -1,0 +1,33 @@
+{
+ "what_this_is": "What the tree would freeze now, compared against what is frozen. The frozen set is authoritative and is never rewritten; this file is the whole of what a later run of freeze_holdout_manifest.py produces (batch 24).",
+ "checked_on": "2026-09-01",
+ "verdict": "the frozen set is intact",
+ "frozen": {
+  "file": "analysis/05_stability/results/manifest_holdout.csv",
+  "rows": 33,
+  "sha256": "fc9d1a1690657261fd5d5f91188e12af571c7b07af05adb23793fae1de8b5734",
+  "sha256_recorded_in_holdout_freeze_json": "fc9d1a1690657261fd5d5f91188e12af571c7b07af05adb23793fae1de8b5734",
+  "still_the_file_that_was_frozen": true
+ },
+ "recomputed_rows": 33,
+ "fatal": {
+  "frozen_rows_the_tree_no_longer_carries": [],
+  "frozen_rows_whose_structure_moved": [],
+  "note": "Either means the frozen set can no longer be reproduced, so the run stops. The structural columns are rank, tier, combination, development_combination, kind, fork, child, owner, combo_base, models_rerun, models_inherited, built."
+ },
+ "unpaired_development_rows": {
+  "rows": [],
+  "note": "Development rows with no twin in the frozen set. Plan \u00a73, clarified 2026-09-01: the freeze binds this manifest and not the tree or the development manifest, so an alternative discovered after the opening is carried in both of those, has no holdout twin, and never joins the 32. It is reported here and not added."
+ },
+ "drift_under_an_unchanged_set": {
+  "rows": [],
+  "note": "Non-structural columns that moved: the development conclusions frozen beside each row, and the cost estimates. The reference model is unseeded, so a re-run of the development half moves the skill score by about 0.006 with nothing wrong; batch 18's clean-room run measured 0.0065 on the headline. Reported, never absorbed \u2014 the frozen columns stay as they were frozen."
+ },
+ "binding": {
+  "the holdout is opened once": "plan \u00a73. If it has to be opened a second time, that it happened and why is recorded. It is opened once and evaluated many times, across this manifest.",
+  "nothing is added, dropped, re-tuned or re-run after a holdout number has been seen": "plan \u00a73. This file is the set; a row that fails is reported as a row that failed, not replaced.",
+  "the reference is re-scored four times on the holdout": "plan, phase E. It is unseeded and the conclusion divides by it, so an unaveraged denominator would put the reference's own re-run noise on every number reported.",
+  "the holdout numbers are reported beside the development numbers": "plan, phase E, and the pairing is frozen here row by row. If the holdout numbers are much worse, that gap is the result and is reported plainly.",
+  "nothing is promoted out of this set": "phase C is closed. A perturbation that scores better on the holdout than the main path does not become the main path."
+ }
+}

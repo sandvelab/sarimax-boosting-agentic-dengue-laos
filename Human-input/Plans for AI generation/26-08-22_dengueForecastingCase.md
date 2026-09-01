@@ -521,6 +521,18 @@ below is read from a file there.)*
 | **Hashing every transitively imported module is not adopted** | A record that names a library hashes it; one that does not is less precise rather than wrong. Adding the obligation retroactively would fail twelve records for never having promised it, and the check would then be enforcing something no record was written to satisfy | agent-autonomous |
 | **The stale digests stay where they are** | `AGENTS.md` §1: records are appended to, never edited. Each stale digest names the version that ran under it and is accurate about that run; what was missing is the section describing the version that came after | agent-autonomous, on the standing rule |
 
+### 2026-09-01 — settled by batch 24, from the frozen set defending itself
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **The frozen phase-E manifest is authoritative: once it exists, `freeze_holdout_manifest.py` verifies it and writes nothing to it** | It is the last step of the development half of `05_stability/run.sh`, so every run of `analysis/run.sh` re-derived the set from the development manifest — which §3's clarification of 2026-09-01 permits to grow. It came back byte-identical because the tree had not changed, not because anything made it, and batch 18 added one fork child and got a 34-row frozen set. A value that records history must not be derived at run time, because a derivation is a claim about the present | agent-autonomous, inside the human-set §3 |
+| **A development row with no frozen twin is reported unpaired, not fatal** | §3 binds `manifest_holdout.csv` and the `combos` invariant *requires* every non-main child to have a development row, so failing on the new row would make the two rules contradict each other — the ambiguity batch 18's outsider check hit and the human settled on the narrow reading. The tree may grow; the frozen set may not | agent-autonomous, following the human's clarification |
+| **A drifted development conclusion is reported and not fatal** | The reference model is unseeded, so batch 25's clean-room run moves the frozen pairing's numbers by about 0.006 on an honest re-draw. A check a correct run cannot pass is a check that gets weakened the first time it fires. Under the superseded script that drift was silently written into the frozen pairing instead — the one scenario batch 18 did not name, and the one batch 25 would have hit | agent-autonomous |
+| **The set is not re-derived at all once a holdout number has been seen; the file is restored from git** | Deleting the frozen manifest and re-running the analysis previously re-derived the whole set after the numbers were in, which is §3's central prohibition. The evidence is the versioned `run_status_holdout.csv` and the `results/*__holdout/` directories, never the gitignored `.holdout_opened` — that one says only that *this working tree* opened the year, which is the driver's question and not this one. Batch 18 was caught by the mirror image | agent-autonomous |
+| **`check_invariants.py` gains `freeze`, which checks the claim `holdout_freeze.json` makes about its own commit** | The record asserts that no file under `analysis/results/*__holdout/` exists at the commit that added the frozen set — the entire evidence that the set predates the opening — and nothing checked it. It is one git command. The refusal above lives in one script; this holds whatever wrote the file | agent-autonomous |
+| **`frozen_on` was being overwritten by every run of the analysis, and is now written once** | Batch 16 found `frozen_at_commit` recomputed and fixed that field, leaving `date.today()` on the line above it. Run today the superseded script rewrote 2026-08-31 → 2026-09-01, with the other eighteen keys identical. The durable fix was never the field | agent-autonomous |
+| **The freeze path is kept although this project will never freeze again** | It is the path a reader implementing this method runs, and it is what the regression test exercises: deleting the frozen file with no trace of an opening returns the manifest byte-identical to the one frozen in batch 15. A script that cannot demonstrate how the set was produced leaves a set with an assertion behind it rather than a derivation | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -592,7 +604,7 @@ at the end of every batch, and append newly created batches to it.
 | 20 | E | The external check on `tha` and `vnm` — **confirmed, not cut; runs before batch 19** | open | |
 | 21 | C, on branch `greedy` | The counterfactual: iterate batch 9's promotion rule to a fixpoint on a branch, and measure what stopping once cost | done — produced | `26-08-27_b21_greedyBranch.md`, on branch `greedy` |
 | 23 | E | The provenance records' script hashes: the invariant that a script's current sha256 must appear in its own record, and the appended sections that make it pass — including `conclude.py`, whose newest section predates batch 16 changing it. **Twenty records, not sixteen: the check reads the whole `script:` block** | done — produced | [[26-09-01_b23_provenanceHashes]] |
-| 24 | E | The frozen phase-E manifest is recomputed on every run of `analysis/run.sh`, so a tree that grew a fork child would silently grow the frozen set; make the freeze win over the recomputation | open | |
+| 24 | E | The frozen phase-E manifest is recomputed on every run of `analysis/run.sh`, so a tree that grew a fork child would silently grow the frozen set; make the freeze win over the recomputation | done — produced | [[26-09-01_b24_frozenSetWins]] |
 | 25 | E | Run `/validate cleanroom` to completion — batch 18's was interrupted at 8 of 32 development rows, so the two distributions are unverified from cold and the phase-E half has never run from a clean checkout | open | |
 
 ---
@@ -1160,6 +1172,10 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 23 — a record's digest must be the file's
 
 - [[26-09-01_b23_provenanceHashes]]
+
+### Batch 24 — the frozen set wins over the recomputation
+
+- [[26-09-01_b24_frozenSetWins]]
 
 ### Batch 21 — the greedy branch
 

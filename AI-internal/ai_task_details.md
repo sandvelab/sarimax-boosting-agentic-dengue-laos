@@ -1770,3 +1770,126 @@ fresher copy: **the parent points at the child's own README and stops restating 
 `validation/`'s one-line description is rewritten in place, because that folder's contents
 genuinely changed — it now holds a check written for a single defect as well as the two
 `/validate` runs.
+
+## T21 — batch 25: the clean-room, stopped by the project's own check (2026-09-02)
+
+**State: blocked.** `/validate cleanroom` was to be run to completion. It was not.
+`analysis/run.sh` ran **3 h 48 m (13 669 s)**, completed the whole development half, and
+**exited 1** at the freeze check. The phase-E half has still never been executed from a clean
+checkout — batch 18 could not reach it because the seal sealed clones, and this run could not
+reach it because the run aborts first.
+
+### How it was run
+
+Clone at `ae0f62d` into a scratch directory, `environment/chapenv` built from
+`environment/lock.txt`, `bash analysis/run.sh` from cold, on the host so the containerised
+reference model can run. The harness `run_cleanroom.sh` and comparison `cleanroom_compare.py`
+were **verified by digest against batch 18's provenance record before the run**, so "the same
+check, run further" is a checked claim rather than an assumption.
+
+The run was launched **detached from the session** with `nohup`. Batch 18's clean-room died
+because its session was cut off; this one outlived two of its own monitors being killed.
+
+### What it verified, and it is more than batch 18 could
+
+`install-chap.sh` reported **"matches environment/lock.txt exactly (174 packages)"**,
+`chap 2.1.0` on CPython 3.13.0. Of **4 306 tracked files, 3 458 identical**, 848 differing,
+93 untracked.
+
+**Every model this project wrote reproduced its CRPS exactly in every combination it appears
+in** — 32 for persistence, 32 for climatology, 27 for the reported ensemble, 4 for `hier_nb`,
+1 for `boosted`, and **zero moved between them**. The unseeded reference moved in **26 of 32**
+and is identical only in the 6 that inherit rather than re-run it. On the main path it went
+22.098446 → 22.383842 (+0.285 CRPS), carrying skill +0.148498 → +0.159355 (+0.0109);
+`beats_reference` and `beats_all_baselines` stay true.
+
+### Why it stopped
+
+`manifest.csv`'s 24 tier-1 rows are planned from the tree. Its **8 tier-2 rows are not** —
+they are selected from tier 1's own results by `tier2_rule.md`: rank each tier-1 row by
+distance in skill score from the main path, take the top two `setup`, top two model and top
+`scoring` rows, pair the groups. **Skill divides by the unseeded reference**, so the ranking
+ranks numbers that do not reproduce.
+
+| group | archived | clean-room |
+|---|---|---|
+| S (setup) | `provinces_reportingOnly`, `provinces_mergeVientiane` | `provinces_reportingOnly`, `trainingWindow_from2004` |
+| M (model) | `family_hierNB`, `weighting_crpsWeighted` | unchanged |
+| A (scoring) | `aggregate_caseWeighted` | `aggregate_populationWeighted` |
+
+Two selected rows changed; the groups are paired, so **six of the eight pairs changed**. The
+freeze check reported `9 difference(s) the frozen set cannot absorb` — six frozen rows the
+tree no longer carries, three whose `rank` moved — and refused to rewrite `manifest_holdout.csv`,
+which is intact at 33 rows and `fc9d1a16…`. `set -e` did the rest.
+
+**The margins say it was never stable.** The deciding margin is how far the last row admitted
+sits above the first excluded: group S **0.001002**, group A **0.003211**, group M 0.093547,
+against a reference noise band of 0.043084. The two decided inside the noise both flipped; the
+one decided by twice the band did not.
+
+**What is and is not in question.** The phase-E results stand — the set was frozen in batch 15,
+committed before 2010 was opened, and batch 16 ran exactly it. What is not reproducible is the
+*derivation*. The eight pairs are a **decision**, correctly recorded, that the project has been
+treating as a **derivation** — batch 24's own lesson (*a value that records history must not be
+derived at run time*) standing one file upstream of where batch 24 applied it.
+
+### The band is a draw, and the phase-D headline moves with it
+
+| | archived | clean-room |
+|---|---|---|
+| skill against the four repeats | 0.1376, 0.1415, 0.1551, 0.1594 | 0.1448, 0.1512, 0.1521, **0.1879** |
+| skill band (max − min) | **0.021778** | **0.043084** |
+| CRPS floor | 0.565 | 1.167 |
+| forks above the band | **6 of 17** | **3 of 17** |
+
+The three that crossed — `02_setup/02_trainingWindow`, `02_setup/03_provinces`,
+`03_models/01_baselines/01_persistence` — **did not move** (0.021875→0.037047,
+0.037553→0.041809, 0.027933→0.027576). The yardstick moved. Only `family`, `weighting` and
+`aggregate` are clear on both draws. The CRPS floor has now been drawn three times: 0.565,
+0.449 (batch 18), 1.167.
+
+Claims **C3 and C4** gained that contingency in their `scope:` fields, as did
+`readme-at-start.md`'s stability row and its first "what has to stay true". **How it should be
+reported is carried to the human** — quoting it with its uncertainty, re-estimating it from
+more repeats, or demoting it to an order of magnitude all change what phase D reports.
+
+### The row that crashed
+
+`trainingWindow_from2004__weighting_crpsWeighted` failed at `check_pool.py`:
+`fitted["weighting"]["validation"]`, `KeyError`. The pipeline was right — `run_ensemble.py`
+recorded `"fell_back": true`, *"holding back 12 months would leave 36 to refit the members on,
+below the 60 this model requires"*, `"method": "equal"`. `check_pool.py` branches on the
+**configured** choice, `stage["choice"] == "b_crpsWeighted"`, not on what the weighting did.
+Fork-blindness, the family batch 14 found four times.
+
+Unreachable until the selection drifted — and **the pair is degenerate anyway**: under a
+training window from 2004 the weighting fork cannot take effect, so had it run it would have
+duplicated the training-window row under another row's name.
+
+### Added, and what is left
+
+`AI-internal/useful-scripts/cleanroom_tier2_drift.py` — the per-model reproduction table, the
+tier-2 selection both ways with its deciding margins, and the band. It carries a **self-check**:
+applying its copy of the rule to the archived conclusions must return the frozen eight pairs,
+and does; nothing under `tier2` is readable if that field is false.
+`AI-generated/validation/26-09-02_cleanroom.md`, two JSON results, and
+`26-09-02_cleanroom-artefacts/` holding what the run itself wrote, copied out before the
+throwaway clone was discarded.
+
+**Nothing under `analysis/` was run, edited or re-run.**
+
+**Batch 26** — the development manifest stops being re-derived: the tier-1 rank order and the
+tier-2 selection recorded and verified rather than recomputed, the `combos` invariant still
+supplying membership from the tree, and `check_pool.py`'s fork-blindness with it. This does not
+touch §3, which the clarification of 2026-09-01 binds to `manifest_holdout.csv` alone.
+**Batch 27** — the clean-room, again. Then 20 and 19.
+
+### One thing about this batch's own record
+
+Writing the provenance section for `26-09-02_cleanroomTier2Drift.json` I produced a
+**fabricated sha256** for `plan_manifest.py` — a plausible 64-hex string that was no file's
+digest — in the middle of a document about provenance. It was caught before the commit by
+hashing every digest in the new records against the files they name, and the record carries
+`ffb398e8…`, which is the file's. Worth keeping: the failure mode this repository exists to
+prevent is one its agent will commit unprompted, and what caught it was running a check rather
+than re-reading.

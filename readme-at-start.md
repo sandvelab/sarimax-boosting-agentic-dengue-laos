@@ -82,6 +82,11 @@ These override everything else here.
    and why is recorded. It is opened once but *evaluated* many times — across the frozen
    perturbation manifest — and that is only honest because the manifest was fixed beforehand:
    **nothing is added, dropped, re-tuned or re-run after a holdout number has been seen.**
+   That binds `manifest_holdout.csv` and nothing else: the tree and the development manifest
+   may still grow, since `/validate invariants` requires every non-main child to have a
+   development row, and a row added after the opening simply has no holdout twin and never
+   joins the 32 (plan §3, clarified 2026-09-01). **Nothing further is added in this project**
+   — the set stays at 32, human-set 2026-09-01.
    **This has happened: batch 16 opened it, on 2026-08-31, and ran exactly the set frozen in
    batch 15.** The driver enforces the second half, on **two conditions and needing both**:
    the row is recorded as `ran` in `05_stability/results/run_status_holdout.csv`, which is

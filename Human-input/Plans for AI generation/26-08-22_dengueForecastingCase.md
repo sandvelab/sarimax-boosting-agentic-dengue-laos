@@ -119,6 +119,18 @@ Three consequences, all of them binding:
   manifest, and **nothing is added, dropped, re-tuned or re-run after a holdout number has
   been seen.** A spread computed from a set chosen after looking is not a spread, it is
   selection with extra steps.
+
+  *Which artefact that binds* (clarified 2026-09-01, after batch 18's outsider check hit the
+  ambiguity): **it binds the frozen phase-E manifest, `manifest_holdout.csv`, and nothing
+  else.** The claim tree and the development manifest may still grow — a reasonable
+  alternative discovered late is still worth carrying, and `/validate invariants`'s `combos`
+  check *requires* every non-main child in the tree to have a development row, so the two
+  rules would otherwise contradict each other. What the freeze forbids is a change to the set
+  evaluated on 2010. A development row added after the opening therefore has no holdout twin
+  and can never acquire one; it is reported as what it is, an unpaired analysis outside the
+  distribution, and it does not join the 32. **In this project nothing further is added at
+  all** — the set stays at 32 (human-set, 2026-09-01) — so this clause is here for the reader
+  implementing the method rather than for the run that produced it.
 - **One year is a thin holdout**, roughly 216 province-months. Report the validation number
   with its per-region and per-split values and an honest statement of how much it can
   distinguish. Do not read a small difference between two candidates as a ranking.
@@ -484,6 +496,7 @@ below is read from a file there.)*
 
 | Decision | Basis | Agency |
 |---|---|---|
+| **§3's freeze binds `manifest_holdout.csv` and not the tree or the development manifest** | Batch 18's outsider check hit the ambiguity head-on: it was asked to add a fork child, and found that the `combos` invariant *requires* every non-main child to have a development row while §3 appeared to forbid adding anything at all. Read literally the two rules contradict each other, and the agent took the narrow reading rather than deciding quietly. The narrow reading is now the text. What the freeze protects is the set evaluated on 2010, because that is what makes the holdout spread a measurement rather than a selection; a development row added afterwards has no twin and never joins the 32. The clause is written for the reader implementing this method — in this project nothing further is added | agent-on-human-assessment |
 | **The perturbation set stays at 32 analyses; no further reasonable alternative is added** | Batch 18's outsider check raised it: an outsider asked to add a training-window alternative found that nothing in the plan says what happens to a distribution over 32 analyses when a thirty-third is discovered after the freeze, the plan covering only cutting for budget. The human's answer is that the 32 are sufficient. This closes the question rather than deferring it, and it means the tree does not grow again before release — so batch 24's defect, where re-running `analysis/run.sh` after a fork child was added would silently grow the frozen phase-E manifest, stays unreachable in practice and is fixed for the reader rather than for this project | human-set |
 
 ### 2026-08-31 — settled by batch 18, from the clean-room and outsider checks

@@ -9,7 +9,7 @@ result (`summary.tsv` → `summary.md`).
 | Field | Content |
 |---|---|
 | `result:` | Path relative to the node, e.g. `results/summary.tsv` |
-| `script:` | The script that produced it, relative to the node |
+| `script:` | The script that produced it, relative to the node, with its `sha256:` on the line below — and the same for any library it imports that this node or the project owns |
 | `invocation:` | The **exact** command line, every parameter included |
 | `inputs:` | Each input path with a content hash |
 | `environment:` | `environment/` (project main), or the node's `env/` |
@@ -36,6 +36,7 @@ the one that cannot be reconstructed later — write it while the reasoning is s
 ```
 result: results/cooccurrence_summary.tsv
 script: scripts/summarise_cooccurrence.py
+        sha256:5b1d9c…
 invocation: ../.venv/bin/python scripts/summarise_cooccurrence.py --window 500 --min-count 3
 inputs: ../01_prepare/results/regions_filtered.tsv  sha256:9f2c1a…
 environment: environment/ (project main)
@@ -51,9 +52,24 @@ agency: agent-autonomous
 information: human-pointed (window size taken from the protocol in Archive/)
 ```
 
+## When a script changes, append a section
+
+A record is a running account, not a snapshot. **The digest in it has to be the digest of the
+file that is there** — so a script that changes gets a new section saying what changed, which
+commit it changed at, and what has run on it since. Earlier sections keep the digest they
+name: each of them describes a run that happened under that version and is right to.
+
+The failure this prevents is not carelessness. It is a batch appending its section when it
+runs a script, changing the script again later in the same batch, and not appending again —
+which is what happened at twenty records before batch 23, including the one for this
+project's headline result. Nothing looks wrong afterwards, and that is the whole difficulty.
+
 ## What the invariant checker verifies
 
-That every result has a record, and that each record names an existing script, commit and
-environment. It **cannot** verify that a record is true — that the named script is the one
-that ran, or that the alternatives listed are the ones considered. Structural checking
-narrows where a human must look; it does not remove the need to look.
+That every result has a record; that each record names an existing script, commit and
+environment; and — the `hashes` check — that every file a record gives a sha256 for exists
+and that the record names its **current** digest somewhere. It **cannot** verify that a
+record is true: that the named script is the one that ran, that a digest is paired with the
+run it sits beside, that a library the script imports is named at all, or that the
+alternatives listed are the ones considered. Structural checking narrows where a human must
+look; it does not remove the need to look.

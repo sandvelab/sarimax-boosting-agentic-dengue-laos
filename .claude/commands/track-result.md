@@ -20,6 +20,7 @@ Write one file per result to the node's `provenance/`, named after the result:
 ```
 result: results/summary.tsv
 script: scripts/summarise.py
+        sha256:5b1d9c…
 invocation: ../.venv/bin/python scripts/summarise.py --window 500 --min-count 3
 inputs: ../01_prepare/results/regions_filtered.tsv  sha256:9f2c…
 environment: environment/ (project main)
@@ -32,6 +33,14 @@ alternatives-considered: median instead of mean; rejected because the distributi
 agency: agent-autonomous
 ```
 
+**The `sha256:` under `script:` is not optional either, and it is the one field that goes
+stale on its own.** A record is a running account: when a script changes, append a section
+saying what changed and what has run on it since, rather than editing the digest above.
+Earlier sections keep the version they name, because each describes a run that happened under
+it. `/validate invariants`' `hashes` check fails when a record does not name the file's
+current digest — it was added in batch 23 after twenty records, the headline result's
+included, were found describing versions that no longer existed.
+
 `alternatives-considered` and `agency` are not optional. A record that says only what was
 done, with no account of what else was possible and who decided, is reproducible but not
 veridical — see `AGENTS.md` §4. `agency` is one of `human-set`, `agent-on-human-assessment`,
@@ -43,6 +52,7 @@ A result that never touched disk. If you computed a number by reading it out of 
 output and carrying it into the next step, there is nothing to write a record about, and
 the record you write will be fiction. Go back and make the step write a file.
 
-`/validate invariants` checks that every result has a record and that each record names an
-existing script, commit and environment. It cannot check that the record is *true* — that
-part is on you.
+`/validate invariants` checks that every result has a record, that each record names an
+existing script, commit and environment, and that the digest it gives for a file is that
+file's current one. It cannot check that the record is *true* — that the script it names is
+the one that ran, or that a digest belongs to the run it sits beside. That part is on you.

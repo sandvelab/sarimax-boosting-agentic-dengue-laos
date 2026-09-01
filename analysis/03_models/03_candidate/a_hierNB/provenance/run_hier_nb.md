@@ -313,3 +313,60 @@ alternatives-considered: none new at this node; its configuration is batch 9's p
 and this batch did not touch it.
 
 agency: agent-autonomous.
+
+
+---
+
+## Batch 23 — the shared evaluation library's digest, two changes late
+
+```
+result:              results/$COMBO/eval.nc, results/$COMBO/model_spec.json and the
+                     artefacts beside them, as named in the section(s) above
+script:              scripts/run_hier_nb.py   (unchanged)
+                     analysis/03_models/scripts/lib/chap_eval.py
+                     sha256:b05916bff2567b79571ba2ce27dbf26ce5cf5e6540c278ba5b570df1907688f5
+invocation:          unchanged: "$PYTHON" scripts/run_hier_nb.py, from the node
+                     directory via run.sh
+inputs:              unchanged in kind
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               unchanged from the section(s) above
+commit:              4563baf and 49825b5 (the two changes to the library)
+instructions-commit: cf97b81
+node:                analysis/03_models/03_candidate/a_hierNB
+produced:            2026-08-27; recorded 2026-09-01
+```
+
+**What changed in the library, twice.** At `4563baf`, batch 8: a model that takes
+configuration is pointed at a **file** for it, passed to chap-core as
+`--model-configuration-yaml`, and that file's path, digest and contents are written into the
+model specification — so what a run was configured with is a stored artifact rather than a
+command line nobody kept. At `49825b5`, batch 9: the assembled common ground is looked up
+through `combos.resolve`, so a combination that moved only a candidate-internal fork inherits
+`02_setup`'s output from `COMBO_BASE` and the spec records which combination answered, in a
+new `setup_from_combo` field. Both are additions. Neither changes what a model computes.
+
+**What the results on disk were produced by.** This node's record names `028835c8…`, the batch-8 version, and its `results/main/` was
+written at `5e1de04`, batch 11 — **after** `49825b5`, so the results on disk were produced by
+the version named here and the gap is in the record alone. This node also depends on the
+first of the two changes more than any other: candidate 1 is configured by a file assembled
+at this node and passed through `--model-configuration-yaml`, which is what batch 8 added the
+library support for, and the seed reaches the model the same way.
+
+**Why four records missed it.** The library is named in the `script:` block below its
+node's own runner, with a digest of its own, and nothing checked those digests until this
+batch. The four records that name a superseded version are the four written before batch 9 —
+this project's whole first tranche of models. The eight written afterwards name the current
+one. That is the case that made the `hashes` invariant read the whole `script:` block rather
+than its first line: a check on the runner alone would have passed all four while the library
+underneath them had moved twice.
+
+alternatives-considered: dropping the library from the `script:` block, so that a record
+names only the file it owns and the library is covered wherever it is defined. Rejected — a
+run is the runner *and* what it imports, and a record that names only half of that is
+describing half a run. The opposite, hashing every module transitively imported, was rejected
+as well: it is not what these records do, and adding an obligation retroactively would make
+twelve more of them fail for never having promised it.
+
+agency: agent-autonomous.
+information: agent-retrieved — the digest is computed from the file, the two changes read
+from the diffs, and the reproduction from the clean-room comparison.

@@ -86,3 +86,70 @@ agency:              agent-autonomous.
 **What it establishes.** Five of seventeen forks clear the holdout's own band, against six
 on development, and the ranking is reordered: the province filter is first at 0.2696 where
 it was fourth at 0.0376.
+
+
+---
+
+## Batch 23 — the digest of the refactor, and the re-draw that verifies it
+
+```
+result:              results/fig_fork_sensitivity.png
+                     results/fig_fork_sensitivity.csv
+                     results/holdout_fig_fork_sensitivity.png
+                     results/holdout_fig_fork_sensitivity.csv
+script:              scripts/fig_fork_sensitivity.py
+                     sha256:1bd39712d658218907c52eb5559c04a141e72dcf65579082f45d2b9b44dce65c
+                     scripts/holdout_fig_fork_sensitivity.py
+                     sha256:a81d104be1909e1dd0be3a6b35a07c33af948213615f0c73052d66d0211272fb
+                     scripts/lib/stability_figures.py
+                     sha256:def0bc4a1c2fa9a82d5e73dd9fb3541b5b38dd79ca8bfcfcecdae4f63852ae69
+invocation:          "$PYTHON" scripts/fig_fork_sensitivity.py
+                     "$PYTHON" scripts/holdout_fig_fork_sensitivity.py
+                     (from 05_stability/, via run.sh — the development figure in the
+                     phase-D block, the held-out one in the phase-E block)
+inputs:              unchanged from the section(s) above
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none.
+commit:              48edaea
+instructions-commit: cf97b81
+node:                analysis/05_stability
+produced:            2026-08-31; recorded and re-verified 2026-09-01
+```
+
+**What changed in the script.** Batch 16 moved the drawing into
+`scripts/lib/stability_figures.py`, because the same figure is drawn for the held-out year by
+`holdout_fig_fork_sensitivity.py` and a copy per dataset is a copy that will drift. What is
+left here is a one-screen runner; what the figure shows, and why each of its reference lines
+is there, moved into that module's docstring with it.
+
+**When it changed, and what that left standing.** The development figure — how far each of
+the seventeen forks moves the conclusion, against the same measured band — was drawn at
+`895a9f8`, *before* the refactor, and the refactor at `48edaea` did not re-draw it. So the file on disk had been produced by a version of the script that no longer existed,
+and the record named a third version again — this script is recorded in two sections and
+was stale in both.
+
+**Re-drawn, and byte-identical.** This batch ran `scripts/fig_fork_sensitivity.py` under
+the pinned environment and `git status` reported no change — the PNG and the CSV alike. So the
+refactor is output-identical where it matters most, on the figure that was already archived,
+and the file on disk is now one this version of the script has actually produced rather than
+one it is asserted to reproduce. The library is hashed beside the runner, because the runner
+is five lines and everything the figure is lives in the library.
+
+**And the phase-E half above is attributed to a script that no longer draws it.** That
+section records `holdout_fig_fork_sensitivity.png` as the output of
+`scripts/fig_fork_sensitivity.py --dataset holdout`. The refactor removed that flag and gave
+the held-out figure its own runner, `scripts/holdout_fig_fork_sensitivity.py`, which no
+section named until this one — so the digest block above carries both runners and the library they share. The
+`hashes` invariant does not catch this on its own: it checks the files a record hashes, and a
+result attributed to the wrong script is `check_provenance`'s question, which is satisfied
+because the file *is* named. Two checks passing and the record still misleading is the same
+gap batch 18 wrote up, one layer down.
+
+alternatives-considered: recording the gap without re-drawing, as the root conclusion's
+section does. Rejected here because the cost is different: a figure is drawn from stored
+values in under a second, nothing upstream is re-run, and the result is evidence rather than
+an argument. Where re-running would have meant re-running an analysis, this batch did not.
+
+agency: agent-autonomous.
+information: agent-retrieved — the digests are computed from the files, the change read from
+the diff at `48edaea`, and the byte-identity from the re-draw this batch performed.

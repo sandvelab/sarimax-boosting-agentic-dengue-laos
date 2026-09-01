@@ -222,3 +222,55 @@ stability result, and it is answered by running it and diffing, not by reading t
 
 agency: agent-autonomous.
 information: agent-retrieved — read from results/manifest.csv and `git diff`.
+
+
+---
+
+## Batch 23 — the digest of batch 13's tier-2 gate
+
+```
+result:              results/manifest.csv, results/manifest_notes.json
+script:              scripts/plan_manifest.py
+                     sha256:ffb398e840ef13434e6531a9cacb7f04a94f07a6002c426e4b32942222a8fa23
+                     scripts/lib/inventory.py
+                     sha256:71e0687ad3227b07cd569ba167ad3c63fd7cfd9b1636f798a545de72e8c59667
+invocation:          "$PYTHON" scripts/plan_manifest.py
+                     (from 05_stability/, via run.sh, twice per run)
+inputs:              the tree, through scripts/lib/inventory.py; results/step_costs.json;
+                     results/conclusions.csv; results/run_status.csv;
+                     analysis/03_models/**/results/*/run_cost.json;
+                     AI-generated/candidate-forks/*/fork_sweep.json
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none.
+commit:              40b6936
+instructions-commit: cf97b81
+node:                analysis/05_stability
+produced:            2026-08-29; recorded 2026-09-01
+```
+
+**What changed in the script.** The tier-2 rule ranks tier 1 by what it concluded, and both
+it and the shortfall clause were written for a tier 1 that had *run*. Part-way through, they
+come out wrong: after batch 13 the setup and scoring rows had conclusions and no row that
+moves our model did, so the rule would have filled one group and half of another, selected
+two pairs instead of eight, and recorded a shortfall that was an artefact of the running
+order — and batch 15 would have re-planned and got a different tier 2, with nothing in the
+record to say which was the frozen one. So selection now waits until every tier-1 row has
+been **attempted**, read from `run_status.csv`, which is the only file that distinguishes
+"ran and concluded nothing" from "nobody has run it yet". `tier2_rule.md` is untouched: what
+moved is when a rule about the ranking of tier 1 is allowed to read a tier 1.
+
+**Why the record missed it.** The three sections above are batch 12's and batch 15's. Batch
+13 changed the script and appended no section, and batch 15's section says "unchanged by this
+batch" — which was true of batch 15 and read, to anyone scanning the record, as though
+nothing had changed since batch 12. That is the failure mode this check exists for: every
+sentence in the record was true and the record as a whole was wrong.
+
+**What it produced.** The manifest batch 12 froze came back byte-identical from this version
+when batch 15 re-planned it against a completed tier 1 — same 33 rows, same ranks, same eight
+pairs — which is the property that makes it safe for `run.sh` to re-plan on every run.
+
+alternatives-considered: none new; the manifest's own alternatives are in the sections above.
+
+agency: agent-autonomous.
+information: agent-retrieved — the digest is computed from the file and the change read from
+the diff at `40b6936`.

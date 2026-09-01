@@ -56,3 +56,56 @@ scheme rather than type it, and the phase-E coupling note are the agent's.
 information: agent-retrieved — the split count comes from the stored scheme file, and
 `n_retrain`'s semantics from chap-core's own `prediction_evaluator`, which spaces the retrain
 points evenly across the splits and rejects `n_retrain > n_splits`.
+
+
+---
+
+## Batch 23 — the digest batch 16's switch left behind
+
+```
+result:              results/$COMBO/analysis_dataset.csv
+                     results/$COMBO/setup_spec.json
+script:              scripts/apply_retrain.py
+                     sha256:1512e07ef5e15efbf460ecfcb4f05d3183036493054ba79e7c130036dc47ca2f
+invocation:          unchanged: "$PYTHON" scripts/apply_retrain.py, from the node
+                     directory via run.sh, with COMBO set by the driver where a
+                     combination is being run
+inputs:              unchanged in kind; each combination's own inputs and their sha256 are
+                     recorded in the specification this step writes under that combination
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none.
+commit:              895a9f8
+instructions-commit: cf97b81
+node:                analysis/02_setup/04_retrain/b_everySplit
+produced:            2026-08-31; recorded 2026-09-01
+```
+
+**What changed in the script.** `n_retrain` stopped being read from a module constant naming the development scheme
+and became `scheme[combos.scheme_key()]["n_splits"]`. Refitting at every split means every
+split of *this* backtest, which is eight on development and four on the holdout, so a
+constant would have made the holdout row refit more often than it has splits. The field
+`n_retrain_source` in the written spec now names the key it used, so the file says which
+scheme answered it.
+
+**What ran on it.** Every development combination this node takes part in was re-derived at
+`895a9f8` and this node's specifications came back byte-identical — the fields that moved
+are the assembled ones at `02_setup`, which gained `evaluated_on`, `source_dataset`,
+`identical_to_source_dataset` and a scheme key on each `eval_flags_source` entry. The
+holdout combinations of the frozen phase-E set then ran on this version and nothing else
+has.
+
+**Why the record did not say so.** Batch 16 changed the script and ran it, and appended no
+section anywhere in `02_setup`. Nothing looked wrong: the development numbers had not moved,
+which is exactly the case in which a stale digest is invisible. The `hashes` invariant this
+batch added is what makes it visible, and it found the same omission at twenty records.
+
+alternatives-considered: writing one section at `02_setup` covering the whole fork chain
+rather than one per node. Rejected because a provenance record belongs to the node whose
+script it describes, and a reader checking `apply_provinces.py` would have to know to look
+one level up — which is the kind of indirection that makes a record go unread. Correcting
+the earlier sections' digests in place was rejected on the standing rule: those sections
+describe runs that happened under that version, and the version they name is right.
+
+agency: agent-autonomous.
+information: agent-retrieved — the digest is computed from the file and the commit read from
+`git log`; what moved in the specs is read from batch 16's report and from the diff.

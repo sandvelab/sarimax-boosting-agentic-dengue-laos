@@ -25,9 +25,10 @@ one honest signal here into decoration.
 ```
 
 Deterministic code asserting what the rules imply: tree semantics hold; every result has a
-provenance record; every plot has its data and script; every stochastic script has a seed;
-every claim resolves; the working tree is clean; and no value looks transcribed between
-steps by hand. Ordinary code, no attention budget.
+provenance record; **every digest a record gives is the file's current one**; every plot has
+its data and script; every stochastic script has a seed; every claim resolves; the working
+tree is clean; and no value looks transcribed between steps by hand. Ordinary code, no
+attention budget.
 
 ## cleanroom — before release, and on a schedule during a long project
 
@@ -54,3 +55,9 @@ These checks confirm the record is structurally **complete**, not that it is **t
 provenance record can name the wrong script; a claim can point at a result that does not
 support it. Structural checking narrows where a human must look. It does not remove the
 need to look.
+
+Batch 18 put it more sharply, after `/validate outsider` found five statements that were
+true as prose and false as behaviour: **these checks verify shape and never content.** Batch
+23 moved one thing across that line — a record's digest is now checked against the file
+rather than merely being present — and the rest of the line is where it was. A number can be
+right and its noun wrong, and nothing here looks at nouns.

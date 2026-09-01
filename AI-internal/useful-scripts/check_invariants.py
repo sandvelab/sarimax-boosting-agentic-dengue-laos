@@ -15,6 +15,9 @@ Checks
               relationship they stand in (numbered siblings, lettered alternatives)
   provenance  every file under a node's results/ has a provenance record, and every
               record names an existing script, commit and environment
+  hashes      every file a record gives a sha256 for exists, and the record names that
+              file's current digest somewhere -- so a script cannot change without a
+              section being appended
   plots       every plot image has its plotted values and its plotting script beside it
   seeds       every script that draws randomness has a recorded seed
   claims      every claim in the collection resolves to an existing result
@@ -33,6 +36,7 @@ Dual interface:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import re
 import subprocess
 import sys
@@ -218,6 +222,120 @@ def check_provenance(root: Path) -> list[Finding]:
                 if key not in rec:
                     out.append(Finding("provenance", f"{rel}/provenance/{rec_name}",
                                        f"record is missing '{key}'"))
+    return out
+
+
+# A record's `script:` block names the files that produced the result and gives a sha256
+# for each. Until batch 23 nothing made those digests keep up with the files, and the worst
+# case was the headline result's own record: `analysis/provenance/conclude.md` named a
+# version of `conclude.py` that had not existed since batch 16 changed the script, ran it to
+# produce the holdout conclusion, and appended no section.
+#
+# Twenty records were stale, and nineteen of them have one shape: a batch appended its
+# section when it ran the script, changed the script again later in the same batch, and did
+# not append again. Nothing looks wrong afterwards, which is why this is code and not a
+# resolution to be more careful.
+#
+# The twentieth is the one that makes this worth doing at the level of files rather than of
+# `script:` lines. Four records name `03_models/scripts/lib/chap_eval.py` -- a library, not
+# their own script -- with its digest, and it changed twice after they were written. A check
+# that read only the first line of the block would have passed all four.
+DIGEST = re.compile(r"sha256:([0-9a-f]{8,64})")
+# The tokens a `script:` block is made of, matched in one pass so they come out in the order
+# they appear and cannot overlap. `dir` is a heading like
+# `the model itself, scripts/persistence_model/:`, which the bare filenames under it are
+# relative to; `MLproject` is in the path alternative because chap-core's model contract
+# requires that name and it has no suffix to recognise it by.
+RECORD_TOKEN = re.compile(
+    r"(?P<digest>sha256:[0-9a-f]{8,64})"
+    r"|(?P<dir>[\w./$-]+/(?=[:\s]|$))"
+    r"|(?P<path>[\w./$-]*(?:\.(?:py|sh|R|r|jl|toml|lock|ya?ml|ipynb)|MLproject)\b)")
+
+
+def sha256_of(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _script_blocks(text: str) -> list[str]:
+    """Each `script:` field with the continuation lines that belong to it."""
+    out, lines = [], text.splitlines()
+    for i, line in enumerate(lines):
+        if not line.startswith("script:"):
+            continue
+        block = [line]
+        for nxt in lines[i + 1:]:
+            if not nxt.strip() or nxt.startswith("```") or re.match(r"^[a-z-]+:", nxt):
+                break
+            block.append(nxt)
+        out.append("\n".join(block))
+    return out
+
+
+def _hashed_files(block: str) -> list[tuple[str, str]]:
+    """(directory, path) for each file the block names *and gives a digest for*.
+
+    A path claims the digest that is the next token after it. If the next token is another
+    path it carries no digest of its own -- `scripts/run_hier_nb.py   (unchanged)` followed
+    by the model files that did change -- and nothing is claimed on its behalf. A record
+    naming a library without hashing it is being less precise, not wrong, and is left alone.
+    """
+    tokens = [(m.lastgroup, m.group()) for m in RECORD_TOKEN.finditer(block)]
+    out, directory = [], ""
+    for j, (kind, value) in enumerate(tokens):
+        if kind == "dir":
+            directory = value
+        elif kind == "path":
+            following = tokens[j + 1] if j + 1 < len(tokens) else None
+            if following and following[0] == "digest":
+                out.append((directory, value))
+    return out
+
+
+def check_hashes(root: Path) -> list[Finding]:
+    """Every file a record hashes exists, and the record names its current digest.
+
+    Somewhere in the record, not in its newest section: an old section records the version
+    that ran then and is right to keep it. The obligation is that the record has caught up
+    with the file, not that it has forgotten what came before. An abbreviated digest --
+    `sha256:cbd3158db12438ac...`, as the model contract files are recorded -- satisfies it
+    as a prefix, because abbreviating is a formatting choice and not a weaker claim.
+
+    What this does not check, and it matters because this file is a large part of why the
+    records are trusted: that a digest is paired with the run it sits beside, that a library
+    a script imports is named at all, or that anything in the record is true. It narrows
+    where a human has to look. It does not do the looking.
+    """
+    out: list[Finding] = []
+    for node in nodes(root):
+        rel = node.relative_to(root)
+        for rec_name, rec in _provenance_records(node).items():
+            where = f"{rel}/provenance/{rec_name}"
+            recorded = DIGEST.findall(rec)
+            seen: set[str] = set()
+            for directory, named in (f for b in _script_blocks(rec)
+                                     for f in _hashed_files(b)):
+                if named in seen:
+                    continue
+                seen.add(named)
+                candidates = [node / named, root / named]
+                if directory:
+                    candidates += [node / directory / named, root / directory / named]
+                path = next((p for p in candidates if p.is_file()), None)
+                if path is None:
+                    out.append(Finding("hashes", where,
+                                       f"gives a sha256 for '{named}', which is not a "
+                                       f"file at this node or at the repository root"))
+                    continue
+                current = sha256_of(path)
+                if not any(current.startswith(d) for d in recorded):
+                    out.append(Finding("hashes", where, (
+                        f"{path.relative_to(root)} now hashes to {current[:12]}…, which "
+                        f"this record does not name: the file changed and no section was "
+                        f"appended")))
     return out
 
 
@@ -419,6 +537,7 @@ def check_crossing(root: Path) -> list[Finding]:
 CHECKS = {
     "tree": check_tree,
     "provenance": check_provenance,
+    "hashes": check_hashes,
     "plots": check_plots,
     "seeds": check_seeds,
     "claims": check_claims,

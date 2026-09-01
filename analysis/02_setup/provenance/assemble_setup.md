@@ -102,3 +102,57 @@ paragraph above rather than in a section of its own.
 agency: agent-autonomous.
 information: agent-retrieved — every figure quoted above is read from the files this batch
 produced.
+
+
+---
+
+## Batch 23 — the digest batch 16's switch left behind
+
+```
+result:              results/$COMBO/analysis_dataset.csv
+                     results/$COMBO/setup_spec.json
+                     results/$COMBO/setup_inputs.sha256
+script:              scripts/assemble_setup.py
+                     sha256:1715916754cfa2dc2034fdd8dc80234cad95859c719b8a59df962df6eec13e15
+invocation:          unchanged: "$PYTHON" scripts/assemble_setup.py, from the node
+                     directory via run.sh, after every fork child has run
+inputs:              unchanged in kind; the chosen child of each fork under this
+                     combination, and analysis/01_data/02_characterise/results/
+                     backtest_scheme_chosen.json
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none.
+commit:              895a9f8
+instructions-commit: cf97b81
+node:                analysis/02_setup
+produced:            2026-08-31; recorded 2026-09-01
+```
+
+**What changed in the script.** The three backtest flags stopped being read from
+`development_scheme` by name and became `scheme[combos.scheme_key()]`, so a holdout
+combination is assembled at 3/4/3 over 2010 rather than at development's 3/8/3 — both fixed
+by batch 3 and neither chosen here. The spec gained `evaluated_on`, `source_dataset` and
+`identical_to_source_dataset`, and `eval_flags_source` now names the key each flag came from
+rather than only the file. `identical_to_development_file` was **kept** rather than renamed,
+because it answers a different question — whether what the models face is the development
+file — and on a holdout combination the honest answer to that is no.
+
+**What ran on it.** Every one of the twelve development specifications was re-derived at
+`895a9f8` and moved only in those descriptive fields: `dataset_sha256`, `eval_flags`, row
+counts and locations are unchanged in all twelve, so nothing numeric in the tree moved. The
+frozen phase-E set then ran on this version.
+
+**Why the record did not say so.** Batch 16 changed the script and ran it, and appended no
+section anywhere in `02_setup`. Nothing looked wrong: the development numbers had not moved,
+which is exactly the case in which a stale digest is invisible. The `hashes` invariant this
+batch added is what makes it visible, and it found the same omission at twenty records.
+
+alternatives-considered: writing one section at `02_setup` covering the whole fork chain
+rather than one per node. Rejected because a provenance record belongs to the node whose
+script it describes, and a reader checking `apply_provinces.py` would have to know to look
+one level up — which is the kind of indirection that makes a record go unread. Correcting
+the earlier sections' digests in place was rejected on the standing rule: those sections
+describe runs that happened under that version, and the version they name is right.
+
+agency: agent-autonomous.
+information: agent-retrieved — the digest is computed from the file and the commit read from
+`git log`; what moved in the specs is read from batch 16's report and from the diff.

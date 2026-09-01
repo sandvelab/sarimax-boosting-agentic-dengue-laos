@@ -83,3 +83,42 @@ editing this script safe at all. It was checked before the change and again afte
 `f3904c5` was one commit before `937fd5c` and both predate any file under
 `analysis/results/*__holdout/`, the first of which appears at `895a9f8`. So the earlier
 value was not misleading about the seal; it was simply a value that a re-run would destroy.
+
+
+---
+
+## Batch 23 — the digest of that correction
+
+```
+result:              results/holdout_freeze.json
+                     results/manifest_holdout.csv (unchanged by the correction)
+script:              scripts/freeze_holdout_manifest.py
+                     sha256:7726bef9e8d35b0965c341f04e55cfe25c4093c763d03fd9aa12c4fe13d8cb4b
+invocation:          "$PYTHON" scripts/freeze_holdout_manifest.py
+                     (from 05_stability/, via run.sh)
+inputs:              results/manifest.csv, results/conclusions.csv, results/tier2_rule.md,
+                     and git, for the commit that adds results/manifest_holdout.csv
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none.
+commit:              48edaea
+instructions-commit: cf97b81
+node:                analysis/05_stability
+produced:            2026-08-31; recorded 2026-09-01
+```
+
+The section above describes the correction and this one carries its digest, which that
+section did not: it is prose with no `script:` block, so the record went on naming
+`ca92a098…`, the version whose `frozen_at_commit` recorded HEAD. The current version reads
+that field from `git log --diff-filter=A` and the field now holds **937fd5c**.
+
+This is the record where a stale digest would have cost the most per byte. The field exists
+to evidence that the phase-E set predates the year being opened; a reader checking that claim
+reaches for this record, and it named a script that could not have produced the value they
+are looking at.
+
+alternatives-considered: none new — the correction's own alternatives are in the section
+above.
+
+agency: agent-autonomous.
+information: agent-retrieved — the digest is computed from the file and the change read from
+the diff at `48edaea`.

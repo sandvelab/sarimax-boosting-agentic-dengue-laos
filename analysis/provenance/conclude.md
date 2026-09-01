@@ -313,3 +313,61 @@ Found by batch 18's `/validate outsider` run, which walked the headline result's
 
 agency: agent-autonomous.
 information: agent-retrieved — `git merge-base --is-ancestor`, `git rev-parse <c>^{tree}`.
+
+
+---
+
+## Batch 23 — the digest this record has been missing since batch 16
+
+```
+result:              results/main__holdout/conclusion.json, and the thirty-one other
+                     results/*__holdout/conclusion.json
+script:              scripts/conclude.py
+                     sha256:2838a897690841bb7c634f656150c6cf4d83dbb9be312c7c5e9861b926efad09
+invocation:          "$PYTHON" analysis/scripts/conclude.py, with COMBO set by
+                     analysis/05_stability/scripts/run_manifest.py --dataset holdout and
+                     COMBO_BASE=main
+inputs:              analysis/04_score/03_compare/results/$COMBO/leaderboard.csv
+                     analysis/04_score/03_compare/results/$COMBO/paired_summary.csv
+                     analysis/04_score/03_compare/results/$COMBO/comparison_notes.json
+                     analysis/03_models/03_candidate/**/results/$COMBO/model_spec.json
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none.
+commit:              895a9f8 (the change), 609e1be (the rows that ran on it)
+instructions-commit: cf97b81
+node:                analysis
+produced:            2026-08-31; recorded 2026-09-01
+```
+
+**What changed in the script.** The `dataset` field stopped being the constant
+`"development"` and became `combos.dataset()`, derived from the combination name by the same
+function the setup chain uses to pick the file — so a conclusion cannot say it is a
+development number while the analysis behind it read the holdout. The printed line names the
+dataset with it. Nothing else moved.
+
+**Why this is the worst of the twenty this batch found.** Batch 16 changed the script, ran it
+thirty-two times to produce phase E's conclusions, and appended no section. So this record —
+the record of the project's headline result — described a version of `conclude.py` that had
+not existed since 2026-08-31, and **no record anywhere named the invocation that wrote
+`results/main__holdout/conclusion.json`**, which is where the reported held-out skill score
+of +0.0868 is read from. It is now this section.
+
+**What the development conclusion was produced by, and why it is not re-run here.**
+`results/main/conclusion.json` was last written at `87440bc` by the batch-14 version,
+`3acf80d9…`. This batch does not re-run it. The current script derives `dataset` from the
+combination name, which is `development` for `main`, so it writes the same file — and that
+is an argument rather than evidence, so here is the evidence: batch 18's clean-room run
+rebuilt the main path from a fresh clone at `ad7e64f` with this version of the script, and
+every field of `conclusion.json` that does not divide by the unseeded reference came back
+identical (`AI-generated/validation/26-09-01_cleanroom.md`).
+
+alternatives-considered: re-running `conclude.py` under `COMBO=main` so that the reported
+development conclusion and the current script share a commit. Rejected on two counts — it
+would be a re-run made for a record's benefit rather than for the analysis's, and the
+clean-room run is stronger evidence than it would be, having rebuilt every input as well as
+the script. Correcting the earlier sections' digests in place was rejected on the standing
+rule: each of them names the version that ran then, and is right to.
+
+agency: agent-autonomous.
+information: agent-retrieved — the digest is computed from the file, the commits from
+`git log`, and the reproduction from the clean-room comparison.

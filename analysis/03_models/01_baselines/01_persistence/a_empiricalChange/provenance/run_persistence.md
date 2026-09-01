@@ -162,3 +162,61 @@ alternatives-considered: none at this node; what changed is which combinations r
 agency: agent-autonomous.
 information: agent-retrieved — every figure quoted above is read from the files this batch
 produced.
+
+
+---
+
+## Batch 23 — the shared evaluation library's digest, two changes late
+
+```
+result:              results/$COMBO/eval.nc, results/$COMBO/model_spec.json and the
+                     artefacts beside them, as named in the section(s) above
+script:              scripts/run_persistence.py   (unchanged)
+                     analysis/03_models/scripts/lib/chap_eval.py
+                     sha256:b05916bff2567b79571ba2ce27dbf26ce5cf5e6540c278ba5b570df1907688f5
+invocation:          unchanged: "$PYTHON" scripts/run_persistence.py, from the node
+                     directory via run.sh
+inputs:              unchanged in kind
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               unchanged from the section(s) above
+commit:              4563baf and 49825b5 (the two changes to the library)
+instructions-commit: cf97b81
+node:                analysis/03_models/01_baselines/01_persistence/a_empiricalChange
+produced:            2026-08-27; recorded 2026-09-01
+```
+
+**What changed in the library, twice.** At `4563baf`, batch 8: a model that takes
+configuration is pointed at a **file** for it, passed to chap-core as
+`--model-configuration-yaml`, and that file's path, digest and contents are written into the
+model specification — so what a run was configured with is a stored artifact rather than a
+command line nobody kept. At `49825b5`, batch 9: the assembled common ground is looked up
+through `combos.resolve`, so a combination that moved only a candidate-internal fork inherits
+`02_setup`'s output from `COMBO_BASE` and the spec records which combination answered, in a
+new `setup_from_combo` field. Both are additions. Neither changes what a model computes.
+
+**What the results on disk were produced by.** This node's `results/main/` was written at `a2cdad3`, batch 7, under the first version
+of the library — so the reported persistence baseline predates both changes. What says the
+current version reproduces it is not an argument from the diff: batch 18's clean-room run
+rebuilt the whole main path from a fresh clone at `ad7e64f`, with this library, and
+persistence came back at **24.879338288409706** against an archived 24.879338288409706
+(`AI-generated/validation/26-09-01_cleanroom.md`). Every run of this node from batch 13
+onward — the perturbation rows and the frozen phase-E set — used this version directly.
+
+**Why four records missed it.** The library is named in the `script:` block below its
+node's own runner, with a digest of its own, and nothing checked those digests until this
+batch. The four records that name a superseded version are the four written before batch 9 —
+this project's whole first tranche of models. The eight written afterwards name the current
+one. That is the case that made the `hashes` invariant read the whole `script:` block rather
+than its first line: a check on the runner alone would have passed all four while the library
+underneath them had moved twice.
+
+alternatives-considered: dropping the library from the `script:` block, so that a record
+names only the file it owns and the library is covered wherever it is defined. Rejected — a
+run is the runner *and* what it imports, and a record that names only half of that is
+describing half a run. The opposite, hashing every module transitively imported, was rejected
+as well: it is not what these records do, and adding an obligation retroactively would make
+twelve more of them fail for never having promised it.
+
+agency: agent-autonomous.
+information: agent-retrieved — the digest is computed from the file, the two changes read
+from the diffs, and the reproduction from the clean-room comparison.

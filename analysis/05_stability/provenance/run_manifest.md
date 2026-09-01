@@ -352,3 +352,58 @@ by running the manifest without it, which began re-running `main__holdout` — a
 reference is unseeded, a second pass would have replaced the denominator of every number
 already reported with a different draw. It was stopped at the persistence baseline and those
 files restored; the reference was never reached.
+
+
+---
+
+## Batch 23 — the digest of the two-condition seal
+
+```
+result:              no analysis result; the change is to the seal that decides whether a
+                     holdout row runs. results/run_status_holdout.csv is unchanged by it,
+                     and results/.holdout_opened is not a result — it is gitignored and is
+                     a property of one working tree.
+script:              scripts/run_manifest.py
+                     sha256:df5b87ea4635ce3ff3ad8a79e182039d81f261983df2702d232795827f60dc0c
+invocation:          unchanged: "$PYTHON" scripts/run_manifest.py --tier 1 | --tier 2 |
+                     --dataset holdout, from 05_stability/, via run.sh
+inputs:              unchanged from the section(s) above
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               unchanged from the section(s) above
+commit:              ae565fd (the seal), ad7e64f (the marker moved to the node root)
+instructions-commit: cf97b81
+node:                analysis/05_stability
+produced:            2026-08-31; recorded 2026-09-01
+```
+
+**What changed in the script.** The holdout seal had rested on `run_status_holdout.csv`
+alone, which is versioned — so it sealed every clone of the repository and not only the copy
+that opened the year. Batch 18's clean-room run found all thirty-two rows skipped in a fresh
+checkout, `collect_conclusions.py --dataset holdout` re-reading the committed conclusions,
+and the phase-E half of `analysis/run.sh` reproducing its outputs byte-identically while
+running none of the analysis behind them. The seal now takes two conditions and needs both:
+the row recorded as `ran` in the versioned file, so forcing a re-run by deleting a row still
+shows in git, and a gitignored `.holdout_opened`, written by the driver after the first
+invocation in which a holdout row actually ran, saying that *this* tree opened the year. The
+marker sits at the node root rather than under `results/`, at `ad7e64f`, because `results/`
+is where results go and a seal is not one.
+
+**What ran on it, which is nothing, and why that is the record.** No row of either manifest
+has been executed by this version. Plan §3 forbids re-running the frozen set, and the
+development set was not re-run either. What is verified is that the seal *releases*: the
+driver plans all thirty-two rows in a fresh clone. What is not verified is that they then
+produce the archived numbers there, and that is batch 25's, stated as plainly in
+`AI-generated/validation/26-09-01_cleanroom.md`. This section exists so that the gap has an
+address: a reader who finds the driver's digest recorded here and the phase-E rows recorded
+under `609e1be` can see that the two are different versions without having to diff anything.
+
+alternatives-considered: re-running one holdout row to make the digest and the results agree.
+Rejected — it is exactly what §3 forbids, and for the reason §3 gives: the reference is
+unseeded, so a second pass replaces the denominator of every reported number with a different
+draw. A record that says which version ran is worth more than a number that has been redrawn
+to suit it.
+
+agency: agent-autonomous for the mechanism; human-set for the constraint it works under
+(plan §3).
+information: agent-retrieved — the digest is computed from the file and the two changes read
+from the diffs at `ae565fd` and `ad7e64f`.

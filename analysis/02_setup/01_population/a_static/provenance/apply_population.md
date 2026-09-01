@@ -89,3 +89,55 @@ paragraph above rather than in a section of its own.
 agency: agent-autonomous.
 information: agent-retrieved — every figure quoted above is read from the files this batch
 produced.
+
+
+---
+
+## Batch 23 — the digest batch 16's switch left behind
+
+```
+result:              results/$COMBO/analysis_dataset.csv
+                     results/$COMBO/setup_spec.json
+script:              scripts/apply_population.py
+                     sha256:71742dbce933ba0819f264951e2c016d74110e4e4ed0ae3a5ac022f1f47a6a87
+invocation:          unchanged: "$PYTHON" scripts/apply_population.py, from the node
+                     directory via run.sh, with COMBO set by the driver where a
+                     combination is being run
+inputs:              unchanged in kind; each combination's own inputs and their sha256 are
+                     recorded in the specification this step writes under that combination
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none.
+commit:              895a9f8
+instructions-commit: cf97b81
+node:                analysis/02_setup/01_population/a_static
+produced:            2026-08-31; recorded 2026-09-01
+```
+
+**What changed in the script.** The hard-coded development file became `combos.source_dataset(ROOT)`, so the stage
+reads whichever of the two files `01_partition` wrote that this combination is evaluated on.
+On every development combination that is the same file it had been reading, so this node's
+`setup_spec.json` came back byte-identical under all of them; what the change bought is the
+holdout rows, which this node then ran.
+
+**What ran on it.** Every development combination this node takes part in was re-derived at
+`895a9f8` and this node's specifications came back byte-identical — the fields that moved
+are the assembled ones at `02_setup`, which gained `evaluated_on`, `source_dataset`,
+`identical_to_source_dataset` and a scheme key on each `eval_flags_source` entry. The
+holdout combinations of the frozen phase-E set then ran on this version and nothing else
+has.
+
+**Why the record did not say so.** Batch 16 changed the script and ran it, and appended no
+section anywhere in `02_setup`. Nothing looked wrong: the development numbers had not moved,
+which is exactly the case in which a stale digest is invisible. The `hashes` invariant this
+batch added is what makes it visible, and it found the same omission at twenty records.
+
+alternatives-considered: writing one section at `02_setup` covering the whole fork chain
+rather than one per node. Rejected because a provenance record belongs to the node whose
+script it describes, and a reader checking `apply_provinces.py` would have to know to look
+one level up — which is the kind of indirection that makes a record go unread. Correcting
+the earlier sections' digests in place was rejected on the standing rule: those sections
+describe runs that happened under that version, and the version they name is right.
+
+agency: agent-autonomous.
+information: agent-retrieved — the digest is computed from the file and the commit read from
+`git log`; what moved in the specs is read from batch 16's report and from the diff.

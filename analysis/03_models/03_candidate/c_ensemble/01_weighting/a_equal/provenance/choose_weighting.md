@@ -82,3 +82,48 @@ paragraph above rather than in a section of its own.
 agency: agent-autonomous.
 information: agent-retrieved — every figure quoted above is read from the files this batch
 produced.
+
+
+---
+
+## Batch 23 — the digest of the premise that stopped reading downstream
+
+```
+result:              results/$COMBO/model_option_spec.json
+script:              scripts/choose_weighting.py
+                     sha256:8078a6a3f4f6367b0fd748034e00ef2bfd13d2c794b0f88f590de99e9e372d24
+invocation:          unchanged: "$PYTHON" scripts/choose_weighting.py, from the node
+                     directory via the pool's run.sh
+inputs:              the shape of the tree — every Chap contract directory under
+                     analysis/03_models except the pool's own. Nothing downstream.
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none.
+commit:              2799be5
+instructions-commit: cf97b81
+node:                analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal
+produced:            2026-08-28; recorded 2026-09-01
+```
+
+**What changed in the script.** The registered premise read `04_score`'s leaderboard, to say
+what the members had scored. That is a model node depending on a scoring node, and it failed
+the moment the node ran under a combination whose scoring chain had not. The premise now
+reads the shape of the tree instead — how many Chap contract directories there are and which
+of them are the plan's required baselines — and states in words what the pool is predicted to
+do; `../../scripts/check_pool.py` measures it afterwards against the members' own stored
+evaluations, which is where a number about a member belongs. `pandas` and the `combos`
+import went with it.
+
+**When it changed, and why the record missed it.** Within batch 11, after that batch's own
+section was written: the fix is in `2799be5`, the commit that carries batch 11's report. So
+the record has named the pre-fix version, `ffeee402…`, since the day the pool was built,
+while every run from batch 13 onward — the seven `02_setup` rows, batch 22's two baseline
+rows, batch 14's fourteen and tier 2, and the whole frozen phase-E set — used this one. The
+spec on disk under `main` is this version's: it carries `members`, `member_count` and
+`share_of_the_pool_on_the_required_baselines`, and no leaderboard figure at all.
+
+alternatives-considered: none new; the weighting choice itself is unchanged and its
+alternatives are in the first section.
+
+agency: agent-autonomous.
+information: agent-retrieved — the digest is computed from the file, the change read from the
+diff at `2799be5`, and the spec's contents from the file on disk.

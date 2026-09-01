@@ -1486,3 +1486,94 @@ asked about first, and the venue is fixed.
 
 **Commits.** `a87f6ce` (the task log for batch 17 proper), then the ruling on C23, batch 16's
 two questions, and phase E's four remaining decisions.
+
+## T18 — batch 18: the clean-room, the outsider check, and the plan's own drift (2026-09-01)
+
+Phase E's three verification obligations, two of which had never been run in this repository:
+`/validate outsider` not once, and `/validate cleanroom` not since batch 7, when the tree had
+no stability node, no phase E and no candidate models. Between them they found nine defects,
+three wrong numbers and a broken provenance link, and **every one was a statement that is true
+on the page and false when executed** — which is precisely the class `/validate invariants`
+cannot see, because it verifies shape and never content.
+
+**The clean-room's largest finding preceded its first executed line.** A fresh `git clone`
+skipped all 32 phase-E rows, because the seal plan §3 requires rested on
+`05_stability/results/run_status_holdout.csv`, which is versioned and therefore ships with
+every copy of the repository. `collect_conclusions.py --dataset holdout` then re-read the
+committed conclusions and the phase-E half of `analysis/run.sh` reproduced its outputs
+byte-identically while running none of the analysis behind them. `run_manifest.py`'s
+docstring, `05_stability/run.sh` and `readme-at-start.md` all asserted the opposite. The fix
+keeps both properties the original design wanted at once: the seal now needs the versioned
+status row **and** `05_stability/.holdout_opened`, which is gitignored, so deleting a row to
+force a re-run still shows in git while a clone is not sealed by a record it merely inherited.
+The marker sits at the node root rather than under `results/` because `/validate invariants`
+objected — correctly — that everything there needs a provenance record, and it is working-tree
+state rather than a result.
+
+**What the run verified, and where it stopped.** The environment built from
+`environment/lock.txt` and reported matching it exactly (174 packages, chap 2.1.0); 3 994 of
+4 284 tracked files came back byte-identical. Every model this project wrote reproduced its
+mean CRPS to the last digit — persistence 24.879338288409706, climatology 24.336908636118597,
+the reported pool 18.816872064690028 — on a fresh clone with no prior state, which is the
+independent confirmation of what the determinism checks claimed. The reference model is
+unseeded and redrew {21.917, 22.272, 22.385, 21.820} → {22.436, 22.473, 22.024, 22.145},
+moving the headline skill +0.1485 → +0.1550. **Everything that moved in `conclusion.json`
+moved because of that and nothing else.** Two incidental findings worth more than they look:
+the **resolvable-difference floor is itself a random variable** (0.565 archived, 0.449
+re-run), so every "nothing below 0.57 CRPS is attributable" statement describes one sample of
+four repeats; and the clean-room produced four `member_selection.json` files the archive
+lacks, because five combinations predate the `prepare_members.py` fix that writes it — so
+"re-running reproduces the archive" is slightly false. **The run was then interrupted at 8 of
+32 development rows**, so neither distribution is verified from cold and the phase-E half has
+still never executed from a clean checkout. `readme-at-start.md`'s first invariant now says
+so, and batch 19's release must not claim more than the validation document supports.
+
+**The outsider check used two agents on disjoint tasks** — one writing into the tree, one
+tracing the headline result back to the archived data — each given a throwaway clone and no
+context. They failed in different places, which is the argument for two. The reader found
+that "the eleven forks inside the two member families" are **eight** forks whose eleven
+non-main children are the eleven, a noun error originating in a batch-14 table whose column
+was a row count and copied into four places **including claim C3**; that "nine of the eleven
+below the noise band are candidate-internal" is eight; and that a cost ratio was rounded up
+from 0.514. It also found six provenance records naming `9993d37`, orphaned by a history
+rewrite in batch 14, with `87440bc` surviving at the same tree — invisible because
+`git cat-file -e` answers whether an object is in the store, orphans stay in the store, and a
+**local** clone hardlinks the object directory, so it looked present everywhere and would have
+vanished on the first push. Separately the anchored `commit:` pattern skipped `conclude.md`
+entirely for annotating its two hashes, meaning the headline result's record was the one
+record never checked. The writer found that `freeze_holdout_manifest.py` **rebuilds the frozen
+phase-E manifest on every run of `analysis/run.sh`** — byte-identical only because the tree
+has not changed — and produced a 34-row frozen set once a fork child was added.
+
+**The plan's drift is measured rather than described**, by
+`AI-internal/useful-scripts/plan_drift.py` into `AI-generated/plan-drift/`. 89.1% of delivered
+lines survive byte-for-byte and 94.6% of words, while the document is five times its delivered
+length: the plan did not drift, it grew. The aim survives at 1.000 and was never revised; what
+moved is what was labelled provisional — the budget (0.563), which guessed phase C was elastic
+and was wrong about compute binding at all, and the ledger (0.500), whose seven named batches
+and three placeholders became twenty-two. Of 169 §4b decisions, 145 are `agent-autonomous` and
+15 `human-set`; six of those fifteen sit inside batches' own tables, so counting occasions
+rather than decisions would have attributed them to the agent. Two figures in the report's
+first draft were counted by eye and both were wrong, and are now computed by the script —
+§1 in miniature.
+
+**Files.** `AI-generated/validation/26-08-31_outsider.md` and `26-09-01_cleanroom.md`, with
+`26-09-01_cleanroom_comparison.json` and `provenance.md`; `AI-generated/plan-drift/` (report,
+`plan_drift.json` and four CSVs, README, provenance); `AI-internal/useful-scripts/`
+gained `plan_drift.py`, `run_cleanroom.sh` and `cleanroom_compare.py`, and
+`check_invariants.py` now requires ancestry of HEAD and reads every hash on a `commit:` line.
+The root `README.md` was rewritten and **no longer restates project state at all**, which is
+the durable fix for having described batch 1 through four phases. `AGENTS.md` §8 gained the
+node-directory exemption from README-per-folder, the by-location interpreter rule, and a rule
+for work arriving outside `/do`.
+
+**Follow-ups, all in the ledger.** Batch 23: 16 of 77 provenance records name a script version
+that no longer exists, worst `analysis/provenance/conclude.md`, whose newest section predates
+batch 16 changing `conclude.py` and running it — so no record names the invocation that wrote
+`main__holdout/conclusion.json`. The fix is an invariant plus sixteen appended sections and
+they must land together. Batch 24: the recomputed freeze. Batch 25: finish the clean-room.
+Batch 19 goes last. **One question is carried to the human**: plan §3 does not say which
+artefact its freeze binds, and §10 reserves changes to the non-negotiables. The connected
+question was answered on 2026-09-01 — **the perturbation set stays at 32** — which also means
+the tree does not grow before release and batch 24's defect is fixed for the reader rather
+than for this project.

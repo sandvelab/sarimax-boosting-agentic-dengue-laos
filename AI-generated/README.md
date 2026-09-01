@@ -11,7 +11,7 @@ so it can also be deleted without loss — and should be, when its source goes a
 | `chap-reconnaissance/` | `AI-internal/reconnaissance/` against the pinned `chap-core` | re-run the script | yes |
 | `method-reconnaissance/` | `AI-internal/reconnaissance/` against the pinned reference model and the model library | re-run the scripts | recipe yes, numbers **no** |
 | `vertical-slice/` | `AI-internal/vertical-slice/` against the development file | — | superseded: the tree reproduces it |
-| `validation/` | `/validate cleanroom` and `/validate outsider` | re-run the check | recipe yes, findings **no** |
+| `validation/` | `/validate cleanroom` and `/validate outsider`, and targeted checks written for one defect | re-run the check | recipe yes, findings **no** |
 | `determinism-checks/` | `AI-internal/useful-scripts/verify_model_determinism.sh` | re-run the script | yes, ~3 min |
 | `candidate-forks/` | `AI-internal/useful-scripts/candidate_fork_sweep.py` and `family_leaderboard.py` against the tree | re-run the sweep, or rebuild the table | every round but the first yes; **round 1 no** |
 | `plan-drift/` | `AI-internal/useful-scripts/plan_drift.py` against the delivered and live plans | re-run the script | yes, seconds |
@@ -27,15 +27,11 @@ meantime. If a derived document is wrong, its source is wrong.
 
 ## Currently here
 
-- `batch-reports/` — one report per executed batch. Batches 1 (orientation and set-up),
-  2 (Chap reconnaissance), 3 (the data), 4 (methods), 5 (the bootstrap), 6 (the
-  vertical slice), 7 (erecting the tree), 8 (the candidate contract and candidate 1),
-  9 (candidate 1's forks, swept and promoted), 10 (candidate 2, gradient-boosted trees with
-  a probabilistic head), 11 (candidate 3, the ensemble, and the close of phase C) and
-  12 (the perturbation manifest, and the opening of phase D), 13, 22 and 14 (the
-  perturbation rows), 15 (the distribution, and the frozen holdout set), 16 (the holdout,
-  opened once) and 17 (the claim collection completed, and this report).
-  Batch 21's report is on the branch `greedy` and is deliberately not copied here.
+- `batch-reports/` — one report per executed batch, and **what each one established is
+  listed in that folder's own `README.md`**, a paragraph per batch. A second list here would
+  have to be extended by every batch, and was not: it stopped at batch 17 while the ledger
+  reached 24. Batch 21's report is on the branch `greedy` and is deliberately not copied
+  here.
 - `candidate-forks/` — what every alternative to a candidate's configuration scores on the
   development data, what each candidate *family* scores at its own main path, and the two
   rules by which forks and families are promoted. Every number is copied from a file inside
@@ -47,8 +43,10 @@ meantime. If a derived document is wrong, its source is wrong.
   one further use since batch 12: the manifest reads each fork child's measured effect from
   them as the prior that **orders** its rows, and only from a sweep whose recorded base
   configuration still matches the family's current one.
-- `validation/` — what `/validate` found, one file per run. Batch 7's clean-room check is
-  the first, and it reports its differences rather than announcing success.
+- `validation/` — what the checks on the method found, one file per run: `/validate
+  cleanroom` and `/validate outsider`, and since batch 24 a check written for one defect —
+  the frozen phase-E set, put to eleven situations to see whether it defends itself. Each
+  reports its differences rather than announcing success.
 - `determinism-checks/` — Rule 6 verified by running each of our models twice and diffing.
 - `plan-drift/` — how far the live plan has moved from the plan as delivered, measured
   rather than described: section-by-section survival, the ledger's growth, §4b's 169

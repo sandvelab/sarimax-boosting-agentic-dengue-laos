@@ -1759,3 +1759,14 @@ never run from a clean checkout. It is also the first run that exercises this ba
 to end, and `analysis/run.sh` can now fail in a way it could not before: a tree that has moved
 under the frozen set stops the run instead of quietly bringing the set along. Then batch 20
 (`tha` and `vnm`), then batch 19 (write-up, reproducibility report, release).
+
+**Two parent READMEs, brought into line afterwards.** `AI-internal/README.md` enumerated the
+five scripts under `useful-scripts/` and had not been extended since batch 7, so batch 24's
+new script was the sixth thing missing from it; `AI-generated/README.md` listed what every
+batch report established and stopped at batch 17 while the ledger reached 24, and described
+`validation/` as holding only what `/validate` produced. In both cases the enumeration
+duplicated a list the folder itself already keeps, so the fix is batch 18's rather than a
+fresher copy: **the parent points at the child's own README and stops restating it.** Only
+`validation/`'s one-line description is rewritten in place, because that folder's contents
+genuinely changed — it now holds a check written for a single defect as well as the two
+`/validate` runs.

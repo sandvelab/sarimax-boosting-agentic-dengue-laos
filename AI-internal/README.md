@@ -5,7 +5,7 @@ and the log of what has been done.
 
 | Path | Holds |
 |---|---|
-| `useful-scripts/` | `node.py` · `check_invariants.py` · `claims.py` · `build_hierarchical_report.py` · `verify_model_determinism.sh` |
+| `useful-scripts/` | The repository's own machinery — the scripts the skills call, and the checks on them. **What is in it is listed in its own `README.md`**, with one row per script; a second list here would go stale the first time a batch adds one, which it had |
 | `skill-references/` | The exact commands, formats and edge cases the skills defer to |
 | `reconnaissance/` | Scripts that establish facts about external systems the project depends on but does not control |
 | `vertical-slice/` | The scripts of batch 6. The persistence model itself was **moved into the claim tree by batch 7**, with its history, so it is no longer here |

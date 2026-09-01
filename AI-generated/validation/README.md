@@ -33,6 +33,16 @@ here.
   reference moves the headline skill score by 0.0065. The two distributions are unverified
   from cold and the phase-E half has never run from a clean checkout; that is batch 25.
   Its figures are in `26-09-01_cleanroom_comparison.json`, with `provenance.md` beside it.
+- `26-09-02_cleanroom.md` — batch 25, and the run that finished the development half and
+  was **stopped by the project's own freeze check**. `analysis/run.sh` exited 1 after 3 h 48 m:
+  the development manifest's tier-2 rows are *selected* from tier-1 skill scores, which divide
+  by the unseeded reference, and a second draw re-selected six of the eight pairs — so the
+  frozen phase-E set has a derivation a clean checkout cannot reproduce. What it did verify is
+  stronger than batch 18's: **96 model-combination scores and not one of ours moved**, while
+  the reference moved in 26 of 32. It also found the noise band nearly doubled, taking phase
+  D's headline from six of seventeen forks to three. Figures in
+  `26-09-02_cleanroom_comparison.json` and `26-09-02_cleanroomTier2Drift.json`; the run's own
+  outputs in `26-09-02_cleanroom-artefacts/`.
 - `26-09-01_freezeDefence.md` — batch 24, and not a `/validate` run: eleven situations put
   to the two defences of the frozen phase-E set, on throwaway copies. The set stops being
   rebuilt on every run of `analysis/run.sh`, and the file is now checked as well as the

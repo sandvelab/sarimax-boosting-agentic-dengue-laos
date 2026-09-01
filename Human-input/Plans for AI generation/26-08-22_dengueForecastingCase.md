@@ -533,6 +533,19 @@ below is read from a file there.)*
 | **`frozen_on` was being overwritten by every run of the analysis, and is now written once** | Batch 16 found `frozen_at_commit` recomputed and fixed that field, leaving `date.today()` on the line above it. Run today the superseded script rewrote 2026-08-31 → 2026-09-01, with the other eighteen keys identical. The durable fix was never the field | agent-autonomous |
 | **The freeze path is kept although this project will never freeze again** | It is the path a reader implementing this method runs, and it is what the regression test exercises: deleting the frozen file with no trace of an opening returns the manifest byte-identical to the one frozen in batch 15. A script that cannot demonstrate how the set was produced leaves a set with an assertion behind it rather than a derivation | agent-autonomous |
 
+### 2026-09-02 — settled by batch 25, from the clean-room run that could not finish
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **The batch is reported `blocked`, not `done — produced`** | It established more than most batches here and did not do the one thing it was for. §5 gives three states and the honest one is the one that stops the ledger; `/release` in batch 19 rests on this batch's word, and a check reported as finished when it stopped four fifths of the way through is the failure batch 18 named as the worst single thing it could produce | agent-autonomous |
+| **Nothing was fixed in this batch** | The manifest derivation needs a design and a four-hour re-run to verify, and `check_pool.py` is only reachable through a tier-2 selection. §5 says a blocked batch stops rather than silently taking the next one. Batch 18 set the precedent by deferring the freeze defect to batch 24 rather than repairing it in a hurry | agent-autonomous |
+| **The clean-room is run detached from the session that starts it** | Batch 18's died because its session was cut off, and an unfinished check that looks finished is the failure mode these checks exist to remove. This run stopped for a reason instead | agent-autonomous |
+| **The harness and comparison scripts are verified by digest against batch 18's provenance record before running** | "The same check, run further" is the claim this batch makes about batch 18's, and it should be a checked claim rather than an assumption about two files nobody looked at | agent-autonomous |
+| **The clean-room's own outputs are copied into the repository before the scratch clone is discarded** | The findings rest on files that lived in a throwaway directory. `26-09-02_cleanroom-artefacts/` keeps them so the numbers can be re-checked without re-running four hours of analysis, and so a reader can see the run rather than the report of it | agent-autonomous |
+| **`26-09-02_cleanroom_comparison.json`'s holdout half is recorded as absent, not as verified** | The comparison shows `main__holdout` with no moved fields, which looks like a reproduction and is not one — the run exited before phase E and those files are the clone's committed copies. This is precisely the false reproduction batch 18 found, arriving a second time by another route, and the provenance record says so in the field where a reader would otherwise be misled | agent-autonomous |
+| **The tier-2 selection is a decision, not a derivation, and batch 26 will record it as one** | `tier2_rule.md` ranks tier-1 rows by skill score, which divides by the unseeded reference. A second draw re-selected six of the eight pairs. The rule's own deciding margins were **0.001002** and **0.003211** of skill against a measured noise band of 0.0218–0.0431 — an order of magnitude inside the noise — while the one group decided by a real margin (0.0935) did not move. Everything the method asks for was done: the rule was written before tier 1 ran and hashed. Nobody asked whether the quantity it ranks on is stable enough to rank on | agent-autonomous |
+| **Whether the reference noise band should remain a max minus a min over four draws** | Two draws differ by a factor of two, 0.0218 and 0.0431, and the phase-D headline reads "6 of 17 forks" or "3 of 17" depending which. The three forks that crossed did not move; the band did. Quoting it with its uncertainty, re-estimating it from more repeats, or demoting it to an order of magnitude all change what phase D reports | **carried to the human** |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -605,7 +618,9 @@ at the end of every batch, and append newly created batches to it.
 | 21 | C, on branch `greedy` | The counterfactual: iterate batch 9's promotion rule to a fixpoint on a branch, and measure what stopping once cost | done — produced | `26-08-27_b21_greedyBranch.md`, on branch `greedy` |
 | 23 | E | The provenance records' script hashes: the invariant that a script's current sha256 must appear in its own record, and the appended sections that make it pass — including `conclude.py`, whose newest section predates batch 16 changing it. **Twenty records, not sixteen: the check reads the whole `script:` block** | done — produced | [[26-09-01_b23_provenanceHashes]] |
 | 24 | E | The frozen phase-E manifest is recomputed on every run of `analysis/run.sh`, so a tree that grew a fork child would silently grow the frozen set; make the freeze win over the recomputation | done — produced | [[26-09-01_b24_frozenSetWins]] |
-| 25 | E | Run `/validate cleanroom` to completion — batch 18's was interrupted at 8 of 32 development rows, so the two distributions are unverified from cold and the phase-E half has never run from a clean checkout | open | |
+| 25 | E | Run `/validate cleanroom` to completion — batch 18's was interrupted at 8 of 32 development rows, so the two distributions are unverified from cold and the phase-E half has never run from a clean checkout | **blocked** | [[26-09-02_b25_cleanroomStoppedByItsOwnCheck]] |
+| 26 | E | The development manifest stops being re-derived: its tier-1 rank order and its tier-2 **selection** are decisions taken once from one draw of tier 1, and must be recorded and verified rather than recomputed — batch 25's clean run re-selected six of the eight pairs and the freeze check stopped the run. Includes `check_pool.py`'s fork-blindness, reachable only through a tier-2 selection | open | |
+| 27 | E | `/validate cleanroom` to completion, on the fixed tree — what batch 25 was for | open | |
 
 ---
 
@@ -1176,6 +1191,10 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 24 — the frozen set wins over the recomputation
 
 - [[26-09-01_b24_frozenSetWins]]
+
+### Batch 25 — the clean-room, stopped by the project's own check
+
+- [[26-09-02_b25_cleanroomStoppedByItsOwnCheck]]
 
 ### Batch 21 — the greedy branch
 

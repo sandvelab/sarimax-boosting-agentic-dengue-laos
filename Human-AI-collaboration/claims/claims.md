@@ -38,7 +38,7 @@ by: agent-autonomous
 The choice of model family is what the conclusion is sensitive to, and the choices made inside a family are not. Swapping the reported linear opinion pool for candidate 1 costs 0.2209 of skill and for candidate 2 0.0884, while the eight forks inside those two families move it by at most 0.0081, and the eleven combinations they perturb span 18.638 to 18.933 mean CRPS -- a range of 0.295 against the reference model's own 0.565 re-run spread.
 grounds: analysis/05_stability/results/sensitivity_by_fork.csv · analysis/05_stability/results/fig_fork_sensitivity.csv
 node: analysis/05_stability
-scope: development; the exception is the pool's own weighting fork, which is not inside a member and is worth 0.1820
+scope: development; the exception is the pool's own weighting fork, which is not inside a member and is worth 0.1820. The 0.565 re-run spread this is compared against is one draw of four repeats of an unseeded model: batch 18's clean-room run drew 0.449 and batch 25's drew 1.167, so the comparator is known only to an order of magnitude and the 0.295 range is inside every draw of it
 alternatives: phase C selected among those eight forks over three batches, on differences this evaluation cannot resolve
 by: agent-autonomous
 
@@ -46,7 +46,7 @@ by: agent-autonomous
 Six of the tree's seventeen judgment calls move the reported conclusion further than the reference model moves on its own, and eleven do not. The yardstick is measured rather than chosen: the reference is unseeded and was scored four times, and our model's skill score against those four repeats spans 0.0218. Above that band sit the model family (0.2209), the pool's weighting (0.1820), the weighting of the headline mean (0.0835), the province filter (0.0376), the persistence construction (0.0279) and the training window (0.0219, which is the band itself).
 grounds: analysis/05_stability/results/sensitivity_by_fork.csv · analysis/05_stability/results/distribution.json
 node: analysis/05_stability
-scope: development; a fork whose largest move is inside the band has not been shown to move the conclusion, which is weaker than showing that it does not
+scope: development; a fork whose largest move is inside the band has not been shown to move the conclusion, which is weaker than showing that it does not. **The count is contingent on the band, and the band is a draw**: it is a max minus a min over four repeats of an unseeded model, and batch 25's clean-room run re-drew it at 0.0431, on which the same file reads three of seventeen rather than six. The three that cross -- training window, province filter, persistence construction -- do not move between the draws; the band does. Only the model family, the pool's weighting and the headline-mean weighting are above it on both. How this should be reported is carried to the human (plan §4b, 2026-09-02)
 alternatives: a fixed threshold for what counts as a move, rejected because it would be a silent judgment call inside the node whose job is to make judgment calls visible
 by: agent-autonomous
 

@@ -200,3 +200,21 @@ re-running a batch produces a different report rather than the same one.
   and every one exits 0**, including the one batch 25 would have hit — a clean-room run
   rewriting the frozen development pairing with its own re-drawn reference numbers.
 
+
+- `26-09-02_b25_cleanroomStoppedByItsOwnCheck.md` — batch 25, phase E, and **blocked**:
+  `/validate cleanroom` was to run to completion and did not. It ran 3 h 48 m, completed all
+  32 development rows, and **exited 1** at the freeze check. The development manifest's eight
+  tier-2 rows are not planned from the tree but *selected* from tier-1 skill scores, which
+  divide by the unseeded reference; a second draw re-selected **six of the eight pairs**, and
+  batch 24's freeze defence correctly refused to rewrite the frozen set — the scenario batch
+  24 predicted this run would be the first to hit. So the frozen phase-E set is a **decision**
+  the record has been presenting as a **derivation**, and `analysis/run.sh` does not run to
+  the end from a clean checkout. What it did verify is stronger than batch 18's: **96
+  model-combination scores and not one of ours moved**, while the unseeded reference moved in
+  26 of 32 and carried the headline skill by +0.0109. Two further findings: the reference
+  noise band nearly doubled on a second draw (0.0218 → 0.0431), taking phase D's headline
+  from **six of seventeen forks to three** with none of the three having moved; and the
+  drifted selection immediately crashed on a combination the archived tier 2 never chose,
+  where the CRPS-weighted pool correctly falls back to equal weights and `check_pool.py` asks
+  for a validation block that was never written. Added batches 26 (record the selection
+  rather than re-deriving it) and 27 (the clean-room, again).

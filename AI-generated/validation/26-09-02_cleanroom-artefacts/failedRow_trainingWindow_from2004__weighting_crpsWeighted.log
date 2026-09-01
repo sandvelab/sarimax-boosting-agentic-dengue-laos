@@ -1,0 +1,63 @@
+# trainingWindow_from2004__weighting_crpsWeighted [pair] base=main
+
+$ popColumn/a_static: bash /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/02_setup/01_population/a_static/run.sh
+population/a_static: 2592 rows, constant per province True -> /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/02_setup/01_population/a_static/results/trainingWindow_from2004__weighting_crpsWeighted
+
+$ trainingWindow/b_from2004: bash /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/02_setup/02_trainingWindow/b_from2004/run.sh
+trainingWindow/b_from2004: 2592 -> 1296 rows (2004-01..2009-12), 1296 dropped, latest dropped 2003-12
+
+$ provinces/a_chapFilter: bash /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/02_setup/03_provinces/a_chapFilter/run.sh
+provinces/a_chapFilter: 18 provinces in the file, 16 expected to contribute 371 cells
+
+$ retrain/a_once: bash /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/02_setup/04_retrain/a_once/run.sh
+retrain/a_once: n_retrain=1, 1296 rows pass through
+
+$ assemble_setup: /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/environment/chapenv/bin/python /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/02_setup/scripts/assemble_setup.py
+setup[trainingWindow_from2004__weighting_crpsWeighted] on development: 1296 rows, 18 locations, 2004-01..2009-12, flags {'n_periods': 3, 'n_splits': 8, 'stride': 3, 'n_retrain': 1}, choices {'population': 'a_static', 'trainingWindow': 'b_from2004', 'provinces': 'a_chapFilter', 'retrain': 'a_once'}
+
+$ persistence/a_empiricalChange: bash /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/01_baselines/01_persistence/a_empiricalChange/run.sh
+persistence[trainingWindow_from2004__weighting_crpsWeighted]: 18 s (2.3 s/split) -> /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/trainingWindow_from2004__weighting_crpsWeighted
+
+$ climatology/a_expandingWindow: bash /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/run.sh
+climatology[trainingWindow_from2004__weighting_crpsWeighted]: 20 s (2.4 s/split) -> /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/results/trainingWindow_from2004__weighting_crpsWeighted
+
+$ reference: bash /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/02_reference/run.sh
+reference repeat 1 of 4
+reference repeat 2 of 4
+reference repeat 3 of 4
+reference repeat 4 of 4
+reference[trainingWindow_from2004__weighting_crpsWeighted]: 4 repeats, 491 s total (15.3 s/split) -> /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/02_reference/results/trainingWindow_from2004__weighting_crpsWeighted
+
+$ weighting/b_crpsWeighted: bash /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/03_candidate/c_ensemble/01_weighting/b_crpsWeighted/run.sh
+weighting/b_crpsWeighted[trainingWindow_from2004__weighting_crpsWeighted]: minimum-CRPS weights on 4 blocks of 3 months held back inside the training frame, 200 draws per member per cell -> /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/03_candidate/c_ensemble/01_weighting/b_crpsWeighted/results/trainingWindow_from2004__weighting_crpsWeighted
+
+$ prepare_members: /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/environment/chapenv/bin/python /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/03_candidate/c_ensemble/scripts/prepare_members.py
+  a_hierNB: assembling its configuration under 'trainingWindow_from2004__weighting_crpsWeighted'
+    01_observation: ['c_hurdle'] already chosen under 'main'
+    02_covariates: ['c_climateFree'] already chosen under 'main'
+    03_population: ['a_offset'] already chosen under 'main'
+    04_fitTime: ['a_trainOnly'] already chosen under 'main'
+    05_autoregressive: ['a_none'] already chosen under 'main'
+    06_yearVariance: ['b_provinceScaled'] already chosen under 'main'
+    candidate[trainingWindow_from2004__weighting_crpsWeighted]: {'observation': 'c_hurdle', 'covariates': 'c_climateFree', 'population': 'a_offset', 'fit_time': 'a_trainOnly', 'autoregressive': 'a_none', 'year_variance': 'b_provinceScaled'}, covariates [], seed 849487747; taken here: [] -> /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/03_candidate/a_hierNB/results/trainingWindow_from2004__weighting_crpsWeighted
+  b_boosted: assembling its configuration under 'trainingWindow_from2004__weighting_crpsWeighted'
+    01_features: ['a_lagBlock'] already chosen under 'main'
+    02_head: ['a_negBinomial'] already chosen under 'main'
+    boosted[trainingWindow_from2004__weighting_crpsWeighted]: {'features': 'a_lagBlock', 'head': 'a_negBinomial'}, covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'], seed 1877199108; taken here: [] -> /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/03_candidate/b_boosted/results/trainingWindow_from2004__weighting_crpsWeighted
+ensemble members[trainingWindow_from2004__weighting_crpsWeighted]: 4 — persistence, climatology, hier_nb, boosted; covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'] -> /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/03_candidate/c_ensemble/results/trainingWindow_from2004__weighting_crpsWeighted/members.json; not on this combination's path: ['analysis/03_models/01_baselines/01_persistence/b_negBinomialFloor/scripts/persistence_model', 'analysis/03_models/01_baselines/02_climatology/b_frozenWindow/scripts/climatology_model']
+
+$ assemble_candidate_config: /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/environment/chapenv/bin/python /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/03_candidate/c_ensemble/scripts/assemble_candidate_config.py
+ensemble[trainingWindow_from2004__weighting_crpsWeighted]: {'weighting': 'b_crpsWeighted'}, 4 members, covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'], seed 1648567750; taken here: ['weighting=b_crpsWeighted'] -> /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/03_candidate/c_ensemble/results/trainingWindow_from2004__weighting_crpsWeighted
+
+$ run_ensemble: /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/environment/chapenv/bin/python /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/03_candidate/c_ensemble/scripts/run_ensemble.py
+ensemble[trainingWindow_from2004__weighting_crpsWeighted]: 59 s (7.4 s/split) -> /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/03_candidate/c_ensemble/results/trainingWindow_from2004__weighting_crpsWeighted
+
+$ check_pool: /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/environment/chapenv/bin/python /private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/03_candidate/c_ensemble/scripts/check_pool.py
+Traceback (most recent call last):
+  File "/private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/03_candidate/c_ensemble/scripts/check_pool.py", line 290, in <module>
+    main()
+    ~~~~^^
+  File "/private/tmp/claude-506/-Users-geirksa-1-2-3-ai-special-purpose-vaults-ReprodicbleAgenticAiCase/e8a1bda6-ad37-4d29-9537-a48a660136b9/scratchpad/cleanroom-b25/repo/analysis/03_models/03_candidate/c_ensemble/scripts/check_pool.py", line 231, in main
+    validation = fitted["weighting"]["validation"]
+                 ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+KeyError: 'validation'

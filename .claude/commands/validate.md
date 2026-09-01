@@ -26,9 +26,10 @@ one honest signal here into decoration.
 
 Deterministic code asserting what the rules imply: tree semantics hold; every result has a
 provenance record; **every digest a record gives is the file's current one**; every plot has
-its data and script; every stochastic script has a seed; every claim resolves; the working
-tree is clean; and no value looks transcribed between steps by hand. Ordinary code, no
-attention budget.
+its data and script; every stochastic script has a seed; every claim resolves; **the frozen
+phase-E set is still the set that was frozen, and no holdout result exists at the commit
+that added it**; the working tree is clean; and no value looks transcribed between steps by
+hand. Ordinary code, no attention budget.
 
 ## cleanroom — before release, and on a schedule during a long project
 

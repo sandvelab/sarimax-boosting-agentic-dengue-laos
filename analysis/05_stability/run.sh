@@ -34,13 +34,22 @@ PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 "$PYTHON" "scripts/fig_skill_distribution.py"
 "$PYTHON" "scripts/fig_fork_sensitivity.py"
 "$PYTHON" "scripts/fig_pair_interaction.py"
+# Freezes the phase-E set the first time and verifies it every time after, writing
+# results/holdout_freeze_check.json and nothing else. It exits non-zero if the frozen set
+# is one this tree can no longer reproduce, which stops the run before the holdout half
+# below can be told it ran something it did not.
 "$PYTHON" "scripts/freeze_holdout_manifest.py"
 
 # Phase E. The frozen set, on the held-out year, and then the two datasets side by side.
-# The driver is given the manifest it may not change: `run.sh` re-plans the development
-# manifest above on every run and re-freezes the holdout one, and batch 15 established
-# that both come back byte-identical, so the set this runs is the one fixed before the
-# year was opened rather than one this invocation decided.
+# The driver is given the manifest it may not change. `run.sh` re-plans the development
+# manifest above on every run, because the tree is what that manifest is derived from and
+# `/validate invariants` requires the two to agree. It does *not* re-freeze the holdout
+# one: batch 15 established that both came back byte-identical, and batch 18 established
+# that this was a property of the tree not having changed rather than of anything
+# enforcing it — one added fork child turned thirty-three frozen rows into thirty-four.
+# Since batch 24 the frozen file is authoritative and the last step of the development
+# half above verifies it instead of rebuilding it, so the set this runs is the one fixed
+# before the year was opened rather than one this invocation decided.
 #
 # A row already recorded as run is not run again (plan §3). The seal takes two conditions
 # and needs both: the row is recorded as `ran` in the versioned `run_status_holdout.csv`,

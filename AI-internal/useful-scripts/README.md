@@ -13,7 +13,8 @@ into the second, because what they run is the analysis.
 | Script | What it does | Skill |
 |---|---|---|
 | `node.py` | Create, inspect, promote and rebuild claim-tree nodes, enforcing the alternatives/sub-analyses semantics so they cannot drift by hand | `/node` |
-| `check_invariants.py` | The deterministic checks: tree, provenance, hashes, plots, seeds, claims, combos, git, and values crossing steps by hand | `/validate invariants` |
+| `check_invariants.py` | The deterministic checks: tree, provenance, hashes, plots, seeds, claims, combos, freeze, git, and values crossing steps by hand | `/validate invariants` |
+| `check_freeze_defence.py` | Put eleven situations to the frozen phase-E set's two defences — the node script that writes it and the `freeze` invariant that checks it — on throwaway copies, and record what each did. Four of them corrupt the frozen manifest, which is why none of them runs against the live tree. Writes to `AI-generated/validation/` | — |
 | `claims.py` | Maintain and audit the claim collection; flag draft sentences with no supporting claim | `/claims` |
 | `build_hierarchical_report.py` | Generate the linked static-HTML drill-down report from the tree | `/hierarchical-report` |
 | `verify_model_determinism.sh` | Rule 6: run each of our models twice under **one** scratch combination — pass 1's outputs copied aside, pass 2 overwriting them in place — and compare the per-cell scores, the model listing and the fitted model. One name for both passes is deliberate: with two, the check compared a column recording the pass's own scratch name and could never pass. Writes to `AI-generated/determinism-checks/` and removes the scratch combination | — |

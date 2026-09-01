@@ -24,6 +24,9 @@ Checks
   combos      every results/<combination>/ directory is one a stability manifest
               names -- the development manifest or the frozen holdout one -- and the
               development manifest names every non-main child in the tree
+  freeze      the frozen phase-E set still hashes to what holdout_freeze.json recorded,
+              and no holdout result exists at the commit that added it -- so the set was
+              fixed before the held-out year was opened, and has not moved since
   git         the working tree is clean, and every commit a provenance record names is
               an ancestor of HEAD -- not merely an object that exists
   crossing    no result file looks like a value transcribed between steps by hand
@@ -459,6 +462,93 @@ def check_combos(root: Path) -> list[Finding]:
     return out
 
 
+def check_freeze(root: Path) -> list[Finding]:
+    """The frozen phase-E set is still the set that was frozen, and it predates the opening.
+
+    The plan's §3 makes the whole holdout spread rest on one file: `manifest_holdout.csv`
+    fixes what gets evaluated on 2010, before 2010 is opened, so that the spread is a
+    measurement rather than a selection. `holdout_freeze.json` beside it records that file's
+    sha256 at the moment it was written, and the commit that added it.
+
+    Two things are asserted from that, and both were prose until batch 24.
+
+    **The frozen set has not been rewritten.** `freeze_holdout_manifest.py` now refuses to
+    rewrite it, but the refusal lives in the script; this is the statement that holds
+    whatever wrote the file. Batch 18 found the script rebuilding the set on every run of
+    `analysis/run.sh` and returning the same bytes only because the tree had not changed.
+
+    **The freeze predates the opening.** `holdout_freeze.json`'s own note claims that no
+    file under `analysis/results/*__holdout/` exists at the commit that added the manifest.
+    That is the entire evidence that the set was fixed in advance, and it is checkable
+    against git rather than believed.
+
+    The other digests `holdout_freeze.json` carries -- `conclusions.csv`,
+    `distribution.json`, the development `manifest.csv` -- are deliberately not checked.
+    They are context recorded at the freeze, not the frozen artefact: the development half
+    may legitimately be re-run, and the reference model is unseeded, so a clean-room run
+    moves them without anything being wrong.
+    """
+    out: list[Finding] = []
+    freeze = root / "analysis/05_stability/results/holdout_freeze.json"
+    manifest = root / MANIFEST_HOLDOUT
+    if not freeze.exists() or not manifest.exists():
+        return out
+    import json
+    record = json.loads(freeze.read_text())
+    where = str(MANIFEST_HOLDOUT)
+
+    recorded = record.get("frozen_inputs", {}).get("results/manifest_holdout.csv")
+    current = hashlib.sha256(manifest.read_bytes()).hexdigest()
+    if recorded and recorded != current:
+        out.append(Finding("freeze", where, (
+            f"the frozen phase-E set hashes to {current[:12]}… and holdout_freeze.json "
+            f"records {recorded[:12]}…: it has been rewritten since it was frozen, and "
+            f"the holdout spread is then a set chosen after the year was opened")))
+
+    import csv
+    rows = list(csv.DictReader(manifest.open()))
+    if record.get("rows") not in (None, len(rows)):
+        out.append(Finding("freeze", where,
+                           f"holdout_freeze.json says {record['rows']} rows and the file "
+                           f"has {len(rows)}"))
+
+    commit = record.get("frozen_at_commit", "")
+    if commit and (root / ".git").is_dir():
+        listed = subprocess.run(["git", "-C", str(root), "ls-tree", "-r", "--name-only",
+                                 commit], capture_output=True, text=True)
+        if listed.returncode != 0:
+            out.append(Finding("freeze", where,
+                               f"frozen_at_commit {commit} is not readable in this "
+                               f"repository, so the freeze cannot be dated"))
+        else:
+            leaked = [p for p in listed.stdout.splitlines()
+                      if p.startswith("analysis/results/") and "__holdout" in p]
+            if leaked:
+                out.append(Finding("freeze", where, (
+                    f"{len(leaked)} file(s) under analysis/results/*__holdout/ already "
+                    f"exist at {commit}, the commit that added the frozen set: the set "
+                    f"was not fixed before the year was opened")))
+
+    # The verification the script writes on every run of `analysis/run.sh`. If it is
+    # present it must be about the file that is here, and it must not be carrying a
+    # difference the frozen set cannot absorb.
+    check = root / "analysis/05_stability/results/holdout_freeze_check.json"
+    if check.exists():
+        seen = json.loads(check.read_text())
+        if seen.get("frozen", {}).get("sha256") not in (None, current):
+            out.append(Finding("freeze", str(check.relative_to(root)),
+                               "the last verification was of a different file; re-run "
+                               "freeze_holdout_manifest.py"))
+        fatal = seen.get("fatal", {})
+        for name in ("frozen_rows_the_tree_no_longer_carries",
+                     "frozen_rows_whose_structure_moved"):
+            if fatal.get(name):
+                out.append(Finding("freeze", str(check.relative_to(root)),
+                                   f"{len(fatal[name])} frozen row(s) recorded under "
+                                   f"{name}"))
+    return out
+
+
 def check_git(root: Path) -> list[Finding]:
     out: list[Finding] = []
     if not (root / ".git").is_dir():
@@ -542,6 +632,7 @@ CHECKS = {
     "seeds": check_seeds,
     "claims": check_claims,
     "combos": check_combos,
+    "freeze": check_freeze,
     "git": check_git,
     "crossing": check_crossing,
 }

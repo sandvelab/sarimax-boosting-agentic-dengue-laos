@@ -1,4 +1,4 @@
-"""Fix what phase E runs on the held-out year, before the year is opened.
+"""Fix what phase E runs on the held-out year, before the year is opened — and then defend it.
 
 The plan's §3: the perturbation set run on the holdout is frozen **before** the holdout is
 opened, because the holdout is opened once and evaluated many times, and that is only
@@ -7,7 +7,54 @@ after looking is not a spread. So this script writes the list phase E executes, 
 the first holdout number has been seen nothing is added to it, dropped from it, re-tuned or
 re-run.
 
-## What is frozen here, and what is not
+## The freeze wins over the recomputation
+
+This script is the last step of the development half of `run.sh`, so it is reached on
+**every** run of `analysis/run.sh` — and until batch 24 every one of those runs rebuilt the
+frozen set from whatever the tree looked like at that moment. It returned byte-identical
+because the tree had not changed, not because anything made it. `plan_manifest.py`, earlier
+in the same block, re-derives the development manifest from the tree by design, and the
+development manifest may legitimately grow: the plan's §3, clarified on 2026-09-01, binds
+`manifest_holdout.csv` and nothing else, while `/validate invariants`'s `combos` check
+*requires* every non-main child in the tree to have a development row. So a fork child added
+after the opening was one `run.sh` away from being carried into the frozen set by a script
+re-deriving what it had derived before — no
+batch, no decision, plan §3 broken silently. Batch 18's outsider check added one child and
+watched a 33-row frozen set become 34.
+
+So the frozen file is now authoritative and this script has two modes, chosen by whether it
+exists:
+
+- **It does not exist** — this is the freeze. Refuse if the year has already been opened
+  (below), refuse if the development half is unfinished, then write it. Batch 15's path.
+- **It exists** — this is a verification, and nothing is written to it or to
+  `holdout_freeze.json` at all. The set the tree would produce *now* is derived and compared
+  against the set on disk, and the comparison is written to `results/holdout_freeze_check.json`.
+
+What the comparison does with a difference follows the plan rather than being uniform:
+
+  a development row with no frozen twin   reported as **unpaired**, never added. It is the
+                                          case §3's clarification names: an alternative
+                                          discovered after the freeze is carried in the tree
+                                          and in the development manifest, has no holdout
+                                          twin, and never joins the 32.
+  a frozen row the tree no longer has     **fatal**. The frozen set names an analysis this
+                                          repository can no longer run, so it can no longer
+                                          be reproduced.
+  a frozen row whose structure moved      **fatal**. The columns that say *what analysis
+                                          runs* — its fork, its child, what it re-runs and
+                                          what it inherits — are the set.
+  a frozen row whose numbers moved        reported, not fatal. The development conclusions
+                                          frozen beside each row are a record of what was
+                                          paired, and the reference model is unseeded: a
+                                          clean-room re-run moves the development skill
+                                          score by about 0.006 without anything being wrong.
+                                          Cost estimates drift for the same kind of reason.
+
+The frozen file is never rewritten in either direction, so a difference stops the run or is
+recorded — it is never absorbed.
+
+## What is frozen, and what is not
 
 **Frozen**: which combinations run, which fork child each takes, which models each re-runs
 and which it inherits, the backtest scheme, the models on the leaderboard, the four repeats
@@ -17,9 +64,10 @@ holdout spread against a development spread assembled afterwards would let the c
 be chosen after the fact even though neither half was.
 
 **Not frozen, because it is implementation**: how `02_setup` is pointed at the full file
-rather than at the development file. That mechanism does not exist yet and batch 16 writes
-it. It may not change anything in the paragraph above, and `holdout_freeze.json` records
-the constraint so that a change would be visible rather than convenient.
+rather than at the development file. That mechanism did not exist when the set was frozen and
+batch 16 wrote it. It may not change anything in the paragraph above, and
+`holdout_freeze.json` records the constraint so that a change would be visible rather than
+convenient.
 
 ## Why the rows are renamed
 
@@ -38,9 +86,16 @@ be resolved, and `tier2_rule.md` must still hash to what `manifest_notes.json` r
 before tier 1 ran. A holdout set frozen around rows nobody had run would be a set chosen by
 what happened to finish.
 
+And it will not freeze at all once a holdout number has been seen. If the frozen file is
+missing while `run_status_holdout.csv` records a row as `ran` or a `results/*__holdout/`
+directory exists, the set is not re-derived — it is restored from git. Re-deriving it then
+would be choosing the set after seeing the numbers, which is exactly what §3 forbids, and
+the file is versioned precisely so that restoring it is the available move.
+
 Writes, at this node:
-  results/manifest_holdout.csv  the rows phase E runs, one per combination
-  results/holdout_freeze.json   what was frozen, when, against which files
+  results/manifest_holdout.csv       the rows phase E runs, one per combination (once)
+  results/holdout_freeze.json        what was frozen, when, against which files (once)
+  results/holdout_freeze_check.json  what the tree would freeze now, against what is frozen
 
 Seeds: none.
 """
@@ -59,8 +114,16 @@ ROOT = NODE.parents[1]
 RESULTS = NODE / "results"
 SCHEME = ROOT / "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json"
 PARTITION = ROOT / "analysis/01_data/01_partition/results"
+ANALYSIS_RESULTS = ROOT / "analysis/results"
 
 SUFFIX = "__holdout"
+
+# The columns that say *what analysis a row is*. A difference in any of them is a different
+# set, whatever the row is called; a difference outside them is a number that moved under a
+# set that did not. `built` belongs here: a row whose child has no scripts is a row the
+# driver cannot run, so it decides what the frozen set can do as much as its fork does.
+STRUCTURAL = ("rank", "tier", "combination", "development_combination", "kind", "fork",
+              "child", "owner", "combo_base", "models_rerun", "models_inherited", "built")
 
 # The obligations phase E inherits, quoted from where they were decided rather than
 # restated. Text; nothing computes with it.
@@ -112,12 +175,57 @@ def frozen_at() -> str:
     first run the file is not committed yet and there is no such commit, and HEAD is the
     honest answer then -- it is the commit the freeze was computed at, and the commit that
     adds the file is the next one, which is what the note beside this field says.
+
+    Since batch 24 the field is written once and never again, because the file carrying it
+    is written once and never again. This function is reached on the freeze and not on the
+    verification.
     """
     found = subprocess.run(
         ["git", "log", "--diff-filter=A", "--format=%h", "--",
          str((NODE / "results" / "manifest_holdout.csv").relative_to(ROOT))],
         cwd=ROOT, capture_output=True, text=True).stdout.split()
     return found[-1] if found else commit()
+
+
+def year_has_been_opened() -> list[str]:
+    """Evidence, if any, that a holdout number has already been seen.
+
+    Two independent kinds, and either is enough, because this guard is asked only when the
+    frozen manifest is missing and the question is whether re-deriving it would be choosing
+    the set after the event. `.holdout_opened` is deliberately not consulted: it is
+    gitignored and says only that *this working tree* ran the year, which is the right
+    question for the driver's re-run seal and the wrong one here. A fresh clone that has
+    never run anything still inherits results computed from a set that was frozen, and
+    re-deriving it there would be as wrong as doing it in the tree that opened the year.
+    """
+    seen = []
+    status = RESULTS / "run_status_holdout.csv"
+    if status.exists():
+        ran = [r["combination"] for r in rows_of(status) if r["status"] == "ran"]
+        if ran:
+            seen.append(f"{status.relative_to(ROOT)} records {len(ran)} rows as `ran`")
+    if ANALYSIS_RESULTS.is_dir():
+        dirs = sorted(p.name for p in ANALYSIS_RESULTS.iterdir()
+                      if p.is_dir() and p.name.endswith(SUFFIX))
+        if dirs:
+            seen.append(f"{len(dirs)} directories under "
+                        f"{ANALYSIS_RESULTS.relative_to(ROOT)}/ carry the {SUFFIX} suffix")
+    return seen
+
+
+def refuse_if_the_year_has_been_opened() -> None:
+    seen = year_has_been_opened()
+    if not seen:
+        return
+    raise SystemExit(
+        "results/manifest_holdout.csv is missing and the held-out year has already been "
+        "opened (" + "; ".join(seen) + "). The frozen set is not re-derived after a "
+        "holdout number has been seen — that is choosing the set after the event, which "
+        "plan §3 forbids. The file is versioned so that the available move is to restore "
+        "it:\n"
+        "    git checkout -- analysis/05_stability/results/manifest_holdout.csv\n"
+        "If it is genuinely to be re-frozen, that is a decision with a batch behind it, "
+        "not something this script does because the file was absent.")
 
 
 def refuse_if_development_is_unfinished(manifest: list[dict],
@@ -146,14 +254,14 @@ def refuse_if_development_is_unfinished(manifest: list[dict],
             f"fixed; the pairs would be chosen after the event.")
 
 
-def main() -> None:
-    manifest = rows_of(RESULTS / "manifest.csv")
-    conclusions = {r["combination"]: r for r in rows_of(RESULTS / "conclusions.csv")}
-    refuse_if_development_is_unfinished(manifest, list(conclusions.values()))
+def derive(manifest: list[dict], conclusions: dict[str, dict]) -> tuple[list[dict], float]:
+    """The set the development manifest and the current conclusions imply.
 
-    scheme = json.loads(SCHEME.read_text())
-    notes = json.loads((RESULTS / "manifest_notes.json").read_text())
-
+    On the freeze this is what gets written. Afterwards it is only ever compared against
+    what was written, and this function is the reason the comparison is possible at all:
+    one derivation, used both to freeze and to check the freeze, so the check cannot drift
+    away from the thing it checks.
+    """
     out, total = [], 0.0
     for row in manifest:
         development = conclusions.get(row["combination"], {})
@@ -184,6 +292,13 @@ def main() -> None:
             "status": ("frozen" if development.get("skill_score", "") != ""
                        else "frozen; " + development.get("why_not", "")),
         })
+    return out, total
+
+
+def freeze(out: list[dict], total: float) -> None:
+    """Write the set, once. Reached only when `manifest_holdout.csv` does not exist."""
+    scheme = json.loads(SCHEME.read_text())
+    notes = json.loads((RESULTS / "manifest_notes.json").read_text())
 
     with (RESULTS / "manifest_holdout.csv").open("w", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(out[0]), lineterminator="\n")
@@ -263,6 +378,110 @@ def main() -> None:
     print(f"{len(out)} rows frozen for the holdout, "
           f"{total / 3600:.2f} h estimated -> "
           f"{(RESULTS / 'manifest_holdout.csv').relative_to(ROOT)}")
+
+
+def verify(frozen: list[dict], derived: list[dict]) -> int:
+    """Compare what the tree would freeze now against what is frozen. Write neither.
+
+    Returns the number of fatal differences; the caller turns that into an exit status, so
+    that a frozen set the tree has contradicted stops `analysis/run.sh` rather than being
+    reported into a file nobody opens.
+    """
+    by_name_frozen = {r["combination"]: r for r in frozen}
+    by_name_derived = {r["combination"]: r for r in derived}
+
+    unpaired = sorted(set(by_name_derived) - set(by_name_frozen))
+    missing = sorted(set(by_name_frozen) - set(by_name_derived))
+
+    changed, drifted = [], []
+    for name in sorted(set(by_name_frozen) & set(by_name_derived)):
+        was, now = by_name_frozen[name], by_name_derived[name]
+        moved = {c: {"frozen": was.get(c, ""), "now": now.get(c, "")}
+                 for c in STRUCTURAL if was.get(c, "") != now.get(c, "")}
+        if moved:
+            changed.append({"combination": name, "columns": moved})
+        numbers = {c: {"frozen": was.get(c, ""), "now": now.get(c, "")}
+                   for c in now if c not in STRUCTURAL and was.get(c, "") != now.get(c, "")}
+        if numbers:
+            drifted.append({"combination": name, "columns": numbers})
+
+    fatal = len(missing) + len(changed)
+    frozen_path = RESULTS / "manifest_holdout.csv"
+    recorded = json.loads((RESULTS / "holdout_freeze.json").read_text()).get(
+        "frozen_inputs", {}).get("results/manifest_holdout.csv", "")
+    digest = sha256(frozen_path)
+
+    (RESULTS / "holdout_freeze_check.json").write_text(json.dumps({
+        "what_this_is": (
+            "What the tree would freeze now, compared against what is frozen. The frozen "
+            "set is authoritative and is never rewritten; this file is the whole of what "
+            "a later run of freeze_holdout_manifest.py produces (batch 24)."),
+        "checked_on": date.today().isoformat(),
+        "verdict": ("the frozen set is intact" if fatal == 0
+                    else f"{fatal} difference(s) the frozen set cannot absorb"),
+        "frozen": {
+            "file": str(frozen_path.relative_to(ROOT)),
+            "rows": len(frozen),
+            "sha256": digest,
+            "sha256_recorded_in_holdout_freeze_json": recorded,
+            "still_the_file_that_was_frozen": digest == recorded,
+        },
+        "recomputed_rows": len(derived),
+        "fatal": {
+            "frozen_rows_the_tree_no_longer_carries": missing,
+            "frozen_rows_whose_structure_moved": changed,
+            "note": ("Either means the frozen set can no longer be reproduced, so the run "
+                     "stops. The structural columns are " + ", ".join(STRUCTURAL) + "."),
+        },
+        "unpaired_development_rows": {
+            "rows": unpaired,
+            "note": ("Development rows with no twin in the frozen set. Plan §3, clarified "
+                     "2026-09-01: the freeze binds this manifest and not the tree or the "
+                     "development manifest, so an alternative discovered after the "
+                     "opening is carried in both of those, has no holdout twin, and never "
+                     "joins the 32. It is reported here and not added."),
+        },
+        "drift_under_an_unchanged_set": {
+            "rows": drifted,
+            "note": ("Non-structural columns that moved: the development conclusions "
+                     "frozen beside each row, and the cost estimates. The reference model "
+                     "is unseeded, so a re-run of the development half moves the skill "
+                     "score by about 0.006 with nothing wrong; batch 18's clean-room run "
+                     "measured 0.0065 on the headline. Reported, never absorbed — the "
+                     "frozen columns stay as they were frozen."),
+        },
+        "binding": BINDING,
+    }, indent=1, sort_keys=False) + "\n")
+
+    where = (RESULTS / "holdout_freeze_check.json").relative_to(ROOT)
+    print(f"frozen set verified, not rewritten: {len(frozen)} rows, "
+          f"{len(unpaired)} unpaired development row(s), {len(drifted)} row(s) whose "
+          f"numbers drifted -> {where}")
+    if missing:
+        print(f"  FATAL: the tree no longer carries {len(missing)} frozen row(s): "
+              f"{', '.join(missing)}")
+    for entry in changed:
+        print(f"  FATAL: {entry['combination']} moved in "
+              f"{', '.join(sorted(entry['columns']))}")
+    if fatal:
+        print("  The frozen set is what phase E ran. Fix the tree, or open a batch for "
+              "the change; this script does not rewrite it.")
+    return fatal
+
+
+def main() -> None:
+    manifest = rows_of(RESULTS / "manifest.csv")
+    conclusions = {r["combination"]: r for r in rows_of(RESULTS / "conclusions.csv")}
+    frozen_path = RESULTS / "manifest_holdout.csv"
+
+    if frozen_path.exists():
+        derived, _ = derive(manifest, conclusions)
+        raise SystemExit(1 if verify(rows_of(frozen_path), derived) else 0)
+
+    refuse_if_the_year_has_been_opened()
+    refuse_if_development_is_unfinished(manifest, list(conclusions.values()))
+    out, total = derive(manifest, conclusions)
+    freeze(out, total)
 
 
 if __name__ == "__main__":

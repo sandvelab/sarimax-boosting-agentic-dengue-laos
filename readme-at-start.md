@@ -37,7 +37,7 @@ representative research problem, and where it fails.
 - **Target venue**: ***PLoS Computational Biology*** (human-set, 2026-08-31). The manuscript
   this case serves updates Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013), which
   is both the precedent and now the target.
-- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; phase C complete, batches 8–11; **phase D complete — batches 12, 13, 22, 14 and 15; phase E under way — batch 16 opened the holdout and ran the frozen set on it, batch 17 completed the claim collection and built the hierarchical report, and batch 18 is next**). Twenty batches in the ledger, plus **batch 20, which was optional and is confirmed — it runs before batch 19, so the remaining order is 18, 20, 19** — plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result. What it settled is in the plan's §4b. **The ledger is executed top to bottom and a batch's number is an identifier, not a position**: batch 22 was added between 13 and 14.
+- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; phase C complete, batches 8–11; **phase D complete — batches 12, 13, 22, 14 and 15; phase E under way — batch 16 opened the holdout and ran the frozen set on it, batch 17 completed the claim collection and built the hierarchical report, and batch 18 ran the clean-room and outsider checks and reported the plan's drift**). Twenty-four batches in the ledger, plus **batch 21 on the branch `greedy`**. **Batch 18 added 23, 24 and 25** — the provenance records' script hashes, the frozen phase-E manifest's recomputation, and completing the clean-room run it could not finish — so the remaining order is **23, 24, 25, 20, 19**, with batch 19's release last because it must not claim more than the checks support — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result. What it settled is in the plan's §4b. **The ledger is executed top to bottom and a batch's number is an identifier, not a position**: batch 22 was added between 13 and 14.
 - **Manuscript**: `Human-AI-collaboration/manuscript/`
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`. It carries the
@@ -265,7 +265,13 @@ check in batch 18 is a six-hour run. Both human-set, 2026-08-31, on batch 16's q
 
 1. `analysis/run.sh` reproduces the reported analysis from a clean environment — and, since
    batch 15, the whole perturbation set with it, and since batch 16 the same set on the
-   held-out year.
+   held-out year. **As of batch 18 this is verified for the reported main path and not yet
+   for the two distributions**: the clean-room run reached 8 of the 32 stability rows before
+   it was interrupted, so the phase-E half has still never been executed from a clean
+   checkout. On what it did reach, every model this project wrote reproduced its mean CRPS
+   to the last digit and the unseeded reference moved the headline skill score by 0.0065 —
+   `AI-generated/validation/26-09-01_cleanroom.md`. Batch 25 finishes the check, and until
+   it has, nothing may claim more than that document supports.
 2. Every reported result traces to a file that was executed.
 3. Every sentence in the manuscript traces to a claim, to a result, to a command.
 4. The alternatives not taken are still in the tree, runnable.

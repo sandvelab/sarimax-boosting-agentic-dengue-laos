@@ -24,5 +24,10 @@ here.
   a provenance record naming a commit that is not in the history and would have vanished on
   the first push. What was fixed, what was deferred to batches 23 and 24, and the two
   questions carried to the human are all in it.
-- `26-08-31_cleanroom.md` — batch 18. The first clean-room run since the tree grew a
-  stability node and a phase E, and the first that could reach the reference model.
+- `26-09-01_cleanroom.md` — batch 18, and the first clean-room run that could reach the
+  reference model, batch 7's having run inside a container where it cannot. **Interrupted at
+  8 of 32 stability rows**, and it says so: what it verified is the reported main path, where
+  every model this project wrote reproduces its mean CRPS to the last digit and the unseeded
+  reference moves the headline skill score by 0.0065. The two distributions are unverified
+  from cold and the phase-E half has never run from a clean checkout; that is batch 25.
+  Its figures are in `26-09-01_cleanroom_comparison.json`, with `provenance.md` beside it.

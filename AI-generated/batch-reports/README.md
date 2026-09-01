@@ -158,3 +158,16 @@ re-running a batch produces a different report rather than the same one.
   crashed sorting a province whose mean is empty because it contributes no evaluable cell.
   One discipline point, which changed what several claims say: **a claim states the figures a
   file holds and never a ratio between two of them that no file computes.**
+
+- `26-09-01_b18_validationAndDrift.md` — batch 18, phase E: the two checks that had never
+  been run here. `/validate cleanroom` found, **before executing a line**, that the holdout
+  seal was versioned and therefore sealed every clone — a fresh checkout skipped all 32
+  phase-E rows and reproduced their outputs byte-identically while running none of the
+  analysis. On what it then ran, **every model this project wrote reproduced its mean CRPS to
+  the last digit** and the unseeded reference moved the headline skill by 0.0065; the run was
+  **interrupted at 8 of 32 rows**, so the distributions are unverified from cold and batch 25
+  finishes it. `/validate outsider`, run for the first time, found three wrong counts — one in
+  claim C3 — and six provenance records naming a commit orphaned by a history rewrite, which
+  would have vanished on the first push. The plan's drift is measured: **89.1% of the
+  delivered lines survive** while the document is five times its delivered length, and 145 of
+  169 recorded decisions were the agent's alone.

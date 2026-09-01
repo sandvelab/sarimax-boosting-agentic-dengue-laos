@@ -480,6 +480,12 @@ below is read from a file there.)*
 | **The manuscript's target venue is *PLoS Computational Biology*** | The obvious precedent: the manuscript this case serves updates Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013). It had been recorded as not fixed in the source material | human-set |
 | **What `/validate outsider` finds in the instruction files is fixed by the agent and logged, not brought back for approval first** | The findings are what an outsider misunderstands, and fixing them is a methodological change under Rule 4 — so each one is committed in those terms, with what it changed and why. The human reads the log rather than the proposal | human-set |
 
+### 2026-09-01 — settled by the human, on batch 18's open question
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **The perturbation set stays at 32 analyses; no further reasonable alternative is added** | Batch 18's outsider check raised it: an outsider asked to add a training-window alternative found that nothing in the plan says what happens to a distribution over 32 analyses when a thirty-third is discovered after the freeze, the plan covering only cutting for budget. The human's answer is that the 32 are sufficient. This closes the question rather than deferring it, and it means the tree does not grow again before release — so batch 24's defect, where re-running `analysis/run.sh` after a fork child was added would silently grow the frozen phase-E manifest, stays unreachable in practice and is fixed for the reader rather than for this project | human-set |
+
 ### 2026-08-31 — settled by batch 18, from the clean-room and outsider checks
 
 | Decision | Basis | Agency |
@@ -557,12 +563,13 @@ at the end of every batch, and append newly created batches to it.
 | 15 | D | `/perturb report`; put the driver into `run.sh`; freeze and commit the holdout manifest | done — produced | [[26-08-31_b15_perturbationReport]] |
 | 16 | E | The holdout, opened once, on the frozen manifest | done — produced | [[26-08-31_b16_holdout]] |
 | 17 | E | Claims and the hierarchical report | done — produced | [[26-08-31_b17_claimsAndReport]] |
-| 18 | E | Clean-room and outsider validation; the plan's own drift | open | |
+| 18 | E | Clean-room and outsider validation; the plan's own drift | done — produced | [[26-09-01_b18_validationAndDrift]] |
 | 19 | E | The case write-up, the reproducibility report, the release | open | |
 | 20 | E | The external check on `tha` and `vnm` — **confirmed, not cut; runs before batch 19** | open | |
 | 21 | C, on branch `greedy` | The counterfactual: iterate batch 9's promotion rule to a fixpoint on a branch, and measure what stopping once cost | done — produced | `26-08-27_b21_greedyBranch.md`, on branch `greedy` |
 | 23 | E | The provenance records' script hashes: the invariant that a script's current sha256 must appear in its own record, and the sixteen appended sections that make it pass — including `conclude.py`, whose newest section predates batch 16 changing it | open | |
 | 24 | E | The frozen phase-E manifest is recomputed on every run of `analysis/run.sh`, so a tree that grew a fork child would silently grow the frozen set; make the freeze win over the recomputation | open | |
+| 25 | E | Run `/validate cleanroom` to completion — batch 18's was interrupted at 8 of 32 development rows, so the two distributions are unverified from cold and the phase-E half has never run from a clean checkout | open | |
 
 ---
 
@@ -1121,6 +1128,10 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 17 — the claim collection completed, and the report that descends to the values
 
 - [[26-08-31_b17_claimsAndReport]]
+
+### Batch 18 — the clean-room, the outsider check, and the plan's own drift
+
+- [[26-09-01_b18_validationAndDrift]]
 
 ### Batch 21 — the greedy branch
 

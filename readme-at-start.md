@@ -37,7 +37,7 @@ representative research problem, and where it fails.
 - **Target venue**: ***PLoS Computational Biology*** (human-set, 2026-08-31). The manuscript
   this case serves updates Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013), which
   is both the precedent and now the target.
-- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; phase C complete, batches 8–11; **phase D complete — batches 12, 13, 22, 14 and 15; phase E under way — batch 16 opened the holdout and ran the frozen set on it, batch 17 completed the claim collection and built the hierarchical report, and batch 18 ran the clean-room and outsider checks and reported the plan's drift**). Twenty-four batches in the ledger, plus **batch 21 on the branch `greedy`**. **Batch 18 added 23, 24 and 25** — the provenance records' script hashes, the frozen phase-E manifest's recomputation, and completing the clean-room run it could not finish — so the remaining order is **23, 24, 25, 20, 19**, with batch 19's release last because it must not claim more than the checks support — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result. What it settled is in the plan's §4b. **The ledger is executed top to bottom and a batch's number is an identifier, not a position**: batch 22 was added between 13 and 14.
+- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; phase C complete, batches 8–11; **phase D complete — batches 12, 13, 22, 14 and 15; phase E under way — batch 16 opened the holdout and ran the frozen set on it, batch 17 completed the claim collection and built the hierarchical report, batch 18 ran the clean-room and outsider checks and reported the plan's drift, and batch 23 closed the provenance records' digest gap**). Twenty-four batches in the ledger, plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result; what it settled is in the plan's §4b. **Batch 18 added 23, 24 and 25** — the provenance records' script hashes, the frozen phase-E manifest's recomputation, and completing the clean-room run it could not finish — so the remaining order is **24, 25, 20, 19**, with batch 19's release last because it must not claim more than the checks support. **The ledger is executed top to bottom and a batch's number is an identifier, not a position**: batch 22 was added between 13 and 14.
 - **Manuscript**: `Human-AI-collaboration/manuscript/`
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`. It carries the
@@ -168,6 +168,15 @@ check in batch 18 is a six-hour run. Both human-set, 2026-08-31, on batch 16's q
   reported model as well as the persistence row. The driver, `run_manifest.py`, is written
   and deliberately **not** in `run.sh` until batch 15; the two defects that held fourteen
   built rows are fixed and those rows have run.
+  **Batch 23 added a `hashes` check**: for every file a provenance record gives a sha256 for,
+  the record must name that file's *current* digest somewhere. It found **twenty stale
+  records** where batch 18 had estimated sixteen — the four it adds all name the shared
+  evaluation library `chap_eval.py` on a continuation line, and it changed twice after they
+  were written, so a check reading only `script:` lines passed all four. Nineteen of the
+  twenty are one failure repeated: a batch appended its section when it ran the script,
+  changed the script again later in the same batch, and did not append again. The worst was
+  the record of the headline result, which named a version of `conclude.py` that had not
+  existed since batch 16 ran it thirty-two times to produce phase E's conclusions.
   **Batch 16 opened the holdout and ran the frozen set on it.** `01_data/01_partition`
   gained `open_holdout.py`, which reassembles the archived file from the two parts beside it
   and verifies the result byte for byte, so the node that was the only one licensed to read

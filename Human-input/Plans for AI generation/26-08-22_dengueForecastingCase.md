@@ -510,6 +510,17 @@ below is read from a file there.)*
 | **The provenance hash gap and the recomputed freeze become batches 23 and 24 rather than edits here** | Both are real and neither is reachable today: the tree cannot grow while phase E is closed, and the sixteen stale hashes need appended sections describing runs this batch did not do. Plan §5 says a batch running long splits the remainder rather than pushing on. The alternative — adding the hash invariant now — leaves a failing check, which is worse than a scheduled one | agent-autonomous |
 | **The outsider check is two agents on two tasks, not one** | One writing into the tree and one tracing the headline result back to the archived data. They failed in disjoint places: the first found the machinery defects, the second found the wrong numbers and the broken commit link. A single agent would have produced one of those two lists | agent-autonomous |
 
+### 2026-09-01 — settled by batch 23, from the provenance records' digests
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **The `hashes` invariant reads the whole `script:` block, not the `script:` line** | Batch 18 estimated sixteen stale records by scanning `script:` lines. Four more name a shared library — `03_models/scripts/lib/chap_eval.py` — on a continuation line with a digest of its own, and it changed twice after they were written. A check on the runner alone passes all four. It is the same failure batch 18 diagnosed in its own `commit:` pattern, found again in the estimate that diagnosis produced: a record more detailed than the scan expected is skipped for being so | agent-autonomous |
+| **A record satisfies the check by naming the current digest anywhere in it** | A record is a running account, not a snapshot. Batch 13's section names the version that ran at batch 13 and is right to keep it; requiring the newest section to carry the digest would make every historical section a liability. The obligation is that the record has caught up with the file, not that it has forgotten what came before | agent-autonomous |
+| **A docstring-only change gets a section like any other** | `a_from1998`'s window script had one sentence corrected and no output moved. The alternative is a check that judges whether a diff matters, and there is none — a reader who finds a digest that does not match cannot tell a corrected docstring from a moved threshold without doing the diff themselves, which is the work the digest exists to save | agent-autonomous |
+| **The development stability figures are re-drawn; the reported conclusion is not re-run** | Batch 16's refactor moved the figure drawing into a shared module after the development figures had been drawn, so the archived figures were produced by a version that no longer existed. Re-drawing costs a second, re-runs nothing upstream and produces evidence: both came back byte-identical, PNG and CSV. `conclude.py` is the other case — re-running it under `COMBO=main` would be a re-run made for a record's benefit rather than the analysis's, and batch 18's clean-room rebuild is stronger evidence than it would be, having rebuilt every input too. **Where re-running would have meant re-running an analysis, the batch did not** | agent-autonomous |
+| **Hashing every transitively imported module is not adopted** | A record that names a library hashes it; one that does not is less precise rather than wrong. Adding the obligation retroactively would fail twelve records for never having promised it, and the check would then be enforcing something no record was written to satisfy | agent-autonomous |
+| **The stale digests stay where they are** | `AGENTS.md` §1: records are appended to, never edited. Each stale digest names the version that ran under it and is accurate about that run; what was missing is the section describing the version that came after | agent-autonomous, on the standing rule |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -580,7 +591,7 @@ at the end of every batch, and append newly created batches to it.
 | 19 | E | The case write-up, the reproducibility report, the release | open | |
 | 20 | E | The external check on `tha` and `vnm` — **confirmed, not cut; runs before batch 19** | open | |
 | 21 | C, on branch `greedy` | The counterfactual: iterate batch 9's promotion rule to a fixpoint on a branch, and measure what stopping once cost | done — produced | `26-08-27_b21_greedyBranch.md`, on branch `greedy` |
-| 23 | E | The provenance records' script hashes: the invariant that a script's current sha256 must appear in its own record, and the sixteen appended sections that make it pass — including `conclude.py`, whose newest section predates batch 16 changing it | open | |
+| 23 | E | The provenance records' script hashes: the invariant that a script's current sha256 must appear in its own record, and the appended sections that make it pass — including `conclude.py`, whose newest section predates batch 16 changing it. **Twenty records, not sixteen: the check reads the whole `script:` block** | done — produced | [[26-09-01_b23_provenanceHashes]] |
 | 24 | E | The frozen phase-E manifest is recomputed on every run of `analysis/run.sh`, so a tree that grew a fork child would silently grow the frozen set; make the freeze win over the recomputation | open | |
 | 25 | E | Run `/validate cleanroom` to completion — batch 18's was interrupted at 8 of 32 development rows, so the two distributions are unverified from cold and the phase-E half has never run from a clean checkout | open | |
 
@@ -1145,6 +1156,10 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 18 — the clean-room, the outsider check, and the plan's own drift
 
 - [[26-09-01_b18_validationAndDrift]]
+
+### Batch 23 — a record's digest must be the file's
+
+- [[26-09-01_b23_provenanceHashes]]
 
 ### Batch 21 — the greedy branch
 

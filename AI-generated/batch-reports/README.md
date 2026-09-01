@@ -171,3 +171,18 @@ re-running a batch produces a different report rather than the same one.
   would have vanished on the first push. The plan's drift is measured: **89.1% of the
   delivered lines survive** while the document is five times its delivered length, and 145 of
   169 recorded decisions were the agent's alone.
+
+- `26-09-01_b23_provenanceHashes.md` — batch 23, phase E: the `hashes` invariant, and the
+  twenty appended provenance sections that make it pass. A record must name the **current**
+  digest of every file it gives a sha256 for. Batch 18 estimated sixteen stale records by
+  scanning `script:` lines; the check reads the whole block and finds **twenty**, the four it
+  adds being records that name the shared evaluation library `chap_eval.py`, which changed
+  twice after they were written. Nineteen of the twenty are one failure repeated: **a batch
+  appends its section when it runs the script, changes the script again later in the same
+  batch, and does not append again** — including the record of the headline result, which
+  named a version of `conclude.py` that had not existed since batch 16 ran it thirty-two
+  times to produce phase E. Two things verified rather than argued: the development stability
+  figures were re-drawn after batch 16's refactor and came back byte-identical, PNG and CSV;
+  and the reported development conclusion was **not** re-run, resting instead on batch 18's
+  clean-room rebuild, because where re-running would have meant re-running an analysis this
+  batch did not.

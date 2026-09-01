@@ -1577,3 +1577,45 @@ artefact its freeze binds, and §10 reserves changes to the non-negotiables. The
 question was answered on 2026-09-01 — **the perturbation set stays at 32** — which also means
 the tree does not grow before release and batch 24's defect is fixed for the reader rather
 than for this project.
+
+### T18, extended — §3 says which artefact its freeze binds
+
+**What happened.** Batch 18's report closed with one question carried to the human: plan §3
+says *"nothing is added, dropped, re-tuned or re-run after a holdout number has been seen"*
+and does not say what that binds. The human first settled the operational half — the
+perturbation set stays at 32 — and then, asked what keeping the set costs, asked for the
+interpretation to be written into §3 rather than left implicit. No analysis ran and nothing
+under `analysis/` moved.
+
+**Why the ambiguity is real and not pedantry.** Batch 18's outsider agent was asked to add a
+training-window alternative and walked straight into it: `/validate invariants`'s `combos`
+check *requires* every non-main child in the tree to have a row in the development manifest,
+while §3 read literally forbids adding anything at all once the holdout is open. Two rules in
+the same repository, contradicting each other, with no text saying which yields. The agent
+took the narrow reading and recorded the guess in three places rather than deciding quietly,
+which is the behaviour the check exists to produce.
+
+**What the text now says.** The freeze binds `manifest_holdout.csv` and nothing else, because
+what it protects is the set evaluated on 2010 — that is what makes the holdout spread a
+measurement rather than a selection. The tree and the development manifest may still grow. A
+development row added after the opening has no holdout twin, can never acquire one, and is
+reported as an unpaired analysis outside the distribution rather than joining the 32. The
+clause ends by saying that nothing further is added in *this* project, so a reader cannot
+mistake the clarification for a licence this run used.
+
+**Where it went.** The sub-clause in the plan's §3; two mirrored sentences in
+`readme-at-start.md`'s "What must not happen" #1, which carries the same rule verbatim and
+would otherwise drift; and a §4b row in the 2026-09-01 table, above the human's 32-analyses
+ruling.
+
+**Agency, and why it is not `human-set`.** Recorded as `agent-on-human-assessment`: the
+narrow reading is the agent's, the decision to write it into a non-negotiable is the human's,
+and `AGENTS.md` §10 reserves changes to §3. Calling it `human-set` would overstate the
+human's part and `agent-autonomous` would overstate the agent's — and this project reports
+its own agency as a result, so the distinction is not bookkeeping.
+
+**What this changes about the follow-ups.** Batch 24 — the frozen phase-E manifest being
+recomputed on every run of `analysis/run.sh` — loses its practical urgency, because the tree
+does not grow again before release and the defect is therefore unreachable in this project.
+It stays in the ledger because it is a defect for anyone reproducing the method. The
+remaining order is unchanged: 23, 24, 25, 20, 19.

@@ -274,3 +274,73 @@ alternatives-considered: none new; the manifest's own alternatives are in the se
 agency: agent-autonomous.
 information: agent-retrieved — the digest is computed from the file and the change read from
 the diff at `40b6936`.
+
+## `manifest_selection.json`, `manifest_selection_check.json` — and `manifest.csv` made reproducible (batch 26)
+
+```
+result:              results/manifest_selection.json (written once)
+                     results/manifest_selection_check.json (every run after the first)
+                     results/manifest.csv, results/manifest_notes.json,
+                     results/forks.csv, results/tier2_rule.md (unchanged in content)
+script:              analysis/05_stability/scripts/plan_manifest.py
+                     sha256:479b4f73004b8c128afa1f0df55045c2c14a9df2d98ba693a8a9fa9c5431e755
+invocation:          environment/chapenv/bin/python \
+                       analysis/05_stability/scripts/plan_manifest.py
+inputs:              the tree (lib/inventory.py), each model's run_cost.json,
+                     results/step_costs.json, results/conclusions.csv,
+                     AI-generated/candidate-forks/*/fork_leaderboard.csv
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none.
+commit:              608128a
+instructions-commit: 608128a
+node:                analysis/05_stability
+produced:            2026-09-02, batch 26
+```
+
+**What changed, and why.** Batch 25's clean-room run of `analysis/run.sh` **exited 1** at the
+freeze check, because two things this script *derives* had moved on a second draw:
+
+- the **tier-1 order** breaks ties on `est_seconds_dev`, a measured wall-clock duration, and
+  the five `setup` rows have no informativeness prior and equal reach — so their order is
+  that tiebreak alone. `provinces_reportingOnly` took 821 s here and 1 039 s in the clean
+  room and moved from rank 5 to rank 7;
+- the **tier-2 pairing** ranks tier-1 rows by skill score, and skill divides by the
+  **unseeded** reference model. The clean room re-selected **six of the eight pairs**, its
+  deciding margins having been 0.001002 and 0.003211 of skill against a noise band of
+  0.0218–0.0431.
+
+Both are now **decisions recorded in `manifest_selection.json` and replayed**, not
+re-decided. Which combinations *exist* is still read from the tree on every run, because
+`combos` requires the manifest and the tree to agree and plan §3 — clarified 2026-09-01 —
+lets the development manifest grow. A combination the tree has and the record does not is
+**appended and reported**; one the record has and the tree does not is **fatal**. The rule
+still runs and now decides nothing: it exists so `manifest_selection_check.json` can say
+whether it *would* still choose the recorded pairs, which after a re-run it generally will
+not, and that difference is reported rather than absorbed.
+
+This is batch 24's discipline applied one file upstream of where batch 24 applied it — *a
+value that records history must not be derived at run time*. `frozen_at_commit` is read
+from the commit that adds the record rather than from HEAD, for the reason batch 16 and
+batch 24 both had to learn.
+
+**What it produced.** `manifest.csv`, `manifest_notes.json`, `forks.csv` and
+`tier2_rule.md` are **byte-identical to what was archived before this change**, verified
+across a freeze run and repeated replay runs. The `status` column of the tier-2 rows
+deliberately keeps the wording `select_tier2` writes — those pairs *were* selected by the
+rule, once, and giving the replay its own wording would have rewritten a reported artefact
+to say something that belongs in the record beside it.
+
+`manifest_holdout.csv` is untouched and still hashes to `fc9d1a16…`.
+
+**How it was checked.** `AI-internal/useful-scripts/check_selection_defence.py`, five
+scenarios, one of them driven by the clean-room run's own `conclusions.csv` — the data that
+broke batch 25. → `AI-generated/validation/26-09-02_selectionDefence.json`.
+
+alternatives-considered: recording the *rule's inputs* rather than its output — rejected,
+because the inputs are the unreproducible thing; and making a drifted selection fatal —
+rejected, because a correct clean-room re-run must be able to pass, which is the trap batch
+24 named.
+
+agency: agent-autonomous, inside the human-set §3 — which the clarification of 2026-09-01
+binds to `manifest_holdout.csv` alone, and that file does not change.
+information: agent-retrieved.

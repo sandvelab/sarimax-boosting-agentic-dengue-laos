@@ -14,10 +14,39 @@ the conclusion move when this choice is taken instead?
 **Tier 2 — pairs, chosen by a rule and not by looking.** Eight combinations, selected from
 tier 1's own results by the rule in `TIER2_RULE`, which is written to
 `results/tier2_rule.md` and hashed into `results/manifest_notes.json` by this batch, before
-tier 1 has run. When tier 1 exists, running this script again fills the eight slots in;
-`--freeze-check` refuses to do it if the rule's text has changed since the hash was
-recorded, so the pairs cannot be chosen after the event by editing the rule that chooses
-them.
+tier 1 has run. When tier 1 exists, running this script again fills the eight slots in.
+
+## What is decided once, and therefore recorded rather than re-derived
+
+Two things here are computed from numbers that **do not reproduce**, and both of them shape
+the manifest:
+
+- the **tier-1 order** breaks its ties on `est_seconds_dev`, a *measured* wall-clock
+  duration, and the five setup rows have no informativeness prior and equal reach — so
+  their order is that tiebreak alone;
+- the **tier-2 pairing** ranks tier-1 rows by skill score, and skill divides by the
+  **unseeded** reference model.
+
+Batch 25's clean-room run put a second draw through both and got three tier-1 ranks moved
+and **six of the eight pairs re-selected**, which the frozen phase-E set records as
+structural change and refuses — so `analysis/run.sh` could not run to the end from a clean
+checkout at all.
+
+So since batch 26 both are **decisions, recorded in `results/manifest_selection.json` and
+replayed**, not re-decided. Which combinations *exist* is still read from the tree on every
+run, because `/validate invariants`'s `combos` check requires the manifest and the tree to
+agree and plan §3 — as clarified on 2026-09-01 — lets the development manifest grow. A
+combination the tree has and the record does not is **appended and reported**; one the
+record has and the tree does not is **fatal**.
+
+The rule still runs on every invocation, and now decides nothing: it exists so that
+`results/manifest_selection_check.json` can say whether it *would* still choose the recorded
+pairs. A difference there is expected — it is a fresh draw of an unseeded model — and is
+reported rather than absorbed.
+
+This is batch 24's discipline applied one file upstream of where batch 24 applied it: **a
+value that records history must not be derived at run time, because a derivation is a claim
+about the present.**
 
 ## Where every number comes from
 
@@ -36,6 +65,11 @@ Writes, at this node:
   results/manifest.csv        one row per combination
   results/manifest_notes.json the totals, the budget, the cut order, what is not costed
   results/tier2_rule.md       the pair-selection rule, fixed before tier 1 runs
+  results/manifest_selection.json
+                              the tier-1 order and the tier-2 pairing, written once
+  results/manifest_selection_check.json
+                              what this tree would decide now, against what is recorded;
+                              written on every run after the first
 """
 
 from __future__ import annotations
@@ -43,7 +77,9 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import subprocess
 import sys
+from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / "lib"))
@@ -381,19 +417,46 @@ def main() -> None:
 
     # Rank: reach first, then what phase C measured the fork to be worth where it
     # measured anything, then cheapest first. Order of execution, not of inclusion.
+    #
+    # `est_seconds_dev` is a *measured* duration, summed from each model's `run_cost.json`,
+    # and the five setup rows have no informativeness prior and equal reach -- so their
+    # order is decided by how long they happened to take. Batch 25's clean-room run
+    # measured `provinces_reportingOnly` at 1 039 s where this tree has 821 s and the row
+    # moved from rank 5 to rank 7, which the frozen phase-E set records as a structural
+    # change and refuses. Hence the record below: this sort is how the order was *arrived
+    # at* once, and is not how it is reproduced.
     body = [r for r in rows if r["combination"] != "main"]
     body.sort(key=lambda r: (-r["reach_rows"], -(r["prior_abs_delta_crps"] or 0.0),
                              r["est_seconds_dev"], r["combination"]))
     ordered = [rows[0], *body]
 
+    # ---- the recorded selection ---------------------------------------------------
+    # What is frozen here is the *order* of the tier-1 rows and the *pairing* of the
+    # tier-2 rows -- the two things this script derives from numbers that move. Which
+    # combinations exist is still read from the tree on every run, because `combos`
+    # requires the manifest and the tree to agree and the tree may still grow.
+    record = load_selection(out)
+    order_check = None
+    if "tier1_order" in record:
+        ordered, order_check = replay_order(record["tier1_order"], ordered)
+
     # ---- tier 2 -------------------------------------------------------------------
     (out / "tier2_rule.md").write_text(TIER2_RULE)
     rule_sha = hashlib.sha256(TIER2_RULE.encode()).hexdigest()
     conclusions = out / "conclusions.csv"
-    tier2, shortfall = [], {}
+    by_combo = {r["combination"]: r for r in ordered}
+    derived_tier2, shortfall = [], {}
     if conclusions.exists():
-        tier2, shortfall = select_tier2(
-            conclusions, {r["combination"]: r for r in ordered}, attempted_rows(out))
+        derived_tier2, shortfall = select_tier2(conclusions, by_combo, attempted_rows(out))
+
+    if "tier2_pairs" in record:
+        # The record decides; the derivation above is kept only so the check below can say
+        # whether the rule would still choose it. This is the whole of batch 26: skill
+        # score divides by the unseeded reference, so applying the rule again is a fresh
+        # draw, and batch 25's clean-room run re-selected six of these eight pairs.
+        tier2 = replay_tier2(record["tier2_pairs"], by_combo)
+    else:
+        tier2 = derived_tier2
     if not tier2:
         tier2 = [{"combination": "", "kind": "pair", "fork": "-", "child": "-",
                   "combo_base": "main", "built": False, "owner": "-",
@@ -423,6 +486,73 @@ def main() -> None:
                 "assigned_batch": assigned[row["kind"]],
                 "models_rerun": ";".join(row["models_rerun"]),
                 "models_inherited": ";".join(row["models_inherited"])})
+
+    # ---- record the selection, or check the recorded one --------------------------
+    # Written once, never rewritten -- the same discipline batch 24 had to impose on
+    # `holdout_freeze.json` after batch 16 fixed one recomputed field and left the
+    # recomputation. A file that records which decision was taken must not be re-derived,
+    # because a derivation is a claim about the present.
+    resolved = [r for r in tier2 if r["combination"]]
+    selection = out / SELECTION_FILE
+    if not record and resolved:
+        selection.write_text(json.dumps({
+            "what_this_is":
+                "The two things this manifest's shape was *decided* rather than derived: "
+                "the order of the tier-1 rows and the pairing of the tier-2 rows. Both "
+                "were computed once, from numbers that do not reproduce -- the tier-1 "
+                "order breaks ties on measured wall-clock cost, and the tier-2 rule ranks "
+                "on a skill score that divides by the unseeded reference model. Recording "
+                "them is what lets `analysis/run.sh` rebuild this manifest from a clean "
+                "checkout instead of re-deciding it.",
+            "frozen_on": str(date.today()),
+            "frozen_at_commit": added_at(selection),
+            "commit_note":
+                "the commit that adds this file, read from git rather than taken from "
+                "HEAD, so that later runs cannot overwrite the evidence of when the "
+                "selection was fixed. On the run that writes it there is no such commit "
+                "yet and HEAD is recorded; the commit that adds it is the next one.",
+            "tier1_order": [r["combination"] for r in ordered],
+            "tier1_order_basis":
+                "reach, then the phase-C informativeness prior, then measured cost, then "
+                "name -- as sorted by this script on the run that wrote this file. The "
+                "five setup rows have no prior and equal reach, so their order is the "
+                "cost tiebreak alone and is the half that does not reproduce.",
+            "tier2_pairs": [{"a": r["combination"].split("__")[0],
+                             "b": r["combination"].split("__")[1]} for r in resolved],
+            "tier2_rule_file": "results/tier2_rule.md",
+            "tier2_rule_sha256": rule_sha,
+            "tier2_note":
+                "The rule chose these pairs once, from tier 1's conclusions. It is kept "
+                "and still runs on every invocation, but only so that "
+                "manifest_selection_check.json can report whether it would still choose "
+                "them; it no longer decides what the manifest contains.",
+        }, indent=1, sort_keys=True) + "\n")
+        print(f"selection frozen: {len(ordered)} tier-1 rows in order, "
+              f"{len(resolved)} tier-2 pairs -> {selection.relative_to(ROOT)}")
+    elif record:
+        would = [f"{p['a']}__{p['b']}" for p in record.get("tier2_pairs", [])]
+        now = [r["combination"] for r in derived_tier2]
+        (out / "manifest_selection_check.json").write_text(json.dumps({
+            "what_this_is":
+                "What this tree would decide now, against what is recorded. The record is "
+                "authoritative and is never rewritten; this file is the whole of what a "
+                "later run produces.",
+            "checked_on": str(date.today()),
+            "verdict": ("the recorded selection is what this manifest carries"
+                        if not now or set(now) == set(would)
+                        else f"the rule would now choose {len(set(now) - set(would))} "
+                             f"different pair(s); the recorded ones stand"),
+            "tier1_order": order_check,
+            "tier2_recorded": would,
+            "tier2_the_rule_would_choose_now": now,
+            "tier2_pairs_that_would_differ": sorted(set(now) ^ set(would)) if now else [],
+            "note":
+                "A difference here is expected rather than alarming, and is why the record "
+                "exists: the reference model is unseeded, so re-running the development "
+                "half re-draws every skill score and the rule ranks on those. Batch 25's "
+                "clean-room run re-selected six of the eight pairs and moved three tier-1 "
+                "ranks. Neither is absorbed -- the recorded selection is what runs.",
+        }, indent=1, sort_keys=True) + "\n")
 
     parts = footprints()
     # Which directory holds each model's results: a baseline's node is named for it, ours
@@ -605,30 +735,116 @@ def select_tier2(conclusions: Path, tier1: dict,
     }
     shortfall = {k: n - len(groups[k]) for k, n in (("S", 2), ("M", 2), ("A", 1))
                  if len(groups[k]) < n}
-    pairs = [(a, b) for x, y in (("S", "M"), ("S", "A"), ("M", "A"))
-             for a in groups[x] for b in groups[y]]
-    out = []
-    for a, b in pairs:
-        out.append({
-            "combination": f"{a}__{b}", "kind": "pair",
-            "fork": f"{tier1[a]['fork']}+{tier1[b]['fork']}",
-            "child": f"{tier1[a]['child']}+{tier1[b]['child']}",
-            "owner": "-", "combo_base": "main",
-            "built": tier1[a]["built"] and tier1[b]["built"],
-            "models_rerun": sorted(set(tier1[a]["models_rerun"])
-                                   | set(tier1[b]["models_rerun"])),
-            "models_inherited": sorted(set(tier1[a]["models_inherited"])
-                                       & set(tier1[b]["models_inherited"])),
-            "reach_rows": max(tier1[a]["reach_rows"], tier1[b]["reach_rows"]),
-            "prior_abs_delta_crps": None, "tier": 2,
-            "est_seconds_dev": max(tier1[a]["est_seconds_dev"],
-                                   tier1[b]["est_seconds_dev"]),
-            "est_seconds_holdout": max(tier1[a]["est_seconds_holdout"],
-                                       tier1[b]["est_seconds_holdout"]),
-            "cost_basis": f"the more expensive of {a} and {b}",
-            "status": "selected by tier2_rule.md",
-        })
-    return out, shortfall
+    pairs = [(a, b) for x, y in PAIRINGS for a in groups[x] for b in groups[y]]
+    return [pair_row(a, b, tier1, "selected by tier2_rule.md") for a, b in pairs], shortfall
+
+
+# The three group pairings the rule forms. Named here because both the selection and the
+# replay of a recorded selection have to agree about them.
+PAIRINGS = (("S", "M"), ("S", "A"), ("M", "A"))
+
+SELECTION_FILE = "manifest_selection.json"
+
+
+def head_commit() -> str:
+    return subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT,
+                          capture_output=True, text=True).stdout.strip()
+
+
+def added_at(path: Path) -> str:
+    """The commit that first added `path` — not HEAD.
+
+    Same reasoning as `freeze_holdout_manifest.frozen_at`: a field recording when something
+    was fixed must not be recomputed, because a recomputation is a claim about the present.
+    On the run that writes the file there is no such commit yet and HEAD is the honest
+    answer; afterwards this is never called again, because the record is never rewritten.
+    """
+    found = subprocess.run(
+        ["git", "log", "--diff-filter=A", "--format=%h", "--", str(path.relative_to(ROOT))],
+        cwd=ROOT, capture_output=True, text=True).stdout.split()
+    return found[-1] if found else head_commit()
+
+
+def load_selection(out: Path) -> dict:
+    path = out / SELECTION_FILE
+    return json.loads(path.read_text()) if path.exists() else {}
+
+
+def replay_order(recorded: list[str], ordered: list[dict]) -> tuple[list[dict], dict]:
+    """Put the tier-1 rows back in the order that was recorded, and say what moved.
+
+    A combination the record names and the tree no longer carries is fatal: the recorded
+    order describes a manifest this repository can no longer produce. A combination the
+    tree carries and the record does not is **appended and reported**, never inserted —
+    plan §3 as clarified on 2026-09-01 lets the development manifest grow, and `combos`
+    requires it to, so a late alternative gets a row at the end rather than a place in an
+    order that was fixed before it existed.
+    """
+    have = {r["combination"]: r for r in ordered}
+    missing = [c for c in recorded if c not in have]
+    if missing:
+        raise SystemExit(
+            "FATAL: the recorded tier-1 order names " + str(len(missing)) +
+            " combination(s) the tree no longer carries: " + ", ".join(missing) +
+            "\n  The order in results/" + SELECTION_FILE + " is the one phase D ran and "
+            "phase E was frozen against. Restore the tree, or open a batch for the change; "
+            "this script does not rewrite it.")
+    appended = sorted(c for c in have if c not in recorded)
+    derived = [r["combination"] for r in ordered]
+    return ([have[c] for c in recorded] + [have[c] for c in appended],
+            {"moved_against_the_recorded_order":
+                 [{"combination": c, "recorded_position": i + 1,
+                   "position_the_costs_would_give_it_now": derived.index(c) + 1}
+                  for i, c in enumerate(recorded)
+                  if c in derived and derived.index(c) != i],
+             "appended_because_the_record_predates_them": appended})
+
+
+def replay_tier2(recorded: list[dict], tier1: dict) -> list[dict]:
+    """Rebuild the recorded tier-2 rows. The rule is not consulted; the record is."""
+    missing = sorted({c for p in recorded for c in (p["a"], p["b"]) if c not in tier1})
+    if missing:
+        raise SystemExit(
+            "FATAL: the recorded tier-2 selection pairs " + str(len(missing)) +
+            " combination(s) the tree no longer carries: " + ", ".join(missing) +
+            "\n  These eight pairs are what phase D ran and phase E was frozen against.")
+    # The status string is deliberately the one `select_tier2` writes. These pairs *were*
+    # selected by the rule, once; replaying that selection does not make the sentence
+    # false, and giving the replay its own wording would rewrite a published artefact --
+    # `manifest.csv` is a reported result -- to say something that belongs in
+    # `manifest_selection.json` and in the check beside it. Byte-identity of the manifest
+    # across runs is the property this whole change exists to restore, so it is not spent
+    # on a status column.
+    return [pair_row(p["a"], p["b"], tier1, "selected by tier2_rule.md") for p in recorded]
+
+
+def pair_row(a: str, b: str, tier1: dict, status: str) -> dict:
+    """One tier-2 row, built from the two tier-1 rows it pairs.
+
+    Shared by `select_tier2`, which chooses the pairs, and by the replay of a recorded
+    selection, which does not. A second copy of this construction would let the row a
+    reader replays differ from the row that was selected, in a file whose whole purpose is
+    that those are the same row.
+    """
+    return {
+        "combination": f"{a}__{b}", "kind": "pair",
+        "fork": f"{tier1[a]['fork']}+{tier1[b]['fork']}",
+        "child": f"{tier1[a]['child']}+{tier1[b]['child']}",
+        "owner": "-", "combo_base": "main",
+        "built": tier1[a]["built"] and tier1[b]["built"],
+        "models_rerun": sorted(set(tier1[a]["models_rerun"])
+                               | set(tier1[b]["models_rerun"])),
+        "models_inherited": sorted(set(tier1[a]["models_inherited"])
+                                   & set(tier1[b]["models_inherited"])),
+        "reach_rows": max(tier1[a]["reach_rows"], tier1[b]["reach_rows"]),
+        "prior_abs_delta_crps": None, "tier": 2,
+        "est_seconds_dev": max(tier1[a]["est_seconds_dev"],
+                               tier1[b]["est_seconds_dev"]),
+        "est_seconds_holdout": max(tier1[a]["est_seconds_holdout"],
+                                   tier1[b]["est_seconds_holdout"]),
+        "cost_basis": f"the more expensive of {a} and {b}",
+        "status": status,
+    }
 
 
 if __name__ == "__main__":

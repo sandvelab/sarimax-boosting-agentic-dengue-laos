@@ -604,6 +604,15 @@ is finished, and batch 5 decides how.
 Status values: `open` · `done — produced` · `done — expanded` · `blocked`. Update this table
 at the end of every batch, and append newly created batches to it.
 
+**Next open batch: 27. Then 28, then 20, then 19.** §5 says the ledger runs top to bottom,
+and for the phase-E tail it no longer does: **19 and 20 sit above 27 and 28 in this table but
+run after them**, because 19 is the release and must not claim more than the checks support,
+and because batches added later were appended rather than inserted. Rows 19 and 20 have been
+open since batch 5 wrote them. A session that takes the topmost open row would start the
+release with two checks outstanding — so take the order from this line, and update it at the
+end of every batch. *(Recorded 2026-09-02, after batch 26, because the trap had gone
+unwritten since batch 18 and only `readme-at-start.md` carried the order.)*
+
 | # | Phase | Aim | Status | Report |
 |---|---|---|---|---|
 | 1 | A | Orient: read the source material, fix project settings, set up the repository | done — produced | [[26-08-23_b01_orientAndSetUp]] |
@@ -632,8 +641,8 @@ at the end of every batch, and append newly created batches to it.
 | 24 | E | The frozen phase-E manifest is recomputed on every run of `analysis/run.sh`, so a tree that grew a fork child would silently grow the frozen set; make the freeze win over the recomputation | done — produced | [[26-09-01_b24_frozenSetWins]] |
 | 25 | E | Run `/validate cleanroom` to completion — batch 18's was interrupted at 8 of 32 development rows, so the two distributions are unverified from cold and the phase-E half has never run from a clean checkout | **blocked** | [[26-09-02_b25_cleanroomStoppedByItsOwnCheck]] |
 | 26 | E | The development manifest stops being re-derived: its tier-1 rank order and its tier-2 **selection** are decisions taken once from one draw of tier 1, and must be recorded and verified rather than recomputed — batch 25's clean run re-selected six of the eight pairs and the freeze check stopped the run. Includes `check_pool.py`'s fork-blindness, reachable only through a tier-2 selection | done — produced | [[26-09-02_b26_theSelectionIsRecorded]] |
-| 28 | E | `check_pool.py`'s member matching depends on which combinations exist on disk: re-running the **unmodified** script changes 18 of 51 `pool_check.json` files, and `main__holdout`'s archived copy calls its reconstruction impossible where it now returns 76.646. No number inside them moves. Decide what the headline row's reconstruction should say, then make the matching independent of what is on disk | open | |
 | 27 | E | `/validate cleanroom` to completion, on the fixed tree — what batch 25 was for | open | |
+| 28 | E | `check_pool.py`'s member matching depends on which combinations exist on disk: re-running the **unmodified** script changes 18 of 51 `pool_check.json` files, and `main__holdout`'s archived copy calls its reconstruction impossible where it now returns 76.646. No number inside them moves. Decide what the headline row's reconstruction should say, then make the matching independent of what is on disk | open | |
 
 ---
 

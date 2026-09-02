@@ -1771,7 +1771,7 @@ fresher copy: **the parent points at the child's own README and stops restating 
 genuinely changed — it now holds a check written for a single defect as well as the two
 `/validate` runs.
 
-## T21 — batch 25: the clean-room, stopped by the project's own check (2026-09-02)
+## T23 — batch 25: the clean-room, stopped by the project's own check (2026-09-02)
 
 **State: blocked.** `/validate cleanroom` was to be run to completion. It was not.
 `analysis/run.sh` ran **3 h 48 m (13 669 s)**, completed the whole development half, and
@@ -1893,3 +1893,102 @@ hashing every digest in the new records against the files they name, and the rec
 `ffb398e8…`, which is the file's. Worth keeping: the failure mode this repository exists to
 prevent is one its agent will commit unprompted, and what caught it was running a check rather
 than re-reading.
+
+## T24 — batch 26: the selection is recorded, not re-decided (2026-09-02)
+
+**State: done — produced.** What batch 25 was blocked on. `plan_manifest.py` derived two
+things from numbers that do not reproduce, and both had to become recorded decisions.
+
+**The tier-1 order** breaks its ties on `est_seconds_dev`, a *measured wall-clock duration*
+summed from each model's `run_cost.json`. The five `setup` rows have no informativeness prior
+and equal reach, so their order is that tiebreak alone — `provinces_reportingOnly` took 821 s
+in this tree and 1 039 s in the clean room and moved from rank 5 to 7. **The tier-2 pairing**
+ranks tier-1 rows by skill score, which divides by the unseeded reference; the clean room
+re-selected six of the eight pairs.
+
+Both are now recorded in `results/manifest_selection.json`, **written once and never
+rewritten**, with `frozen_at_commit` read from the commit that *adds* the file rather than
+HEAD — batch 16's and batch 24's lesson applied without having to relearn it. Membership still
+comes from the tree on every run, because `combos` requires the manifest and the tree to agree
+and §3's clarification of 2026-09-01 lets the development manifest grow: a combination the
+tree has and the record does not is **appended and reported**; one the record has and the tree
+does not is **fatal**; a recorded pair whose halves are gone is fatal. A **drifted selection is
+reported and never fatal** — the rule still runs and now decides nothing, existing only so
+`manifest_selection_check.json` can say whether it would still choose the recorded pairs. After
+any re-run of the development half it generally will not, and a check a correct clean-room run
+cannot pass is a check that gets weakened the first time it fires.
+
+**Five situations, all passing** — `AI-internal/useful-scripts/check_selection_defence.py` →
+`AI-generated/validation/26-09-02_selectionDefence.json`. The important one is driven by **the
+clean-room run's own `conclusions.csv`** rather than a synthetic perturbation: the rule chooses
+the same six different pairs it chose in batch 25, the recorded eight stand, `manifest.csv`
+comes back byte-identical, and the disagreement is reported. Plus two fatal paths, a
+never-rewritten check, and `refreeze_from_cold`, which deletes the record, runs the freeze path
+again and returns the same order and the same eight pairs — the regression test that this
+refactor did not change what phase E was frozen against. Each scenario restores from git
+unconditionally.
+
+**`check_pool.py` now branches on what the weighting did**, not on `stage["choice"]`.
+`run_ensemble.py` falls back to equal weights when the training frame cannot hold a validation
+block back, so a row that asked for CRPS weighting and correctly got equal weighting died with
+`KeyError: 'validation'` — how batch 25 lost `trainingWindow_from2004__weighting_crpsWeighted`
+and finished 31 of 33 rather than 32. The two new keys are written **only on the fallback
+path**, which no archived combination takes, so all 51 `pool_check.json` files stay
+byte-identical.
+
+**Nothing reported moves.** `manifest.csv`, `manifest_notes.json`, `forks.csv` and
+`tier2_rule.md` are byte-identical across a freeze run and repeated replays;
+`manifest_holdout.csv` still hashes to `fc9d1a16…`.
+
+**A third and larger defect was found and deliberately left standing as batch 28.**
+`matching_evaluation` globs sibling result directories and breaks ties with `found[0]`, so
+which evaluation it names — and whether it finds one at all — depends on which combinations
+exist on disk. Re-running the **unmodified** script changes **18 of 51** pool checks;
+`main__holdout`'s archived copy records its reconstruction as impossible (*"no stored
+evaluation of ['hier_nb', 'boosted']"*) because batch 16 ran it before those directories
+existed, and today it reconstructs and returns **76.646** against the reported 76.731. No
+number inside the eighteen moves. Verified to pre-date this batch by restoring `HEAD`'s own
+copy of the script and re-running it. Repairing the tie-break alone would rewrite eighteen
+archived files while leaving the time-dependence in place.
+
+Follow-ups: batch 27 (the clean-room to completion — the first run to exercise the record from
+a clean checkout, and it *should* report a drifted selection, which is the designed outcome
+not a failure), then 28, 20, 19.
+
+## T25 — the record's own bookkeeping, outside a batch (2026-09-02)
+
+Not a batch of the plan. It arrived from a question at the end of the session — *is everything
+ready for the next batch* — and `AGENTS.md` §8 requires work that does not come through `/do`
+to get a ledger row and a §4b entry anyway. It is **row 29**.
+
+**The ledger would have sent the next session to the wrong batch.** §5 says the ledger is
+executed top to bottom. For the phase-E tail it is not: **19 and 20 have been open since batch
+5 and sit above 27 and 28**, which run first, with 19 last because a release must not claim
+more than its checks support. Only `readme-at-start.md` carried that order, and a fresh session
+following §5 would have opened the release with two checks outstanding. The ledger now states
+its execution order in its own header, with the reason and the date. The trap had been latent
+since batch 18 appended 23, 24 and 25 below rows 19 and 20; it never bit because every session
+so far had read `readme-at-start.md` first. Batch 27's row was also moved above batch 28's,
+since they had been appended in creation order rather than run order.
+
+**Two task-log entries had reused `T` numbers already taken.** Batch 25 was logged as T21 and
+batch 26 as T22, but batch 21 already held T21 in `ai_task_details.md` and batch 22 already
+held T22 in `ai_task_history.md` — the project having logged those two out of sequence back on
+2026-08-29. So the details file carried two `T21` headings and the history file two `T22`
+lines. They are renumbered **T23** and **T24**; the entries' text is unchanged and only the
+identifiers move. The `T` number is the log's only index, and a duplicated identifier makes it
+useless as one. `T21 continued` on line 20 of the history is a deliberate continuation of batch
+21 and is not a collision. Recorded rather than done quietly, because a log that silently
+renumbers itself is worth less than one that says it did.
+
+Also checked and found already on disk, needing nothing: batch 27's expectation that a drifted
+`manifest_selection_check.json` is the designed outcome (b26 report §8 and the `plan_manifest`
+provenance record); batch 28 in the ledger, §4b, the b26 report and as a `KNOWN DEFECT` comment
+at the defect's own line in `check_pool.py`; and batch 25's noise-band question to the human in
+§4b, `readme-at-start.md` and claim C4's scope field.
+
+**What is left to run: 27, then 28, then 20, then 19.** Batch 27 is a ~4 h run and must be
+launched detached from the session, as batch 25's was — batch 18's clean-room died with its
+session. It needs disk: 28 GB were free at the end of this session and 11 GB of that is batch
+25's scratch clone, whose contents are already committed under
+`AI-generated/validation/26-09-02_cleanroom-artefacts/`.

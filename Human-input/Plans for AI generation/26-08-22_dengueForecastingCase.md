@@ -558,6 +558,18 @@ below is read from a file there.)*
 | **`check_pool.py` branches on what the weighting did, not on what the combination asked for** | `run_ensemble.py` falls back to equal weights when the training frame cannot hold a validation block back, so a row that asked for CRPS weighting and correctly got equal weighting died with `KeyError: 'validation'` — which is how batch 25 lost `trainingWindow_from2004__weighting_crpsWeighted`. The two new keys are written only on the fallback path, so all 51 `pool_check.json` files stay byte-identical | agent-autonomous |
 | **The 18 `pool_check.json` files that change on re-run are left alone and become batch 28** | `matching_evaluation` globs sibling directories and breaks ties with `found[0]`, so which evaluation it names — and whether it finds one at all — depends on which combinations exist on disk. `main__holdout`'s archived copy calls its reconstruction impossible because batch 16 ran it before the directories existed; today it returns 76.646 against a reported 76.731. Verified to pre-date this batch by re-running `HEAD`'s own copy. Repairing the tie-break alone would rewrite eighteen archived files while leaving the time-dependence, and what the headline holdout row's reconstruction should say is not a decision to take in passing | agent-autonomous |
 
+### 2026-09-02 — settled outside a batch, on the record's own bookkeeping
+
+Row 29. `AGENTS.md` §8: work that does not come through `/do` still gets a ledger row and its
+decisions logged here, because a change with no row is a change with no record of why it was
+made.
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **The ledger states its own execution order, and §5's top-to-bottom rule is recorded as not holding for the phase-E tail** | Batches 19 and 20 have been open since batch 5 and sit *above* 27 and 28, which run first — 19 last because a release must not claim more than its checks support. Only `readme-at-start.md` carried that, and §5 says the opposite in so many words. A session taking the topmost open row would have opened the release with two checks outstanding. The trap has been latent since batch 18 added 23–25 below 19 and 20 | agent-autonomous |
+| **Batch 27 is placed above batch 28 in the table** | They were appended in the order they were created, not the order they run. Cheaper to move the row than to rely on the note above it | agent-autonomous |
+| **Two task-log entries are renumbered rather than left colliding: batch 25 becomes T23 and batch 26 becomes T24** | They had been logged as T21 and T22, which batches 21 and 22 already held — so `ai_task_details.md` carried two `T21` headings and `ai_task_history.md` two `T22` lines. The `T` numbers are the log's only index, and a duplicated identifier makes it useless as one. The entries' text is unchanged; only the identifiers move. This is a correction to a live record, not to a result, and it is recorded here rather than made quietly | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -643,6 +655,7 @@ unwritten since batch 18 and only `readme-at-start.md` carried the order.)*
 | 26 | E | The development manifest stops being re-derived: its tier-1 rank order and its tier-2 **selection** are decisions taken once from one draw of tier 1, and must be recorded and verified rather than recomputed — batch 25's clean run re-selected six of the eight pairs and the freeze check stopped the run. Includes `check_pool.py`'s fork-blindness, reachable only through a tier-2 selection | done — produced | [[26-09-02_b26_theSelectionIsRecorded]] |
 | 27 | E | `/validate cleanroom` to completion, on the fixed tree — what batch 25 was for | open | |
 | 28 | E | `check_pool.py`'s member matching depends on which combinations exist on disk: re-running the **unmodified** script changes 18 of 51 `pool_check.json` files, and `main__holdout`'s archived copy calls its reconstruction impossible where it now returns 76.646. No number inside them moves. Decide what the headline row's reconstruction should say, then make the matching independent of what is on disk | open | |
+| 29 | E | **Arrived outside the plan** (`AGENTS.md` §8), after batch 26: the record's own bookkeeping. The ledger did not say that 19 and 20 run *after* 27 and 28 although they sit above them, so a session following §5's top-to-bottom rule would have opened the release with two checks outstanding; and two task-log entries reused `T` numbers already taken by batches 22 and 21 | done — produced | *(no batch report; logged as T25)* |
 
 ---
 

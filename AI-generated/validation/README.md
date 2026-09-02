@@ -47,3 +47,8 @@ here.
   to the two defences of the frozen phase-E set, on throwaway copies. The set stops being
   rebuilt on every run of `analysis/run.sh`, and the file is now checked as well as the
   script that writes it. Its figures are in `26-09-01_freezeDefence.json`.
+- `26-09-02_selectionDefence.json` — batch 26, and like `26-09-01_freezeDefence` not a
+  `/validate` run: five situations put to the recorded tier-1 order and tier-2 pairing that
+  replaced `plan_manifest.py`'s re-derivation. One of them is driven by the clean-room run's
+  own `conclusions.csv` — the data that made batch 25 exit 1 — and the recorded pairs stand
+  while the rule, reported beside them, would choose six different ones. All five pass.

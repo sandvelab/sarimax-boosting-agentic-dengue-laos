@@ -218,3 +218,20 @@ re-running a batch produces a different report rather than the same one.
   where the CRPS-weighted pool correctly falls back to equal weights and `check_pool.py` asks
   for a validation block that was never written. Added batches 26 (record the selection
   rather than re-deriving it) and 27 (the clean-room, again).
+
+- `26-09-02_b26_theSelectionIsRecorded.md` — batch 26, phase E, `done — produced`: the
+  development manifest's **tier-1 order and tier-2 pairing become recorded decisions**
+  instead of derivations. Both came from numbers that do not reproduce — the order breaks
+  ties on measured wall-clock cost, the pairing ranks on a skill score that divides by the
+  unseeded reference — which is why batch 25's clean-room run exited 1. Membership still
+  comes from the tree, so `combos` keeps working and a late alternative is appended and
+  reported; a recorded row the tree cannot produce is fatal. Five situations put to it, one
+  driven by **the clean-room run's own `conclusions.csv`**: the rule chooses its six
+  different pairs and the recorded eight stand. `check_pool.py` now branches on what the
+  weighting did rather than what the combination asked for, which is how batch 25 lost a row
+  to `KeyError: 'validation'`. **Nothing reported moves** — the manifest, its notes and all
+  51 `pool_check.json` files are byte-identical. A third and larger defect was found and
+  left standing as batch 28: `matching_evaluation` depends on which combinations exist on
+  disk, so re-running the **unmodified** script changes 18 of 51 pool checks, and
+  `main__holdout`'s archived copy calls its reconstruction impossible where it now returns
+  76.646 against a reported 76.731 — with no number inside the eighteen moving.

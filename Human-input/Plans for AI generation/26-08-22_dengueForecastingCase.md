@@ -546,6 +546,18 @@ below is read from a file there.)*
 | **The tier-2 selection is a decision, not a derivation, and batch 26 will record it as one** | `tier2_rule.md` ranks tier-1 rows by skill score, which divides by the unseeded reference. A second draw re-selected six of the eight pairs. The rule's own deciding margins were **0.001002** and **0.003211** of skill against a measured noise band of 0.0218–0.0431 — an order of magnitude inside the noise — while the one group decided by a real margin (0.0935) did not move. Everything the method asks for was done: the rule was written before tier 1 ran and hashed. Nobody asked whether the quantity it ranks on is stable enough to rank on | agent-autonomous |
 | **Whether the reference noise band should remain a max minus a min over four draws** | Two draws differ by a factor of two, 0.0218 and 0.0431, and the phase-D headline reads "6 of 17 forks" or "3 of 17" depending which. The three forks that crossed did not move; the band did. Quoting it with its uncertainty, re-estimating it from more repeats, or demoting it to an order of magnitude all change what phase D reports | **carried to the human** |
 
+### 2026-09-02 — settled by batch 26, from making the manifest reproducible
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **The tier-1 order and the tier-2 pairing are recorded in `results/manifest_selection.json` and replayed, never re-decided** | Both are derived from numbers that do not reproduce: the order breaks ties on `est_seconds_dev`, a measured wall-clock duration, and the pairing ranks on a skill score that divides by the unseeded reference. Batch 25's clean-room run moved three ranks and re-selected six of eight pairs, and `analysis/run.sh` exited 1. Batch 24's lesson applied one file upstream of where batch 24 applied it | agent-autonomous |
+| **Membership still comes from the tree on every run; only the order and the pairing are recorded** | `/validate invariants`'s `combos` check requires the manifest and the tree to agree, and §3 as clarified on 2026-09-01 lets the development manifest grow. So a combination the tree has and the record does not is **appended and reported**, and one the record has and the tree does not is **fatal** — the record would otherwise describe a manifest this repository can no longer produce | agent-autonomous |
+| **A drifted selection is reported, never absorbed and never fatal** | The rule still runs on every invocation and now decides nothing; it exists so `manifest_selection_check.json` can say whether it would still choose the recorded pairs. After any re-run of the development half it generally will not, because the reference is unseeded — and a check a correct clean-room run cannot pass is a check that gets weakened the first time it fires, which is the trap batch 24 named | agent-autonomous |
+| **This does not touch §3, and the reading is recorded rather than assumed** | §3 as clarified on 2026-09-01 binds `manifest_holdout.csv` and nothing else. That file is untouched and still hashes to `fc9d1a16…`, and `manifest.csv`, `manifest_notes.json`, `forks.csv` and `tier2_rule.md` are byte-identical to the archive across a freeze run and repeated replays. The change is adjacent to the freeze machinery, so the reading is written down | agent-autonomous, inside the human-set §3 |
+| **The tier-2 rows' `status` column keeps the wording `select_tier2` writes** | Those pairs *were* selected by the rule, once; replaying a recorded selection does not make the sentence false. Giving the replay its own wording would have rewritten a reported artefact — `manifest.csv` — to say something that belongs in the record beside it, and byte-identity of the manifest is the property this change exists to restore | agent-autonomous |
+| **`check_pool.py` branches on what the weighting did, not on what the combination asked for** | `run_ensemble.py` falls back to equal weights when the training frame cannot hold a validation block back, so a row that asked for CRPS weighting and correctly got equal weighting died with `KeyError: 'validation'` — which is how batch 25 lost `trainingWindow_from2004__weighting_crpsWeighted`. The two new keys are written only on the fallback path, so all 51 `pool_check.json` files stay byte-identical | agent-autonomous |
+| **The 18 `pool_check.json` files that change on re-run are left alone and become batch 28** | `matching_evaluation` globs sibling directories and breaks ties with `found[0]`, so which evaluation it names — and whether it finds one at all — depends on which combinations exist on disk. `main__holdout`'s archived copy calls its reconstruction impossible because batch 16 ran it before the directories existed; today it returns 76.646 against a reported 76.731. Verified to pre-date this batch by re-running `HEAD`'s own copy. Repairing the tie-break alone would rewrite eighteen archived files while leaving the time-dependence, and what the headline holdout row's reconstruction should say is not a decision to take in passing | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -619,7 +631,8 @@ at the end of every batch, and append newly created batches to it.
 | 23 | E | The provenance records' script hashes: the invariant that a script's current sha256 must appear in its own record, and the appended sections that make it pass — including `conclude.py`, whose newest section predates batch 16 changing it. **Twenty records, not sixteen: the check reads the whole `script:` block** | done — produced | [[26-09-01_b23_provenanceHashes]] |
 | 24 | E | The frozen phase-E manifest is recomputed on every run of `analysis/run.sh`, so a tree that grew a fork child would silently grow the frozen set; make the freeze win over the recomputation | done — produced | [[26-09-01_b24_frozenSetWins]] |
 | 25 | E | Run `/validate cleanroom` to completion — batch 18's was interrupted at 8 of 32 development rows, so the two distributions are unverified from cold and the phase-E half has never run from a clean checkout | **blocked** | [[26-09-02_b25_cleanroomStoppedByItsOwnCheck]] |
-| 26 | E | The development manifest stops being re-derived: its tier-1 rank order and its tier-2 **selection** are decisions taken once from one draw of tier 1, and must be recorded and verified rather than recomputed — batch 25's clean run re-selected six of the eight pairs and the freeze check stopped the run. Includes `check_pool.py`'s fork-blindness, reachable only through a tier-2 selection | open | |
+| 26 | E | The development manifest stops being re-derived: its tier-1 rank order and its tier-2 **selection** are decisions taken once from one draw of tier 1, and must be recorded and verified rather than recomputed — batch 25's clean run re-selected six of the eight pairs and the freeze check stopped the run. Includes `check_pool.py`'s fork-blindness, reachable only through a tier-2 selection | done — produced | [[26-09-02_b26_theSelectionIsRecorded]] |
+| 28 | E | `check_pool.py`'s member matching depends on which combinations exist on disk: re-running the **unmodified** script changes 18 of 51 `pool_check.json` files, and `main__holdout`'s archived copy calls its reconstruction impossible where it now returns 76.646. No number inside them moves. Decide what the headline row's reconstruction should say, then make the matching independent of what is on disk | open | |
 | 27 | E | `/validate cleanroom` to completion, on the fixed tree — what batch 25 was for | open | |
 
 ---
@@ -1195,6 +1208,10 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 25 — the clean-room, stopped by the project's own check
 
 - [[26-09-02_b25_cleanroomStoppedByItsOwnCheck]]
+
+### Batch 26 — the selection is recorded, not re-decided
+
+- [[26-09-02_b26_theSelectionIsRecorded]]
 
 ### Batch 21 — the greedy branch
 

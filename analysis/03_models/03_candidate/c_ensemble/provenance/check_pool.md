@@ -136,3 +136,63 @@ alternatives-considered: none at this node.
 agency: agent-autonomous.
 information: agent-retrieved — every figure quoted above is read from the files this batch
 produced.
+
+## The weighting fallback, and a defect left standing (batch 26)
+
+```
+result:              no result file changes. Every `results/*/pool_check.json` in the
+                     repository is byte-identical after this change; the two new keys are
+                     written only on a path no archived combination takes.
+script:              analysis/03_models/03_candidate/c_ensemble/scripts/check_pool.py
+                     sha256:6eec2ac3880068c31ee606f0039122f865bc716ef4b5a81387fca7d5da8dbc85
+invocation:          COMBO=<combination> environment/chapenv/bin/python \
+                       analysis/03_models/03_candidate/c_ensemble/scripts/check_pool.py
+inputs:              results/$COMBO/{candidate_spec,fitted_model,model_spec,members}.json
+                     and each member's stored eval.nc
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               the pool's own allocation seed, from candidate_spec.json
+commit:              39cd60b
+instructions-commit: 39cd60b
+node:                analysis/03_models/03_candidate/c_ensemble
+produced:            2026-09-02, batch 26
+```
+
+**What changed.** The premise block branched on `stage["choice"] == "b_crpsWeighted"` — the
+child the combination *asked for* — and then read `fitted["weighting"]["validation"]`. But
+`run_ensemble.py` falls back to equal weights when the training frame is too short to hold a
+validation block back, recording `fell_back` and its reason. So a combination that asked for
+CRPS weighting and correctly got equal weighting died with `KeyError: 'validation'`.
+
+Batch 25's clean-room run selected `trainingWindow_from2004__weighting_crpsWeighted`, where a
+window starting in 2004 leaves 36 months to refit members that require 60, and lost the row —
+31 of 33 development rows with a conclusion instead of 32. It is the fork-blindness family
+batch 14 found four times: a script keyed on the configuration rather than on the outcome.
+
+It now branches on what the weighting **did**. The fallback is recorded rather than passed
+over, because a combination whose weighting fork could not take effect is a duplicate of its
+other fork wearing a pair's name. Verified against the fitted model the failed row wrote,
+preserved at `AI-generated/validation/26-09-02_cleanroom-artefacts/failedRow_fitted_model.json`:
+`method: equal`, `fell_back: true`, and no `validation` key.
+
+**A larger defect found here and deliberately left standing — batch 28.**
+`matching_evaluation` globs sibling result directories and breaks ties with `found[0]`, so
+**which** evaluation it names, and **whether it finds one at all**, depend on which
+combinations exist on disk when it runs. Re-running the unmodified script today changes
+**18 of the 51** `pool_check.json` files. The worst is `main__holdout`, whose archived copy
+records the reconstruction as impossible — *"no stored evaluation of ['hier_nb', 'boosted']"* —
+because batch 16 ran it before those directories existed; today it reconstructs and gets
+**76.646** against the reported 76.731.
+
+**No number inside any of the eighteen moves**; what moves is which evaluation each names and
+whether the reconstruction happened at all. It was verified to pre-date this batch by
+re-running `HEAD`'s own copy of the script, so it is not attributable to the change above.
+A tie-break repair alone would rewrite eighteen archived files while leaving the
+time-dependence in place, and what the headline holdout row's reconstruction should say is
+not a decision to take in passing.
+
+alternatives-considered: recording `weighting["method"]` unconditionally — rejected, because
+it would have changed all 51 archived files to add a field already in `fitted_model.json`,
+and batch 26 exists to make `analysis/run.sh` reproduce its archive.
+
+agency: agent-autonomous.
+information: agent-retrieved.

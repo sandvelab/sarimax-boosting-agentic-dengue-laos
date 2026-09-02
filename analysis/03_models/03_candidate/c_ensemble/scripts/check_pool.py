@@ -93,6 +93,22 @@ def matching_evaluation(member: dict, wanted: dict) -> tuple[Path, str]:
             found.append(spec_path.parent)
     if not found:
         return None, ""
+    # KNOWN DEFECT, assigned to batch 28 and deliberately not repaired here.
+    #
+    # What this returns depends on *which combinations happen to exist on disk*, because
+    # `found` is a glob over sibling result directories and the tie is broken by taking the
+    # first. Worse, whether it finds anything at all does too: the archived
+    # `main__holdout/pool_check.json` records the reconstruction as impossible -- "no stored
+    # evaluation of ['hier_nb', 'boosted']" -- because batch 16 ran `main__holdout` before
+    # those directories existed, and re-running it today reconstructs the pool and gets
+    # 76.646 against the reported 76.731. Eighteen of the 51 `pool_check.json` files change
+    # when re-run, with no number in them moving; what moves is which evaluation each names
+    # and whether the reconstruction happened.
+    #
+    # Batch 26 found this while fixing the KeyError below and left it alone: repairing the
+    # tie-break alone would rewrite those eighteen archived files while leaving the larger
+    # time-dependence in place, and deciding what the headline holdout row's reconstruction
+    # should say is not something to do in passing.
     return found[0], found[0].name
 
 
@@ -227,8 +243,30 @@ def main() -> None:
         "nominal_coverage_10_90": 0.80,
         "nominal_coverage_25_75": 0.50,
     }
-    if stage["choice"] == "b_crpsWeighted":
-        validation = fitted["weighting"]["validation"]
+    # What the weighting *did*, not what the combination asked for. `b_crpsWeighted` fits
+    # weights on a block held back inside the training frame, and `run_ensemble.py` falls
+    # back to equal weights when the frame is too short to hold one back -- recording
+    # `fell_back` and its reason when it does. Keying this on `stage["choice"]` therefore
+    # asked for a validation block that was never written, and the row died with a
+    # KeyError: batch 25's clean-room run selected `trainingWindow_from2004__
+    # weighting_crpsWeighted`, where a window starting in 2004 leaves 36 months to refit
+    # members that require 60, and lost the row. It is the fork-blindness batch 14 found
+    # four times -- a script keyed on the configuration rather than on the outcome.
+    #
+    # The fallback is reported rather than passed over in silence, because a combination
+    # whose weighting fork could not take effect is a duplicate of its other fork wearing
+    # a pair's name, and that is worth seeing in the pool's own check.
+    # The two new keys are written only on the fallback path, which no archived
+    # combination takes -- so every `pool_check.json` in the repository comes back
+    # byte-identical. Batch 26 exists to make `analysis/run.sh` reproduce its own archive;
+    # spending that on an extra field in 51 unrelated files would be a poor trade, and the
+    # weighting method is already recorded in `fitted_model.json` beside this.
+    weighting = fitted["weighting"]
+    if weighting.get("fell_back"):
+        premise["weighting_fell_back_to_equal"] = weighting.get("fell_back_because")
+        premise["validation_gain_over_equal_weights"] = None
+    elif "validation" in weighting:
+        validation = weighting["validation"]
         premise["validation_gain_over_equal_weights"] = (
             validation["pooled_crps_at_equal_weights"]
             - validation["pooled_crps_at_fitted_weights"])

@@ -37,7 +37,7 @@ representative research problem, and where it fails.
 - **Target venue**: ***PLoS Computational Biology*** (human-set, 2026-08-31). The manuscript
   this case serves updates Sandve et al., *PLoS Comput Biol* 9(10): e1003285 (2013), which
   is both the precedent and now the target.
-- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; phase C complete, batches 8–11; **phase D complete — batches 12, 13, 22, 14 and 15; phase E under way — batch 16 opened the holdout and ran the frozen set on it, batch 17 completed the claim collection and built the hierarchical report, batch 18 ran the clean-room and outsider checks and reported the plan's drift, batch 23 closed the provenance records' digest gap, batch 24 stopped the frozen phase-E set being rebuilt on every run, and batch 25's clean-room run completed the development half and was stopped by batch 24's own freeze check — the tier-2 selection is re-derived from skill scores that divide by the unseeded reference, so a clean checkout re-selects six of the eight pairs and `analysis/run.sh` does not run to the end**). Twenty-seven batches in the ledger, plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result; what it settled is in the plan's §4b. **Batch 18 added 23, 24 and 25** — the provenance records' script hashes, the frozen phase-E manifest's recomputation, and completing the clean-room run it could not finish — and **batch 25 added 26 and 27**, the development manifest's own recomputation and the clean-room run it could not finish either. The remaining order is **26, 27, 20, 19**, with batch 19's release last because it must not claim more than the checks support. **The ledger is executed top to bottom and a batch's number is an identifier, not a position**: batch 22 was added between 13 and 14.
+- **Status**: analysis (phase A complete, batches 1–5; phase B complete, batches 6–7; phase C complete, batches 8–11; **phase D complete — batches 12, 13, 22, 14 and 15; phase E under way — batch 16 opened the holdout and ran the frozen set on it, batch 17 completed the claim collection and built the hierarchical report, batch 18 ran the clean-room and outsider checks and reported the plan's drift, batch 23 closed the provenance records' digest gap, batch 24 stopped the frozen phase-E set being rebuilt on every run, batch 25's clean-room run completed the development half and was stopped by batch 24's own freeze check, and **batch 26 made the development manifest's order and pairing recorded decisions rather than derivations**, which is what unblocks it**). Twenty-eight batches in the ledger, plus **batch 21 on the branch `greedy`** — a counterfactual that iterates batch 9's promotion rule to a fixpoint, is never merged, and produces no reported result; what it settled is in the plan's §4b. **Batch 18 added 23, 24 and 25** — the provenance records' script hashes, the frozen phase-E manifest's recomputation, and completing the clean-room run it could not finish — **batch 25 added 26 and 27**, the development manifest's own recomputation and the clean-room run it could not finish either, and **batch 26 added 28**, the pool check's dependence on which combinations exist on disk. The remaining order is **27, 28, 20, 19**, with batch 19's release last because it must not claim more than the checks support. **The ledger is executed top to bottom and a batch's number is an identifier, not a position**: batch 22 was added between 13 and 14.
 - **Manuscript**: `Human-AI-collaboration/manuscript/`
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`. It carries the
@@ -305,10 +305,16 @@ check in batch 18 is a six-hour run. Both human-set, 2026-08-31, on batch 16's q
    verified from cold is stronger than batch 18's: every model this project wrote returned an
    identical CRPS in **every** combination it appears in — 96 model-combination scores, none
    moved — while the unseeded reference moved in 26 of 32 and carried the headline skill
-   score by +0.0109. See `AI-generated/validation/26-09-02_cleanroom.md`. Batch 26 fixes the
-   derivation and batch 27 finishes the check; until then **nothing may claim that
-   `analysis/run.sh` reproduces this analysis from nothing** — it reproduces the development
-   half and stops.
+   score by +0.0109. See `AI-generated/validation/26-09-02_cleanroom.md`. **Batch 26 has since made both a recorded
+   decision** — the order and the pairing are replayed from
+   `results/manifest_selection.json`, membership still comes from the tree, and the
+   manifest, its notes and all 51 `pool_check.json` files are byte-identical — so the run
+   should now reach phase E. **That is not yet verified: batch 27 is the clean-room run that
+   would show it**, and until it has run, **nothing may claim that `analysis/run.sh`
+   reproduces this analysis from nothing.** Batch 26 also found, and left standing as batch
+   28, that `check_pool.py`'s member matching depends on which combinations exist on disk:
+   re-running the unmodified script changes 18 of 51 `pool_check.json` files,
+   `main__holdout` among them, and no number inside them moves.
 2. Every reported result traces to a file that was executed.
 3. Every sentence in the manuscript traces to a claim, to a result, to a command.
 4. The alternatives not taken are still in the tree, runnable.

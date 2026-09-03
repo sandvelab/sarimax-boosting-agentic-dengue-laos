@@ -2128,3 +2128,104 @@ identity rather than by count may be the cheapest resolution. Still a question a
 the project reports, and not the agent's.
 
 Remaining order: **30, 31, 28, 20, 19**.
+
+---
+
+## T27 — the noise band settled, and batch 30: the frozen figure is reported (2026-09-03)
+
+### The human's decision, and its reversal
+
+Batches 25, 26 and 27 carried one question: whether the development reference noise band
+should stay a max minus a min over four draws of an unseeded model. Three draws gave
+0.021778, 0.043084 and 0.034944, on which the same file reads **6, 3 and 3 forks of 17**.
+Batch 27 proposed stating the finding by *identity* instead — `family`, `weighting` and
+`aggregate` clear the band on all three draws.
+
+The human took that resolution and **reversed it the same day**: the count stands. Nothing
+in the tree changed in either direction, because the count is what every claim, provenance
+record and figure already says; the only edits were to the plan. Ledger row 32, opened to
+carry the restatement, was withdrawn. Both decisions are in §4b and commit `1140a7d` remains
+in the history asserting the first — §4b's preamble asks for the shape of the dialogue and
+not only its outcome, and a record that smoothed this over would contradict the repository's
+own git log. `readme-at-start.md` no longer says the question is carried to the human; it
+still cites only two of the three draws, which belongs to whoever next writes that file.
+
+### Batch 30 — what was wrong
+
+`pair_holdout_development.py` read each frozen `development_skill_score` from
+`manifest_holdout.csv` — correctly — and then asserted it still equalled `conclusions.csv`
+**today** to `1e-9`. The development skill score divides by the reference model, which is
+unseeded, so **the assertion could hold only on a tree whose development half had not been
+re-run**. It passed exactly where it was not needed and exited 1 on batch 27's clean-room
+run, at the last script in the tree, with all 32 held-out analyses already scored.
+
+Re-measured here from the preserved artefacts rather than taken from batch 27's report:
+**32 drifted figures, 0 moved pairings**, largest 0.025673 on
+`provinces_reportingOnly__weighting_crpsWeighted`, against the 0.034944 band that run drew
+for itself. The message it died with described a condition the data did not contain.
+
+### What replaced it
+
+A **drifted figure** is reported under `frozen_pairing_verified.frozen_figures_that_drifted`,
+with the largest move and the band beside it. A **moved pairing** — a frozen row whose
+development twin `conclusions.csv` no longer concludes — is fatal and raises before anything
+is written. A twin present but unconcluded is reported, not fatal.
+
+**Widening the tolerance to the noise band was the obvious alternative and was rejected**:
+the band is itself a draw of the same unseeded model, so the threshold would be redrawn on
+every run, and a check whose threshold moves with its input is not a check. The distinction
+that holds is categorical — a figure that moved against a pairing that moved.
+
+### The fourth instance, three lines away
+
+`development_beats_reference` was read from today's `conclusions.csv`, which
+`manifest_holdout.csv` does not carry. On batch 27's clean-room conclusions **one row flips**
+(`provinces_reportingOnly__family_hierNB`, `False` → `True`) and the reported development
+count in `holdout_vs_development.json` reads **28 of 32 rather than 27**. A reported phase-E
+figure following a re-derived table — batch 24's family, fourth member, in the same file as
+the third.
+
+Fixed here rather than deferred, and the line is stated: it **moved a reported number** on
+data already in hand, and the repair needed no new frozen data. `conclude.py` defines the
+field as `ours.mean_crps < reference.mean_crps` and both sides are frozen beside the row, so
+it derives from the freeze and **reproduces the archived value on all 32 rows** — which is
+why the output table stays byte-identical.
+
+`development_beats_all_baselines` cannot be derived from the freeze: it compares against the
+baselines' own CRPS, which was never frozen, and freezing it now would rewrite
+`manifest_holdout.csv` — bound by §3 and digest-recorded in `holdout_freeze.json`. So it
+stays re-derived and the output **names it** as the one development figure that can move on a
+re-run.
+
+### The defence
+
+`AI-internal/useful-scripts/check_pairing_defence.py` →
+`AI-generated/validation/26-09-03_pairingDefence.json`, **five of five pass**.
+
+`drifted_frozen_figures` swaps in the clean-room's own `conclusions.csv` **and its own
+`distribution.json`** — both from the same run deliberately, because measuring batch 27's
+drift against batch 15's band would compare two different draws of the same unseeded model.
+Result: exit 0, 32 drifted, 0 moved, 0.025673 inside 0.034944, and the comparison verified to
+have used the frozen figures by hashing the output's `development_skill_score` column across
+the swap. `pairing_moved` removes a twin and confirms exit 1 **with nothing written**.
+`beats_reference_comes_from_the_freeze` inverts the boolean on every development row and
+confirms the output does not move. Plus a blanked-twin case and a two-run stability case.
+Each scenario restores from git unconditionally; nothing touches `manifest_holdout.csv`.
+
+### What did not move
+
+`holdout_vs_development.csv` and `fork_sensitivity_both.csv` byte-identical.
+`holdout_vs_development.json` changed only in `frozen_pairing_verified` and two lines naming
+where each development count comes from — no reported number moved.
+`manifest_holdout.csv` still `fc9d1a16…`. All ten invariants hold.
+
+### What this says about the method
+
+Batch 27 read this script closely enough to diagnose its assertion exactly, write the fix
+into the ledger, and explain why it was not fixing it that day — and did not notice that the
+line below took a reported development count from a table the same argument said could not be
+trusted. **The class is not found by reading; it is found by running from nothing and looking
+at what moved**, and here by a defence script that swapped in the real drifted input and
+asserted on a number nobody had thought to check.
+
+Remaining order: **31, 28, 20, 19**. Nothing is carried to the human.

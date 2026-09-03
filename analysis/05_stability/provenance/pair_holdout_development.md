@@ -59,3 +59,67 @@ development; the hierarchical model's covariate set matters only on 2010.
 **The frozen pairing is verified, not assumed.** Every development figure in the manifest
 still equals what `conclusions.csv` says today, to 1e-9. The script stops rather than
 reporting a comparison whose development half has moved since the set was frozen.
+
+---
+
+## 2026-09-03 — the frozen figure is reported, not re-asserted (batch 30)
+
+```
+result:              results/holdout_vs_development.csv    (byte-identical)
+                     results/fork_sensitivity_both.csv     (byte-identical)
+                     results/holdout_vs_development.json   (frozen_pairing_verified only)
+script:              scripts/pair_holdout_development.py
+                     sha256:c58009cbf0a8f4e8afc4b588c38133c1f039b53cd54171841f6a35fa74b90881
+invocation:          "$PYTHON" scripts/pair_holdout_development.py
+                     (from 05_stability/, via run.sh; PYTHON is
+                     environment/chapenv/bin/python)
+inputs:              unchanged from the section above
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none
+commit:              78fd76a
+instructions-commit: 595c32d
+node:                analysis/05_stability
+produced:            2026-09-03
+defence:             AI-internal/useful-scripts/check_pairing_defence.py
+                     -> AI-generated/validation/26-09-03_pairingDefence.json (5 of 5 pass)
+alternatives-considered: keep the assertion and widen the tolerance to the width of the
+                     noise band. Rejected: the band is itself a draw of the same unseeded
+                     model — 0.021778, 0.043084 and 0.034944 over three draws — so the
+                     tolerance would be a number that moves, and a check whose threshold
+                     is redrawn on every run is not a check. The distinction that holds is
+                     categorical rather than numeric: a figure that drifted against a
+                     pairing that moved.
+                     Also considered: freeze the development `beats_all_baselines` beside
+                     the row so it too could be read rather than re-derived. Rejected here
+                     — it would rewrite `manifest_holdout.csv`, which plan §3 binds and
+                     `holdout_freeze.json` records the digest of. It is reported in the
+                     output as the one development figure still read from today's table.
+agency:              agent-autonomous.
+```
+
+**What changed.** The script required every frozen `development_skill_score` to still equal
+`conclusions.csv` to `1e-9`. That figure divides by the reference model, which is unseeded,
+so the assertion could hold only on a tree whose development half had not been re-run: it
+passed exactly where it was not needed, and it stopped batch 27's clean-room run at the last
+script in the tree with all 32 held-out analyses already scored.
+
+Two differences are now separated. A **drifted figure** is reported under
+`frozen_pairing_verified.frozen_figures_that_drifted`, with the largest move and the band
+that dataset's own four repeats of the reference define. A **moved pairing** — a frozen row
+whose development twin the table no longer concludes — is fatal, and stops the run before
+anything is written. `freeze_holdout_manifest.py` had already drawn that line minutes
+earlier in the same run, under `drift_under_an_unchanged_set`.
+
+**`development_beats_reference` now comes from the freeze.** `conclude.py` defines it as
+`ours.mean_crps < reference.mean_crps`, and both sides are frozen beside the row, so it is
+derived from `manifest_holdout.csv` rather than read from today's `conclusions.csv` —
+reproducing the archived value on all 32 rows. On batch 27's clean-room conclusions one row
+flips and the reported development count read 28 rather than 27, so this was a reported
+phase-E figure following a re-derived table. `development_beats_all_baselines` cannot be
+derived from the freeze — the baselines' own CRPS is not frozen beside the row — and the
+output names it as the one development figure that is still re-derived.
+
+**What did not change.** `holdout_vs_development.csv` and `fork_sensitivity_both.csv` are
+byte-identical to the archive. In `holdout_vs_development.json` every reported number is
+unchanged; the diff is confined to the `frozen_pairing_verified` block and two lines that
+say where the two development counts come from.

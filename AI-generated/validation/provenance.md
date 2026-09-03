@@ -344,3 +344,49 @@ batch.
 
 agency: agent-autonomous.
 information: agent-retrieved.
+
+---
+
+## 26-09-03_pairingDefence.json
+
+Five situations put to the frozen-pairing check that batch 30 rebuilt in
+`analysis/05_stability/scripts/pair_holdout_development.py`, one of them driven by the
+clean-room run's own outputs — the data that stopped batch 27 at the last script in the tree.
+
+```
+produced-by:  AI-internal/useful-scripts/check_pairing_defence.py
+              sha256:3336fefeed8e432260182931d36c50edf0f7a2f38ee72111e6537a89c392bde8
+invocation:   .venv/bin/python AI-internal/useful-scripts/check_pairing_defence.py --root .
+inputs:       analysis/05_stability/results/ (the archived tree, restored from git after
+              every scenario)
+              AI-generated/validation/26-09-03_cleanroom-artefacts/conclusions.csv
+              AI-generated/validation/26-09-03_cleanroom-artefacts/distribution.json
+environment:  .venv (repository machinery); the node script under test is invoked under
+              environment/chapenv, per AGENTS.md §8
+commit:       78fd76a
+produced:     2026-09-03
+```
+
+**All five pass.** The one that matters is `drifted_frozen_figures`, which swaps in the
+clean-room run's `conclusions.csv` **and its own `distribution.json`** rather than a
+synthetic perturbation — both from the same run, because the band the drift is measured
+against has to be the one that run drew for itself (0.034944) and not batch 15's (0.021778).
+Against that input the fixed script **exits 0**, reports **32 drifted figures and 0 moved
+pairings**, records the largest move as **0.025673 inside a band of 0.034944**, and compares
+on the frozen figures — verified by hashing the `development_skill_score` column of the
+output table before and after.
+
+`pairing_moved` removes a development twin from the table and confirms the run **exits 1 and
+writes nothing**: `holdout_vs_development.json` is byte-identical after the attempt. This is
+the case the old message claimed and the data never showed.
+`beats_reference_comes_from_the_freeze` inverts `beats_reference` on every development row
+and confirms the output does not move — the regression test for the second defect this batch
+found. `twin_without_a_conclusion` blanks one twin's skill score and confirms it is reported
+rather than fatal, and `the_output_is_stable` confirms two runs on the archived tree produce
+byte-identical files.
+
+Each scenario restores from git unconditionally, so the tree is as it was found; nothing
+touches `manifest_holdout.csv`.
+
+agency: agent-autonomous.
+information: agent-retrieved.

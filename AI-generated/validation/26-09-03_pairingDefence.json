@@ -1,0 +1,57 @@
+{
+  "what_this_is": "Five situations put to the frozen-pairing check that batch 30 rebuilt, one of them driven by the clean-room run's own conclusions.csv -- the data that stopped batch 27 at the last script in the tree.",
+  "script": "AI-internal/useful-scripts/check_pairing_defence.py",
+  "under_test": "analysis/05_stability/scripts/pair_holdout_development.py",
+  "the_drifted_input": "AI-generated/validation/26-09-03_cleanroom-artefacts/conclusions.csv",
+  "all_passed": true,
+  "scenarios": {
+    "drifted_frozen_figures": {
+      "what_it_does": "swaps in the clean-room run's conclusions.csv and its own distribution.json -- the numbers the old version died on, with the band that run measured -- and re-runs the comparison",
+      "exit_code": 0,
+      "verdict": "the frozen pairing stands",
+      "pairings_that_moved": 0,
+      "frozen_figures_that_drifted": 32,
+      "largest_absolute_move": 0.025673,
+      "development_noise_band": 0.034944,
+      "largest_move_is_inside_the_band": true,
+      "compared_on_the_frozen_figures": true,
+      "development_beats_reference_count": 27,
+      "passes": true,
+      "why_this_is_the_test": "batch 27 had exactly these 32 drifted figures and zero moved pairings, and exited 1 at the last script in the tree with every held-out analysis already scored"
+    },
+    "pairing_moved": {
+      "what_it_does": "removes main from the development table, so a frozen row is paired with an analysis the tree no longer concludes",
+      "exit_code": 1,
+      "said": "  main__holdout: frozen against main, which the development table no longer carries",
+      "answer_file_untouched": true,
+      "passes": true,
+      "why": "a moved pairing is the comparison being about something other than what it says, which is the only difference that can make the reported answer wrong. It stops before anything is written"
+    },
+    "twin_without_a_conclusion": {
+      "what_it_does": "blanks main's skill score, keeping the row",
+      "exit_code": 0,
+      "reported_rows": 1,
+      "passes": true,
+      "why": "the frozen figure is a record of what was paired and stands on its own; the twin's absence from today's table is worth reporting and is not a reason to refuse to report the comparison"
+    },
+    "beats_reference_comes_from_the_freeze": {
+      "what_it_does": "inverts beats_reference on all 32 development rows and re-runs",
+      "exit_code": 0,
+      "table_unchanged": true,
+      "development_beats_reference_count": 27,
+      "passes": true,
+      "why": "a reported phase-E count that follows a re-derived table is the same defect as a frozen figure re-asserted against one, three lines away"
+    },
+    "the_output_is_stable": {
+      "what_it_does": "re-runs the comparison on the archived tree and hashes the three files it writes, before and after",
+      "exit_code": 0,
+      "files": {
+        "holdout_vs_development.csv": true,
+        "holdout_vs_development.json": true,
+        "fork_sensitivity_both.csv": true
+      },
+      "passes": true,
+      "why": "the comparison is arithmetic over stored scores and reads no clock, so a re-run of it must reproduce the archive exactly"
+    }
+  }
+}

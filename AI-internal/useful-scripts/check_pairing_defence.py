@@ -46,9 +46,11 @@ SCRIPT = "analysis/05_stability/scripts/pair_holdout_development.py"
 PYTHON = "environment/chapenv/bin/python"
 CLEANROOM = "AI-generated/validation/26-09-03_cleanroom-artefacts"
 # Tracked files a scenario mutates or the node script rewrites, restored after each one.
-TOUCHED = ["conclusions.csv", "holdout_vs_development.csv",
+TOUCHED = ["conclusions.csv", "distribution.json", "holdout_vs_development.csv",
            "holdout_vs_development.json", "fork_sensitivity_both.csv"]
 ANSWER = "holdout_vs_development.json"
+# What the node script writes, as opposed to the inputs a scenario swaps in.
+WRITTEN = ["holdout_vs_development.csv", ANSWER, "fork_sensitivity_both.csv"]
 
 
 def sha(p: Path) -> str:
@@ -89,14 +91,21 @@ def scenario_drifted_frozen_figures(root: Path) -> dict:
     The run must finish, report the drift, and compare on the frozen figures regardless.
     """
     before = frozen_column(root)
+    # Both files come from the same run. The band the drift is measured against is the
+    # one that run drew for itself (0.034944), not batch 15's (0.021778) -- mixing them
+    # would compare batch 27's drift against a band measured from a different draw of the
+    # same unseeded model, and the comparison would mean nothing.
     shutil.copy(root / CLEANROOM / "conclusions.csv", root / RESULTS / "conclusions.csv")
+    shutil.copy(root / CLEANROOM / "distribution.json",
+                root / RESULTS / "distribution.json")
     proc = run_pair(root)
     answer = json.loads((root / RESULTS / ANSWER).read_text())
     verified = answer["frozen_pairing_verified"]
     drift = verified["frozen_figures_that_drifted"]
     return {
-        "what_it_does": "swaps in the clean-room run's conclusions.csv -- the numbers the "
-                        "old version died on -- and re-runs the comparison",
+        "what_it_does": "swaps in the clean-room run's conclusions.csv and its own "
+                        "distribution.json -- the numbers the old version died on, with "
+                        "the band that run measured -- and re-runs the comparison",
         "exit_code": proc.returncode,
         "verdict": verified["verdict"],
         "pairings_that_moved": len(verified["pairings_that_moved"]["rows"]),
@@ -112,6 +121,7 @@ def scenario_drifted_frozen_figures(root: Path) -> dict:
                    and len(verified["pairings_that_moved"]["rows"]) == 0
                    and drift["rows"] == 32
                    and before == frozen_column(root)
+                   and drift["largest_move_is_inside_the_band"]
                    and answer["does_the_conclusion_hold_on_2010"][
                        "on_development_it_was"]["beats_the_reference"] == 27),
         "why_this_is_the_test": "batch 27 had exactly these 32 drifted figures and zero "
@@ -212,9 +222,9 @@ def scenario_beats_reference_comes_from_the_freeze(root: Path) -> dict:
 
 def scenario_the_output_is_stable(root: Path) -> dict:
     """Two runs on an untouched tree produce byte-identical outputs."""
-    before = {f: sha(root / RESULTS / f) for f in TOUCHED[1:]}
+    before = {f: sha(root / RESULTS / f) for f in WRITTEN}
     proc = run_pair(root)
-    after = {f: sha(root / RESULTS / f) for f in TOUCHED[1:]}
+    after = {f: sha(root / RESULTS / f) for f in WRITTEN}
     return {
         "what_it_does": "re-runs the comparison on the archived tree and hashes the three "
                         "files it writes, before and after",

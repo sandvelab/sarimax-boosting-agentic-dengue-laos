@@ -1992,3 +1992,139 @@ launched detached from the session, as batch 25's was — batch 18's clean-room 
 session. It needs disk: 28 GB were free at the end of this session and 11 GB of that is batch
 25's scratch clone, whose contents are already committed under
 `AI-generated/validation/26-09-02_cleanroom-artefacts/`.
+
+## T26 — batch 27: the clean-room reaches phase E, and stops at the last script (2026-09-03)
+
+**State: blocked.** `/validate cleanroom` was to be run to completion and was not.
+`analysis/run.sh` exited 1 at `pair_holdout_development.py`, the last script in the tree,
+after the phase-E half had finished. Ledger row 27 is `blocked`; batches 30 and 31 added.
+
+### The run
+
+Clone at `80276f3`, 4 329 tracked files, no `.holdout_opened` so the seal released.
+Harness and both comparison scripts verified by digest against batch 25's provenance record
+before starting (`846911b2…`, `33010dd1…`, `3d98ea7e…`) — the same check, run further.
+Launched detached, which earned its keep: the session's wait process was killed twice while
+the analysis ran on untouched.
+
+`run_seconds.txt` records 81 335 s, but the host slept for a large part of that, so it is
+wall clock and not compute. The development half took about 4 h 20 m against batch 25's
+3 h 48 m for the same work. The `holdout: planned 7 468 s vs actual 65 818 s (ratio 8.814)`
+line the run printed is contaminated the same way and is reported as such rather than as a
+cost finding.
+
+### What reproduced
+
+192 model-combination scores, 96 per half, from models this project wrote — **0 moved**:
+
+| model | development | holdout |
+|---|---|---|
+| persistence | 32 identical, 0 moved | 32 identical, 0 moved |
+| climatology | 32 identical, 0 moved | 32 identical, 0 moved |
+| ensemble (reported) | 27 identical, 0 moved | 27 identical, 0 moved |
+| hier_nb | 4 identical, 0 moved | 4 identical, 0 moved |
+| boosted | 1 identical, 0 moved | 1 identical, 0 moved |
+| **reference** (unseeded) | 0 identical, 32 moved | 0 identical, 32 moved |
+
+Reported paths: development ensemble CRPS 18.816872064690028 identical, reference
+22.098446493261456 → 22.255807673854445, skill +0.006021. Holdout ensemble CRPS
+76.73108261979166 identical, reference 84.02620178776041 → 83.79891141666666, skill
+−0.002477. `beats_reference` and `beats_all_baselines` unchanged on both. 2 224 of 4 329
+tracked files identical.
+
+**Phase E reproduces on every count it reports**: beats the reference 26 of 32, beats both
+required baselines 27 of 32, 17 rows inside the noise band, 5 forks above it — and the same
+five by name (`02_trainingWindow`, `03_provinces`, `03_candidate`, `a_hierNB/02_covariates`,
+`02_aggregate`). The four fields that moved are skill, reference CRPS, rank (18→16) and the
+band (0.014023 → 0.013410), each downstream of the reference. The holdout band is nearly
+steady across draws where the development band is not.
+
+### Batch 26 and batch 24, exercised from cold
+
+`manifest_selection_check.json` after tier 1 re-ran: the tier-1 order **would** have moved
+four positions (`provinces_reportingOnly` 5→6, `popColumn_backCast` 6→5,
+`provinces_mergeVientiane` 7→8, `retrain_everySplit` 8→7) and the tier-2 rule **would** have
+chosen six different pairs. Both reported, neither acted on; the recorded eight ran.
+`holdout_freeze_check.json`: *the frozen set is intact*, 33 rows, `fc9d1a16…`, 0 fatal, 0
+unpaired, 32 rows whose numbers drifted.
+
+**`manifest.csv` is not byte-identical from cold**, contrary to batch 26's report: all 32
+rows differ in `est_seconds_dev` and `est_seconds_holdout` only, which are measured
+durations summed from each model's `run_cost.json`. Order, names, node paths, skill values,
+statuses and all eight pairs are identical — the property batch 26 built. The claim was true
+of the tree batch 26 tested in, where the timings were not re-measured.
+
+### Why it stopped
+
+`pair_holdout_development.py` takes each holdout row's development figure from the frozen
+`manifest_holdout.csv`, which is correct. It then asserts each frozen figure still equals
+`conclusions.csv` **today** to `1e-9` — a tolerance its comment calls "not a tolerance for
+drift: it is float formatting through a CSV". The development skill score divides by the
+unseeded reference, so **the assertion can hold only on a tree that has not been re-run.**
+
+From `26-09-03_cleanroomHoldoutReproduction.json`: **32 rows drifted, 0 rows had their
+pairing move**, `manifest_holdout.csv` byte-identical between the trees, and every drift
+inside the band this run measured for itself — largest −0.025673
+(`provinces_reportingOnly__weighting_crpsWeighted`, 0.046500 → 0.020827) against 0.034944.
+Its message — *"The pairing this compares on is no longer the pairing that was frozen"* — is
+not what the data shows.
+
+**The tree contradicts itself.** `holdout_freeze_check.json`, written minutes earlier,
+reports the same drift on the same 32 rows under `drift_under_an_unchanged_set` and
+concludes the frozen set is intact. One script reports this drift by design; the next treats
+it as fatal. Nothing checks that a tree agrees with itself about what is fatal.
+
+Third member of the family: batch 24 found a frozen artefact recomputed at run time, batch
+26 a recorded selection re-derived at run time, this a recorded figure re-asserted against a
+recomputed one. Each found one file further downstream than the last, by the same method —
+running the whole thing from nothing. Two code reviews and an outsider test found none.
+
+### Fixed here, and the line
+
+`install-chap.sh` printed `DOES NOT MATCH environment/lock.txt` against an environment that
+**matched exactly (174 packages)**. `uv pip freeze` colours its output when the invoking
+shell asks, and the launching session had `FORCE_COLOR=3`: every line failed the byte diff
+on its `\033[1m…\033[0m` wrapper, and `sort` ordered the wrapped names differently, leaving
+8 packages out of position even after stripping. **The same freeze writes `lock.txt`** on the
+`RESOLVE=1` branch, so a lockfile produced from such a shell would carry escapes and would
+not install; `environment/lock.txt` is clean and was not written by this run. Both uses now
+go through a `freeze()` helper setting `NO_COLOR` and stripping survivors, and the failure
+branch reports how many packages fall on each side instead of a truncated raw diff. Verified
+against the live `chapenv` with `FORCE_COLOR=3` and `CLICOLOR_FORCE=1` set: *matches
+environment/lock.txt exactly (174 packages)*.
+
+This was fixed and the phase-E defect was not, because it is reporting machinery outside the
+analysis tree whose repair cannot change a result and takes seconds to verify, where
+`pair_holdout_development.py` writes a reported phase-E result and needs a defence of its
+own. That is the line batch 25 drew when it left batch 26's defect standing.
+
+### Also found
+
+The clean-room wrote **50 `member_selection.json` files; the archive has 45**. The five
+setup combinations concerned have not been re-run since batch 14 added the file, so the
+archive never received it. Nothing computed differs — a record never written rather than a
+value that moved. Recorded, not manufactured; one copy preserved in the artefacts.
+
+### Files
+
+Added `AI-internal/useful-scripts/cleanroom_holdout_reproduction.py`, so the holdout
+per-model table, the phase-E headline beside the archive, the environment comparison and the
+stop analysis all come from an executed file (§1) rather than the transcript — its
+environment section reads the clone's own preserved `freeze_raw.txt`, escapes included, so
+it still answers after the clone is gone. Added `26-09-03_cleanroom.md`,
+`26-09-03_cleanroom_comparison.json`, `26-09-03_cleanroomTier2Drift.json`,
+`26-09-03_cleanroomHoldoutReproduction.json` and `26-09-03_cleanroom-artefacts/` with a
+README. Changed `environment/install-chap.sh`. Three provenance sections appended. Nothing
+under `analysis/` was run, edited or re-run; the 18 GB clone was discarded after the
+artefacts were copied out.
+
+### Carried to the human, unchanged and with a third draw
+
+The development reference noise band is a max minus a min over four draws of an unseeded
+model: 0.021778 (batch 15), 0.043084 (batch 25), **0.034944** (batch 27) — a factor of two
+apart, giving a headline of 6, 3 and 3 forks of 17. What is stable on all three draws is
+*which* forks clear it — `family`, `weighting`, `aggregate` — so stating the finding by
+identity rather than by count may be the cheapest resolution. Still a question about what
+the project reports, and not the agent's.
+
+Remaining order: **30, 31, 28, 20, 19**.

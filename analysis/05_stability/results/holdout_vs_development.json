@@ -48,7 +48,9 @@
   "of": 32,
   "on_development_it_was": {
    "beats_the_reference": 27,
-   "beats_both_required_baselines": 27
+   "beats_both_required_baselines": 27,
+   "beats_the_reference_is_from": "the frozen CRPS columns of results/manifest_holdout.csv",
+   "beats_both_required_baselines_is_from": "results/conclusions.csv as it stands today, because the baselines' own CRPS is not frozen beside the row and the frozen manifest is not rewritten. It is the one development figure in this file that is re-derived rather than read from the freeze, and a re-run of the development half can therefore move it."
   },
   "rows_that_beat_the_reference_on_development_and_not_on_the_holdout": [
    "family_hierNB__aggregate_caseWeighted__holdout",
@@ -107,7 +109,24 @@
   "checked": 32,
   "against": "results/conclusions.csv, as it stands today",
   "tolerance": 1e-09,
-  "note": "Every development figure in the frozen manifest still equals what the development table says. If it did not, this script would have stopped rather than reported the comparison."
+  "verdict": "the frozen pairing stands",
+  "pairings_that_moved": {
+   "rows": [],
+   "note": "Fatal, and the run stops before anything is written: a frozen row whose development twin the table no longer concludes is paired with an analysis this tree can no longer produce a figure for. This file exists, so there were none."
+  },
+  "development_twins_without_a_conclusion_today": {
+   "rows": [],
+   "note": "The twin is still in the development table but has no skill score in it. Reported, not fatal: the frozen figure is a record of what was paired and does not need re-deriving."
+  },
+  "frozen_figures_that_drifted": {
+   "rows": 0,
+   "of": 32,
+   "largest_absolute_move": 0.0,
+   "development_noise_band": 0.021778,
+   "largest_move_is_inside_the_band": true,
+   "detail": [],
+   "note": "Reported, never absorbed: the frozen figures stand and are what the comparison above uses. The development skill score divides by the reference model, which is unseeded, so a re-run of the development half re-draws it and moves every figure with it. The band is this dataset's own four repeats of that reference, so it says whether a move is larger than the reference's own. freeze_holdout_manifest.py reports the same drift on the same rows under drift_under_an_unchanged_set."
+  }
  },
  "sources": {
   "the frozen pairing": "results/manifest_holdout.csv",

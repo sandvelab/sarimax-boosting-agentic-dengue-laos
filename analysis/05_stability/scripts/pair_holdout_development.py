@@ -16,10 +16,31 @@ own performance. It is reported here and not explained away.
 
 `manifest_holdout.csv` carries each row's development conclusion beside it, frozen in batch
 15 before the year was opened. This script joins on that column rather than on the names,
-and **checks the frozen figures against what `conclusions.csv` says today**: if the
-development half has moved since the freeze, the comparison is between a holdout number and
-a development number that is no longer the one it was paired with, and that has to fail
-loudly rather than be averaged.
+and the frozen figure is the one it compares against -- never a figure recomputed today.
+
+It still checks the frozen figures against what `conclusions.csv` says, and what it does
+with a difference follows what the difference means:
+
+  a frozen row whose development twin    **fatal**. The pairing itself is gone: the frozen
+  the tree no longer concludes           row is paired with an analysis this repository can
+                                         no longer produce a development figure for, so
+                                         there is nothing to compare against.
+
+  a frozen row whose development         reported, not fatal. The development skill score
+  *figure* has drifted                   divides by the reference model, which is unseeded,
+                                         so any re-run of the development half re-draws it.
+                                         The frozen figure is a record of what was paired
+                                         and it stands; the drift is measured against the
+                                         band that dataset's own repeats of the reference
+                                         define, and written into the output.
+
+The distinction is the whole of it. A number that moved by the width of the reference's own
+noise is the reference being unseeded; a pairing that moved is the comparison being about
+something else than it says. Only the second can make the reported answer wrong, and a
+check a correct clean-room run cannot pass is a check that gets weakened the first time it
+fires. `holdout_freeze_check.json`, written by `freeze_holdout_manifest.py` earlier in the
+same run, reports the same drift on the same rows under `drift_under_an_unchanged_set` and
+reaches the same verdict.
 
 ## What is comparable across the two, and what is not
 
@@ -49,9 +70,11 @@ NODE = Path(__file__).resolve().parents[1]
 ROOT = NODE.parents[1]
 RESULTS = NODE / "results"
 
-# How far a frozen development figure may differ from what the table says today. Not a
-# tolerance for drift: it is float formatting through a CSV, and anything larger means the
-# development half moved after the set was frozen.
+# Below this, a frozen development figure and today's are the same number: it is float
+# formatting through a CSV. Above it, the figure has drifted, which is reported and is not
+# an error -- the score divides by the unseeded reference. What is fatal is a frozen row
+# the development table no longer concludes at all, which is a moved pairing rather than a
+# moved number.
 FROZEN_TOLERANCE = 1e-9
 
 
@@ -113,17 +136,27 @@ def main() -> None:
                   for r in rows_of(RESULTS / "holdout_sensitivity_by_fork.csv")}
 
     # ---- one row per paired analysis -------------------------------------------------
-    table, unpaired, drifted = [], [], []
+    table, unpaired, drifted, moved, unconcluded = [], [], [], [], []
+    compared = 0
     for row in manifest:
         name, twin = row["combination"], row["development_combination"]
         frozen = number(row["development_skill_score"])
         here = holdout.get(name, {})
         there = development.get(twin, {})
 
-        if frozen is not None and there.get("skill_score", "") != "":
-            if abs(frozen - float(there["skill_score"])) > FROZEN_TOLERANCE:
-                drifted.append({"combination": twin, "frozen": frozen,
-                                "today": float(there["skill_score"])})
+        if frozen is not None and twin not in development:
+            moved.append({"combination": name, "development_combination": twin})
+            continue
+
+        if frozen is not None and there.get("skill_score", "") == "":
+            unconcluded.append({"combination": name, "development_combination": twin,
+                                "why_not": there.get("why_not", "")})
+        elif frozen is not None:
+            compared += 1
+            today = float(there["skill_score"])
+            if abs(frozen - today) > FROZEN_TOLERANCE:
+                drifted.append({"combination": twin, "frozen": frozen, "today": today,
+                                "moved_by": round(today - frozen, 6)})
 
         if frozen is None or here.get("skill_score", "") == "":
             unpaired.append({
@@ -150,18 +183,39 @@ def main() -> None:
             "holdout_crps_reference": number(here["crps_reference"]),
             "development_coverage_10_90": number(row["development_coverage_10_90"]),
             "holdout_coverage_10_90": number(here["coverage_10_90_ours"]),
-            "development_beats_reference": development[twin]["beats_reference"],
+            # Derived from the two frozen CRPS columns rather than read from the
+            # development table, for the same reason the skill score is: `conclude.py`
+            # defines it as `ours.mean_crps < reference.mean_crps` and both sides of that
+            # comparison are frozen beside the row. Reading today's value instead would
+            # put a re-derived figure into a reported phase-E count -- on batch 27's
+            # clean-room conclusions one row flips and the count reads 28 rather than 27.
+            "development_beats_reference": str(
+                number(row["development_crps_ours"])
+                < number(row["development_crps_reference"])),
             "holdout_beats_reference": here["beats_reference"],
+            # Not derivable from the freeze: it compares against the baselines' own CRPS,
+            # which `manifest_holdout.csv` does not carry, and the frozen manifest is not
+            # rewritten (plan §3). So this one figure is still read from the development
+            # table as it stands today, and `holdout_vs_development.json` says so.
             "development_beats_all_baselines": development[twin]["beats_all_baselines"],
             "holdout_beats_all_baselines": here["beats_all_baselines"],
         })
 
-    if drifted:
+    if moved:
         raise SystemExit(
-            "the development half has moved since the phase-E set was frozen:\n  "
-            + "\n  ".join(f"{d['combination']}: frozen {d['frozen']}, today {d['today']}"
-                          for d in drifted)
-            + "\nThe pairing this compares on is no longer the pairing that was frozen.")
+            "the pairing this compares on is no longer the pairing that was frozen:\n  "
+            + "\n  ".join(f"{m['combination']}: frozen against "
+                          f"{m['development_combination']}, which the development table "
+                          f"no longer carries" for m in moved)
+            + "\nThe frozen set names a development analysis this tree can no longer "
+              "produce a figure for. Fix the tree, or open a batch for the change; this "
+              "script does not re-pair the frozen set.")
+
+    if drifted:
+        largest = max(drifted, key=lambda d: abs(d["moved_by"]))
+        print(f"{len(drifted)} frozen development figure(s) have drifted, largest "
+              f"{largest['moved_by']:+.6f} on {largest['combination']}. The frozen "
+              f"figures stand and are what this comparison uses.")
 
     table.sort(key=lambda r: -r["holdout_skill_score"])
     with (RESULTS / "holdout_vs_development.csv").open("w", newline="") as handle:
@@ -259,6 +313,14 @@ def main() -> None:
                     1 for r in table if r["development_beats_reference"] == "True"),
                 "beats_both_required_baselines": sum(
                     1 for r in table if r["development_beats_all_baselines"] == "True"),
+                "beats_the_reference_is_from": (
+                    "the frozen CRPS columns of results/manifest_holdout.csv"),
+                "beats_both_required_baselines_is_from": (
+                    "results/conclusions.csv as it stands today, because the baselines' "
+                    "own CRPS is not frozen beside the row and the frozen manifest is "
+                    "not rewritten. It is the one development figure in this file that "
+                    "is re-derived rather than read from the freeze, and a re-run of the "
+                    "development half can therefore move it."),
             },
             "rows_that_beat_the_reference_on_development_and_not_on_the_holdout": sorted(
                 r["combination"] for r in table
@@ -312,9 +374,43 @@ def main() -> None:
             "checked": len(table),
             "against": "results/conclusions.csv, as it stands today",
             "tolerance": FROZEN_TOLERANCE,
-            "note": ("Every development figure in the frozen manifest still equals what "
-                     "the development table says. If it did not, this script would have "
-                     "stopped rather than reported the comparison."),
+            "verdict": ("the frozen pairing stands" if not moved
+                        else f"{len(moved)} pairing(s) moved"),
+            "pairings_that_moved": {
+                "rows": moved,
+                "note": ("Fatal, and the run stops before anything is written: a frozen "
+                         "row whose development twin the table no longer concludes is "
+                         "paired with an analysis this tree can no longer produce a "
+                         "figure for. This file exists, so there were none."),
+            },
+            "development_twins_without_a_conclusion_today": {
+                "rows": unconcluded,
+                "note": ("The twin is still in the development table but has no skill "
+                         "score in it. Reported, not fatal: the frozen figure is a "
+                         "record of what was paired and does not need re-deriving."),
+            },
+            "frozen_figures_that_drifted": {
+                "rows": len(drifted),
+                "of": compared,
+                "largest_absolute_move": (
+                    round(max(abs(d["moved_by"]) for d in drifted), 6)
+                    if drifted else 0.0),
+                "development_noise_band": dev_dist[
+                    "reference_noise_band"]["skill_band"],
+                "largest_move_is_inside_the_band": (
+                    max(abs(d["moved_by"]) for d in drifted)
+                    <= dev_dist["reference_noise_band"]["skill_band"]
+                    if drifted else True),
+                "detail": drifted,
+                "note": ("Reported, never absorbed: the frozen figures stand and are "
+                         "what the comparison above uses. The development skill score "
+                         "divides by the reference model, which is unseeded, so a re-run "
+                         "of the development half re-draws it and moves every figure "
+                         "with it. The band is this dataset's own four repeats of that "
+                         "reference, so it says whether a move is larger than the "
+                         "reference's own. freeze_holdout_manifest.py reports the same "
+                         "drift on the same rows under drift_under_an_unchanged_set."),
+            },
         },
         "sources": {
             "the frozen pairing": "results/manifest_holdout.csv",

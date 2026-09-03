@@ -589,6 +589,16 @@ made.
 |---|---|---|
 | **The fork-sensitivity finding keeps being stated as a count; the band stays a max minus a min over four draws** | Batch 27's report proposed stating it by identity instead — `family`, `weighting` and `aggregate` clear the band on all three draws where the count reads six, three and three of seventeen. The human took that resolution and then reversed it the same day: the count stands. Nothing in the tree changes, because the count is what every claim, record and figure already says; what the project loses is the reformulation, and what it keeps is a headline whose value depends on which draw of an unseeded reference measured the band. That dependence is already disclosed in `readme-at-start.md` beside the number, and batch 19 states it there too. The reversal is recorded rather than smoothed over: commit `1140a7d` asserts the opposite decision, and §4b's own preamble asks for the shape of the dialogue and not only its outcome | human-set |
 
+### 2026-09-03 — settled by batch 30, from the check that stopped batch 27
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **A drifted frozen figure is reported; a moved pairing is fatal** | The two were conflated by a single `1e-9` assertion that no re-run tree can satisfy, because the development skill score divides by the unseeded reference. Only a moved pairing — a frozen row whose development twin the table no longer concludes — can make the reported answer wrong; a figure that moved by the width of the reference's own noise is the reference being unseeded. `freeze_holdout_manifest.py` had drawn the same line minutes earlier in the same run | agent-autonomous |
+| **The distinction is categorical, not a widened tolerance** | Setting the tolerance to the noise band was the obvious alternative and was rejected: the band is itself a draw of the same unseeded model — 0.021778, 0.043084, 0.034944 — so the threshold would be redrawn on every run, and a check whose threshold moves with its input is not a check. The band is reported beside the drift as context and decides nothing | agent-autonomous |
+| **`development_beats_reference` is derived from the frozen CRPS columns** | It was read from today's `conclusions.csv`, and on batch 27's clean-room numbers one row flips and the reported development count reads 28 rather than 27 — a reported phase-E figure following a re-derived table, the fourth instance of batch 24's family and in the same file as the third. `conclude.py` defines it as `ours.mean_crps < reference.mean_crps` and both sides are frozen beside the row, so the fix needs no new frozen data and reproduces the archive on all 32 rows | agent-autonomous |
+| **`development_beats_all_baselines` stays re-derived and is named as such in the output** | It compares against the baselines' own CRPS, which is not frozen beside the row, and freezing it now would rewrite `manifest_holdout.csv` — bound by §3 and digest-recorded in `holdout_freeze.json`. The honest move is to say in the file which development figure is re-derived and can therefore move, rather than to widen what the freeze covers after the year has been opened | agent-autonomous, inside the human-set §3 |
+| **The second defect is fixed in this batch rather than becoming a new one** | The reverse of the call batch 27 made about this same script, and the basis is stated so the line does not look arbitrary: this one **moved a reported number** on data already in hand, and the repair needed no new frozen data and no re-run of anything. Batch 27's deferral was of a fix that needed a defence built first; that defence exists now and covers both | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -635,7 +645,7 @@ is finished, and batch 5 decides how.
 Status values: `open` · `done — produced` · `done — expanded` · `blocked`. Update this table
 at the end of every batch, and append newly created batches to it.
 
-**Next open batch: 30. Then 31, then 28, then 20, then 19.** §5 says the ledger runs top to
+**Next open batch: 31. Then 28, then 20, then 19.** §5 says the ledger runs top to
 bottom, and for the phase-E tail it no longer does: **19 and 20 sit above 28, 30 and 31 in
 this table but run after them**, because 19 is the release and must not claim more than the
 checks support, and because batches added later were appended rather than inserted. Rows 19
@@ -644,7 +654,7 @@ would start the release with three checks outstanding — so take the order from
 update it at the end of every batch. *(Recorded 2026-09-02, after batch 26, because the trap
 had gone unwritten since batch 18 and only `readme-at-start.md` carried the order; updated
 after batch 27, which was blocked and added 30 and 31; updated 2026-09-03 when the human
-settled the noise-band question, which added no batch.)*
+settled the noise-band question, which added no batch, and again when batch 30 closed.)*
 
 | # | Phase | Aim | Status | Report |
 |---|---|---|---|---|
@@ -677,7 +687,7 @@ settled the noise-band question, which added no batch.)*
 | 27 | E | `/validate cleanroom` to completion, on the fixed tree — what batch 25 was for | **blocked** | [[26-09-03_b27_cleanroomToPhaseE]] |
 | 28 | E | `check_pool.py`'s member matching depends on which combinations exist on disk: re-running the **unmodified** script changes 18 of 51 `pool_check.json` files, and `main__holdout`'s archived copy calls its reconstruction impossible where it now returns 76.646. No number inside them moves. Decide what the headline row's reconstruction should say, then make the matching independent of what is on disk | open | |
 | 29 | E | **Arrived outside the plan** (`AGENTS.md` §8), after batch 26: the record's own bookkeeping. The ledger did not say that 19 and 20 run *after* 27 and 28 although they sit above them, so a session following §5's top-to-bottom rule would have opened the release with two checks outstanding; and two task-log entries reused `T` numbers already taken by batches 22 and 21 | done — produced | *(no batch report; logged as T25)* |
-| 30 | E | The frozen development figure stops being re-asserted: `pair_holdout_development.py` requires each frozen `development_skill_score` to still equal `conclusions.csv` to 1e-9, which no re-run tree can satisfy because the score divides by the unseeded reference. Report the disagreement; keep a genuinely moved *pairing* fatal — batch 27 had 32 drifted numbers and **zero** moved pairings, and `holdout_freeze_check.json` calls the same drift non-fatal minutes earlier. Build the defence against batch 27's own `conclusions.csv`, as batch 26 did against batch 25's | open | |
+| 30 | E | The frozen development figure stops being re-asserted: `pair_holdout_development.py` requires each frozen `development_skill_score` to still equal `conclusions.csv` to 1e-9, which no re-run tree can satisfy because the score divides by the unseeded reference. Report the disagreement; keep a genuinely moved *pairing* fatal — batch 27 had 32 drifted numbers and **zero** moved pairings, and `holdout_freeze_check.json` calls the same drift non-fatal minutes earlier. Build the defence against batch 27's own `conclusions.csv`, as batch 26 did against batch 25's. **Found and fixed a fourth instance three lines away**: `development_beats_reference` was read from today's table and moved the reported development count 27 → 28 on batch 27's numbers | done — produced | [[26-09-03_b30_theFrozenFigureIsReported]] |
 | 31 | E | `/validate cleanroom` to completion, on the tree batch 30 fixes — what batches 25 and 27 were for | open | |
 
 ---
@@ -1261,6 +1271,10 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 27 — the clean-room reaches phase E, and stops at the last script
 
 - [[26-09-03_b27_cleanroomToPhaseE]]
+
+### Batch 30 — the frozen figure is reported, the moved pairing is fatal
+
+- [[26-09-03_b30_theFrozenFigureIsReported]]
 
 ### Batch 21 — the greedy branch
 

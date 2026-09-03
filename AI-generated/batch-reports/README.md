@@ -235,3 +235,29 @@ re-running a batch produces a different report rather than the same one.
   disk, so re-running the **unmodified** script changes 18 of 51 pool checks, and
   `main__holdout`'s archived copy calls its reconstruction impossible where it now returns
   76.646 against a reported 76.731 — with no number inside the eighteen moving.
+
+- `26-09-03_b27_cleanroomToPhaseE.md` — batch 27, phase E, `blocked`: the clean-room run
+  reached **phase E from a clean checkout for the first time**, opened the holdout, scored
+  all 32 held-out analyses — and exited 1 at `pair_holdout_development.py`, the last script
+  in the tree. **192 model-combination scores and not one of ours moved by a bit**, on both
+  halves; the unseeded reference moved everything downstream of it. The phase-E headline CRPS
+  reproduced to all 14 digits. `install-chap.sh`'s colour-corrupted lockfile comparison was
+  fixed here; the script that stopped the run was left for batch 30, with the reason stated.
+  Added batches 30 and 31.
+
+- `26-09-03_b30_theFrozenFigureIsReported.md` — batch 30, phase E, `done — produced`: the
+  check that stopped batch 27 now **separates a drifted figure from a moved pairing**. A
+  frozen `development_skill_score` that no longer equals today's table is reported against
+  the band that dataset's own repeats of the reference define; a frozen row whose development
+  twin the table no longer concludes is fatal and stops the run before anything is written.
+  The tolerance was deliberately not widened to the band, because the band is itself a draw.
+  A **fourth instance of batch 24's family was found three lines away and fixed**:
+  `development_beats_reference` was read from today's `conclusions.csv`, and on batch 27's
+  clean-room numbers one row flips and the reported development count reads 28 rather than
+  27; it now derives from the frozen CRPS columns, reproducing the archive on all 32 rows.
+  `development_beats_all_baselines` cannot be — the baselines' CRPS was never frozen — and
+  the output names it as the one re-derived development figure. Five situations put to it,
+  one driven by **the clean-room run's own `conclusions.csv` and `distribution.json`**: exit
+  0, 32 drifted figures, 0 moved pairings, largest move 0.025673 inside a band of 0.034944.
+  **Nothing reported moves** — both output CSVs byte-identical, and `manifest_holdout.csv`
+  untouched.

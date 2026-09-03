@@ -1,0 +1,2029 @@
+{
+ "what_this_is": "Batch 27's clean-room run: what reproduced on each half, and the assertion that stopped analysis/run.sh after phase E had finished.",
+ "archive": ".",
+ "cleanroom": "/Users/geirksa_1_2_3/.claude/jobs/e3fbd0db/tmp/cleanroom-b27/repo",
+ "development_half": {
+  "combinations_compared": 32,
+  "only_in_archive": [],
+  "only_in_cleanroom": [],
+  "our_models": {
+   "climatology": {
+    "identical": 32,
+    "moved": 0,
+    "deltas": {}
+   },
+   "ensemble": {
+    "identical": 27,
+    "moved": 0,
+    "deltas": {}
+   },
+   "persistence": {
+    "identical": 32,
+    "moved": 0,
+    "deltas": {}
+   },
+   "boosted": {
+    "identical": 1,
+    "moved": 0,
+    "deltas": {}
+   },
+   "hier_nb": {
+    "identical": 4,
+    "moved": 0,
+    "deltas": {}
+   }
+  },
+  "the_unseeded_reference": {
+   "reference": {
+    "identical": 0,
+    "moved": 32,
+    "deltas": {
+     "aggregate_caseWeighted": {
+      "archived": 115.21612566729722,
+      "cleanroom": 116.24710815700512,
+      "delta": 1.0309824897078954
+     },
+     "aggregate_populationWeighted": {
+      "archived": 37.05501059613431,
+      "cleanroom": 37.685397894412155,
+      "delta": 0.6303872982778458
+     },
+     "autoregressive_lag3": {
+      "archived": 22.098446493261456,
+      "cleanroom": 22.255807673854445,
+      "delta": 0.1573611805929893
+     },
+     "climatology_frozenWindow": {
+      "archived": 22.098446493261456,
+      "cleanroom": 22.255807673854445,
+      "delta": 0.1573611805929893
+     },
+     "covariates_lagged": {
+      "archived": 22.098446493261456,
+      "cleanroom": 22.255807673854445,
+      "delta": 0.1573611805929893
+     },
+     "covariates_rich": {
+      "archived": 22.098446493261456,
+      "cleanroom": 22.255807673854445,
+      "delta": 0.1573611805929893
+     },
+     "family_boosted": {
+      "archived": 22.098446493261456,
+      "cleanroom": 22.255807673854445,
+      "delta": 0.1573611805929893
+     },
+     "family_hierNB": {
+      "archived": 22.098446493261456,
+      "cleanroom": 22.255807673854445,
+      "delta": 0.1573611805929893
+     },
+     "family_hierNB__aggregate_caseWeighted": {
+      "archived": 115.21612566729722,
+      "cleanroom": 116.24710815700512,
+      "delta": 1.0309824897078954
+     },
+     "features_richCalendar": {
+      "archived": 22.098446493261456,
+      "cleanroom": 22.255807673854445,
+      "delta": 0.1573611805929893
+     },
+     "fitTime_refitAtPredict": {
+      "archived": 22.098446493261456,
+      "cleanroom": 22.255807673854445,
+      "delta": 0.1573611805929893
+     },
+     "head_quantileEnsemble": {
+      "archived": 22.098446493261456,
+      "cleanroom": 22.255807673854445,
+      "delta": 0.1573611805929893
+     },
+     "main": {
+      "archived": 22.098446493261456,
+      "cleanroom": 22.255807673854445,
+      "delta": 0.1573611805929893
+     },
+     "observation_negBinomial": {
+      "archived": 22.098446493261456,
+      "cleanroom": 22.255807673854445,
+      "delta": 0.1573611805929893
+     },
+     "observation_zeroInflated": {
+      "archived": 22.098446493261456,
+      "cleanroom": 22.255807673854445,
+      "delta": 0.1573611805929893
+     },
+     "persistence_negBinomialFloor": {
+      "archived": 22.098446493261456,
+      "cleanroom": 22.255807673854445,
+      "delta": 0.1573611805929893
+     },
+     "popColumn_backCast": {
+      "archived": 21.969695783018867,
+      "cleanroom": 21.981526483153637,
+      "delta": 0.0118307001347695
+     },
+     "population_covariate": {
+      "archived": 22.098446493261456,
+      "cleanroom": 22.255807673854445,
+      "delta": 0.1573611805929893
+     },
+     "population_ignored": {
+      "archived": 22.098446493261456,
+      "cleanroom": 22.255807673854445,
+      "delta": 0.1573611805929893
+     },
+     "provinces_mergeVientiane": {
+      "archived": 22.937393873315365,
+      "cleanroom": 22.260798404986524,
+      "delta": -0.6765954683288413
+     },
+     "provinces_mergeVientiane__aggregate_caseWeighted": {
+      "archived": 116.49777739498414,
+      "cleanroom": 116.29203400240011,
+      "delta": -0.20574339258402574
+     },
+     "provinces_mergeVientiane__family_hierNB": {
+      "archived": 22.51058850134771,
+      "cleanroom": 22.379955576819405,
+      "delta": -0.1306329245283031
+     },
+     "provinces_mergeVientiane__weighting_crpsWeighted": {
+      "archived": 22.4529442425876,
+      "cleanroom": 21.91568671832884,
+      "delta": -0.5372575242587594
+     },
+     "provinces_reportingOnly": {
+      "archived": 23.15028531334232,
+      "cleanroom": 23.113965344339626,
+      "delta": -0.03631996900269385
+     },
+     "provinces_reportingOnly__aggregate_caseWeighted": {
+      "archived": 107.07779333123833,
+      "cleanroom": 109.20406120954355,
+      "delta": 2.126267878305228
+     },
+     "provinces_reportingOnly__family_hierNB": {
+      "archived": 23.486596836927227,
+      "cleanroom": 24.045179202156337,
+      "delta": 0.5585823652291104
+     },
+     "provinces_reportingOnly__weighting_crpsWeighted": {
+      "archived": 23.681038782345013,
+      "cleanroom": 23.06014377560647,
+      "delta": -0.620895006738543
+     },
+     "retrain_everySplit": {
+      "archived": 22.22049393800539,
+      "cleanroom": 22.44846755795148,
+      "delta": 0.22797361994609133
+     },
+     "trainingWindow_from2004": {
+      "archived": 21.46914599393531,
+      "cleanroom": 21.37785123921833,
+      "delta": -0.09129475471698001
+     },
+     "weighting_crpsWeighted": {
+      "archived": 22.098446493261456,
+      "cleanroom": 22.255807673854445,
+      "delta": 0.1573611805929893
+     },
+     "weighting_crpsWeighted__aggregate_caseWeighted": {
+      "archived": 115.21612566729722,
+      "cleanroom": 116.24710815700512,
+      "delta": 1.0309824897078954
+     },
+     "yearVariance_shared": {
+      "archived": 22.098446493261456,
+      "cleanroom": 22.255807673854445,
+      "delta": 0.1573611805929893
+     }
+    }
+   },
+   "reference_r1": {
+    "identical": 0,
+    "moved": 32,
+    "deltas": {
+     "aggregate_caseWeighted": {
+      "archived": 114.0460345916524,
+      "cleanroom": 113.14214363249532,
+      "delta": -0.9038909591570814
+     },
+     "aggregate_populationWeighted": {
+      "archived": 36.888066524628165,
+      "cleanroom": 36.77790400179187,
+      "delta": -0.11016252283629768
+     },
+     "autoregressive_lag3": {
+      "archived": 21.917403964959565,
+      "cleanroom": 21.86682916981132,
+      "delta": -0.05057479514824337
+     },
+     "climatology_frozenWindow": {
+      "archived": 21.917403964959565,
+      "cleanroom": 21.86682916981132,
+      "delta": -0.05057479514824337
+     },
+     "covariates_lagged": {
+      "archived": 21.917403964959565,
+      "cleanroom": 21.86682916981132,
+      "delta": -0.05057479514824337
+     },
+     "covariates_rich": {
+      "archived": 21.917403964959565,
+      "cleanroom": 21.86682916981132,
+      "delta": -0.05057479514824337
+     },
+     "family_boosted": {
+      "archived": 21.917403964959565,
+      "cleanroom": 21.86682916981132,
+      "delta": -0.05057479514824337
+     },
+     "family_hierNB": {
+      "archived": 21.917403964959565,
+      "cleanroom": 21.86682916981132,
+      "delta": -0.05057479514824337
+     },
+     "family_hierNB__aggregate_caseWeighted": {
+      "archived": 114.0460345916524,
+      "cleanroom": 113.14214363249532,
+      "delta": -0.9038909591570814
+     },
+     "features_richCalendar": {
+      "archived": 21.917403964959565,
+      "cleanroom": 21.86682916981132,
+      "delta": -0.05057479514824337
+     },
+     "fitTime_refitAtPredict": {
+      "archived": 21.917403964959565,
+      "cleanroom": 21.86682916981132,
+      "delta": -0.05057479514824337
+     },
+     "head_quantileEnsemble": {
+      "archived": 21.917403964959565,
+      "cleanroom": 21.86682916981132,
+      "delta": -0.05057479514824337
+     },
+     "main": {
+      "archived": 21.917403964959565,
+      "cleanroom": 21.86682916981132,
+      "delta": -0.05057479514824337
+     },
+     "observation_negBinomial": {
+      "archived": 21.917403964959565,
+      "cleanroom": 21.86682916981132,
+      "delta": -0.05057479514824337
+     },
+     "observation_zeroInflated": {
+      "archived": 21.917403964959565,
+      "cleanroom": 21.86682916981132,
+      "delta": -0.05057479514824337
+     },
+     "persistence_negBinomialFloor": {
+      "archived": 21.917403964959565,
+      "cleanroom": 21.86682916981132,
+      "delta": -0.05057479514824337
+     },
+     "popColumn_backCast": {
+      "archived": 22.08225370080863,
+      "cleanroom": 22.15595245283019,
+      "delta": 0.07369875202155995
+     },
+     "population_covariate": {
+      "archived": 21.917403964959565,
+      "cleanroom": 21.86682916981132,
+      "delta": -0.05057479514824337
+     },
+     "population_ignored": {
+      "archived": 21.917403964959565,
+      "cleanroom": 21.86682916981132,
+      "delta": -0.05057479514824337
+     },
+     "provinces_mergeVientiane": {
+      "archived": 22.041681142857144,
+      "cleanroom": 22.21039600269542,
+      "delta": 0.16871485983827483
+     },
+     "provinces_mergeVientiane__aggregate_caseWeighted": {
+      "archived": 114.44826061638597,
+      "cleanroom": 116.08038563127492,
+      "delta": 1.6321250148889561
+     },
+     "provinces_mergeVientiane__family_hierNB": {
+      "archived": 23.0827271509434,
+      "cleanroom": 22.48133618328841,
+      "delta": -0.6013909676549893
+     },
+     "provinces_mergeVientiane__weighting_crpsWeighted": {
+      "archived": 22.063902447439354,
+      "cleanroom": 22.08952183827493,
+      "delta": 0.025619390835576183
+     },
+     "provinces_reportingOnly": {
+      "archived": 22.326886269541777,
+      "cleanroom": 21.961510016172507,
+      "delta": -0.36537625336926993
+     },
+     "provinces_reportingOnly__aggregate_caseWeighted": {
+      "archived": 107.87212341680905,
+      "cleanroom": 107.94507404124968,
+      "delta": 0.0729506244406366
+     },
+     "provinces_reportingOnly__family_hierNB": {
+      "archived": 23.409821973045823,
+      "cleanroom": 23.295352894878707,
+      "delta": -0.11446907816711516
+     },
+     "provinces_reportingOnly__weighting_crpsWeighted": {
+      "archived": 24.364207439353105,
+      "cleanroom": 22.171569663072777,
+      "delta": -2.1926377762803284
+     },
+     "retrain_everySplit": {
+      "archived": 22.01173125336927,
+      "cleanroom": 22.566530315363885,
+      "delta": 0.5547990619946148
+     },
+     "trainingWindow_from2004": {
+      "archived": 21.479332377358492,
+      "cleanroom": 21.470692601078166,
+      "delta": -0.008639776280325862
+     },
+     "weighting_crpsWeighted": {
+      "archived": 21.917403964959565,
+      "cleanroom": 21.86682916981132,
+      "delta": -0.05057479514824337
+     },
+     "weighting_crpsWeighted__aggregate_caseWeighted": {
+      "archived": 114.0460345916524,
+      "cleanroom": 113.14214363249532,
+      "delta": -0.9038909591570814
+     },
+     "yearVariance_shared": {
+      "archived": 21.917403964959565,
+      "cleanroom": 21.86682916981132,
+      "delta": -0.05057479514824337
+     }
+    }
+   },
+   "reference_r2": {
+    "identical": 0,
+    "moved": 32,
+    "deltas": {
+     "aggregate_caseWeighted": {
+      "archived": 115.57236689984542,
+      "cleanroom": 121.16656665796113,
+      "delta": 5.594199758115707
+     },
+     "aggregate_populationWeighted": {
+      "archived": 36.88202838346441,
+      "cleanroom": 38.47068313564999,
+      "delta": 1.5886547521855832
+     },
+     "autoregressive_lag3": {
+      "archived": 22.27197036657682,
+      "cleanroom": 22.792388239892183,
+      "delta": 0.5204178733153633
+     },
+     "climatology_frozenWindow": {
+      "archived": 22.27197036657682,
+      "cleanroom": 22.792388239892183,
+      "delta": 0.5204178733153633
+     },
+     "covariates_lagged": {
+      "archived": 22.27197036657682,
+      "cleanroom": 22.792388239892183,
+      "delta": 0.5204178733153633
+     },
+     "covariates_rich": {
+      "archived": 22.27197036657682,
+      "cleanroom": 22.792388239892183,
+      "delta": 0.5204178733153633
+     },
+     "family_boosted": {
+      "archived": 22.27197036657682,
+      "cleanroom": 22.792388239892183,
+      "delta": 0.5204178733153633
+     },
+     "family_hierNB": {
+      "archived": 22.27197036657682,
+      "cleanroom": 22.792388239892183,
+      "delta": 0.5204178733153633
+     },
+     "family_hierNB__aggregate_caseWeighted": {
+      "archived": 115.57236689984542,
+      "cleanroom": 121.16656665796113,
+      "delta": 5.594199758115707
+     },
+     "features_richCalendar": {
+      "archived": 22.27197036657682,
+      "cleanroom": 22.792388239892183,
+      "delta": 0.5204178733153633
+     },
+     "fitTime_refitAtPredict": {
+      "archived": 22.27197036657682,
+      "cleanroom": 22.792388239892183,
+      "delta": 0.5204178733153633
+     },
+     "head_quantileEnsemble": {
+      "archived": 22.27197036657682,
+      "cleanroom": 22.792388239892183,
+      "delta": 0.5204178733153633
+     },
+     "main": {
+      "archived": 22.27197036657682,
+      "cleanroom": 22.792388239892183,
+      "delta": 0.5204178733153633
+     },
+     "observation_negBinomial": {
+      "archived": 22.27197036657682,
+      "cleanroom": 22.792388239892183,
+      "delta": 0.5204178733153633
+     },
+     "observation_zeroInflated": {
+      "archived": 22.27197036657682,
+      "cleanroom": 22.792388239892183,
+      "delta": 0.5204178733153633
+     },
+     "persistence_negBinomialFloor": {
+      "archived": 22.27197036657682,
+      "cleanroom": 22.792388239892183,
+      "delta": 0.5204178733153633
+     },
+     "popColumn_backCast": {
+      "archived": 21.94282822102426,
+      "cleanroom": 22.06465909433962,
+      "delta": 0.12183087331536058
+     },
+     "population_covariate": {
+      "archived": 22.27197036657682,
+      "cleanroom": 22.792388239892183,
+      "delta": 0.5204178733153633
+     },
+     "population_ignored": {
+      "archived": 22.27197036657682,
+      "cleanroom": 22.792388239892183,
+      "delta": 0.5204178733153633
+     },
+     "provinces_mergeVientiane": {
+      "archived": 22.077254956873315,
+      "cleanroom": 21.875180040431268,
+      "delta": -0.20207491644204723
+     },
+     "provinces_mergeVientiane__aggregate_caseWeighted": {
+      "archived": 119.28554757098688,
+      "cleanroom": 116.87339009551704,
+      "delta": -2.41215747546984
+     },
+     "provinces_mergeVientiane__family_hierNB": {
+      "archived": 22.387993822102423,
+      "cleanroom": 22.34076267115903,
+      "delta": -0.04723115094339292
+     },
+     "provinces_mergeVientiane__weighting_crpsWeighted": {
+      "archived": 22.334773981132074,
+      "cleanroom": 22.10329931266846,
+      "delta": -0.23147466846361198
+     },
+     "provinces_reportingOnly": {
+      "archived": 23.169820765498653,
+      "cleanroom": 23.748158361185983,
+      "delta": 0.57833759568733
+     },
+     "provinces_reportingOnly__aggregate_caseWeighted": {
+      "archived": 106.02608799536245,
+      "cleanroom": 109.0462903791392,
+      "delta": 3.0202023837767484
+     },
+     "provinces_reportingOnly__family_hierNB": {
+      "archived": 23.34223894878706,
+      "cleanroom": 23.24300110242588,
+      "delta": -0.09923784636118071
+     },
+     "provinces_reportingOnly__weighting_crpsWeighted": {
+      "archived": 23.10297808625337,
+      "cleanroom": 23.327730811320755,
+      "delta": 0.2247527250673862
+     },
+     "retrain_everySplit": {
+      "archived": 22.50763624528302,
+      "cleanroom": 23.09362283018868,
+      "delta": 0.5859865849056582
+     },
+     "trainingWindow_from2004": {
+      "archived": 21.50741704851752,
+      "cleanroom": 21.38437849865229,
+      "delta": -0.12303854986523177
+     },
+     "weighting_crpsWeighted": {
+      "archived": 22.27197036657682,
+      "cleanroom": 22.792388239892183,
+      "delta": 0.5204178733153633
+     },
+     "weighting_crpsWeighted__aggregate_caseWeighted": {
+      "archived": 115.57236689984542,
+      "cleanroom": 121.16656665796113,
+      "delta": 5.594199758115707
+     },
+     "yearVariance_shared": {
+      "archived": 22.27197036657682,
+      "cleanroom": 22.792388239892183,
+      "delta": 0.5204178733153633
+     }
+    }
+   },
+   "reference_r3": {
+    "identical": 0,
+    "moved": 32,
+    "deltas": {
+     "aggregate_caseWeighted": {
+      "archived": 118.37414800333578,
+      "cleanroom": 114.13238114246197,
+      "delta": -4.24176686087381
+     },
+     "aggregate_populationWeighted": {
+      "archived": 37.64238943238645,
+      "cleanroom": 37.00626667110557,
+      "delta": -0.6361227612808804
+     },
+     "autoregressive_lag3": {
+      "archived": 22.38484446091644,
+      "cleanroom": 21.875645129380057,
+      "delta": -0.509199331536383
+     },
+     "climatology_frozenWindow": {
+      "archived": 22.38484446091644,
+      "cleanroom": 21.875645129380057,
+      "delta": -0.509199331536383
+     },
+     "covariates_lagged": {
+      "archived": 22.38484446091644,
+      "cleanroom": 21.875645129380057,
+      "delta": -0.509199331536383
+     },
+     "covariates_rich": {
+      "archived": 22.38484446091644,
+      "cleanroom": 21.875645129380057,
+      "delta": -0.509199331536383
+     },
+     "family_boosted": {
+      "archived": 22.38484446091644,
+      "cleanroom": 21.875645129380057,
+      "delta": -0.509199331536383
+     },
+     "family_hierNB": {
+      "archived": 22.38484446091644,
+      "cleanroom": 21.875645129380057,
+      "delta": -0.509199331536383
+     },
+     "family_hierNB__aggregate_caseWeighted": {
+      "archived": 118.37414800333578,
+      "cleanroom": 114.13238114246197,
+      "delta": -4.24176686087381
+     },
+     "features_richCalendar": {
+      "archived": 22.38484446091644,
+      "cleanroom": 21.875645129380057,
+      "delta": -0.509199331536383
+     },
+     "fitTime_refitAtPredict": {
+      "archived": 22.38484446091644,
+      "cleanroom": 21.875645129380057,
+      "delta": -0.509199331536383
+     },
+     "head_quantileEnsemble": {
+      "archived": 22.38484446091644,
+      "cleanroom": 21.875645129380057,
+      "delta": -0.509199331536383
+     },
+     "main": {
+      "archived": 22.38484446091644,
+      "cleanroom": 21.875645129380057,
+      "delta": -0.509199331536383
+     },
+     "observation_negBinomial": {
+      "archived": 22.38484446091644,
+      "cleanroom": 21.875645129380057,
+      "delta": -0.509199331536383
+     },
+     "observation_zeroInflated": {
+      "archived": 22.38484446091644,
+      "cleanroom": 21.875645129380057,
+      "delta": -0.509199331536383
+     },
+     "persistence_negBinomialFloor": {
+      "archived": 22.38484446091644,
+      "cleanroom": 21.875645129380057,
+      "delta": -0.509199331536383
+     },
+     "popColumn_backCast": {
+      "archived": 21.87678831536388,
+      "cleanroom": 22.026320628032344,
+      "delta": 0.149532312668466
+     },
+     "population_covariate": {
+      "archived": 22.38484446091644,
+      "cleanroom": 21.875645129380057,
+      "delta": -0.509199331536383
+     },
+     "population_ignored": {
+      "archived": 22.38484446091644,
+      "cleanroom": 21.875645129380057,
+      "delta": -0.509199331536383
+     },
+     "provinces_mergeVientiane": {
+      "archived": 21.51548620485175,
+      "cleanroom": 22.11863974123989,
+      "delta": 0.6031535363881382
+     },
+     "provinces_mergeVientiane__aggregate_caseWeighted": {
+      "archived": 116.73681991278173,
+      "cleanroom": 115.18808702676756,
+      "delta": -1.5487328860141645
+     },
+     "provinces_mergeVientiane__family_hierNB": {
+      "archived": 22.45163244204852,
+      "cleanroom": 22.02315184097035,
+      "delta": -0.42848060107817076
+     },
+     "provinces_mergeVientiane__weighting_crpsWeighted": {
+      "archived": 22.46924473584906,
+      "cleanroom": 21.70072209703504,
+      "delta": -0.7685226388140194
+     },
+     "provinces_reportingOnly": {
+      "archived": 23.060169563342317,
+      "cleanroom": 23.389556366576816,
+      "delta": 0.32938680323449887
+     },
+     "provinces_reportingOnly__aggregate_caseWeighted": {
+      "archived": 107.33462148124644,
+      "cleanroom": 108.6323173947604,
+      "delta": 1.2976959135139623
+     },
+     "provinces_reportingOnly__family_hierNB": {
+      "archived": 23.74420201347709,
+      "cleanroom": 23.414584237196763,
+      "delta": -0.32961777628032607
+     },
+     "provinces_reportingOnly__weighting_crpsWeighted": {
+      "archived": 24.09829309703504,
+      "cleanroom": 23.059032353099727,
+      "delta": -1.039260743935312
+     },
+     "retrain_everySplit": {
+      "archived": 22.49755019407008,
+      "cleanroom": 22.26486685444744,
+      "delta": -0.2326833396226391
+     },
+     "trainingWindow_from2004": {
+      "archived": 21.479903229110512,
+      "cleanroom": 21.367424053908355,
+      "delta": -0.11247917520215722
+     },
+     "weighting_crpsWeighted": {
+      "archived": 22.38484446091644,
+      "cleanroom": 21.875645129380057,
+      "delta": -0.509199331536383
+     },
+     "weighting_crpsWeighted__aggregate_caseWeighted": {
+      "archived": 118.37414800333578,
+      "cleanroom": 114.13238114246197,
+      "delta": -4.24176686087381
+     },
+     "yearVariance_shared": {
+      "archived": 22.38484446091644,
+      "cleanroom": 21.875645129380057,
+      "delta": -0.509199331536383
+     }
+    }
+   },
+   "reference_r4": {
+    "identical": 0,
+    "moved": 32,
+    "deltas": {
+     "aggregate_caseWeighted": {
+      "archived": 112.87195317435524,
+      "cleanroom": 116.5473411951021,
+      "delta": 3.6753880207468654
+     },
+     "aggregate_populationWeighted": {
+      "archived": 36.80755804405823,
+      "cleanroom": 38.48673776910118,
+      "delta": 1.6791797250429497
+     },
+     "autoregressive_lag3": {
+      "archived": 21.81956718059299,
+      "cleanroom": 22.48836815633423,
+      "delta": 0.6688009757412381
+     },
+     "climatology_frozenWindow": {
+      "archived": 21.81956718059299,
+      "cleanroom": 22.48836815633423,
+      "delta": 0.6688009757412381
+     },
+     "covariates_lagged": {
+      "archived": 21.81956718059299,
+      "cleanroom": 22.48836815633423,
+      "delta": 0.6688009757412381
+     },
+     "covariates_rich": {
+      "archived": 21.81956718059299,
+      "cleanroom": 22.48836815633423,
+      "delta": 0.6688009757412381
+     },
+     "family_boosted": {
+      "archived": 21.81956718059299,
+      "cleanroom": 22.48836815633423,
+      "delta": 0.6688009757412381
+     },
+     "family_hierNB": {
+      "archived": 21.81956718059299,
+      "cleanroom": 22.48836815633423,
+      "delta": 0.6688009757412381
+     },
+     "family_hierNB__aggregate_caseWeighted": {
+      "archived": 112.87195317435524,
+      "cleanroom": 116.5473411951021,
+      "delta": 3.6753880207468654
+     },
+     "features_richCalendar": {
+      "archived": 21.81956718059299,
+      "cleanroom": 22.48836815633423,
+      "delta": 0.6688009757412381
+     },
+     "fitTime_refitAtPredict": {
+      "archived": 21.81956718059299,
+      "cleanroom": 22.48836815633423,
+      "delta": 0.6688009757412381
+     },
+     "head_quantileEnsemble": {
+      "archived": 21.81956718059299,
+      "cleanroom": 22.48836815633423,
+      "delta": 0.6688009757412381
+     },
+     "main": {
+      "archived": 21.81956718059299,
+      "cleanroom": 22.48836815633423,
+      "delta": 0.6688009757412381
+     },
+     "observation_negBinomial": {
+      "archived": 21.81956718059299,
+      "cleanroom": 22.48836815633423,
+      "delta": 0.6688009757412381
+     },
+     "observation_zeroInflated": {
+      "archived": 21.81956718059299,
+      "cleanroom": 22.48836815633423,
+      "delta": 0.6688009757412381
+     },
+     "persistence_negBinomialFloor": {
+      "archived": 21.81956718059299,
+      "cleanroom": 22.48836815633423,
+      "delta": 0.6688009757412381
+     },
+     "popColumn_backCast": {
+      "archived": 21.976912894878705,
+      "cleanroom": 21.679173757412396,
+      "delta": -0.29773913746630853
+     },
+     "population_covariate": {
+      "archived": 21.81956718059299,
+      "cleanroom": 22.48836815633423,
+      "delta": 0.6688009757412381
+     },
+     "population_ignored": {
+      "archived": 21.81956718059299,
+      "cleanroom": 22.48836815633423,
+      "delta": 0.6688009757412381
+     },
+     "provinces_mergeVientiane": {
+      "archived": 26.115153188679244,
+      "cleanroom": 22.838977835579513,
+      "delta": -3.276175353099731
+     },
+     "provinces_mergeVientiane__aggregate_caseWeighted": {
+      "archived": 115.52048147978196,
+      "cleanroom": 117.026273256041,
+      "delta": 1.5057917762590307
+     },
+     "provinces_mergeVientiane__family_hierNB": {
+      "archived": 22.120000590296495,
+      "cleanroom": 22.674571611859836,
+      "delta": 0.5545710215633406
+     },
+     "provinces_mergeVientiane__weighting_crpsWeighted": {
+      "archived": 22.94385580592992,
+      "cleanroom": 21.769203625336928,
+      "delta": -1.174652180592993
+     },
+     "provinces_reportingOnly": {
+      "archived": 24.044264654986524,
+      "cleanroom": 23.35663663342318,
+      "delta": -0.687628021563345
+     },
+     "provinces_reportingOnly__aggregate_caseWeighted": {
+      "archived": 107.07834043153528,
+      "cleanroom": 111.192563023025,
+      "delta": 4.114222591489721
+     },
+     "provinces_reportingOnly__family_hierNB": {
+      "archived": 23.45012441239892,
+      "cleanroom": 26.227778574123988,
+      "delta": 2.777654161725067
+     },
+     "provinces_reportingOnly__weighting_crpsWeighted": {
+      "archived": 23.158676506738548,
+      "cleanroom": 23.682242274932616,
+      "delta": 0.523565768194068
+     },
+     "retrain_everySplit": {
+      "archived": 21.86505805929919,
+      "cleanroom": 21.86885023180593,
+      "delta": 0.003792172506738467
+     },
+     "trainingWindow_from2004": {
+      "archived": 21.409931320754716,
+      "cleanroom": 21.2889098032345,
+      "delta": -0.12102151752021584
+     },
+     "weighting_crpsWeighted": {
+      "archived": 21.81956718059299,
+      "cleanroom": 22.48836815633423,
+      "delta": 0.6688009757412381
+     },
+     "weighting_crpsWeighted__aggregate_caseWeighted": {
+      "archived": 112.87195317435524,
+      "cleanroom": 116.5473411951021,
+      "delta": 3.6753880207468654
+     },
+     "yearVariance_shared": {
+      "archived": 21.81956718059299,
+      "cleanroom": 22.48836815633423,
+      "delta": 0.6688009757412381
+     }
+    }
+   }
+  },
+  "our_scores_compared": 96,
+  "our_scores_moved": 0
+ },
+ "holdout_half": {
+  "combinations_compared": 32,
+  "only_in_archive": [],
+  "only_in_cleanroom": [],
+  "our_models": {
+   "climatology": {
+    "identical": 32,
+    "moved": 0,
+    "deltas": {}
+   },
+   "ensemble": {
+    "identical": 27,
+    "moved": 0,
+    "deltas": {}
+   },
+   "persistence": {
+    "identical": 32,
+    "moved": 0,
+    "deltas": {}
+   },
+   "boosted": {
+    "identical": 1,
+    "moved": 0,
+    "deltas": {}
+   },
+   "hier_nb": {
+    "identical": 4,
+    "moved": 0,
+    "deltas": {}
+   }
+  },
+  "the_unseeded_reference": {
+   "reference": {
+    "identical": 0,
+    "moved": 32,
+    "deltas": {
+     "aggregate_caseWeighted__holdout": {
+      "archived": 508.97378246495,
+      "cleanroom": 509.6645203862594,
+      "delta": 0.6907379213094487
+     },
+     "aggregate_populationWeighted__holdout": {
+      "archived": 171.39310596038317,
+      "cleanroom": 170.79639079244367,
+      "delta": -0.5967151679394931
+     },
+     "autoregressive_lag3__holdout": {
+      "archived": 84.02620178776041,
+      "cleanroom": 83.79891141666666,
+      "delta": -0.22729037109375838
+     },
+     "climatology_frozenWindow__holdout": {
+      "archived": 84.02620178776041,
+      "cleanroom": 83.79891141666666,
+      "delta": -0.22729037109375838
+     },
+     "covariates_lagged__holdout": {
+      "archived": 84.02620178776041,
+      "cleanroom": 83.79891141666666,
+      "delta": -0.22729037109375838
+     },
+     "covariates_rich__holdout": {
+      "archived": 84.02620178776041,
+      "cleanroom": 83.79891141666666,
+      "delta": -0.22729037109375838
+     },
+     "family_boosted__holdout": {
+      "archived": 84.02620178776041,
+      "cleanroom": 83.79891141666666,
+      "delta": -0.22729037109375838
+     },
+     "family_hierNB__aggregate_caseWeighted__holdout": {
+      "archived": 508.97378246495,
+      "cleanroom": 509.6645203862594,
+      "delta": 0.6907379213094487
+     },
+     "family_hierNB__holdout": {
+      "archived": 84.02620178776041,
+      "cleanroom": 83.79891141666666,
+      "delta": -0.22729037109375838
+     },
+     "features_richCalendar__holdout": {
+      "archived": 84.02620178776041,
+      "cleanroom": 83.79891141666666,
+      "delta": -0.22729037109375838
+     },
+     "fitTime_refitAtPredict__holdout": {
+      "archived": 84.02620178776041,
+      "cleanroom": 83.79891141666666,
+      "delta": -0.22729037109375838
+     },
+     "head_quantileEnsemble__holdout": {
+      "archived": 84.02620178776041,
+      "cleanroom": 83.79891141666666,
+      "delta": -0.22729037109375838
+     },
+     "main__holdout": {
+      "archived": 84.02620178776041,
+      "cleanroom": 83.79891141666666,
+      "delta": -0.22729037109375838
+     },
+     "observation_negBinomial__holdout": {
+      "archived": 84.02620178776041,
+      "cleanroom": 83.79891141666666,
+      "delta": -0.22729037109375838
+     },
+     "observation_zeroInflated__holdout": {
+      "archived": 84.02620178776041,
+      "cleanroom": 83.79891141666666,
+      "delta": -0.22729037109375838
+     },
+     "persistence_negBinomialFloor__holdout": {
+      "archived": 84.02620178776041,
+      "cleanroom": 83.79891141666666,
+      "delta": -0.22729037109375838
+     },
+     "popColumn_backCast__holdout": {
+      "archived": 84.04171713671876,
+      "cleanroom": 83.523077171875,
+      "delta": -0.5186399648437572
+     },
+     "population_covariate__holdout": {
+      "archived": 84.02620178776041,
+      "cleanroom": 83.79891141666666,
+      "delta": -0.22729037109375838
+     },
+     "population_ignored__holdout": {
+      "archived": 84.02620178776041,
+      "cleanroom": 83.79891141666666,
+      "delta": -0.22729037109375838
+     },
+     "provinces_mergeVientiane__aggregate_caseWeighted__holdout": {
+      "archived": 531.8695916326246,
+      "cleanroom": 527.3026351305833,
+      "delta": -4.566956502041307
+     },
+     "provinces_mergeVientiane__family_hierNB__holdout": {
+      "archived": 86.2650213984375,
+      "cleanroom": 88.47154259765625,
+      "delta": 2.2065211992187557
+     },
+     "provinces_mergeVientiane__holdout": {
+      "archived": 89.43303580729167,
+      "cleanroom": 87.74697664192708,
+      "delta": -1.6860591653645969
+     },
+     "provinces_mergeVientiane__weighting_crpsWeighted__holdout": {
+      "archived": 96.7528252578125,
+      "cleanroom": 80.29803339192709,
+      "delta": -16.45479186588541
+     },
+     "provinces_reportingOnly__aggregate_caseWeighted__holdout": {
+      "archived": 319.7827198367026,
+      "cleanroom": 310.19707791198755,
+      "delta": -9.585641924715048
+     },
+     "provinces_reportingOnly__family_hierNB__holdout": {
+      "archived": 66.95487346354166,
+      "cleanroom": 61.98145515755208,
+      "delta": -4.973418305989583
+     },
+     "provinces_reportingOnly__holdout": {
+      "archived": 64.72435402213542,
+      "cleanroom": 62.164588640625,
+      "delta": -2.5597653815104167
+     },
+     "provinces_reportingOnly__weighting_crpsWeighted__holdout": {
+      "archived": 62.196279878906246,
+      "cleanroom": 62.69802249348958,
+      "delta": 0.5017426145833355
+     },
+     "retrain_everySplit__holdout": {
+      "archived": 82.60889795703125,
+      "cleanroom": 81.47961808854167,
+      "delta": -1.1292798684895757
+     },
+     "trainingWindow_from2004__holdout": {
+      "archived": 80.00939239453125,
+      "cleanroom": 80.938333890625,
+      "delta": 0.9289414960937563
+     },
+     "weighting_crpsWeighted__aggregate_caseWeighted__holdout": {
+      "archived": 508.97378246495,
+      "cleanroom": 509.6645203862594,
+      "delta": 0.6907379213094487
+     },
+     "weighting_crpsWeighted__holdout": {
+      "archived": 84.02620178776041,
+      "cleanroom": 83.79891141666666,
+      "delta": -0.22729037109375838
+     },
+     "yearVariance_shared__holdout": {
+      "archived": 84.02620178776041,
+      "cleanroom": 83.79891141666666,
+      "delta": -0.22729037109375838
+     }
+    }
+   },
+   "reference_r1": {
+    "identical": 0,
+    "moved": 32,
+    "deltas": {
+     "aggregate_caseWeighted__holdout": {
+      "archived": 510.6658332507969,
+      "cleanroom": 503.8281124798935,
+      "delta": -6.837720770903388
+     },
+     "aggregate_populationWeighted__holdout": {
+      "archived": 173.43506801950193,
+      "cleanroom": 169.18944000913842,
+      "delta": -4.245628010363504
+     },
+     "autoregressive_lag3__holdout": {
+      "archived": 84.85216144270834,
+      "cleanroom": 83.39350052604168,
+      "delta": -1.458660916666659
+     },
+     "climatology_frozenWindow__holdout": {
+      "archived": 84.85216144270834,
+      "cleanroom": 83.39350052604168,
+      "delta": -1.458660916666659
+     },
+     "covariates_lagged__holdout": {
+      "archived": 84.85216144270834,
+      "cleanroom": 83.39350052604168,
+      "delta": -1.458660916666659
+     },
+     "covariates_rich__holdout": {
+      "archived": 84.85216144270834,
+      "cleanroom": 83.39350052604168,
+      "delta": -1.458660916666659
+     },
+     "family_boosted__holdout": {
+      "archived": 84.85216144270834,
+      "cleanroom": 83.39350052604168,
+      "delta": -1.458660916666659
+     },
+     "family_hierNB__aggregate_caseWeighted__holdout": {
+      "archived": 510.6658332507969,
+      "cleanroom": 503.8281124798935,
+      "delta": -6.837720770903388
+     },
+     "family_hierNB__holdout": {
+      "archived": 84.85216144270834,
+      "cleanroom": 83.39350052604168,
+      "delta": -1.458660916666659
+     },
+     "features_richCalendar__holdout": {
+      "archived": 84.85216144270834,
+      "cleanroom": 83.39350052604168,
+      "delta": -1.458660916666659
+     },
+     "fitTime_refitAtPredict__holdout": {
+      "archived": 84.85216144270834,
+      "cleanroom": 83.39350052604168,
+      "delta": -1.458660916666659
+     },
+     "head_quantileEnsemble__holdout": {
+      "archived": 84.85216144270834,
+      "cleanroom": 83.39350052604168,
+      "delta": -1.458660916666659
+     },
+     "main__holdout": {
+      "archived": 84.85216144270834,
+      "cleanroom": 83.39350052604168,
+      "delta": -1.458660916666659
+     },
+     "observation_negBinomial__holdout": {
+      "archived": 84.85216144270834,
+      "cleanroom": 83.39350052604168,
+      "delta": -1.458660916666659
+     },
+     "observation_zeroInflated__holdout": {
+      "archived": 84.85216144270834,
+      "cleanroom": 83.39350052604168,
+      "delta": -1.458660916666659
+     },
+     "persistence_negBinomialFloor__holdout": {
+      "archived": 84.85216144270834,
+      "cleanroom": 83.39350052604168,
+      "delta": -1.458660916666659
+     },
+     "popColumn_backCast__holdout": {
+      "archived": 83.93464778125,
+      "cleanroom": 82.470062015625,
+      "delta": -1.464585765625003
+     },
+     "population_covariate__holdout": {
+      "archived": 84.85216144270834,
+      "cleanroom": 83.39350052604168,
+      "delta": -1.458660916666659
+     },
+     "population_ignored__holdout": {
+      "archived": 84.85216144270834,
+      "cleanroom": 83.39350052604168,
+      "delta": -1.458660916666659
+     },
+     "provinces_mergeVientiane__aggregate_caseWeighted__holdout": {
+      "archived": 526.0911238042178,
+      "cleanroom": 535.6879840361524,
+      "delta": 9.59686023193467
+     },
+     "provinces_mergeVientiane__family_hierNB__holdout": {
+      "archived": 79.56296988020834,
+      "cleanroom": 91.82724070833332,
+      "delta": 12.264270828124978
+     },
+     "provinces_mergeVientiane__holdout": {
+      "archived": 88.94287020833333,
+      "cleanroom": 86.29285122916667,
+      "delta": -2.65001897916666
+     },
+     "provinces_mergeVientiane__weighting_crpsWeighted__holdout": {
+      "archived": 86.50600093229167,
+      "cleanroom": 77.74515102604167,
+      "delta": -8.760849906250002
+     },
+     "provinces_reportingOnly__aggregate_caseWeighted__holdout": {
+      "archived": 318.75931825926733,
+      "cleanroom": 303.15610022721916,
+      "delta": -15.603218032048176
+     },
+     "provinces_reportingOnly__family_hierNB__holdout": {
+      "archived": 79.51644642708332,
+      "cleanroom": 59.61912584895833,
+      "delta": -19.89732057812499
+     },
+     "provinces_reportingOnly__holdout": {
+      "archived": 60.501027692708334,
+      "cleanroom": 64.971570515625,
+      "delta": 4.47054282291667
+     },
+     "provinces_reportingOnly__weighting_crpsWeighted__holdout": {
+      "archived": 61.39910618229167,
+      "cleanroom": 61.66972756249999,
+      "delta": 0.2706213802083255
+     },
+     "retrain_everySplit__holdout": {
+      "archived": 78.08969955729167,
+      "cleanroom": 83.787929734375,
+      "delta": 5.698230177083332
+     },
+     "trainingWindow_from2004__holdout": {
+      "archived": 80.49111793229166,
+      "cleanroom": 76.75094595833333,
+      "delta": -3.7401719739583257
+     },
+     "weighting_crpsWeighted__aggregate_caseWeighted__holdout": {
+      "archived": 510.6658332507969,
+      "cleanroom": 503.8281124798935,
+      "delta": -6.837720770903388
+     },
+     "weighting_crpsWeighted__holdout": {
+      "archived": 84.85216144270834,
+      "cleanroom": 83.39350052604168,
+      "delta": -1.458660916666659
+     },
+     "yearVariance_shared__holdout": {
+      "archived": 84.85216144270834,
+      "cleanroom": 83.39350052604168,
+      "delta": -1.458660916666659
+     }
+    }
+   },
+   "reference_r2": {
+    "identical": 0,
+    "moved": 32,
+    "deltas": {
+     "aggregate_caseWeighted__holdout": {
+      "archived": 507.6321250809501,
+      "cleanroom": 507.2493114590665,
+      "delta": -0.38281362188359935
+     },
+     "aggregate_populationWeighted__holdout": {
+      "archived": 170.42025603188634,
+      "cleanroom": 169.33888462136454,
+      "delta": -1.0813714105217969
+     },
+     "autoregressive_lag3__holdout": {
+      "archived": 83.743102328125,
+      "cleanroom": 83.28278760937499,
+      "delta": -0.46031471875001273
+     },
+     "climatology_frozenWindow__holdout": {
+      "archived": 83.743102328125,
+      "cleanroom": 83.28278760937499,
+      "delta": -0.46031471875001273
+     },
+     "covariates_lagged__holdout": {
+      "archived": 83.743102328125,
+      "cleanroom": 83.28278760937499,
+      "delta": -0.46031471875001273
+     },
+     "covariates_rich__holdout": {
+      "archived": 83.743102328125,
+      "cleanroom": 83.28278760937499,
+      "delta": -0.46031471875001273
+     },
+     "family_boosted__holdout": {
+      "archived": 83.743102328125,
+      "cleanroom": 83.28278760937499,
+      "delta": -0.46031471875001273
+     },
+     "family_hierNB__aggregate_caseWeighted__holdout": {
+      "archived": 507.6321250809501,
+      "cleanroom": 507.2493114590665,
+      "delta": -0.38281362188359935
+     },
+     "family_hierNB__holdout": {
+      "archived": 83.743102328125,
+      "cleanroom": 83.28278760937499,
+      "delta": -0.46031471875001273
+     },
+     "features_richCalendar__holdout": {
+      "archived": 83.743102328125,
+      "cleanroom": 83.28278760937499,
+      "delta": -0.46031471875001273
+     },
+     "fitTime_refitAtPredict__holdout": {
+      "archived": 83.743102328125,
+      "cleanroom": 83.28278760937499,
+      "delta": -0.46031471875001273
+     },
+     "head_quantileEnsemble__holdout": {
+      "archived": 83.743102328125,
+      "cleanroom": 83.28278760937499,
+      "delta": -0.46031471875001273
+     },
+     "main__holdout": {
+      "archived": 83.743102328125,
+      "cleanroom": 83.28278760937499,
+      "delta": -0.46031471875001273
+     },
+     "observation_negBinomial__holdout": {
+      "archived": 83.743102328125,
+      "cleanroom": 83.28278760937499,
+      "delta": -0.46031471875001273
+     },
+     "observation_zeroInflated__holdout": {
+      "archived": 83.743102328125,
+      "cleanroom": 83.28278760937499,
+      "delta": -0.46031471875001273
+     },
+     "persistence_negBinomialFloor__holdout": {
+      "archived": 83.743102328125,
+      "cleanroom": 83.28278760937499,
+      "delta": -0.46031471875001273
+     },
+     "popColumn_backCast__holdout": {
+      "archived": 84.778449140625,
+      "cleanroom": 83.34570019270832,
+      "delta": -1.4327489479166786
+     },
+     "population_covariate__holdout": {
+      "archived": 83.743102328125,
+      "cleanroom": 83.28278760937499,
+      "delta": -0.46031471875001273
+     },
+     "population_ignored__holdout": {
+      "archived": 83.743102328125,
+      "cleanroom": 83.28278760937499,
+      "delta": -0.46031471875001273
+     },
+     "provinces_mergeVientiane__aggregate_caseWeighted__holdout": {
+      "archived": 531.9275845419377,
+      "cleanroom": 540.1314562095797,
+      "delta": 8.203871667642034
+     },
+     "provinces_mergeVientiane__family_hierNB__holdout": {
+      "archived": 87.97732001562498,
+      "cleanroom": 87.37953347395832,
+      "delta": -0.5977865416666646
+     },
+     "provinces_mergeVientiane__holdout": {
+      "archived": 89.82862184375,
+      "cleanroom": 88.23963889583332,
+      "delta": -1.5889829479166764
+     },
+     "provinces_mergeVientiane__weighting_crpsWeighted__holdout": {
+      "archived": 123.61153955208331,
+      "cleanroom": 87.92365841666667,
+      "delta": -35.687881135416646
+     },
+     "provinces_reportingOnly__aggregate_caseWeighted__holdout": {
+      "archived": 314.6033624568834,
+      "cleanroom": 313.4568014870978,
+      "delta": -1.1465609697856394
+     },
+     "provinces_reportingOnly__family_hierNB__holdout": {
+      "archived": 62.357083828125006,
+      "cleanroom": 61.82406536979167,
+      "delta": -0.5330184583333377
+     },
+     "provinces_reportingOnly__holdout": {
+      "archived": 58.758495171875005,
+      "cleanroom": 61.283557583333334,
+      "delta": 2.525062411458329
+     },
+     "provinces_reportingOnly__weighting_crpsWeighted__holdout": {
+      "archived": 61.07127191666667,
+      "cleanroom": 62.11008570833334,
+      "delta": 1.0388137916666693
+     },
+     "retrain_everySplit__holdout": {
+      "archived": 83.0599846875,
+      "cleanroom": 83.96526841666666,
+      "delta": 0.9052837291666549
+     },
+     "trainingWindow_from2004__holdout": {
+      "archived": 81.11070130208333,
+      "cleanroom": 80.43129031770833,
+      "delta": -0.6794109843749965
+     },
+     "weighting_crpsWeighted__aggregate_caseWeighted__holdout": {
+      "archived": 507.6321250809501,
+      "cleanroom": 507.2493114590665,
+      "delta": -0.38281362188359935
+     },
+     "weighting_crpsWeighted__holdout": {
+      "archived": 83.743102328125,
+      "cleanroom": 83.28278760937499,
+      "delta": -0.46031471875001273
+     },
+     "yearVariance_shared__holdout": {
+      "archived": 83.743102328125,
+      "cleanroom": 83.28278760937499,
+      "delta": -0.46031471875001273
+     }
+    }
+   },
+   "reference_r3": {
+    "identical": 0,
+    "moved": 32,
+    "deltas": {
+     "aggregate_caseWeighted__holdout": {
+      "archived": 510.865550235646,
+      "cleanroom": 508.2443080980221,
+      "delta": -2.6212421376239377
+     },
+     "aggregate_populationWeighted__holdout": {
+      "archived": 171.44171946407528,
+      "cleanroom": 171.07168683885993,
+      "delta": -0.3700326252153445
+     },
+     "autoregressive_lag3__holdout": {
+      "archived": 83.95308139583334,
+      "cleanroom": 84.00651281770833,
+      "delta": 0.05343142187498984
+     },
+     "climatology_frozenWindow__holdout": {
+      "archived": 83.95308139583334,
+      "cleanroom": 84.00651281770833,
+      "delta": 0.05343142187498984
+     },
+     "covariates_lagged__holdout": {
+      "archived": 83.95308139583334,
+      "cleanroom": 84.00651281770833,
+      "delta": 0.05343142187498984
+     },
+     "covariates_rich__holdout": {
+      "archived": 83.95308139583334,
+      "cleanroom": 84.00651281770833,
+      "delta": 0.05343142187498984
+     },
+     "family_boosted__holdout": {
+      "archived": 83.95308139583334,
+      "cleanroom": 84.00651281770833,
+      "delta": 0.05343142187498984
+     },
+     "family_hierNB__aggregate_caseWeighted__holdout": {
+      "archived": 510.865550235646,
+      "cleanroom": 508.2443080980221,
+      "delta": -2.6212421376239377
+     },
+     "family_hierNB__holdout": {
+      "archived": 83.95308139583334,
+      "cleanroom": 84.00651281770833,
+      "delta": 0.05343142187498984
+     },
+     "features_richCalendar__holdout": {
+      "archived": 83.95308139583334,
+      "cleanroom": 84.00651281770833,
+      "delta": 0.05343142187498984
+     },
+     "fitTime_refitAtPredict__holdout": {
+      "archived": 83.95308139583334,
+      "cleanroom": 84.00651281770833,
+      "delta": 0.05343142187498984
+     },
+     "head_quantileEnsemble__holdout": {
+      "archived": 83.95308139583334,
+      "cleanroom": 84.00651281770833,
+      "delta": 0.05343142187498984
+     },
+     "main__holdout": {
+      "archived": 83.95308139583334,
+      "cleanroom": 84.00651281770833,
+      "delta": 0.05343142187498984
+     },
+     "observation_negBinomial__holdout": {
+      "archived": 83.95308139583334,
+      "cleanroom": 84.00651281770833,
+      "delta": 0.05343142187498984
+     },
+     "observation_zeroInflated__holdout": {
+      "archived": 83.95308139583334,
+      "cleanroom": 84.00651281770833,
+      "delta": 0.05343142187498984
+     },
+     "persistence_negBinomialFloor__holdout": {
+      "archived": 83.95308139583334,
+      "cleanroom": 84.00651281770833,
+      "delta": 0.05343142187498984
+     },
+     "popColumn_backCast__holdout": {
+      "archived": 83.57242813541667,
+      "cleanroom": 83.54415128645833,
+      "delta": -0.028276848958341816
+     },
+     "population_covariate__holdout": {
+      "archived": 83.95308139583334,
+      "cleanroom": 84.00651281770833,
+      "delta": 0.05343142187498984
+     },
+     "population_ignored__holdout": {
+      "archived": 83.95308139583334,
+      "cleanroom": 84.00651281770833,
+      "delta": 0.05343142187498984
+     },
+     "provinces_mergeVientiane__aggregate_caseWeighted__holdout": {
+      "archived": 528.2547549687378,
+      "cleanroom": 509.62643323835306,
+      "delta": -18.628321730384698
+     },
+     "provinces_mergeVientiane__family_hierNB__holdout": {
+      "archived": 88.27594982812501,
+      "cleanroom": 87.842185625,
+      "delta": -0.4337642031250084
+     },
+     "provinces_mergeVientiane__holdout": {
+      "archived": 91.04028547395832,
+      "cleanroom": 87.98466792708335,
+      "delta": -3.05561754687497
+     },
+     "provinces_mergeVientiane__weighting_crpsWeighted__holdout": {
+      "archived": 87.50221541145834,
+      "cleanroom": 76.305879234375,
+      "delta": -11.196336177083339
+     },
+     "provinces_reportingOnly__aggregate_caseWeighted__holdout": {
+      "archived": 327.8596392236388,
+      "cleanroom": 312.77557556948875,
+      "delta": -15.084063654150043
+     },
+     "provinces_reportingOnly__family_hierNB__holdout": {
+      "archived": 61.76850317187501,
+      "cleanroom": 61.20823951041667,
+      "delta": -0.5602636614583432
+     },
+     "provinces_reportingOnly__holdout": {
+      "archived": 60.78442158854167,
+      "cleanroom": 60.90705613541667,
+      "delta": 0.12263454687499831
+     },
+     "provinces_reportingOnly__weighting_crpsWeighted__holdout": {
+      "archived": 64.437532234375,
+      "cleanroom": 62.04768408333334,
+      "delta": -2.3898481510416616
+     },
+     "retrain_everySplit__holdout": {
+      "archived": 84.81736521875,
+      "cleanroom": 83.27829625,
+      "delta": -1.5390689687500014
+     },
+     "trainingWindow_from2004__holdout": {
+      "archived": 81.30987479687501,
+      "cleanroom": 79.52799717708334,
+      "delta": -1.781877619791672
+     },
+     "weighting_crpsWeighted__aggregate_caseWeighted__holdout": {
+      "archived": 510.865550235646,
+      "cleanroom": 508.2443080980221,
+      "delta": -2.6212421376239377
+     },
+     "weighting_crpsWeighted__holdout": {
+      "archived": 83.95308139583334,
+      "cleanroom": 84.00651281770833,
+      "delta": 0.05343142187498984
+     },
+     "yearVariance_shared__holdout": {
+      "archived": 83.95308139583334,
+      "cleanroom": 84.00651281770833,
+      "delta": 0.05343142187498984
+     }
+    }
+   },
+   "reference_r4": {
+    "identical": 0,
+    "moved": 32,
+    "deltas": {
+     "aggregate_caseWeighted__holdout": {
+      "archived": 506.7316212924071,
+      "cleanroom": 519.3363495080556,
+      "delta": 12.604728215648493
+     },
+     "aggregate_populationWeighted__holdout": {
+      "archived": 170.27538032606907,
+      "cleanroom": 173.5855517004117,
+      "delta": 3.3101713743426444
+     },
+     "autoregressive_lag3__holdout": {
+      "archived": 83.556461984375,
+      "cleanroom": 84.51284471354167,
+      "delta": 0.9563827291666627
+     },
+     "climatology_frozenWindow__holdout": {
+      "archived": 83.556461984375,
+      "cleanroom": 84.51284471354167,
+      "delta": 0.9563827291666627
+     },
+     "covariates_lagged__holdout": {
+      "archived": 83.556461984375,
+      "cleanroom": 84.51284471354167,
+      "delta": 0.9563827291666627
+     },
+     "covariates_rich__holdout": {
+      "archived": 83.556461984375,
+      "cleanroom": 84.51284471354167,
+      "delta": 0.9563827291666627
+     },
+     "family_boosted__holdout": {
+      "archived": 83.556461984375,
+      "cleanroom": 84.51284471354167,
+      "delta": 0.9563827291666627
+     },
+     "family_hierNB__aggregate_caseWeighted__holdout": {
+      "archived": 506.7316212924071,
+      "cleanroom": 519.3363495080556,
+      "delta": 12.604728215648493
+     },
+     "family_hierNB__holdout": {
+      "archived": 83.556461984375,
+      "cleanroom": 84.51284471354167,
+      "delta": 0.9563827291666627
+     },
+     "features_richCalendar__holdout": {
+      "archived": 83.556461984375,
+      "cleanroom": 84.51284471354167,
+      "delta": 0.9563827291666627
+     },
+     "fitTime_refitAtPredict__holdout": {
+      "archived": 83.556461984375,
+      "cleanroom": 84.51284471354167,
+      "delta": 0.9563827291666627
+     },
+     "head_quantileEnsemble__holdout": {
+      "archived": 83.556461984375,
+      "cleanroom": 84.51284471354167,
+      "delta": 0.9563827291666627
+     },
+     "main__holdout": {
+      "archived": 83.556461984375,
+      "cleanroom": 84.51284471354167,
+      "delta": 0.9563827291666627
+     },
+     "observation_negBinomial__holdout": {
+      "archived": 83.556461984375,
+      "cleanroom": 84.51284471354167,
+      "delta": 0.9563827291666627
+     },
+     "observation_zeroInflated__holdout": {
+      "archived": 83.556461984375,
+      "cleanroom": 84.51284471354167,
+      "delta": 0.9563827291666627
+     },
+     "persistence_negBinomialFloor__holdout": {
+      "archived": 83.556461984375,
+      "cleanroom": 84.51284471354167,
+      "delta": 0.9563827291666627
+     },
+     "popColumn_backCast__holdout": {
+      "archived": 83.88134348958333,
+      "cleanroom": 84.73239519270832,
+      "delta": 0.8510517031249947
+     },
+     "population_covariate__holdout": {
+      "archived": 83.556461984375,
+      "cleanroom": 84.51284471354167,
+      "delta": 0.9563827291666627
+     },
+     "population_ignored__holdout": {
+      "archived": 83.556461984375,
+      "cleanroom": 84.51284471354167,
+      "delta": 0.9563827291666627
+     },
+     "provinces_mergeVientiane__aggregate_caseWeighted__holdout": {
+      "archived": 541.2049032156049,
+      "cleanroom": 523.7646670382483,
+      "delta": -17.44023617735661
+     },
+     "provinces_mergeVientiane__family_hierNB__holdout": {
+      "archived": 89.24384586979166,
+      "cleanroom": 86.83721058333333,
+      "delta": -2.406635286458325
+     },
+     "provinces_mergeVientiane__holdout": {
+      "archived": 87.920365703125,
+      "cleanroom": 88.470748515625,
+      "delta": 0.5503828125000041
+     },
+     "provinces_mergeVientiane__weighting_crpsWeighted__holdout": {
+      "archived": 89.39154513541666,
+      "cleanroom": 79.217444890625,
+      "delta": -10.17410024479166
+     },
+     "provinces_reportingOnly__aggregate_caseWeighted__holdout": {
+      "archived": 317.9085594070209,
+      "cleanroom": 311.3998343641444,
+      "delta": -6.508725042876506
+     },
+     "provinces_reportingOnly__family_hierNB__holdout": {
+      "archived": 64.17746042708333,
+      "cleanroom": 65.27438990104166,
+      "delta": 1.0969294739583262
+     },
+     "provinces_reportingOnly__holdout": {
+      "archived": 78.85347163541667,
+      "cleanroom": 61.496170328125,
+      "delta": -17.35730130729167
+     },
+     "provinces_reportingOnly__weighting_crpsWeighted__holdout": {
+      "archived": 61.877209182291665,
+      "cleanroom": 64.96459261979167,
+      "delta": 3.0873834375000087
+     },
+     "retrain_everySplit__holdout": {
+      "archived": 84.46854236458334,
+      "cleanroom": 74.886977953125,
+      "delta": -9.581564411458345
+     },
+     "trainingWindow_from2004__holdout": {
+      "archived": 77.12587554687501,
+      "cleanroom": 87.043102109375,
+      "delta": 9.917226562499991
+     },
+     "weighting_crpsWeighted__aggregate_caseWeighted__holdout": {
+      "archived": 506.7316212924071,
+      "cleanroom": 519.3363495080556,
+      "delta": 12.604728215648493
+     },
+     "weighting_crpsWeighted__holdout": {
+      "archived": 83.556461984375,
+      "cleanroom": 84.51284471354167,
+      "delta": 0.9563827291666627
+     },
+     "yearVariance_shared__holdout": {
+      "archived": 83.556461984375,
+      "cleanroom": 84.51284471354167,
+      "delta": 0.9563827291666627
+     }
+    }
+   }
+  },
+  "our_scores_compared": 96,
+  "our_scores_moved": 0
+ },
+ "why_the_run_stopped": {
+  "the_assertion": "pair_holdout_development.py stops unless every frozen development_skill_score still equals conclusions.csv today, to 1e-09",
+  "rows_it_stopped_on": 32,
+  "rows_whose_pairing_actually_moved": [],
+  "frozen_manifest_sha256": {
+   "cleanroom": "fc9d1a1690657261fd5d5f91188e12af571c7b07af05adb23793fae1de8b5734",
+   "archive": "fc9d1a1690657261fd5d5f91188e12af571c7b07af05adb23793fae1de8b5734",
+   "identical": true
+  },
+  "drift": [
+   {
+    "combination": "provinces_reportingOnly__weighting_crpsWeighted",
+    "frozen": 0.046499946013921045,
+    "today": 0.02082693078011566,
+    "delta": -0.025673015233805385
+   },
+   {
+    "combination": "provinces_mergeVientiane__weighting_crpsWeighted",
+    "frozen": -0.028457999379137178,
+    "today": -0.0536703874576927,
+    "delta": -0.025212388078555525
+   },
+   {
+    "combination": "provinces_mergeVientiane",
+    "frozen": 0.17137533295369134,
+    "today": 0.14619008647378784,
+    "delta": -0.0251852464799035
+   },
+   {
+    "combination": "provinces_reportingOnly__family_hierNB",
+    "frozen": -0.0049307829535640835,
+    "today": 0.018414296278925324,
+    "delta": 0.023345079232489407
+   },
+   {
+    "combination": "provinces_reportingOnly__aggregate_caseWeighted",
+    "frozen": 0.16621933165524527,
+    "today": 0.18245353607051462,
+    "delta": 0.01623420441526935
+   },
+   {
+    "combination": "aggregate_populationWeighted",
+    "frozen": 0.2288042945821136,
+    "today": 0.2417045690742119,
+    "delta": 0.012900274492098296
+   },
+   {
+    "combination": "family_hierNB__aggregate_caseWeighted",
+    "frozen": 0.025673749873381335,
+    "today": 0.03431493948290343,
+    "delta": 0.008641189609522093
+   },
+   {
+    "combination": "retrain_everySplit",
+    "frozen": 0.16511284434582874,
+    "today": 0.17359147419571164,
+    "delta": 0.008478629849882902
+   },
+   {
+    "combination": "weighting_crpsWeighted__aggregate_caseWeighted",
+    "frozen": 0.0617664464707095,
+    "today": 0.07008753402532342,
+    "delta": 0.008321087554613915
+   },
+   {
+    "combination": "family_hierNB",
+    "frozen": -0.07237973364538375,
+    "today": -0.06479740082676066,
+    "delta": 0.007582332818623083
+   },
+   {
+    "combination": "weighting_crpsWeighted",
+    "frozen": -0.03348106839131715,
+    "today": -0.02617377119384834,
+    "delta": 0.0073072971974688095
+   },
+   {
+    "combination": "aggregate_caseWeighted",
+    "frozen": 0.23201514155208391,
+    "today": 0.238826312633873,
+    "delta": 0.00681117108178908
+   },
+   {
+    "combination": "family_boosted",
+    "frozen": 0.06006624717854736,
+    "today": 0.06671211180816239,
+    "delta": 0.006645864629615028
+   },
+   {
+    "combination": "persistence_negBinomialFloor",
+    "frozen": 0.12056545328384405,
+    "today": 0.1267835542197221,
+    "delta": 0.006218100935878046
+   },
+   {
+    "combination": "provinces_mergeVientiane__family_hierNB",
+    "frozen": -0.05088341023893661,
+    "today": -0.05701746947540709,
+    "delta": -0.006134059236470479
+   },
+   {
+    "combination": "observation_zeroInflated",
+    "frozen": 0.14325477345463955,
+    "today": 0.14931244803074428,
+    "delta": 0.006057674576104732
+   },
+   {
+    "combination": "observation_negBinomial",
+    "frozen": 0.14388565130795072,
+    "today": 0.1499388652198882,
+    "delta": 0.006053213911937472
+   },
+   {
+    "combination": "climatology_frozenWindow",
+    "frozen": 0.14600826127348043,
+    "today": 0.15204646712931802,
+    "delta": 0.006038205855837586
+   },
+   {
+    "combination": "population_ignored",
+    "frozen": 0.14653542520994445,
+    "today": 0.15256990371781864,
+    "delta": 0.006034478507874197
+   },
+   {
+    "combination": "population_covariate",
+    "frozen": 0.14722761080859093,
+    "today": 0.15325719517177316,
+    "delta": 0.006029584363182239
+   },
+   {
+    "combination": "yearVariance_shared",
+    "frozen": 0.1474297468358744,
+    "today": 0.1534579019827209,
+    "delta": 0.0060281551468465144
+   },
+   {
+    "combination": "covariates_lagged",
+    "frozen": 0.14849338431175885,
+    "today": 0.15451401893850636,
+    "delta": 0.006020634626747512
+   },
+   {
+    "combination": "main",
+    "frozen": 0.14849796928359138,
+    "today": 0.15451857149198822,
+    "delta": 0.006020602208396841
+   },
+   {
+    "combination": "autoregressive_lag3",
+    "frozen": 0.14866690116197523,
+    "today": 0.1546863089261976,
+    "delta": 0.006019407764222384
+   },
+   {
+    "combination": "features_richCalendar",
+    "frozen": 0.14870925964197335,
+    "today": 0.15472836790772238,
+    "delta": 0.006019108265749029
+   },
+   {
+    "combination": "head_quantileEnsemble",
+    "frozen": 0.15033166210971804,
+    "today": 0.15633929907002353,
+    "delta": 0.006007636960305485
+   },
+   {
+    "combination": "fitTime_refitAtPredict",
+    "frozen": 0.15423932455866485,
+    "today": 0.16021933212958417,
+    "delta": 0.005980007570919321
+   },
+   {
+    "combination": "covariates_rich",
+    "frozen": 0.15659642771861704,
+    "today": 0.16255976923358073,
+    "delta": 0.005963341514963694
+   },
+   {
+    "combination": "trainingWindow_from2004",
+    "frozen": 0.12662283892090997,
+    "today": 0.12289305556691921,
+    "delta": -0.0037297833539907677
+   },
+   {
+    "combination": "provinces_mergeVientiane__aggregate_caseWeighted",
+    "frozen": 0.22392968864027973,
+    "today": 0.22255666820846243,
+    "delta": -0.0013730204318173067
+   },
+   {
+    "combination": "provinces_reportingOnly",
+    "frozen": 0.18605112567234483,
+    "today": 0.18477213275853932,
+    "delta": -0.00127899291380551
+   },
+   {
+    "combination": "popColumn_backCast",
+    "frozen": 0.13465475700653085,
+    "today": 0.13512049536600057,
+    "delta": 0.0004657383594697251
+   }
+  ],
+  "drift_summary": {
+   "n": 32,
+   "min": -0.025673015233805385,
+   "max": 0.023345079232489407,
+   "all_within_the_development_noise_band": true,
+   "the_band_this_run_measured": 0.034944
+  }
+ },
+ "phase_e_headline": {
+  "note": "The phase-E answer, archived beside the clean-room's. crps_ours is a model this project seeded; crps_reference is the external container that is not.",
+  "fields": {
+   "skill_score_main_path": {
+    "archived": 0.08681957547474661,
+    "cleanroom": 0.08434272805445153,
+    "identical": false
+   },
+   "crps_ours_main_path": {
+    "archived": 76.73108261979166,
+    "cleanroom": 76.73108261979166,
+    "identical": true
+   },
+   "crps_reference_main_path": {
+    "archived": 84.02620178776041,
+    "cleanroom": 83.79891141666666,
+    "identical": false
+   },
+   "rank_within_the_distribution": {
+    "archived": 18,
+    "cleanroom": 16,
+    "identical": false
+   },
+   "beats_the_reference": {
+    "archived": 26,
+    "cleanroom": 26,
+    "identical": true
+   },
+   "beats_both_required_baselines": {
+    "archived": 27,
+    "cleanroom": 27,
+    "identical": true
+   },
+   "rows_inside_the_reference_noise_band": {
+    "archived": 17,
+    "cleanroom": 17,
+    "identical": true
+   },
+   "reference_noise_band": {
+    "archived": 0.014023,
+    "cleanroom": 0.01341,
+    "identical": false
+   },
+   "forks_above_the_band": {
+    "archived": 5,
+    "cleanroom": 5,
+    "identical": true
+   }
+  },
+  "forks_above_the_band_archived": [
+   "analysis/02_setup/02_trainingWindow",
+   "analysis/02_setup/03_provinces",
+   "analysis/03_models/03_candidate",
+   "analysis/03_models/03_candidate/a_hierNB/02_covariates",
+   "analysis/04_score/02_aggregate"
+  ],
+  "forks_above_the_band_cleanroom": [
+   "analysis/02_setup/02_trainingWindow",
+   "analysis/02_setup/03_provinces",
+   "analysis/03_models/03_candidate",
+   "analysis/03_models/03_candidate/a_hierNB/02_covariates",
+   "analysis/04_score/02_aggregate"
+  ],
+  "identical_fields": [
+   "beats_both_required_baselines",
+   "beats_the_reference",
+   "crps_ours_main_path",
+   "forks_above_the_band",
+   "rows_inside_the_reference_noise_band"
+  ]
+ },
+ "environment": {
+  "install_chap_sh_reported": "DOES NOT MATCH environment/lock.txt",
+  "lines_carrying_ansi_colour": 174,
+  "packages_in_lockfile": 174,
+  "packages_installed": 174,
+  "identical_as_sets_once_colour_is_stripped": true,
+  "in_lockfile_not_installed": [],
+  "installed_not_in_lockfile": [],
+  "verdict": "the environment is the lockfile's; the mismatch was the check's own output being coloured by the invoking shell"
+ }
+}

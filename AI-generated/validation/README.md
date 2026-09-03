@@ -43,6 +43,18 @@ here.
   D's headline from six of seventeen forks to three. Figures in
   `26-09-02_cleanroom_comparison.json` and `26-09-02_cleanroomTier2Drift.json`; the run's own
   outputs in `26-09-02_cleanroom-artefacts/`.
+- `26-09-03_cleanroom.md` — batch 27, and the first run to reach the phase-E half from a
+  clean checkout. It went through the freeze check that stopped batch 25, opened the holdout,
+  scored all 32 held-out analyses — and **exited 1 at the last script in the tree**,
+  `pair_holdout_development.py`, which requires each frozen development figure to still equal
+  what `conclusions.csv` says today, on a score that divides by the unseeded reference. What
+  it verified is the strongest statement here: **192 model-combination scores across both
+  halves and not one of ours moved**, and the phase-E answer reproduces on every count it
+  reports — 26 of 32 beating the reference, 27 of 32 beating both baselines, 17 rows inside
+  the band, the same five forks above it. Batch 26's and batch 24's machinery both did their
+  job from cold. Figures in `26-09-03_cleanroom_comparison.json`,
+  `26-09-03_cleanroomTier2Drift.json` and `26-09-03_cleanroomHoldoutReproduction.json`; the
+  run's own outputs in `26-09-03_cleanroom-artefacts/`.
 - `26-09-01_freezeDefence.md` — batch 24, and not a `/validate` run: eleven situations put
   to the two defences of the frozen phase-E set, on throwaway copies. The set stops being
   rebuilt on every run of `analysis/run.sh`, and the file is now checked as well as the

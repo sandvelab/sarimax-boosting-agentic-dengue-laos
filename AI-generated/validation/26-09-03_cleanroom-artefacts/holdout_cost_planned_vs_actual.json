@@ -1,0 +1,38 @@
+{
+ "actual_seconds_total": 65818.3,
+ "dataset": "holdout",
+ "distinct_planned_values": [
+  13.4,
+  43.1,
+  43.4,
+  44.1,
+  44.2,
+  44.3,
+  44.7,
+  45.8,
+  49.9,
+  53.5,
+  58.9,
+  59.3,
+  59.9,
+  70.7,
+  74.3,
+  346.3,
+  418.0,
+  479.8,
+  570.0,
+  608.9,
+  1111.4
+ ],
+ "manifest_frozen_at_commit": "937fd5c",
+ "planned_seconds_total": 7467.6,
+ "ratio_total": 8.814,
+ "rows_compared": 32,
+ "spread_of_actual_seconds": [
+  10.9,
+  22924.7
+ ],
+ "what_this_says": "The phase-E half, costed by the same model against the same parts. Whether the total lands as close a second time is the only thing this adds: the reason the per-row figures are wrong is unchanged, and is described in the development half of this file.",
+ "worst_row": "provinces_mergeVientiane__aggregate_caseWeighted__holdout",
+ "worst_row_ratio": 40.219
+}

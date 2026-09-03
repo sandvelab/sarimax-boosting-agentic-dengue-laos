@@ -204,3 +204,143 @@ meaningless. If that field is ever false, nothing else under `tier2` should be b
 
 agency: agent-autonomous.
 information: agent-retrieved.
+
+## `26-09-03_cleanroom_comparison.json`
+
+```
+result:              26-09-03_cleanroom_comparison.json
+script:              AI-internal/useful-scripts/cleanroom_compare.py
+                     sha256:33010dd1c969900db39ef0ca95c6972ef96d61c6a99c4cc104708d67e9832c48
+invocation:          .venv/bin/python cleanroom_compare.py
+                     (from the clean-room directory holding the clone, with FORCE_COLOR and
+                     COLORTERM unset so git's output is not coloured)
+harness:             AI-internal/useful-scripts/run_cleanroom.sh
+                     sha256:846911b2bf9dc8d8bb5a89164542979bf8b349557dddc7de69d910db55c8105f
+                     bash run_cleanroom.sh — clones the repository at HEAD into a scratch
+                     directory, builds environment/chapenv from environment/lock.txt, runs
+                     analysis/run.sh from cold, and records git's own diff. Both files are
+                     byte-identical to the versions batch 18 and batch 25 ran, verified by
+                     digest before this run started, so this is the same check run further.
+inputs:              a git clone of this repository at 80276f3, and the same repository's
+                     working tree as the archive to compare against
+environment:         the clone's own environment/chapenv — CPython 3.13.0, chap-core 2.1.0,
+                     installed from environment/lock.txt. install-chap.sh reported
+                     "DOES NOT MATCH", which is a defect in that check and not in the
+                     environment: see 26-09-03_cleanroomHoldoutReproduction.json, which
+                     establishes the 174 packages are identical as sets. The comparison
+                     script itself runs under .venv, standard library only.
+seeds:               none in the comparison. The run it compares is seeded per component
+                     except the reference model, which is unseeded and is the reason
+                     anything moved at all.
+commit:              80276f3
+instructions-commit: 80276f3
+node:                not a node — a check on the method
+produced:            2026-09-03, batch 27
+```
+
+**What it establishes.** That of 4 329 tracked files 2 224 came back identical, 2 105 differ
+and 5 are untracked; that on **both** reported paths the ensemble, persistence and
+climatology CRPS are identical to the last digit while the unseeded reference moved
+(+0.157361 on development, −0.227290 on the holdout); and that `beats_reference` and
+`beats_all_baselines` are unchanged on both.
+
+**What it does not establish.** `conclusions` covers `main` and `main__holdout`, and this
+time **both were genuinely re-run** — unlike batch 25's, where the holdout half had to be
+read as absent. But `analysis/run.sh` exited 1 at `pair_holdout_development.py`, so
+`holdout_vs_development.csv`, `holdout_vs_development.json` and `fork_sensitivity_both.csv`
+are the clone's committed copies and were never rewritten. This file reports them as
+unchanged; that reading would be wrong, and why is in
+`26-09-03_cleanroomHoldoutReproduction.json`.
+
+agency: agent-autonomous.
+information: agent-retrieved.
+
+## `26-09-03_cleanroomTier2Drift.json`
+
+```
+result:              26-09-03_cleanroomTier2Drift.json
+script:              AI-internal/useful-scripts/cleanroom_tier2_drift.py
+                     sha256:3d98ea7e47493d565b2be298c0ff373ef987acf860a24c227277d240ce15deeb
+invocation:          .venv/bin/python AI-internal/useful-scripts/cleanroom_tier2_drift.py
+                     --archive . --cleanroom <clean-room>/repo
+                     --out AI-generated/validation/26-09-03_cleanroomTier2Drift.json
+under test:          analysis/05_stability/scripts/plan_manifest.py::select_tier2
+                     and results/tier2_rule.md, whose sha256 is recorded in
+                     results/manifest_notes.json
+inputs:              this repository's own analysis/05_stability/results/ as the archive,
+                     and the clean-room clone's. The clone's copies are preserved in
+                     26-09-03_cleanroom-artefacts/ because the clone was discarded.
+environment:         .venv (CPython 3.13.7, standard library only). It reads files.
+seeds:               none.
+commit:              80276f3
+instructions-commit: 80276f3
+node:                not a node — a check on the method
+produced:            2026-09-03, batch 27
+```
+
+**What it establishes.** The development-half per-model table — persistence and climatology
+identical in all 32 combinations, the reported ensemble in all 27 it appears in, `hier_nb` in
+4 and `boosted` in 1, zero moved; the unseeded reference moved in all 32. That the tier-2
+rule, applied to this run's own conclusions, would again choose **six different pairs** and
+change groups S and A. And a **third** draw of the development noise band: 0.021778 archived,
+0.034944 here, taking the headline from 6 forks of 17 to 3 — the same 3 batch 25 found.
+
+Its self-check `tier2.reimplementation_reproduces_the_archived_selection` is **true**.
+
+agency: agent-autonomous.
+information: agent-retrieved.
+
+## `26-09-03_cleanroomHoldoutReproduction.json`
+
+```
+result:              26-09-03_cleanroomHoldoutReproduction.json
+script:              AI-internal/useful-scripts/cleanroom_holdout_reproduction.py
+                     sha256:08c2e588f8eb19261c55c614db15c8b43656d867f5ed29ce6a4c38d841e1693c
+invocation:          .venv/bin/python \
+                       AI-internal/useful-scripts/cleanroom_holdout_reproduction.py \
+                       --archive . --cleanroom <clean-room>/repo \
+                       --artefacts AI-generated/validation/26-09-03_cleanroom-artefacts \
+                       --out AI-generated/validation/26-09-03_cleanroomHoldoutReproduction.json
+under test:          analysis/05_stability/scripts/pair_holdout_development.py
+                     sha256:a7595ccfb60db109db366f9685b612ae6c6a9666f959ef261b44e1f08c72ece3
+                     — the script whose assertion stopped analysis/run.sh
+inputs:              both trees' analysis/results/*/conclusion.json and
+                     analysis/05_stability/results/; and, for the environment section,
+                     26-09-03_cleanroom-artefacts/freeze_raw.txt and lock.txt, which are the
+                     clone's own files preserved before it was discarded
+environment:         .venv (CPython 3.13.7, standard library only). It reads files; it runs
+                     no analysis.
+seeds:               none.
+commit:              80276f3
+instructions-commit: 80276f3
+node:                not a node — a check on the method
+produced:            2026-09-03, batch 27
+```
+
+**What it establishes.** Three things, new to this batch.
+
+**Both halves reproduce.** 96 development and 96 holdout scores from models this project
+wrote — persistence 32, climatology 32, ensemble 27, `hier_nb` 4, `boosted` 1 on each half —
+and **0 moved**. The unseeded reference moved in all 32 combinations of both. This is the
+first statement of it for the held-out year, which no clean-room run had reached before.
+
+**The phase-E answer reproduces on the fields it reports.** `beats_the_reference` 26 of 32,
+`beats_both_required_baselines` 27 of 32, 17 rows inside the noise band, and 5 forks above
+the band — the same five by name — all identical. The four fields that moved are the skill
+score, the reference CRPS, the rank within the distribution and the band itself, and each is
+downstream of the unseeded reference. The holdout band is nearly steady across draws
+(0.014023 → 0.013410) where the development band is not.
+
+**Why the run stopped, stated against the data rather than the message.**
+`pair_holdout_development.py` raised on **32 drifted rows**; the number of rows whose
+*pairing* moved is **0**, and `manifest_holdout.csv` is byte-identical between the two trees.
+Every drift is inside the noise band this run measured for itself — largest −0.025673 against
+0.034944. The script's message says the pairing has changed; the pairing has not.
+
+**The environment section** answers the question `install-chap.sh` meant to ask: 174 lines
+came back colour-wrapped, and the package sets are identical once the escapes are stripped.
+The mismatch was the check's output, not the environment. Fixed in `install-chap.sh` in this
+batch.
+
+agency: agent-autonomous.
+information: agent-retrieved.

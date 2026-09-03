@@ -1,0 +1,13 @@
+[08:14:50Z] === re-cloning at the current HEAD ===
+[08:14:54Z] HEAD 80276f3f1d49cd145f2513ca2a77df89df31f171
+[08:14:54Z] === what the clean checkout carries before anything runs ===
+tracked files:     4329
+[08:14:54Z] no .holdout_opened: the seal releases, phase E will run
+[08:14:54Z] === building the analysis environment from environment/lock.txt ===
+DOES NOT MATCH environment/lock.txt:
+chap 2.1.0
+[08:15:13Z] === analysis/run.sh, from cold ===
+[06:50:48Z] analysis/run.sh exited 1 after 1355 min
+[06:50:48Z] === the differences ===
+changed paths:     2110
+[06:57:50Z] done

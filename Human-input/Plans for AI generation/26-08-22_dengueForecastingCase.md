@@ -570,6 +570,19 @@ made.
 | **Batch 27 is placed above batch 28 in the table** | They were appended in the order they were created, not the order they run. Cheaper to move the row than to rely on the note above it | agent-autonomous |
 | **Two task-log entries are renumbered rather than left colliding: batch 25 becomes T23 and batch 26 becomes T24** | They had been logged as T21 and T22, which batches 21 and 22 already held — so `ai_task_details.md` carried two `T21` headings and `ai_task_history.md` two `T22` lines. The `T` numbers are the log's only index, and a duplicated identifier makes it useless as one. The entries' text is unchanged; only the identifiers move. This is a correction to a live record, not to a result, and it is recorded here rather than made quietly | agent-autonomous |
 
+### 2026-09-03 — settled by batch 27, from the clean-room that reached phase E
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **The batch is reported `blocked`, not `done — produced`** | It ran the phase-E half from a clean checkout for the first time and produced the strongest reproduction statement this project has — 192 model-combination scores, none of ours moved — and `analysis/run.sh` still exits 1, at the last script instead of the middle one. §5 gives three states and the honest one is the one that stops the ledger. Batch 25 set the precedent for exactly this shape of outcome | agent-autonomous |
+| **`install-chap.sh` is fixed in this batch and `pair_holdout_development.py` is not** | The line is stated rather than left to look arbitrary: the first is reporting machinery outside the analysis tree whose repair cannot change a result and which was verified in seconds by re-running the comparison with `FORCE_COLOR=3` deliberately set; the second writes a reported phase-E result, needs a defence of its own, and §5 says a blocked batch stops. This is the line batch 25 drew when it left batch 26's defect standing | agent-autonomous |
+| **The frozen `development_skill_score` re-assertion is a defect in the check, not in the tree** | `pair_holdout_development.py` requires each frozen figure to equal `conclusions.csv` to 1e-9, and the score divides by the unseeded reference — so it can pass only on a tree that has not been re-run, which is where it is not needed. Its message says the *pairing* moved; this run had **32 drifted numbers and zero moved pairings**, with `manifest_holdout.csv` byte-identical. `holdout_freeze_check.json`, written minutes earlier, reports the same drift on the same rows and calls the frozen set intact. The tree contradicts itself about what is fatal | agent-autonomous |
+| **Batch 26's "byte-identical `manifest.csv`" is qualified rather than left standing** | From a cold checkout all 32 rows differ, in `est_seconds_dev` and `est_seconds_holdout` only — measured wall-clock durations summed from each model's `run_cost.json`. Order, names, node paths, skill values and all eight pairs are identical, which is the property batch 26 built. A file carrying timings cannot be byte-stable from cold, and the claim was true only of the tree batch 26 tested in | agent-autonomous |
+| **The elapsed time and the holdout cost ratio are reported as contaminated, not as findings** | The harness recorded 81 335 s and the run printed `holdout: planned 7 468 s vs actual 65 818 s (ratio 8.814)`. The host slept for a large part of the run, so both are wall clock and neither measures compute. The development half took about 4 h 20 m against batch 25's 3 h 48 m for the same work, which is the only comparable figure | agent-autonomous |
+| **`cleanroom_holdout_reproduction.py` is written rather than the numbers read out of the run's output** | The holdout per-model table, the phase-E headline beside the archive, the environment comparison and the stop analysis are all new claims, and §1 says a reported result comes from a file that was executed. The environment section reads the clone's own preserved `freeze_raw.txt`, escapes included, so the finding can be re-checked after the clone is gone | agent-autonomous |
+| **The five `member_selection.json` files the archive lacks are recorded and not written** | The clean-room wrote 50, the archive has 45. Those five setup combinations have not been re-run since batch 14 added the file, so the archive never received it. Nothing computed differs. Creating them by hand would be manufacturing a result the tree did not produce, and re-running the combinations to obtain them is not this batch's work | agent-autonomous |
+| **Whether the development reference noise band should remain a max minus a min over four draws** | Unchanged from batch 25 and now with a third draw: 0.021778, 0.043084, 0.034944, giving a headline of 6, 3 and 3 forks of 17. What is stable across all three is *which* forks clear it — `family`, `weighting`, `aggregate` — so stating the finding by identity rather than by count may be the cheapest resolution. Still a question about what the project reports | **carried to the human** |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -616,14 +629,15 @@ is finished, and batch 5 decides how.
 Status values: `open` · `done — produced` · `done — expanded` · `blocked`. Update this table
 at the end of every batch, and append newly created batches to it.
 
-**Next open batch: 27. Then 28, then 20, then 19.** §5 says the ledger runs top to bottom,
-and for the phase-E tail it no longer does: **19 and 20 sit above 27 and 28 in this table but
-run after them**, because 19 is the release and must not claim more than the checks support,
-and because batches added later were appended rather than inserted. Rows 19 and 20 have been
-open since batch 5 wrote them. A session that takes the topmost open row would start the
-release with two checks outstanding — so take the order from this line, and update it at the
-end of every batch. *(Recorded 2026-09-02, after batch 26, because the trap had gone
-unwritten since batch 18 and only `readme-at-start.md` carried the order.)*
+**Next open batch: 30. Then 31, then 28, then 20, then 19.** §5 says the ledger runs top to
+bottom, and for the phase-E tail it no longer does: **19 and 20 sit above 28, 30 and 31 in
+this table but run after them**, because 19 is the release and must not claim more than the
+checks support, and because batches added later were appended rather than inserted. Rows 19
+and 20 have been open since batch 5 wrote them. A session that takes the topmost open row
+would start the release with three checks outstanding — so take the order from this line, and
+update it at the end of every batch. *(Recorded 2026-09-02, after batch 26, because the trap
+had gone unwritten since batch 18 and only `readme-at-start.md` carried the order; updated
+after batch 27, which was blocked and added 30 and 31.)*
 
 | # | Phase | Aim | Status | Report |
 |---|---|---|---|---|
@@ -653,9 +667,11 @@ unwritten since batch 18 and only `readme-at-start.md` carried the order.)*
 | 24 | E | The frozen phase-E manifest is recomputed on every run of `analysis/run.sh`, so a tree that grew a fork child would silently grow the frozen set; make the freeze win over the recomputation | done — produced | [[26-09-01_b24_frozenSetWins]] |
 | 25 | E | Run `/validate cleanroom` to completion — batch 18's was interrupted at 8 of 32 development rows, so the two distributions are unverified from cold and the phase-E half has never run from a clean checkout | **blocked** | [[26-09-02_b25_cleanroomStoppedByItsOwnCheck]] |
 | 26 | E | The development manifest stops being re-derived: its tier-1 rank order and its tier-2 **selection** are decisions taken once from one draw of tier 1, and must be recorded and verified rather than recomputed — batch 25's clean run re-selected six of the eight pairs and the freeze check stopped the run. Includes `check_pool.py`'s fork-blindness, reachable only through a tier-2 selection | done — produced | [[26-09-02_b26_theSelectionIsRecorded]] |
-| 27 | E | `/validate cleanroom` to completion, on the fixed tree — what batch 25 was for | open | |
+| 27 | E | `/validate cleanroom` to completion, on the fixed tree — what batch 25 was for | **blocked** | [[26-09-03_b27_cleanroomToPhaseE]] |
 | 28 | E | `check_pool.py`'s member matching depends on which combinations exist on disk: re-running the **unmodified** script changes 18 of 51 `pool_check.json` files, and `main__holdout`'s archived copy calls its reconstruction impossible where it now returns 76.646. No number inside them moves. Decide what the headline row's reconstruction should say, then make the matching independent of what is on disk | open | |
 | 29 | E | **Arrived outside the plan** (`AGENTS.md` §8), after batch 26: the record's own bookkeeping. The ledger did not say that 19 and 20 run *after* 27 and 28 although they sit above them, so a session following §5's top-to-bottom rule would have opened the release with two checks outstanding; and two task-log entries reused `T` numbers already taken by batches 22 and 21 | done — produced | *(no batch report; logged as T25)* |
+| 30 | E | The frozen development figure stops being re-asserted: `pair_holdout_development.py` requires each frozen `development_skill_score` to still equal `conclusions.csv` to 1e-9, which no re-run tree can satisfy because the score divides by the unseeded reference. Report the disagreement; keep a genuinely moved *pairing* fatal — batch 27 had 32 drifted numbers and **zero** moved pairings, and `holdout_freeze_check.json` calls the same drift non-fatal minutes earlier. Build the defence against batch 27's own `conclusions.csv`, as batch 26 did against batch 25's | open | |
+| 31 | E | `/validate cleanroom` to completion, on the tree batch 30 fixes — what batches 25 and 27 were for | open | |
 
 ---
 
@@ -1234,6 +1250,10 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 26 — the selection is recorded, not re-decided
 
 - [[26-09-02_b26_theSelectionIsRecorded]]
+
+### Batch 27 — the clean-room reaches phase E, and stops at the last script
+
+- [[26-09-03_b27_cleanroomToPhaseE]]
 
 ### Batch 21 — the greedy branch
 

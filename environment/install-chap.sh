@@ -16,6 +16,21 @@ PYTHON_VERSION="${PYTHON_VERSION:-3.13.0}"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ENVDIR="$HERE/chapenv"
 
+# `uv pip freeze`, as plain text.
+#
+# uv colours its output when the invoking shell asks for it (FORCE_COLOR, CLICOLOR_FORCE).
+# Both uses of the freeze below are machine-read -- one is diffed against lock.txt, the
+# other *becomes* lock.txt -- so escape codes are corruption in both. Batch 27's clean-room
+# run was launched from a shell with FORCE_COLOR=3 and the comparison reported
+# `DOES NOT MATCH environment/lock.txt` against an environment that matched it exactly:
+# every one of the 174 lines differed by its colour wrapper, and `sort` ordered the
+# wrapped names differently as well. A lockfile written the same way would not install.
+# NO_COLOR asks uv not to colour; the sed removes it if something else still does.
+freeze() {
+  NO_COLOR=1 VIRTUAL_ENV="$ENVDIR" uv pip freeze --python "$ENVDIR/bin/python" \
+    | sed $'s/\033\[[0-9;]*m//g'
+}
+
 echo "=== uv version ==="
 uv --version
 
@@ -48,19 +63,21 @@ else
     echo "# Resolved analysis environment. Produced by environment/install-chap.sh."
     echo "# chap-core==$CHAP_VERSION on CPython $("$ENVDIR/bin/python" -c 'import platform;print(platform.python_version())')"
     echo "# Built $(date -u +%Y-%m-%dT%H:%M:%SZ) on $(uname -srm)"
-    VIRTUAL_ENV="$ENVDIR" uv pip freeze --python "$ENVDIR/bin/python"
+    freeze
   } > "$HERE/lock.txt"
 fi
 
 echo "=== the built environment against the lockfile ==="
 # Reported, not asserted. A difference here means the environment is not what the
 # repository says it is, and the run that follows would be unrecordable.
-VIRTUAL_ENV="$ENVDIR" uv pip freeze --python "$ENVDIR/bin/python" > "$HERE/.freeze.tmp"
+freeze > "$HERE/.freeze.tmp"
 if diff <(grep -v '^#' "$HERE/lock.txt" | sort) <(sort "$HERE/.freeze.tmp") > "$HERE/.lockdiff.tmp"; then
   echo "matches environment/lock.txt exactly ($(grep -vc '^#' "$HERE/lock.txt") packages)"
 else
   echo "DOES NOT MATCH environment/lock.txt:"
-  head -40 "$HERE/.lockdiff.tmp"
+  echo "  in the lockfile, not installed: $(grep -c '^<' "$HERE/.lockdiff.tmp")"
+  echo "  installed, not in the lockfile: $(grep -c '^>' "$HERE/.lockdiff.tmp")"
+  head -60 "$HERE/.lockdiff.tmp"
 fi
 rm -f "$HERE/.freeze.tmp" "$HERE/.lockdiff.tmp"
 

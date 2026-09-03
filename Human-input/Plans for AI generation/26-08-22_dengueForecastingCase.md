@@ -583,6 +583,12 @@ made.
 | **The five `member_selection.json` files the archive lacks are recorded and not written** | The clean-room wrote 50, the archive has 45. Those five setup combinations have not been re-run since batch 14 added the file, so the archive never received it. Nothing computed differs. Creating them by hand would be manufacturing a result the tree did not produce, and re-running the combinations to obtain them is not this batch's work | agent-autonomous |
 | **Whether the development reference noise band should remain a max minus a min over four draws** | Unchanged from batch 25 and now with a third draw: 0.021778, 0.043084, 0.034944, giving a headline of 6, 3 and 3 forks of 17. What is stable across all three is *which* forks clear it — `family`, `weighting`, `aggregate` — so stating the finding by identity rather than by count may be the cheapest resolution. Still a question about what the project reports | **carried to the human** |
 
+### 2026-09-03 — settled by the human, on batch 27's carried question
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **The fork-sensitivity finding is stated by identity and not by count** | The band is a max minus a min over four draws of an unseeded reference, and three draws gave 0.021778, 0.043084 and 0.034944 — a factor of two, on which the same file reads six, three and three forks of seventeen. The count is a property of the draw and not of the analysis. What is stable across all three draws is *which* forks clear the band — `family`, `weighting` and `aggregate` — so that is what the project reports. The band is not redefined and nothing is recomputed: what changes is what the project says about numbers it already has, which is why this is reporting and not a re-run under §3. The agent proposed the resolution in batch 27's report and the human took it | human-set |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -629,7 +635,7 @@ is finished, and batch 5 decides how.
 Status values: `open` · `done — produced` · `done — expanded` · `blocked`. Update this table
 at the end of every batch, and append newly created batches to it.
 
-**Next open batch: 30. Then 31, then 28, then 20, then 19.** §5 says the ledger runs top to
+**Next open batch: 30. Then 31, then 28, then 32, then 20, then 19.** §5 says the ledger runs top to
 bottom, and for the phase-E tail it no longer does: **19 and 20 sit above 28, 30 and 31 in
 this table but run after them**, because 19 is the release and must not claim more than the
 checks support, and because batches added later were appended rather than inserted. Rows 19
@@ -637,7 +643,8 @@ and 20 have been open since batch 5 wrote them. A session that takes the topmost
 would start the release with three checks outstanding — so take the order from this line, and
 update it at the end of every batch. *(Recorded 2026-09-02, after batch 26, because the trap
 had gone unwritten since batch 18 and only `readme-at-start.md` carried the order; updated
-after batch 27, which was blocked and added 30 and 31.)*
+after batch 27, which was blocked and added 30 and 31; updated 2026-09-03 when the human
+settled the noise-band question and added 32.)*
 
 | # | Phase | Aim | Status | Report |
 |---|---|---|---|---|
@@ -672,6 +679,7 @@ after batch 27, which was blocked and added 30 and 31.)*
 | 29 | E | **Arrived outside the plan** (`AGENTS.md` §8), after batch 26: the record's own bookkeeping. The ledger did not say that 19 and 20 run *after* 27 and 28 although they sit above them, so a session following §5's top-to-bottom rule would have opened the release with two checks outstanding; and two task-log entries reused `T` numbers already taken by batches 22 and 21 | done — produced | *(no batch report; logged as T25)* |
 | 30 | E | The frozen development figure stops being re-asserted: `pair_holdout_development.py` requires each frozen `development_skill_score` to still equal `conclusions.csv` to 1e-9, which no re-run tree can satisfy because the score divides by the unseeded reference. Report the disagreement; keep a genuinely moved *pairing* fatal — batch 27 had 32 drifted numbers and **zero** moved pairings, and `holdout_freeze_check.json` calls the same drift non-fatal minutes earlier. Build the defence against batch 27's own `conclusions.csv`, as batch 26 did against batch 25's | open | |
 | 31 | E | `/validate cleanroom` to completion, on the tree batch 30 fixes — what batches 25 and 27 were for | open | |
+| 32 | E | The fork-sensitivity finding is restated by identity rather than by count, per the human's decision of 2026-09-03: the stable statement is that `family`, `weighting` and `aggregate` clear the band on every draw, where "six of seventeen" is a property of one draw of the unseeded reference. Touches `analysis/claim.md`, `analysis/05_stability/claim.md` and `readme-at-start.md`, which state the count in prose, and a title string in `fig_fork_sensitivity.py`. **Nothing is re-run and no provenance record is rewritten** — a record says what a script did on the day it ran. Whether the figure's title string is changed, given that changing it means regenerating an archived phase-E figure, is the one open question inside this batch | open | |
 
 ---
 

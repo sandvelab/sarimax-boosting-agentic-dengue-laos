@@ -2229,3 +2229,182 @@ at what moved**, and here by a defence script that swapped in the real drifted i
 asserted on a number nobody had thought to check.
 
 Remaining order: **31, 28, 20, 19**. Nothing is carried to the human.
+
+---
+
+## T28 — batch 31: the clean-room runs to the end (2026-09-04)
+
+### What happened
+
+`/validate cleanroom` on the tree batch 30 repaired. **`analysis/run.sh` exited 0 from a
+clean checkout** — both datasets, all 64 combinations, both distributions, every figure and
+the last script in the tree. The first time in this project.
+
+The repository was cloned at `c94e85f` (4 366 tracked files, no `.holdout_opened`, so the
+seal released), `environment/chapenv` built from `environment/lock.txt`, and
+`bash analysis/run.sh` run from cold. **41 677 s, 694 min.** The run was launched detached
+and under `caffeinate -ims`; the session's wait process was killed **three times** and the
+analysis was untouched by it.
+
+Holding the host awake was the deliberate change from batch 27, whose 81 335 s was wall clock
+across a sleeping machine and had to be discarded along with the cost finding inside it. It
+costs nothing and turns the harness's own timing into data.
+
+### The four attempts
+
+Each was stopped one step further down the tree than the last:
+
+| | reached | stopped by |
+|---|---|---|
+| batch 18 | 8 of 32 development rows | its own session dying |
+| batch 25 | all 32 development rows | a recorded *selection* re-derived, at the freeze check |
+| batch 27 | all of phase E | a recorded *figure* re-asserted, at the last script |
+| **batch 31** | **the end** | — |
+
+Batches 26 and 30 fixed the second and third. All three checks held on this run, and each
+against a fresh draw that disagreed with the record: batch 26's reported the rule *would* now
+choose six different pairs and the recorded eight ran; batch 24's returned *the frozen set is
+intact*; batch 30's reported 32 drifted figures and 0 moved pairings and carried on.
+
+### Batch 30's split, vindicated by the margin
+
+The largest frozen-figure drift was **+0.051016** against a development noise band of
+**0.048273** — *outside* it, where batch 27's +0.025673 had been inside its own 0.034944.
+
+Batch 30 recorded considering and rejecting the obvious alternative, widening the tolerance
+to the width of the band, on the grounds that the band is itself a draw of the same unseeded
+model and *"a check whose threshold is redrawn on every run is not a check."* **Had it taken
+that option, this run would have exited 1** — on a difference that is not a defect, in a tree
+where nothing had moved. The reasoning was recorded as principle; this run made it a
+consequence, and it could not have been tested any other way.
+
+### What reproduced
+
+**192 model-combination scores from models this project wrote, and not one moved**, on both
+halves: persistence 32, climatology 32, ensemble 27, `hier_nb` 4, `boosted` 1 on each. The
+unseeded reference moved in all 32 combinations of both halves, for each of its four repeats
+and their mean. The reported pool returns **18.816872064690028** on development and
+**76.73108261979166** on the holdout, digit for digit.
+
+**2 248 of 4 366 tracked files came back byte-identical**, 2 118 differ in something computed,
+**0** differ only in the repository path, 5 untracked — the same five `member_selection.json`
+files batch 27 found, for setup combinations not re-run since batch 14 added the file.
+
+The phase-E answer's counts are identical: 26 of 32 beat the reference, 27 of 32 beat both
+required baselines, the reported model ranks 18th. What moved is the skill score, the
+reference CRPS, the noise band, the rows inside it and the forks above it — the reference and
+what divides by it, and nothing else.
+
+The environment reported `matches environment/lock.txt exactly (174 packages)` with **0
+colour-wrapped lines**: batch 27's own repair to `install-chap.sh`, verified from cold on a
+session that also had colour forced, where batch 27's run had reported a mismatch that was
+not one.
+
+### The three files no clean-room run had ever compared
+
+Batch 27 exited 1 **at** `pair_holdout_development.py`, so `holdout_vs_development.json`,
+`holdout_vs_development.csv` and `fork_sensitivity_both.csv` were carried unchanged out of
+the clone's index and its comparison reported them **identical** — wrong in exactly the way
+batch 25's holdout half had to be read as absent. *A file that was never written cannot have
+reproduced.* This run wrote them.
+
+New script `cleanroom_phase_e_answer.py` classifies each scalar **reference-derived** or
+**structural** by a field path listed in the script rather than by a heuristic:
+
+- `holdout_vs_development.csv` — **544 of 640 cells identical**. Three columns moved, all the
+  reference on the holdout side. **Every development column held**, including the two batch 30
+  made read from the freeze.
+- It also held `development_beats_all_baselines`, the one development figure batch 30 named
+  as re-derived and therefore able to move. It did not move on this draw, which is not a
+  guarantee about the field, and the caveat batch 30 wrote into the output stands.
+- `holdout_vs_development.json` — 56 of 80 scalars identical; 14 reference-derived moved, 10
+  structural, four of them the `frozen_pairing_verified` block reporting the drift.
+- `fork_sensitivity_both.csv` — 129 of 221 cells identical; only `fork`, `stage`, `kind`,
+  `owner` held.
+
+### The finding that is not about reproduction succeeding
+
+`agreeing_on_whether_the_fork_matters` came back **identical at 14**. The sets behind it did
+not:
+
+| | archived | clean-room |
+|---|---|---|
+| matter on both | `aggregate`, `family`, `provinces`, `trainingWindow` | `family` |
+| matter on development only | `persistence`, `weighting` | `aggregate`, `weighting` |
+| matter on the holdout only | `covariates` | `provinces` |
+
+Four forks matter on both in the archive and **one** does here; the sets share only `family`.
+The count is preserved because forks moved out of "both" into the single-dataset lists in
+matching numbers, and a count cannot see that. The rank correlations underneath moved —
+analyses 0.395747 → 0.368985, forks 0.678922 → 0.789216.
+
+**Every check this project has compares values, so all of them call that field reproduced.**
+Batch 18 wrote that these checks *"verify shape and never content — a number can be right and
+its noun wrong, and nothing here looks at nouns."* This is the first demonstration of that gap
+on a figure the analysis actually reports, and it came free from a run whose purpose was to
+confirm that things match.
+
+The consequence for batch 19 is narrow and concrete: where the write-up reports agreement
+between the two datasets, it reports *which* forks agree and not only how many.
+
+### Batch 27's holdout-band claim, corrected
+
+Batch 27 reported the held-out band at 0.013410 against 0.014023 and concluded *"the figure
+phase E is measured against is not the unstable one."* A third draw gives **0.050443** — 3.6×
+the archive, and wider than any of the four development draws.
+
+| | batch 15 | batch 25 | batch 27 | batch 31 |
+|---|---|---|---|---|
+| development | 0.021778 | 0.043084 | 0.034944 | **0.048273** |
+| forks above it (of 17) | 6 | 3 | 3 | **3** |
+| holdout | 0.014023 | — | 0.013410 | **0.050443** |
+
+Corrected in the check and in `readme-at-start.md`, which carried the claim too. It does not
+reopen the human's 2026-09-03 decision that the count stands as the headline; it adds a fourth
+development draw and removes an exemption batch 27 had granted the holdout.
+
+### Cost
+
+| | rows | planned | actual | ratio |
+|---|---|---|---|---|
+| development | 24 | 7 470 s | 9 882 s | 1.32 |
+| development, less one row | 23 | 7 393 s | 6 671 s | 0.90 |
+| holdout | 32 | 7 468 s | 7 394 s | **0.99** |
+
+The holdout's 0.99 replaces batch 27's `ratio 8.814`, which that batch flagged as contaminated
+and refused to report — correctly, as the same rows awake come in at 0.99 against an estimate
+frozen before any of them ran.
+
+**One row is 37× its archived duration and nothing else is.** `yearVariance_shared`: 3 210.7 s
+against 85.6 s, its ensemble step 1 508 s against 62 s, 188.4 s per split against 7.7 —
+producing **CRPS 18.840, identical**, from the same seed and the same four members. Every
+other row on both halves is within about a factor of two of its archived time. It was the
+**last** development row, not the first, so it is not a cold environment build. The record
+does not say what happened and it is reported as an unexplained timing outlier. Its log is
+preserved in the artefacts so a reader can check that.
+
+### The last defect, in a script that had run three times
+
+`cleanroom_holdout_reproduction.py` hardcoded `install_chap_sh_reported: "DOES NOT MATCH
+environment/lock.txt"` — which batch 27's own repair had since made false — and named its
+payload key `why_the_run_stopped`, with `rows_it_stopped_on` inside it, on a run that exits 0.
+The environment block now reads the reported line out of `install_env.log`, and the key is
+`the_frozen_figure_comparison` with `rows_whose_frozen_figure_drifted`. **No arithmetic
+changed.** The same test batch 30 applied decides it: it costs nothing, needs no new data, and
+the alternative is a record that describes a different run than the one it reports on.
+
+The defect family batch 24 opened — an artefact recorded once and then recomputed at run time
+— is closed at four members. All four were found by running the whole thing from nothing;
+none by reading the code. Two code reviews and an outsider test found none of them.
+
+### State
+
+Nothing under `analysis/` was run, edited or re-run. The clean-room ran in a throwaway 18 GB
+clone, whose outputs were copied to `AI-generated/validation/26-09-04_cleanroom-artefacts/`
+before it was discarded. `manifest_holdout.csv` is `fc9d1a16…`, as batch 15 froze it.
+
+**Batch 19 may now state that `analysis/run.sh` reproduces this analysis from a clean
+checkout**, with the qualification in the same breath: our models are bit-identical, the
+unseeded reference is not, and every figure dividing by it is a draw.
+
+`/validate invariants` passes, all ten. Added no batches. **Remaining order: 28, 20, 19.**

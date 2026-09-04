@@ -196,3 +196,93 @@ and batch 26 exists to make `analysis/run.sh` reproduce its archive.
 
 agency: agent-autonomous.
 information: agent-retrieved.
+
+---
+
+## The evaluation each member is compared against is named by rule (batch 28)
+
+```
+result:              results/$COMBO/pool_check.json — all 51, rewritten
+combinations:        every combination with a pool
+script:              scripts/check_pool.py
+                     sha256:4f450f3f2fa62962171a1f4947712afdfd799687ab252e7aa93a139ca464b5f4
+                     imports implies() and tokens() from analysis/scripts/lib/combos.py,
+                     which is where a combination's name is read, so the rule below is not
+                     a second statement of what a combination name means
+invocation:          COMBO=<combination> environment/chapenv/bin/python \
+                       analysis/03_models/03_candidate/c_ensemble/scripts/check_pool.py
+                     driven for every combination by
+                       analysis/05_stability/scripts/reconstruct_pools.py
+inputs:              results/$COMBO/{candidate_spec,fitted_model,model_spec,members}.json
+                     and, for each member, the stored eval.nc of a run of that member whose
+                     configuration_sha256, dataset_sha256 and eval_flags are the ones the
+                     pool gave it — unchanged — of which the one named is now decided by
+                     the two clauses below rather than by the first hit of a glob
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               unchanged — the pool's own allocation seed, from candidate_spec.json
+commit:              9a0f8e7
+instructions-commit: 595c32d (AGENTS.md and .claude/ unchanged by this batch)
+node:                analysis/03_models/03_candidate/c_ensemble
+produced:            2026-09-04, batch 28
+```
+
+**What changed.** `matching_evaluation` globbed the member's sibling result directories for
+runs whose configuration, dataset and backtest flags matched, and took `found[0]`. The
+configuration test is right and is unchanged; the tie-break was not a tie-break at all but a
+record of which combinations existed when the script ran. It now names
+
+1. **this combination's own run of the member**, where there is one;
+2. otherwise the run that **moved the fewest forks among the combinations this one implies**,
+   ties broken by name — `main` for a baseline the pool did not perturb, `family_hierNB`
+   for candidate 1, `provinces_reportingOnly__holdout` for a baseline under a combination
+   that moved the province filter and the weighting.
+
+`combos.implies` is what "implies" means: every fork the candidate moves is one this
+combination moves too, family tokens aside, on the same dataset. The exception for the
+family fork is the whole reason a lookup is needed — the main path runs the pool, so
+candidate 1 and candidate 2 are evaluated on their own only under `family_hierNB` and
+`family_boosted`, which are stability rows.
+
+**What it changed in the files.** All 51 were rewritten and the comparison is computed, not
+read off a diff: `AI-internal/useful-scripts/pool_check_rewrite.py` walks `HEAD`'s copy of
+each file against the new one, key by key, into
+`AI-generated/validation/26-09-04_poolCheckRewrite.json`. **43 changed in the name of an
+evaluation and in the added `chosen_by` field only. Four gained the reconstruction they had
+been run too early to have** — `main__holdout`, `climatology_frozenWindow__holdout`,
+`persistence_negBinomialFloor__holdout`, `weighting_crpsWeighted__holdout`. Four gained a
+member match without gaining a reconstruction, because a second member is still missing.
+**No number that existed before moved**, and no row lost anything.
+
+**The headline holdout row.** Its archived copy said the reconstruction was impossible — *"no
+stored evaluation of ['hier_nb', 'boosted']"* — which recorded that batch 16 ran the holdout's
+main row before the holdout's family rows. It is not impossible. Rebuilt from the members'
+own stored evaluations it scores **76.646 against the 76.731 the pool scored**, a residual of
+**0.085** on 192 cells, which is the same relative size as the development row's 0.016 on
+371. The pool beats its best member on the held-out year too, by **4.767 CRPS** —
+climatology 81.498, boosted 81.679, candidate 1 84.707, persistence 128.052 — and the
+members' 10–90 coverages come with it: boosted 0.854, candidate 1 0.516, climatology 0.464,
+persistence 0.417.
+
+**Why this does not reopen the holdout.** `readme-at-start.md`'s first non-negotiable, as the
+human clarified it on 2026-09-01, binds `manifest_holdout.csv`: nothing added, dropped,
+re-tuned or re-run in the frozen set after a holdout number has been seen. That file is
+untouched, no model was re-fitted, no evaluation was recomputed and no reported score moved.
+What ran is a check, over evaluations produced in batch 16, that reads them and writes its
+own file — the same standing this project gives a clean-room re-run of the phase-E half,
+which batches 25, 27 and 31 each did in full.
+
+alternatives-considered: leaving `main__holdout` as it was and making "not done" the
+deterministic answer for every row whose members did not run under the pool's own
+combination (rejected — it is the honest reading of a check that must not reach across
+combinations, but it would have taken the reconstruction away from the main development row
+too, which is the second path behind claims C30 and C38, and the reconstruction would then
+exist for no row at all); repairing the tie-break without the sweep at `05_stability`
+(rejected — the rule alone is deterministic given a set of directories, and on a cold run of
+`analysis/run.sh` the main path's pool is checked hours before its members are evaluated
+separately, so the archive would still not be what a clean checkout produces); recording the
+whole list of matching evaluations in each file (rejected — that list *is* a function of what
+is on disk, so it would have put the dependence back into the artefact this change exists to
+free of it; the list is written once, after every row has run, into
+`05_stability/results/pool_reconstruction.json`).
+agency: agent-autonomous.
+information: agent-retrieved — every figure above is read from the files this batch produced.

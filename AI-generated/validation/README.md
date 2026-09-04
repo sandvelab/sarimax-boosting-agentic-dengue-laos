@@ -68,6 +68,11 @@ here.
   `26-09-04_cleanroom_comparison.json`, `26-09-04_cleanroomTier2Drift.json`,
   `26-09-04_cleanroomHoldoutReproduction.json` and `26-09-04_cleanroomPhaseEAnswer.json`; the
   run's own outputs in `26-09-04_cleanroom-artefacts/`.
+- `26-09-04_poolCheckRewrite.json` — batch 28, and not a `/validate` run: `HEAD`'s copy of
+  every `pool_check.json` against the rewritten one, classified key by key. The batch
+  replaced the rule by which each pool member is matched to a stored evaluation, and this is
+  what says that 43 of the 51 files changed in naming only, four gained the reconstruction
+  they had been run too early to have, and **no number that existed before moved**.
 - `26-09-01_freezeDefence.md` — batch 24, and not a `/validate` run: eleven situations put
   to the two defences of the frozen phase-E set, on throwaway copies. The set stops being
   rebuilt on every run of `analysis/run.sh`, and the file is now checked as well as the

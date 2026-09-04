@@ -569,3 +569,36 @@ project has compares values, so all of them call that field reproduced.
 
 agency: agent-autonomous.
 information: agent-retrieved.
+
+---
+
+## `26-09-04_poolCheckRewrite.json` — what batch 28's rewrite of the pool checks changed
+
+```
+result:       AI-generated/validation/26-09-04_poolCheckRewrite.json
+script:       AI-internal/useful-scripts/pool_check_rewrite.py
+              sha256:dd1a43760f823b059141848bd0d6f2e31c2250aa937b5a1ebdd1689a0a063330
+invocation:   .venv/bin/python AI-internal/useful-scripts/pool_check_rewrite.py
+inputs:       analysis/03_models/03_candidate/c_ensemble/results/*/pool_check.json,
+              each against its own version at HEAD, read with `git show`
+environment:  .venv (repository machinery)
+commit:       9a0f8e7
+produced:     2026-09-04
+```
+
+Batch 28 replaced the tie-break by which `check_pool.py` names the stored evaluation each
+pool member is compared against, and rewrote all 51 `pool_check.json` files. The claim that
+follows — that nothing computed moved — is a comparison of two versions of every file, so it
+is computed rather than read off a diff: both versions are flattened to their leaves and
+every differing key is classified as a **naming** change, the added **annotation**, a
+**reconstruction** that appeared, or a **numeric** change to a value that existed before.
+
+**43 files changed in naming and annotation only. Four gained the reconstruction they had
+been run too early to have** — `main__holdout`, `climatology_frozenWindow__holdout`,
+`persistence_negBinomialFloor__holdout`, `weighting_crpsWeighted__holdout`. Four gained a
+member match without gaining a reconstruction. **No number that existed before moved, no row
+lost anything, and every `mean_crps_as_run` is unchanged.** The script exits 1 if either of
+the last two is false.
+
+agency: agent-autonomous.
+information: agent-retrieved.

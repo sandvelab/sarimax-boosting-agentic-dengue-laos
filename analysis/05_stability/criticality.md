@@ -200,3 +200,9 @@ that is deliberate** — the script refuses to rewrite either once the set exist
 to re-derive the set at all once the year has been opened. Their column should be read as
 *no, by design; the commit that added them is the evidence and re-deriving them would destroy
 what they are for*.
+
+## Batch 28 — every pool row's reconstruction, settled once
+
+| File | Size | Kind | Regenerable | Transparency | Note |
+|---|---|---|---|---|---|
+| `results/pool_reconstruction.json` | 40 KB | **main result** | yes, ~1 s on a tree that has not moved; up to 2.5 min when it has to re-run the pool checks | **high** | Which stored evaluation each pool member is compared against, for all 51 pool rows, and the residual between the rebuilt pool and the pool that ran on the eleven where the rebuild is possible. It is also where the *forty* that cannot be rebuilt are named with the reason — a row that moves a fork inside a member has no separate run of that member to compare against — so a reader asking why the second path is missing on most rows reads this rather than inferring it from an absence. Depends on the members' `eval.nc` surviving, which is the same dependency `03_models/criticality.md` records for `pool_check.json` and the same argument for pruning our own evaluations last. |

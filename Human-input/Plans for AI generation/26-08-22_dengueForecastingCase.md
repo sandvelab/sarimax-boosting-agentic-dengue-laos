@@ -614,6 +614,19 @@ made.
 | **The `yearVariance_shared` timing outlier is reported without a cause** | 3 210.7 s against 85.6 s archived, its ensemble step 188.4 s per split against 7.7, producing an identical CRPS 18.840 from the same seed and members. Every other row on both halves is within about a factor of two. It was the last development row, not the first, so it is not a cold environment build. The record does not say what happened and inventing a cause would be the kind of tidy explanation this project exists to avoid | agent-autonomous |
 
 
+
+### 2026-09-04 — settled by batch 28, from the pool check that recorded the clock
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **The headline holdout row's reconstruction is done and reported**: 76.646 rebuilt against 76.731 as run, a residual of 0.085 over 192 cells | Its archived copy said the reconstruction was impossible, and what that recorded was that batch 16 ran the holdout's main row before the holdout's family rows. The residual is the same relative size as the development row's 0.016 over 371 cells, and the reconstruction is the second path behind the claim that the pool holds no model code of its own — the row where an independent path is worth most is the one the project reports | agent-autonomous |
+| **A tie-break repair alone was not enough, and the reason is the third instance of batch 24's family**: making a derivation deterministic is not the same as making it right | The rule is a function of the combination names and the tree, and what it ranges over is *produced by the run it sits inside*: our candidate families are evaluated on their own only under the family fork's own combination, which is a stability row, so on a cold run every pool is checked hours before its members exist. Batch 31's clean-room run had 13 `pool_check.json` files come back changed, `main` among them. A check that depends on its own position in the run is a report on progress | agent-autonomous |
+| **The sweep lives at `05_stability`, as the last step of its `run.sh`** | It is the one node that runs after every combination, and its scripts already drive every other node's. `AGENTS.md` §2 makes a node's `run.sh` its children's main scripts plus its own, so the root calling a script four levels down was not available. It is also the shape this node already has twice: `plan_manifest.py` and `collect_conclusions.py` each run twice because a first pass cannot know what has not run yet | agent-autonomous |
+| **The candidate evaluations the rule chose from are not written into the 51 files** | That list is a function of what is on disk, so putting it in the artefacts would have returned the dependence this change removes. It is written once, after every row has run, into `05_stability/results/pool_reconstruction.json`, where it is stable | agent-autonomous |
+| **Re-running a check over the held-out year's stored evaluations does not touch §3, and the reading is recorded rather than assumed** | §3 as clarified on 2026-09-01 binds `manifest_holdout.csv`: nothing added, dropped, re-tuned or re-run in the frozen set. The file is untouched, the set is still 32, no model was re-fitted and no reported score moved. What ran is a check that reads batch 16's evaluations and writes its own file — the standing this project already gives a clean-room re-run of the whole phase-E half | agent-autonomous, inside the human-set §3 |
+| **Forty of the 51 pool rows cannot be reconstructed, and stay that way with the reason recorded** | A row that moves a fork inside a member has no separate run of that member under the configuration the pool gave it, because the tree evaluates a member on its own only under the family fork's own combination. Making them reconstructable means a second evaluation per candidate-internal row, which is an addition to a frozen set. Recorded in `pool_reconstruction.json` as a property of the manifest rather than left as an absence | agent-autonomous, inside the human-set §3 |
+| **The registered prediction fails on the held-out year in both of its halves** | Measured, and only visible because the reconstruction now runs there. `01_weighting/a_equal` predicted an equal pool would score worse than its best member — false on both datasets — and that its 10–90 coverage would be at least its largest member's, which held on development and does not hold on 2010: 0.755 against candidate 2's 0.854. Two batches' worth of registered predictions have now been informative by being false | agent-autonomous |
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -660,17 +673,18 @@ is finished, and batch 5 decides how.
 Status values: `open` · `done — produced` · `done — expanded` · `blocked`. Update this table
 at the end of every batch, and append newly created batches to it.
 
-**Next open batch: 28. Then 20, then 19.** §5 says the ledger runs top to
-bottom, and for the phase-E tail it no longer does: **19 and 20 sit above 28 in this table but
-run after it**, because 19 is the release and must not claim more than the checks support, and
-because batches added later were appended rather than inserted. Rows 19 and 20 have been open
-since batch 5 wrote them. A session that takes the topmost open row would start the release
-with two checks outstanding — so take the order from this line, and update it at the end of
-every batch. *(Recorded 2026-09-02, after batch 26, because the trap had gone unwritten since
-batch 18 and only `readme-at-start.md` carried the order; updated after batch 27, which was
-blocked and added 30 and 31; updated 2026-09-03 when the human settled the noise-band
-question, which added no batch, and again when batch 30 closed; updated 2026-09-04 when batch
-31 closed, which is the last of the three checks and adds no batch.)*
+**Next open batch: 20. Then 19.** §5 says the ledger runs top to
+bottom, and for the phase-E tail it no longer does: **19 and 20 sit above the batches that
+ran before them**, because 19 is the release and must not claim more than the checks support,
+and because batches added later were appended rather than inserted. Rows 19 and 20 have been
+open since batch 5 wrote them, and they are now the only open rows. A session that takes the
+topmost open row would have started the release with checks outstanding — so take the order
+from this line, and update it at the end of every batch. *(Recorded 2026-09-02, after batch
+26, because the trap had gone unwritten since batch 18 and only `readme-at-start.md` carried
+the order; updated after batch 27, which was blocked and added 30 and 31; updated 2026-09-03
+when the human settled the noise-band question, which added no batch, and again when batch 30
+closed; updated 2026-09-04 when batch 31 closed, and again when batch 28 closed, neither of
+which adds a batch.)*
 
 | # | Phase | Aim | Status | Report |
 |---|---|---|---|---|
@@ -701,7 +715,7 @@ question, which added no batch, and again when batch 30 closed; updated 2026-09-
 | 25 | E | Run `/validate cleanroom` to completion — batch 18's was interrupted at 8 of 32 development rows, so the two distributions are unverified from cold and the phase-E half has never run from a clean checkout | **blocked** | [[26-09-02_b25_cleanroomStoppedByItsOwnCheck]] |
 | 26 | E | The development manifest stops being re-derived: its tier-1 rank order and its tier-2 **selection** are decisions taken once from one draw of tier 1, and must be recorded and verified rather than recomputed — batch 25's clean run re-selected six of the eight pairs and the freeze check stopped the run. Includes `check_pool.py`'s fork-blindness, reachable only through a tier-2 selection | done — produced | [[26-09-02_b26_theSelectionIsRecorded]] |
 | 27 | E | `/validate cleanroom` to completion, on the fixed tree — what batch 25 was for | **blocked** | [[26-09-03_b27_cleanroomToPhaseE]] |
-| 28 | E | `check_pool.py`'s member matching depends on which combinations exist on disk: re-running the **unmodified** script changes 18 of 51 `pool_check.json` files, and `main__holdout`'s archived copy calls its reconstruction impossible where it now returns 76.646. No number inside them moves. Decide what the headline row's reconstruction should say, then make the matching independent of what is on disk | open | |
+| 28 | E | `check_pool.py`'s member matching depends on which combinations exist on disk: re-running the **unmodified** script changes 18 of 51 `pool_check.json` files, and `main__holdout`'s archived copy calls its reconstruction impossible where it now returns 76.646. No number inside them moves. Decide what the headline row's reconstruction should say, then make the matching independent of what is on disk. **The reconstruction is reported: 76.646 against 76.731 as run, and the pool beats its best member on 2010 by 4.767 CRPS. The tie-break is a rule over combination names, and the last step of `05_stability/run.sh` settles every pool row once the whole set has run — the rule alone would still have given one answer from a cold checkout and another from here. All 51 files rewritten; 43 in naming only, four gained a reconstruction, and no number that existed before moved** | done — produced | [[26-09-04_b28_theReconstructionStopsDependingOnDisk]] |
 | 29 | E | **Arrived outside the plan** (`AGENTS.md` §8), after batch 26: the record's own bookkeeping. The ledger did not say that 19 and 20 run *after* 27 and 28 although they sit above them, so a session following §5's top-to-bottom rule would have opened the release with two checks outstanding; and two task-log entries reused `T` numbers already taken by batches 22 and 21 | done — produced | *(no batch report; logged as T25)* |
 | 30 | E | The frozen development figure stops being re-asserted: `pair_holdout_development.py` requires each frozen `development_skill_score` to still equal `conclusions.csv` to 1e-9, which no re-run tree can satisfy because the score divides by the unseeded reference. Report the disagreement; keep a genuinely moved *pairing* fatal — batch 27 had 32 drifted numbers and **zero** moved pairings, and `holdout_freeze_check.json` calls the same drift non-fatal minutes earlier. Build the defence against batch 27's own `conclusions.csv`, as batch 26 did against batch 25's. **Found and fixed a fourth instance three lines away**: `development_beats_reference` was read from today's table and moved the reported development count 27 → 28 on batch 27's numbers | done — produced | [[26-09-03_b30_theFrozenFigureIsReported]] |
 | 31 | E | `/validate cleanroom` to completion, on the tree batch 30 fixes — what batches 25 and 27 were for. **`analysis/run.sh` exited 0 from a clean checkout**, the first time in the project: 192 model-combination scores from our models, none moved; the phase-E counts identical; the three checks that stopped batches 25, 27 and 27-again each held. And one reported figure — *14 of 17 forks agree* — reproduced byte-identically while the sets behind it went from four forks to one | done — produced | [[26-09-04_b31_cleanroomToCompletion]] |

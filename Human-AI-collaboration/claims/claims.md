@@ -311,3 +311,19 @@ node: analysis/05_stability
 scope: the 32 phase-E rows, costed by the same model against the same parts and read out of the manifest at the commit that froze it, 937fd5c, before the year was opened
 alternatives: re-costing the phase-E half after seeing the development half's per-row errors, which the freeze forbids and which would have made the comparison a fit rather than a prediction
 by: agent-autonomous
+
+## C40
+The pool's independent reconstruction reaches the held-out year, and it says the same thing there. Rebuilt from its members' own stored evaluations of 2010 and scored with chap-core's own CRPS, the reported pool gives 76.646 against the 76.731 it scored -- a residual of 0.085 over 192 cells, the same relative size as the 0.016 over 371 development cells. On that year it beats its best member by 4.767 CRPS: seasonal climatology 81.498, candidate 2 81.679, candidate 1 84.707, persistence 128.052. The prediction registered before any of this ran fails on 2010 in both of its halves. That an equally weighted pool would score worse than its best member is false here as it was on development. That its 10-90 coverage would be at least its largest member's held on development and does not hold on the held-out year: 0.755 against candidate 2's 0.854, with the other three members at 0.516, 0.464 and 0.417.
+grounds: analysis/03_models/03_candidate/c_ensemble/results/main__holdout/pool_check.json · analysis/03_models/03_candidate/c_ensemble/results/main/pool_check.json
+node: analysis/03_models/03_candidate/c_ensemble
+scope: the held-out year, main path, equal weights over four members; the reconstruction is computed from the members' own stored forecasts and is independent of the pool's
+alternatives: until batch 28 this row's file recorded the reconstruction as impossible, which recorded the order the rows were run in and not a property of the analysis
+by: agent-autonomous
+
+## C41
+The pool's second path is available on eleven of the fifty-one combinations that run it, and the forty it is missing from are missing it for a structural reason rather than an accidental one. The reconstruction compares the pool with its members' own separate evaluations, and this tree evaluates a member on its own only under the family fork's own combination -- so a row that moves a fork inside a member has no separate run of that member under the configuration the pool gave it, and no order of execution would produce one. Across the eleven, the residual between the rebuilt pool and the pool that ran is 0.016 to 0.136 CRPS, largest on the held-out rows where every score is about four times the size.
+grounds: analysis/05_stability/results/pool_reconstruction.json
+node: analysis/05_stability
+scope: both datasets; every combination whose model is the pool
+alternatives: running each perturbed member on its own as well, which would make the remaining forty reconstructable at the cost of a second evaluation per candidate-internal row and was not in the frozen manifest
+by: agent-autonomous

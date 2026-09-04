@@ -73,3 +73,27 @@ better one — make it worse.
 The second path to the claim survives the swap: rebuilt from the members' own stored
 evaluations, the pool gives 19.455 against the 19.434 it scored, a residual of 0.021, the
 same size as the main path's 0.016.
+
+**The second path reaches the held-out year too, and it was the naming of the members'
+evaluations that had kept it from doing so.** Rebuilt from the members' own stored
+evaluations on 2010, the pool gives **76.646 against the 76.731 it scored**, a residual of
+0.085 on 192 cells — the same relative size as the 0.016 on 371 development cells
+(`results/main__holdout/pool_check.json`). **The pool beats its best member on the held-out
+year by 4.767 CRPS**: climatology 81.498, candidate 2 81.679, candidate 1 84.707,
+persistence 128.052. **The prediction `01_weighting/a_equal` registered before any of this
+ran fails on 2010 in both of its halves**, where on development one half held. The half that
+was already false is false again: the pool does not score worse than its best member. The
+half that held — that a linear pool's 10–90 coverage would be at least its largest member's —
+does not hold here: **0.755 against candidate 2's 0.854**, with the other three members at
+0.516, 0.464 and 0.417. Pooling still widens against the mean of the members, and on this
+year the widest member is wider than the pool.
+
+Until batch 28 this row's file said the reconstruction was impossible. What it recorded was
+that batch 16 ran the holdout's main row before the holdout's family rows, so the members'
+own evaluations did not yet exist; `check_pool.py` now names them by a rule over the
+combination names, and `05_stability/scripts/reconstruct_pools.py` settles every pool row
+once the whole set has run. **Eleven of the 51 rows can be reconstructed and forty cannot,
+for a reason that is a property of the manifest rather than of when anything ran**: a row
+that moves a fork *inside* a member has no separate evaluation of that member to compare
+against, because the tree evaluates a member on its own only under the family fork's own
+combination (`analysis/05_stability/results/pool_reconstruction.json`).

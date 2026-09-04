@@ -248,3 +248,16 @@ freeze from cold returns the manifest **byte-identical** to the one frozen in ba
 is what says the restructuring did not restructure the set. Against the superseded version,
 six of the seven script scenarios fail and every one of them exits 0.
 → `AI-generated/validation/26-09-01_freezeDefence.json`
+
+**And one answer that belongs to another node's claim but can only be settled here (batch
+28).** The ensemble node rebuilds each pool from its members' **own** separate evaluations,
+and a candidate family is evaluated separately only under the family fork's own combination —
+a row of this manifest. So on a run from nothing every pool is checked before its members
+exist, records truthfully that the reconstruction could not be done, and nothing revisits it:
+the headline holdout row carried that record from batch 16 and it read as a statement that
+the reconstruction was impossible. The last step of this node's `run.sh` now settles every
+pool row once the whole set has run. **Eleven of the 51 rows reconstruct, at residuals of
+0.016 to 0.136 CRPS against the pool that ran; forty cannot, and the reason is structural** —
+they move a fork inside one of the members, and no run of this analysis produces that
+member's separate evaluation under that configuration
+(`results/pool_reconstruction.json`).

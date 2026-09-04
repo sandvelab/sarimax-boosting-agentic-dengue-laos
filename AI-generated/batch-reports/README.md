@@ -275,3 +275,16 @@ re-running a batch produces a different report rather than the same one.
   agree` came back byte-identical while the forks mattering on both datasets went from four
   to one**, so batch 19 reports such agreement by identity and not only by count. Added no
   batches; 28, 20 and 19 remain.
+
+- `26-09-04_b28_theReconstructionStopsDependingOnDisk.md` — batch 28, phase E,
+  `done — produced`: **the pool's second path stops recording the clock.** `check_pool.py`
+  matched each pool member to a stored evaluation by globbing sibling directories and taking
+  the first hit, so which evaluation it named — and whether it found one at all — depended on
+  which combinations existed when it ran. The tie-break is now a rule over the combination
+  names, and the last step of `05_stability/run.sh` settles every pool row once the whole set
+  has run, because the rule alone would still have given one answer from a cold checkout and
+  another from here. **The held-out headline row's reconstruction, called impossible for five
+  batches, is reported: 76.646 rebuilt against 76.731 as run, and the pool beats its best
+  member on 2010 by 4.767 CRPS.** All 51 files rewritten, 43 in naming only, **no number that
+  existed before moved**. Eleven of the 51 pool rows can be reconstructed and forty cannot,
+  for a reason that is a property of the frozen manifest. Added no batches; 20 and 19 remain.

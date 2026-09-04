@@ -59,6 +59,7 @@
   "member_evaluations": {
    "boosted": {
     "cells": 204,
+    "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
     "combination": "family_boosted__holdout",
     "configuration_sha256": "208c71c747d8a5924fb54bd60b9ff16ddb020b8874c7bb8df5394c6bbc1ba8ae",
     "draws": 1000,
@@ -66,6 +67,7 @@
    },
    "climatology": {
     "cells": 204,
+    "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
     "combination": "main__holdout",
     "configuration_sha256": null,
     "draws": 1000,
@@ -73,17 +75,19 @@
    },
    "hier_nb": {
     "cells": 204,
-    "combination": "family_hierNB__aggregate_caseWeighted__holdout",
+    "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+    "combination": "family_hierNB__holdout",
     "configuration_sha256": "28c7c617d5c26fa0f37f0c9601d690debc3ad9c05d63cb3e14512c16d385faf2",
     "draws": 1000,
-    "evaluation": "analysis/03_models/03_candidate/a_hierNB/results/family_hierNB__aggregate_caseWeighted__holdout/eval.nc"
+    "evaluation": "analysis/03_models/03_candidate/a_hierNB/results/family_hierNB__holdout/eval.nc"
    },
    "persistence": {
     "cells": 204,
-    "combination": "climatology_frozenWindow__holdout",
+    "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+    "combination": "main__holdout",
     "configuration_sha256": null,
     "draws": 1000,
-    "evaluation": "analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/climatology_frozenWindow__holdout/eval.nc"
+    "evaluation": "analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/main__holdout/eval.nc"
    }
   },
   "members_without_a_matching_stored_evaluation": [],

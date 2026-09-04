@@ -1,9 +1,14 @@
 {
  "combo": "persistence_negBinomialFloor__holdout",
- "member_mean_crps_by_this_path": {},
+ "member_mean_crps_by_this_path": {
+  "boosted": 81.67928784895834,
+  "climatology": 81.49848834375,
+  "hier_nb": 84.70661672395833,
+  "persistence": 99.13529603645833
+ },
  "node": "analysis/03_models/03_candidate/c_ensemble",
  "premise": {
-  "best_member_mean_crps": null,
+  "best_member_mean_crps": 81.49848834375,
   "child": "a_equal",
   "fitted_weights": {
    "boosted": 0.25,
@@ -11,14 +16,24 @@
    "hier_nb": 0.25,
    "persistence": 0.25
   },
-  "largest_member_coverage_10_90": null,
-  "mean_of_member_mean_crps": null,
-  "member_coverage_10_90": {},
+  "largest_member_coverage_10_90": 0.8541666666666666,
+  "mean_of_member_mean_crps": 86.75492223828125,
+  "member_coverage_10_90": {
+   "boosted": 0.8541666666666666,
+   "climatology": 0.4635416666666667,
+   "hier_nb": 0.515625,
+   "persistence": 0.5989583333333334
+  },
   "members_below_weight_0.05": [],
-  "members_ranked_on_the_evaluated_period": [],
+  "members_ranked_on_the_evaluated_period": [
+   "climatology",
+   "boosted",
+   "hier_nb",
+   "persistence"
+  ],
   "nominal_coverage_10_90": 0.8,
   "nominal_coverage_25_75": 0.5,
-  "pool_beats_its_best_member_by": null,
+  "pool_beats_its_best_member_by": 3.9946602552083164,
   "pool_coverage_10_90": 0.7708333333333334,
   "pool_coverage_25_75": 0.46875,
   "pool_mean_crps": 77.50382808854168,
@@ -35,34 +50,65 @@
    "persistence": 250
   },
   "cells_in_common": 192,
-  "difference": null,
+  "difference": -0.08955719791669026,
   "mean_crps_as_run": 77.50382808854168,
-  "mean_crps_rebuilt": null,
+  "mean_crps_rebuilt": 77.41427089062499,
   "member_evaluations": {
+   "boosted": {
+    "cells": 204,
+    "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+    "combination": "family_boosted__holdout",
+    "configuration_sha256": "208c71c747d8a5924fb54bd60b9ff16ddb020b8874c7bb8df5394c6bbc1ba8ae",
+    "draws": 1000,
+    "evaluation": "analysis/03_models/03_candidate/b_boosted/results/family_boosted__holdout/eval.nc"
+   },
    "climatology": {
     "cells": 204,
-    "combination": "main__holdout",
+    "chosen_by": "this combination's own run of the member",
+    "combination": "persistence_negBinomialFloor__holdout",
     "configuration_sha256": null,
     "draws": 1000,
-    "evaluation": "analysis/03_models/01_baselines/02_climatology/a_expandingWindow/results/main__holdout/eval.nc"
+    "evaluation": "analysis/03_models/01_baselines/02_climatology/a_expandingWindow/results/persistence_negBinomialFloor__holdout/eval.nc"
+   },
+   "hier_nb": {
+    "cells": 204,
+    "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+    "combination": "family_hierNB__holdout",
+    "configuration_sha256": "28c7c617d5c26fa0f37f0c9601d690debc3ad9c05d63cb3e14512c16d385faf2",
+    "draws": 1000,
+    "evaluation": "analysis/03_models/03_candidate/a_hierNB/results/family_hierNB__holdout/eval.nc"
    },
    "persistence": {
     "cells": 204,
+    "chosen_by": "this combination's own run of the member",
     "combination": "persistence_negBinomialFloor__holdout",
     "configuration_sha256": null,
     "draws": 1000,
     "evaluation": "analysis/03_models/01_baselines/01_persistence/b_negBinomialFloor/results/persistence_negBinomialFloor__holdout/eval.nc"
    }
   },
-  "members_without_a_matching_stored_evaluation": [
-   "hier_nb",
-   "boosted"
-  ],
-  "not_done_because": "no stored evaluation of ['hier_nb', 'boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+  "members_without_a_matching_stored_evaluation": [],
+  "not_done_because": null,
   "what_it_is": "the pool rebuilt from the members' own stored evaluations, pooled at the same weights and scored with chap-core's own CRPS; independent of the ensemble's own forecast",
   "why_they_cannot_be_identical": "the members' draws are the same draws -- same code, same frames, same seeds -- but the pool takes a seeded subsample of each member's thousand and this reconstruction takes a different one, so what is left is the sampling error of the allocation"
  },
  "share_of_cells_where_the_interval_is_a_point": {
+  "boosted": {
+   "10_90": 0.0,
+   "25_75": 0.0
+  },
+  "climatology": {
+   "10_90": 0.25,
+   "25_75": 0.359375
+  },
+  "hier_nb": {
+   "10_90": 0.17708333333333334,
+   "25_75": 0.3541666666666667
+  },
+  "persistence": {
+   "10_90": 0.109375,
+   "25_75": 0.265625
+  },
   "pool": {
    "10_90": 0.0,
    "25_75": 0.16145833333333334

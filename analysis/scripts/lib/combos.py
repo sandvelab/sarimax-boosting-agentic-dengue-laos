@@ -168,3 +168,52 @@ def scheme_key(name: str | None = None) -> str:
 def span_key(name: str | None = None) -> str:
     """Which evaluated span in the stored scheme file this combination's forks read."""
     return SPAN_KEY_BY_DATASET[dataset(name)]
+
+
+# ---------------------------------------------------------------------------
+# What a combination's name says was moved.
+#
+# A combination is named by the fork children it takes that the main path does not,
+# joined by `__`, with `__holdout` appended on the phase-E side: `main`,
+# `provinces_reportingOnly__weighting_crpsWeighted__holdout`. Batch 28 needed to ask
+# whether one combination is a run of the *same* model another combination configured,
+# which is a question about those tokens, so the splitting lives here beside the suffix
+# rather than in the one node that first needed it.
+# ---------------------------------------------------------------------------
+
+#: A child of the family fork -- the alternatives fork whose children are the model
+#: families themselves. It is the one fork a member's own standalone run always moves:
+#: candidate 1 is evaluated on its own only under `family_hierNB`, because the main path
+#: runs the pool. So a member's evaluation carries this token where the pool's own
+#: combination does not, and comparing the two has to allow for it.
+FAMILY_TOKEN_PREFIX = "family_"
+
+
+def tokens(name: str | None = None) -> list[str]:
+    """The fork children this combination takes that the main path does not.
+
+    `main` takes none and gives `[]`; the holdout suffix is not one of them, because it
+    names the dataset rather than a fork.
+    """
+    name = combo() if name is None else name
+    stem = name[: -len(HOLDOUT_SUFFIX)] if is_holdout(name) else name
+    return [] if stem == "main" else stem.split("__")
+
+
+def implies(combination: str, candidate: str) -> bool:
+    """Does `combination` imply `candidate` as a run of one of its own members?
+
+    True when every fork `candidate` moves is one `combination` moves too, family tokens
+    aside, and both face the same dataset. The subset is what makes the member the one
+    this combination configured; the exception for the family fork is what lets a member
+    that runs on its own only under `family_x` be found from a combination that pools it.
+
+    A candidate outside that set may still carry an identically configured run of the
+    member -- a fork that moves a different model entirely leaves this one alone -- but it
+    is a different analysis, and naming it would put another combination's directory into
+    this one's record for no reason beyond which directories happened to exist.
+    """
+    if dataset(candidate) != dataset(combination):
+        return False
+    moved = {t for t in tokens(candidate) if not t.startswith(FAMILY_TOKEN_PREFIX)}
+    return moved <= set(tokens(combination))

@@ -41,6 +41,7 @@
   "member_evaluations": {
    "climatology": {
     "cells": 204,
+    "chosen_by": "this combination's own run of the member",
     "combination": "popColumn_backCast__holdout",
     "configuration_sha256": null,
     "draws": 1000,
@@ -48,6 +49,7 @@
    },
    "persistence": {
     "cells": 204,
+    "chosen_by": "this combination's own run of the member",
     "combination": "popColumn_backCast__holdout",
     "configuration_sha256": null,
     "draws": 1000,

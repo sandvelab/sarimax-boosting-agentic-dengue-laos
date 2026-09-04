@@ -41,6 +41,7 @@
   "member_evaluations": {
    "boosted": {
     "cells": 408,
+    "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
     "combination": "family_boosted",
     "configuration_sha256": "208c71c747d8a5924fb54bd60b9ff16ddb020b8874c7bb8df5394c6bbc1ba8ae",
     "draws": 1000,
@@ -48,6 +49,7 @@
    },
    "climatology": {
     "cells": 408,
+    "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
     "combination": "main",
     "configuration_sha256": null,
     "draws": 1000,
@@ -55,10 +57,11 @@
    },
    "persistence": {
     "cells": 408,
-    "combination": "climatology_frozenWindow",
+    "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+    "combination": "main",
     "configuration_sha256": null,
     "draws": 1000,
-    "evaluation": "analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/climatology_frozenWindow/eval.nc"
+    "evaluation": "analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/main/eval.nc"
    }
   },
   "members_without_a_matching_stored_evaluation": [

@@ -41,6 +41,7 @@
   "member_evaluations": {
    "climatology": {
     "cells": 204,
+    "chosen_by": "this combination's own run of the member",
     "combination": "provinces_mergeVientiane__aggregate_caseWeighted__holdout",
     "configuration_sha256": null,
     "draws": 1000,
@@ -48,6 +49,7 @@
    },
    "hier_nb": {
     "cells": 204,
+    "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
     "combination": "provinces_mergeVientiane__family_hierNB__holdout",
     "configuration_sha256": "28c7c617d5c26fa0f37f0c9601d690debc3ad9c05d63cb3e14512c16d385faf2",
     "draws": 1000,
@@ -55,6 +57,7 @@
    },
    "persistence": {
     "cells": 204,
+    "chosen_by": "this combination's own run of the member",
     "combination": "provinces_mergeVientiane__aggregate_caseWeighted__holdout",
     "configuration_sha256": null,
     "draws": 1000,

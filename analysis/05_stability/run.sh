@@ -68,6 +68,19 @@ PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 "$PYTHON" "scripts/fig_holdout_vs_development.py"
 "$PYTHON" "scripts/fig_fork_sensitivity_both.py"
 
+# Last, because it is the one step that can only be right once everything else has run.
+# `c_ensemble/scripts/check_pool.py` rebuilds each pool from its members' own separate
+# evaluations, and a candidate family is evaluated separately only under the family fork's
+# own combination -- a stability row. So on a run from nothing the main path's pool is
+# checked before its members exist, records that the reconstruction could not be done, and
+# nothing revisits it: the archived `main__holdout` called its own reconstruction
+# impossible when what it recorded was that batch 16 ran the rows in manifest order. This
+# gives every pool row the answer it would have had under any other order, by asking
+# `check_pool`'s own rule which evaluations it should name and re-running it where the file
+# names others. It rewrites nothing that is already right, so on a tree that has not moved
+# it costs seconds. Same shape as the two second passes above, one node further out.
+"$PYTHON" "scripts/reconstruct_pools.py"
+
 # The driver joined this list in batch 15, which is what makes `analysis/run.sh`
 # reproduce the stability result as well as the reported one. It was held out of it from
 # batch 12 to batch 14 because rows with no scripts and rows whose defects made them

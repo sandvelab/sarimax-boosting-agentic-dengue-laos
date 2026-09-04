@@ -53,3 +53,20 @@ analysis/**/work/
 # clone, which is what stopped analysis/run.sh from reproducing phase E from nothing.
 # The versioned half, results/run_status_holdout.csv, stays tracked as the evidence.
 analysis/05_stability/.holdout_opened
+
+# The clean-room's scratch clone and its logs. `/validate cleanroom` clones the repository
+# into AI-internal/useful-scripts/repo, builds the environment there and runs the whole
+# analysis, which is about 22 GB of working directories inside the repository it is
+# checking. Batches 18, 25, 27 and 31 each deleted it by hand before committing; ignoring it
+# is the same discipline without the step that can be forgotten, and a forgotten one would
+# stage twenty gigabytes. The run's findings are copied to
+# AI-generated/validation/<date>_cleanroom-artefacts/, which is tracked.
+AI-internal/useful-scripts/repo/
+AI-internal/useful-scripts/cleanroom_console.log
+AI-internal/useful-scripts/cleanroom_head.txt
+AI-internal/useful-scripts/run.log
+AI-internal/useful-scripts/install_env.log
+AI-internal/useful-scripts/run_exit_status.txt
+AI-internal/useful-scripts/run_seconds.txt
+AI-internal/useful-scripts/diff_status.txt
+AI-internal/useful-scripts/diff_stat.txt

@@ -1,0 +1,394 @@
+{
+  "what_this_is": "what the repository contains, counted by walking it. The reproducibility report quotes these figures and computes none of its own",
+  "counted_at_commit": "922506bb8",
+  "tree": {
+    "nodes": 71,
+    "node_paths": [
+      "analysis",
+      "analysis/01_data",
+      "analysis/01_data/01_partition",
+      "analysis/01_data/02_characterise",
+      "analysis/01_data/03_siblings",
+      "analysis/02_setup",
+      "analysis/02_setup/01_population",
+      "analysis/02_setup/01_population/a_static",
+      "analysis/02_setup/01_population/b_backCast",
+      "analysis/02_setup/02_trainingWindow",
+      "analysis/02_setup/02_trainingWindow/a_from1998",
+      "analysis/02_setup/02_trainingWindow/b_from2004",
+      "analysis/02_setup/03_provinces",
+      "analysis/02_setup/03_provinces/a_chapFilter",
+      "analysis/02_setup/03_provinces/b_reportingOnly",
+      "analysis/02_setup/03_provinces/c_mergeVientiane",
+      "analysis/02_setup/04_retrain",
+      "analysis/02_setup/04_retrain/a_once",
+      "analysis/02_setup/04_retrain/b_everySplit",
+      "analysis/03_models",
+      "analysis/03_models/01_baselines",
+      "analysis/03_models/01_baselines/01_persistence",
+      "analysis/03_models/01_baselines/01_persistence/a_empiricalChange",
+      "analysis/03_models/01_baselines/01_persistence/b_negBinomialFloor",
+      "analysis/03_models/01_baselines/02_climatology",
+      "analysis/03_models/01_baselines/02_climatology/a_expandingWindow",
+      "analysis/03_models/01_baselines/02_climatology/b_frozenWindow",
+      "analysis/03_models/02_reference",
+      "analysis/03_models/03_candidate",
+      "analysis/03_models/03_candidate/a_hierNB",
+      "analysis/03_models/03_candidate/a_hierNB/01_observation",
+      "analysis/03_models/03_candidate/a_hierNB/01_observation/a_negBinomial",
+      "analysis/03_models/03_candidate/a_hierNB/01_observation/b_zeroInflated",
+      "analysis/03_models/03_candidate/a_hierNB/01_observation/c_hurdle",
+      "analysis/03_models/03_candidate/a_hierNB/02_covariates",
+      "analysis/03_models/03_candidate/a_hierNB/02_covariates/a_lagged",
+      "analysis/03_models/03_candidate/a_hierNB/02_covariates/b_rich",
+      "analysis/03_models/03_candidate/a_hierNB/02_covariates/c_climateFree",
+      "analysis/03_models/03_candidate/a_hierNB/03_population",
+      "analysis/03_models/03_candidate/a_hierNB/03_population/a_offset",
+      "analysis/03_models/03_candidate/a_hierNB/03_population/b_covariate",
+      "analysis/03_models/03_candidate/a_hierNB/03_population/c_ignored",
+      "analysis/03_models/03_candidate/a_hierNB/04_fitTime",
+      "analysis/03_models/03_candidate/a_hierNB/04_fitTime/a_trainOnly",
+      "analysis/03_models/03_candidate/a_hierNB/04_fitTime/b_refitAtPredict",
+      "analysis/03_models/03_candidate/a_hierNB/05_autoregressive",
+      "analysis/03_models/03_candidate/a_hierNB/05_autoregressive/a_none",
+      "analysis/03_models/03_candidate/a_hierNB/05_autoregressive/b_lag3",
+      "analysis/03_models/03_candidate/a_hierNB/06_yearVariance",
+      "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/a_shared",
+      "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/b_provinceScaled",
+      "analysis/03_models/03_candidate/b_boosted",
+      "analysis/03_models/03_candidate/b_boosted/01_features",
+      "analysis/03_models/03_candidate/b_boosted/01_features/a_lagBlock",
+      "analysis/03_models/03_candidate/b_boosted/01_features/b_richCalendar",
+      "analysis/03_models/03_candidate/b_boosted/02_head",
+      "analysis/03_models/03_candidate/b_boosted/02_head/a_negBinomial",
+      "analysis/03_models/03_candidate/b_boosted/02_head/b_quantileEnsemble",
+      "analysis/03_models/03_candidate/c_ensemble",
+      "analysis/03_models/03_candidate/c_ensemble/01_weighting",
+      "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal",
+      "analysis/03_models/03_candidate/c_ensemble/01_weighting/b_crpsWeighted",
+      "analysis/04_score",
+      "analysis/04_score/01_collect",
+      "analysis/04_score/02_aggregate",
+      "analysis/04_score/02_aggregate/a_unweighted",
+      "analysis/04_score/02_aggregate/b_populationWeighted",
+      "analysis/04_score/02_aggregate/c_caseWeighted",
+      "analysis/04_score/03_compare",
+      "analysis/05_stability",
+      "analysis/06_external"
+    ],
+    "nodes_with_children_by_kind": {
+      "sub-analyses": 9,
+      "alternatives": 17
+    },
+    "forks": 17,
+    "fork_detail": [
+      {
+        "fork": "analysis/02_setup/01_population",
+        "children": [
+          "a_static",
+          "b_backCast"
+        ],
+        "main_path": "a_static",
+        "not_taken": [
+          "b_backCast"
+        ]
+      },
+      {
+        "fork": "analysis/02_setup/02_trainingWindow",
+        "children": [
+          "a_from1998",
+          "b_from2004"
+        ],
+        "main_path": "a_from1998",
+        "not_taken": [
+          "b_from2004"
+        ]
+      },
+      {
+        "fork": "analysis/02_setup/03_provinces",
+        "children": [
+          "a_chapFilter",
+          "b_reportingOnly",
+          "c_mergeVientiane"
+        ],
+        "main_path": "a_chapFilter",
+        "not_taken": [
+          "b_reportingOnly",
+          "c_mergeVientiane"
+        ]
+      },
+      {
+        "fork": "analysis/02_setup/04_retrain",
+        "children": [
+          "a_once",
+          "b_everySplit"
+        ],
+        "main_path": "a_once",
+        "not_taken": [
+          "b_everySplit"
+        ]
+      },
+      {
+        "fork": "analysis/03_models/01_baselines/01_persistence",
+        "children": [
+          "a_empiricalChange",
+          "b_negBinomialFloor"
+        ],
+        "main_path": "a_empiricalChange",
+        "not_taken": [
+          "b_negBinomialFloor"
+        ]
+      },
+      {
+        "fork": "analysis/03_models/01_baselines/02_climatology",
+        "children": [
+          "a_expandingWindow",
+          "b_frozenWindow"
+        ],
+        "main_path": "a_expandingWindow",
+        "not_taken": [
+          "b_frozenWindow"
+        ]
+      },
+      {
+        "fork": "analysis/03_models/03_candidate",
+        "children": [
+          "a_hierNB",
+          "b_boosted",
+          "c_ensemble"
+        ],
+        "main_path": "c_ensemble",
+        "not_taken": [
+          "a_hierNB",
+          "b_boosted"
+        ]
+      },
+      {
+        "fork": "analysis/03_models/03_candidate/a_hierNB/01_observation",
+        "children": [
+          "a_negBinomial",
+          "b_zeroInflated",
+          "c_hurdle"
+        ],
+        "main_path": "c_hurdle",
+        "not_taken": [
+          "a_negBinomial",
+          "b_zeroInflated"
+        ]
+      },
+      {
+        "fork": "analysis/03_models/03_candidate/a_hierNB/02_covariates",
+        "children": [
+          "a_lagged",
+          "b_rich",
+          "c_climateFree"
+        ],
+        "main_path": "c_climateFree",
+        "not_taken": [
+          "a_lagged",
+          "b_rich"
+        ]
+      },
+      {
+        "fork": "analysis/03_models/03_candidate/a_hierNB/03_population",
+        "children": [
+          "a_offset",
+          "b_covariate",
+          "c_ignored"
+        ],
+        "main_path": "a_offset",
+        "not_taken": [
+          "b_covariate",
+          "c_ignored"
+        ]
+      },
+      {
+        "fork": "analysis/03_models/03_candidate/a_hierNB/04_fitTime",
+        "children": [
+          "a_trainOnly",
+          "b_refitAtPredict"
+        ],
+        "main_path": "a_trainOnly",
+        "not_taken": [
+          "b_refitAtPredict"
+        ]
+      },
+      {
+        "fork": "analysis/03_models/03_candidate/a_hierNB/05_autoregressive",
+        "children": [
+          "a_none",
+          "b_lag3"
+        ],
+        "main_path": "a_none",
+        "not_taken": [
+          "b_lag3"
+        ]
+      },
+      {
+        "fork": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance",
+        "children": [
+          "a_shared",
+          "b_provinceScaled"
+        ],
+        "main_path": "b_provinceScaled",
+        "not_taken": [
+          "a_shared"
+        ]
+      },
+      {
+        "fork": "analysis/03_models/03_candidate/b_boosted/01_features",
+        "children": [
+          "a_lagBlock",
+          "b_richCalendar"
+        ],
+        "main_path": "a_lagBlock",
+        "not_taken": [
+          "b_richCalendar"
+        ]
+      },
+      {
+        "fork": "analysis/03_models/03_candidate/b_boosted/02_head",
+        "children": [
+          "a_negBinomial",
+          "b_quantileEnsemble"
+        ],
+        "main_path": "a_negBinomial",
+        "not_taken": [
+          "b_quantileEnsemble"
+        ]
+      },
+      {
+        "fork": "analysis/03_models/03_candidate/c_ensemble/01_weighting",
+        "children": [
+          "a_equal",
+          "b_crpsWeighted"
+        ],
+        "main_path": "a_equal",
+        "not_taken": [
+          "b_crpsWeighted"
+        ]
+      },
+      {
+        "fork": "analysis/04_score/02_aggregate",
+        "children": [
+          "a_unweighted",
+          "b_populationWeighted",
+          "c_caseWeighted"
+        ],
+        "main_path": "a_unweighted",
+        "not_taken": [
+          "b_populationWeighted",
+          "c_caseWeighted"
+        ]
+      }
+    ],
+    "alternatives_children": 40,
+    "paths_not_taken": 23
+  },
+  "results": {
+    "result_files": 3845,
+    "bytes": 2610053351,
+    "gigabytes": 2.61,
+    "by_suffix": {
+      ".csv": 1466,
+      ".json": 1402,
+      ".log": 309,
+      ".nc": 241,
+      ".png": 220,
+      ".yaml": 175,
+      ".sha256": 31,
+      ".md": 1
+    },
+    "combination_directories": 69,
+    "files_per_combination_min": 25,
+    "files_per_combination_max": 79
+  },
+  "provenance": {
+    "records": 84,
+    "recorded_runs": 240,
+    "sha256_digests_named": 271,
+    "distinct_scripts_named": 78,
+    "agency_on_records": {
+      "agent-autonomous": 209,
+      "agent-autonomous for running it; human-set for the constraint that the": 12,
+      "agent-on-human-assessment": 1,
+      "agent-on-human-assessment for the covariate pair and lag \u2014 the choice follows the": 1,
+      "agent-autonomous for the statistics; human-set for the requirement that": 1,
+      "agent-autonomous for the mechanism; human-set for the constraint it": 1,
+      "agent-autonomous for the mechanism; human-set for the constraint it works under": 1
+    }
+  },
+  "scripts": {
+    "analysis": {
+      "files": 184,
+      "lines": 19278
+    },
+    "machinery": {
+      "files": 19,
+      "lines": 5298
+    }
+  },
+  "claims": {
+    "claims": 47,
+    "grounding_paths": 107,
+    "grounding_paths_that_resolve": 107,
+    "grounding_paths_missing": [],
+    "by_agency": {
+      "agent-autonomous": 45,
+      "agent-on-human-assessment": 2
+    },
+    "claims_per_node": {
+      "analysis/05_stability": 21,
+      "analysis/06_external": 5,
+      "analysis/03_models/03_candidate/c_ensemble": 4,
+      "analysis/01_data/02_characterise": 3,
+      "analysis": 2,
+      "analysis/04_score/03_compare": 2,
+      "analysis/03_models": 2,
+      "analysis/02_setup/03_provinces": 1,
+      "analysis/03_models/02_reference": 1,
+      "analysis/03_models/03_candidate/c_ensemble/01_weighting": 1,
+      "analysis/03_models/03_candidate/a_hierNB": 1,
+      "analysis/03_models/03_candidate/b_boosted": 1,
+      "analysis/01_data": 1,
+      "analysis/01_data/01_partition": 1,
+      "analysis/01_data/03_siblings": 1
+    }
+  },
+  "git": {
+    "commits": 143,
+    "commits_touching_analysis": 69,
+    "commits_touching_the_instructions": 6,
+    "first_commit_date": "2026-08-23",
+    "last_commit_date": "2026-09-05",
+    "head": "922506bb8",
+    "tracked_files": 4794,
+    "working_tree_clean": false
+  },
+  "environment": {
+    "lockfile": "environment/lock.txt",
+    "pinned_packages": 174,
+    "node_level_overrides": []
+  },
+  "plots": {
+    "figures": 220,
+    "with_plotted_values_beside_them": 220
+  },
+  "manifests": {
+    "development": {
+      "file": "analysis/05_stability/results/manifest.csv",
+      "rows": 33,
+      "named_combinations": 33
+    },
+    "holdout": {
+      "file": "analysis/05_stability/results/manifest_holdout.csv",
+      "rows": 33,
+      "named_combinations": 33
+    },
+    "external": {
+      "file": "analysis/06_external/results/manifest_external.csv",
+      "rows": 4,
+      "named_combinations": 4
+    }
+  }
+}

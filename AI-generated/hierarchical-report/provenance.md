@@ -122,3 +122,27 @@ produced:            2026-08-31
 
 The node pages carry the collection, so a corrected claim is a stale report until it is
 rebuilt. Nothing under `analysis/` moved and no page's structure changed.
+
+## Rebuilt for the release, with the external check in it — 2026-09-05, batch 19
+
+```
+result:              AI-generated/hierarchical-report/   (69 combinations, 1 387 pages)
+script:              AI-internal/useful-scripts/build_hierarchical_report.py, unchanged
+invocation:          .venv/bin/python AI-internal/useful-scripts/build_hierarchical_report.py
+inputs:              the tree at commit 922506b, including analysis/01_data/03_siblings and
+                     analysis/06_external, which batch 20 added
+                     Human-AI-collaboration/claims/claims.md — 47 claims
+commit:              922506b
+instructions-commit: 595c32d (AGENTS.md, CLAUDE.md, .claude/)
+produced:            2026-09-05
+```
+
+Batch 17 built this report over 65 scored combinations; batch 20 added four, and this build
+covers **69**. The two new nodes appear in the tree half, and the four external combinations
+descend to their per-cell scores like every other. Nothing about the report's structure
+changed and the script is untouched — the report is a function of the tree, and the tree grew.
+
+The build takes about three seconds and the output is gitignored apart from this file, so
+the rebuild is not a decision anybody has to weigh. That is the property that makes Rule 8
+cheap here: the report is never the thing that is out of date, because it is never the thing
+that is stored.

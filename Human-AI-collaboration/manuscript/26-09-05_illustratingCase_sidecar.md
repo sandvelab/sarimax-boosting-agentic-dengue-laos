@@ -132,7 +132,7 @@ scope fields of C42 and C43 carry them.
 | passage | claims | basis |
 |---|---|---|
 | The whole section | — | **judgment**, `agent-autonomous` (plan §4b, 2026-08-31) |
-| 1 175 pages, four levels, 65 scored combinations | — | record (`26-08-31_b17_claimsAndReport.md`) |
+| 1 387 pages, four levels, 69 scored combinations | — | record (`AI-generated/hierarchical-report/README.md`, built 2026-09-05) |
 | Storage was not a constraint; nothing was pruned | — | design (plan §4b, human-set 2026-08-29) |
 | Thirty-one batch reports | — | record (the ledger) |
 | The stability work cost four batches and about eight hours of compute | C10, C39 | |

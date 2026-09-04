@@ -402,8 +402,8 @@ dropped at the twenty-first.
 
 **The tracking that was more trouble than it was worth, honestly.**
 
-*The hierarchical report, at the size it reached.* Eleven hundred and seventy-five linked
-pages descending from the national mean to per-cell scores, for sixty-five scored
+*The hierarchical report, at the size it reached.* Thirteen hundred and eighty-seven linked
+pages descending from the national mean to per-cell scores, for sixty-nine scored
 combinations. It is generated in seconds and it is genuinely complete, and I do not believe
 anyone will ever read below its third level. The rule it satisfies is worth keeping; the depth
 it was taken to was a decision nobody made deliberately, and it is the clearest instance in

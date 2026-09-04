@@ -602,3 +602,38 @@ the last two is false.
 
 agency: agent-autonomous.
 information: agent-retrieved.
+
+---
+
+## `26-09-04_reconstructionSweepDefence.json` — four states put to batch 28's sweep
+
+```
+result:       AI-generated/validation/26-09-04_reconstructionSweepDefence.json
+script:       AI-internal/useful-scripts/check_reconstruction_defence.py
+              sha256:e13175b8e2794295fe937fc2b035ae0e40f267952ee8780b1e1f137bf412dab2
+invocation:   .venv/bin/python AI-internal/useful-scripts/check_reconstruction_defence.py
+inputs:       analysis/03_models/03_candidate/c_ensemble/results/{main,main__holdout,
+              covariates_rich}/pool_check.json, and each of their versions at commit
+              96f1205 — the last commit before batch 28 rewrote them
+environment:  .venv (repository machinery); it drives
+              analysis/05_stability/scripts/reconstruct_pools.py under environment/
+commit:       (this batch)
+produced:     2026-09-04
+```
+
+`reconstruct_pools.py` exists so that a `pool_check.json` written before its members had been
+evaluated separately does not stay that way — a claim about conditions this repository is not
+in, since every combination has run here. So the repository is put into them, one file at a
+time: **the record batch 16 left** on the headline holdout row, restored from `96f1205`; **a
+file that is already right**; **a file that is missing entirely**; and **a row no order of
+execution could reconstruct**, `covariates_rich`, which moves a fork inside candidate 1.
+
+All four pass. The early record is rewritten to 76.646; the correct file is neither re-run
+nor touched; the missing file is produced with the same reconstruction; and the row that
+cannot be reconstructed is left saying so, still naming candidate 1 as the member it lacks,
+rather than reaching into another combination's directory. Every file is restored to its
+committed digest and `analysis/` is left clean by git's own account, which the check verifies
+and exits non-zero without.
+
+agency: agent-autonomous.
+information: agent-retrieved.

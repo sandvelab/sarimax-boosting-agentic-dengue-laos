@@ -142,6 +142,22 @@ separate run exists under `provinces_*__family_hierNB` and candidate 2's does no
 `members_without_a_matching_stored_evaluation` goes from two names to one, and the
 reconstruction is still not done.
 
+### The sweep, put to the states it exists for
+
+This repository is not in the state the sweep is built for — every combination has run here —
+so the states are made, one file at a time, and restored after each
+(`26-09-04_reconstructionSweepDefence.json`):
+
+| state | what should happen | |
+|---|---|---|
+| the record batch 16 left on `main__holdout`, restored from `96f1205` | rewritten to 76.646 | pass |
+| a file that is already right | not re-run, not touched | pass |
+| a file that is missing entirely | produced, same reconstruction | pass |
+| `covariates_rich`, which no order of execution could reconstruct | left saying so, still naming candidate 1 as the member it lacks | pass |
+
+Every file ends at its committed digest and `analysis/` is left clean by git's own account,
+which the check verifies and exits non-zero without.
+
 ## 6. What the headline holdout row now says
 
 | | development | held-out year |
@@ -245,8 +261,10 @@ number in it was right. It took a re-run, in a different order, to see it.
 
 - `analysis/05_stability/scripts/reconstruct_pools.py` and its provenance record.
 - `analysis/05_stability/results/pool_reconstruction.json`.
-- `AI-internal/useful-scripts/pool_check_rewrite.py`.
-- `AI-generated/validation/26-09-04_poolCheckRewrite.json`.
+- `AI-internal/useful-scripts/pool_check_rewrite.py` and
+  `AI-generated/validation/26-09-04_poolCheckRewrite.json`.
+- `AI-internal/useful-scripts/check_reconstruction_defence.py` and
+  `AI-generated/validation/26-09-04_reconstructionSweepDefence.json`.
 - Claims **C40** and **C41**.
 
 **Provenance**: a section appended to `c_ensemble/provenance/check_pool.md`; a new record at

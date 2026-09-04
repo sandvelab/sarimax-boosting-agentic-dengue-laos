@@ -73,6 +73,11 @@ here.
   replaced the rule by which each pool member is matched to a stored evaluation, and this is
   what says that 43 of the 51 files changed in naming only, four gained the reconstruction
   they had been run too early to have, and **no number that existed before moved**.
+- `26-09-04_reconstructionSweepDefence.json` — batch 28: four states put to the sweep that
+  settles every pool row, on the live tree and restored after each. The record batch 16 left
+  on the headline holdout row is rewritten to 76.646; a file that is already right is neither
+  re-run nor touched; a missing one is produced; and a row that no order of execution could
+  reconstruct is left saying so rather than reaching into another combination's directory.
 - `26-09-01_freezeDefence.md` — batch 24, and not a `/validate` run: eleven situations put
   to the two defences of the frozen phase-E set, on throwaway copies. The set stops being
   rebuilt on every run of `analysis/run.sh`, and the file is now checked as well as the

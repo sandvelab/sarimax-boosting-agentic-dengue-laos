@@ -1,0 +1,50 @@
+{
+ "all_pass": true,
+ "all_restored": true,
+ "analysis_tree_clean_afterwards": true,
+ "commit_the_early_records_come_from": "96f1205",
+ "left_changed": [],
+ "situations": [
+  {
+   "expected": "rebuilt from the members' own evaluations, 76.646",
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/main__holdout/pool_check.json",
+   "passes": true,
+   "rebuilt": 76.64626788020833,
+   "restored_to_the_committed_file": true,
+   "situation": "the record batch 16 left, restored",
+   "state_put_to_it": "as it was before batch 28",
+   "sweep_re_ran_this_row": true
+  },
+  {
+   "expected": "not re-run, not touched",
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/main/pool_check.json",
+   "passes": true,
+   "rebuilt": 18.800575725067386,
+   "restored_to_the_committed_file": true,
+   "situation": "a file that is already right",
+   "state_put_to_it": "unchanged",
+   "sweep_re_ran_this_row": false
+  },
+  {
+   "expected": "produced, with the same reconstruction",
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/main/pool_check.json",
+   "passes": true,
+   "rebuilt": 18.800575725067386,
+   "restored_to_the_committed_file": true,
+   "situation": "a file that is missing entirely",
+   "state_put_to_it": "as it was before batch 28",
+   "sweep_re_ran_this_row": true
+  },
+  {
+   "expected": "still not done, and candidate 1 still the member it lacks",
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/covariates_rich/pool_check.json",
+   "passes": true,
+   "rebuilt": null,
+   "restored_to_the_committed_file": true,
+   "situation": "a row no order of execution could reconstruct",
+   "state_put_to_it": "as it was before batch 28",
+   "sweep_re_ran_this_row": true
+  }
+ ],
+ "what_this_is": "four states the reconstruction sweep is supposed to handle, put to it on the live tree and restored after each"
+}

@@ -2518,3 +2518,116 @@ reading is recorded in the plan's §4b rather than assumed.
 
 `done — produced`. Claims **C40** and **C41** added; all ten invariants hold. **20 and 19 are
 the only open rows**, in that order.
+
+## T30 — batch 20: the external check, and the drop replicates (2026-09-04)
+
+### What happened
+
+The plan's §4 named `tha` and `vnm` as an optional external check; the human confirmed it on
+2026-08-31 and moved it ahead of the release so the case write-up could use it. This is that
+batch. The reported model — candidate 3, the linear opinion pool, at the configuration the
+tree already carries — was run **unchanged** on the Thai and Vietnamese files of the same
+harmonisation, in the same two arrangements Laos is reported in and on the same months.
+
+Four rows: `main__vnm`, `main__vnmFinal`, `main__tha`, `main__thaFinal`. Each runs the whole
+reported pipeline — every setup fork at its main child, the assembler, both required
+baselines, the reference model's four unseeded repeats, the pool and the scoring chain — and
+**no fork moves in any of them**. What differs is the file underneath.
+
+### The result
+
+| country | development | final year | drop | beats reference | reference's own band |
+|---|---|---|---|---|---|
+| Laos | +0.1485 | +0.0868 | −0.0617 | yes, yes | 0.565 / 1.296 CRPS |
+| Thailand | +0.0856 | +0.0197 | −0.0659 | yes, yes | **0.032** / 0.124 |
+| Vietnam | +0.0852 | **−0.0862** | −0.1714 | yes, **no** | **7.082** / 0.513 |
+
+Six of six beat both required baselines. All three drops exceed the two reference bands they
+are measured against, taken together.
+
+**Three things this establishes.** The drop is not about 2010 alone — the final year is harder
+in the same direction in two countries the model never saw. The country the model was
+developed on is the one it scores highest on, by 0.063, while the two independent countries
+agree to 0.0004. And what the backtest can resolve is a property of the country: the same
+unseeded reference model at the same configuration has a re-run spread that varies by a factor
+of **215** across three countries of one harmonisation, so Vietnam's margin falls inside its
+own noise floor while Thailand's identical margin is thirty-five times its band.
+
+**What it does not establish, and the files say so in their own text.** The two sibling final
+years were not held out from anything, because nothing was developed on those files — so the
+replication is evidence about the year, not a second measurement of optimisation inflation.
+And the 0.063 development gap is not attributable to development alone: the three countries
+differ in province count, burden and reporting system, and nothing here varies development
+while holding the country fixed.
+
+### What had to be built
+
+`Archive/sibling-datasets/` (six files, same pinned commit as the Lao ones, so a difference
+between countries is not also a difference between harmonisations);
+`analysis/01_data/03_siblings`, the only node licensed to read them, which cuts each country
+onto the Lao calendar and checks against chap-core's own splitter that both arrangements land
+on 2008-01..2009-12 and exactly 2010; and `analysis/06_external`, which plans, runs and
+reports the four rows.
+
+**Thailand is truncated from its own 1993–2022 record.** That is the node's judgment call and
+its basis is in `claim.md`: the check asks whether the Lao result holds in another *place*, so
+the years are held fixed. Its other twenty-two years are the material for whether 2010 in
+particular was hard, and are left unspent as a recorded decision.
+
+### Three moves rather than three copies, each verified before anything ran
+
+- **`combos.py`**: the four sibling datasets are *dataset suffixes* on the mechanism
+  `__holdout` already uses, because the analysis does not move and the country does. With them
+  the **scheme file became a property of the dataset**, retiring a constant repeated in six
+  setup scripts — the fifth instance of the shape this project keeps correcting, caught before
+  it bit. All six re-run under combinations they had already produced: byte-identical.
+- **`05_stability/scripts/lib/driver.py`**: the step-list construction and row execution moved
+  out of `run_manifest.py`, because a check running a second implementation of the pipeline
+  would measure the code and not the model. Dry-run output byte-identical for all 32
+  development rows and the holdout set.
+- **`reconstruct_pools.py`**: reads the rows it settles off the two manifests rather than off
+  the directories on disk. Without it, a node running *after* `05_stability` whose rows are
+  pools would have made batch 28's own repair order-dependent again, one node further out.
+  Verified with all four external pools present: `pool_reconstruction.json` still `977f3302…`,
+  no `pool_check.json` rewritten.
+
+`/validate invariants` gained a **third planned manifest rather than an exemption** — the
+`combos` check closes the combination space, and a directory it is told to excuse is a check
+that has stopped meaning anything — and its manifest-node exclusion is now derived from where
+the manifests are rather than listed.
+
+### The budget
+
+Six hours, set before anything was costed, at what `analysis/run.sh` already costs. Planned
+3.14 h, actual **1.81 h**, ratio 0.58, nothing cut, and the cut order (whole country pairs
+from the bottom) recorded although it never bit. Phase D's two halves came out at 1.00 and
+1.15; this one is out by a factor of two, because the unit — seconds per evaluated cell,
+measured on 192 Lao cells — does not transfer to 1 824 Thai ones. **The total being right
+twice was a property of estimating a set against itself.**
+
+### Recorded as not done
+
+The pool's independent reconstruction is unavailable on these datasets: a member is evaluated
+on its own only under the family fork's own combination, and this check moves no fork, so no
+order of execution would produce the missing runs. Different from batch 28's ordering defect,
+and `results/pool_reconstruction_external.json` says which it is and what it would have cost
+(two more model evaluations per dataset).
+
+### Files, and what a later session needs
+
+New: `AI-internal/data-acquisition/fetch_sibling_datasets.sh`, `Archive/sibling-datasets/`,
+`analysis/01_data/03_siblings/`, `analysis/06_external/`,
+`analysis/05_stability/scripts/lib/driver.py`. Changed: `analysis/scripts/lib/combos.py`, six
+setup scripts, `run_manifest.py`, `reconstruct_pools.py`, `check_invariants.py`,
+`analysis/run.sh`, `analysis/README.md`, `analysis/claim.md`, `analysis/01_data/claim.md`,
+three READMEs, `folder-structure.md`, `readme-at-start.md`, the plan. Claims C42–C47.
+
+**Two things batch 19 has to carry.** `analysis/run.sh` now calls `06_external`, so batch 31's
+clean-room verification predates this node and does not cover its scripts — a
+`/validate cleanroom` would settle it at the cost of 1.81 h on top of eleven, and the
+qualification is written into `readme-at-start.md` either way. And the release must not repeat
+the sentence this batch corrected: the 0.57 CRPS floor is a property of the Lao dataset, and
+the same measurement gives 0.032 on Thailand and 7.082 on Vietnam.
+
+Fixed in passing, while updating the same index: the plan's reports section had no entry for
+batch 28.

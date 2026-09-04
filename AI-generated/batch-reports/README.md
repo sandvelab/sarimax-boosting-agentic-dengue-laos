@@ -261,3 +261,17 @@ re-running a batch produces a different report rather than the same one.
   0, 32 drifted figures, 0 moved pairings, largest move 0.025673 inside a band of 0.034944.
   **Nothing reported moves** — both output CSVs byte-identical, and `manifest_holdout.csv`
   untouched.
+
+- `26-09-04_b31_cleanroomToCompletion.md` — batch 31, phase E, `done — produced`: **the
+  clean-room run reached the end.** `analysis/run.sh` exited **0** from a clean checkout for
+  the first time in the project — both datasets, all 64 combinations, both distributions, the
+  last script in the tree, 41 677 s on a host held awake so the figure is a measurement.
+  **192 model-combination scores from our models and none moved**; the phase-E counts
+  reproduce exactly. Batch 30's categorical split is vindicated by the margin and not merely
+  by the run finishing: the largest frozen-figure drift was **+0.051016 against a band of
+  0.048273**, *outside* it, so the widened-tolerance alternative batch 30 rejected would have
+  failed this run. Batch 27's claim that the holdout noise band is steady does not survive a
+  third draw. And the finding that is not about reproduction succeeding: **`14 of 17 forks
+  agree` came back byte-identical while the forks mattering on both datasets went from four
+  to one**, so batch 19 reports such agreement by identity and not only by count. Added no
+  batches; 28, 20 and 19 remain.

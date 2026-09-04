@@ -1,22 +1,22 @@
 {
   "delivered_file": "Archive/plan-as-delivered/26-08-22_dengueForecastingCase_asDelivered.md",
   "live_file": "Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md",
-  "measured_at_commit": "ad7e64f5f",
+  "measured_at_commit": "ff29c1c4f",
   "by_line": {
     "delivered": 468,
-    "live": 1116,
+    "live": 1354,
     "survived": 417,
     "deleted": 51,
-    "added": 699,
+    "added": 937,
     "survival_fraction": 0.891
   },
   "by_word": {
     "delivered": 4614,
-    "live": 24355,
-    "survived": 4363,
-    "deleted": 251,
-    "added": 19992,
-    "survival_fraction": 0.9456
+    "live": 32962,
+    "survived": 4356,
+    "deleted": 258,
+    "added": 28606,
+    "survival_fraction": 0.9441
   },
   "sections": {
     "delivered": 12,
@@ -35,40 +35,49 @@
   "ledger": {
     "delivered_named_batches": 7,
     "delivered_placeholders": 3,
-    "live_batches": 22,
-    "added_since_delivery": 15,
+    "live_batches": 31,
+    "added_since_delivery": 24,
     "aim_unchanged": 5,
     "aim_reworded": 2
   },
   "decisions": {
-    "total": 169,
+    "total": 247,
     "by_agency": {
-      "human-set": 15,
-      "agent-on-human-assessment": 8,
-      "agent-autonomous": 145
+      "human-set": 17,
+      "agent-on-human-assessment": 9,
+      "agent-autonomous": 211
     },
     "unrecognised_agency": [
-      "agent-on-human-assessment; the configuration was `agent-retrieved`"
+      "agent-on-human-assessment; the configuration was `agent-retrieved`",
+      "agent-autonomous, on the standing rule",
+      "agent-autonomous, inside the human-set \u00a73",
+      "agent-autonomous, following the human's clarification",
+      "**carried to the human**",
+      "agent-autonomous, inside the human-set \u00a73",
+      "**carried to the human**",
+      "agent-autonomous, inside the human-set \u00a73",
+      "agent-autonomous, inside the human-set \u00a73",
+      "agent-autonomous, inside the human-set \u00a73"
     ],
-    "settling_occasions": 23,
-    "human_initiated_occasions": 5,
+    "settling_occasions": 36,
+    "human_initiated_occasions": 7,
     "human_set_at_batch_occasions": 6,
-    "decisions_at_human_occasions": 11,
+    "decisions_at_human_occasions": 14,
     "by_agency_fraction": {
-      "human-set": 0.0888,
-      "agent-on-human-assessment": 0.0473,
-      "agent-autonomous": 0.858
+      "human-set": 0.0688,
+      "agent-on-human-assessment": 0.0364,
+      "agent-autonomous": 0.8543
     }
   },
   "commits": {
-    "count": 27,
+    "count": 44,
     "first": "2026-08-23",
-    "last": "2026-08-31",
-    "lines_added": 1202,
-    "lines_removed": 86,
-    "revisions_after_the_first": 26,
-    "lines_added_after_the_first": 730,
-    "lines_removed_after_the_first": 86,
+    "last": "2026-09-04",
+    "lines_added": 1498,
+    "lines_removed": 144,
+    "revisions_after_the_first": 43,
+    "lines_added_after_the_first": 1026,
+    "lines_removed_after_the_first": 144,
     "largest_revision": {
       "commit": "bd33f715e",
       "date": "2026-08-26",
@@ -99,7 +108,7 @@
         "lines_removed": 0
       }
     ],
-    "revisions_naming_a_batch": 20,
+    "revisions_naming_a_batch": 31,
     "revisions_not_naming_a_batch": [
       {
         "date": "2026-08-23",
@@ -124,6 +133,30 @@
       {
         "date": "2026-08-31",
         "subject": "Phase E's remaining decisions, settled by the human"
+      },
+      {
+        "date": "2026-08-31",
+        "subject": "The outsider check written up, and its two deferred findings given ledger rows"
+      },
+      {
+        "date": "2026-09-01",
+        "subject": "\u00a73 says which artefact its freeze binds"
+      },
+      {
+        "date": "2026-09-02",
+        "subject": "The ledger records its own execution order"
+      },
+      {
+        "date": "2026-09-02",
+        "subject": "Row 29: the ledger records its execution order, and two task-log numbers stop colliding"
+      },
+      {
+        "date": "2026-09-03",
+        "subject": "The human settles the noise band: the finding is stated by identity"
+      },
+      {
+        "date": "2026-09-03",
+        "subject": "The human reverses: the count stands"
       }
     ]
   }

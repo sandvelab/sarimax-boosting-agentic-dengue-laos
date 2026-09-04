@@ -26,3 +26,20 @@ cf6005e84,2026-08-31,"Batch 17 after the run: 39 claims, and 1 175 pages that de
 fccc21e65,2026-08-31,"C23 states the 1.90 standard errors, on the human's ruling",7,1
 f9a2f1cfc,2026-08-31,"Batch 16's two open questions, settled by the human",7,0
 b36fce1ec,2026-08-31,"Phase E's remaining decisions, settled by the human",13,3
+8908d174b,2026-08-31,"The outsider check written up, and its two deferred findings given ledger rows",13,0
+6d02e4afb,2026-09-01,"Batch 18 after the run: the clean-room, the outsider check, and the plan's drift",12,1
+aede5fed7,2026-09-01,§3 says which artefact its freeze binds,13,0
+f19329c44,2026-09-01,"Batch 23's report, and the plan, readmes and check list it changes",16,1
+b80feb057,2026-09-01,"Batch 24 after the run: the frozen set verified, never rewritten",17,1
+608128a3b,2026-09-02,Batch 25: the clean-room finished the development half and was stopped by the freeze check,20,1
+542699522,2026-09-02,"Batch 26: the development manifest's order and pairing are recorded, not re-derived",18,1
+42407568d,2026-09-02,The ledger records its own execution order,10,1
+80276f3f1,2026-09-02,"Row 29: the ledger records its execution order, and two task-log numbers stop colliding",13,0
+c19008e46,2026-09-03,"Batch 27: the clean-room reaches phase E, and stops at the last script",29,9
+1140a7d93,2026-09-03,The human settles the noise band: the finding is stated by identity,10,2
+d8d5234e7,2026-09-03,The human reverses: the count stands,3,4
+b75ef8747,2026-09-03,"Batch 30's report, ledger row and 4b entry",17,3
+58c420d33,2026-09-04,"Batch 31's report, ledger row and 4b entry",31,11
+14c54da42,2026-09-04,"Batch 28, after the run: the records, the claims and the ledger",26,12
+372997b17,2026-09-04,Batch 20: the external check — the drop replicates in two more countries,47,11
+6d6ad7c92,2026-09-04,"Batch 20: the late finding, in the report, the plan and the log",1,0

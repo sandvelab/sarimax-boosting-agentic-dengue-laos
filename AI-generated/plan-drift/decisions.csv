@@ -168,3 +168,81 @@ date,settled_by,decision,agency
 2026-08-31,"settled by the human, closing phase E's open decisions","**A git remote is created after all, at `github.com/sandvelab/`**",human-set
 2026-08-31,"settled by the human, closing phase E's open decisions",**The manuscript's target venue is *PLoS Computational Biology***,human-set
 2026-08-31,"settled by the human, closing phase E's open decisions","**What `/validate outsider` finds in the instruction files is fixed by the agent and logged, not brought back for approval first**",human-set
+2026-09-01,"settled by the human, on batch 18's open question",**§3's freeze binds `manifest_holdout.csv` and not the tree or the development manifest**,agent-on-human-assessment
+2026-09-01,"settled by the human, on batch 18's open question",**The perturbation set stays at 32 analyses; no further reasonable alternative is added**,human-set
+2026-08-31,"settled by batch 18, from the clean-room and outsider checks",**The holdout seal takes two conditions and needs both**,agent-autonomous
+2026-08-31,"settled by batch 18, from the clean-room and outsider checks",**The wrong counts are corrected in the live records and left standing in the batch reports and in this section**,agent-autonomous
+2026-08-31,"settled by batch 18, from the clean-room and outsider checks","**`check_invariants.py` requires ancestry, and reads every hash on a `commit:` line**",agent-autonomous
+2026-08-31,"settled by batch 18, from the clean-room and outsider checks",**The root `README.md` stops restating project state**,agent-autonomous
+2026-08-31,"settled by batch 18, from the clean-room and outsider checks",**The provenance hash gap and the recomputed freeze become batches 23 and 24 rather than edits here**,agent-autonomous
+2026-08-31,"settled by batch 18, from the clean-room and outsider checks","**The outsider check is two agents on two tasks, not one**",agent-autonomous
+2026-09-01,"settled by batch 23, from the provenance records' digests","**The `hashes` invariant reads the whole `script:` block, not the `script:` line**",agent-autonomous
+2026-09-01,"settled by batch 23, from the provenance records' digests",**A record satisfies the check by naming the current digest anywhere in it**,agent-autonomous
+2026-09-01,"settled by batch 23, from the provenance records' digests",**A docstring-only change gets a section like any other**,agent-autonomous
+2026-09-01,"settled by batch 23, from the provenance records' digests",**The development stability figures are re-drawn; the reported conclusion is not re-run**,agent-autonomous
+2026-09-01,"settled by batch 23, from the provenance records' digests",**Hashing every transitively imported module is not adopted**,agent-autonomous
+2026-09-01,"settled by batch 23, from the provenance records' digests",**The stale digests stay where they are**,"agent-autonomous, on the standing rule"
+2026-09-01,"settled by batch 24, from the frozen set defending itself","**The frozen phase-E manifest is authoritative: once it exists, `freeze_holdout_manifest.py` verifies it and writes nothing to it**","agent-autonomous, inside the human-set §3"
+2026-09-01,"settled by batch 24, from the frozen set defending itself","**A development row with no frozen twin is reported unpaired, not fatal**","agent-autonomous, following the human's clarification"
+2026-09-01,"settled by batch 24, from the frozen set defending itself",**A drifted development conclusion is reported and not fatal**,agent-autonomous
+2026-09-01,"settled by batch 24, from the frozen set defending itself",**The set is not re-derived at all once a holdout number has been seen; the file is restored from git**,agent-autonomous
+2026-09-01,"settled by batch 24, from the frozen set defending itself","**`check_invariants.py` gains `freeze`, which checks the claim `holdout_freeze.json` makes about its own commit**",agent-autonomous
+2026-09-01,"settled by batch 24, from the frozen set defending itself","**`frozen_on` was being overwritten by every run of the analysis, and is now written once**",agent-autonomous
+2026-09-01,"settled by batch 24, from the frozen set defending itself",**The freeze path is kept although this project will never freeze again**,agent-autonomous
+2026-09-02,"settled by batch 25, from the clean-room run that could not finish","**The batch is reported `blocked`, not `done — produced`**",agent-autonomous
+2026-09-02,"settled by batch 25, from the clean-room run that could not finish",**Nothing was fixed in this batch**,agent-autonomous
+2026-09-02,"settled by batch 25, from the clean-room run that could not finish",**The clean-room is run detached from the session that starts it**,agent-autonomous
+2026-09-02,"settled by batch 25, from the clean-room run that could not finish",**The harness and comparison scripts are verified by digest against batch 18's provenance record before running**,agent-autonomous
+2026-09-02,"settled by batch 25, from the clean-room run that could not finish",**The clean-room's own outputs are copied into the repository before the scratch clone is discarded**,agent-autonomous
+2026-09-02,"settled by batch 25, from the clean-room run that could not finish","**`26-09-02_cleanroom_comparison.json`'s holdout half is recorded as absent, not as verified**",agent-autonomous
+2026-09-02,"settled by batch 25, from the clean-room run that could not finish","**The tier-2 selection is a decision, not a derivation, and batch 26 will record it as one**",agent-autonomous
+2026-09-02,"settled by batch 25, from the clean-room run that could not finish",**Whether the reference noise band should remain a max minus a min over four draws**,**carried to the human**
+2026-09-02,"settled by batch 26, from making the manifest reproducible","**The tier-1 order and the tier-2 pairing are recorded in `results/manifest_selection.json` and replayed, never re-decided**",agent-autonomous
+2026-09-02,"settled by batch 26, from making the manifest reproducible",**Membership still comes from the tree on every run; only the order and the pairing are recorded**,agent-autonomous
+2026-09-02,"settled by batch 26, from making the manifest reproducible","**A drifted selection is reported, never absorbed and never fatal**",agent-autonomous
+2026-09-02,"settled by batch 26, from making the manifest reproducible","**This does not touch §3, and the reading is recorded rather than assumed**","agent-autonomous, inside the human-set §3"
+2026-09-02,"settled by batch 26, from making the manifest reproducible",**The tier-2 rows' `status` column keeps the wording `select_tier2` writes**,agent-autonomous
+2026-09-02,"settled by batch 26, from making the manifest reproducible","**`check_pool.py` branches on what the weighting did, not on what the combination asked for**",agent-autonomous
+2026-09-02,"settled by batch 26, from making the manifest reproducible",**The 18 `pool_check.json` files that change on re-run are left alone and become batch 28**,agent-autonomous
+2026-09-02,"settled outside a batch, on the record's own bookkeeping","**The ledger states its own execution order, and §5's top-to-bottom rule is recorded as not holding for the phase-E tail**",agent-autonomous
+2026-09-02,"settled outside a batch, on the record's own bookkeeping",**Batch 27 is placed above batch 28 in the table**,agent-autonomous
+2026-09-02,"settled outside a batch, on the record's own bookkeeping",**Two task-log entries are renumbered rather than left colliding: batch 25 becomes T23 and batch 26 becomes T24**,agent-autonomous
+2026-09-03,"settled by batch 27, from the clean-room that reached phase E","**The batch is reported `blocked`, not `done — produced`**",agent-autonomous
+2026-09-03,"settled by batch 27, from the clean-room that reached phase E",**`install-chap.sh` is fixed in this batch and `pair_holdout_development.py` is not**,agent-autonomous
+2026-09-03,"settled by batch 27, from the clean-room that reached phase E","**The frozen `development_skill_score` re-assertion is a defect in the check, not in the tree**",agent-autonomous
+2026-09-03,"settled by batch 27, from the clean-room that reached phase E","**Batch 26's ""byte-identical `manifest.csv`"" is qualified rather than left standing**",agent-autonomous
+2026-09-03,"settled by batch 27, from the clean-room that reached phase E","**The elapsed time and the holdout cost ratio are reported as contaminated, not as findings**",agent-autonomous
+2026-09-03,"settled by batch 27, from the clean-room that reached phase E",**`cleanroom_holdout_reproduction.py` is written rather than the numbers read out of the run's output**,agent-autonomous
+2026-09-03,"settled by batch 27, from the clean-room that reached phase E",**The five `member_selection.json` files the archive lacks are recorded and not written**,agent-autonomous
+2026-09-03,"settled by batch 27, from the clean-room that reached phase E",**Whether the development reference noise band should remain a max minus a min over four draws**,**carried to the human**
+2026-09-03,"settled by the human, on batch 27's carried question",**The fork-sensitivity finding keeps being stated as a count; the band stays a max minus a min over four draws**,human-set
+2026-09-03,"settled by batch 30, from the check that stopped batch 27",**A drifted frozen figure is reported; a moved pairing is fatal**,agent-autonomous
+2026-09-03,"settled by batch 30, from the check that stopped batch 27","**The distinction is categorical, not a widened tolerance**",agent-autonomous
+2026-09-03,"settled by batch 30, from the check that stopped batch 27",**`development_beats_reference` is derived from the frozen CRPS columns**,agent-autonomous
+2026-09-03,"settled by batch 30, from the check that stopped batch 27",**`development_beats_all_baselines` stays re-derived and is named as such in the output**,"agent-autonomous, inside the human-set §3"
+2026-09-03,"settled by batch 30, from the check that stopped batch 27",**The second defect is fixed in this batch rather than becoming a new one**,agent-autonomous
+2026-09-04,"settled by batch 31, from the clean-room that reached the end",**The batch is `done — produced`: `analysis/run.sh` exited 0 from a clean checkout**,agent-autonomous
+2026-09-04,"settled by batch 31, from the clean-room that reached the end","**The run is held awake with `caffeinate -ims`, so the elapsed time is a measurement**",agent-autonomous
+2026-09-04,"settled by batch 31, from the clean-room that reached the end","**Batch 30's categorical split is vindicated by the margin, not merely by the run finishing**",agent-autonomous
+2026-09-04,"settled by batch 31, from the clean-room that reached the end","**Batch 27's ""the holdout noise band is steady"" is corrected rather than left standing**",agent-autonomous
+2026-09-04,"settled by batch 31, from the clean-room that reached the end",**The fork-agreement finding is reported above the reproduction**,agent-autonomous
+2026-09-04,"settled by batch 31, from the clean-room that reached the end","**Batch 19 reports agreement between the two datasets by identity, not only by count**",agent-autonomous
+2026-09-04,"settled by batch 31, from the clean-room that reached the end",**`cleanroom_phase_e_answer.py` is written rather than the three files compared by eye**,agent-autonomous
+2026-09-04,"settled by batch 31, from the clean-room that reached the end",**`cleanroom_holdout_reproduction.py`'s stale nouns are fixed in this batch**,agent-autonomous
+2026-09-04,"settled by batch 31, from the clean-room that reached the end",**The `yearVariance_shared` timing outlier is reported without a cause**,agent-autonomous
+2026-09-04,"settled by batch 28, from the pool check that recorded the clock","**The headline holdout row's reconstruction is done and reported**: 76.646 rebuilt against 76.731 as run, a residual of 0.085 over 192 cells",agent-autonomous
+2026-09-04,"settled by batch 28, from the pool check that recorded the clock","**A tie-break repair alone was not enough, and the reason is the third instance of batch 24's family**: making a derivation deterministic is not the same as making it right",agent-autonomous
+2026-09-04,"settled by batch 28, from the pool check that recorded the clock","**The sweep lives at `05_stability`, as the last step of its `run.sh`**",agent-autonomous
+2026-09-04,"settled by batch 28, from the pool check that recorded the clock",**The candidate evaluations the rule chose from are not written into the 51 files**,agent-autonomous
+2026-09-04,"settled by batch 28, from the pool check that recorded the clock","**Re-running a check over the held-out year's stored evaluations does not touch §3, and the reading is recorded rather than assumed**","agent-autonomous, inside the human-set §3"
+2026-09-04,"settled by batch 28, from the pool check that recorded the clock","**Forty of the 51 pool rows cannot be reconstructed, and stay that way with the reason recorded**","agent-autonomous, inside the human-set §3"
+2026-09-04,"settled by batch 28, from the pool check that recorded the clock",**The registered prediction fails on the held-out year in both of its halves**,agent-autonomous
+2026-09-04,"settled by batch 20, from the external check","**The two sibling countries are put on the Lao calendar, not their own**",agent-autonomous
+2026-09-04,"settled by batch 20, from the external check","**Nothing on the sibling files is sealed, and no external row is skipped on a second invocation**",agent-autonomous
+2026-09-04,"settled by batch 20, from the external check","**The four sibling datasets are dataset suffixes on the mechanism `__holdout` already uses, and the scheme file became a property of the dataset with them**",agent-autonomous
+2026-09-04,"settled by batch 20, from the external check","**The step-list construction moved into a library both callers import, rather than being copied into the new node**",agent-autonomous
+2026-09-04,"settled by batch 20, from the external check",**`/validate invariants` gains a third planned manifest rather than an exemption for the external directories**,agent-autonomous
+2026-09-04,"settled by batch 20, from the external check","**The drop is reported as replicating, and what that does and does not establish is stated in the same breath**",agent-autonomous
+2026-09-04,"settled by batch 20, from the external check","**`readme-at-start.md`'s ""nothing below 0.57 CRPS can be attributed to a model at all"" is corrected rather than left standing**",agent-autonomous
+2026-09-04,"settled by batch 20, from the external check","**The external plan is recorded once and verified thereafter, not recomputed**",agent-autonomous
+2026-09-04,"settled by batch 20, from the external check","**Thailand's late years, and a second model developed against a second country, are named as what would answer the two remaining questions and are not run**",agent-autonomous

@@ -40,3 +40,44 @@ the commit named above, and `measured_at_commit` in `plan_drift.json` says which
 provenance record says that is the only change made to it. Comparing without stripping it
 would report one deleted line that the project never wrote. The script asserts the marker is
 there rather than assuming it, and stops if it is not.
+
+---
+
+## `26-09-05_planDrift.md` — the same measurement at the end of the project
+
+```
+result:              AI-generated/plan-drift/26-09-05_planDrift.md
+                     plan_drift.json, sections.csv, ledger.csv, decisions.csv, commits.csv
+                     — **rewritten by this run**; see the note below
+script:              AI-internal/useful-scripts/plan_drift.py
+                     sha256:8c9338e201371011d812e876b1f200339952f8acfea0eba0567cbcfbfb149987
+invocation:          .venv/bin/python AI-internal/useful-scripts/plan_drift.py
+inputs:              Archive/plan-as-delivered/26-08-22_dengueForecastingCase_asDelivered.md
+                     Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md
+                     and that file's git history
+environment:         .venv (repository machinery) — CPython 3.13.7
+seeds:               none — the measurement is deterministic
+commit:              ff29c1c4f (`measured_at_commit` in plan_drift.json)
+instructions-commit: 595c32d (AGENTS.md, CLAUDE.md, .claude/)
+node:                not a node — evidence about the method, like the determinism checks
+produced:            2026-09-05, batch 19
+```
+
+**What it establishes.** The same four things at the end of the project that batch 18
+established in the middle of it: 89.1 % of the delivered plan's lines survive byte for byte
+while the document has grown from 468 lines to 1 354; all twelve delivered sections remain
+and one is new; the ledger has gone from seven named batches and three placeholders to
+thirty-one; and the 247 decisions in §4b divide 85.4 % `agent-autonomous`, 6.9 %
+`human-set`, 3.6 % `agent-on-human-assessment`.
+
+**The five data files hold this run and no longer hold batch 18's.** The script writes to
+fixed filenames, so re-running it overwrote the figures `26-08-31_planDrift.md` quotes. That
+narrative is still an accurate account of what the measurement said at batch 18 — its
+numbers are in its own text and in git history at `ad7e64f` — but the files beside it now
+answer for 2026-09-05. **This is a real gap in the project's record-keeping**, of exactly the
+kind Rule 5 exists to prevent, and it is reported in the reproducibility report's *what does
+not hold* section rather than repaired at the end of the project: repairing it means changing
+where the script writes, which changes a script whose output is a reported result, on the
+last batch, for a file whose earlier values are recoverable from git.
+
+**agency:** agent-autonomous.

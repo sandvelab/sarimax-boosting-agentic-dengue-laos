@@ -617,7 +617,7 @@ inputs:       analysis/03_models/03_candidate/c_ensemble/results/{main,main__hol
               96f1205 — the last commit before batch 28 rewrote them
 environment:  .venv (repository machinery); it drives
               analysis/05_stability/scripts/reconstruct_pools.py under environment/
-commit:       (this batch)
+commit:       b47f6f2
 produced:     2026-09-04
 ```
 

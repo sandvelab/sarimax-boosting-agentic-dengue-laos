@@ -2408,3 +2408,113 @@ checkout**, with the qualification in the same breath: our models are bit-identi
 unseeded reference is not, and every figure dividing by it is a draw.
 
 `/validate invariants` passes, all ten. Added no batches. **Remaining order: 28, 20, 19.**
+
+---
+
+## T29 — batch 28: the pool's second path stops depending on what is on disk (2026-09-04)
+
+### What happened
+
+The last of the three defects batch 26 named, and the one it declined to fix in passing.
+`check_pool.py` rebuilds each pool from its members' **own** stored evaluations — the files
+each member produced when it was run on its own, through its own node — and it found them by
+globbing the member's sibling result directories for a run whose `configuration_sha256`,
+dataset hash and backtest flags matched, then taking `found[0]`.
+
+The configuration test is right and is unchanged. The tie-break was not a tie-break: it was a
+record of which combinations existed on disk when the script happened to run. Two strengths
+of the same defect:
+
+| | archived | re-run today |
+|---|---|---|
+| `main`, the persistence member | `main` | `climatology_frozenWindow` |
+| `main__holdout`, `mean_crps_rebuilt` | `null` | **76.646** |
+| `main__holdout`, `not_done_because` | *"no stored evaluation of ['hier_nb', 'boosted']"* | `null` |
+
+**For five batches the record said the second path behind this project's headline held-out
+result could not be run.** Batch 16 ran the holdout's main row before the holdout's family
+rows, so at that moment candidate 1 and candidate 2 genuinely had no separate evaluation of
+2010 — and the file recorded that as a property of the pool.
+
+### Why a tie-break alone was not enough, which is the batch's methodological point
+
+Our candidate families are evaluated on their own **only** under the family fork's own
+combination — `family_hierNB`, `family_boosted` — because the main path runs the pool. Those
+are stability rows. So on a run of `analysis/run.sh` from nothing, every pool is checked hours
+before the runs it needs exist. Batch 31's clean-room run shows it: 13 `pool_check.json` files
+came back changed, `main` among them.
+
+So **making the derivation deterministic is not the same as making it right**. A rule over the
+combination names is deterministic given a set of directories, and what it ranges over is
+produced by the run it sits inside. A check that depends on its own position in the run is a
+report on progress. That is the third instance of batch 24's family: batch 24, *a value that
+records history must not be derived at run time*; batch 26, *a derivation over the filesystem
+is a claim about when it ran*; this one, *and a deterministic derivation over it is still one*.
+
+### What was built
+
+**The rule** — `combos.tokens()` and `combos.implies()`, beside the `__holdout` suffix in
+`analysis/scripts/lib/combos.py`, which is where a combination's name is read. `check_pool.py`
+now names, among the evaluations matching on configuration, dataset and flags: this
+combination's own run of the member where there is one; otherwise the run that moved the
+**fewest forks among the combinations this one implies**, ties broken by name — where implying
+means every fork the candidate moves is one this combination moves too, family tokens aside.
+Each file records which clause chose it, in a `chosen_by` field. The list of candidates the
+rule chose from is deliberately **not** written into those files: that list is a function of
+what is on disk, and putting it there would return the dependence the change removes.
+
+**The sweep** — `analysis/05_stability/scripts/reconstruct_pools.py`, the last step of that
+node's `run.sh`. For every combination with a pool it asks `check_pool`'s own rule — imported,
+never restated — which evaluations should be named, and re-runs `check_pool.py` as a
+subprocess where the file names others. It is the shape this node already has twice, in the
+second passes of `plan_manifest.py` and `collect_conclusions.py`. It rewrote 49 files in
+2 min 28 s; the second invocation rewrote none, took 1.2 s and returned a byte-identical
+summary.
+
+### What changed in the files, computed rather than eyeballed
+
+`AI-internal/useful-scripts/pool_check_rewrite.py` flattens `HEAD`'s copy of every file and
+the new one to their leaves and classifies each differing key
+(`26-09-04_poolCheckRewrite.json`): **51 files, 43 changed in naming and the added field
+only, 4 gained the full reconstruction, 4 gained a member match, 0 numeric changes to values
+that existed before, 0 rows lost anything.**
+
+The four that gained a reconstruction are all held-out rows: `main__holdout` 76.646 against
+76.731, `climatology_frozenWindow__holdout` the same figures, `persistence_negBinomialFloor__
+holdout` 77.414 against 77.504, `weighting_crpsWeighted__holdout` 77.610 against 77.746.
+
+### What the holdout row now says
+
+The residual is **0.085** over 192 cells, the same relative size as development's 0.016 over
+371. **The pool beats its best member on 2010 by 4.767 CRPS** — climatology 81.498,
+candidate 2 81.679, candidate 1 84.707, persistence 128.052 — and **the prediction registered
+before any of it ran fails there in both halves**, where on development one half held: the
+pool's 10–90 coverage is 0.755 against candidate 2's 0.854, so the clause that a linear pool
+covers at least as widely as its widest member does not hold on the held-out year.
+
+**Eleven of the 51 pool rows can be reconstructed; forty cannot**, and no order of execution
+would help — a row that moves a fork inside a member has no separate run of that member under
+the configuration the pool gave it. `05_stability/results/pool_reconstruction.json` names
+them with the reason, so the absence is a recorded decision.
+
+### The defence
+
+`AI-internal/useful-scripts/check_reconstruction_defence.py` puts four states to the sweep on
+the live tree, restoring each: the record batch 16 left (rewritten to 76.646), a file already
+right (not re-run, not touched), a missing file (produced), and `covariates_rich`, which no
+order of execution could reconstruct (left saying so, still naming candidate 1 as the member
+it lacks). All four pass, every file back to its committed digest, `analysis/` clean by git's
+own account.
+
+### Why this does not reopen the holdout
+
+§3 as the human clarified it on 2026-09-01 binds `manifest_holdout.csv`. It is untouched, the
+set is still 32, no model was re-fitted, no evaluation recomputed and no reported score moved.
+What ran is a check over batch 16's own stored evaluations — the standing this project already
+gives a clean-room re-run of the whole phase-E half, which batches 25, 27 and 31 each did. The
+reading is recorded in the plan's §4b rather than assumed.
+
+### State
+
+`done — produced`. Claims **C40** and **C41** added; all ten invariants hold. **20 and 19 are
+the only open rows**, in that order.

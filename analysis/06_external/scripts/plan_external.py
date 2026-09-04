@@ -30,9 +30,27 @@ country answers nothing. Vietnam is ranked first because its file already runs 1
 of the two. Nothing is cut unless the estimate exceeds the budget, and where the line fell
 is written into the plan whether or not it bit.
 
+**The plan is written once and verified thereafter, never recomputed.** Its estimate is
+built from a *measured wall-clock duration* -- the seconds the held-out `main` row took --
+and `05_stability/run.sh` rewrites that measurement every time it runs, which on
+`analysis/run.sh` is immediately before this script. So a plan that recomputed itself would
+come back with different numbers from a clean checkout, and the claim that it was committed
+before the rows ran would be a claim about a file that had since been rewritten. This is the
+fourth time this project has had to separate a recorded decision from a derivation over
+values that do not reproduce: batch 24's frozen manifest, batch 26's tier-1 order and tier-2
+selection, batch 30's frozen development figure, and this.
+
+The split is the one those three arrived at. **The rows are structural** -- they come from
+the tree and from the sibling scheme, and a change to them means the plan describes an
+analysis nobody planned, so it is fatal. **The seconds are a measurement**, so a change to
+them is reported and carried on from.
+
 Writes:
-  results/manifest_external.csv    the rows, their rank, their estimate, their status
-  results/external_plan.json       the budget, the cut order, the rule, and what it cut
+  results/manifest_external.csv    the rows, their rank, their estimate, their status.
+                                   Written once; afterwards read and verified
+  results/external_plan.json       the budget, the cut order, the rule, and what it cut.
+                                   Written once, beside the manifest
+  results/external_plan_check.json what a re-plan today would say, against what is recorded
 
 Seeds: none. Planning reads sizes and writes a table.
 
@@ -148,7 +166,70 @@ def main() -> int:
     fields = ["rank", "combination", "dataset", "kind", "fork", "child", "combo_base",
               "built", "tier", "country", "country_rank", "arrangement", "source",
               "locations_evaluated", "cells", "planned_seconds", "status"]
-    with (RESULTS / "manifest_external.csv").open("w", newline="") as handle:
+    manifest = RESULTS / "manifest_external.csv"
+
+    # Everything in a row except the estimate. These come from the tree and the sibling
+    # scheme, so a disagreement means the recorded plan describes an analysis this tree can
+    # no longer produce -- which is fatal, before anything is written.
+    STRUCTURAL = [f for f in fields if f != "planned_seconds"]
+
+    if manifest.exists():
+        recorded = list(csv.DictReader(manifest.open()))
+        today = {r["combination"]: r for r in planned}
+        moved = []
+        for row in recorded:
+            mine = today.get(row["combination"])
+            if mine is None:
+                moved.append(f"{row['combination']}: recorded, and this tree has no such row")
+                continue
+            for field in STRUCTURAL:
+                if str(mine[field]) != row[field]:
+                    moved.append(f"{row['combination']}.{field}: recorded {row[field]!r}, "
+                                 f"this tree says {str(mine[field])!r}")
+        for name in sorted(set(today) - {r["combination"] for r in recorded}):
+            moved.append(f"{name}: this tree has it and the recorded plan does not")
+        if moved:
+            raise SystemExit(
+                "the recorded external plan is not one this tree can produce:\n  "
+                + "\n  ".join(moved)
+                + "\nThe rows are structural. Fix the tree or delete the record "
+                  "deliberately; do not let this script rewrite it.")
+
+        drift = {row["combination"]: {
+            "recorded_planned_seconds": float(row["planned_seconds"]),
+            "a_re_plan_today_would_say": today[row["combination"]]["planned_seconds"],
+            "difference": round(today[row["combination"]]["planned_seconds"]
+                                - float(row["planned_seconds"]), 1),
+        } for row in recorded}
+        moved_seconds = {k: v for k, v in drift.items() if v["difference"]}
+        (RESULTS / "external_plan_check.json").write_text(json.dumps({
+            "what_this_is": (
+                "the recorded plan against what a re-plan would say today. The rows are "
+                "verified and never rewritten; the estimate is a measured wall-clock "
+                "duration and is reported when it drifts"),
+            "manifest": str(manifest.relative_to(ROOT)),
+            "rows_agree": True,
+            "cost_unit_recorded": json.loads(
+                (RESULTS / "external_plan.json").read_text())["cost_unit_value"],
+            "cost_unit_today": unit,
+            "estimates_that_drifted": len(moved_seconds),
+            "drift": drift,
+            "why_drift_is_not_fatal": (
+                "the unit is the seconds the held-out `main` row took, read from "
+                "05_stability/results/run_status_holdout.csv, which every run of "
+                "05_stability/run.sh rewrites -- and that runs immediately before this "
+                "script. An estimate that reproduced would mean the run it was measured "
+                "from had not happened"),
+        }, indent=2) + "\n")
+        print(f"external plan: {len(recorded)} rows verified against the record, "
+              f"{len(moved_seconds)} estimate(s) drifted (reported, not rewritten)")
+        for row in recorded:
+            print(f"{row['rank']}. {row['combination']:18s} {row['country']:9s} "
+                  f"{row['locations_evaluated']:>3s} provinces  {row['cells']:>5s} cells  "
+                  f"~{float(row['planned_seconds']) / 60:6.1f} min  {row['status']}")
+        return 0
+
+    with manifest.open("w", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         for row in planned:

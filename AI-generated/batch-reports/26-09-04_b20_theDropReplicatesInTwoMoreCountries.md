@@ -191,6 +191,36 @@ produce the missing runs — and
 `analysis/06_external/results/pool_reconstruction_external.json` says which it is, what it
 would have cost (two more model evaluations per dataset) and why it was not bought.
 
+## 6b. A fourth instance of batch 24's family, found before a clean-room run found it
+
+The plan this batch committed at `bfbc096` carries an estimate, and that estimate divides a
+**measured wall-clock duration** — the seconds the held-out `main` row took, read from
+`05_stability/results/run_status_holdout.csv`. That file is rewritten by every run of
+`05_stability/run.sh`, which on `analysis/run.sh` is the step immediately before this node.
+
+So `plan_external.py` as first written would have come back from a clean checkout with a
+different estimate in every row, and **the claim that the plan was committed before the rows
+ran would have been a claim about a file that had since been rewritten**. It is the same
+defect batch 24 found in the frozen manifest, batch 26 in the tier-1 order and the tier-2
+selection, and batch 30 in the frozen development figure — a value that records a decision,
+derived at run time from numbers that do not reproduce. The three before it were each found
+by a clean-room run that exited non-zero; this one was found by asking what the next one
+would do.
+
+The repair is theirs. **The rows are structural** — they come from the tree and the sibling
+scheme — so a disagreement means the record describes an analysis this tree cannot produce,
+and it is fatal before anything is written. **The estimate is a measurement**, so a drift is
+written into `results/external_plan_check.json` and the run carries on. The manifest and
+`external_plan.json` are read and verified, never rewritten.
+
+`AI-internal/useful-scripts/check_external_plan_defence.py` puts four situations to it, all
+passing (`AI-generated/validation/26-09-04_externalPlanDefence.json`): the record as
+committed; the cost unit changed by the size and direction batch 31's clean-room run changed
+it, which reports four drifted estimates and leaves the manifest byte-identical; a structural
+field moved, which exits 1 naming `main__tha.cells` and writes nothing; and no record at all,
+which writes the plan. Every file is restored from git after each scenario, and the harness
+refuses to start against an uncommitted one.
+
 ## 7. The budget, and where the estimate went
 
 **Planned 3.14 hours against a six-hour budget; nothing was cut.** The budget was set before
@@ -214,7 +244,7 @@ was never needed.
 | 1 — track results | Six provenance records written: two at `01_data/03_siblings`, four at `06_external`. Nine existing records gained appended sections for scripts that changed |
 | 2 — no manual manipulation | Nothing edited by hand. The sibling files are cut by a script and verified as subsets of their sources line by line |
 | 3 — environment | Unchanged and unre-pinned; the same `environment/chapenv` and the same pinned reference image digest |
-| 4 — version control | Committed before the run (`bfbc096`) with the plan and the estimate in it, and again after. No change to `AGENTS.md`, `CLAUDE.md` or `.claude/` |
+| 4 — version control | Committed before the run (`bfbc096`) with the plan and the estimate in it, and again after. **§6b matters here**: the plan is now read and verified rather than recomputed, so what that commit carries stays what a later run compares against. No change to `AGENTS.md`, `CLAUDE.md` or `.claude/` |
 | 5 — intermediates | Every external row stores its `eval.nc`, per-cell CSV, model spec, members and cost, exactly as its Lao twin does |
 | 6 — seeds | Unchanged. Component seeds derive from the project seed and the component's name; no part of that derivation is the dataset. The reference is unseeded and is run four times on each of the four datasets |
 | 7 — plots | One figure, with its plotted values beside it and its own script; the pre-aggregation values are the per-cell scores, which no axis here averages |

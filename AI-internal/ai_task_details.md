@@ -2613,6 +2613,23 @@ order of execution would produce the missing runs. Different from batch 28's ord
 and `results/pool_reconstruction_external.json` says which it is and what it would have cost
 (two more model evaluations per dataset).
 
+### A fourth instance of batch 24's family, found by asking rather than by a run failing
+
+`plan_external.py` as first written recomputed the plan it had committed. Its estimate
+divides a measured wall-clock duration — the seconds the held-out `main` row took, out of
+`05_stability/results/run_status_holdout.csv` — and `05_stability/run.sh` rewrites that file
+one step before this node runs. From a clean checkout the plan would have come back with a
+different estimate in every row, and "committed before the rows ran" would have been a claim
+about a file that had since been rewritten.
+
+Same family as batch 24's frozen manifest, batch 26's tier-1 order and tier-2 selection, and
+batch 30's frozen development figure — each of which was found by a clean-room run exiting
+non-zero. This one was found by asking what the next such run would do. Same repair: rows are
+structural and a disagreement is fatal before anything is written; the estimate is a
+measurement and a drift goes into `results/external_plan_check.json`.
+`check_external_plan_defence.py` puts four situations to it, all passing, the drifted-unit
+one using the size and direction batch 31's clean-room run changed that duration by.
+
 ### Files, and what a later session needs
 
 New: `AI-internal/data-acquisition/fetch_sibling_datasets.sh`, `Archive/sibling-datasets/`,

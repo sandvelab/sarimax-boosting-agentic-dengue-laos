@@ -43,3 +43,41 @@ holdout `main` row — the one Lao row that ran this same pipeline on a dataset 
 had run before. The development `main` row runs `conclude.py` alone and costs nothing, so it
 cannot be the unit; that is exactly the kind of substitution that would have made the
 estimate meaningless while looking like a measurement.
+
+---
+
+## 2026-09-04 — batch 20 — the plan is recorded, not recomputed
+
+```
+result:              results/manifest_external.csv (now read and verified, not rewritten)
+                     results/external_plan.json (unchanged)
+                     results/external_plan_check.json (new)
+script:              scripts/plan_external.py
+                     sha256:e169d8cbd5dccc4e484ed718efb76109c96fe6f9a0ef431630e09bb16c46c2ac
+commit:              a715ffc
+instructions-commit: 595c32d (AGENTS.md, CLAUDE.md, .claude/)
+```
+
+**What changed, and why it had to.** The estimate divides a **measured wall-clock duration**
+— the seconds the held-out `main` row took, read from
+`05_stability/results/run_status_holdout.csv` — and `05_stability/run.sh` rewrites that
+measurement every time it runs, which on `analysis/run.sh` is the step immediately before
+this node. A planning script that recomputed itself would come back from a clean checkout
+with a different estimate, and the claim that the plan was committed before the rows ran
+would be a claim about a file that had since been rewritten.
+
+Fourth instance of the family batches 24, 26 and 30 addressed, and it is caught here before
+a clean-room run found it rather than after. The split is theirs: the **rows** come from the
+tree and the sibling scheme, so a disagreement means the record describes an analysis this
+tree cannot produce and is **fatal before anything is written**; the **estimate** is a
+measurement, so a drift is written into `external_plan_check.json` and the run carries on.
+
+**What it changed in the results: nothing.** The manifest and `external_plan.json` are the
+files committed at `bfbc096`, byte for byte. The new file reports zero drift against this
+tree, which is what a tree whose stability half has not re-run should say.
+
+**The defence.** Four situations, in
+`AI-generated/validation/26-09-04_externalPlanDefence.json`, all passing: the record as
+committed; the cost unit changed by the size batch 31's clean-room run changed it, giving
+four reported drifts and a byte-identical manifest; a structural field moved, giving exit 1
+and nothing written; and no record at all, giving the plan written.

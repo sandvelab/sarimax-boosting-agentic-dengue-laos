@@ -637,3 +637,40 @@ and exits non-zero without.
 
 agency: agent-autonomous.
 information: agent-retrieved.
+
+## `26-09-04_externalPlanDefence.json` — four situations put to the external plan's record
+
+```
+result:       AI-generated/validation/26-09-04_externalPlanDefence.json
+script:       AI-internal/useful-scripts/check_external_plan_defence.py
+              sha256:67c9f1289daa6cb7edda7bc85a35baa76e9392a0a3db8fe382bc737ba4c1992d
+invocation:   .venv/bin/python AI-internal/useful-scripts/check_external_plan_defence.py
+inputs:       analysis/06_external/results/manifest_external.csv
+              analysis/06_external/results/external_plan.json
+              analysis/05_stability/results/run_status_holdout.csv
+              each restored from HEAD after every scenario
+environment:  .venv (repository machinery); it drives
+              analysis/06_external/scripts/plan_external.py under environment/
+commit:       a715ffc
+produced:     2026-09-04
+```
+
+Batch 20's external plan carries an estimate built from a **measured wall-clock duration** —
+the seconds the held-out `main` row took — and `05_stability/run.sh` rewrites that
+measurement on every run, one step before this node. A planning script that recomputed itself
+would therefore come back different from a clean checkout, and the claim that the plan was
+committed before the rows ran would be a claim about a file that had since been rewritten.
+Fourth instance of the family batches 24, 26 and 30 addressed.
+
+The split is theirs: **rows are structural and a disagreement is fatal; the estimate is a
+measurement and a drift is reported**. Four situations, all passing — the record as
+committed (nothing rewritten, no drift); the cost unit changed by the size and direction
+batch 31's clean-room run changed it (exit 0, four estimates reported as drifted, manifest
+byte-identical); a structural field moved (exit 1, nothing written, the message naming
+`main__tha.cells`); and no record at all (the plan written, and from this tree identical to
+the record — from a tree whose stability half had re-run it would not be, which is the whole
+reason the record exists). Every file is restored from git after each scenario and the
+harness refuses to start against an uncommitted one.
+
+agency: agent-autonomous.
+information: agent-retrieved.

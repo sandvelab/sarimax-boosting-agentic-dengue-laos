@@ -91,3 +91,9 @@ here.
   replaced `plan_manifest.py`'s re-derivation. One of them is driven by the clean-room run's
   own `conclusions.csv` — the data that made batch 25 exit 1 — and the recorded pairs stand
   while the rule, reported beside them, would choose six different ones. All five pass.
+- `26-09-04_externalPlanDefence.json` — batch 20, and not a `/validate` run: four situations
+  put to `analysis/06_external/scripts/plan_external.py`, which records its plan once and
+  verifies it thereafter. Its estimate divides a measured wall-clock duration that
+  `05_stability/run.sh` rewrites one step earlier, so a plan that recomputed itself could not
+  have been the plan committed before the rows ran. Rows are structural and fatal; the
+  estimate is a measurement and is reported. All four pass.

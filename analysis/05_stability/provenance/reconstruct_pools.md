@@ -66,3 +66,29 @@ not about the analysis, and putting it here would make this file differ between 
 and a warm one for reasons that are not results; it is printed to the run log instead).
 agency: agent-autonomous.
 information: agent-retrieved.
+
+---
+
+## 2026-09-04 — batch 20 — the rows it settles are read off the manifests, not off disk
+
+```
+script:              analysis/05_stability/scripts/reconstruct_pools.py
+                     sha256:7ae90076f1f1dba908e32b0356b0d88c4d2767dfbb73a3f68159e6b3dcc3f449
+commit:              bfbc096
+instructions-commit: 595c32d (AGENTS.md, CLAUDE.md, .claude/)
+```
+
+**What changed.** The rows this step settles are read off the two perturbation manifests
+rather than off the directories in `c_ensemble/results/`. Batch 20 added a node that runs
+after this one and whose rows are pools as well, so from here they are sometimes present and
+sometimes not — and a step whose output depends on which directories happen to exist is the
+defect this script was written to remove. `06_external` settles its own, in
+`results/pool_reconstruction_external.json`.
+
+**What it changed in the results: nothing.** Re-run with all four external pools present on
+disk, `pool_reconstruction.json` comes back byte-identical to the copy batch 28 produced —
+`977f3302…` before and after — and no `pool_check.json` was rewritten. Before this change
+the same invocation would have added four rows to it.
+
+**What has run under this version.** Two invocations, both reporting 11 of 51 rebuilt, 0
+files rewritten.

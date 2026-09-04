@@ -1,0 +1,21 @@
+{
+ "additional_continuous_covariates": [],
+ "choice": "c_hurdle",
+ "combo": "main__tha",
+ "description": "a logistic model for reporting at all and a count model for how much",
+ "input_from_combo": "main__tha",
+ "node": "analysis/03_models/03_candidate/a_hierNB/01_observation/c_hurdle",
+ "order": 1,
+ "premise": {
+  "largest_month": 3113,
+  "mean_over_all_months": 45.73140881913304,
+  "mean_over_reporting_months": 49.405429955591444,
+  "median_over_reporting_months": 17.0,
+  "observed_cells": 10704,
+  "zero_share": 0.07436472346786248
+ },
+ "stage": "observation",
+ "user_option_values": {
+  "observation": "hurdle"
+ }
+}

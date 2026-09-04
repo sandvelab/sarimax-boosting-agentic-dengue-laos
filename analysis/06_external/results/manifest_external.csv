@@ -1,0 +1,5 @@
+rank,combination,dataset,kind,fork,child,combo_base,built,tier,country,country_rank,arrangement,source,locations_evaluated,cells,planned_seconds,status
+1,main__vnm,vnm,main,-,-,-,True,1,Vietnam,1,"development backtest, 3/8/3, evaluating 2008-01..2009-12",analysis/01_data/03_siblings/results/VNM_development_1998-01_2009-12.csv,63,1512,3412.2,planned
+2,main__vnmFinal,vnmFinal,main,-,-,-,True,1,Vietnam,1,"final year, 3/4/3, evaluating 2010",analysis/01_data/03_siblings/results/VNM_full_1998-01_2010-12.csv,63,756,1706.1,planned
+3,main__tha,tha,main,-,-,-,True,1,Thailand,2,"development backtest, 3/8/3, evaluating 2008-01..2009-12",analysis/01_data/03_siblings/results/THA_development_1998-01_2009-12.csv,76,1824,4116.4,planned
+4,main__thaFinal,thaFinal,main,-,-,-,True,1,Thailand,2,"final year, 3/4/3, evaluating 2010",analysis/01_data/03_siblings/results/THA_full_1998-01_2010-12.csv,76,912,2058.2,planned

@@ -407,3 +407,27 @@ agency: agent-autonomous for the mechanism; human-set for the constraint it work
 (plan §3).
 information: agent-retrieved — the digest is computed from the file and the two changes read
 from the diffs at `ae565fd` and `ad7e64f`.
+
+---
+
+## 2026-09-04 — batch 20 — the step lists move to a library a second node calls
+
+```
+script:              analysis/05_stability/scripts/run_manifest.py
+                     sha256:09f4cf5220b7764aeca5e2b1c472115fb112bc5b5278ce809f1f8bb07b0c6a57
+commit:              bfbc096
+instructions-commit: 595c32d (AGENTS.md, CLAUDE.md, .claude/)
+```
+
+**What changed.** Building a row's step list and executing it moved to
+`scripts/lib/driver.py`, because `06_external` became a second caller of the same operation
+and a check that ran a second implementation of the pipeline would measure the code rather
+than the model. What stayed here is the perturbation set's own reasoning: which manifest is
+being run, the seal on the held-out year, and what a row that cannot run records.
+
+**What it changed in the results: nothing.** `--dry-run` prints the full step list of every
+row; the output for all 32 development rows and for the holdout set is byte-identical before
+and after the move. No row was executed by this version — the two manifests are unchanged
+and the holdout is sealed in this working tree.
+
+**What has run under this version.** Two dry runs, for that comparison.

@@ -1,0 +1,19 @@
+{
+ "additional_continuous_covariates": [],
+ "choice": "a_offset",
+ "combo": "main__thaFinal",
+ "description": "log(population) as a fixed offset; the model forecasts a rate",
+ "input_from_combo": "main__thaFinal",
+ "node": "analysis/03_models/03_candidate/a_hierNB/03_population/a_offset",
+ "order": 3,
+ "premise": {
+  "population_max": 8434328,
+  "population_min": 166949,
+  "population_ratio_largest_to_smallest": 50.52038646532773,
+  "provinces_with_nonpositive_population": []
+ },
+ "stage": "population",
+ "user_option_values": {
+  "population": "offset"
+ }
+}

@@ -288,3 +288,17 @@ re-running a batch produces a different report rather than the same one.
   member on 2010 by 4.767 CRPS.** All 51 files rewritten, 43 in naming only, **no number that
   existed before moved**. Eleven of the 51 pool rows can be reconstructed and forty cannot,
   for a reason that is a property of the frozen manifest. Added no batches; 20 and 19 remain.
+- `26-09-04_b20_theDropReplicatesInTwoMoreCountries.md` — batch 20, phase E,
+  `done — produced`: **the external check.** The reported model, unchanged, on the Thai and
+  Vietnamese files of the same harmonisation, in the same two arrangements Laos is reported
+  in and on the same months. **The development-to-final-year drop replicates in both** —
+  Thailand +0.0856 → +0.0197, Vietnam +0.0852 → **−0.0862**, against Laos's +0.1485 →
+  +0.0868, every drop larger than the two reference bands together — so phase E's largest
+  open question is answered as far as this project can answer it: **2010 alone does not
+  account for the drop**. The model beats both required baselines on all six analyses and the
+  reference on five. **The country it was developed on is the one it scores highest on**, by
+  0.063, while the two it never saw agree to 0.0004. And one finding is about the evaluation
+  rather than the model: **the reference's own unseeded re-run spread is 0.032 CRPS on
+  Thailand, 0.565 on Laos and 7.082 on Vietnam**, a factor of 215, so Vietnam's margin sits
+  inside its own noise floor and the project's "nothing below 0.57 CRPS" is a property of the
+  Lao dataset rather than of the method. Added no batches; **19 is the only open row**.

@@ -1,0 +1,34 @@
+{
+  "what_this_is": "the external check's four rows, planned and committed before any of them ran. No fork moves in any of them: the reported model runs unchanged and the dataset underneath is what differs",
+  "budget_hours": 6.0,
+  "budget_basis": "what analysis/run.sh already costs. An external check on the analysis should not cost more than the analysis. Set before anything here was costed",
+  "cost_unit": "seconds per evaluated cell",
+  "cost_unit_value": 2.2567708333333334,
+  "cost_unit_measured_from": {
+    "development": {
+      "from_row": "main",
+      "from_file": "analysis/05_stability/results/run_status.csv",
+      "seconds": 0.5,
+      "cells": 371,
+      "seconds_per_cell": 0.0013477088948787063
+    },
+    "holdout": {
+      "from_row": "main__holdout",
+      "from_file": "analysis/05_stability/results/run_status_holdout.csv",
+      "seconds": 433.3,
+      "cells": 192,
+      "seconds_per_cell": 2.2567708333333334
+    }
+  },
+  "cost_unit_why": "the holdout main row is the same pipeline these four rows run, on a dataset where nothing had run before -- every setup fork at its main child, both baselines, the reference's four unseeded repeats, the reported pool and the scoring chain. The development main row runs conclude.py alone and costs nothing, so it cannot be the unit",
+  "cut_order": [
+    "Thailand",
+    "Vietnam"
+  ],
+  "cut_unit": "whole country, because the check measures the drop between a country's two arrangements and half a country measures nothing",
+  "planned_seconds_total": 11292.9,
+  "planned_hours_total": 3.14,
+  "within_budget": true,
+  "cut": [],
+  "cut_none_because": "the estimate, 3.14 h, is inside the 6.0 h budget"
+}

@@ -24,6 +24,8 @@ main-path: -
 - `04_score` — collecting the per-cell scores, aggregating them, and comparing the models.
 - `05_stability` — the alternatives the main path did not take, run as a frozen set on both
   datasets, and reported as a distribution.
+- `06_external` — the reported model, unchanged, on the sibling harmonised datasets for
+  Thailand and Vietnam, in the same two arrangements and on the same months.
 
 _(The decomposition was designed in batch 5 of
 `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md` and built in batch 7.
@@ -83,6 +85,22 @@ CRPS winner has not won. The reported model is the most over-dispersed in the pr
 development — 10–90 coverage 0.863 against a nominal 0.80 — and 0.755 on the holdout; across
 the frozen set, coverage runs 0.458 to 0.920 on development and 0.210 to 0.854 on 2010.
 
+**The drop from the development backtest to the held-out year is not about 2010, and the
+model's Lao margin is partly about Laos.** Run unchanged on two other countries of the same
+harmonisation, on the same months and under the same two schemes, the model drops in both:
+Thailand +0.0856 to +0.0197, Vietnam +0.0852 to **−0.0862**, against Laos's +0.1485 to
++0.0868. All three drops exceed the two reference bands they are measured against. And the
+two countries the model was never developed on agree with each other to 0.0004 on the
+development arrangement while sitting 0.063 below Laos, which is about the size of the drop
+itself. It beats both required baselines on all six analyses and the reference on five.
+→ `06_external/results/external_vs_laos.json`, `external_conclusions.csv`
+
+**What the evaluation can resolve is a property of the country and not of the method.** The
+reference model's four unseeded repeats span 0.032 CRPS on Thailand's development backtest,
+0.565 on Laos's and 7.082 on Vietnam's — a factor of 215 on one model at one configuration.
+Vietnam's +0.0852 margin is inside its own noise floor; Thailand's near-identical +0.0856 is
+thirty-five times it. → `06_external/results/external_conclusions.csv`
+
 _(Every figure above is read from a file this tree produced. Nothing in this section states a
-number that is not in `results/main/conclusion.json`, `results/main__holdout/conclusion.json`
-or the files those name.)_
+number that is not in `results/main/conclusion.json`, `results/main__holdout/conclusion.json`,
+`06_external/results/external_conclusions.csv` or the files those name.)_

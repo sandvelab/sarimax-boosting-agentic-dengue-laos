@@ -1,0 +1,204 @@
+{
+ "additional_continuous_covariates": [
+  "rainfall",
+  "mean_temperature",
+  "mean_relative_humidity"
+ ],
+ "candidate": "boosted",
+ "choice_combos": {
+  "features": "main__vnmFinal",
+  "head": "main__vnmFinal"
+ },
+ "choice_nodes": {
+  "features": "analysis/03_models/03_candidate/b_boosted/01_features/a_lagBlock",
+  "head": "analysis/03_models/03_candidate/b_boosted/02_head/a_negBinomial"
+ },
+ "choices": {
+  "features": "a_lagBlock",
+  "head": "a_negBinomial"
+ },
+ "combo": "main__vnmFinal",
+ "configuration": "model_configuration.yaml",
+ "configuration_sha256": "208c71c747d8a5924fb54bd60b9ff16ddb020b8874c7bb8df5394c6bbc1ba8ae",
+ "node": "analysis/03_models/03_candidate/b_boosted",
+ "route": "chap eval --model-configuration-yaml -> ModelConfiguration -> model_configuration_for_run.yaml -> {model_config} in the MLproject entry points",
+ "seed_derivation": {
+  "component": "analysis/03_models/03_candidate/b_boosted",
+  "derivation": "int(blake2b('<project_seed>:<component>', digest_size=8), 16) % 4294967296",
+  "project_seed": 20260822,
+  "seed": 1877199108
+ },
+ "stages": [
+  {
+   "additional_continuous_covariates": [
+    "rainfall",
+    "mean_temperature",
+    "mean_relative_humidity"
+   ],
+   "choice": "a_lagBlock",
+   "chosen_under_combo": "main__vnmFinal",
+   "combo": "main__vnmFinal",
+   "description": "3 climate columns at lags [0, 1, 2, 3], counts at lags [3, 4, 5, 6, 12], and log population; no calendar and no province identifier",
+   "input_from_combo": "main__vnmFinal",
+   "node": "analysis/03_models/03_candidate/b_boosted/01_features/a_lagBlock",
+   "order": 1,
+   "premise": {
+    "climate_columns_present": [
+     "rainfall",
+     "mean_temperature",
+     "mean_relative_humidity"
+    ],
+    "climate_missing_values": {
+     "mean_relative_humidity": 0,
+     "mean_temperature": 0,
+     "rainfall": 0
+    },
+    "n_features": 18,
+    "provinces": 63,
+    "rows": 9828,
+    "rows_whose_count_lag_falls_before_the_record": {
+     "cases_lag12": 756,
+     "cases_lag3": 189,
+     "cases_lag4": 252,
+     "cases_lag5": 315,
+     "cases_lag6": 378
+    },
+    "target_missing_values": 216
+   },
+   "stage": "features",
+   "user_option_values": {
+    "climate_columns": [
+     "rainfall",
+     "mean_temperature",
+     "mean_relative_humidity"
+    ],
+    "climate_lags": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "count_lags": [
+     3,
+     4,
+     5,
+     6,
+     12
+    ],
+    "features": "lag_block"
+   },
+   "why_climate_at_lag_zero": "chap eval hands the model the covariates of the months it is asked to forecast, so a climate value in a forecast month is known; only the target is unknown, which is why only the target is lagged by three"
+  },
+  {
+   "additional_continuous_covariates": [],
+   "choice": "a_negBinomial",
+   "chosen_under_combo": "main__vnmFinal",
+   "combo": "main__vnmFinal",
+   "description": "one booster for the conditional mean under a Poisson deviance loss, and a negative binomial around it at a single dispersion estimated by maximum likelihood on the training fit",
+   "input_from_combo": "main__vnmFinal",
+   "node": "analysis/03_models/03_candidate/b_boosted/02_head/a_negBinomial",
+   "order": 2,
+   "premise": {
+    "poisson_would_imply": 1.0,
+    "rows": 9828,
+    "target_observed": 9612,
+    "target_zero_share": 0.39232209737827717,
+    "variance_to_mean_by_province": {
+     "VN-01": 1.4838709677419357,
+     "VN-02": 2.1496774193548394,
+     "VN-03": 11.790132827324472,
+     "VN-04": 20.12043010752688,
+     "VN-05": 12.785738539898128,
+     "VN-06": 0.9870967741935485,
+     "VN-09": 3.8296499656829095,
+     "VN-13": 151.36672608727505,
+     "VN-14": 6.49147149801149,
+     "VN-18": 3.291444600280506,
+     "VN-20": 32.48445119845272,
+     "VN-21": 436.02330947924696,
+     "VN-22": 1404.2491384667535,
+     "VN-23": 3329.8118132651616,
+     "VN-24": 813.7368571655672,
+     "VN-25": 2349.018113024497,
+     "VN-26": 288.2858438687001,
+     "VN-27": 299.5124378722169,
+     "VN-28": 441.3128482850638,
+     "VN-29": 503.9744370132506,
+     "VN-30": 351.2887068166474,
+     "VN-31": 326.53635263880693,
+     "VN-32": 440.86872293415814,
+     "VN-33": 1051.3913070082747,
+     "VN-34": 286.6459476822763,
+     "VN-35": 400.69101540625365,
+     "VN-36": 256.5517678051111,
+     "VN-37": 339.32451516177395,
+     "VN-39": 520.6759038407919,
+     "VN-40": 314.57341991241424,
+     "VN-41": 298.40555056717255,
+     "VN-43": 191.63582704186686,
+     "VN-44": 269.17720661183336,
+     "VN-45": 408.7281695328679,
+     "VN-46": 424.43619632665536,
+     "VN-47": 354.6256596831041,
+     "VN-49": 90.89314787019721,
+     "VN-50": 1659.531485348927,
+     "VN-51": 170.39731280425957,
+     "VN-52": 351.1498652774006,
+     "VN-53": 1.376774193548387,
+     "VN-54": 200.1031095611741,
+     "VN-55": 125.1445088447506,
+     "VN-56": 219.33742208471722,
+     "VN-57": 197.00385619433737,
+     "VN-58": 261.50078185957915,
+     "VN-59": 721.4200425501848,
+     "VN-61": 2.5419354838709687,
+     "VN-63": 35.27816582244734,
+     "VN-66": 4.0455008488964355,
+     "VN-67": 144.0868748055181,
+     "VN-68": 127.10989218676171,
+     "VN-69": 7.3304095686843045,
+     "VN-70": 92.98571119289889,
+     "VN-71": 3.380722891566264,
+     "VN-72": 237.13653882762557,
+     "VN-73": 57.81104616485746,
+     "VN-CT": 102.59129718738637,
+     "VN-DN": 394.0267047663393,
+     "VN-HN": 1710.3194333547017,
+     "VN-HP": 33.77630459367764,
+     "VN-SG": 626.4750302135604
+    },
+    "variance_to_mean_max": 3329.8118132651616,
+    "variance_to_mean_median": 246.84415331636836,
+    "variance_to_mean_min": 0.9870967741935485
+   },
+   "stage": "head",
+   "user_option_values": {
+    "head": "negative_binomial"
+   },
+   "what_the_premise_implies": "a single shared dispersion is being asked to cover the whole spread of variance-to-mean ratios recorded above; the wider that spread, the more of the calibration error this head cannot reach"
+  }
+ ],
+ "user_option_values": {
+  "climate_columns": [
+   "rainfall",
+   "mean_temperature",
+   "mean_relative_humidity"
+  ],
+  "climate_lags": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "count_lags": [
+   3,
+   4,
+   5,
+   6,
+   12
+  ],
+  "features": "lag_block",
+  "head": "negative_binomial",
+  "seed": 1877199108
+ }
+}

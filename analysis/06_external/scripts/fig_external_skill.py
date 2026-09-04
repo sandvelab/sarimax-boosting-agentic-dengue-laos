@@ -80,30 +80,30 @@ for country in countries:
     points.sort(key=lambda r: ORDER.index(r["arrangement"]))
     xs = [x[r["arrangement"]] for r in points]
     ys = [r["skill_score"] for r in points]
+    # The province count goes in the legend, not beside the point: Thailand and Vietnam
+    # score within 0.0004 of each other on the development arrangement, so two labels
+    # there would sit on top of one another.
     ax.plot(xs, ys, color=colour[country], linewidth=2.0, marker="o", markersize=11,
-            markeredgecolor="white", markeredgewidth=1.2, zorder=3, label=country)
+            markeredgecolor="white", markeredgewidth=1.2, zorder=3,
+            label=f"{country} — {points[0]['n_locations']} provinces")
     for r in points:
         band = r["reference_repeat_spread_skill"]
         ax.errorbar(x[r["arrangement"]], r["skill_score"], yerr=band, fmt="none",
                     ecolor=colour[country], elinewidth=1.4, capsize=6, alpha=0.65,
                     zorder=2)
-    last = points[-1]
     ax.annotate(f"  {country}", (xs[-1], ys[-1]), fontsize=10, ha="left", va="center",
                 color=colour[country])
-    first = points[0]
-    ax.annotate(f"{first['n_locations']} provinces  ", (xs[0], ys[0]), fontsize=8,
-                ha="right", va="center", color="0.35")
 
 ax.set_xticks(list(x.values()))
 ax.set_xticklabels([LABELS[name] for name in ORDER], fontsize=9)
 ax.set_xlim(-0.55, len(ORDER) - 0.25)
 ax.set_ylabel("skill score,  1 − CRPS(ours) / CRPS(reference)")
-drops = ", ".join(f"{k} {v:+.4f}" for k, v in sorted(
+drops = "   ".join(f"{k} {v:+.3f}" for k, v in sorted(
     {**{"Laos": summary["lao_drop"]}, **summary["external_drops"]}.items())
     if v is not None)
 ax.set_title("the reported model, unchanged, on two countries it was never developed on\n"
-             f"drop from the development backtest to the final year: {drops}",
-             fontsize=11, loc="left")
+             f"the drop to the final year, in skill:\n{drops}",
+             fontsize=10.5, loc="left")
 ax.legend(loc="lower left", fontsize=9, frameon=False)
 ax.grid(alpha=0.25, axis="y", zorder=0)
 

@@ -1,0 +1,67 @@
+# main__vnm [main] base=-
+
+$ popColumn/a_static: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/01_population/a_static/run.sh
+population/a_static: 9072 rows, constant per province True -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/01_population/a_static/results/main__vnm
+
+$ trainingWindow/a_from1998: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/02_trainingWindow/a_from1998/run.sh
+trainingWindow/a_from1998: 9072 -> 9072 rows (1998-01..2009-12)
+
+$ provinces/a_chapFilter: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/03_provinces/a_chapFilter/run.sh
+provinces/a_chapFilter: 63 provinces in the file, 63 expected to contribute 1512 cells
+
+$ retrain/a_once: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/04_retrain/a_once/run.sh
+retrain/a_once: n_retrain=1, 9072 rows pass through
+
+$ assemble_setup: /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/02_setup/scripts/assemble_setup.py
+setup[main__vnm] on vnm: 9072 rows, 63 locations, 1998-01..2009-12, flags {'n_periods': 3, 'n_splits': 8, 'stride': 3, 'n_retrain': 1}, choices {'population': 'a_static', 'trainingWindow': 'a_from1998', 'provinces': 'a_chapFilter', 'retrain': 'a_once'}
+
+$ persistence/a_empiricalChange: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/01_persistence/a_empiricalChange/run.sh
+persistence[main__vnm]: 25 s (3.1 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/main__vnm
+
+$ climatology/a_expandingWindow: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/run.sh
+climatology[main__vnm]: 23 s (2.9 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/01_baselines/02_climatology/a_expandingWindow/results/main__vnm
+
+$ reference: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/02_reference/run.sh
+reference repeat 1 of 4
+reference repeat 2 of 4
+reference repeat 3 of 4
+reference repeat 4 of 4
+reference[main__vnm]: 4 repeats, 1011 s total (31.6 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/02_reference/results/main__vnm
+
+$ family/c_ensemble: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/run.sh
+weighting/a_equal[main__vnm]: equal weights, nothing estimated; 6 members at 0.167 each, 4 of them required baselines -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/main__vnm
+  a_hierNB: assembling its configuration under 'main__vnm'
+    observation/c_hurdle[main__vnm]: hurdle; zeros 0.40, mean over all months 105.1 against 174.4 over reporting months -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/01_observation/c_hurdle/results/main__vnm
+    covariates/c_climateFree[main__vnm]: no climate columns; ['rainfall', 'mean_temperature', 'mean_relative_humidity'] left out, 126 rows the main path drops are kept -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/02_covariates/c_climateFree/results/main__vnm
+    population/a_offset[main__vnm]: log(population) offset; largest/smallest 25.2 -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/03_population/a_offset/results/main__vnm
+    fitTime/a_trainOnly[main__vnm]: fit in train, n_retrain 1, 21 months of later history unused -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/04_fitTime/a_trainOnly/results/main__vnm
+    autoregressive/a_none[main__vnm]: no lagged-count term; the correlation it leaves unused at lag 3 is 0.827 -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/05_autoregressive/a_none/results/main__vnm
+    yearVariance/b_provinceScaled[main__vnm]: one variance per province; the widest province's annual spread is inf times the narrowest -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/06_yearVariance/b_provinceScaled/results/main__vnm
+    candidate[main__vnm]: {'observation': 'c_hurdle', 'covariates': 'c_climateFree', 'population': 'a_offset', 'fit_time': 'a_trainOnly', 'autoregressive': 'a_none', 'year_variance': 'b_provinceScaled'}, covariates [], seed 849487747; taken here: ['observation=c_hurdle', 'covariates=c_climateFree', 'population=a_offset', 'fit_time=a_trainOnly', 'autoregressive=a_none', 'year_variance=b_provinceScaled'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/a_hierNB/results/main__vnm
+  b_boosted: assembling its configuration under 'main__vnm'
+    features/a_lagBlock[main__vnm]: 18 features; climate [0, 1, 2, 3], counts [3, 4, 5, 6, 12] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/01_features/a_lagBlock/results/main__vnm
+    head/a_negBinomial[main__vnm]: variance-to-mean by province 1.0..3326.3 (Poisson would be 1.0) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/02_head/a_negBinomial/results/main__vnm
+    boosted[main__vnm]: {'features': 'a_lagBlock', 'head': 'a_negBinomial'}, covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'], seed 1877199108; taken here: ['features=a_lagBlock', 'head=a_negBinomial'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/b_boosted/results/main__vnm
+ensemble members[main__vnm]: 4 — persistence, climatology, hier_nb, boosted; covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/main__vnm/members.json; not on this combination's path: ['analysis/03_models/01_baselines/01_persistence/b_negBinomialFloor/scripts/persistence_model', 'analysis/03_models/01_baselines/02_climatology/b_frozenWindow/scripts/climatology_model']
+ensemble[main__vnm]: {'weighting': 'a_equal'}, 4 members, covariates ['rainfall', 'mean_temperature', 'mean_relative_humidity'], seed 1648567750; taken here: ['weighting=a_equal'] -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/main__vnm
+ensemble[main__vnm]: 188 s (23.4 s/split) -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/main__vnm
+pool check[main__vnm]: 52.665 as run; reconstruction not done, no stored evaluation of ['hier_nb', 'boosted'] under the configuration the pool gave them -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/03_models/03_candidate/c_ensemble/results/main__vnm/pool_check.json
+
+$ collect: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/run.sh
+collect[main__vnm]: 8 model rows, 12096 cells, 63 locations -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/01_collect/results/main__vnm
+
+$ aggregate/a_unweighted: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/02_aggregate/a_unweighted/run.sh
+aggregate/a_unweighted[main__vnm]: 8 models over 1512 cells, unweighted; best ensemble at CRPS 52.665
+
+$ compare: bash /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/run.sh
+compare[main__vnm]: 8 leaderboard rows; reference CRPS 57.570 over 1512 cells, unweighted
+  ensemble       diff   -4.905  se(split-clustered) 1.355  skill +0.085  wins 46% of cells
+  persistence    diff   +3.102  se(split-clustered) 7.121  skill -0.054  wins 47% of cells
+  climatology    diff   +7.991  se(split-clustered) 2.365  skill -0.139  wins 52% of cells
+  noise floor (reference vs its own repeats): largest |mean diff| 7.082
+fig_accuracy_and_spread.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/main__vnm
+fig_crps_by_location.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/main__vnm
+fig_paired_vs_reference.png -> /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/04_score/03_compare/results/main__vnm
+
+$ conclude: /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/environment/chapenv/bin/python /Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase/analysis/scripts/conclude.py
+conclusion[main__vnm] on vnm: ensemble CRPS 52.665 vs reference 57.570 -> skill +0.0852

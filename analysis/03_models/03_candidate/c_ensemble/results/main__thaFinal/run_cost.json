@@ -1,0 +1,13 @@
+{
+ "combo": "main__thaFinal",
+ "eval_flags": {
+  "n_periods": 3,
+  "n_retrain": 1,
+  "n_splits": 4,
+  "stride": 3
+ },
+ "model": "ensemble",
+ "route": "MLproject with uv_env, native",
+ "seconds_per_split": 456.6,
+ "wall_clock_seconds": 1826.4
+}

@@ -25,6 +25,8 @@ What each directory is for, and the one rule that governs it. Create every folde
 ├── Archive/                imported source material and data, never edited
 │   ├── case-source-material/  the five documents the project starts from, (IS_SHADOW)
 │   ├── lao-dataset/        the data, pinned by commit, with a checksum manifest
+│   ├── lao-population/     the annual national series the population fork back-casts from
+│   ├── sibling-datasets/   Thailand and Vietnam, same commit — the external check's data
 │   └── plan-as-delivered/  the plan before any of it had been run
 ├── AI-generated/           derived documents — regenerable, therefore deletable
 │   ├── batch-reports/      one per executed batch — the exception: not regenerable

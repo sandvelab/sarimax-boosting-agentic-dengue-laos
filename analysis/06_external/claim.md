@@ -42,4 +42,54 @@ inherits: the project main environment (`environment/`)
 _(What this node's analysis yielded. Each answer belongs in the claim collection
 under `Human-AI-collaboration/claims/` with a pointer to the result grounding it.)_
 
-_(Filled by `report_external.py` having run; see `results/external_vs_laos.json`.)_
+**The margin holds in five of the six analyses, and the one it does not hold in is a
+held-out year.** The reported model, unchanged, beats the reference model on both sibling
+countries' development backtests — **+0.0852 on Vietnam and +0.0856 on Thailand** — and on
+Thailand's final year at **+0.0197**. On Vietnam's final year it **loses**, at **−0.0862**.
+It beats both required baselines on **all six**, including the row it loses on.
+→ `results/external_conclusions.csv`, `results/external_vs_laos.json`
+
+**The drop from the development backtest to the final year replicates in both countries,
+and in both it is larger than the two reference bands together.** Laos −0.0617, Thailand
+−0.0659, Vietnam −0.1714. Three countries are not a sample and this does not put a
+confidence statement on the effect; what it says is that phase E's central finding is a
+thing that happens repeatedly rather than a thing that happened once, and that 2010 alone
+does not account for it — the same year is harder for the model relative to the reference
+in every country, including the two it never saw.
+→ `results/external_vs_laos.json`, `results/fig_external_skill.png`
+
+**The country the model was developed on is the country it scores highest on.** Its Lao
+development skill, +0.1485, is **1.74 times** either sibling's, and the two siblings agree
+with each other to 0.0004 while differing from Laos by 0.063. That difference is the
+project's most direct measurement of what developing against one dataset bought on that
+dataset, and it is about as large as the whole development-to-final-year drop.
+→ `results/external_conclusions.csv`
+
+**The reference model's own instability is a property of the country, not of the method.**
+Its four unseeded repeats span **0.032 CRPS on Thailand's development backtest, 0.565 on
+Laos's and 7.082 on Vietnam's** — a factor of **215** across three countries of one
+harmonisation, on the same model at the same configuration. In skill that is a band of 0.0024, 0.0256 and 0.1230, so Vietnam's +0.0852
+margin sits **inside** the reference's own re-run spread and cannot be attributed to a model
+at all, while Thailand's near-identical +0.0856 is thirty-five times its band. A noise floor
+measured on one dataset says nothing about another.
+→ `results/external_conclusions.csv`
+
+**The reported model's over-dispersion is worse abroad than at home.** Its 10–90 coverage
+against a nominal 0.80 is 0.863 on Lao development and 0.941 and 0.967 on the two siblings';
+on the final years, 0.755, 0.893 and 0.875. The calibration failure the project reports
+beside its Lao score is not a Lao artefact and does not shrink when the model meets more
+provinces.
+→ `results/external_conclusions.csv`
+
+**The pool's independent reconstruction is not available on these datasets**, because a
+member is evaluated on its own only under the family fork's own combination and this check
+moves no fork. Recorded, with what it would have cost, rather than left blank.
+→ `results/pool_reconstruction_external.json`
+
+**The cost model over-predicted by a factor of about two, and its worst row is again the
+one whose shape it does not know.** Planned 3.14 hours, actual **1.81** — a ratio of 0.58
+where phase D's two halves came out at 1.00 and 1.15. Per row it runs 0.39 to 1.20, so the
+total being wrong this time and right twice before is the same finding a third way: seconds
+per evaluated cell measured on 192 Lao cells does not transfer to 1 824 Thai ones, and the
+one row that exceeds its estimate is the largest.
+→ `results/external_cost_planned_vs_actual.json`

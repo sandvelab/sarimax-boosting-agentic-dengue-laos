@@ -1,0 +1,256 @@
+{
+ "additional_continuous_covariates": [],
+ "candidate": "hier_nb",
+ "choice_combos": {
+  "autoregressive": "main__vnm",
+  "covariates": "main__vnm",
+  "fit_time": "main__vnm",
+  "observation": "main__vnm",
+  "population": "main__vnm",
+  "year_variance": "main__vnm"
+ },
+ "choice_nodes": {
+  "autoregressive": "analysis/03_models/03_candidate/a_hierNB/05_autoregressive/a_none",
+  "covariates": "analysis/03_models/03_candidate/a_hierNB/02_covariates/c_climateFree",
+  "fit_time": "analysis/03_models/03_candidate/a_hierNB/04_fitTime/a_trainOnly",
+  "observation": "analysis/03_models/03_candidate/a_hierNB/01_observation/c_hurdle",
+  "population": "analysis/03_models/03_candidate/a_hierNB/03_population/a_offset",
+  "year_variance": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/b_provinceScaled"
+ },
+ "choices": {
+  "autoregressive": "a_none",
+  "covariates": "c_climateFree",
+  "fit_time": "a_trainOnly",
+  "observation": "c_hurdle",
+  "population": "a_offset",
+  "year_variance": "b_provinceScaled"
+ },
+ "combo": "main__vnm",
+ "configuration": "model_configuration.yaml",
+ "configuration_sha256": "28c7c617d5c26fa0f37f0c9601d690debc3ad9c05d63cb3e14512c16d385faf2",
+ "node": "analysis/03_models/03_candidate/a_hierNB",
+ "route": "chap eval --model-configuration-yaml -> ModelConfiguration -> model_configuration_for_run.yaml -> {model_config} in the MLproject entry points",
+ "seed_derivation": {
+  "component": "analysis/03_models/03_candidate/a_hierNB",
+  "derivation": "int(blake2b('<project_seed>:<component>', digest_size=8), 16) % 4294967296",
+  "project_seed": 20260822,
+  "seed": 849487747
+ },
+ "stages": [
+  {
+   "additional_continuous_covariates": [],
+   "choice": "c_hurdle",
+   "chosen_under_combo": "main__vnm",
+   "combo": "main__vnm",
+   "description": "a logistic model for reporting at all and a count model for how much",
+   "input_from_combo": "main__vnm",
+   "node": "analysis/03_models/03_candidate/a_hierNB/01_observation/c_hurdle",
+   "order": 1,
+   "premise": {
+    "largest_month": 7265,
+    "mean_over_all_months": 105.05499096657633,
+    "mean_over_reporting_months": 174.4220097487814,
+    "median_over_reporting_months": 63.0,
+    "observed_cells": 8856,
+    "zero_share": 0.3976964769647697
+   },
+   "stage": "observation",
+   "user_option_values": {
+    "observation": "hurdle"
+   }
+  },
+  {
+   "additional_continuous_covariates": [],
+   "choice": "c_climateFree",
+   "chosen_under_combo": "main__vnm",
+   "combo": "main__vnm",
+   "description": "no climate covariates; the seasonal harmonics carry the annual cycle alone",
+   "input_from_combo": "main__vnm",
+   "node": "analysis/03_models/03_candidate/a_hierNB/02_covariates/c_climateFree",
+   "order": 2,
+   "premise": {
+    "columns_left_out": [
+     "rainfall",
+     "mean_temperature",
+     "mean_relative_humidity"
+    ],
+    "observed_rows": 8856,
+    "provinces": 63,
+    "rows": 9072,
+    "rows_a_two_month_lag_would_have_cost": 126
+   },
+   "stage": "covariates",
+   "user_option_values": {
+    "covariate_lags": [],
+    "covariates": []
+   }
+  },
+  {
+   "additional_continuous_covariates": [],
+   "choice": "a_offset",
+   "chosen_under_combo": "main__vnm",
+   "combo": "main__vnm",
+   "description": "log(population) as a fixed offset; the model forecasts a rate",
+   "input_from_combo": "main__vnm",
+   "node": "analysis/03_models/03_candidate/a_hierNB/03_population/a_offset",
+   "order": 3,
+   "premise": {
+    "population_max": 7346232,
+    "population_min": 291528,
+    "population_ratio_largest_to_smallest": 25.199061496665845,
+    "provinces_with_nonpositive_population": []
+   },
+   "stage": "population",
+   "user_option_values": {
+    "population": "offset"
+   }
+  },
+  {
+   "additional_continuous_covariates": [],
+   "choice": "a_trainOnly",
+   "chosen_under_combo": "main__vnm",
+   "combo": "main__vnm",
+   "description": "fit once in train; predict applies the stored fit",
+   "input_from_combo": "main__vnm",
+   "node": "analysis/03_models/03_candidate/a_hierNB/04_fitTime/a_trainOnly",
+   "order": 4,
+   "premise": {
+    "months_of_history_the_fit_never_sees_at_the_last_split": 21,
+    "n_periods": 3,
+    "n_retrain": 1,
+    "n_splits": 8,
+    "one_fit_serves_every_split": true
+   },
+   "stage": "fit_time",
+   "user_option_values": {
+    "fit_time": "train"
+   }
+  },
+  {
+   "additional_continuous_covariates": [],
+   "choice": "a_none",
+   "chosen_under_combo": "main__vnm",
+   "combo": "main__vnm",
+   "description": "no autoregressive term; season, climate and pooled effects only",
+   "input_from_combo": "main__vnm",
+   "node": "analysis/03_models/03_candidate/a_hierNB/05_autoregressive/a_none",
+   "order": 5,
+   "premise": {
+    "autocorrelation_of_log1p_cases": {
+     "lag_1": 0.9257033123384641,
+     "lag_12": 0.8406425279238581,
+     "lag_2": 0.8758923399185106,
+     "lag_3": 0.8265330196689631
+    },
+    "observed_cells": 8856,
+    "pairs_available": {
+     "lag_1": 8793,
+     "lag_12": 8100,
+     "lag_2": 8730,
+     "lag_3": 8667
+    }
+   },
+   "stage": "autoregressive",
+   "user_option_values": {
+    "autoregressive": "none"
+   }
+  },
+  {
+   "additional_continuous_covariates": [],
+   "choice": "b_provinceScaled",
+   "chosen_under_combo": "main__vnm",
+   "combo": "main__vnm",
+   "description": "one province-year variance per province, from that province's own years",
+   "input_from_combo": "main__vnm",
+   "node": "analysis/03_models/03_candidate/a_hierNB/06_yearVariance/b_provinceScaled",
+   "order": 6,
+   "premise": {
+    "by_province": {
+     "VN-01": 0.38768445077919184,
+     "VN-02": 0.5805985131156757,
+     "VN-03": 0.8336855419415399,
+     "VN-04": 1.1007367824627186,
+     "VN-05": 1.0845419226188235,
+     "VN-06": 0.3134876076013725,
+     "VN-07": 0.0,
+     "VN-09": 1.16136046828171,
+     "VN-13": 2.3778331478127783,
+     "VN-14": 0.929046268079138,
+     "VN-18": 0.9637315414391306,
+     "VN-20": 1.7758959070641103,
+     "VN-21": 1.2345319356441924,
+     "VN-22": 1.893373084154811,
+     "VN-23": 1.7946901429973687,
+     "VN-24": 2.707559233125588,
+     "VN-25": 2.0881452466956594,
+     "VN-26": 1.164516890581593,
+     "VN-27": 1.2169248243990878,
+     "VN-28": 2.2604874035859397,
+     "VN-29": 1.617263063800214,
+     "VN-30": 0.854065273229976,
+     "VN-31": 0.9630548397908233,
+     "VN-32": 0.9022652133896828,
+     "VN-33": 1.1760723130611261,
+     "VN-34": 0.7790022398618079,
+     "VN-35": 0.951865744081856,
+     "VN-36": 1.227814512678174,
+     "VN-37": 0.8015419301738108,
+     "VN-39": 1.0118187737574502,
+     "VN-40": 0.8845883636071497,
+     "VN-41": 0.9466836220666993,
+     "VN-43": 0.8913307252703935,
+     "VN-44": 0.5583536386780725,
+     "VN-45": 0.6920596215347328,
+     "VN-46": 0.6294514149654852,
+     "VN-47": 0.8085672258643526,
+     "VN-49": 0.6456175780911554,
+     "VN-50": 0.7814095315751916,
+     "VN-51": 1.1281074057719924,
+     "VN-52": 1.1564495941696356,
+     "VN-53": 0.44702689844901294,
+     "VN-54": 2.059211602086677,
+     "VN-55": 1.1377796998483205,
+     "VN-56": 1.7118614449890528,
+     "VN-57": 0.7689147835695704,
+     "VN-58": 0.7172728563276514,
+     "VN-59": 0.9204939202801247,
+     "VN-61": 0.7830345523136669,
+     "VN-63": 1.3812261978271163,
+     "VN-66": 0.755074891368432,
+     "VN-67": 1.9128598940491004,
+     "VN-68": 2.242740161432605,
+     "VN-69": 1.2706333460955688,
+     "VN-70": 1.5461935877065918,
+     "VN-71": 0.731482740234792,
+     "VN-72": 1.0982018369651356,
+     "VN-73": 0.20278736753077636,
+     "VN-CT": 0.691264442960407,
+     "VN-DN": 1.6868443534598563,
+     "VN-HN": 1.5813613946068086,
+     "VN-HP": 1.5122795376213392,
+     "VN-SG": 1.0273549969899578
+    },
+    "log_annual_spread_max": 2.707559233125588,
+    "log_annual_spread_median": 1.0118187737574502,
+    "log_annual_spread_min": 0.0,
+    "log_annual_spread_ratio_max_to_min": Infinity,
+    "province_years": 738,
+    "provinces_compared": 63
+   },
+   "stage": "year_variance",
+   "user_option_values": {
+    "year_variance": "province_scaled"
+   }
+  }
+ ],
+ "user_option_values": {
+  "autoregressive": "none",
+  "covariate_lags": [],
+  "covariates": [],
+  "fit_time": "train",
+  "observation": "hurdle",
+  "population": "offset",
+  "seed": 849487747,
+  "year_variance": "province_scaled"
+ }
+}

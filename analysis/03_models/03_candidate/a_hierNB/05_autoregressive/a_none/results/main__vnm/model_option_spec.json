@@ -1,0 +1,28 @@
+{
+ "additional_continuous_covariates": [],
+ "choice": "a_none",
+ "combo": "main__vnm",
+ "description": "no autoregressive term; season, climate and pooled effects only",
+ "input_from_combo": "main__vnm",
+ "node": "analysis/03_models/03_candidate/a_hierNB/05_autoregressive/a_none",
+ "order": 5,
+ "premise": {
+  "autocorrelation_of_log1p_cases": {
+   "lag_1": 0.9257033123384641,
+   "lag_12": 0.8406425279238581,
+   "lag_2": 0.8758923399185106,
+   "lag_3": 0.8265330196689631
+  },
+  "observed_cells": 8856,
+  "pairs_available": {
+   "lag_1": 8793,
+   "lag_12": 8100,
+   "lag_2": 8730,
+   "lag_3": 8667
+  }
+ },
+ "stage": "autoregressive",
+ "user_option_values": {
+  "autoregressive": "none"
+ }
+}

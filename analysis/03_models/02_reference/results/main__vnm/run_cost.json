@@ -1,0 +1,20 @@
+{
+ "combo": "main__vnm",
+ "eval_flags": {
+  "n_periods": 3,
+  "n_retrain": 1,
+  "n_splits": 8,
+  "stride": 3
+ },
+ "model": "reference",
+ "repeats": 4,
+ "route": "chapkit REST service, amd64 image under emulation",
+ "seconds_per_split": 31.6,
+ "wall_clock_seconds": 1010.8,
+ "wall_clock_seconds_per_repeat": [
+  244.7,
+  269.0,
+  258.1,
+  238.9
+ ]
+}

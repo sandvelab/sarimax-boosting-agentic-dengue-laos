@@ -327,3 +327,49 @@ node: analysis/05_stability
 scope: both datasets; every combination whose model is the pool
 alternatives: running each perturbed member on its own as well, which would make the remaining forty reconstructable at the cost of a second evaluation per candidate-internal row and was not in the frozen manifest
 by: agent-autonomous
+
+## C42
+The development-to-final-year drop measured on Laos replicates on both sibling countries, so it is not about 2010 alone. Run unchanged on the Thai and Vietnamese files of the same harmonisation, on the same months and under the same two schemes, the reported model's skill score against the reference falls from +0.0856 to +0.0197 on Thailand and from +0.0852 to -0.0862 on Vietnam, against Laos's +0.1485 to +0.0868. All three drops -- -0.0659, -0.1714 and -0.0617 -- are larger than the two reference re-run bands they are measured against, taken together.
+grounds: analysis/06_external/results/external_vs_laos.json · analysis/06_external/results/external_conclusions.csv
+node: analysis/06_external
+scope: three countries of one harmonisation, one final year each; this is not a sample and no confidence statement is made from it. No model was developed on the two sibling files, so their final years were not held out from anything -- what replicates is the direction and rough size of the drop, not a held-out result
+alternatives: running the siblings on their own calendars, which for Thailand would have used twenty-two more years and made the comparison about the years as well as the country
+by: agent-autonomous
+
+## C43
+The country the model was developed on is the country it scores highest on, and the two it never saw agree with each other almost exactly. On the development arrangement the reported model's skill score is +0.1485 on Laos, +0.0856 on Thailand and +0.0852 on Vietnam: the two siblings differ from each other by 0.0004 and from Laos by 0.063, which is about the size of the whole development-to-final-year drop on Laos.
+grounds: analysis/06_external/results/external_conclusions.csv · analysis/06_external/results/fig_external_skill.csv
+node: analysis/06_external
+scope: the development arrangement only, 3/8/3 over 2008-01 to 2009-12; the three countries differ in more than whether the model was developed on them -- 16, 76 and 63 provinces, and mean monthly case counts differing by a factor of four -- so the gap is not attributable to development alone, only measured beside it
+alternatives: attributing the whole 0.063 to having developed against Laos, which the design cannot support: nothing here varies development while holding the country fixed
+by: agent-autonomous
+
+## C44
+What the backtest can resolve is a property of the country rather than of the evaluation. The reference model is unseeded and is scored four times on every dataset; the largest paired difference between two of its repeats is 0.032 CRPS on Thailand's development backtest, 0.565 on Laos's and 7.082 on Vietnam's -- a factor of 215 on one model at one configuration. So Vietnam's +0.0852 margin sits inside the reference's own re-run spread and cannot be attributed to a model at all, while Thailand's near-identical +0.0856 is about thirty-five times its band.
+grounds: analysis/06_external/results/external_conclusions.csv
+node: analysis/06_external
+scope: one draw of four repeats per dataset; the band is itself a draw, which is why it is reported per dataset and never carried from one to another
+alternatives: quoting the Lao noise floor of 0.565 CRPS as the project's resolution, which two of the four external datasets contradict in opposite directions
+by: agent-autonomous
+
+## C45
+The reported model's over-dispersion is not a Lao artefact and gets worse on the sibling countries. Its 10-90 interval coverage against a nominal 0.80 is 0.863 on Lao development, 0.941 on Vietnam's and 0.967 on Thailand's, and 0.755, 0.893 and 0.875 on the three final years. It beats both required baselines on all six analyses and the reference model on five of the six, losing only on Vietnam's final year.
+grounds: analysis/06_external/results/external_conclusions.csv · analysis/06_external/results/external_vs_laos.json
+node: analysis/06_external
+scope: the reported model at its reported configuration; the coverage figures are the platform's own, computed by the same evaluation path on all six
+by: agent-autonomous
+
+## C46
+Two of the three statements this project found not to describe the Lao dataset describe none of the three files of that harmonisation, so they are the harmonisation's rather than Laos's. rainfall is declared in all three schemas as a monthly total in millimetres and is a mean daily rate in all three; and row_count means different things in different files -- Vietnam declares 9612 against 9828 rows and Laos 2575 against 2808, both counting rows with an observed target, while Thailand declares 27720, which is its row count exactly and 696 more than its complete records. Thailand's population column is also not a static snapshot: all 77 provinces carry an annual series, so the fork this project spent a node arguing over is one the harmonisation answers differently per country.
+grounds: analysis/01_data/03_siblings/results/schema_reconciliation.json · analysis/01_data/01_partition/results/rowcount_reconciliation.json · analysis/01_data/02_characterise/results/covariate_units_check.json
+node: analysis/01_data/03_siblings
+scope: the three country folders of dhis2/climate-health-data at commit af362d52; nothing here establishes what other countries in that repository do
+alternatives: reporting the Lao schema's errors as the Lao file's, which two batches did before the siblings were read
+by: agent-autonomous
+
+## C47
+The cost model's total was wrong on the external check in the direction its two earlier tests were right. Planned 3.14 hours against 1.81 actual, a ratio of 0.58, where phase D's development half came out at 1.00 and its frozen holdout half at 1.15; per row it runs 0.39 to 1.20. The unit is seconds per evaluated cell measured on the Lao holdout, and it does not transfer to datasets four to ten times the size -- so the total being right twice was a property of estimating a set against itself, and the cut order such estimates rank still carries no information.
+grounds: analysis/06_external/results/external_cost_planned_vs_actual.json · analysis/06_external/results/external_plan.json · analysis/05_stability/results/holdout_cost_planned_vs_actual.json
+node: analysis/06_external
+scope: four rows; the estimate was committed before any of them ran, and nothing was cut because 3.14 hours was inside the six-hour budget
+by: agent-autonomous

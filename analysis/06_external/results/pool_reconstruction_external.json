@@ -1,0 +1,27 @@
+{
+  "what_this_is": "whether each external pool could be rebuilt from its members' own separate evaluations, and why not where it could not",
+  "why_it_is_not_available_here": "a candidate family is evaluated on its own only under the family fork's own combination, which is a perturbation row. The external check runs the reported model unchanged and moves no fork, so no such row exists on these four datasets. This is not the ordering defect batch 28 removed -- no order of execution would produce the missing runs -- and it is recorded here rather than left blank because an absence has to be a visible decision (AGENTS.md \u00a74)",
+  "what_it_would_cost_to_have": "two more model evaluations per external dataset, running candidate 1 and candidate 2 on their own. Not run: the check the plan asks for is the reported model unchanged, and adding rows to it would make it a small perturbation set on data the project does not report a distribution over",
+  "combinations": {
+    "main__vnm": {
+      "mean_crps_as_run": 52.665232497354495,
+      "mean_crps_rebuilt": null,
+      "not_done_because": "no stored evaluation of ['hier_nb', 'boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run"
+    },
+    "main__vnmFinal": {
+      "mean_crps_as_run": 83.91264516666666,
+      "mean_crps_rebuilt": null,
+      "not_done_because": "no stored evaluation of ['hier_nb', 'boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run"
+    },
+    "main__tha": {
+      "mean_crps_as_run": 12.520757286732456,
+      "mean_crps_rebuilt": null,
+      "not_done_because": "no stored evaluation of ['hier_nb', 'boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run"
+    },
+    "main__thaFinal": {
+      "mean_crps_as_run": 25.604624298245614,
+      "mean_crps_rebuilt": null,
+      "not_done_because": "no stored evaluation of ['hier_nb', 'boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run"
+    }
+  }
+}

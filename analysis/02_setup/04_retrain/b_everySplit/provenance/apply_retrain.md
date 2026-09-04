@@ -109,3 +109,30 @@ describe runs that happened under that version, and the version they name is rig
 agency: agent-autonomous.
 information: agent-retrieved — the digest is computed from the file and the commit read from
 `git log`; what moved in the specs is read from batch 16's report and from the diff.
+
+---
+
+## 2026-09-04 — batch 20 — the scheme file becomes a property of the dataset
+
+```
+script:              analysis/02_setup/04_retrain/b_everySplit/scripts/apply_retrain.py
+                     sha256:b72e06a9c5c68b392fe19e57344ac3be53b6e56b83615617cfd8ed14b2f030a2
+commit:              bfbc096
+instructions-commit: 595c32d (AGENTS.md, CLAUDE.md, .claude/)
+```
+
+**What changed.** The repository-relative path of the backtest-scheme file was a module
+constant here, repeated in six setup scripts. Which scheme file answers is now a property of
+the dataset the combination faces, read through `analysis/scripts/lib/combos.py`
+(`scheme_path`, `scheme_file`) — the same place the source file and the scheme key were
+already decided. Batch 20's external check runs on sibling calendars whose spans are
+recorded in a different file, so the constant could not stay one; and a constant repeated in
+six places is the shape this project has had to correct four times.
+
+**What it changed in the results: nothing.** The script was re-run under a combination it
+had already produced and returned every file byte-identical. The specification's
+`eval_flags_source` still names the file it read, now via `combos.scheme_path()` rather than
+via the constant, and for every Lao combination that is the same string it was.
+
+**What has run under this version.** The Lao combination it was re-run under to check that,
+and batch 20's four external rows for the scripts on the main path.

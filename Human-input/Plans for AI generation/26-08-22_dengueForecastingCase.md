@@ -627,6 +627,20 @@ made.
 | **Forty of the 51 pool rows cannot be reconstructed, and stay that way with the reason recorded** | A row that moves a fork inside a member has no separate run of that member under the configuration the pool gave it, because the tree evaluates a member on its own only under the family fork's own combination. Making them reconstructable means a second evaluation per candidate-internal row, which is an addition to a frozen set. Recorded in `pool_reconstruction.json` as a property of the manifest rather than left as an absence | agent-autonomous, inside the human-set §3 |
 | **The registered prediction fails on the held-out year in both of its halves** | Measured, and only visible because the reconstruction now runs there. `01_weighting/a_equal` predicted an equal pool would score worse than its best member — false on both datasets — and that its 10–90 coverage would be at least its largest member's, which held on development and does not hold on 2010: 0.755 against candidate 2's 0.854. Two batches' worth of registered predictions have now been informative by being false | agent-autonomous |
 
+### 2026-09-04 — settled by batch 20, from the external check
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **The two sibling countries are put on the Lao calendar, not their own** | Thailand's file runs 1993-01 to 2022-12 and Vietnam's already runs 1998-01 to 2010-12. The external check asks whether the Lao result holds in another *place*; a country evaluated on different months would differ from Laos in two ways at once and answer neither question. Thailand's other twenty-two years are the material for whether 2010 in particular was hard, and are left unspent — a decision, recorded, not an oversight | agent-autonomous |
+| **Nothing on the sibling files is sealed, and no external row is skipped on a second invocation** | §3's seal protects the Lao 2010 because the model was developed against Lao 1998–2009. Nothing is developed on these files — the check runs the model the tree already reports, at the configuration it already has — so there is nothing for a year to leak into. And a row skipped because it already ran is what stopped `analysis/run.sh` reproducing phase E from a clean checkout in batch 18; that shape is not reintroduced where it would protect nothing | agent-autonomous |
+| **The four sibling datasets are dataset suffixes on the mechanism `__holdout` already uses, and the scheme file became a property of the dataset with them** | The analysis does not move and the country does, which is what a dataset is here and not what a fork is. The spans the province and training-window forks read are properties of the file they were measured on, so the constant six setup scripts each carried became `combos.scheme_path()` — the fifth instance of the shape this project keeps correcting, caught before it bit rather than after | agent-autonomous |
+| **The step-list construction moved into a library both callers import, rather than being copied into the new node** | A check that ran a second implementation of the pipeline would measure the code and not the model. Verified behaviour-preserving: the dry-run step lists for all 32 development rows and the holdout set are byte-identical before and after | agent-autonomous |
+| **`/validate invariants` gains a third planned manifest rather than an exemption for the external directories** | The `combos` check closes the combination space, and a directory the check is told to excuse is a check that has stopped meaning anything. The four rows are planned and committed exactly as the other two manifests' rows are | agent-autonomous |
+| **The drop is reported as replicating, and what that does and does not establish is stated in the same breath** | The two sibling final years were not held out from anything, because nothing was developed on those files. So the replication is evidence that the final year is harder in the same way in three countries — which is what separates it from "2010 was hard in Laos" — and it is not a second measurement of optimisation inflation. The measurement that bears on that is the development-arrangement gap, and its own confound is recorded with it: nothing here varies development while holding the country fixed | agent-autonomous |
+| **`readme-at-start.md`'s "nothing below 0.57 CRPS can be attributed to a model at all" is corrected rather than left standing** | It reads as a property of the method and is a property of the Lao dataset. The same measurement of the same unseeded model gives 0.032 CRPS on Thailand's development backtest and 7.082 on Vietnam's — a factor of 215 — and on Vietnam the project's own margin falls inside it. A resolution quoted without its dataset is the kind of statement this project exists not to make | agent-autonomous |
+| **Thailand's late years, and a second model developed against a second country, are named as what would answer the two remaining questions and are not run** | The first would separate "the final year is hard" from "a four-split backtest is noisier than an eight-split one"; the second would separate optimisation from country. Both are outside what the plan asks of batch 20, and `AGENTS.md` §4 requires an absence to be a visible decision | agent-autonomous |
+
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**
@@ -673,18 +687,20 @@ is finished, and batch 5 decides how.
 Status values: `open` · `done — produced` · `done — expanded` · `blocked`. Update this table
 at the end of every batch, and append newly created batches to it.
 
-**Next open batch: 20. Then 19.** §5 says the ledger runs top to
-bottom, and for the phase-E tail it no longer does: **19 and 20 sit above the batches that
-ran before them**, because 19 is the release and must not claim more than the checks support,
-and because batches added later were appended rather than inserted. Rows 19 and 20 have been
-open since batch 5 wrote them, and they are now the only open rows. A session that takes the
-topmost open row would have started the release with checks outstanding — so take the order
-from this line, and update it at the end of every batch. *(Recorded 2026-09-02, after batch
+**Next open batch: 19, and it is the only one left.** §5 says the ledger runs top to
+bottom, and for the phase-E tail it no longer did: **19 and 20 sat above the batches that ran
+before them**, because 19 is the release and must not claim more than the checks support, and
+because batches added later were appended rather than inserted. Both had been open since
+batch 5 wrote them; batch 20 closed on 2026-09-04 and 19 is now the only open row, so the
+trap this paragraph exists to name can no longer be walked into — there is one open row and
+it is the right one. The paragraph stays because the reader implementing this method needs to
+know the ledger's order was not always its listing, and because a batch 19 that added a batch
+would restore the question. *(Recorded 2026-09-02, after batch
 26, because the trap had gone unwritten since batch 18 and only `readme-at-start.md` carried
 the order; updated after batch 27, which was blocked and added 30 and 31; updated 2026-09-03
 when the human settled the noise-band question, which added no batch, and again when batch 30
-closed; updated 2026-09-04 when batch 31 closed, and again when batch 28 closed, neither of
-which adds a batch.)*
+closed; updated 2026-09-04 when batch 31 closed, then when batch 28 closed, and again when
+batch 20 closed — none of which adds a batch, and after the last of them one row is open.)*
 
 | # | Phase | Aim | Status | Report |
 |---|---|---|---|---|
@@ -708,7 +724,7 @@ which adds a batch.)*
 | 17 | E | Claims and the hierarchical report | done — produced | [[26-08-31_b17_claimsAndReport]] |
 | 18 | E | Clean-room and outsider validation; the plan's own drift | done — produced | [[26-09-01_b18_validationAndDrift]] |
 | 19 | E | The case write-up, the reproducibility report, the release | open | |
-| 20 | E | The external check on `tha` and `vnm` — **confirmed, not cut; runs before batch 19** | open | |
+| 20 | E | The external check on `tha` and `vnm` — **confirmed, not cut; runs before batch 19**. **The reported model, unchanged, on both, in the same two arrangements Laos is reported in and on the same months. The development-to-final-year drop replicates in both — Thailand +0.0856 → +0.0197, Vietnam +0.0852 → −0.0862, against Laos's +0.1485 → +0.0868, every drop larger than the two reference bands together — so 2010 alone does not account for it. Six of six beat both required baselines and five of six the reference. The country the model was developed on is the one it scores highest on, by 0.063, while the two it never saw agree to 0.0004. And the reference's own re-run spread is 0.032 CRPS on Thailand, 0.565 on Laos and 7.082 on Vietnam — a factor of 215 — so the project's noise floor is a property of the dataset and not of the method** | done — produced | [[26-09-04_b20_theDropReplicatesInTwoMoreCountries]] |
 | 21 | C, on branch `greedy` | The counterfactual: iterate batch 9's promotion rule to a fixpoint on a branch, and measure what stopping once cost | done — produced | `26-08-27_b21_greedyBranch.md`, on branch `greedy` |
 | 23 | E | The provenance records' script hashes: the invariant that a script's current sha256 must appear in its own record, and the appended sections that make it pass — including `conclude.py`, whose newest section predates batch 16 changing it. **Twenty records, not sixteen: the check reads the whole `script:` block** | done — produced | [[26-09-01_b23_provenanceHashes]] |
 | 24 | E | The frozen phase-E manifest is recomputed on every run of `analysis/run.sh`, so a tree that grew a fork child would silently grow the frozen set; make the freeze win over the recomputation | done — produced | [[26-09-01_b24_frozenSetWins]] |
@@ -1119,6 +1135,18 @@ what was below it. See [[reproAgenticAiManuscript]], *Trade-offs*.
 and report what happens. It is a real external check and costs little once everything works.
 It is optional because the project is complete without it.
 
+*(Confirmed on 2026-08-31 and not cut, and moved ahead of batch 19 so the write-up could use
+it. **Batch 20 ran it on 2026-09-04**, in 1.81 hours against a six-hour budget: the reported
+model on both countries, in the same two arrangements Laos is reported in and on the same
+months. The development-to-final-year drop replicates in both, which is as close as this
+project can come to the question batch 16 said only this batch could bear on — whether the
+holdout spread's width is about 2010 or about something more general. It bought more than
+"it costs little once everything works" suggested: five of six analyses beat the reference
+and six of six both baselines, the country the model was developed on is the one it scores
+highest on, and the reference model's own re-run spread turned out to vary by a factor of 215
+across three countries, which makes the project's stated noise floor a property of the Lao
+dataset rather than of the method.)*
+
 ### The counterfactual — the greedy branch (batch 21)
 
 **Batch 21 in the ledger. It runs on a git branch named `greedy` and is never merged.**
@@ -1183,7 +1211,7 @@ and the binding constraint is the work of building models, not of running them.
 | C — model development | 4 (8–11) | Three candidates and their internal forks. Extended only by the stopping rule in §8: the last batch must have moved the leaderboard by more than 0.4 CRPS. |
 | D — stability | 4 (12–15) | Cut *within* the phase if the budget binds — the manifest's tier 2 goes first — and record the cut. |
 | E — closing | 4 (16–19) | Not compressible. A project that ran out of budget before the closing phase has produced nothing this plan wanted. |
-| Optional | 1 (20) | The external check on `tha` and `vnm`. Was first to be cut; **confirmed on 2026-08-31 and not cut**, and moved ahead of batch 19 so the case study can use it. |
+| Optional | 1 (20) | The external check on `tha` and `vnm`. Was first to be cut; **confirmed on 2026-08-31 and not cut**, and moved ahead of batch 19 so the case study can use it. **Ran 2026-09-04: planned 3.14 h, actual 1.81 h.** Compute was never what bound this project, and the one place an estimate was tested against a dataset it had not been measured on it was out by a factor of two. |
 | Counterfactual | 1 (21) | The greedy branch. Off the main path, on branch `greedy`; it produces no reported result and does not extend phase C. |
 
 **If the budget binds, protect phase E before phase C.** A well-recorded mediocre model is
@@ -1309,6 +1337,14 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 31 — the clean-room runs to the end
 
 - [[26-09-04_b31_cleanroomToCompletion]]
+
+### Batch 28 — the pool's second path stops depending on what is on disk
+
+- [[26-09-04_b28_theReconstructionStopsDependingOnDisk]]
+
+### Batch 20 — the external check: the drop replicates in two more countries
+
+- [[26-09-04_b20_theDropReplicatesInTwoMoreCountries]]
 
 ### Batch 21 — the greedy branch
 

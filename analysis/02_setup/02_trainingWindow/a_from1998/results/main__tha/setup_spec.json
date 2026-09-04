@@ -1,0 +1,19 @@
+{
+ "choice": "a_from1998",
+ "combo": "main__tha",
+ "dataset_transform": "identity",
+ "description": "the whole development period; no year discarded",
+ "eval_flags": {},
+ "first_period_kept": "(all)",
+ "input": "analysis/02_setup/01_population/a_static/results/main__tha/analysis_dataset.csv",
+ "input_sha256": "8af70723090739a5951efcfd8f5ed7fd658e962dee932b397a254ccb92111dec",
+ "locations": 77,
+ "node": "analysis/02_setup/02_trainingWindow/a_from1998",
+ "order": 2,
+ "output_sha256": "8af70723090739a5951efcfd8f5ed7fd658e962dee932b397a254ccb92111dec",
+ "period_first": "1998-01",
+ "period_last": "2009-12",
+ "rows_in": 11088,
+ "rows_out": 11088,
+ "stage": "trainingWindow"
+}

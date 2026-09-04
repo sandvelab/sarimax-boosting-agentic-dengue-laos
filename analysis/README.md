@@ -54,6 +54,10 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
     what makes putting them back together legitimate, is this node's too.
   - **`02_characterise`** — describes the development period only, and fixes the backtest
     scheme that every later number is computed under.
+  - **`03_siblings`** — the Thai and Vietnamese files of the same harmonisation, cut onto
+    the Lao calendar in the same two arrangements and checked against chap-core's own
+    splitter, for the external check at `06_external`. **The only node licensed to read the
+    archived sibling files**, as `01_partition` is for the Lao one. Added in batch 20.
 - **`02_setup`** (sub-analyses) — the common ground every model faces. Four forks in
   sequence, each handing the dataset on: `01_population`, `02_trainingWindow`,
   `03_provinces`, `04_retrain`. The node's own script assembles their output into the one
@@ -210,6 +214,19 @@ substitution. `analysis/scripts/lib/combos.py` is the whole mechanism.
   development result it is to be compared against. **`bash analysis/run.sh` is therefore
   about six hours rather than twenty minutes**, and reproduces both distributions as well as
   the reported result.
+
+- **`06_external`** (no children) — the external check the plan's §4 names: the reported
+  model, unchanged, on the two sibling countries, in the same two arrangements Laos is
+  reported in and on the same months. Four rows, planned and committed with their cost
+  estimate before any of them ran, then executed through
+  `05_stability/scripts/lib/driver.py` — the same step lists the perturbation set and the
+  held-out year go through, because a check that ran different code would measure the code
+  and not the model. **No fork moves in any of them**: what differs is the file underneath,
+  which `analysis/scripts/lib/combos.py` derives from the combination's dataset suffix
+  exactly as it derives the held-out year's. Nothing is sealed and nothing is skipped on a
+  second invocation — there was no development against these files for a seal to protect,
+  and a skipped row is what stopped `analysis/run.sh` reproducing phase E from cold in
+  batch 18. Added in batch 20.
 
 The tree gained no node in batch 16. An earlier note here reserved `06_holdout` for it; the
 holdout turned out not to be a separate question but the same one — how far the conclusion

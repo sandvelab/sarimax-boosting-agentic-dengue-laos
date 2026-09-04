@@ -67,7 +67,10 @@ COUNT_COLUMNS = ("disease_cases",)
 SUM_COLUMNS = ("population",)
 AREA_MEAN_COLUMNS = ("rainfall", "mean_temperature", "mean_relative_humidity")
 BOUNDARIES = "Archive/lao-dataset/chap_LAO_admin1_monthly.geojson"
-SCHEME = "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json"
+# Which stored scheme file this combination reads is a property of the dataset it
+# faces, not a constant of this script: the Lao schemes are in `01_data/02_characterise`
+# and the sibling calendars the external check runs on are in `01_data/03_siblings`.
+# `combos` is the one place that decision lives, as it is for the source file.
 
 
 def repo_root(start: Path) -> Path:
@@ -196,7 +199,7 @@ def main() -> None:
     write_table(out / "analysis_dataset.csv", header, kept)
 
     frame = pd.read_csv(out / "analysis_dataset.csv", dtype={"time_period": str})
-    scheme = json.loads((ROOT / SCHEME).read_text())
+    scheme = json.loads(combos.scheme_file(ROOT).read_text())
     # The span this combination is evaluated over: 2008-01..2009-12 on development,
     # 2010-01..2010-12 on the holdout. Read from the stored scheme by the key
     # `combos` derives from the combination name, so a holdout row applies this fork's

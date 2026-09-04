@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
-# Main script for node: 01_data
+# Main script for node: 03_siblings
 # Generated shape -- edit the "own scripts" block; the child calls are maintained
 # by `node.py rebuild`, which enforces the alternatives/sub-analyses semantics.
 set -euo pipefail
 cd "$(dirname "$0")"
-REPO_ROOT="$(cd "../.." && pwd)"
+REPO_ROOT="$(cd "../../.." && pwd)"
 # Node scripts run under the pinned analysis environment (AGENTS.md §2), not under
 # .venv, which is the repository's own machinery. A node needing something beyond it
 # declares env/ and overrides PYTHON below.
 PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 
-# Sub-analyses: every child runs, in order.
-bash "01_partition/run.sh"
-bash "02_characterise/run.sh"
-bash "03_siblings/run.sh"
+
+# Own scripts -- the cut first, then the check that the schemes land where the mirror
+# requires. The second reads the files the first writes.
+"$PYTHON" "scripts/partition_siblings.py"
+"$PYTHON" "scripts/check_external_scheme.py"

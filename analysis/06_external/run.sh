@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Main script for node: 01_data
+# Main script for node: 06_external
 # Generated shape -- edit the "own scripts" block; the child calls are maintained
 # by `node.py rebuild`, which enforces the alternatives/sub-analyses semantics.
 set -euo pipefail
@@ -10,7 +10,12 @@ REPO_ROOT="$(cd "../.." && pwd)"
 # declares env/ and overrides PYTHON below.
 PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
 
-# Sub-analyses: every child runs, in order.
-bash "01_partition/run.sh"
-bash "02_characterise/run.sh"
-bash "03_siblings/run.sh"
+
+# Own scripts -- plan the set before running it, run it, then report it. The plan is
+# committed before the run: `AGENTS.md` §6 asks for the cost of each unit, the ranking and
+# where the line fell, and an estimate written after the clock has stopped is not an
+# estimate.
+"$PYTHON" "scripts/plan_external.py"
+"$PYTHON" "scripts/run_external.py"
+"$PYTHON" "scripts/report_external.py"
+"$PYTHON" "scripts/fig_external_skill.py"

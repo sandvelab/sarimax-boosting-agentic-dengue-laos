@@ -1,0 +1,105 @@
+{
+  "dataset": {
+    "name": "CHAP Harmonized Dataset (VNM)",
+    "description": "Harmonized climate–health dataset for Vietnam.",
+    "country_iso3": "VNM",
+    "country_name": "Vietnam",
+    "admin_level": 1,
+    "admin_geojson_file": "VNM_ADM1.geojson",
+    "temporal_resolution": "monthly",
+    "time_range": {
+      "start": "1998-01",
+      "end": "2010-12"
+    },
+    "primary_key": [
+      "location",
+      "time_period"
+    ],
+    "row_count": 9612,
+    "created_utc": "2026-02-11T10:39:10Z",
+    "output_csv": "chap_VNM_admin1_monthly.csv"
+  },
+  "fields": [
+    {
+      "name": "time_period",
+      "type": "string",
+      "unit": null,
+      "description": "Time bucket aligned across sources.",
+      "source": {
+        "provider": "Derived"
+      },
+      "format_by_resolution": {
+        "monthly": "YYYY-MM"
+      }
+    },
+    {
+      "name": "location",
+      "type": "string",
+      "unit": null,
+      "description": "Stable admin unit identifier used as org_id.",
+      "source": {
+        "provider": "OCHA COD-AB / HDX (Vietnam)",
+        "url": "https://data.humdata.org/dataset/cod-ab-vnm"
+      }
+    },
+    {
+      "name": "location_name",
+      "type": "string",
+      "unit": null,
+      "description": "Admin unit name from boundary dataset.",
+      "source": {
+        "provider": "OCHA COD-AB / HDX (Vietnam)"
+      }
+    },
+    {
+      "name": "disease_cases",
+      "type": "integer",
+      "unit": "cases",
+      "description": "Reported dengue cases aggregated to the time bucket and admin unit.",
+      "source": {
+        "provider": "OpenDengue",
+        "url": "https://opendengue.org/data.html"
+      }
+    },
+    {
+      "name": "rainfall",
+      "type": "number",
+      "unit": "mm",
+      "description": "Total precipitation aggregated over the time bucket within the admin polygon.",
+      "source": {
+        "provider": "ERA5-Land (CDS)",
+        "url": "https://cds.climate.copernicus.eu/"
+      }
+    },
+    {
+      "name": "mean_temperature",
+      "type": "number",
+      "unit": "°C",
+      "description": "Mean 2m temperature aggregated over the time bucket within the admin polygon.",
+      "source": {
+        "provider": "ERA5-Land (CDS)",
+        "url": "https://cds.climate.copernicus.eu/"
+      }
+    },
+    {
+      "name": "mean_relative_humidity",
+      "type": "number",
+      "unit": "%",
+      "description": "Mean relative humidity at 2m height derived from ERA5-Land 2m temperature and 2m dewpoint temperature using the August–Roche–Magnus saturation vapor pressure formulation with constants (a=6.112 hPa, b=17.67, c=243.5 °C), applied to monthly-mean temperature and dewpoint, then aggregated to admin units.\n",
+      "source": {
+        "provider": "ERA5-Land (derived)"
+      }
+    },
+    {
+      "name": "population",
+      "type": "integer",
+      "unit": "persons",
+      "description": "Population estimate for the admin unit (static snapshot year applied to all time_periods).",
+      "source": {
+        "provider": "WorldPop",
+        "url": "https://www.worldpop.org/",
+        "snapshot_ref": 2010
+      }
+    }
+  ]
+}

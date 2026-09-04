@@ -120,44 +120,132 @@ def resolve_glob(root: Path, pattern: str) -> tuple[list[Path], str]:
 # Deriving the phase from the combination name means the driver sets one variable, COMBO,
 # exactly as it does for every other row, and no second switch can be set inconsistently
 # with it.
+#
+# Batch 20 added four more datasets on that same mechanism: the external check runs the
+# reported model, unchanged, on the Thai and Vietnamese sibling files, in the two
+# arrangements that mirror Laos's development backtest and its held-out year. They are
+# datasets and not forks -- the analysis does not move, the country does -- so they are
+# suffixes here rather than children anywhere, and `tokens` strips them exactly as it
+# strips `__holdout`. Because their spans are properties of those files rather than of
+# the Lao one, the **scheme file** became a property of the dataset too; it had been a
+# constant repeated in six setup scripts.
 # ---------------------------------------------------------------------------
 
 HOLDOUT_SUFFIX = "__holdout"
 
-#: The dataset each phase's setup chain starts from, relative to the repository root.
-#: Both files are written by `01_data/01_partition`, which stays the only node that reads
-#: the archived source.
+#: Every dataset a combination can face, and the suffix that names it. The empty suffix
+#: is development, which is what a combination with no dataset suffix at all faces.
+#: Matched longest-first, so `__thaFinal` is not read as `__tha`.
+DATASET_BY_SUFFIX = {
+    "": "development",
+    HOLDOUT_SUFFIX: "holdout",
+    "__tha": "tha",
+    "__thaFinal": "thaFinal",
+    "__vnm": "vnm",
+    "__vnmFinal": "vnmFinal",
+}
+
+#: The dataset each combination's setup chain starts from, relative to the repository
+#: root. The two Lao files are written by `01_data/01_partition`, the four sibling files
+#: by `01_data/03_siblings`; between them those two nodes are the only ones that read
+#: anything under `Archive/`.
 SOURCE_BY_DATASET = {
     "development": "analysis/01_data/01_partition/results/development_1998-01_2009-12.csv",
     "holdout": "analysis/01_data/01_partition/results/phase_e_1998-01_2010-12.csv",
+    "tha": "analysis/01_data/03_siblings/results/THA_development_1998-01_2009-12.csv",
+    "thaFinal": "analysis/01_data/03_siblings/results/THA_full_1998-01_2010-12.csv",
+    "vnm": "analysis/01_data/03_siblings/results/VNM_development_1998-01_2009-12.csv",
+    "vnmFinal": "analysis/01_data/03_siblings/results/VNM_full_1998-01_2010-12.csv",
 }
 
-#: Keys into `01_data/02_characterise/results/backtest_scheme_chosen.json`. Batch 3 wrote
-#: both schemes into that file and said neither moves again.
+LAO_SCHEME = "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json"
+EXTERNAL_SCHEME = "analysis/01_data/03_siblings/results/backtest_scheme_external.json"
+
+#: Which stored scheme file answers for this dataset. Batch 3 fixed the Lao schemes and
+#: said neither moves again; the sibling file records the same two arrangements checked
+#: against the sibling calendars, because a span is a fact about the file it was read off.
+SCHEME_FILE_BY_DATASET = {
+    "development": LAO_SCHEME,
+    "holdout": LAO_SCHEME,
+    "tha": EXTERNAL_SCHEME,
+    "thaFinal": EXTERNAL_SCHEME,
+    "vnm": EXTERNAL_SCHEME,
+    "vnmFinal": EXTERNAL_SCHEME,
+}
+
+#: Keys into whichever scheme file answers for the dataset.
 SCHEME_KEY_BY_DATASET = {
     "development": "development_scheme",
     "holdout": "phase_e_scheme",
+    "tha": "tha_scheme",
+    "thaFinal": "thaFinal_scheme",
+    "vnm": "vnm_scheme",
+    "vnmFinal": "vnmFinal_scheme",
 }
 
 SPAN_KEY_BY_DATASET = {
     "development": "development_evaluated_span",
     "holdout": "phase_e_evaluated_span",
+    "tha": "tha_evaluated_span",
+    "thaFinal": "thaFinal_evaluated_span",
+    "vnm": "vnm_evaluated_span",
+    "vnmFinal": "vnmFinal_evaluated_span",
 }
+
+#: The datasets that are not Laos. Named here so that a step which has to say whether it
+#: is looking at the project's own data can ask rather than match on a string.
+EXTERNAL_DATASETS = ("tha", "thaFinal", "vnm", "vnmFinal")
+
+
+def dataset_suffix(name: str | None = None) -> str:
+    """The dataset suffix on this combination's name, or `""` for development.
+
+    Longest match wins, so a suffix that is a prefix of another one cannot shadow it.
+    """
+    name = combo() if name is None else name
+    matches = [s for s in DATASET_BY_SUFFIX if s and name.endswith(s)]
+    return max(matches, key=len) if matches else ""
 
 
 def is_holdout(name: str | None = None) -> bool:
-    """Is this combination evaluated on the held-out year?"""
-    return (name if name is not None else combo()).endswith(HOLDOUT_SUFFIX)
+    """Is this combination evaluated on the held-out year?
+
+    Specifically the Lao 2010 that plan §3 seals -- not "on some other dataset". The
+    driver's seal reads this, and sealing the external check would be sealing a thing the
+    plan does not seal.
+    """
+    return dataset_suffix(name) == HOLDOUT_SUFFIX
+
+
+def is_external(name: str | None = None) -> bool:
+    """Is this combination the external check, on a sibling country's file?"""
+    return dataset(name) in EXTERNAL_DATASETS
 
 
 def dataset(name: str | None = None) -> str:
-    """`"holdout"` or `"development"` -- which of the two datasets this combination faces."""
-    return "holdout" if is_holdout(name) else "development"
+    """Which of the datasets this combination faces."""
+    return DATASET_BY_SUFFIX[dataset_suffix(name)]
 
 
 def source_dataset(root: Path, name: str | None = None) -> Path:
     """The file the setup chain's first stage reads for this combination."""
     return root / SOURCE_BY_DATASET[dataset(name)]
+
+
+def scheme_path(name: str | None = None) -> str:
+    """The stored backtest-scheme file this combination reads, relative to the root.
+
+    Returned as the repository-relative string rather than as a path, because every
+    caller writes it into the specification it produces as the source of the flags it
+    used, and a specification naming an absolute path on the machine that ran it is not
+    a specification anybody else can read.
+    """
+    return SCHEME_FILE_BY_DATASET[dataset(name)]
+
+
+def scheme_file(root: Path, name: str | None = None) -> Path:
+    """The same file, resolved."""
+    return root / scheme_path(name)
 
 
 def scheme_key(name: str | None = None) -> str:
@@ -192,11 +280,12 @@ FAMILY_TOKEN_PREFIX = "family_"
 def tokens(name: str | None = None) -> list[str]:
     """The fork children this combination takes that the main path does not.
 
-    `main` takes none and gives `[]`; the holdout suffix is not one of them, because it
+    `main` takes none and gives `[]`; a dataset suffix is not one of them, because it
     names the dataset rather than a fork.
     """
     name = combo() if name is None else name
-    stem = name[: -len(HOLDOUT_SUFFIX)] if is_holdout(name) else name
+    suffix = dataset_suffix(name)
+    stem = name[: -len(suffix)] if suffix else name
     return [] if stem == "main" else stem.split("__")
 
 

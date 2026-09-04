@@ -79,7 +79,14 @@ MANIFEST = Path("analysis/05_stability/results/manifest.csv")
 # `results/` directory produced by the holdout run is planned exactly as a development one
 # is -- and a holdout directory whose name is in neither manifest is the same failure.
 MANIFEST_HOLDOUT = Path("analysis/05_stability/results/manifest_holdout.csv")
-# Combination directories a node may hold without the manifest naming them. `main` is the
+# The external check's four rows, planned and committed before they ran, exactly as the
+# other two manifests were. They move no fork -- the reported model runs unchanged and the
+# country underneath is what differs -- so they never appear in the fork agreement below;
+# what they are here for is the same thing the other two are, which is that the
+# combination space stays closed. A third planned source keeps this check something a
+# directory has to be named by, rather than something it can be excused from.
+MANIFEST_EXTERNAL = Path("analysis/06_external/results/manifest_external.csv")
+# Combination directories a node may hold without a manifest naming them. `main` is the
 # reported analysis, which is not a perturbation of anything and so has no fork row.
 ALWAYS_ALLOWED = {"main"}
 
@@ -164,15 +171,16 @@ def check_tree(root: Path) -> list[Finding]:
 
 
 def combinations(root: Path) -> set[str] | None:
-    """Every combination either stability manifest names, or None before they exist.
+    """Every combination a manifest names, or None before any of them exists.
 
-    Two manifests, because phase D freezes the holdout set before phase E runs it and the
-    holdout rows carry their own names. A directory is planned if either file names it.
+    Three manifests. Phase D freezes the holdout set before phase E runs it and the
+    holdout rows carry their own names; batch 20's external check plans its four rows the
+    same way. A directory is planned if any of the three files names it.
     """
     names: set[str] = set()
     found = False
     import csv
-    for manifest in (MANIFEST, MANIFEST_HOLDOUT):
+    for manifest in (MANIFEST, MANIFEST_HOLDOUT, MANIFEST_EXTERNAL):
         path = root / manifest
         if not path.exists():
             continue
@@ -405,9 +413,10 @@ def check_combos(root: Path) -> list[Finding]:
     A `results/` subdirectory nobody planned -- a scratch run, a combination renamed
     halfway, a typo that created a second directory beside the real one -- is a set of
     numbers with no row in the manifest, and therefore an analysis that is in the
-    repository and not in the reported distribution. Both manifests count: batch 15 froze
-    the holdout set, whose rows are the same analyses under `__holdout` names, and a
-    holdout directory nobody planned is the same failure on the other dataset.
+    repository and not in anything reported. All three manifests count: batch 15 froze
+    the holdout set, whose rows are the same analyses under `__holdout` names, batch 20
+    planned the external check's four, and a directory nobody planned is the same failure
+    whichever dataset it is on.
 
     And a fork added to the tree after the manifest was written is a reasonable
     alternative the stability run does not know about. That is the silent absence
@@ -424,14 +433,17 @@ def check_combos(root: Path) -> list[Finding]:
         rows = list(csv.DictReader(handle))
     known = (combinations(root) or set()) | ALWAYS_ALLOWED
 
-    stability = (root / MANIFEST).parents[1]
+    # A node that holds a manifest is a node whose own outputs are not
+    # combination-scoped: they describe every combination in it and belong to none.
+    # There are two of them since batch 20 -- `05_stability` and `06_external` -- so the
+    # exemption is derived from where the manifests are rather than named.
+    planners = {(root / m).parents[1] for m in
+                (MANIFEST, MANIFEST_HOLDOUT, MANIFEST_EXTERNAL)}
     for node in nodes(root):
         results = node / "results"
         if not results.is_dir():
             continue
-        # The node that holds the manifest is the one node whose outputs are not
-        # combination-scoped: they describe every combination and belong to none.
-        if node == stability:
+        if node in planners:
             continue
         for child in sorted(p for p in results.iterdir() if p.is_dir()):
             if child.name in known:

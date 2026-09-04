@@ -1,6 +1,6 @@
 # Claim
 
-What does the Lao admin-1 monthly dengue dataset contain, and on what part of it may development happen? The node separates the held-out final year from the development period before anything characterises the data, then describes the development period only.
+What does the Lao admin-1 monthly dengue dataset contain, and on what part of it may development happen? The node separates the held-out final year from the development period before anything characterises the data, then describes the development period only. It also holds the two sibling datasets the external check runs on, because between them its children are the only nodes licensed to read anything under `Archive/`.
 
 ## Children
 
@@ -28,3 +28,9 @@ three that change what the headline number means are: one province absent from t
 entirely and a second contributing nothing; a static population figure that makes any rate
 wrong by a decade of growth; and an unweighted mean over provinces whose burdens differ by
 four orders of magnitude.
+
+**`03_siblings` was added in batch 20**, for the external check. It cuts the Thai and
+Vietnamese files onto the Lao calendar in the same two arrangements — the development
+backtest and the final year — and establishes that the two fixed schemes land on the same
+months there. Two of the three statements this node found not to describe the Lao file turn
+out to describe none of the three, so they are the harmonisation's rather than Laos's.

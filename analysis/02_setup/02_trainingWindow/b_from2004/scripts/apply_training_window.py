@@ -41,7 +41,10 @@ SETUP = FORK_PARENT.parent         # 02_setup
 
 # The calendar midpoint of the development period. `None` would mean "no lower bound".
 FIRST_PERIOD: str | None = "2004-01"
-SCHEME = "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json"
+# Which stored scheme file this combination reads is a property of the dataset it
+# faces, not a constant of this script: the Lao schemes are in `01_data/02_characterise`
+# and the sibling calendars the external check runs on are in `01_data/03_siblings`.
+# `combos` is the one place that decision lives, as it is for the source file.
 
 
 def repo_root(start: Path) -> Path:
@@ -108,7 +111,7 @@ def main() -> None:
     frame = pd.read_csv(out / "analysis_dataset.csv", dtype={"time_period": str})
 
     # The property that makes the two children comparable, checked rather than argued.
-    scheme = json.loads((ROOT / SCHEME).read_text())
+    scheme = json.loads(combos.scheme_file(ROOT).read_text())
     # The span this combination is evaluated over: 2008-01..2009-12 on development,
     # 2010-01..2010-12 on the holdout. Read from the stored scheme by the key
     # `combos` derives from the combination name, so a holdout row applies this fork's

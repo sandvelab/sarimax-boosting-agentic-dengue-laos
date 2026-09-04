@@ -1,0 +1,279 @@
+dataset,location,location_name,evaluable_cells
+tha,TH-10,Bangkok,24
+tha,TH-11,Samut Prakan Province,24
+tha,TH-12,Nonthaburi Province,24
+tha,TH-13,Pathum Thani Province,24
+tha,TH-14,Phra Nakhon Si Ayutthaya Province,24
+tha,TH-15,Ang Thong Province,24
+tha,TH-16,Lopburi Province,24
+tha,TH-17,Sing Buri Province,24
+tha,TH-18,Chai Nat Province,24
+tha,TH-19,Saraburi Province,24
+tha,TH-20,Chon Buri Province,24
+tha,TH-21,Rayong Province,24
+tha,TH-22,Chanthaburi Province,24
+tha,TH-23,Trat Province,24
+tha,TH-24,Chachoengsao Province,24
+tha,TH-25,Prachin Buri Province,24
+tha,TH-26,Nakhon Nayok Province,24
+tha,TH-27,Sa Kaeo Province,24
+tha,TH-30,Nakhon Ratchasima Province,24
+tha,TH-31,Buri Ram Province,24
+tha,TH-32,Surin Province,24
+tha,TH-33,Si Sa Ket Province,24
+tha,TH-34,Ubon Ratchathani Province,24
+tha,TH-35,Yasothon Province,24
+tha,TH-36,Chaiyaphum Province,24
+tha,TH-37,Amnat Charoen Province,24
+tha,TH-39,Nong Bua Lam Phu Province,24
+tha,TH-40,Khon Kaen Province,24
+tha,TH-41,Udon Thani Province,24
+tha,TH-42,Loei Province,24
+tha,TH-43,Nong Khai Province,24
+tha,TH-44,Maha Sarakham Province,24
+tha,TH-45,Roi Et Province,24
+tha,TH-46,Kalasin,24
+tha,TH-47,Sakon Nakhon Province,24
+tha,TH-48,Nakhon Phanom Province,24
+tha,TH-49,Mukdahan Province,24
+tha,TH-50,Chiang Mai Province,24
+tha,TH-51,Lamphun Province,24
+tha,TH-52,Lampang Province,24
+tha,TH-53,Uttaradit Province,24
+tha,TH-54,Phrae Province,24
+tha,TH-55,Nan Province,24
+tha,TH-56,Phayao Province,24
+tha,TH-57,Chiang Rai Province,24
+tha,TH-58,Mae Hong Son Province,24
+tha,TH-60,Nakhon Sawan Province,24
+tha,TH-61,Uthai Thani Province,24
+tha,TH-62,Kamphaeng Phet Province,24
+tha,TH-63,Tak Province,24
+tha,TH-64,Sukhothai Province,24
+tha,TH-65,Phitsanulok Province,24
+tha,TH-66,Phichit Province,24
+tha,TH-67,Phetchabun Province,24
+tha,TH-70,Ratchaburi Province,24
+tha,TH-71,Kanchanaburi Province,24
+tha,TH-72,Suphan Buri Province,24
+tha,TH-73,Nakhon Pathom Province,24
+tha,TH-74,Samut Sakhon Province,24
+tha,TH-75,Samut Songkhram Province,24
+tha,TH-76,Phetchaburi Province,24
+tha,TH-77,Prachuap Khiri Khan Province,24
+tha,TH-80,Nakhon Si Thammarat Province,24
+tha,TH-81,Krabi Province,24
+tha,TH-82,Phangnga Province,24
+tha,TH-83,Phuket Province,24
+tha,TH-84,Surat Thani Province,24
+tha,TH-85,Ranong Province,24
+tha,TH-86,Chumphon Province,24
+tha,TH-90,Songkhla Province,24
+tha,TH-91,Satun Province,24
+tha,TH-92,Trang Province,24
+tha,TH-93,Phatthalung Province,24
+tha,TH-94,Pattani Province,24
+tha,TH-95,Yala Province,24
+tha,TH-96,Narathiwat Province,24
+thaFinal,TH-10,Bangkok,12
+thaFinal,TH-11,Samut Prakan Province,12
+thaFinal,TH-12,Nonthaburi Province,12
+thaFinal,TH-13,Pathum Thani Province,12
+thaFinal,TH-14,Phra Nakhon Si Ayutthaya Province,12
+thaFinal,TH-15,Ang Thong Province,12
+thaFinal,TH-16,Lopburi Province,12
+thaFinal,TH-17,Sing Buri Province,12
+thaFinal,TH-18,Chai Nat Province,12
+thaFinal,TH-19,Saraburi Province,12
+thaFinal,TH-20,Chon Buri Province,12
+thaFinal,TH-21,Rayong Province,12
+thaFinal,TH-22,Chanthaburi Province,12
+thaFinal,TH-23,Trat Province,12
+thaFinal,TH-24,Chachoengsao Province,12
+thaFinal,TH-25,Prachin Buri Province,12
+thaFinal,TH-26,Nakhon Nayok Province,12
+thaFinal,TH-27,Sa Kaeo Province,12
+thaFinal,TH-30,Nakhon Ratchasima Province,12
+thaFinal,TH-31,Buri Ram Province,12
+thaFinal,TH-32,Surin Province,12
+thaFinal,TH-33,Si Sa Ket Province,12
+thaFinal,TH-34,Ubon Ratchathani Province,12
+thaFinal,TH-35,Yasothon Province,12
+thaFinal,TH-36,Chaiyaphum Province,12
+thaFinal,TH-37,Amnat Charoen Province,12
+thaFinal,TH-39,Nong Bua Lam Phu Province,12
+thaFinal,TH-40,Khon Kaen Province,12
+thaFinal,TH-41,Udon Thani Province,12
+thaFinal,TH-42,Loei Province,12
+thaFinal,TH-43,Nong Khai Province,12
+thaFinal,TH-44,Maha Sarakham Province,12
+thaFinal,TH-45,Roi Et Province,12
+thaFinal,TH-46,Kalasin,12
+thaFinal,TH-47,Sakon Nakhon Province,12
+thaFinal,TH-48,Nakhon Phanom Province,12
+thaFinal,TH-49,Mukdahan Province,12
+thaFinal,TH-50,Chiang Mai Province,12
+thaFinal,TH-51,Lamphun Province,12
+thaFinal,TH-52,Lampang Province,12
+thaFinal,TH-53,Uttaradit Province,12
+thaFinal,TH-54,Phrae Province,12
+thaFinal,TH-55,Nan Province,12
+thaFinal,TH-56,Phayao Province,12
+thaFinal,TH-57,Chiang Rai Province,12
+thaFinal,TH-58,Mae Hong Son Province,12
+thaFinal,TH-60,Nakhon Sawan Province,12
+thaFinal,TH-61,Uthai Thani Province,12
+thaFinal,TH-62,Kamphaeng Phet Province,12
+thaFinal,TH-63,Tak Province,12
+thaFinal,TH-64,Sukhothai Province,12
+thaFinal,TH-65,Phitsanulok Province,12
+thaFinal,TH-66,Phichit Province,12
+thaFinal,TH-67,Phetchabun Province,12
+thaFinal,TH-70,Ratchaburi Province,12
+thaFinal,TH-71,Kanchanaburi Province,12
+thaFinal,TH-72,Suphan Buri Province,12
+thaFinal,TH-73,Nakhon Pathom Province,12
+thaFinal,TH-74,Samut Sakhon Province,12
+thaFinal,TH-75,Samut Songkhram Province,12
+thaFinal,TH-76,Phetchaburi Province,12
+thaFinal,TH-77,Prachuap Khiri Khan Province,12
+thaFinal,TH-80,Nakhon Si Thammarat Province,12
+thaFinal,TH-81,Krabi Province,12
+thaFinal,TH-82,Phangnga Province,12
+thaFinal,TH-83,Phuket Province,12
+thaFinal,TH-84,Surat Thani Province,12
+thaFinal,TH-85,Ranong Province,12
+thaFinal,TH-86,Chumphon Province,12
+thaFinal,TH-90,Songkhla Province,12
+thaFinal,TH-91,Satun Province,12
+thaFinal,TH-92,Trang Province,12
+thaFinal,TH-93,Phatthalung Province,12
+thaFinal,TH-94,Pattani Province,12
+thaFinal,TH-95,Yala Province,12
+thaFinal,TH-96,Narathiwat Province,12
+vnm,VN-01,Lai Châu,24
+vnm,VN-02,Lào Cai,24
+vnm,VN-03,Hà Giang,24
+vnm,VN-04,Cao Bằng,24
+vnm,VN-05,Sơn La,24
+vnm,VN-06,Yên Bái,24
+vnm,VN-07,Tuyên Quang,24
+vnm,VN-09,Lạng Sơn,24
+vnm,VN-13,Quảng Ninh,24
+vnm,VN-14,Hòa Bình,24
+vnm,VN-18,Ninh Bình,24
+vnm,VN-20,Thái Bình,24
+vnm,VN-21,Thanh Hóa,24
+vnm,VN-22,Nghệ An,24
+vnm,VN-23,Hà Tĩnh,24
+vnm,VN-24,Quảng Bình,24
+vnm,VN-25,Quảng Trị,24
+vnm,VN-26,Thừa Thiên Huế,24
+vnm,VN-27,Quảng Nam,24
+vnm,VN-28,Kon Tum,24
+vnm,VN-29,Quảng Ngãi,24
+vnm,VN-30,Gia Lai,24
+vnm,VN-31,Bình Định,24
+vnm,VN-32,Phú Yên,24
+vnm,VN-33,Đắk Lắk,24
+vnm,VN-34,Khánh Hòa,24
+vnm,VN-35,Lâm Đồng,24
+vnm,VN-36,Ninh Thuận,24
+vnm,VN-37,Tây Ninh,24
+vnm,VN-39,Đồng Nai,24
+vnm,VN-40,Bình Thuận,24
+vnm,VN-41,Long An,24
+vnm,VN-43,Bà Rịa–Vũng Tàu,24
+vnm,VN-44,An Giang,24
+vnm,VN-45,Đồng Tháp,24
+vnm,VN-46,Tiền Giang,24
+vnm,VN-47,Kiên Giang,24
+vnm,VN-49,Vĩnh Long,24
+vnm,VN-50,Bến Tre,24
+vnm,VN-51,Trà Vinh,24
+vnm,VN-52,Sóc Trăng,24
+vnm,VN-53,Bắc Kạn,24
+vnm,VN-54,Bắc Giang,24
+vnm,VN-55,Bạc Liêu,24
+vnm,VN-56,Bắc Ninh,24
+vnm,VN-57,Bình Dương,24
+vnm,VN-58,Bình Phước,24
+vnm,VN-59,Cà Mau,24
+vnm,VN-61,Hải Dương,24
+vnm,VN-63,Hà Nam,24
+vnm,VN-66,Hưng Yên,24
+vnm,VN-67,Nam Định,24
+vnm,VN-68,Phú Thọ,24
+vnm,VN-69,Thái Nguyên,24
+vnm,VN-70,Vĩnh Phúc,24
+vnm,VN-71,Điện Biên,24
+vnm,VN-72,Đắk Nông,24
+vnm,VN-73,Hậu Giang,24
+vnm,VN-CT,Cần Thơ,24
+vnm,VN-DN,Đà Nẵng,24
+vnm,VN-HN,Hà Nội	,24
+vnm,VN-HP,Hải Phòng,24
+vnm,VN-SG,Ho Chi Minh,24
+vnmFinal,VN-01,Lai Châu,12
+vnmFinal,VN-02,Lào Cai,12
+vnmFinal,VN-03,Hà Giang,12
+vnmFinal,VN-04,Cao Bằng,12
+vnmFinal,VN-05,Sơn La,12
+vnmFinal,VN-06,Yên Bái,12
+vnmFinal,VN-07,Tuyên Quang,12
+vnmFinal,VN-09,Lạng Sơn,12
+vnmFinal,VN-13,Quảng Ninh,12
+vnmFinal,VN-14,Hòa Bình,12
+vnmFinal,VN-18,Ninh Bình,12
+vnmFinal,VN-20,Thái Bình,12
+vnmFinal,VN-21,Thanh Hóa,12
+vnmFinal,VN-22,Nghệ An,12
+vnmFinal,VN-23,Hà Tĩnh,12
+vnmFinal,VN-24,Quảng Bình,12
+vnmFinal,VN-25,Quảng Trị,12
+vnmFinal,VN-26,Thừa Thiên Huế,12
+vnmFinal,VN-27,Quảng Nam,12
+vnmFinal,VN-28,Kon Tum,12
+vnmFinal,VN-29,Quảng Ngãi,12
+vnmFinal,VN-30,Gia Lai,12
+vnmFinal,VN-31,Bình Định,12
+vnmFinal,VN-32,Phú Yên,12
+vnmFinal,VN-33,Đắk Lắk,12
+vnmFinal,VN-34,Khánh Hòa,12
+vnmFinal,VN-35,Lâm Đồng,12
+vnmFinal,VN-36,Ninh Thuận,12
+vnmFinal,VN-37,Tây Ninh,12
+vnmFinal,VN-39,Đồng Nai,12
+vnmFinal,VN-40,Bình Thuận,12
+vnmFinal,VN-41,Long An,12
+vnmFinal,VN-43,Bà Rịa–Vũng Tàu,12
+vnmFinal,VN-44,An Giang,12
+vnmFinal,VN-45,Đồng Tháp,12
+vnmFinal,VN-46,Tiền Giang,12
+vnmFinal,VN-47,Kiên Giang,12
+vnmFinal,VN-49,Vĩnh Long,12
+vnmFinal,VN-50,Bến Tre,12
+vnmFinal,VN-51,Trà Vinh,12
+vnmFinal,VN-52,Sóc Trăng,12
+vnmFinal,VN-53,Bắc Kạn,12
+vnmFinal,VN-54,Bắc Giang,12
+vnmFinal,VN-55,Bạc Liêu,12
+vnmFinal,VN-56,Bắc Ninh,12
+vnmFinal,VN-57,Bình Dương,12
+vnmFinal,VN-58,Bình Phước,12
+vnmFinal,VN-59,Cà Mau,12
+vnmFinal,VN-61,Hải Dương,12
+vnmFinal,VN-63,Hà Nam,12
+vnmFinal,VN-66,Hưng Yên,12
+vnmFinal,VN-67,Nam Định,12
+vnmFinal,VN-68,Phú Thọ,12
+vnmFinal,VN-69,Thái Nguyên,12
+vnmFinal,VN-70,Vĩnh Phúc,12
+vnmFinal,VN-71,Điện Biên,12
+vnmFinal,VN-72,Đắk Nông,12
+vnmFinal,VN-73,Hậu Giang,12
+vnmFinal,VN-CT,Cần Thơ,12
+vnmFinal,VN-DN,Đà Nẵng,12
+vnmFinal,VN-HN,Hà Nội	,12
+vnmFinal,VN-HP,Hải Phòng,12
+vnmFinal,VN-SG,Ho Chi Minh,12

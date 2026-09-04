@@ -36,7 +36,10 @@ import pandas as pd
 
 NODE = Path(__file__).resolve().parents[1]
 STAGES = ("01_population", "02_trainingWindow", "03_provinces", "04_retrain")
-SCHEME = "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json"
+# Which stored scheme file this combination reads is a property of the dataset it
+# faces, not a constant of this script: the Lao schemes are in `01_data/02_characterise`
+# and the sibling calendars the external check runs on are in `01_data/03_siblings`.
+# `combos` is the one place that decision lives, as it is for the source file.
 
 
 def repo_root(start: Path) -> Path:
@@ -91,7 +94,7 @@ def main() -> None:
     # 3/4/3 over 2010 on the holdout. Both are in the stored file and neither moves; the
     # combination's name decides which one it is evaluated under, in the one place that
     # decision is made.
-    scheme = json.loads((ROOT / SCHEME).read_text())
+    scheme = json.loads(combos.scheme_file(ROOT).read_text())
     scheme_key = combos.scheme_key()
     flags = {
         "n_periods": scheme[scheme_key]["n_periods"],
@@ -124,9 +127,9 @@ def main() -> None:
         "choice_nodes": {s["stage"]: s["node"] for s in stages},
         "eval_flags": flags,
         "eval_flags_source": {
-            "n_periods": f"{SCHEME} -> {scheme_key}",
-            "n_splits": f"{SCHEME} -> {scheme_key}",
-            "stride": f"{SCHEME} -> {scheme_key}",
+            "n_periods": f"{combos.scheme_path()} -> {scheme_key}",
+            "n_splits": f"{combos.scheme_path()} -> {scheme_key}",
+            "stride": f"{combos.scheme_path()} -> {scheme_key}",
             "n_retrain": next(s["node"] for s in stages if "n_retrain" in s["eval_flags"]),
         },
         "stages": stages,

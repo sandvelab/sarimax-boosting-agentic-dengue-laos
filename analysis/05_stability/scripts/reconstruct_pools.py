@@ -31,6 +31,12 @@ execution could have helped**: it moves a fork *inside* one of the members, and 
 the tree ever evaluated that member on its own under that configuration. That is a
 property of the perturbation manifest, and this file says which rows it applies to.
 
+**Which rows those are is read off the two manifests**, not off the directories on disk.
+Batch 20 added a node after this one whose rows are pools as well; they are sometimes
+present here and sometimes not, depending on whether that node has run yet, and a step
+whose output depends on that is the defect this script exists to remove. It settles the
+perturbation set, and `06_external` settles its own.
+
 Writes, at this node:
   results/pool_reconstruction.json   every pool row, the evaluations available for each
                                      member, the one the rule names, and the residual
@@ -93,9 +99,33 @@ def recorded_sources(combination: str) -> tuple[dict[str, str], dict[str, str]] 
             {name: value.get("chosen_by") for name, value in used.items()})
 
 
+def planned_here() -> set[str]:
+    """The combinations the two perturbation manifests name, plus the main path.
+
+    This step settles the reconstruction for the rows the perturbation set is made of,
+    which is what makes its answer independent of the order they ran in: every one of
+    them has run by the time this executes, so every member evaluation that will ever
+    exist for them exists. Batch 20's external rows are pools too, but they run in
+    `06_external`, one node later, so from here they are sometimes present and sometimes
+    not -- and a step whose output depends on which directories happen to exist is the
+    defect batch 28 removed. They are settled at their own node instead.
+    """
+    import csv
+    names = {"main"}
+    for manifest in ("manifest.csv", "manifest_holdout.csv"):
+        path = NODE / "results" / manifest
+        if path.exists():
+            names |= {r["combination"] for r in csv.DictReader(path.open())
+                      if r["combination"]}
+    return names
+
+
 def main() -> None:
     rows, rerun = [], []
+    planned = planned_here()
     for directory in sorted((ENSEMBLE / "results").iterdir()):
+        if directory.name not in planned:
+            continue
         if not (directory / "members.json").exists():
             continue
         if not (directory / "eval.nc").exists():

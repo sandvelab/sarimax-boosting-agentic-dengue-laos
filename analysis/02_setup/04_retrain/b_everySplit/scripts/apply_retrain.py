@@ -41,7 +41,10 @@ from pathlib import Path
 NODE = Path(__file__).resolve().parents[1]
 SETUP = NODE.parents[1]
 
-SCHEME = "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json"
+# Which stored scheme file this combination reads is a property of the dataset it
+# faces, not a constant of this script: the Lao schemes are in `01_data/02_characterise`
+# and the sibling calendars the external check runs on are in `01_data/03_siblings`.
+# `combos` is the one place that decision lives, as it is for the source file.
 
 
 def repo_root(start: Path) -> Path:
@@ -86,7 +89,7 @@ def main() -> None:
     out = NODE / "results" / COMBO
     out.mkdir(parents=True, exist_ok=True)
 
-    scheme = json.loads((ROOT / SCHEME).read_text())
+    scheme = json.loads(combos.scheme_file(ROOT).read_text())
     # The same key `assemble_setup.py` reads the rest of the backtest flags from, and
     # it is the phase's key: refitting at every split means every split of *this*
     # backtest, which is eight on development and four on the holdout.
@@ -105,7 +108,7 @@ def main() -> None:
         "choice": "b_everySplit",
         "description": "refit at every split: n_retrain set to the scheme's n_splits",
         "dataset_transform": "identity",
-        "n_retrain_source": f"{SCHEME} -> {scheme_key}.n_splits",
+        "n_retrain_source": f"{combos.scheme_path()} -> {scheme_key}.n_splits",
         "input": str(source.relative_to(ROOT)),
         "input_sha256": sha256(source),
         "output_sha256": sha256(out / "analysis_dataset.csv"),

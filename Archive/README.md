@@ -28,3 +28,8 @@ Where an import has a binary original and a markdown conversion, they go in `ori
   under `analysis/02_setup` scales the dataset's static provincial snapshot by it. Same
   write-once treatment and the same reason the `(IS_SHADOW)` line marker is in the README
   rather than in the file.
+- `sibling-datasets/` — the Thai and Vietnamese files of the same CHAP harmonized dataset,
+  at the same pinned commit as the Lao ones. Not part of the headline analysis and no model
+  is developed on them: they are the external check the plan's §4 names, run in
+  `analysis/06_external/`. Same write-once treatment, and the same reason the `(IS_SHADOW)`
+  line marker is in the folder's README and `provenance.md` rather than in the files.

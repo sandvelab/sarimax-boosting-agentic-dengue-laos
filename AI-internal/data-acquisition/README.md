@@ -25,3 +25,9 @@ does not belong on the same footing as a finding about the data.
   `analysis/02_setup/01_population/b_backCast` scales it by. An API cannot be pinned by
   commit the way the dataset is, so the request fixes the year range and the response's
   own `lastupdated` vintage is recorded in the provenance file beside the checksum.
+- `fetch_sibling_datasets.sh` — fetches the Thai and Vietnamese files of the same
+  harmonisation, at the same commit, into `Archive/sibling-datasets/{tha,vnm}/`, and writes
+  one `sha256sums.txt` for both. Same write-once behaviour and the same `--verify`. One pin
+  for all three countries, so that a difference between countries is not also a difference
+  between harmonisations. They are the external check at `analysis/06_external/`; no model
+  is developed on them.

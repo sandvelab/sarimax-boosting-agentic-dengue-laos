@@ -39,7 +39,10 @@ SETUP = NODE.parents[1]
 # The evaluated span, as batch 3 fixed it and 02_setup re-reads from the scheme file.
 # Kept here only to say which cells are counted as evaluable in the diagnostic below;
 # the value itself comes from that file, never from this script.
-SCHEME = "analysis/01_data/02_characterise/results/backtest_scheme_chosen.json"
+# Which stored scheme file this combination reads is a property of the dataset it
+# faces, not a constant of this script: the Lao schemes are in `01_data/02_characterise`
+# and the sibling calendars the external check runs on are in `01_data/03_siblings`.
+# `combos` is the one place that decision lives, as it is for the source file.
 
 
 def repo_root(start: Path) -> Path:
@@ -102,7 +105,7 @@ def main() -> None:
     frame = pd.read_csv(out / "analysis_dataset.csv", dtype={"time_period": str})
 
     # What the platform's filter and the evaluated span imply, from this dataset.
-    scheme = json.loads((ROOT / SCHEME).read_text())
+    scheme = json.loads(combos.scheme_file(ROOT).read_text())
     # The span this combination is evaluated over: 2008-01..2009-12 on development,
     # 2010-01..2010-12 on the holdout. Read from the stored scheme by the key
     # `combos` derives from the combination name, so a holdout row applies this fork's

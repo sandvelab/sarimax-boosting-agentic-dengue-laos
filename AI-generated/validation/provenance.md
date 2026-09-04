@@ -390,3 +390,182 @@ touches `manifest_holdout.csv`.
 
 agency: agent-autonomous.
 information: agent-retrieved.
+
+---
+
+## 26-09-04_cleanroom.md, 26-09-04_cleanroom_comparison.json, 26-09-04_cleanroom-artefacts/
+
+`/validate cleanroom` on the tree batch 30 repaired: the repository cloned at `c94e85f`, the
+analysis environment built from `environment/lock.txt`, and `bash analysis/run.sh` from cold.
+**It exited 0** — the first clean-room run in this project to reach the end of the tree.
+
+```
+produced-by:  AI-internal/useful-scripts/run_cleanroom.sh
+              sha256:846911b2bf9dc8d8bb5a89164542979bf8b349557dddc7de69d910db55c8105f
+              AI-internal/useful-scripts/cleanroom_compare.py
+              sha256:33010dd1c969900db39ef0ca95c6972ef96d61c6a99c4cc104708d67e9832c48
+invocation:   nohup caffeinate -ims bash AI-internal/useful-scripts/run_cleanroom.sh
+              .venv/bin/python AI-internal/useful-scripts/cleanroom_compare.py
+inputs:       the repository at commit c94e85f (git clone of the working tree)
+              environment/lock.txt (174 packages)
+              Docker, for the reference model's amd64 chapkit image under emulation
+environment:  environment/chapenv built from the lockfile inside the clone, for the analysis;
+              .venv for the comparison, per AGENTS.md §8
+commit:       c94e85f
+produced:     2026-09-04
+seeds:        the project seed as the tree derives it; the reference model is unseeded
+```
+
+Both scripts are **byte-identical to the versions batch 27 verified** — `846911b2…` and
+`33010dd1…` — so this is the same check run further rather than a new one.
+
+`analysis/run.sh` exited **0** after **41 677 s** (694 min). The run was detached from the
+session and held awake with `caffeinate -ims`; the session's wait process was killed three
+times and the analysis was untouched. Batch 27's 81 335 s was wall clock across a sleeping
+host and was not readable as compute. This figure is.
+
+Of 4 366 tracked files, **2 248 came back byte-identical**, 2 118 differ in something
+computed, **0** differ only in the repository path, and 5 are untracked in the clone — the
+same five `member_selection.json` files batch 27 found, for five setup combinations not
+re-run since batch 14 added the file.
+
+The clone was 18 GB and has been discarded. `26-09-04_cleanroom-artefacts/` holds what the
+run wrote, with a README, so the findings can be re-checked without re-running from cold.
+
+agency: agent-autonomous.
+information: agent-retrieved.
+
+---
+
+## 26-09-04_cleanroomTier2Drift.json
+
+Whether the tier-2 selection rule, applied to this run's own tier-1 conclusions, chooses the
+recorded eight pairs — and what the reference model's four repeats did to the development
+noise band.
+
+```
+produced-by:  AI-internal/useful-scripts/cleanroom_tier2_drift.py
+              sha256:3d98ea7e47493d565b2be298c0ff373ef987acf860a24c227277d240ce15deeb
+invocation:   .venv/bin/python AI-internal/useful-scripts/cleanroom_tier2_drift.py \
+                  --archive . --cleanroom AI-internal/useful-scripts/repo \
+                  --out AI-generated/validation/26-09-04_cleanroomTier2Drift.json
+inputs:       analysis/05_stability/results/ (the archive)
+              the clean-room clone's analysis/05_stability/results/
+environment:  .venv (repository machinery)
+commit:       c94e85f
+produced:     2026-09-04
+```
+
+Byte-identical to the version batch 27 verified (`3d98ea7e…`).
+`reimplementation_reproduces_the_archived_selection: true`, so the rest of the block is
+readable. The rule **would** now choose **six different pairs** and the tier-1 order **would**
+move three positions; batch 26's machinery reported both and the recorded selection ran. That
+is the third independent draw this check has absorbed.
+
+The development noise band is **0.048273** against batch 15's 0.021778, and **3** of 17 forks
+clear it against 6. Four draws now read 0.021778, 0.043084, 0.034944, 0.048273 and 6, 3, 3, 3.
+
+agency: agent-autonomous.
+information: agent-retrieved.
+
+---
+
+## 26-09-04_cleanroomHoldoutReproduction.json
+
+Per model and per combination, on both halves: whether the CRPS came back identical. Plus the
+phase-E headline archived beside the clean-room's, the environment comparison, and the
+comparison against the frozen development figures.
+
+```
+produced-by:  AI-internal/useful-scripts/cleanroom_holdout_reproduction.py
+              sha256:1f8fb33606534854b770b7cc1cd1e349a99eef38db97310135368a2d5364a13a
+invocation:   .venv/bin/python AI-internal/useful-scripts/cleanroom_holdout_reproduction.py \
+                  --archive . --cleanroom AI-internal/useful-scripts/repo \
+                  --out AI-generated/validation/26-09-04_cleanroomHoldoutReproduction.json \
+                  --artefacts AI-generated/validation/26-09-04_cleanroom-artefacts
+inputs:       analysis/results/*/conclusion.json in both trees
+              analysis/05_stability/results/{manifest_holdout,conclusions}.csv, both trees
+              26-09-04_cleanroom-artefacts/{freeze_raw.txt,lock.txt,install_env.log}
+environment:  .venv (repository machinery)
+commit:       c94e85f
+produced:     2026-09-04
+```
+
+**The script was changed in this batch** and the digest above is the changed version.
+Two things in it described batch 27 rather than the run it is pointed at: `environment_check`
+hardcoded `install_chap_sh_reported: "DOES NOT MATCH environment/lock.txt"`, which batch 27's
+own fix to `install-chap.sh` has since made false; and the payload key `why_the_run_stopped`,
+with `rows_it_stopped_on` inside it, named a failure on a run that exits 0. The environment
+block now reads the reported line out of `install_env.log`, and the key is
+`the_frozen_figure_comparison` with `rows_whose_frozen_figure_drifted`. No arithmetic changed.
+
+**192 model-combination scores from models this project wrote — 96 development, 96 holdout —
+and 0 moved.** The unseeded reference moved in all 32 combinations on both halves, for each
+of its four repeats and their mean.
+
+Environment: `matches environment/lock.txt exactly (174 packages)`, **0 lines carrying ANSI
+colour**, sets identical, nothing in one and not the other. Batch 27's repair verified from
+cold.
+
+Phase E: CRPS of the reported model, its rank, `beats_the_reference` (26 of 32) and
+`beats_both_required_baselines` (27 of 32) all **identical**. The skill score, the reference
+CRPS, the noise band, the rows inside it and the forks above it all moved with the reference.
+The held-out band is **0.050443** against the archive's 0.014023, which contradicts batch 27's
+report of a steady held-out band across two draws.
+
+The frozen-figure comparison: **32 drifted, 0 pairings moved**, `manifest_holdout.csv`
+identical, largest move **+0.051016** against a band of 0.048273 —
+`all_within_the_development_noise_band: false`.
+
+agency: agent-autonomous.
+information: agent-retrieved.
+
+---
+
+## 26-09-04_cleanroomPhaseEAnswer.json
+
+The three files `pair_holdout_development.py` writes, archived beside the clean-room's,
+classified field by field. Batch 27 exited 1 at that script, so those three were carried
+unchanged out of the clone's index and its comparison reported them identical; a file that
+was never written cannot have reproduced. This is the first run in which they exist to
+compare.
+
+```
+produced-by:  AI-internal/useful-scripts/cleanroom_phase_e_answer.py
+              sha256:9b41d408c741ec642e24f69529cc9cbb30b123eff4a4a15bc6c2d8a7324ac89e
+invocation:   .venv/bin/python AI-internal/useful-scripts/cleanroom_phase_e_answer.py \
+                  --archive . \
+                  --artefacts AI-generated/validation/26-09-04_cleanroom-artefacts \
+                  --out AI-generated/validation/26-09-04_cleanroomPhaseEAnswer.json
+inputs:       analysis/05_stability/results/{holdout_vs_development.json,
+              holdout_vs_development.csv,fork_sensitivity_both.csv}
+              the same three in 26-09-04_cleanroom-artefacts/
+environment:  .venv (repository machinery)
+commit:       c94e85f
+produced:     2026-09-04
+```
+
+Written in this batch. Each scalar is classified as **reference-derived** or **structural**
+by a field path listed in the script rather than by a heuristic, so a field added later is
+classified deliberately.
+
+`holdout_vs_development.csv`: **544 of 640 cells identical**, same 32 rows by name. Three
+columns moved — `holdout_crps_reference`, `holdout_skill_score`,
+`skill_holdout_minus_development` — and **every development column held**, including the two
+batch 30 made read from the freeze. `development_beats_all_baselines`, which batch 30 named
+as re-derived and therefore able to move, did not move on this draw.
+
+`holdout_vs_development.json`: 56 of 80 scalars identical, 14 reference-derived moved, 10
+structural — four of which are the `frozen_pairing_verified` block reporting the drift, which
+is what it exists to do.
+
+`fork_sensitivity_both.csv`: 129 of 221 cells identical; only `fork`, `stage`, `kind` and
+`owner` held, because every numeric column is measured against a band that moved.
+
+**The finding**: `agreeing_on_whether_the_fork_matters` came back **identical at 14**, while
+`matter_on_both` went from four forks to one and the two sets share only `family`. A reported
+number reproduced exactly and does not mean the same thing in the two runs. Every check this
+project has compares values, so all of them call that field reproduced.
+
+agency: agent-autonomous.
+information: agent-retrieved.

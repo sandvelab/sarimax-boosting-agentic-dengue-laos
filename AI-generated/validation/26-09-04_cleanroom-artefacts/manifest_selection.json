@@ -1,0 +1,70 @@
+{
+ "commit_note": "the commit that adds this file, read from git rather than taken from HEAD, so that later runs cannot overwrite the evidence of when the selection was fixed. On the run that writes it there is no such commit yet and HEAD is recorded; the commit that adds it is the next one.",
+ "frozen_at_commit": "f10427a",
+ "frozen_on": "2026-09-02",
+ "tier1_order": [
+  "main",
+  "aggregate_caseWeighted",
+  "aggregate_populationWeighted",
+  "trainingWindow_from2004",
+  "provinces_reportingOnly",
+  "popColumn_backCast",
+  "provinces_mergeVientiane",
+  "retrain_everySplit",
+  "climatology_frozenWindow",
+  "persistence_negBinomialFloor",
+  "family_hierNB",
+  "weighting_crpsWeighted",
+  "family_boosted",
+  "fitTime_refitAtPredict",
+  "covariates_rich",
+  "observation_negBinomial",
+  "observation_zeroInflated",
+  "features_richCalendar",
+  "autoregressive_lag3",
+  "head_quantileEnsemble",
+  "population_covariate",
+  "covariates_lagged",
+  "yearVariance_shared",
+  "population_ignored"
+ ],
+ "tier1_order_basis": "reach, then the phase-C informativeness prior, then measured cost, then name -- as sorted by this script on the run that wrote this file. The five setup rows have no prior and equal reach, so their order is the cost tiebreak alone and is the half that does not reproduce.",
+ "tier2_note": "The rule chose these pairs once, from tier 1's conclusions. It is kept and still runs on every invocation, but only so that manifest_selection_check.json can report whether it would still choose them; it no longer decides what the manifest contains.",
+ "tier2_pairs": [
+  {
+   "a": "provinces_reportingOnly",
+   "b": "family_hierNB"
+  },
+  {
+   "a": "provinces_reportingOnly",
+   "b": "weighting_crpsWeighted"
+  },
+  {
+   "a": "provinces_mergeVientiane",
+   "b": "family_hierNB"
+  },
+  {
+   "a": "provinces_mergeVientiane",
+   "b": "weighting_crpsWeighted"
+  },
+  {
+   "a": "provinces_reportingOnly",
+   "b": "aggregate_caseWeighted"
+  },
+  {
+   "a": "provinces_mergeVientiane",
+   "b": "aggregate_caseWeighted"
+  },
+  {
+   "a": "family_hierNB",
+   "b": "aggregate_caseWeighted"
+  },
+  {
+   "a": "weighting_crpsWeighted",
+   "b": "aggregate_caseWeighted"
+  }
+ ],
+ "tier2_rule_file": "results/tier2_rule.md",
+ "tier2_rule_sha256": "30f23af3cc6411e0ca5df52b9cb76b1f389a39c9116d1135940d7abe20401ea8",
+ "what_this_is": "The two things this manifest's shape was *decided* rather than derived: the order of the tier-1 rows and the pairing of the tier-2 rows. Both were computed once, from numbers that do not reproduce -- the tier-1 order breaks ties on measured wall-clock cost, and the tier-2 rule ranks on a skill score that divides by the unseeded reference model. Recording them is what lets `analysis/run.sh` rebuild this manifest from a clean checkout instead of re-deciding it."
+}

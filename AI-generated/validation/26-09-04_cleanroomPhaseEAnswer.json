@@ -1,0 +1,459 @@
+{
+ "what_this_is": "The three files pair_holdout_development.py writes, archived beside a clean-room run's. Batch 27 never wrote them -- it exited 1 at that script -- so its comparison reported them unchanged and that reading was wrong. This is the first run in which they can be compared at all.",
+ "archive": ".",
+ "cleanroom_artefacts": "AI-generated/validation/26-09-04_cleanroom-artefacts",
+ "holdout_vs_development_json": {
+  "file": "holdout_vs_development.json",
+  "scalars": 80,
+  "identical": 56,
+  "moved_reference_derived": {
+   "/how_hard_the_year_was/reference_crps_holdout": {
+    "archived": 84.02620178776041,
+    "cleanroom": 83.088162734375,
+    "delta": -0.9380390533854097
+   },
+   "/the_gap/max": {
+    "archived": 0.231047,
+    "cleanroom": 0.224695,
+    "delta": -0.0063519999999999965
+   },
+   "/the_gap/median": {
+    "archived": -0.055942,
+    "cleanroom": -0.065624,
+    "delta": -0.009682000000000003
+   },
+   "/the_gap/min": {
+    "archived": -0.670063,
+    "cleanroom": -0.677621,
+    "delta": -0.007558000000000065
+   },
+   "/the_gap/range": {
+    "archived": 0.90111,
+    "cleanroom": 0.902316,
+    "delta": 0.0012060000000000404
+   },
+   "/the_reported_analysis/gap": {
+    "archived": -0.061678,
+    "cleanroom": -0.071988,
+    "delta": -0.01031
+   },
+   "/the_reported_analysis/holdout_crps_reference": {
+    "archived": 84.02620178776041,
+    "cleanroom": 83.088162734375,
+    "delta": -0.9380390533854097
+   },
+   "/the_reported_analysis/holdout_skill_score": {
+    "archived": 0.08681957547474661,
+    "cleanroom": 0.0765100575747032,
+    "delta": -0.010309517900043419
+   },
+   "/the_two_spreads/development/noise_band": {
+    "archived": 0.021778,
+    "cleanroom": 0.048273,
+    "delta": 0.026495000000000005
+   },
+   "/the_two_spreads/holdout/max": {
+    "archived": 0.202589,
+    "cleanroom": 0.196237,
+    "delta": -0.0063519999999999965
+   },
+   "/the_two_spreads/holdout/median": {
+    "archived": 0.087537,
+    "cleanroom": 0.077235,
+    "delta": -0.010302000000000006
+   },
+   "/the_two_spreads/holdout/min": {
+    "archived": -0.503844,
+    "cleanroom": -0.511402,
+    "delta": -0.007558000000000065
+   },
+   "/the_two_spreads/holdout/noise_band": {
+    "archived": 0.014023,
+    "cleanroom": 0.050443,
+    "delta": 0.03642
+   },
+   "/the_two_spreads/holdout/range": {
+    "archived": 0.706432,
+    "cleanroom": 0.707639,
+    "delta": 0.0012070000000000691
+   }
+  },
+  "moved_structural": {
+   "/does_the_ordering_transfer/spearman_rank_correlation": {
+    "archived": 0.395747,
+    "cleanroom": 0.368985,
+    "delta": -0.026762000000000008
+   },
+   "/frozen_pairing_verified/frozen_figures_that_drifted/detail": {
+    "archived": [],
+    "cleanroom": [
+     {
+      "combination": "main",
+      "frozen": 0.14849796928359138,
+      "today": 0.1620970927588078,
+      "moved_by": 0.013599
+     },
+     {
+      "combination": "aggregate_caseWeighted",
+      "frozen": 0.23201514155208391,
+      "today": 0.24174305802861484,
+      "moved_by": 0.009728
+     },
+     {
+      "combination": "aggregate_populationWeighted",
+      "frozen": 0.2288042945821136,
+      "today": 0.25285229869783044,
+      "moved_by": 0.024048
+     },
+     {
+      "combination": "trainingWindow_from2004",
+      "frozen": 0.12662283892090997,
+      "today": 0.1205299665156766,
+      "moved_by": -0.006093
+     },
+     {
+      "combination": "provinces_reportingOnly",
+      "frozen": 0.18605112567234483,
+      "today": 0.19332066900783784,
+      "moved_by": 0.00727
+     },
+     {
+      "combination": "popColumn_backCast",
+      "frozen": 0.13465475700653085,
+      "today": 0.13097379870965442,
+      "moved_by": -0.003681
+     },
+     {
+      "combination": "provinces_mergeVientiane",
+      "frozen": 0.17137533295369134,
+      "today": 0.1255380066910986,
+      "moved_by": -0.045837
+     },
+     {
+      "combination": "retrain_everySplit",
+      "frozen": 0.16511284434582874,
+      "today": 0.17540490476713833,
+      "moved_by": 0.010292
+     },
+     {
+      "combination": "climatology_frozenWindow",
+      "frozen": 0.14600826127348043,
+      "today": 0.15964714724535023,
+      "moved_by": 0.013639
+     },
+     {
+      "combination": "persistence_negBinomialFloor",
+      "frozen": 0.12056545328384405,
+      "today": 0.134610679904269,
+      "moved_by": 0.014045
+     },
+     {
+      "combination": "family_hierNB",
+      "frozen": -0.07237973364538375,
+      "today": -0.05525302826583989,
+      "moved_by": 0.017127
+     },
+     {
+      "combination": "weighting_crpsWeighted",
+      "frozen": -0.03348106839131715,
+      "today": -0.01697560375193463,
+      "moved_by": 0.016505
+     },
+     {
+      "combination": "family_boosted",
+      "frozen": 0.06006624717854736,
+      "today": 0.07507769131143827,
+      "moved_by": 0.015011
+     },
+     {
+      "combination": "fitTime_refitAtPredict",
+      "frozen": 0.15423932455866485,
+      "today": 0.1677467543015304,
+      "moved_by": 0.013507
+     },
+     {
+      "combination": "covariates_rich",
+      "frozen": 0.15659642771861704,
+      "today": 0.17006621276333778,
+      "moved_by": 0.01347
+     },
+     {
+      "combination": "observation_negBinomial",
+      "frozen": 0.14388565130795072,
+      "today": 0.15755843694649163,
+      "moved_by": 0.013673
+     },
+     {
+      "combination": "observation_zeroInflated",
+      "frozen": 0.14325477345463955,
+      "today": 0.15693763468374322,
+      "moved_by": 0.013683
+     },
+     {
+      "combination": "features_richCalendar",
+      "frozen": 0.14870925964197335,
+      "today": 0.16230500865233932,
+      "moved_by": 0.013596
+     },
+     {
+      "combination": "autoregressive_lag3",
+      "frozen": 0.14866690116197523,
+      "today": 0.1622633266689072,
+      "moved_by": 0.013596
+     },
+     {
+      "combination": "head_quantileEnsemble",
+      "frozen": 0.15033166210971804,
+      "today": 0.16390150014079163,
+      "moved_by": 0.01357
+     },
+     {
+      "combination": "population_covariate",
+      "frozen": 0.14722761080859093,
+      "today": 0.16084702285757013,
+      "moved_by": 0.013619
+     },
+     {
+      "combination": "covariates_lagged",
+      "frozen": 0.14849338431175885,
+      "today": 0.1620925810124002,
+      "moved_by": 0.013599
+     },
+     {
+      "combination": "yearVariance_shared",
+      "frozen": 0.1474297468358744,
+      "today": 0.16104593062150874,
+      "moved_by": 0.013616
+     },
+     {
+      "combination": "population_ignored",
+      "frozen": 0.14653542520994445,
+      "today": 0.16016589197997444,
+      "moved_by": 0.01363
+     },
+     {
+      "combination": "provinces_reportingOnly__family_hierNB",
+      "frozen": -0.0049307829535640835,
+      "today": -0.012369249899901513,
+      "moved_by": -0.007438
+     },
+     {
+      "combination": "provinces_reportingOnly__weighting_crpsWeighted",
+      "frozen": 0.046499946013921045,
+      "today": 0.09751567796558114,
+      "moved_by": 0.051016
+     },
+     {
+      "combination": "provinces_mergeVientiane__family_hierNB",
+      "frozen": -0.05088341023893661,
+      "today": -0.0578988828953666,
+      "moved_by": -0.007015
+     },
+     {
+      "combination": "provinces_mergeVientiane__weighting_crpsWeighted",
+      "frozen": -0.028457999379137178,
+      "today": -0.05447064588584083,
+      "moved_by": -0.026013
+     },
+     {
+      "combination": "provinces_reportingOnly__aggregate_caseWeighted",
+      "frozen": 0.16621933165524527,
+      "today": 0.17062870055123247,
+      "moved_by": 0.004409
+     },
+     {
+      "combination": "provinces_mergeVientiane__aggregate_caseWeighted",
+      "frozen": 0.22392968864027973,
+      "today": 0.2273168531900207,
+      "moved_by": 0.003387
+     },
+     {
+      "combination": "family_hierNB__aggregate_caseWeighted",
+      "frozen": 0.025673749873381335,
+      "today": 0.03801535306758819,
+      "moved_by": 0.012342
+     },
+     {
+      "combination": "weighting_crpsWeighted__aggregate_caseWeighted",
+      "frozen": 0.0617664464707095,
+      "today": 0.07365087041971463,
+      "moved_by": 0.011884
+     }
+    ]
+   },
+   "/frozen_pairing_verified/frozen_figures_that_drifted/development_noise_band": {
+    "archived": 0.021778,
+    "cleanroom": 0.048273,
+    "delta": 0.026495000000000005
+   },
+   "/frozen_pairing_verified/frozen_figures_that_drifted/largest_absolute_move": {
+    "archived": 0.0,
+    "cleanroom": 0.051016,
+    "delta": 0.051016
+   },
+   "/frozen_pairing_verified/frozen_figures_that_drifted/largest_move_is_inside_the_band": {
+    "archived": true,
+    "cleanroom": false
+   },
+   "/frozen_pairing_verified/frozen_figures_that_drifted/rows": {
+    "archived": 0,
+    "cleanroom": 32,
+    "delta": 32
+   },
+   "/which_forks_matter_on_both/matter_on_both": {
+    "archived": [
+     "aggregate",
+     "family",
+     "provinces",
+     "trainingWindow"
+    ],
+    "cleanroom": [
+     "family"
+    ]
+   },
+   "/which_forks_matter_on_both/matter_on_development_only": {
+    "archived": [
+     "persistence",
+     "weighting"
+    ],
+    "cleanroom": [
+     "aggregate",
+     "weighting"
+    ]
+   },
+   "/which_forks_matter_on_both/matter_on_the_holdout_only": {
+    "archived": [
+     "covariates"
+    ],
+    "cleanroom": [
+     "provinces"
+    ]
+   },
+   "/which_forks_matter_on_both/sensitivity_rank_correlation": {
+    "archived": 0.678922,
+    "cleanroom": 0.789216,
+    "delta": 0.110294
+   }
+  },
+  "structural_fields_all_held": false,
+  "identical_fields": [
+   "/does_the_conclusion_hold_on_2010/beats_both_required_baselines",
+   "/does_the_conclusion_hold_on_2010/beats_the_reference",
+   "/does_the_conclusion_hold_on_2010/of",
+   "/does_the_conclusion_hold_on_2010/on_development_it_was/beats_both_required_baselines",
+   "/does_the_conclusion_hold_on_2010/on_development_it_was/beats_both_required_baselines_is_from",
+   "/does_the_conclusion_hold_on_2010/on_development_it_was/beats_the_reference",
+   "/does_the_conclusion_hold_on_2010/on_development_it_was/beats_the_reference_is_from",
+   "/does_the_conclusion_hold_on_2010/rows_that_beat_it_on_the_holdout_and_not_on_development",
+   "/does_the_conclusion_hold_on_2010/rows_that_beat_the_reference_on_development_and_not_on_the_holdout",
+   "/does_the_ordering_transfer/note",
+   "/does_the_ordering_transfer/rows",
+   "/frozen_pairing_verified/against",
+   "/frozen_pairing_verified/checked",
+   "/frozen_pairing_verified/development_twins_without_a_conclusion_today/note",
+   "/frozen_pairing_verified/development_twins_without_a_conclusion_today/rows",
+   "/frozen_pairing_verified/frozen_figures_that_drifted/note",
+   "/frozen_pairing_verified/frozen_figures_that_drifted/of",
+   "/frozen_pairing_verified/pairings_that_moved/note",
+   "/frozen_pairing_verified/pairings_that_moved/rows",
+   "/frozen_pairing_verified/tolerance",
+   "/frozen_pairing_verified/verdict",
+   "/how_hard_the_year_was/note",
+   "/how_hard_the_year_was/reference_crps_development",
+   "/rows_not_paired",
+   "/sources/each dataset's own distribution",
+   "/sources/one row per fork, both datasets",
+   "/sources/one row per paired analysis",
+   "/sources/the frozen pairing",
+   "/the_gap/n",
+   "/the_gap/note",
+   "/the_gap/rows_better_on_the_holdout",
+   "/the_gap/rows_worse_on_the_holdout",
+   "/the_reported_analysis/combination",
+   "/the_reported_analysis/development_coverage_10_90",
+   "/the_reported_analysis/development_crps_ours",
+   "/the_reported_analysis/development_crps_reference",
+   "/the_reported_analysis/development_skill_score",
+   "/the_reported_analysis/holdout_beats_all_baselines",
+   "/the_reported_analysis/holdout_beats_reference",
+   "/the_reported_analysis/holdout_coverage_10_90",
+   "/the_reported_analysis/holdout_crps_ours",
+   "/the_reported_analysis/of",
+   "/the_reported_analysis/our_model",
+   "/the_reported_analysis/rank_within_development",
+   "/the_reported_analysis/rank_within_holdout",
+   "/the_two_spreads/development/max",
+   "/the_two_spreads/development/median",
+   "/the_two_spreads/development/min",
+   "/the_two_spreads/development/n",
+   "/the_two_spreads/development/range",
+   "/the_two_spreads/holdout/n",
+   "/the_two_spreads/note",
+   "/what_this_is",
+   "/which_forks_matter_on_both/agreeing_on_whether_the_fork_matters",
+   "/which_forks_matter_on_both/forks",
+   "/which_forks_matter_on_both/of_forks_scored_on_both"
+  ]
+ },
+ "holdout_vs_development_csv": {
+  "file": "holdout_vs_development.csv",
+  "rows_archived": 32,
+  "rows_cleanroom": 32,
+  "same_rows_by_name": true,
+  "rows_only_in_archive": [],
+  "rows_only_in_cleanroom": [],
+  "cells_compared": 640,
+  "cells_identical": 544,
+  "columns_that_moved": {
+   "holdout_crps_reference": 32,
+   "holdout_skill_score": 32,
+   "skill_holdout_minus_development": 32
+  },
+  "columns_that_held": [
+   "child",
+   "combination",
+   "development_beats_all_baselines",
+   "development_beats_reference",
+   "development_combination",
+   "development_coverage_10_90",
+   "development_crps_ours",
+   "development_crps_reference",
+   "development_skill_score",
+   "fork",
+   "holdout_beats_all_baselines",
+   "holdout_beats_reference",
+   "holdout_coverage_10_90",
+   "holdout_crps_ours",
+   "kind",
+   "our_model",
+   "tier"
+  ]
+ },
+ "fork_sensitivity_both_csv": {
+  "file": "fork_sensitivity_both.csv",
+  "rows_archived": 17,
+  "rows_cleanroom": 17,
+  "same_rows_by_name": true,
+  "rows_only_in_archive": [],
+  "rows_only_in_cleanroom": [],
+  "cells_compared": 221,
+  "cells_identical": 129,
+  "columns_that_moved": {
+   "agrees_on_whether_it_matters": 4,
+   "development_largest_abs_delta_skill": 17,
+   "development_moves_more_than_noise": 3,
+   "development_sensitivity_rank": 5,
+   "development_signed_delta_skill": 17,
+   "holdout_largest_abs_delta_skill": 16,
+   "holdout_moves_more_than_noise": 3,
+   "holdout_sensitivity_rank": 11,
+   "holdout_signed_delta_skill": 16
+  },
+  "columns_that_held": [
+   "fork",
+   "kind",
+   "owner",
+   "stage"
+  ]
+ }
+}

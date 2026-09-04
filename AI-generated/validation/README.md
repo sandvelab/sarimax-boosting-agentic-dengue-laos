@@ -55,10 +55,27 @@ here.
   job from cold. Figures in `26-09-03_cleanroom_comparison.json`,
   `26-09-03_cleanroomTier2Drift.json` and `26-09-03_cleanroomHoldoutReproduction.json`; the
   run's own outputs in `26-09-03_cleanroom-artefacts/`.
+- `26-09-04_cleanroom.md` — batch 31, and **the run that reached the end**:
+  `analysis/run.sh` exited **0** from a clean checkout after 41 677 s, both datasets, all 64
+  combinations, both distributions and the last script in the tree. The three checks that
+  stopped earlier runs — batch 24's freeze, batch 26's selection, batch 30's pairing — each
+  held, and each against a fresh draw that disagreed with the record. **192 model-combination
+  scores and not one of ours moved**; the phase-E counts are identical. Two findings beyond
+  the reproduction: batch 27's "the holdout noise band is steady" does not survive a third
+  draw (0.050443 against 0.014023), and **`14 of 17 forks agree` reproduced byte-identically
+  while the forks mattering on both datasets went from four to one** — a number that is right
+  with its noun changed under it, which every check here reports as reproduced. Figures in
+  `26-09-04_cleanroom_comparison.json`, `26-09-04_cleanroomTier2Drift.json`,
+  `26-09-04_cleanroomHoldoutReproduction.json` and `26-09-04_cleanroomPhaseEAnswer.json`; the
+  run's own outputs in `26-09-04_cleanroom-artefacts/`.
 - `26-09-01_freezeDefence.md` — batch 24, and not a `/validate` run: eleven situations put
   to the two defences of the frozen phase-E set, on throwaway copies. The set stops being
   rebuilt on every run of `analysis/run.sh`, and the file is now checked as well as the
   script that writes it. Its figures are in `26-09-01_freezeDefence.json`.
+- `26-09-03_pairingDefence.json` — batch 30, and like the two below not a `/validate` run:
+  five situations put to the rebuilt frozen-pairing check in `pair_holdout_development.py`,
+  the script that stopped batch 27. One is driven by batch 27's own preserved
+  `conclusions.csv` and `distribution.json`. All five pass.
 - `26-09-02_selectionDefence.json` — batch 26, and like `26-09-01_freezeDefence` not a
   `/validate` run: five situations put to the recorded tier-1 order and tier-2 pairing that
   replaced `plan_manifest.py`'s re-derivation. One of them is driven by the clean-room run's

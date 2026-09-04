@@ -1,0 +1,2119 @@
+ .../01_partition/results/phase_e_opening.json      |     2 +-
+ .../01_partition/results/phase_e_outputs.sha256    |     2 +-
+ .../results/climatology_frozenWindow/eval.log      |    34 +-
+ .../results/climatology_frozenWindow/eval.nc       |   Bin 9831948 -> 9831980 bytes
+ .../results/climatology_frozenWindow/run_cost.json |     4 +-
+ .../climatology_frozenWindow__holdout/eval.log     |    34 +-
+ .../climatology_frozenWindow__holdout/eval.nc      |   Bin 4934692 -> 4934724 bytes
+ .../run_cost.json                                  |     4 +-
+ .../a_empiricalChange/results/main/eval.log        |    34 +-
+ .../a_empiricalChange/results/main/eval.nc         |   Bin 9831948 -> 9831980 bytes
+ .../a_empiricalChange/results/main/model_spec.json |     4 +
+ .../a_empiricalChange/results/main/run_cost.json   |     4 +-
+ .../results/main__holdout/eval.log                 |    34 +-
+ .../results/main__holdout/eval.nc                  |   Bin 4934692 -> 4934724 bytes
+ .../results/main__holdout/run_cost.json            |     4 +-
+ .../results/popColumn_backCast/eval.log            |    34 +-
+ .../results/popColumn_backCast/eval.nc             |   Bin 9831948 -> 9831980 bytes
+ .../results/popColumn_backCast/run_cost.json       |     4 +-
+ .../results/popColumn_backCast__holdout/eval.log   |    34 +-
+ .../results/popColumn_backCast__holdout/eval.nc    |   Bin 4934692 -> 4934724 bytes
+ .../popColumn_backCast__holdout/run_cost.json      |     4 +-
+ .../results/provinces_mergeVientiane/eval.log      |    32 +-
+ .../results/provinces_mergeVientiane/eval.nc       |   Bin 9831948 -> 9831980 bytes
+ .../results/provinces_mergeVientiane/run_cost.json |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 9831948 -> 9831980 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 4934692 -> 4934724 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 9831948 -> 9831980 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 4934692 -> 4934724 bytes
+ .../run_cost.json                                  |     4 +-
+ .../provinces_mergeVientiane__holdout/eval.log     |    32 +-
+ .../provinces_mergeVientiane__holdout/eval.nc      |   Bin 4934692 -> 4934724 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 9831948 -> 9831980 bytes
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 4934692 -> 4934724 bytes
+ .../run_cost.json                                  |     4 +-
+ .../results/provinces_reportingOnly/eval.log       |    32 +-
+ .../results/provinces_reportingOnly/eval.nc        |   Bin 9255171 -> 9255203 bytes
+ .../results/provinces_reportingOnly/run_cost.json  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 9255171 -> 9255203 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 4645211 -> 4645243 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../provinces_reportingOnly__family_hierNB/eval.nc |   Bin 9255171 -> 9255203 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 4645211 -> 4645243 bytes
+ .../run_cost.json                                  |     4 +-
+ .../provinces_reportingOnly__holdout/eval.log      |    32 +-
+ .../provinces_reportingOnly__holdout/eval.nc       |   Bin 4645211 -> 4645243 bytes
+ .../provinces_reportingOnly__holdout/run_cost.json |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 9255171 -> 9255203 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 4645211 -> 4645243 bytes
+ .../run_cost.json                                  |     4 +-
+ .../results/retrain_everySplit/eval.log            |    34 +-
+ .../results/retrain_everySplit/eval.nc             |   Bin 9831948 -> 9831980 bytes
+ .../results/retrain_everySplit/run_cost.json       |     4 +-
+ .../results/retrain_everySplit__holdout/eval.log   |    34 +-
+ .../results/retrain_everySplit__holdout/eval.nc    |   Bin 4934692 -> 4934724 bytes
+ .../retrain_everySplit__holdout/run_cost.json      |     4 +-
+ .../results/trainingWindow_from2004/eval.log       |    34 +-
+ .../results/trainingWindow_from2004/eval.nc        |   Bin 9824588 -> 9824620 bytes
+ .../results/trainingWindow_from2004/run_cost.json  |     4 +-
+ .../trainingWindow_from2004__holdout/eval.log      |    34 +-
+ .../trainingWindow_from2004__holdout/eval.nc       |   Bin 4934692 -> 4934724 bytes
+ .../trainingWindow_from2004__holdout/run_cost.json |     4 +-
+ .../results/persistence_negBinomialFloor/eval.log  |    34 +-
+ .../results/persistence_negBinomialFloor/eval.nc   |   Bin 9831949 -> 9831981 bytes
+ .../persistence_negBinomialFloor/run_cost.json     |     4 +-
+ .../persistence_negBinomialFloor__holdout/eval.log |    34 +-
+ .../persistence_negBinomialFloor__holdout/eval.nc  |   Bin 4934693 -> 4934725 bytes
+ .../run_cost.json                                  |     4 +-
+ .../a_expandingWindow/results/main/eval.log        |    34 +-
+ .../a_expandingWindow/results/main/eval.nc         |   Bin 9831948 -> 9831980 bytes
+ .../a_expandingWindow/results/main/model_spec.json |     4 +
+ .../a_expandingWindow/results/main/run_cost.json   |     4 +-
+ .../results/main__holdout/eval.log                 |    34 +-
+ .../results/main__holdout/eval.nc                  |   Bin 4934692 -> 4934724 bytes
+ .../results/main__holdout/run_cost.json            |     4 +-
+ .../results/persistence_negBinomialFloor/eval.log  |    34 +-
+ .../results/persistence_negBinomialFloor/eval.nc   |   Bin 9831948 -> 9831980 bytes
+ .../persistence_negBinomialFloor/run_cost.json     |     4 +-
+ .../persistence_negBinomialFloor__holdout/eval.log |    34 +-
+ .../persistence_negBinomialFloor__holdout/eval.nc  |   Bin 4934692 -> 4934724 bytes
+ .../run_cost.json                                  |     2 +-
+ .../results/popColumn_backCast/eval.log            |    34 +-
+ .../results/popColumn_backCast/eval.nc             |   Bin 9831948 -> 9831980 bytes
+ .../results/popColumn_backCast/run_cost.json       |     4 +-
+ .../results/popColumn_backCast__holdout/eval.log   |    34 +-
+ .../results/popColumn_backCast__holdout/eval.nc    |   Bin 4934692 -> 4934724 bytes
+ .../popColumn_backCast__holdout/run_cost.json      |     4 +-
+ .../results/provinces_mergeVientiane/eval.log      |    32 +-
+ .../results/provinces_mergeVientiane/eval.nc       |   Bin 9831948 -> 9831980 bytes
+ .../results/provinces_mergeVientiane/run_cost.json |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 9831948 -> 9831980 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 4934692 -> 4934724 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 9831948 -> 9831980 bytes
+ .../run_cost.json                                  |     2 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 4934692 -> 4934724 bytes
+ .../run_cost.json                                  |     4 +-
+ .../provinces_mergeVientiane__holdout/eval.log     |    32 +-
+ .../provinces_mergeVientiane__holdout/eval.nc      |   Bin 4934692 -> 4934724 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 9831948 -> 9831980 bytes
+ .../run_cost.json                                  |     2 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 4934692 -> 4934724 bytes
+ .../run_cost.json                                  |     4 +-
+ .../results/provinces_reportingOnly/eval.log       |    32 +-
+ .../results/provinces_reportingOnly/eval.nc        |   Bin 9255171 -> 9255203 bytes
+ .../results/provinces_reportingOnly/run_cost.json  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 9255171 -> 9255203 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 4645211 -> 4645243 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../provinces_reportingOnly__family_hierNB/eval.nc |   Bin 9255171 -> 9255203 bytes
+ .../run_cost.json                                  |     2 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 4645211 -> 4645243 bytes
+ .../run_cost.json                                  |     4 +-
+ .../provinces_reportingOnly__holdout/eval.log      |    32 +-
+ .../provinces_reportingOnly__holdout/eval.nc       |   Bin 4645211 -> 4645243 bytes
+ .../provinces_reportingOnly__holdout/run_cost.json |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 9255171 -> 9255203 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 4645211 -> 4645243 bytes
+ .../run_cost.json                                  |     4 +-
+ .../results/retrain_everySplit/eval.log            |    34 +-
+ .../results/retrain_everySplit/eval.nc             |   Bin 9831948 -> 9831980 bytes
+ .../results/retrain_everySplit/run_cost.json       |     4 +-
+ .../results/retrain_everySplit__holdout/eval.log   |    34 +-
+ .../results/retrain_everySplit__holdout/eval.nc    |   Bin 4934692 -> 4934724 bytes
+ .../retrain_everySplit__holdout/run_cost.json      |     4 +-
+ .../results/trainingWindow_from2004/eval.log       |    34 +-
+ .../results/trainingWindow_from2004/eval.nc        |   Bin 9824588 -> 9824620 bytes
+ .../results/trainingWindow_from2004/run_cost.json  |     4 +-
+ .../trainingWindow_from2004__holdout/eval.log      |    34 +-
+ .../trainingWindow_from2004__holdout/eval.nc       |   Bin 4934692 -> 4934724 bytes
+ .../trainingWindow_from2004__holdout/run_cost.json |     4 +-
+ .../results/climatology_frozenWindow/eval.log      |    34 +-
+ .../results/climatology_frozenWindow/eval.nc       |   Bin 9831945 -> 9831977 bytes
+ .../results/climatology_frozenWindow/run_cost.json |     4 +-
+ .../climatology_frozenWindow__holdout/eval.log     |    34 +-
+ .../climatology_frozenWindow__holdout/eval.nc      |   Bin 4934689 -> 4934721 bytes
+ .../run_cost.json                                  |     4 +-
+ .../02_reference/results/main/eval_repeat_1.log    |   526 +-
+ .../02_reference/results/main/eval_repeat_1.nc     |   Bin 9832914 -> 9832914 bytes
+ .../02_reference/results/main/eval_repeat_2.log    |   544 +-
+ .../02_reference/results/main/eval_repeat_2.nc     |   Bin 9832914 -> 9832914 bytes
+ .../02_reference/results/main/eval_repeat_3.log    |   520 +-
+ .../02_reference/results/main/eval_repeat_3.nc     |   Bin 9832914 -> 9832914 bytes
+ .../02_reference/results/main/eval_repeat_4.log    |   536 +-
+ .../02_reference/results/main/eval_repeat_4.nc     |   Bin 9832914 -> 9832914 bytes
+ .../02_reference/results/main/model_spec.json      |     6 +
+ .../02_reference/results/main/run_cost.json        |    12 +-
+ .../results/main__holdout/eval_repeat_1.log        |   300 +-
+ .../results/main__holdout/eval_repeat_1.nc         |   Bin 4935658 -> 4935658 bytes
+ .../results/main__holdout/eval_repeat_2.log        |   304 +-
+ .../results/main__holdout/eval_repeat_2.nc         |   Bin 4935658 -> 4935658 bytes
+ .../results/main__holdout/eval_repeat_3.log        |   304 +-
+ .../results/main__holdout/eval_repeat_3.nc         |   Bin 4935658 -> 4935658 bytes
+ .../results/main__holdout/eval_repeat_4.log        |   292 +-
+ .../results/main__holdout/eval_repeat_4.nc         |   Bin 4935658 -> 4935658 bytes
+ .../results/main__holdout/run_cost.json            |    12 +-
+ .../results/popColumn_backCast/eval_repeat_1.log   |   476 +-
+ .../results/popColumn_backCast/eval_repeat_1.nc    |   Bin 9832914 -> 9832914 bytes
+ .../results/popColumn_backCast/eval_repeat_2.log   |   552 +-
+ .../results/popColumn_backCast/eval_repeat_2.nc    |   Bin 9832914 -> 9832914 bytes
+ .../results/popColumn_backCast/eval_repeat_3.log   |   458 +-
+ .../results/popColumn_backCast/eval_repeat_3.nc    |   Bin 9832914 -> 9832914 bytes
+ .../results/popColumn_backCast/eval_repeat_4.log   |   488 +-
+ .../results/popColumn_backCast/eval_repeat_4.nc    |   Bin 9832914 -> 9832914 bytes
+ .../results/popColumn_backCast/model_spec.json     |     6 +
+ .../results/popColumn_backCast/run_cost.json       |    12 +-
+ .../popColumn_backCast__holdout/eval_repeat_1.log  |   246 +-
+ .../popColumn_backCast__holdout/eval_repeat_1.nc   |   Bin 4935658 -> 4935658 bytes
+ .../popColumn_backCast__holdout/eval_repeat_2.log  |   254 +-
+ .../popColumn_backCast__holdout/eval_repeat_2.nc   |   Bin 4935658 -> 4935658 bytes
+ .../popColumn_backCast__holdout/eval_repeat_3.log  |   252 +-
+ .../popColumn_backCast__holdout/eval_repeat_3.nc   |   Bin 4935658 -> 4935658 bytes
+ .../popColumn_backCast__holdout/eval_repeat_4.log  |   248 +-
+ .../popColumn_backCast__holdout/eval_repeat_4.nc   |   Bin 4935658 -> 4935658 bytes
+ .../popColumn_backCast__holdout/run_cost.json      |    10 +-
+ .../provinces_mergeVientiane/eval_repeat_1.log     |   538 +-
+ .../provinces_mergeVientiane/eval_repeat_1.nc      |   Bin 9832914 -> 9832914 bytes
+ .../provinces_mergeVientiane/eval_repeat_2.log     |   580 +-
+ .../provinces_mergeVientiane/eval_repeat_2.nc      |   Bin 9832914 -> 9832914 bytes
+ .../provinces_mergeVientiane/eval_repeat_3.log     |   586 +-
+ .../provinces_mergeVientiane/eval_repeat_3.nc      |   Bin 9832914 -> 9832914 bytes
+ .../provinces_mergeVientiane/eval_repeat_4.log     |   708 +-
+ .../provinces_mergeVientiane/eval_repeat_4.nc      |   Bin 9832914 -> 9832914 bytes
+ .../provinces_mergeVientiane/model_spec.json       |     6 +
+ .../results/provinces_mergeVientiane/run_cost.json |    12 +-
+ .../eval_repeat_1.log                              |   486 +-
+ .../eval_repeat_1.nc                               |   Bin 9832914 -> 9832914 bytes
+ .../eval_repeat_2.log                              |   510 +-
+ .../eval_repeat_2.nc                               |   Bin 9832914 -> 9832914 bytes
+ .../eval_repeat_3.log                              |   476 +-
+ .../eval_repeat_3.nc                               |   Bin 9832914 -> 9832914 bytes
+ .../eval_repeat_4.log                              |   460 +-
+ .../eval_repeat_4.nc                               |   Bin 9832914 -> 9832914 bytes
+ .../model_spec.json                                |     2 +-
+ .../run_cost.json                                  |    12 +-
+ .../eval_repeat_1.log                              |   266 +-
+ .../eval_repeat_1.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../eval_repeat_2.log                              |   276 +-
+ .../eval_repeat_2.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../eval_repeat_3.log                              |   262 +-
+ .../eval_repeat_3.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../eval_repeat_4.log                              |   272 +-
+ .../eval_repeat_4.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../run_cost.json                                  |    12 +-
+ .../eval_repeat_1.log                              |   502 +-
+ .../eval_repeat_1.nc                               |   Bin 9832914 -> 9832914 bytes
+ .../eval_repeat_2.log                              |   500 +-
+ .../eval_repeat_2.nc                               |   Bin 9832914 -> 9832914 bytes
+ .../eval_repeat_3.log                              |   464 +-
+ .../eval_repeat_3.nc                               |   Bin 9832914 -> 9832914 bytes
+ .../eval_repeat_4.log                              |   460 +-
+ .../eval_repeat_4.nc                               |   Bin 9832914 -> 9832914 bytes
+ .../model_spec.json                                |     2 +-
+ .../run_cost.json                                  |    12 +-
+ .../eval_repeat_1.log                              |   266 +-
+ .../eval_repeat_1.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../eval_repeat_2.log                              |   250 +-
+ .../eval_repeat_2.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../eval_repeat_3.log                              |   270 +-
+ .../eval_repeat_3.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../eval_repeat_4.log                              |   282 +-
+ .../eval_repeat_4.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../model_spec.json                                |     2 +-
+ .../run_cost.json                                  |    12 +-
+ .../eval_repeat_1.log                              |   270 +-
+ .../eval_repeat_1.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../eval_repeat_2.log                              |   288 +-
+ .../eval_repeat_2.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../eval_repeat_3.log                              |   296 +-
+ .../eval_repeat_3.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../eval_repeat_4.log                              |   270 +-
+ .../eval_repeat_4.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../model_spec.json                                |     2 +-
+ .../run_cost.json                                  |    12 +-
+ .../eval_repeat_1.log                              |   454 +-
+ .../eval_repeat_1.nc                               |   Bin 9832914 -> 9832914 bytes
+ .../eval_repeat_2.log                              |   456 +-
+ .../eval_repeat_2.nc                               |   Bin 9832914 -> 9832914 bytes
+ .../eval_repeat_3.log                              |   464 +-
+ .../eval_repeat_3.nc                               |   Bin 9832914 -> 9832914 bytes
+ .../eval_repeat_4.log                              |   440 +-
+ .../eval_repeat_4.nc                               |   Bin 9832914 -> 9832914 bytes
+ .../run_cost.json                                  |    12 +-
+ .../eval_repeat_1.log                              |   268 +-
+ .../eval_repeat_1.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../eval_repeat_2.log                              |   292 +-
+ .../eval_repeat_2.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../eval_repeat_3.log                              |   284 +-
+ .../eval_repeat_3.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../eval_repeat_4.log                              |   274 +-
+ .../eval_repeat_4.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../run_cost.json                                  |    12 +-
+ .../provinces_reportingOnly/eval_repeat_1.log      |   414 +-
+ .../provinces_reportingOnly/eval_repeat_1.nc       |   Bin 9256137 -> 9256137 bytes
+ .../provinces_reportingOnly/eval_repeat_2.log      |   538 +-
+ .../provinces_reportingOnly/eval_repeat_2.nc       |   Bin 9256137 -> 9256137 bytes
+ .../provinces_reportingOnly/eval_repeat_3.log      |   638 +-
+ .../provinces_reportingOnly/eval_repeat_3.nc       |   Bin 9256137 -> 9256137 bytes
+ .../provinces_reportingOnly/eval_repeat_4.log      |   612 +-
+ .../provinces_reportingOnly/eval_repeat_4.nc       |   Bin 9256137 -> 9256137 bytes
+ .../provinces_reportingOnly/model_spec.json        |     6 +-
+ .../results/provinces_reportingOnly/run_cost.json  |    12 +-
+ .../eval_repeat_1.log                              |   418 +-
+ .../eval_repeat_1.nc                               |   Bin 9256137 -> 9256137 bytes
+ .../eval_repeat_2.log                              |   410 +-
+ .../eval_repeat_2.nc                               |   Bin 9256137 -> 9256137 bytes
+ .../eval_repeat_3.log                              |   426 +-
+ .../eval_repeat_3.nc                               |   Bin 9256137 -> 9256137 bytes
+ .../eval_repeat_4.log                              |   488 +-
+ .../eval_repeat_4.nc                               |   Bin 9256137 -> 9256137 bytes
+ .../model_spec.json                                |     4 +-
+ .../run_cost.json                                  |    12 +-
+ .../eval_repeat_1.log                              |   254 +-
+ .../eval_repeat_1.nc                               |   Bin 4646177 -> 4646177 bytes
+ .../eval_repeat_2.log                              |   246 +-
+ .../eval_repeat_2.nc                               |   Bin 4646177 -> 4646177 bytes
+ .../eval_repeat_3.log                              |   262 +-
+ .../eval_repeat_3.nc                               |   Bin 4646177 -> 4646177 bytes
+ .../eval_repeat_4.log                              |   258 +-
+ .../eval_repeat_4.nc                               |   Bin 4646177 -> 4646177 bytes
+ .../run_cost.json                                  |    12 +-
+ .../eval_repeat_1.log                              |   488 +-
+ .../eval_repeat_1.nc                               |   Bin 9256137 -> 9256137 bytes
+ .../eval_repeat_2.log                              |   456 +-
+ .../eval_repeat_2.nc                               |   Bin 9256137 -> 9256137 bytes
+ .../eval_repeat_3.log                              |   486 +-
+ .../eval_repeat_3.nc                               |   Bin 9256137 -> 9256137 bytes
+ .../eval_repeat_4.log                              |   516 +-
+ .../eval_repeat_4.nc                               |   Bin 9256137 -> 9256137 bytes
+ .../model_spec.json                                |     2 +-
+ .../run_cost.json                                  |    12 +-
+ .../eval_repeat_1.log                              |   256 +-
+ .../eval_repeat_1.nc                               |   Bin 4646177 -> 4646177 bytes
+ .../eval_repeat_2.log                              |   248 +-
+ .../eval_repeat_2.nc                               |   Bin 4646177 -> 4646177 bytes
+ .../eval_repeat_3.log                              |   254 +-
+ .../eval_repeat_3.nc                               |   Bin 4646177 -> 4646177 bytes
+ .../eval_repeat_4.log                              |   238 +-
+ .../eval_repeat_4.nc                               |   Bin 4646177 -> 4646177 bytes
+ .../run_cost.json                                  |    12 +-
+ .../eval_repeat_1.log                              |   258 +-
+ .../eval_repeat_1.nc                               |   Bin 4646177 -> 4646177 bytes
+ .../eval_repeat_2.log                              |   266 +-
+ .../eval_repeat_2.nc                               |   Bin 4646177 -> 4646177 bytes
+ .../eval_repeat_3.log                              |   264 +-
+ .../eval_repeat_3.nc                               |   Bin 4646177 -> 4646177 bytes
+ .../eval_repeat_4.log                              |   258 +-
+ .../eval_repeat_4.nc                               |   Bin 4646177 -> 4646177 bytes
+ .../provinces_reportingOnly__holdout/run_cost.json |    12 +-
+ .../eval_repeat_1.log                              |   574 +-
+ .../eval_repeat_1.nc                               |   Bin 9256137 -> 9256137 bytes
+ .../eval_repeat_2.log                              |   690 +-
+ .../eval_repeat_2.nc                               |   Bin 9256137 -> 9256137 bytes
+ .../eval_repeat_3.log                              |   670 +-
+ .../eval_repeat_3.nc                               |   Bin 9256137 -> 9256137 bytes
+ .../eval_repeat_4.log                              |   476 +-
+ .../eval_repeat_4.nc                               |   Bin 9256137 -> 9256137 bytes
+ .../model_spec.json                                |     2 +-
+ .../run_cost.json                                  |    12 +-
+ .../eval_repeat_1.log                              |   240 +-
+ .../eval_repeat_1.nc                               |   Bin 4646177 -> 4646177 bytes
+ .../eval_repeat_2.log                              |   254 +-
+ .../eval_repeat_2.nc                               |   Bin 4646177 -> 4646177 bytes
+ .../eval_repeat_3.log                              |   246 +-
+ .../eval_repeat_3.nc                               |   Bin 4646177 -> 4646177 bytes
+ .../eval_repeat_4.log                              |   248 +-
+ .../eval_repeat_4.nc                               |   Bin 4646177 -> 4646177 bytes
+ .../run_cost.json                                  |    12 +-
+ .../results/retrain_everySplit/eval_repeat_1.log   |   712 +-
+ .../results/retrain_everySplit/eval_repeat_1.nc    |   Bin 9832914 -> 9832914 bytes
+ .../results/retrain_everySplit/eval_repeat_2.log   |   674 +-
+ .../results/retrain_everySplit/eval_repeat_2.nc    |   Bin 9832914 -> 9832914 bytes
+ .../results/retrain_everySplit/eval_repeat_3.log   |   550 +-
+ .../results/retrain_everySplit/eval_repeat_3.nc    |   Bin 9832914 -> 9832914 bytes
+ .../results/retrain_everySplit/eval_repeat_4.log   |   562 +-
+ .../results/retrain_everySplit/eval_repeat_4.nc    |   Bin 9832914 -> 9832914 bytes
+ .../results/retrain_everySplit/run_cost.json       |    12 +-
+ .../retrain_everySplit__holdout/eval_repeat_1.log  |   298 +-
+ .../retrain_everySplit__holdout/eval_repeat_1.nc   |   Bin 4935658 -> 4935658 bytes
+ .../retrain_everySplit__holdout/eval_repeat_2.log  |   296 +-
+ .../retrain_everySplit__holdout/eval_repeat_2.nc   |   Bin 4935658 -> 4935658 bytes
+ .../retrain_everySplit__holdout/eval_repeat_3.log  |   304 +-
+ .../retrain_everySplit__holdout/eval_repeat_3.nc   |   Bin 4935658 -> 4935658 bytes
+ .../retrain_everySplit__holdout/eval_repeat_4.log  |   304 +-
+ .../retrain_everySplit__holdout/eval_repeat_4.nc   |   Bin 4935658 -> 4935658 bytes
+ .../retrain_everySplit__holdout/run_cost.json      |    12 +-
+ .../trainingWindow_from2004/eval_repeat_1.log      |   372 +-
+ .../trainingWindow_from2004/eval_repeat_1.nc       |   Bin 9825554 -> 9825554 bytes
+ .../trainingWindow_from2004/eval_repeat_2.log      |   366 +-
+ .../trainingWindow_from2004/eval_repeat_2.nc       |   Bin 9825554 -> 9825554 bytes
+ .../trainingWindow_from2004/eval_repeat_3.log      |   366 +-
+ .../trainingWindow_from2004/eval_repeat_3.nc       |   Bin 9825554 -> 9825554 bytes
+ .../trainingWindow_from2004/eval_repeat_4.log      |   372 +-
+ .../trainingWindow_from2004/eval_repeat_4.nc       |   Bin 9825554 -> 9825554 bytes
+ .../trainingWindow_from2004/model_spec.json        |     6 +
+ .../results/trainingWindow_from2004/run_cost.json  |    12 +-
+ .../eval_repeat_1.log                              |   238 +-
+ .../eval_repeat_1.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../eval_repeat_2.log                              |   230 +-
+ .../eval_repeat_2.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../eval_repeat_3.log                              |   226 +-
+ .../eval_repeat_3.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../eval_repeat_4.log                              |   236 +-
+ .../eval_repeat_4.nc                               |   Bin 4935658 -> 4935658 bytes
+ .../model_spec.json                                |     2 +-
+ .../trainingWindow_from2004__holdout/run_cost.json |    12 +-
+ .../a_hierNB/results/family_hierNB/eval.log        |    34 +-
+ .../a_hierNB/results/family_hierNB/eval.nc         |   Bin 9836396 -> 9836428 bytes
+ .../a_hierNB/results/family_hierNB/run_cost.json   |     4 +-
+ .../family_hierNB__aggregate_caseWeighted/eval.log |    34 +-
+ .../family_hierNB__aggregate_caseWeighted/eval.nc  |   Bin 9836396 -> 9836428 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    34 +-
+ .../eval.nc                                        |   Bin 4938106 -> 4939172 bytes
+ .../run_cost.json                                  |     4 +-
+ .../results/family_hierNB__holdout/eval.log        |    34 +-
+ .../results/family_hierNB__holdout/eval.nc         |   Bin 4938106 -> 4939172 bytes
+ .../results/family_hierNB__holdout/run_cost.json   |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 9836396 -> 9836428 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 4938106 -> 4939172 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../provinces_reportingOnly__family_hierNB/eval.nc |   Bin 9259619 -> 9259651 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    32 +-
+ .../eval.nc                                        |   Bin 4648625 -> 4649691 bytes
+ .../run_cost.json                                  |     4 +-
+ .../b_boosted/results/family_boosted/eval.log      |    28 +-
+ .../b_boosted/results/family_boosted/eval.nc       |   Bin 9837312 -> 9837344 bytes
+ .../b_boosted/results/family_boosted/run_cost.json |     4 +-
+ .../results/family_boosted__holdout/eval.log       |    28 +-
+ .../results/family_boosted__holdout/eval.nc        |   Bin 4939160 -> 4939192 bytes
+ .../results/family_boosted__holdout/run_cost.json  |     4 +-
+ .../a_equal/results/main/model_option_spec.json    |    12 +-
+ .../popColumn_backCast/model_option_spec.json      |    12 +-
+ .../model_option_spec.json                         |    12 +-
+ .../provinces_reportingOnly/model_option_spec.json |    12 +-
+ .../retrain_everySplit/model_option_spec.json      |    12 +-
+ .../trainingWindow_from2004/model_option_spec.json |    12 +-
+ .../results/autoregressive_lag3/eval.log           |    28 +-
+ .../c_ensemble/results/autoregressive_lag3/eval.nc |   Bin 9836495 -> 9836527 bytes
+ .../results/autoregressive_lag3/run_cost.json      |     4 +-
+ .../results/autoregressive_lag3__holdout/eval.log  |    28 +-
+ .../results/autoregressive_lag3__holdout/eval.nc   |   Bin 4939248 -> 4939280 bytes
+ .../autoregressive_lag3__holdout/run_cost.json     |     4 +-
+ .../results/climatology_frozenWindow/eval.log      |    28 +-
+ .../results/climatology_frozenWindow/eval.nc       |   Bin 9836500 -> 9836532 bytes
+ .../results/climatology_frozenWindow/run_cost.json |     4 +-
+ .../climatology_frozenWindow__holdout/eval.log     |    28 +-
+ .../climatology_frozenWindow__holdout/eval.nc      |   Bin 4939253 -> 4939285 bytes
+ .../pool_check.json                                |    70 +-
+ .../run_cost.json                                  |     4 +-
+ .../c_ensemble/results/covariates_lagged/eval.log  |    28 +-
+ .../c_ensemble/results/covariates_lagged/eval.nc   |   Bin 9836493 -> 9836525 bytes
+ .../results/covariates_lagged/run_cost.json        |     4 +-
+ .../results/covariates_lagged__holdout/eval.log    |    28 +-
+ .../results/covariates_lagged__holdout/eval.nc     |   Bin 4939246 -> 4939278 bytes
+ .../covariates_lagged__holdout/run_cost.json       |     4 +-
+ .../c_ensemble/results/covariates_rich/eval.log    |    28 +-
+ .../c_ensemble/results/covariates_rich/eval.nc     |   Bin 9836491 -> 9836523 bytes
+ .../results/covariates_rich/run_cost.json          |     4 +-
+ .../results/covariates_rich__holdout/eval.log      |    28 +-
+ .../results/covariates_rich__holdout/eval.nc       |   Bin 4939244 -> 4939276 bytes
+ .../results/covariates_rich__holdout/run_cost.json |     4 +-
+ .../results/features_richCalendar/eval.log         |    28 +-
+ .../results/features_richCalendar/eval.nc          |   Bin 9836497 -> 9836529 bytes
+ .../results/features_richCalendar/run_cost.json    |     4 +-
+ .../features_richCalendar__holdout/eval.log        |    28 +-
+ .../results/features_richCalendar__holdout/eval.nc |   Bin 4939250 -> 4939282 bytes
+ .../features_richCalendar__holdout/pool_check.json |     4 +-
+ .../features_richCalendar__holdout/run_cost.json   |     4 +-
+ .../results/fitTime_refitAtPredict/eval.log        |    28 +-
+ .../results/fitTime_refitAtPredict/eval.nc         |   Bin 9836498 -> 9836530 bytes
+ .../results/fitTime_refitAtPredict/run_cost.json   |     4 +-
+ .../fitTime_refitAtPredict__holdout/eval.log       |    28 +-
+ .../fitTime_refitAtPredict__holdout/eval.nc        |   Bin 4939251 -> 4939283 bytes
+ .../fitTime_refitAtPredict__holdout/run_cost.json  |     4 +-
+ .../results/head_quantileEnsemble/eval.log         |    28 +-
+ .../results/head_quantileEnsemble/eval.nc          |   Bin 9836497 -> 9836529 bytes
+ .../results/head_quantileEnsemble/run_cost.json    |     4 +-
+ .../head_quantileEnsemble__holdout/eval.log        |    28 +-
+ .../results/head_quantileEnsemble__holdout/eval.nc |   Bin 4939250 -> 4939282 bytes
+ .../head_quantileEnsemble__holdout/pool_check.json |     4 +-
+ .../head_quantileEnsemble__holdout/run_cost.json   |     4 +-
+ .../c_ensemble/results/main/candidate_spec.json    |    12 +-
+ .../03_candidate/c_ensemble/results/main/eval.log  |    28 +-
+ .../03_candidate/c_ensemble/results/main/eval.nc   |   Bin 9836480 -> 9836512 bytes
+ .../c_ensemble/results/main/pool_check.json        |     4 +-
+ .../c_ensemble/results/main/run_cost.json          |     4 +-
+ .../c_ensemble/results/main__holdout/eval.log      |    28 +-
+ .../c_ensemble/results/main__holdout/eval.nc       |   Bin 4939233 -> 4939265 bytes
+ .../results/main__holdout/pool_check.json          |    74 +-
+ .../c_ensemble/results/main__holdout/run_cost.json |     4 +-
+ .../results/observation_negBinomial/eval.log       |    28 +-
+ .../results/observation_negBinomial/eval.nc        |   Bin 9836499 -> 9836531 bytes
+ .../results/observation_negBinomial/run_cost.json  |     4 +-
+ .../observation_negBinomial__holdout/eval.log      |    28 +-
+ .../observation_negBinomial__holdout/eval.nc       |   Bin 4939252 -> 4939284 bytes
+ .../observation_negBinomial__holdout/run_cost.json |     2 +-
+ .../results/observation_zeroInflated/eval.log      |    28 +-
+ .../results/observation_zeroInflated/eval.nc       |   Bin 9836500 -> 9836532 bytes
+ .../results/observation_zeroInflated/run_cost.json |     4 +-
+ .../observation_zeroInflated__holdout/eval.log     |    28 +-
+ .../observation_zeroInflated__holdout/eval.nc      |   Bin 4939253 -> 4939285 bytes
+ .../run_cost.json                                  |     4 +-
+ .../results/persistence_negBinomialFloor/eval.log  |    28 +-
+ .../results/persistence_negBinomialFloor/eval.nc   |   Bin 9836504 -> 9836536 bytes
+ .../persistence_negBinomialFloor/run_cost.json     |     4 +-
+ .../persistence_negBinomialFloor__holdout/eval.log |    28 +-
+ .../persistence_negBinomialFloor__holdout/eval.nc  |   Bin 4939257 -> 4939289 bytes
+ .../pool_check.json                                |    70 +-
+ .../run_cost.json                                  |     4 +-
+ .../results/popColumn_backCast/candidate_spec.json |    12 +-
+ .../c_ensemble/results/popColumn_backCast/eval.log |    28 +-
+ .../c_ensemble/results/popColumn_backCast/eval.nc  |   Bin 9836494 -> 9836526 bytes
+ .../results/popColumn_backCast/run_cost.json       |     4 +-
+ .../results/popColumn_backCast__holdout/eval.log   |    28 +-
+ .../results/popColumn_backCast__holdout/eval.nc    |   Bin 4939247 -> 4939279 bytes
+ .../popColumn_backCast__holdout/run_cost.json      |     4 +-
+ .../results/population_covariate/eval.log          |    28 +-
+ .../results/population_covariate/eval.nc           |   Bin 9836496 -> 9836528 bytes
+ .../results/population_covariate/run_cost.json     |     4 +-
+ .../results/population_covariate__holdout/eval.log |    28 +-
+ .../results/population_covariate__holdout/eval.nc  |   Bin 4939249 -> 4939281 bytes
+ .../population_covariate__holdout/run_cost.json    |     4 +-
+ .../c_ensemble/results/population_ignored/eval.log |    28 +-
+ .../c_ensemble/results/population_ignored/eval.nc  |   Bin 9836494 -> 9836526 bytes
+ .../results/population_ignored/run_cost.json       |     4 +-
+ .../results/population_ignored__holdout/eval.log   |    28 +-
+ .../results/population_ignored__holdout/eval.nc    |   Bin 4939247 -> 4939279 bytes
+ .../population_ignored__holdout/run_cost.json      |     4 +-
+ .../provinces_mergeVientiane/candidate_spec.json   |    12 +-
+ .../results/provinces_mergeVientiane/eval.log      |    26 +-
+ .../results/provinces_mergeVientiane/eval.nc       |   Bin 9836500 -> 9836532 bytes
+ .../provinces_mergeVientiane/pool_check.json       |    10 +-
+ .../results/provinces_mergeVientiane/run_cost.json |     4 +-
+ .../eval.log                                       |    26 +-
+ .../eval.nc                                        |   Bin 9836524 -> 9836556 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    26 +-
+ .../eval.nc                                        |   Bin 4939277 -> 4939309 bytes
+ .../run_cost.json                                  |     4 +-
+ .../provinces_mergeVientiane__holdout/eval.log     |    26 +-
+ .../provinces_mergeVientiane__holdout/eval.nc      |   Bin 4939253 -> 4939285 bytes
+ .../pool_check.json                                |    18 +-
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    26 +-
+ .../eval.nc                                        |   Bin 9836574 -> 9836606 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    26 +-
+ .../eval.nc                                        |   Bin 4939327 -> 4939359 bytes
+ .../pool_check.json                                |     8 +-
+ .../run_cost.json                                  |     4 +-
+ .../provinces_reportingOnly/candidate_spec.json    |    12 +-
+ .../results/provinces_reportingOnly/eval.log       |    26 +-
+ .../results/provinces_reportingOnly/eval.nc        |   Bin 9259722 -> 9259754 bytes
+ .../provinces_reportingOnly/pool_check.json        |    10 +-
+ .../results/provinces_reportingOnly/run_cost.json  |     4 +-
+ .../eval.log                                       |    26 +-
+ .../eval.nc                                        |   Bin 9259746 -> 9259778 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    26 +-
+ .../eval.nc                                        |   Bin 4649795 -> 4649827 bytes
+ .../run_cost.json                                  |     4 +-
+ .../provinces_reportingOnly__holdout/eval.log      |    26 +-
+ .../provinces_reportingOnly__holdout/eval.nc       |   Bin 4649771 -> 4649803 bytes
+ .../pool_check.json                                |    18 +-
+ .../provinces_reportingOnly__holdout/run_cost.json |     4 +-
+ .../eval.log                                       |    26 +-
+ .../eval.nc                                        |   Bin 9259796 -> 9259828 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    26 +-
+ .../eval.nc                                        |   Bin 4649845 -> 4649877 bytes
+ .../pool_check.json                                |     8 +-
+ .../run_cost.json                                  |     4 +-
+ .../results/retrain_everySplit/candidate_spec.json |    12 +-
+ .../c_ensemble/results/retrain_everySplit/eval.log |    28 +-
+ .../c_ensemble/results/retrain_everySplit/eval.nc  |   Bin 9836494 -> 9836526 bytes
+ .../results/retrain_everySplit/run_cost.json       |     4 +-
+ .../results/retrain_everySplit__holdout/eval.log   |    28 +-
+ .../results/retrain_everySplit__holdout/eval.nc    |   Bin 4939247 -> 4939279 bytes
+ .../retrain_everySplit__holdout/run_cost.json      |     4 +-
+ .../trainingWindow_from2004/candidate_spec.json    |    12 +-
+ .../results/trainingWindow_from2004/eval.log       |    28 +-
+ .../results/trainingWindow_from2004/eval.nc        |   Bin 9829139 -> 9829171 bytes
+ .../results/trainingWindow_from2004/run_cost.json  |     4 +-
+ .../trainingWindow_from2004__holdout/eval.log      |    28 +-
+ .../trainingWindow_from2004__holdout/eval.nc       |   Bin 4939252 -> 4939284 bytes
+ .../trainingWindow_from2004__holdout/run_cost.json |     4 +-
+ .../results/weighting_crpsWeighted/eval.log        |    28 +-
+ .../results/weighting_crpsWeighted/eval.nc         |   Bin 9836538 -> 9836580 bytes
+ .../results/weighting_crpsWeighted/run_cost.json   |     4 +-
+ .../eval.log                                       |    28 +-
+ .../eval.nc                                        |   Bin 9836572 -> 9836604 bytes
+ .../run_cost.json                                  |     4 +-
+ .../eval.log                                       |    28 +-
+ .../eval.nc                                        |   Bin 4939325 -> 4939357 bytes
+ .../run_cost.json                                  |     4 +-
+ .../weighting_crpsWeighted__holdout/eval.log       |    28 +-
+ .../weighting_crpsWeighted__holdout/eval.nc        |   Bin 4939301 -> 4939333 bytes
+ .../pool_check.json                                |    66 +-
+ .../weighting_crpsWeighted__holdout/run_cost.json  |     2 +-
+ .../results/yearVariance_shared/eval.log           |    28 +-
+ .../c_ensemble/results/yearVariance_shared/eval.nc |   Bin 9836495 -> 9836527 bytes
+ .../results/yearVariance_shared/run_cost.json      |     4 +-
+ .../results/yearVariance_shared__holdout/eval.log  |    28 +-
+ .../results/yearVariance_shared__holdout/eval.nc   |   Bin 4939248 -> 4939280 bytes
+ .../yearVariance_shared__holdout/run_cost.json     |     4 +-
+ .../aggregate_caseWeighted/metrics_cell.csv        |  3708 +++---
+ .../metrics_cell.csv                               |  1918 ++--
+ .../aggregate_populationWeighted/metrics_cell.csv  |  3708 +++---
+ .../metrics_cell.csv                               |  1918 ++--
+ .../results/autoregressive_lag3/metrics_cell.csv   |  3708 +++---
+ .../autoregressive_lag3__holdout/metrics_cell.csv  |  1918 ++--
+ .../climatology_frozenWindow/metrics_cell.csv      |  3708 +++---
+ .../metrics_cell.csv                               |  1918 ++--
+ .../results/covariates_lagged/metrics_cell.csv     |  3708 +++---
+ .../covariates_lagged__holdout/metrics_cell.csv    |  1918 ++--
+ .../results/covariates_rich/metrics_cell.csv       |  3708 +++---
+ .../covariates_rich__holdout/metrics_cell.csv      |  1918 ++--
+ .../results/family_boosted/metrics_cell.csv        |  3708 +++---
+ .../family_boosted__holdout/metrics_cell.csv       |  1918 ++--
+ .../results/family_hierNB/metrics_cell.csv         |  3708 +++---
+ .../metrics_cell.csv                               |  3708 +++---
+ .../metrics_cell.csv                               |  1918 ++--
+ .../family_hierNB__holdout/metrics_cell.csv        |  1918 ++--
+ .../results/features_richCalendar/metrics_cell.csv |  3708 +++---
+ .../metrics_cell.csv                               |  1918 ++--
+ .../fitTime_refitAtPredict/metrics_cell.csv        |  3708 +++---
+ .../metrics_cell.csv                               |  1918 ++--
+ .../results/head_quantileEnsemble/metrics_cell.csv |  3708 +++---
+ .../metrics_cell.csv                               |  1918 ++--
+ .../01_collect/results/main/metrics_cell.csv       |  3708 +++---
+ .../results/main__holdout/metrics_cell.csv         |  1918 ++--
+ .../observation_negBinomial/metrics_cell.csv       |  3708 +++---
+ .../metrics_cell.csv                               |  1918 ++--
+ .../observation_zeroInflated/metrics_cell.csv      |  3708 +++---
+ .../metrics_cell.csv                               |  1918 ++--
+ .../persistence_negBinomialFloor/metrics_cell.csv  |  3708 +++---
+ .../metrics_cell.csv                               |  1918 ++--
+ .../results/popColumn_backCast/metrics_cell.csv    |  3706 +++---
+ .../popColumn_backCast__holdout/metrics_cell.csv   |  1920 ++--
+ .../results/population_covariate/metrics_cell.csv  |  3708 +++---
+ .../population_covariate__holdout/metrics_cell.csv |  1918 ++--
+ .../results/population_ignored/metrics_cell.csv    |  3708 +++---
+ .../population_ignored__holdout/metrics_cell.csv   |  1918 ++--
+ .../provinces_mergeVientiane/metrics_cell.csv      |  3700 +++---
+ .../metrics_cell.csv                               |  3704 +++---
+ .../metrics_cell.csv                               |  1918 ++--
+ .../metrics_cell.csv                               |  3702 +++---
+ .../metrics_cell.csv                               |  1920 ++--
+ .../metrics_cell.csv                               |  1918 ++--
+ .../metrics_cell.csv                               |  3704 +++---
+ .../metrics_cell.csv                               |  1920 ++--
+ .../provinces_reportingOnly/metrics_cell.csv       |  3708 +++---
+ .../metrics_cell.csv                               |  3706 +++---
+ .../metrics_cell.csv                               |  1918 ++--
+ .../metrics_cell.csv                               |  3704 +++---
+ .../metrics_cell.csv                               |  1918 ++--
+ .../metrics_cell.csv                               |  1916 ++--
+ .../metrics_cell.csv                               |  3710 +++----
+ .../metrics_cell.csv                               |  1920 ++--
+ .../results/retrain_everySplit/metrics_cell.csv    |  3708 +++---
+ .../retrain_everySplit__holdout/metrics_cell.csv   |  1918 ++--
+ .../trainingWindow_from2004/metrics_cell.csv       |  3706 +++---
+ .../metrics_cell.csv                               |  1920 ++--
+ .../weighting_crpsWeighted/metrics_cell.csv        |  3708 +++---
+ .../metrics_cell.csv                               |  3708 +++---
+ .../metrics_cell.csv                               |  1918 ++--
+ .../metrics_cell.csv                               |  1918 ++--
+ .../results/yearVariance_shared/metrics_cell.csv   |  3708 +++---
+ .../yearVariance_shared__holdout/metrics_cell.csv  |  1918 ++--
+ .../autoregressive_lag3/crps_by_horizon.csv        |    30 +-
+ .../autoregressive_lag3/crps_by_location.csv       |   160 +-
+ .../autoregressive_lag3/crps_by_region_split.csv   |  1240 +--
+ .../results/autoregressive_lag3/crps_by_split.csv  |    80 +-
+ .../autoregressive_lag3/metrics_summary.csv        |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../autoregressive_lag3__holdout/crps_by_split.csv |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../climatology_frozenWindow/crps_by_horizon.csv   |    30 +-
+ .../climatology_frozenWindow/crps_by_location.csv  |   160 +-
+ .../crps_by_region_split.csv                       |  1240 +--
+ .../climatology_frozenWindow/crps_by_split.csv     |    80 +-
+ .../climatology_frozenWindow/metrics_summary.csv   |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../results/covariates_lagged/crps_by_horizon.csv  |    30 +-
+ .../results/covariates_lagged/crps_by_location.csv |   160 +-
+ .../covariates_lagged/crps_by_region_split.csv     |  1240 +--
+ .../results/covariates_lagged/crps_by_split.csv    |    80 +-
+ .../results/covariates_lagged/metrics_summary.csv  |    10 +-
+ .../covariates_lagged__holdout/crps_by_horizon.csv |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../covariates_lagged__holdout/crps_by_split.csv   |    40 +-
+ .../covariates_lagged__holdout/metrics_summary.csv |    10 +-
+ .../results/covariates_rich/crps_by_horizon.csv    |    30 +-
+ .../results/covariates_rich/crps_by_location.csv   |   160 +-
+ .../covariates_rich/crps_by_region_split.csv       |  1240 +--
+ .../results/covariates_rich/crps_by_split.csv      |    80 +-
+ .../results/covariates_rich/metrics_summary.csv    |    10 +-
+ .../covariates_rich__holdout/crps_by_horizon.csv   |    30 +-
+ .../covariates_rich__holdout/crps_by_location.csv  |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../covariates_rich__holdout/crps_by_split.csv     |    40 +-
+ .../covariates_rich__holdout/metrics_summary.csv   |    10 +-
+ .../results/family_boosted/crps_by_horizon.csv     |    30 +-
+ .../results/family_boosted/crps_by_location.csv    |   160 +-
+ .../family_boosted/crps_by_region_split.csv        |  1240 +--
+ .../results/family_boosted/crps_by_split.csv       |    80 +-
+ .../results/family_boosted/metrics_summary.csv     |    10 +-
+ .../family_boosted__holdout/crps_by_horizon.csv    |    30 +-
+ .../family_boosted__holdout/crps_by_location.csv   |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../family_boosted__holdout/crps_by_split.csv      |    40 +-
+ .../family_boosted__holdout/metrics_summary.csv    |    10 +-
+ .../results/family_hierNB/crps_by_horizon.csv      |    30 +-
+ .../results/family_hierNB/crps_by_location.csv     |   160 +-
+ .../results/family_hierNB/crps_by_region_split.csv |  1240 +--
+ .../results/family_hierNB/crps_by_split.csv        |    80 +-
+ .../results/family_hierNB/metrics_summary.csv      |    10 +-
+ .../family_hierNB__holdout/crps_by_horizon.csv     |    30 +-
+ .../family_hierNB__holdout/crps_by_location.csv    |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../family_hierNB__holdout/crps_by_split.csv       |    40 +-
+ .../family_hierNB__holdout/metrics_summary.csv     |    10 +-
+ .../features_richCalendar/crps_by_horizon.csv      |    30 +-
+ .../features_richCalendar/crps_by_location.csv     |   160 +-
+ .../features_richCalendar/crps_by_region_split.csv |  1240 +--
+ .../features_richCalendar/crps_by_split.csv        |    80 +-
+ .../features_richCalendar/metrics_summary.csv      |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../fitTime_refitAtPredict/crps_by_horizon.csv     |    30 +-
+ .../fitTime_refitAtPredict/crps_by_location.csv    |   160 +-
+ .../crps_by_region_split.csv                       |  1240 +--
+ .../fitTime_refitAtPredict/crps_by_split.csv       |    80 +-
+ .../fitTime_refitAtPredict/metrics_summary.csv     |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../head_quantileEnsemble/crps_by_horizon.csv      |    30 +-
+ .../head_quantileEnsemble/crps_by_location.csv     |   160 +-
+ .../head_quantileEnsemble/crps_by_region_split.csv |  1240 +--
+ .../head_quantileEnsemble/crps_by_split.csv        |    80 +-
+ .../head_quantileEnsemble/metrics_summary.csv      |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../a_unweighted/results/main/crps_by_horizon.csv  |    30 +-
+ .../a_unweighted/results/main/crps_by_location.csv |   160 +-
+ .../results/main/crps_by_region_split.csv          |  1240 +--
+ .../a_unweighted/results/main/crps_by_split.csv    |    80 +-
+ .../a_unweighted/results/main/metrics_summary.csv  |    10 +-
+ .../results/main__holdout/crps_by_horizon.csv      |    30 +-
+ .../results/main__holdout/crps_by_location.csv     |   160 +-
+ .../results/main__holdout/crps_by_region_split.csv |   640 +-
+ .../results/main__holdout/crps_by_split.csv        |    40 +-
+ .../results/main__holdout/metrics_summary.csv      |    10 +-
+ .../observation_negBinomial/crps_by_horizon.csv    |    30 +-
+ .../observation_negBinomial/crps_by_location.csv   |   160 +-
+ .../crps_by_region_split.csv                       |  1240 +--
+ .../observation_negBinomial/crps_by_split.csv      |    80 +-
+ .../observation_negBinomial/metrics_summary.csv    |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../observation_zeroInflated/crps_by_horizon.csv   |    30 +-
+ .../observation_zeroInflated/crps_by_location.csv  |   160 +-
+ .../crps_by_region_split.csv                       |  1240 +--
+ .../observation_zeroInflated/crps_by_split.csv     |    80 +-
+ .../observation_zeroInflated/metrics_summary.csv   |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |  1240 +--
+ .../persistence_negBinomialFloor/crps_by_split.csv |    80 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../results/popColumn_backCast/crps_by_horizon.csv |    30 +-
+ .../popColumn_backCast/crps_by_location.csv        |   160 +-
+ .../popColumn_backCast/crps_by_region_split.csv    |  1240 +--
+ .../results/popColumn_backCast/crps_by_split.csv   |    80 +-
+ .../results/popColumn_backCast/metrics_summary.csv |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../popColumn_backCast__holdout/crps_by_split.csv  |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../population_covariate/crps_by_horizon.csv       |    30 +-
+ .../population_covariate/crps_by_location.csv      |   160 +-
+ .../population_covariate/crps_by_region_split.csv  |  1240 +--
+ .../results/population_covariate/crps_by_split.csv |    80 +-
+ .../population_covariate/metrics_summary.csv       |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../results/population_ignored/crps_by_horizon.csv |    30 +-
+ .../population_ignored/crps_by_location.csv        |   160 +-
+ .../population_ignored/crps_by_region_split.csv    |  1240 +--
+ .../results/population_ignored/crps_by_split.csv   |    80 +-
+ .../results/population_ignored/metrics_summary.csv |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../population_ignored__holdout/crps_by_split.csv  |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../provinces_mergeVientiane/crps_by_horizon.csv   |    30 +-
+ .../provinces_mergeVientiane/crps_by_location.csv  |   160 +-
+ .../crps_by_region_split.csv                       |  1240 +--
+ .../provinces_mergeVientiane/crps_by_split.csv     |    80 +-
+ .../provinces_mergeVientiane/metrics_summary.csv   |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |  1240 +--
+ .../crps_by_split.csv                              |    80 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |  1240 +--
+ .../crps_by_split.csv                              |    80 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../provinces_reportingOnly/crps_by_horizon.csv    |    30 +-
+ .../provinces_reportingOnly/crps_by_location.csv   |   160 +-
+ .../crps_by_region_split.csv                       |  1240 +--
+ .../provinces_reportingOnly/crps_by_split.csv      |    80 +-
+ .../provinces_reportingOnly/metrics_summary.csv    |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |  1240 +--
+ .../crps_by_split.csv                              |    80 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |  1240 +--
+ .../crps_by_split.csv                              |    80 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../results/retrain_everySplit/crps_by_horizon.csv |    30 +-
+ .../retrain_everySplit/crps_by_location.csv        |   160 +-
+ .../retrain_everySplit/crps_by_region_split.csv    |  1240 +--
+ .../results/retrain_everySplit/crps_by_split.csv   |    80 +-
+ .../results/retrain_everySplit/metrics_summary.csv |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../retrain_everySplit__holdout/crps_by_split.csv  |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../trainingWindow_from2004/crps_by_horizon.csv    |    30 +-
+ .../trainingWindow_from2004/crps_by_location.csv   |   160 +-
+ .../crps_by_region_split.csv                       |  1240 +--
+ .../trainingWindow_from2004/crps_by_split.csv      |    80 +-
+ .../trainingWindow_from2004/metrics_summary.csv    |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../weighting_crpsWeighted/crps_by_horizon.csv     |    30 +-
+ .../weighting_crpsWeighted/crps_by_location.csv    |   160 +-
+ .../crps_by_region_split.csv                       |  1240 +--
+ .../weighting_crpsWeighted/crps_by_split.csv       |    80 +-
+ .../weighting_crpsWeighted/metrics_summary.csv     |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../yearVariance_shared/crps_by_horizon.csv        |    30 +-
+ .../yearVariance_shared/crps_by_location.csv       |   160 +-
+ .../yearVariance_shared/crps_by_region_split.csv   |  1240 +--
+ .../results/yearVariance_shared/crps_by_split.csv  |    80 +-
+ .../yearVariance_shared/metrics_summary.csv        |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../yearVariance_shared__holdout/crps_by_split.csv |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |  1240 +--
+ .../aggregate_populationWeighted/crps_by_split.csv |    80 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   640 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../aggregate_caseWeighted/crps_by_horizon.csv     |    30 +-
+ .../aggregate_caseWeighted/crps_by_location.csv    |   150 +-
+ .../crps_by_region_split.csv                       |   940 +-
+ .../aggregate_caseWeighted/crps_by_split.csv       |    80 +-
+ .../aggregate_caseWeighted/metrics_summary.csv     |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   560 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   150 +-
+ .../crps_by_region_split.csv                       |   940 +-
+ .../crps_by_split.csv                              |    80 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   560 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   150 +-
+ .../crps_by_region_split.csv                       |   940 +-
+ .../crps_by_split.csv                              |    80 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   560 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   150 +-
+ .../crps_by_region_split.csv                       |   940 +-
+ .../crps_by_split.csv                              |    80 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   560 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   150 +-
+ .../crps_by_region_split.csv                       |   940 +-
+ .../crps_by_split.csv                              |    80 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../crps_by_horizon.csv                            |    30 +-
+ .../crps_by_location.csv                           |   160 +-
+ .../crps_by_region_split.csv                       |   560 +-
+ .../crps_by_split.csv                              |    40 +-
+ .../metrics_summary.csv                            |    10 +-
+ .../aggregate_caseWeighted/comparison_notes.json   |    58 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89298 -> 89582 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    30 +-
+ .../fig_crps_by_location.png                       |   Bin 140256 -> 140234 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 159386 -> 165177 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../results/aggregate_caseWeighted/leaderboard.csv |    16 +-
+ .../aggregate_caseWeighted/paired_by_split.csv     |   240 +-
+ .../aggregate_caseWeighted/paired_summary.csv      |    30 +-
+ .../aggregate_caseWeighted/paired_vs_reference.csv | 11124 +++++++++---------
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    54 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 90984 -> 94906 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 143150 -> 143568 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 147521 -> 145710 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    60 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 91814 -> 91666 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 142137 -> 142296 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 163913 -> 161909 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../aggregate_populationWeighted/leaderboard.csv   |    16 +-
+ .../paired_by_split.csv                            |   240 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        | 11124 +++++++++---------
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    54 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 90095 -> 89935 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 142764 -> 143362 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 142663 -> 141300 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../autoregressive_lag3/comparison_notes.json      |    58 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 90031 -> 90087 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../autoregressive_lag3/fig_crps_by_location.csv   |    32 +-
+ .../autoregressive_lag3/fig_crps_by_location.png   |   Bin 143041 -> 143180 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 173251 -> 173367 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../results/autoregressive_lag3/leaderboard.csv    |    16 +-
+ .../autoregressive_lag3/paired_by_split.csv        |   240 +-
+ .../results/autoregressive_lag3/paired_summary.csv |    30 +-
+ .../autoregressive_lag3/paired_vs_reference.csv    | 11124 +++++++++---------
+ .../autoregressive_lag3/reference_repeat_noise.csv |    12 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89543 -> 89941 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 144113 -> 144519 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 139904 -> 141235 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../autoregressive_lag3__holdout/leaderboard.csv   |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../climatology_frozenWindow/comparison_notes.json |    59 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 90565 -> 90590 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 143502 -> 143482 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     8 +-
+ .../fig_paired_vs_reference.png                    |   Bin 172985 -> 174071 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../climatology_frozenWindow/leaderboard.csv       |    16 +-
+ .../climatology_frozenWindow/paired_by_split.csv   |   242 +-
+ .../climatology_frozenWindow/paired_summary.csv    |    32 +-
+ .../paired_vs_reference.csv                        | 11124 +++++++++---------
+ .../reference_repeat_noise.csv                     |    14 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 90080 -> 89788 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 144110 -> 144686 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 140732 -> 140320 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../covariates_lagged/comparison_notes.json        |    58 +-
+ .../covariates_lagged/fig_accuracy_and_spread.csv  |     2 +-
+ .../covariates_lagged/fig_accuracy_and_spread.png  |   Bin 90059 -> 90170 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../covariates_lagged/fig_crps_by_location.csv     |    32 +-
+ .../covariates_lagged/fig_crps_by_location.png     |   Bin 141129 -> 141245 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../covariates_lagged/fig_paired_vs_reference.csv  |     6 +-
+ .../covariates_lagged/fig_paired_vs_reference.png  |   Bin 172880 -> 172197 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../results/covariates_lagged/leaderboard.csv      |    16 +-
+ .../results/covariates_lagged/paired_by_split.csv  |   240 +-
+ .../results/covariates_lagged/paired_summary.csv   |    30 +-
+ .../covariates_lagged/paired_vs_reference.csv      | 11124 +++++++++---------
+ .../covariates_lagged/reference_repeat_noise.csv   |    12 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89709 -> 90149 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 141495 -> 141956 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 138468 -> 139684 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../covariates_lagged__holdout/leaderboard.csv     |    16 +-
+ .../covariates_lagged__holdout/paired_by_split.csv |   120 +-
+ .../covariates_lagged__holdout/paired_summary.csv  |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../results/covariates_rich/comparison_notes.json  |    58 +-
+ .../covariates_rich/fig_accuracy_and_spread.csv    |     2 +-
+ .../covariates_rich/fig_accuracy_and_spread.png    |   Bin 93518 -> 93476 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../covariates_rich/fig_crps_by_location.csv       |    32 +-
+ .../covariates_rich/fig_crps_by_location.png       |   Bin 140605 -> 140707 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../covariates_rich/fig_paired_vs_reference.csv    |     6 +-
+ .../covariates_rich/fig_paired_vs_reference.png    |   Bin 169098 -> 171404 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../results/covariates_rich/leaderboard.csv        |    16 +-
+ .../results/covariates_rich/paired_by_split.csv    |   240 +-
+ .../results/covariates_rich/paired_summary.csv     |    30 +-
+ .../covariates_rich/paired_vs_reference.csv        | 11124 +++++++++---------
+ .../covariates_rich/reference_repeat_noise.csv     |    12 +-
+ .../covariates_rich__holdout/comparison_notes.json |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89341 -> 89675 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 141153 -> 141536 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 138604 -> 138941 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../covariates_rich__holdout/leaderboard.csv       |    16 +-
+ .../covariates_rich__holdout/paired_by_split.csv   |   120 +-
+ .../covariates_rich__holdout/paired_summary.csv    |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../results/family_boosted/comparison_notes.json   |    58 +-
+ .../family_boosted/fig_accuracy_and_spread.csv     |     2 +-
+ .../family_boosted/fig_accuracy_and_spread.png     |   Bin 93154 -> 93285 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../family_boosted/fig_crps_by_location.csv        |    32 +-
+ .../family_boosted/fig_crps_by_location.png        |   Bin 140467 -> 140423 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../family_boosted/fig_paired_vs_reference.csv     |     6 +-
+ .../family_boosted/fig_paired_vs_reference.png     |   Bin 170596 -> 172098 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../results/family_boosted/leaderboard.csv         |    16 +-
+ .../results/family_boosted/paired_by_split.csv     |   240 +-
+ .../results/family_boosted/paired_summary.csv      |    30 +-
+ .../results/family_boosted/paired_vs_reference.csv | 11124 +++++++++---------
+ .../family_boosted/reference_repeat_noise.csv      |    12 +-
+ .../family_boosted__holdout/comparison_notes.json  |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89517 -> 89530 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 141778 -> 141617 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 138354 -> 138689 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../family_boosted__holdout/leaderboard.csv        |    16 +-
+ .../family_boosted__holdout/paired_by_split.csv    |   120 +-
+ .../family_boosted__holdout/paired_summary.csv     |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../results/family_hierNB/comparison_notes.json    |    58 +-
+ .../family_hierNB/fig_accuracy_and_spread.csv      |     2 +-
+ .../family_hierNB/fig_accuracy_and_spread.png      |   Bin 92953 -> 92597 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../results/family_hierNB/fig_crps_by_location.csv |    32 +-
+ .../results/family_hierNB/fig_crps_by_location.png |   Bin 140229 -> 140699 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../family_hierNB/fig_paired_vs_reference.csv      |     6 +-
+ .../family_hierNB/fig_paired_vs_reference.png      |   Bin 169070 -> 170307 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../results/family_hierNB/leaderboard.csv          |    16 +-
+ .../results/family_hierNB/paired_by_split.csv      |   240 +-
+ .../results/family_hierNB/paired_summary.csv       |    30 +-
+ .../results/family_hierNB/paired_vs_reference.csv  | 11124 +++++++++---------
+ .../family_hierNB/reference_repeat_noise.csv       |    12 +-
+ .../comparison_notes.json                          |    58 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 88166 -> 88348 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    30 +-
+ .../fig_crps_by_location.png                       |   Bin 141303 -> 140948 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 160320 -> 167228 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   240 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        | 11124 +++++++++---------
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    54 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 88646 -> 92590 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 145309 -> 145270 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 147560 -> 146543 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../family_hierNB__holdout/comparison_notes.json   |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 88298 -> 88071 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 142274 -> 142116 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 137830 -> 137799 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../results/family_hierNB__holdout/leaderboard.csv |    16 +-
+ .../family_hierNB__holdout/paired_by_split.csv     |   120 +-
+ .../family_hierNB__holdout/paired_summary.csv      |    30 +-
+ .../family_hierNB__holdout/paired_vs_reference.csv |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../features_richCalendar/comparison_notes.json    |    58 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89253 -> 89215 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../features_richCalendar/fig_crps_by_location.csv |    32 +-
+ .../features_richCalendar/fig_crps_by_location.png |   Bin 140287 -> 140543 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 173419 -> 170006 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../results/features_richCalendar/leaderboard.csv  |    16 +-
+ .../features_richCalendar/paired_by_split.csv      |   240 +-
+ .../features_richCalendar/paired_summary.csv       |    30 +-
+ .../features_richCalendar/paired_vs_reference.csv  | 11124 +++++++++---------
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89421 -> 89520 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 140856 -> 141336 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 139907 -> 139779 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../features_richCalendar__holdout/leaderboard.csv |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../fitTime_refitAtPredict/comparison_notes.json   |    58 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 90501 -> 90505 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 142039 -> 142336 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 173036 -> 174514 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../results/fitTime_refitAtPredict/leaderboard.csv |    16 +-
+ .../fitTime_refitAtPredict/paired_by_split.csv     |   240 +-
+ .../fitTime_refitAtPredict/paired_summary.csv      |    30 +-
+ .../fitTime_refitAtPredict/paired_vs_reference.csv | 11124 +++++++++---------
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89785 -> 89348 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 143064 -> 143525 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 141248 -> 141033 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../head_quantileEnsemble/comparison_notes.json    |    58 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 91229 -> 91209 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../head_quantileEnsemble/fig_crps_by_location.csv |    32 +-
+ .../head_quantileEnsemble/fig_crps_by_location.png |   Bin 141010 -> 141052 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 173819 -> 172819 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../results/head_quantileEnsemble/leaderboard.csv  |    16 +-
+ .../head_quantileEnsemble/paired_by_split.csv      |   240 +-
+ .../head_quantileEnsemble/paired_summary.csv       |    30 +-
+ .../head_quantileEnsemble/paired_vs_reference.csv  | 11124 +++++++++---------
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89634 -> 89670 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 141396 -> 141688 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 138410 -> 138554 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../head_quantileEnsemble__holdout/leaderboard.csv |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../03_compare/results/main/comparison_notes.json  |    58 +-
+ .../results/main/fig_accuracy_and_spread.csv       |     2 +-
+ .../results/main/fig_accuracy_and_spread.png       |   Bin 90248 -> 90421 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../results/main/fig_crps_by_location.csv          |    32 +-
+ .../results/main/fig_crps_by_location.png          |   Bin 137956 -> 138017 bytes
+ .../main/fig_crps_by_location_preaggregation.csv   |   742 +-
+ .../results/main/fig_paired_vs_reference.csv       |     6 +-
+ .../results/main/fig_paired_vs_reference.png       |   Bin 169873 -> 170730 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../03_compare/results/main/leaderboard.csv        |    16 +-
+ .../03_compare/results/main/paired_by_split.csv    |   240 +-
+ .../03_compare/results/main/paired_summary.csv     |    30 +-
+ .../results/main/paired_vs_reference.csv           | 11124 +++++++++---------
+ .../results/main/reference_repeat_noise.csv        |    12 +-
+ .../results/main__holdout/comparison_notes.json    |    56 +-
+ .../main__holdout/fig_accuracy_and_spread.csv      |     2 +-
+ .../main__holdout/fig_accuracy_and_spread.png      |   Bin 90080 -> 89788 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../results/main__holdout/fig_crps_by_location.csv |    32 +-
+ .../results/main__holdout/fig_crps_by_location.png |   Bin 140865 -> 141375 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../main__holdout/fig_paired_vs_reference.csv      |     6 +-
+ .../main__holdout/fig_paired_vs_reference.png      |   Bin 137531 -> 137063 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../results/main__holdout/leaderboard.csv          |    16 +-
+ .../results/main__holdout/paired_by_split.csv      |   120 +-
+ .../results/main__holdout/paired_summary.csv       |    30 +-
+ .../results/main__holdout/paired_vs_reference.csv  |  5754 +++++-----
+ .../main__holdout/reference_repeat_noise.csv       |    12 +-
+ .../observation_negBinomial/comparison_notes.json  |    58 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 90255 -> 90254 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 141278 -> 141390 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 172501 -> 172476 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../observation_negBinomial/leaderboard.csv        |    16 +-
+ .../observation_negBinomial/paired_by_split.csv    |   240 +-
+ .../observation_negBinomial/paired_summary.csv     |    30 +-
+ .../paired_vs_reference.csv                        | 11124 +++++++++---------
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89968 -> 89843 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 141663 -> 142099 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 139115 -> 138843 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../observation_zeroInflated/comparison_notes.json |    58 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 90157 -> 90292 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 139980 -> 140136 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 173568 -> 174159 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../observation_zeroInflated/leaderboard.csv       |    16 +-
+ .../observation_zeroInflated/paired_by_split.csv   |   240 +-
+ .../observation_zeroInflated/paired_summary.csv    |    30 +-
+ .../paired_vs_reference.csv                        | 11124 +++++++++---------
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89501 -> 89946 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 140619 -> 141103 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 139605 -> 139734 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    61 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 90176 -> 89901 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 143660 -> 143612 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     8 +-
+ .../fig_paired_vs_reference.png                    |   Bin 161482 -> 163402 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../persistence_negBinomialFloor/leaderboard.csv   |    16 +-
+ .../paired_by_split.csv                            |   242 +-
+ .../paired_summary.csv                             |    32 +-
+ .../paired_vs_reference.csv                        | 11124 +++++++++---------
+ .../reference_repeat_noise.csv                     |    14 +-
+ .../comparison_notes.json                          |    58 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 88447 -> 88466 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 141786 -> 142139 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 143653 -> 142543 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../popColumn_backCast/comparison_notes.json       |    55 +-
+ .../popColumn_backCast/fig_accuracy_and_spread.csv |     2 +-
+ .../popColumn_backCast/fig_accuracy_and_spread.png |   Bin 89501 -> 89556 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../popColumn_backCast/fig_crps_by_location.csv    |    32 +-
+ .../popColumn_backCast/fig_crps_by_location.png    |   Bin 141026 -> 140977 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../popColumn_backCast/fig_paired_vs_reference.csv |     8 +-
+ .../popColumn_backCast/fig_paired_vs_reference.png |   Bin 172873 -> 169134 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../results/popColumn_backCast/leaderboard.csv     |    16 +-
+ .../results/popColumn_backCast/paired_by_split.csv |   242 +-
+ .../results/popColumn_backCast/paired_summary.csv  |    32 +-
+ .../popColumn_backCast/paired_vs_reference.csv     | 11118 +++++++++---------
+ .../popColumn_backCast/reference_repeat_noise.csv  |    14 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 88679 -> 89470 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 142053 -> 141924 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 138480 -> 137126 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../popColumn_backCast__holdout/leaderboard.csv    |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../popColumn_backCast__holdout/paired_summary.csv |    30 +-
+ .../paired_vs_reference.csv                        |  5760 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../population_covariate/comparison_notes.json     |    58 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89924 -> 90059 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../population_covariate/fig_crps_by_location.csv  |    32 +-
+ .../population_covariate/fig_crps_by_location.png  |   Bin 140804 -> 141007 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 171752 -> 171280 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../results/population_covariate/leaderboard.csv   |    16 +-
+ .../population_covariate/paired_by_split.csv       |   240 +-
+ .../population_covariate/paired_summary.csv        |    30 +-
+ .../population_covariate/paired_vs_reference.csv   | 11124 +++++++++---------
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 88887 -> 89084 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 141346 -> 141730 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 138409 -> 138371 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../population_covariate__holdout/leaderboard.csv  |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../population_ignored/comparison_notes.json       |    58 +-
+ .../population_ignored/fig_accuracy_and_spread.csv |     2 +-
+ .../population_ignored/fig_accuracy_and_spread.png |   Bin 89246 -> 89411 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../population_ignored/fig_crps_by_location.csv    |    32 +-
+ .../population_ignored/fig_crps_by_location.png    |   Bin 139806 -> 139950 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../population_ignored/fig_paired_vs_reference.csv |     6 +-
+ .../population_ignored/fig_paired_vs_reference.png |   Bin 172106 -> 172340 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../results/population_ignored/leaderboard.csv     |    16 +-
+ .../results/population_ignored/paired_by_split.csv |   240 +-
+ .../results/population_ignored/paired_summary.csv  |    30 +-
+ .../population_ignored/paired_vs_reference.csv     | 11124 +++++++++---------
+ .../population_ignored/reference_repeat_noise.csv  |    12 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89758 -> 89915 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 140551 -> 140919 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 138950 -> 138773 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../population_ignored__holdout/leaderboard.csv    |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../population_ignored__holdout/paired_summary.csv |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../provinces_mergeVientiane/comparison_notes.json |    61 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89508 -> 89547 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 143487 -> 143741 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     8 +-
+ .../fig_paired_vs_reference.png                    |   Bin 175413 -> 171713 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../provinces_mergeVientiane/leaderboard.csv       |    16 +-
+ .../provinces_mergeVientiane/paired_by_split.csv   |   242 +-
+ .../provinces_mergeVientiane/paired_summary.csv    |    32 +-
+ .../paired_vs_reference.csv                        | 11100 +++++++++---------
+ .../reference_repeat_noise.csv                     |    14 +-
+ .../comparison_notes.json                          |    58 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89575 -> 90094 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    30 +-
+ .../fig_crps_by_location.png                       |   Bin 145818 -> 144969 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 160400 -> 162016 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   240 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        | 11112 +++++++++---------
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 91050 -> 90873 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 147843 -> 148158 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 150102 -> 148448 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    58 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 90461 -> 91375 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 144303 -> 144725 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 172960 -> 174670 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   240 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        | 11106 +++++++++---------
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    54 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 86778 -> 88096 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 144916 -> 144846 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 140994 -> 138921 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5760 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 88570 -> 88741 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 143947 -> 144373 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 140942 -> 141861 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    58 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 93513 -> 94185 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 146519 -> 146783 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 176417 -> 176015 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   240 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        | 11112 +++++++++---------
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89461 -> 88772 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 145976 -> 147395 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 140929 -> 146068 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5760 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../provinces_reportingOnly/comparison_notes.json  |    61 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89151 -> 89062 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 142193 -> 142977 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     8 +-
+ .../fig_paired_vs_reference.png                    |   Bin 164793 -> 163151 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../provinces_reportingOnly/leaderboard.csv        |    16 +-
+ .../provinces_reportingOnly/paired_by_split.csv    |   242 +-
+ .../provinces_reportingOnly/paired_summary.csv     |    32 +-
+ .../paired_vs_reference.csv                        | 11124 +++++++++---------
+ .../reference_repeat_noise.csv                     |    14 +-
+ .../comparison_notes.json                          |    60 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 87657 -> 87756 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    30 +-
+ .../fig_crps_by_location.png                       |   Bin 142526 -> 143367 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 165471 -> 166383 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   240 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        | 11118 +++++++++---------
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 87870 -> 88158 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 145370 -> 145439 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 159565 -> 157871 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    58 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 93080 -> 93612 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 144403 -> 144503 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 175693 -> 176032 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   240 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        | 11112 +++++++++---------
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 88828 -> 89473 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 146904 -> 147061 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 148815 -> 150152 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    54 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89571 -> 91709 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 144457 -> 144865 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 146465 -> 147366 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5748 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    60 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 93785 -> 96302 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 145087 -> 145519 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 177841 -> 173898 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   240 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        | 11130 +++++++++----------
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 91793 -> 90450 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 146138 -> 146568 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 151771 -> 148749 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5760 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../retrain_everySplit/comparison_notes.json       |    57 +-
+ .../retrain_everySplit/fig_accuracy_and_spread.csv |     2 +-
+ .../retrain_everySplit/fig_accuracy_and_spread.png |   Bin 89145 -> 89080 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../retrain_everySplit/fig_crps_by_location.csv    |    32 +-
+ .../retrain_everySplit/fig_crps_by_location.png    |   Bin 141496 -> 140189 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../retrain_everySplit/fig_paired_vs_reference.csv |     8 +-
+ .../retrain_everySplit/fig_paired_vs_reference.png |   Bin 170743 -> 172211 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../results/retrain_everySplit/leaderboard.csv     |    16 +-
+ .../results/retrain_everySplit/paired_by_split.csv |   242 +-
+ .../results/retrain_everySplit/paired_summary.csv  |    32 +-
+ .../retrain_everySplit/paired_vs_reference.csv     | 11124 +++++++++---------
+ .../retrain_everySplit/reference_repeat_noise.csv  |    14 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89175 -> 87887 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 141359 -> 140894 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 139695 -> 140639 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../retrain_everySplit__holdout/leaderboard.csv    |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../retrain_everySplit__holdout/paired_summary.csv |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../trainingWindow_from2004/comparison_notes.json  |    59 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 88196 -> 88192 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 143924 -> 143941 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     8 +-
+ .../fig_paired_vs_reference.png                    |   Bin 175168 -> 173693 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../trainingWindow_from2004/leaderboard.csv        |    16 +-
+ .../trainingWindow_from2004/paired_by_split.csv    |   242 +-
+ .../trainingWindow_from2004/paired_summary.csv     |    32 +-
+ .../paired_vs_reference.csv                        | 11118 +++++++++---------
+ .../reference_repeat_noise.csv                     |    14 +-
+ .../comparison_notes.json                          |    58 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89337 -> 89864 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 145918 -> 145844 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 140011 -> 142626 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5760 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../weighting_crpsWeighted/comparison_notes.json   |    58 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 93270 -> 93006 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 142399 -> 142634 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 172730 -> 173240 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../results/weighting_crpsWeighted/leaderboard.csv |    16 +-
+ .../weighting_crpsWeighted/paired_by_split.csv     |   240 +-
+ .../weighting_crpsWeighted/paired_summary.csv      |    30 +-
+ .../weighting_crpsWeighted/paired_vs_reference.csv | 11124 +++++++++---------
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    58 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89088 -> 89374 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../fig_crps_by_location.csv                       |    30 +-
+ .../fig_crps_by_location.png                       |   Bin 144772 -> 144836 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 165702 -> 169474 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   240 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        | 11124 +++++++++---------
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    52 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 87985 -> 92044 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 146762 -> 146444 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 148576 -> 147155 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../comparison_notes.json                          |    54 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89730 -> 89755 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 144277 -> 144868 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 139879 -> 140056 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../leaderboard.csv                                |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ .../yearVariance_shared/comparison_notes.json      |    58 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 90083 -> 90141 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   742 +-
+ .../yearVariance_shared/fig_crps_by_location.csv   |    32 +-
+ .../yearVariance_shared/fig_crps_by_location.png   |   Bin 142166 -> 142475 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   742 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 173396 -> 173182 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  2226 ++--
+ .../results/yearVariance_shared/leaderboard.csv    |    16 +-
+ .../yearVariance_shared/paired_by_split.csv        |   240 +-
+ .../results/yearVariance_shared/paired_summary.csv |    30 +-
+ .../yearVariance_shared/paired_vs_reference.csv    | 11124 +++++++++---------
+ .../yearVariance_shared/reference_repeat_noise.csv |    12 +-
+ .../comparison_notes.json                          |    56 +-
+ .../fig_accuracy_and_spread.csv                    |     2 +-
+ .../fig_accuracy_and_spread.png                    |   Bin 89849 -> 90028 bytes
+ .../fig_accuracy_and_spread_preaggregation.csv     |   384 +-
+ .../fig_crps_by_location.csv                       |    32 +-
+ .../fig_crps_by_location.png                       |   Bin 143386 -> 143808 bytes
+ .../fig_crps_by_location_preaggregation.csv        |   384 +-
+ .../fig_paired_vs_reference.csv                    |     6 +-
+ .../fig_paired_vs_reference.png                    |   Bin 139901 -> 140581 bytes
+ .../fig_paired_vs_reference_preaggregation.csv     |  1152 +-
+ .../yearVariance_shared__holdout/leaderboard.csv   |    16 +-
+ .../paired_by_split.csv                            |   120 +-
+ .../paired_summary.csv                             |    30 +-
+ .../paired_vs_reference.csv                        |  5754 +++++-----
+ .../reference_repeat_noise.csv                     |    12 +-
+ analysis/05_stability/results/conclusions.csv      |    64 +-
+ .../05_stability/results/conclusions_notes.json    |    12 +-
+ .../results/cost_planned_vs_actual.csv             |    48 +-
+ .../results/cost_planned_vs_actual.json            |    12 +-
+ analysis/05_stability/results/distribution.json    |   106 +-
+ .../05_stability/results/distribution_rows.csv     |    64 +-
+ .../05_stability/results/fig_fork_sensitivity.csv  |    34 +-
+ .../05_stability/results/fig_fork_sensitivity.png  |   Bin 106098 -> 105935 bytes
+ .../results/fig_fork_sensitivity_both.csv          |    34 +-
+ .../results/fig_fork_sensitivity_both.png          |   Bin 115605 -> 114991 bytes
+ .../fig_fork_sensitivity_preaggregation.csv        |    44 +-
+ .../results/fig_holdout_vs_development.csv         |    64 +-
+ .../results/fig_holdout_vs_development.png         |   Bin 94107 -> 95437 bytes
+ .../05_stability/results/fig_pair_interaction.csv  |    16 +-
+ .../05_stability/results/fig_pair_interaction.png  |   Bin 156954 -> 157941 bytes
+ .../fig_pair_interaction_preaggregation.csv        |    32 +-
+ .../results/fig_skill_distribution.csv             |    64 +-
+ .../results/fig_skill_distribution.png             |   Bin 199443 -> 200192 bytes
+ .../05_stability/results/fork_sensitivity_both.csv |    34 +-
+ .../05_stability/results/holdout_conclusions.csv   |    64 +-
+ .../results/holdout_conclusions_notes.json         |    12 +-
+ .../results/holdout_cost_planned_vs_actual.csv     |    64 +-
+ .../results/holdout_cost_planned_vs_actual.json    |    12 +-
+ .../05_stability/results/holdout_distribution.json |   102 +-
+ .../results/holdout_distribution_rows.csv          |    64 +-
+ .../results/holdout_fig_fork_sensitivity.csv       |    32 +-
+ .../results/holdout_fig_fork_sensitivity.png       |   Bin 107487 -> 107736 bytes
+ ...holdout_fig_fork_sensitivity_preaggregation.csv |    44 +-
+ .../results/holdout_fig_skill_distribution.csv     |    64 +-
+ .../results/holdout_fig_skill_distribution.png     |   Bin 220978 -> 220740 bytes
+ .../05_stability/results/holdout_freeze_check.json |   549 +-
+ .../results/holdout_sensitivity_by_fork.csv        |    32 +-
+ .../results/holdout_vs_development.csv             |    64 +-
+ .../results/holdout_vs_development.json            |   244 +-
+ .../results/logs/aggregate_caseWeighted.log        |    28 +-
+ .../logs/aggregate_caseWeighted__holdout.log       |    30 +-
+ .../results/logs/aggregate_populationWeighted.log  |    28 +-
+ .../logs/aggregate_populationWeighted__holdout.log |    28 +-
+ .../results/logs/autoregressive_lag3.log           |    58 +-
+ .../results/logs/autoregressive_lag3__holdout.log  |    58 +-
+ .../results/logs/climatology_frozenWindow.log      |    62 +-
+ .../logs/climatology_frozenWindow__holdout.log     |    62 +-
+ .../results/logs/covariates_lagged.log             |    58 +-
+ .../results/logs/covariates_lagged__holdout.log    |    58 +-
+ .../05_stability/results/logs/covariates_rich.log  |    58 +-
+ .../results/logs/covariates_rich__holdout.log      |    58 +-
+ .../05_stability/results/logs/family_boosted.log   |    40 +-
+ .../results/logs/family_boosted__holdout.log       |    42 +-
+ .../05_stability/results/logs/family_hierNB.log    |    48 +-
+ .../logs/family_hierNB__aggregate_caseWeighted.log |    46 +-
+ ...ily_hierNB__aggregate_caseWeighted__holdout.log |    48 +-
+ .../results/logs/family_hierNB__holdout.log        |    48 +-
+ .../results/logs/features_richCalendar.log         |    58 +-
+ .../logs/features_richCalendar__holdout.log        |    58 +-
+ .../results/logs/fitTime_refitAtPredict.log        |    58 +-
+ .../logs/fitTime_refitAtPredict__holdout.log       |    58 +-
+ .../results/logs/head_quantileEnsemble.log         |    58 +-
+ .../logs/head_quantileEnsemble__holdout.log        |    58 +-
+ analysis/05_stability/results/logs/main.log        |     4 +-
+ .../05_stability/results/logs/main__holdout.log    |    80 +-
+ .../results/logs/observation_negBinomial.log       |    58 +-
+ .../logs/observation_negBinomial__holdout.log      |    58 +-
+ .../results/logs/observation_zeroInflated.log      |    58 +-
+ .../logs/observation_zeroInflated__holdout.log     |    58 +-
+ .../results/logs/persistence_negBinomialFloor.log  |    48 +-
+ .../logs/persistence_negBinomialFloor__holdout.log |    62 +-
+ .../results/logs/popColumn_backCast.log            |    66 +-
+ .../results/logs/popColumn_backCast__holdout.log   |    78 +-
+ .../results/logs/population_covariate.log          |    58 +-
+ .../results/logs/population_covariate__holdout.log |    58 +-
+ .../results/logs/population_ignored.log            |    58 +-
+ .../results/logs/population_ignored__holdout.log   |    58 +-
+ .../results/logs/provinces_mergeVientiane.log      |    68 +-
+ ...nces_mergeVientiane__aggregate_caseWeighted.log |    83 +-
+ ...eVientiane__aggregate_caseWeighted__holdout.log |    80 +-
+ .../provinces_mergeVientiane__family_hierNB.log    |    85 +-
+ ...nces_mergeVientiane__family_hierNB__holdout.log |    83 +-
+ .../logs/provinces_mergeVientiane__holdout.log     |    81 +-
+ ...nces_mergeVientiane__weighting_crpsWeighted.log |   108 +-
+ ...eVientiane__weighting_crpsWeighted__holdout.log |   102 +-
+ .../results/logs/provinces_reportingOnly.log       |    71 +-
+ ...inces_reportingOnly__aggregate_caseWeighted.log |    84 +-
+ ...ortingOnly__aggregate_caseWeighted__holdout.log |    90 +-
+ .../provinces_reportingOnly__family_hierNB.log     |    85 +-
+ ...inces_reportingOnly__family_hierNB__holdout.log |    82 +-
+ .../logs/provinces_reportingOnly__holdout.log      |    90 +-
+ ...inces_reportingOnly__weighting_crpsWeighted.log |   105 +-
+ ...ortingOnly__weighting_crpsWeighted__holdout.log |   106 +-
+ .../results/logs/retrain_everySplit.log            |    82 +-
+ .../results/logs/retrain_everySplit__holdout.log   |    80 +-
+ .../results/logs/trainingWindow_from2004.log       |    82 +-
+ .../logs/trainingWindow_from2004__holdout.log      |    91 +-
+ .../results/logs/weighting_crpsWeighted.log        |    50 +-
+ ...ghting_crpsWeighted__aggregate_caseWeighted.log |    76 +-
+ ...psWeighted__aggregate_caseWeighted__holdout.log |    80 +-
+ .../logs/weighting_crpsWeighted__holdout.log       |    76 +-
+ .../results/logs/yearVariance_shared.log           |    58 +-
+ .../results/logs/yearVariance_shared__holdout.log  |    58 +-
+ analysis/05_stability/results/manifest.csv         |    64 +-
+ analysis/05_stability/results/manifest_notes.json  |     6 +-
+ .../results/manifest_selection_check.json          |    49 +-
+ analysis/05_stability/results/run_status.csv       |    64 +-
+ .../05_stability/results/run_status_holdout.csv    |    64 +-
+ .../05_stability/results/sensitivity_by_fork.csv   |    34 +-
+ analysis/05_stability/results/step_costs.json      |     6 +-
+ .../results/aggregate_caseWeighted/conclusion.json |    32 +-
+ .../conclusion.json                                |    32 +-
+ .../aggregate_populationWeighted/conclusion.json   |    32 +-
+ .../conclusion.json                                |    32 +-
+ .../results/autoregressive_lag3/conclusion.json    |    32 +-
+ .../autoregressive_lag3__holdout/conclusion.json   |    30 +-
+ .../climatology_frozenWindow/conclusion.json       |    34 +-
+ .../conclusion.json                                |    30 +-
+ analysis/results/covariates_lagged/conclusion.json |    32 +-
+ .../covariates_lagged__holdout/conclusion.json     |    30 +-
+ analysis/results/covariates_rich/conclusion.json   |    32 +-
+ .../covariates_rich__holdout/conclusion.json       |    30 +-
+ analysis/results/family_boosted/conclusion.json    |    32 +-
+ .../family_boosted__holdout/conclusion.json        |    30 +-
+ analysis/results/family_hierNB/conclusion.json     |    32 +-
+ .../conclusion.json                                |    32 +-
+ .../conclusion.json                                |    32 +-
+ .../results/family_hierNB__holdout/conclusion.json |    30 +-
+ .../results/features_richCalendar/conclusion.json  |    32 +-
+ .../features_richCalendar__holdout/conclusion.json |    30 +-
+ .../results/fitTime_refitAtPredict/conclusion.json |    32 +-
+ .../conclusion.json                                |    30 +-
+ .../results/head_quantileEnsemble/conclusion.json  |    32 +-
+ .../head_quantileEnsemble__holdout/conclusion.json |    30 +-
+ analysis/results/main/conclusion.json              |    32 +-
+ analysis/results/main__holdout/conclusion.json     |    30 +-
+ .../observation_negBinomial/conclusion.json        |    32 +-
+ .../conclusion.json                                |    30 +-
+ .../observation_zeroInflated/conclusion.json       |    32 +-
+ .../conclusion.json                                |    30 +-
+ .../persistence_negBinomialFloor/conclusion.json   |    34 +-
+ .../conclusion.json                                |    30 +-
+ .../results/popColumn_backCast/conclusion.json     |    34 +-
+ .../popColumn_backCast__holdout/conclusion.json    |    28 +-
+ .../results/population_covariate/conclusion.json   |    32 +-
+ .../population_covariate__holdout/conclusion.json  |    30 +-
+ .../results/population_ignored/conclusion.json     |    32 +-
+ .../population_ignored__holdout/conclusion.json    |    30 +-
+ .../provinces_mergeVientiane/conclusion.json       |    34 +-
+ .../conclusion.json                                |    32 +-
+ .../conclusion.json                                |    32 +-
+ .../conclusion.json                                |    32 +-
+ .../conclusion.json                                |    32 +-
+ .../conclusion.json                                |    32 +-
+ .../conclusion.json                                |    32 +-
+ .../conclusion.json                                |    32 +-
+ .../provinces_reportingOnly/conclusion.json        |    34 +-
+ .../conclusion.json                                |    32 +-
+ .../conclusion.json                                |    32 +-
+ .../conclusion.json                                |    32 +-
+ .../conclusion.json                                |    32 +-
+ .../conclusion.json                                |    32 +-
+ .../conclusion.json                                |    32 +-
+ .../conclusion.json                                |    32 +-
+ .../results/retrain_everySplit/conclusion.json     |    34 +-
+ .../retrain_everySplit__holdout/conclusion.json    |    32 +-
+ .../trainingWindow_from2004/conclusion.json        |    34 +-
+ .../conclusion.json                                |    32 +-
+ .../results/weighting_crpsWeighted/conclusion.json |    32 +-
+ .../conclusion.json                                |    32 +-
+ .../conclusion.json                                |    30 +-
+ .../conclusion.json                                |    28 +-
+ .../results/yearVariance_shared/conclusion.json    |    32 +-
+ .../yearVariance_shared__holdout/conclusion.json   |    30 +-
+ 2118 files changed, 523657 insertions(+), 523370 deletions(-)

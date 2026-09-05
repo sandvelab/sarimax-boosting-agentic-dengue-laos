@@ -642,6 +642,14 @@ made.
 | **Thailand's late years, and a second model developed against a second country, are named as what would answer the two remaining questions and are not run** | The first would separate "the final year is hard" from "a four-split backtest is noisier than an eight-split one"; the second would separate optimisation from country. Both are outside what the plan asks of batch 20, and `AGENTS.md` §4 requires an absence to be a visible decision | agent-autonomous |
 
 
+### 2026-09-05 — settled by the human, on batch 19's release scan
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **`Archive/case-source-material/` and `Archive/plan-as-delivered/` are released under a standard Creative Commons licence** | The release scan found them the only two archived directories with no licence statement, and they hold the manuscript this project is the worked case for, the TrustAgentic proposal and its supplement, and the plan as delivered — the human's own unpublished documents. `/release` forbids publishing a subset and mentioning it afterwards, so the question had to be answered before anything could be pushed. The answer settles the data-permission half of the scan for the whole repository: the Lao and sibling datasets are public and redistributable, the World Bank series is CC BY 4.0, and these two are now stated | human-set |
+| **The absolute home-directory path stays in the run logs, and is fixed in the two scripts that hardcode it** | The scan found 3 939 occurrences in 348 tracked files. **3 927 of them are in `.log` files**, which are records of the commands that were actually issued — and those commands did contain absolute paths, because the driver constructs them. Writing `~` into a log would be writing down a command that was not the command run. Rewriting them would also edit files the agent produced, invalidate 31 `.sha256` manifests and 113 recorded digests, and make the next clean-room report 348 spurious differences. The remaining twelve are different: **two are in source code** — `run_cleanroom.sh` and `cleanroom_compare.py` each hardcode this machine's repository path as a constant — and that is a portability defect rather than a disclosure, in the one harness a reader would most want to re-run. Both are derivable from the script's own location and are fixed. The exposure that remains is a local account name and a folder layout in log files, which is not a credential | agent-on-human-assessment |
+
+
 ## 5. How this plan is executed
 
 **One batch per invocation.** `/do 26-08-22_dengueForecastingCase` runs the **next open batch**

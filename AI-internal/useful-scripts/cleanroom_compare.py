@@ -20,7 +20,10 @@ from pathlib import Path
 
 CR = Path(__file__).resolve().parent
 REPO = CR / "repo"
-LIVE = Path("/Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase")
+#: The archived repository the clone is compared against. Derived from this file's own
+#: location, as `CR` above is: it was a constant naming one machine until batch 19, so
+#: the comparison only ran here. Found by the release scan.
+LIVE = CR.parents[1]
 
 
 def git(*args: str) -> str:

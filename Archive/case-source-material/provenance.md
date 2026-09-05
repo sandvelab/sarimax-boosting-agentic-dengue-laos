@@ -73,3 +73,23 @@ in the originating vault.
 filename `26-07-24_trustAgenticProject_v6_supplementary.md`. Note the version mismatch with
 the main text: the supplement was last revised at iteration 6 and the main text at 7. The
 supplement's §S5 repeats the main text's references [1]–[8] alongside a fuller list.
+
+---
+
+## Licence and governance — settled 2026-09-05
+
+```
+licence/governance:  Creative Commons. Released with the repository under a standard
+                     Creative Commons licence, set by the human on 2026-09-05 in answer to
+                     batch 19's release scan (plan §4b).
+```
+
+**Why it had to be asked.** The scan found this the only directory besides
+`../plan-as-delivered/` with no licence statement, and it holds documents that are the
+human's and unpublished: the manuscript this project is the worked case for, the TrustAgentic
+proposal and its supplement. `/release` forbids publishing a subset and mentioning it
+afterwards, so nothing could be pushed until the question was answered. `tenSimpleRules2013.md`
+is a markdown conversion of a published article and the note above it stands: for the
+authoritative text, use the published article.
+
+**agency:** human-set.

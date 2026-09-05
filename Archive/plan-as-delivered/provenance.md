@@ -20,3 +20,18 @@ against the plan's delivered size of 28,588 bytes.
 
 The live plan is not a copy of this file and is expected to diverge from it. To reproduce
 the divergence, see `README.md` beside this file.
+
+---
+
+## Licence and governance — settled 2026-09-05
+
+```
+licence/governance:  Creative Commons. Released with the repository under a standard
+                     Creative Commons licence, set by the human on 2026-09-05 in answer to
+                     batch 19's release scan (plan §4b).
+```
+
+The plan as delivered is the human's own document and the baseline the reported plan drift is
+measured against, so it is published with the repository rather than held back.
+
+**agency:** human-set.

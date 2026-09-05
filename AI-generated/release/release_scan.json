@@ -1,8 +1,8 @@
 {
   "what_this_is": "the safety scan Rule 10 requires before anything here becomes public: credentials in the working tree and in the history, credential files by name, personal information that is not a credential, and what each archived dataset says about its own licence",
-  "scanned_at_commit": "25470499a",
+  "scanned_at_commit": "1e0f6f790",
   "working_tree": {
-    "files_scanned": 4799,
+    "files_scanned": 4840,
     "credential_hits": [],
     "credential_filenames": [],
     "files_containing_the_home_directory_path": {
@@ -42,9 +42,9 @@
       "AI-generated/validation/26-09-04_cleanroom-artefacts/log_yearVariance_shared.log": 17,
       "AI-generated/validation/26-09-04_cleanroom-artefacts/run.log": 20,
       "AI-generated/validation/26-09-04_cleanroomTier2Drift.json": 2,
+      "AI-generated/validation/26-09-05_cleanroom-artefacts/install_env.log": 6,
+      "AI-generated/validation/26-09-05_cleanroom-artefacts/run.log": 22,
       "AI-generated/vertical-slice/persistence_development_eval.log": 5,
-      "AI-internal/useful-scripts/cleanroom_compare.py": 1,
-      "AI-internal/useful-scripts/run_cleanroom.sh": 1,
       "analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/climatology_frozenWindow/eval.log": 9,
       "analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/climatology_frozenWindow__holdout/eval.log": 9,
       "analysis/03_models/01_baselines/01_persistence/a_empiricalChange/results/main/eval.log": 9,
@@ -355,31 +355,31 @@
       "analysis/06_external/results/logs/main__vnm.log": 38,
       "analysis/06_external/results/logs/main__vnmFinal.log": 28
     },
-    "occurrences_of_the_home_directory_path": 3939,
+    "occurrences_of_the_home_directory_path": 3965,
     "email_addresses": {
       "geirksa@ifi.uio.no": [
+        "AI-generated/release/release_scan.json",
         "Archive/case-source-material/tenSimpleRules2013.md"
       ],
       "knut.rand@dhis2.org": [
         "AI-generated/method-reconnaissance/ewars_service_info.json",
+        "AI-generated/release/release_scan.json",
         "analysis/03_models/02_reference/results/main/service_info.json",
         "analysis/03_models/02_reference/results/main__holdout/service_info.json",
         "analysis/03_models/02_reference/results/main__tha/service_info.json",
         "analysis/03_models/02_reference/results/main__thaFinal/service_info.json",
         "analysis/03_models/02_reference/results/main__vnm/service_info.json",
-        "analysis/03_models/02_reference/results/main__vnmFinal/service_info.json",
-        "analysis/03_models/02_reference/results/popColumn_backCast/service_info.json"
+        "analysis/03_models/02_reference/results/main__vnmFinal/service_info.json"
       ]
     }
   },
   "history": {
-    "blobs_scanned": 8875,
-    "credential_hits": []
+    "skipped": true
   },
   "data_governance": {
     "Archive/case-source-material": {
       "has_provenance": true,
-      "licence_or_governance": null,
+      "licence_or_governance": "Creative Commons. Released with the repository under a standard Creative Commons licence, set by the human on 2026-09-05 in answer to batch 19's release scan (plan \u00a74b).",
       "files": 7
     },
     "Archive/lao-dataset": {
@@ -394,7 +394,7 @@
     },
     "Archive/plan-as-delivered": {
       "has_provenance": true,
-      "licence_or_governance": null,
+      "licence_or_governance": "Creative Commons. Released with the repository under a standard Creative Commons licence, set by the human on 2026-09-05 in answer to batch 19's release scan (plan \u00a74b).",
       "files": 3
     },
     "Archive/sibling-datasets": {

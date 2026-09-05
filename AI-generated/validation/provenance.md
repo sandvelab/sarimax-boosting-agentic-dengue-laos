@@ -674,3 +674,46 @@ harness refuses to start against an uncommitted one.
 
 agency: agent-autonomous.
 information: agent-retrieved.
+
+---
+
+## `26-09-05_cleanroom.md` and `26-09-05_cleanroom-artefacts/` — the run with 06_external in it
+
+```
+result:       AI-generated/validation/26-09-05_cleanroom.md
+              AI-generated/validation/26-09-05_cleanroom-artefacts/   (35 files)
+              AI-generated/validation/26-09-05_cleanroomPhaseEAnswer.json
+harness:      AI-internal/useful-scripts/run_cleanroom.sh
+comparison:   AI-internal/useful-scripts/cleanroom_compare.py
+              sha256:27e0ab124e6657c6321e66bd3cffdbd53422f37e79e75985a08561e9e35d40ce
+              AI-internal/useful-scripts/cleanroom_phase_e_answer.py
+invocation:   nohup caffeinate -ims bash AI-internal/useful-scripts/run_cleanroom.sh
+              then .venv/bin/python AI-internal/useful-scripts/cleanroom_compare.py
+inputs:       a git clone of the repository at commit 6d6ad7c, with environment/chapenv
+              built from environment/lock.txt by environment/install-chap.sh
+environment:  the clone's own environment/ (CPython 3.13.0, chap-core==2.1.0, 174 packages),
+              built from nothing; Docker for the pinned amd64 reference image
+seeds:        unchanged. Our models derive their component seeds from the project seed; the
+              reference is unseeded and is what moved.
+commit:       1e0f6f7
+instructions-commit: 595c32d (AGENTS.md, CLAUDE.md, .claude/)
+node:         not a node — a check on the method
+produced:     2026-09-05
+exit status:  0, after 53 514 s (891 min)
+agency:       agent-autonomous
+```
+
+**What it establishes.** The reported pool returns 18.816872064690028 on development and
+76.73108261979166 on the held-out year, digit for digit, from a checkout that built its own
+environment. Across the tree's leaderboards, **207 of 207 scores from models this project
+wrote are identical** and 340 of 345 reference scores are not. 2 511 of 4 790 tracked files
+came back byte-identical.
+
+**Why the elapsed time is not a property of the analysis.** The agent ran the external check,
+two outsider agent sessions, a release scan over 8 875 git blobs and a hierarchical-report
+build on the same host while an emulated amd64 container was the run's bottleneck. Measured:
+7 rows in the first nine hours, 17 in the hour after the agent went quiet. Batch 31's
+comparable figure is 11.6 h for a tree without the external check.
+
+**The scratch clone is gitignored rather than deleted by hand**, since batch 19. It was
+removed after the artefacts were copied out.

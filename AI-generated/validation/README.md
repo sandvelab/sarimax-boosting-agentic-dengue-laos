@@ -105,3 +105,13 @@ here.
   omission across five of six reported analyses, two yardsticks that disagree, three
   provenance gaps and one defect in forty committed files. `/validate invariants` passed
   before and after all of it.
+- `26-09-05_cleanroom.md` — batch 19, the fifth `/validate cleanroom` run and the second to
+  finish. **`analysis/run.sh` exited 0 from a clean checkout in 14.87 h with
+  `analysis/06_external` in the tree**, which is what the reproducibility report named as the
+  one thing batch 31's verification did not cover. 552 model-combination scores compared:
+  **207 from models this project wrote came back identical and none moved**, against 340 of
+  345 reference scores that did. All four recorded-decision defences held from cold, each
+  against a fresh draw that disagreed with the record — including batch 20's external plan,
+  on its first cold test. **And it withdrew a claim**: batch 20's "all three drops are larger
+  than the two reference bands together" came back false for Laos and for Thailand. Its
+  figures are in `26-09-05_cleanroom-artefacts/` and `26-09-05_cleanroomPhaseEAnswer.json`.

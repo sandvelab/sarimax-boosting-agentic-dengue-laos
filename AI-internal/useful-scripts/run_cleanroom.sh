@@ -8,7 +8,11 @@
 set -uo pipefail
 
 CR="$(cd "$(dirname "$0")" && pwd)"
-SRC="/Users/geirksa_1_2_3/ai/special-purpose vaults/ReprodicbleAgenticAiCase"
+# The repository to clone: this script lives two levels inside it, so the path is
+# derived rather than named. It was a constant naming one machine until batch 19, which
+# meant the one harness a reader most wants to re-run only ran here. Found by the
+# release scan.
+SRC="$(cd "$CR/../.." && pwd)"
 export PATH="$HOME/.local/bin:$PATH"
 
 log() { echo "[$(date -u +%H:%M:%SZ)] $*"; }

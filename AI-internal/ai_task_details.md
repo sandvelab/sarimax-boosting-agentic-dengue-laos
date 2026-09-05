@@ -2648,3 +2648,80 @@ the same measurement gives 0.032 on Thailand and 7.082 on Vietnam.
 
 Fixed in passing, while updating the same index: the plan's reports section had no entry for
 batch 28.
+
+## T31 — batch 19: the case, the report, and the release that waits (2026-09-05)
+
+### What happened
+
+The last batch the plan named, and it produced all three of its deliverables and then declined
+to take the fourth step. The case write-up, the reproducibility report and the release are
+done; **the push is not**, because batch 19's own outsider check found a defect in forty
+committed files and a release must not claim more than its checks support.
+
+### The three deliverables
+
+**The case write-up** (`Human-AI-collaboration/manuscript/26-09-05_illustratingCase.md`) is
+the document that could be lifted into the manuscript's *An illustrating case* section, and it
+supplies what that paper's Appendix supplies for the case this one replaces: the worked
+claim-tree skeleton in dengue terms, the seventeen forks in four families, and the judgment
+about where this setup was more trouble than it was worth. Written through Rule 9's two steps,
+with a sidecar mapping every passage to its claims or to what kind of statement it is instead
+— design, record, or judgment.
+
+**The reproducibility report** has ten entries under *what does not hold*, four of them found
+while writing it. Every count comes from `repro_inventory.py`, and writing that script caught
+two things the report would have got wrong: walking `AI-internal/useful-scripts/` counted the
+clean-room's own clone as 15 078 machinery files, and the claim parser counted the collection's
+fenced example block as a 48th claim with a broken pointer.
+
+**The release** is scanned and assembled. No credential in 4 840 tracked files or 8 875 history
+blobs; all five archived directories carry a licence statement after the human set Creative
+Commons for the two that had none; everything Rule 10 names is present; the 23 paths not taken
+all have an entry point.
+
+### The clean-room, and the claim it withdrew
+
+`analysis/run.sh` exited 0 from a clean checkout in 14.87 h — the first run to reach the end
+with `analysis/06_external` in the tree, which the reproducibility report had named hours
+earlier as the gap in the previous verification.
+
+**207 of 207 scores from models this project wrote came back identical.** 340 of 345 reference
+scores did not. That is the project's central claim with its qualification attached.
+
+**All four defences held from cold**, including batch 20's external plan on its first cold
+test: the cost unit moved from 2.2568 to 2.1505 s/cell, exactly the drift the defence was
+built for.
+
+**And it withdrew batch 20's band clause.** False for Laos (predicted) and false for Thailand
+(not predicted, and for a different reason — its drop halved rather than its band widening).
+Direction, ordering and the sign of the Vietnamese loss survive; the quantification against
+the reference's own noise does not.
+
+### The outsider check
+
+Two agents. **One died to an account spend limit**, and it was the one asked to write into the
+tree — the half that in batch 18 found the freeze rule contradicting the `combos` invariant.
+Recorded as not run.
+
+The other found seven things, of which the two that matter most are:
+
+- **The resolution yardstick had been applied to one number out of six.** The held-out
+  headline is 0.94 standard errors from the reference, below the project's own 1.03 line, and
+  no document said so. C48.
+- **`choose_weighting.py` records a six-member pool where four ran, in 40 of 47 combinations.**
+  Fifth instance of the fork-blindness family. No score moves; the registered prediction is
+  written on a premise the file contradicts.
+
+### What a later session needs
+
+**Batch 32** fixes `choose_weighting.py`, and its defence is built against **this clean-room
+run's own output** — `AI-generated/validation/26-09-05_cleanroom-artefacts/`. That is why it
+was not fixed in batch 19: fixing it while the confirming evidence was still being gathered
+would have thrown the evidence away. Batches 26, 30 and 28 each worked this way.
+
+**Batch 33** creates the remote and pushes. Both human answers are recorded in the plan's §4b
+— Creative Commons for the two archived directories, and the home-directory path staying in
+the run logs — so batch 32 is its only remaining blocker. The agent still asks before the push.
+
+**Unestablished:** whether an outsider following these instructions can still add an
+alternative to the tree. That check has not run since batch 18.

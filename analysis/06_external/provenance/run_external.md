@@ -16,6 +16,7 @@ result:              results/run_status_external.csv
 script:              scripts/run_external.py
                      sha256:aeb1a2988dc9e5e6dfe704c1a7250087afe73a45a8e687b56d618dcd0c6d238d
                      analysis/05_stability/scripts/lib/driver.py
+                     sha256:473d70998a0901d0dbfa657afae92cf0fccac85f16c82e454714962faff41563
                      (builds every step list and executes it; the same library the 32
                      perturbation rows and the held-out year go through)
 invocation:          "$PYTHON" scripts/run_external.py

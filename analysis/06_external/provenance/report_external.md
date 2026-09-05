@@ -17,9 +17,8 @@ inputs:              results/manifest_external.csv
                      analysis/03_models/03_candidate/c_ensemble/results/<combination>/pool_check.json
 environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
 seeds:               none. This reads stored conclusions and arranges them.
-commit:              bfbc096 — the tree the four rows ran from. The script
-                     itself is carried by batch 20's closing commit, which
-                     changed nothing under analysis/ that had already run.
+commit:              bfbc096 — the tree the four rows ran from, and the commit
+                     that carries this script. It has never changed since.
 instructions-commit: 595c32d (AGENTS.md, CLAUDE.md, .claude/)
 node:                analysis/06_external
 produced:            2026-09-04

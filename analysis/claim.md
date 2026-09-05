@@ -97,7 +97,7 @@ itself. It beats both required baselines on all six analyses and the reference o
 
 **What the evaluation can resolve is a property of the country and not of the method.** The
 reference model's four unseeded repeats span 0.032 CRPS on Thailand's development backtest,
-0.565 on Laos's and 7.082 on Vietnam's — a factor of 215 on one model at one configuration.
+0.565 on Laos's and 7.082 on Vietnam's — a factor of 219 on one model at one configuration.
 Vietnam's +0.0852 margin is inside its own noise floor; Thailand's near-identical +0.0856 is
 thirty-five times it. → `06_external/results/external_conclusions.csv`
 

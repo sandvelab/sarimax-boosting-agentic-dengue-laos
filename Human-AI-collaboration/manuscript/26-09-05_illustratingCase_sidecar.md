@@ -97,8 +97,17 @@ scope fields of C42 and C43 carry them.
 | Three countries are not a sample; no confidence statement is made | — | C42's scope field |
 | 1.74 times either sibling's; the siblings agree to 0.0004 and sit 0.063 below Laos | C43 | |
 | The gap is not attributable to development alone | — | C43's scope field |
-| 0.032 / 0.565 / 7.082 CRPS — a factor of 215; Vietnam's margin inside its own floor | C44 | |
+| 0.032 / 0.565 / 7.082 CRPS — a factor of 219; Vietnam's margin inside its own floor | C44 | |
 | Coverage 0.941 and 0.967 on the sibling development backtests | C45 | |
+
+## What the evaluation can separate
+
+| passage | claims | basis |
+|---|---|---|
+| The six standard-error figures, and the 1.03 line | C48, C23 | |
+| Five of six on the wrong side of it | C48 | |
+| The two yardsticks disagree on Vietnam's development row | C44, C48 | |
+| No paired test against the baselines anywhere in the project | — | C48's scope field |
 
 ## The claim tree, worked · The perturbation families
 

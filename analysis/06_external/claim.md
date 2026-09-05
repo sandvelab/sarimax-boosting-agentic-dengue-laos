@@ -67,10 +67,10 @@ dataset, and it is about as large as the whole development-to-final-year drop.
 
 **The reference model's own instability is a property of the country, not of the method.**
 Its four unseeded repeats span **0.032 CRPS on Thailand's development backtest, 0.565 on
-Laos's and 7.082 on Vietnam's** — a factor of **215** across three countries of one
+Laos's and 7.082 on Vietnam's** — a factor of **219** across three countries of one
 harmonisation, on the same model at the same configuration. In skill that is a band of 0.0024, 0.0256 and 0.1230, so Vietnam's +0.0852
 margin sits **inside** the reference's own re-run spread and cannot be attributed to a model
-at all, while Thailand's near-identical +0.0856 is thirty-five times its band. A noise floor
+at all, while Thailand's near-identical +0.0856 is thirty-six times its band. A noise floor
 measured on one dataset says nothing about another.
 → `results/external_conclusions.csv`
 

@@ -299,6 +299,6 @@ re-running a batch produces a different report rather than the same one.
   reference on five. **The country it was developed on is the one it scores highest on**, by
   0.063, while the two it never saw agree to 0.0004. And one finding is about the evaluation
   rather than the model: **the reference's own unseeded re-run spread is 0.032 CRPS on
-  Thailand, 0.565 on Laos and 7.082 on Vietnam**, a factor of 215, so Vietnam's margin sits
+  Thailand, 0.565 on Laos and 7.082 on Vietnam**, a factor of 219, so Vietnam's margin sits
   inside its own noise floor and the project's "nothing below 0.57 CRPS" is a property of the
   Lao dataset rather than of the method. Added no batches; **19 is the only open row**.

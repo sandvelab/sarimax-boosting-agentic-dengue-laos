@@ -345,7 +345,7 @@ alternatives: attributing the whole 0.063 to having developed against Laos, whic
 by: agent-autonomous
 
 ## C44
-What the backtest can resolve is a property of the country rather than of the evaluation. The reference model is unseeded and is scored four times on every dataset; the largest paired difference between two of its repeats is 0.032 CRPS on Thailand's development backtest, 0.565 on Laos's and 7.082 on Vietnam's -- a factor of 215 on one model at one configuration. So Vietnam's +0.0852 margin sits inside the reference's own re-run spread and cannot be attributed to a model at all, while Thailand's near-identical +0.0856 is about thirty-five times its band.
+What the backtest can resolve is a property of the country rather than of the evaluation. The reference model is unseeded and is scored four times on every dataset; the largest paired difference between two of its repeats is 0.032 CRPS on Thailand's development backtest, 0.565 on Laos's and 7.082 on Vietnam's -- a factor of 219 on one model at one configuration. So Vietnam's +0.0852 margin sits inside the reference's own re-run spread and cannot be attributed to a model at all, while Thailand's near-identical +0.0856 is about thirty-six times its band.
 grounds: analysis/06_external/results/external_conclusions.csv
 node: analysis/06_external
 scope: one draw of four repeats per dataset; the band is itself a draw, which is why it is reported per dataset and never carried from one to another
@@ -372,4 +372,12 @@ The cost model's total was wrong on the external check in the direction its two 
 grounds: analysis/06_external/results/external_cost_planned_vs_actual.json · analysis/06_external/results/external_plan.json · analysis/05_stability/results/holdout_cost_planned_vs_actual.json
 node: analysis/06_external
 scope: four rows; the estimate was committed before any of them ran, and nothing was cut because 3.14 hours was inside the six-hour budget
+by: agent-autonomous
+
+## C48
+The margin that the evaluation cannot separate is the usual case rather than the exception, and it applies to the held-out headline this project reports. Measured as the paired per-cell difference over its split-clustered standard error, the reported model stands 1.90 standard errors from the reference on the Lao development backtest, 0.94 on the Lao held-out year, 3.62 and 1.45 on the two sibling development backtests, and 0.97 and 0.49 on the two sibling final years. This project's own line for the case arriving in practice is 1.03, so five of the six analyses are on the wrong side of it -- including the held-out result the project reports as beating the reference, and including the Vietnamese final year it reports as a loss.
+grounds: analysis/results/main/conclusion.json · analysis/results/main__holdout/conclusion.json · analysis/06_external/results/external_conclusions.csv
+node: analysis/04_score/03_compare
+scope: the paired comparison against the reference model only; there is no equivalent paired test against the required baselines anywhere in the project, so beats_all_baselines is a comparison of two means with no spread attached
+alternatives: reporting the six skill scores without their resolution, which is what every summary document in this project did until the outsider check of 2026-09-05 asked for it -- the standard-error yardstick had been applied to exactly one number, the development headline
 by: agent-autonomous

@@ -218,9 +218,13 @@ about 2010 in particular.
 
 **It replicates.** Thailand +0.0856 → +0.0197; Vietnam +0.0852 → **−0.0862**; against Laos's
 +0.1485 → +0.0868. All three drops are larger than the two reference bands they are measured
-against, taken together. Three countries of one harmonisation are not a sample and no
-confidence statement is made from them — but the drop is a thing that happens repeatedly
-rather than a thing that happened once.
+against, taken together — though for Laos that clause is draw-dependent and is stated as
+such: the Lao drop clears its band sum by 0.0207, and this project has drawn the Lao
+development band four times at 0.0218, 0.0431, 0.0349 and 0.0483, on the largest of which
+the clause is false. Thailand clears by 0.0588 and Vietnam by 0.0418, and neither is close.
+Three countries of one harmonisation are not a sample and no confidence statement is made
+from them — but the drop is a thing that happens repeatedly rather than a thing that happened
+once.
 
 **The country the model was developed on is the country it scores highest on.** Its Lao
 development skill is 1.74 times either sibling's, and the two siblings — which have nothing
@@ -232,7 +236,7 @@ dataset bought on that dataset.
 
 **And one finding is about the evaluation rather than the model.** The reference's own
 unseeded re-run spread is **0.032 CRPS on Thailand's development backtest, 0.565 on Laos's
-and 7.082 on Vietnam's** — a factor of 215 on one model at one configuration. Vietnam's
+and 7.082 on Vietnam's** — a factor of 219 on one model at one configuration. Vietnam's
 +0.0852 margin falls *inside* its own noise floor, so on that dataset the comparison this
 project is built on cannot be made at all; Thailand's near-identical +0.0856 is thirty-five
 times its band. A resolution measured on one dataset says nothing about another, and this
@@ -240,6 +244,40 @@ project had been quoting one number as though it were a property of the method.
 
 **The over-dispersion travels and grows**: 10–90 coverage 0.941 and 0.967 on the sibling
 development backtests against 0.863 on Laos's.
+
+## What the evaluation can separate, on all six analyses
+
+The margin the evaluation cannot separate is the usual case here rather than the exception,
+and saying so of every analysis rather than of one is a correction this project made to
+itself at the end.
+
+| analysis | skill | paired difference / split-clustered SE | separated? |
+|---|---|---|---|
+| Laos, development | +0.1485 | **1.90** | the largest margin the project has, and still short |
+| Laos, held-out year | +0.0868 | **0.94** | **no** |
+| Vietnam, development | +0.0852 | 3.62 | yes on this yardstick, no on the other |
+| Vietnam, final year | −0.0862 | **0.97** | **no** |
+| Thailand, development | +0.0856 | 1.45 | no |
+| Thailand, final year | +0.0197 | **0.49** | **no** |
+
+The project's own line for "cannot separate arriving in practice" is 1.03 standard errors,
+set when a candidate landed there during development. **Five of the six analyses are on the
+wrong side of it — including the held-out result reported as beating the reference, and
+including the Vietnamese final year reported as a loss.** Neither of those two sentences is
+wrong; both were, until this table, unaccompanied.
+
+**Two yardsticks, and they disagree.** Vietnam's development row is 3.62 standard errors from
+the reference and simultaneously inside the reference's own re-run spread, because that
+spread is driven by one repeat of four sitting 12 % above the others. A paired standard error
+asks whether the difference is large relative to how it varies across splits; a re-run spread
+asks whether it is large relative to how much the comparator moves against itself. On this
+row they give opposite answers, and both are reported.
+
+**And there is no equivalent test against the baselines.** `beats_all_baselines` is a
+comparison of two means with no standard error attached, anywhere in the project. The margins
+are large — 15 to 21 CRPS on the Vietnamese final year against a 0.5 noise floor — but the
+project computed a paired spread only against the reference, so the strongest-sounding of its
+results is the one with the least uncertainty attached to it.
 
 ---
 
@@ -442,7 +480,9 @@ and not of this project's use of it.
 
 **Nothing here reaches statistical significance and nothing pretends to.** The largest margin
 the project achieved is 1.90 standard errors, on a backtest whose resolution is a property of
-the pair being compared rather than of the dataset.
+the pair being compared rather than of the dataset — and five of the six analyses, the
+held-out headline among them, are below the project's own 1.03 line for the case where two
+models cannot be separated.
 
 **One held-out year, four splits.** Roughly 216 province-months. The external check gives two
 more countries but not more years.

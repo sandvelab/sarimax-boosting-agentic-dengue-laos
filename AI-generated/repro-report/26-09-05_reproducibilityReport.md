@@ -7,7 +7,7 @@ what does not hold.
 Every count below is read from `repro_inventory.json` beside this file, written by
 `AI-internal/useful-scripts/repro_inventory.py` at commit `922506bb8`. Nothing here was
 counted by eye. Figures about the analysis itself are read from the claim collection, whose
-47 claims each name the stored result grounding them.
+48 claims each name the stored result grounding them.
 
 ---
 
@@ -67,8 +67,8 @@ none, to what kind of statement it is instead: *design*, grounded in the plan an
 `AGENTS.md`; *record*, grounded in the batch reports; or *judgment*, which is the agent's
 opinion and is labelled as such.
 
-**Claim → result.** **47 claims**, with **107 grounding paths between them, all 107 of which
-resolve** to files that exist. Two claims are `agent-on-human-assessment` and forty-five are
+**Claim → result.** **48 claims**, with **110 grounding paths between them, all of which
+resolve** to files that exist. Two claims are `agent-on-human-assessment` and the rest are
 `agent-autonomous`.
 
 **Result → provenance record.** **84 records covering 240 recorded runs**, naming **271
@@ -138,7 +138,7 @@ instability.
   not about 2010 in particular.
 - **What the evaluation can resolve is a property of the country.** The reference model's own
   unseeded re-run spread is 0.032 CRPS on Thailand's development backtest, 0.565 on Laos's
-  and 7.082 on Vietnam's — a factor of 215 — and on Vietnam our own margin falls inside it.
+  and 7.082 on Vietnam's — a factor of 219 — and on Vietnam our own margin falls inside it.
 
 **What was left unexplored, and why.** Nothing was cut for budget: the development manifest
 cost 3.66 hours, the held-out half 2.39 and the external check 1.81, against budgets of 12
@@ -230,6 +230,40 @@ now holds ten entries whose agency field is something else — compound labels l
 one of them is more informative than the three-value vocabulary allows, and every one falls
 out of the counts in §4, which are therefore over 247 entries rather than 257. The right fix
 is a richer vocabulary; it was not applied at the end of the project.
+
+**The resolution yardstick was applied to one number out of six, and the five it was not
+applied to are the ones it would have qualified.** Measured as the paired difference over its
+split-clustered standard error, the reported model stands 1.90 standard errors from the
+reference on the Lao development backtest — and **0.94 on the Lao held-out year, 0.97 on the
+Vietnamese final year it reports as a loss, 0.49 on the Thai final year, and 1.45 on the Thai
+development backtest**. This project's own line for "cannot separate, arriving in practice"
+is 1.03. Every summary document reported those five skill scores without their resolution
+until the outsider check of 2026-09-05 asked for it; the table is now in the case write-up
+and the figures are C48.
+
+**Two resolution yardsticks are in use and they disagree on one row.** Vietnam's development
+margin is 3.62 standard errors from the reference and simultaneously inside the reference's
+own re-run spread. Both are reported; nothing in the project had noticed they answer
+differently.
+
+**`beats_all_baselines` has no uncertainty attached anywhere in the project.** The comparison
+code pairs every model against the reference only. The baseline margins are large enough that
+this almost certainly does not change a conclusion, and "almost certainly" is doing work that
+a computed spread would not have needed to do.
+
+**A recorded premise contradicts the model it describes, in 40 of 47 combinations.** The node
+that registers the equal-weighting prediction builds its statement of what the pool will
+contain from an unfiltered glob over model contract directories, so since batch 22 added a
+second child to each baseline fork it has recorded a **six-member pool at 1/6 each with 2/3
+of its mass on required baselines**. The pool that ran is four members at 1/4 with half its
+mass on baselines, and the run log prints both statements two lines apart. **No score moves**
+— the field that reaches the model configuration is unaffected — but the registered
+prediction is written on a premise the file itself contradicts, and re-running one main-path
+step of the reported analysis rewrites a committed file for a reason that has nothing to do
+with the unseeded reference. It is the fifth instance of the fork-blindness this project has
+now found five times, and it is carried as a new batch rather than fixed at the end of this
+one, so that the clean-room run in flight supplies the independent confirmation the previous
+four fixes were each built against.
 
 **Nothing here reaches statistical significance and nothing pretends to.** The largest margin
 the project achieved is 1.90 standard errors. The held-out year is roughly 216

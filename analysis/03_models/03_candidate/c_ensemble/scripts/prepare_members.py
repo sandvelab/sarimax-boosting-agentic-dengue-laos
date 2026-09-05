@@ -4,16 +4,19 @@ Candidate 3 is a pool over the models this project already has, and the one thin
 not do is contain copies of them. So this step does not describe the members — it
 **discovers** them, and writes down where they are:
 
-* every Chap contract directory in `03_models` that is not this node's own is a **candidate**
-  member, found by globbing for `MLproject`. A model added to the tree joins the pool by
-  existing, and a model removed from it leaves by the same route. **One of them is a member
-  per model, not per directory**: from batch 22 the glob finds two contracts for the
-  persistence baseline and two for climatology, because how uncertainty is wrapped around a
-  point baseline is a fork with two published answers. Every alternatives fork above a
-  contract is therefore resolved and only the child this combination takes is a member —
-  except the family fork, whose children are the candidate families this node exists to
-  pool. `member_selection.json` records the resolution; a doubled member name is a hard
-  failure rather than a silently doubled weight;
+* **which models the pool contains** is decided by `03_models/scripts/lib/pool_shape.py`
+  and not here. Every Chap contract directory in `03_models` that is not this node's own is
+  a candidate member, found by globbing for `MLproject`; a model added to the tree joins
+  the pool by existing, and a model removed from it leaves by the same route. **One of them
+  is a member per model, not per directory**: from batch 22 the glob finds two contracts for
+  the persistence baseline and two for climatology, because how uncertainty is wrapped
+  around a point baseline is a fork with two published answers. Every alternatives fork
+  above a contract is therefore resolved and only the child this combination takes is a
+  member — except the family fork, whose children are the candidate families this node
+  exists to pool. `member_selection.json` records the resolution; a doubled member name is a
+  hard failure rather than a silently doubled weight. The rule is a library because the
+  weighting child one node down registers the same answer as its specification before the
+  pool runs, and until batch 32 it computed its own and had been wrong since batch 22;
 * each member's `train` and `predict` command lines are copied out of its own `MLproject`,
   so the pool talks to its members through the platform's contract rather than through an
   interface invented here;
@@ -38,7 +41,11 @@ obscurely:
   subprocess three layers down. The pins are compared here, at the top;
 * **exactly one child of each of a family's forks has a configuration under this
   combination.** That is the family assembler's own invariant, and it is inherited by
-  running that assembler rather than by reimplementing it.
+  running that assembler rather than by reimplementing it;
+* **the weighting child's registered premise names the members about to run.** With equal
+  weights a member count *is* a weight, so a specification on disk that describes a
+  different pool is a model contradicted by its own document. See
+  `check_the_registered_premise`.
 
 Writes, under results/$COMBO/:
   members.json            the pool's membership: nodes, contract directories, entry
@@ -75,13 +82,14 @@ MODELS = ROOT / "analysis" / "03_models"
 PYTHON = ROOT / "environment" / "chapenv" / "bin" / "python"
 OURS = NODE / "scripts" / "ensemble_model"
 
-# The one alternatives fork whose children are all members. Every other fork above a
-# contract directory chooses between constructions of *one* member, and the pool takes
-# the child this combination takes; see `on_this_combinations_path`.
-FAMILY_FORK = MODELS / "03_candidate"
-
 sys.path.insert(0, str(ROOT / "analysis" / "scripts" / "lib"))
+sys.path.insert(0, str(MODELS / "scripts" / "lib"))
 from combos import resolve_glob  # noqa: E402
+# Which contracts exist and which of them this combination's pool contains. It is a
+# library and not this file's own code because the weighting child one node down has to
+# register the same answer before the pool runs, and for three batches it computed its
+# own -- see `pool_shape.py`'s opening paragraphs.
+import pool_shape  # noqa: E402
 
 DEPENDENCY = re.compile(r'"\s*([A-Za-z0-9_.-]+)\s*==\s*([^"\s]+)\s*"')
 
@@ -131,80 +139,6 @@ def run(command: list[str], where: str) -> None:
         print(f"    {line}")
 
 
-def field(text: str, key: str) -> str | None:
-    m = re.search(rf"^{re.escape(key)}:\s*(.*)$", text, re.M)
-    value = m.group(1).strip() if m else ""
-    return value or None
-
-
-def alternatives_above(node: Path) -> list[tuple[Path, str]]:
-    """Every alternatives fork between `03_models` and `node`, with the child node sits in."""
-    out: list[tuple[Path, str]] = []
-    current = node
-    while current != MODELS and MODELS in current.parents:
-        parent = current.parent
-        claim = parent / "claim.md"
-        if claim.exists() and field(claim.read_text(), "kind") == "alternatives":
-            out.append((parent, current.name))
-        current = parent
-    return out
-
-
-def taken_child(fork: Path) -> tuple[str, str]:
-    """The child of `fork` this combination scores, and how that was resolved.
-
-    Whichever child has a `model_spec.json` under this combination, else under the base
-    one, else the child the fork's `claim.md` names as its main path. The first two
-    answers come from `resolve_glob`, which is the same lookup every other combination-
-    aware step in the project uses, so a fork is resolved here exactly as `04_score`
-    resolves it -- one rule, not two that can disagree about which model ran.
-    """
-    found, where = resolve_glob(fork, "*/results/{combo}/model_spec.json")
-    children = sorted({p.parents[2].name for p in found})
-    if len(children) > 1:
-        raise SystemExit(
-            f"{fork.relative_to(ROOT)}: {children} all have results under "
-            f"{where!r}. Exactly one child of a fork is on any one combination's path, "
-            f"and the pool cannot decide which of two constructions of one member it "
-            f"contains.")
-    if children:
-        return children[0], f"has results under {where!r}"
-    main = field((fork / "claim.md").read_text(), "main-path")
-    if not main:
-        raise SystemExit(f"{fork.relative_to(ROOT)} has no main path and no child with "
-                         f"results under {COMBO!r}; the pool cannot resolve it")
-    return main, "the fork's main path; no child has results under this combination"
-
-
-def on_this_combinations_path(owner: Path) -> tuple[bool, list[dict]]:
-    """Whether this contract is the member the combination takes, and the forks it passed.
-
-    **The pool contains one model per member, not one per contract directory.** Discovery
-    globs for `MLproject`, and from batch 22 that glob finds two contracts for the
-    persistence baseline and two for climatology -- the two published constructions of
-    each, which are the children of a fork. Taking both would put two persistence models
-    in a pool whose claim is that it pools *the* persistence baseline, and would do it
-    silently, under every combination including `main`.
-
-    So every alternatives fork above a contract is resolved and only the child this
-    combination takes is a member. The one exception is the family fork itself, whose
-    children are the candidate families: pooling those is what this node is for, and they
-    are members precisely because they are siblings under it.
-    """
-    passed = []
-    for fork, child in alternatives_above(owner):
-        if fork == FAMILY_FORK:
-            passed.append({"fork": str(fork.relative_to(ROOT)), "child": child,
-                           "resolved_by": "the family fork: every child of it is a member"})
-            continue
-        taken, how = taken_child(fork)
-        passed.append({"fork": str(fork.relative_to(ROOT)), "child": child,
-                       "taken": taken, "resolved_by": how})
-        if taken != child:
-            return False, passed
-    return True, passed
-
-
 def ensure_configuration(owner: Path) -> Path:
     """The member family's assembled configuration for this combination, produced if absent.
 
@@ -238,7 +172,7 @@ def ensure_configuration(owner: Path) -> Path:
             print(f"    {fork.name}: {sorted(p.parents[2].name for p in found)} "
                   f"already chosen under {where!r}")
             continue
-        main = field((fork / "claim.md").read_text(), "main-path")
+        main = pool_shape.field((fork / "claim.md").read_text(), "main-path")
         if not main:
             raise SystemExit(f"{fork} has no main path; the pool cannot configure "
                              f"{owner.name} from it")
@@ -251,25 +185,63 @@ def ensure_configuration(owner: Path) -> Path:
     return configuration
 
 
+def check_the_registered_premise(member_nodes: list[str]) -> None:
+    """The weighting child's premise names the members the pool is about to be built from.
+
+    An equally weighted pool's specification *is* its membership -- how many members there
+    are is the weight each one carries -- so the child registers it before the pool runs
+    and this is where the two meet. Since batch 32 both come from `pool_shape.selection()`
+    and cannot differ within one run; what this catches is the other way for them to
+    differ, which is the one that actually happened: a **committed** specification written
+    when the tree had a different shape, still on disk, describing a pool that is not the
+    one about to run. Batch 22 gave two baselines a second construction each and forty
+    specifications went on saying six members at 1/6 for ten days.
+
+    Only a specification found under this combination itself is checked. One resolved
+    through `COMBO_BASE` was written for the base combination's pool, and a combination
+    that moved a baseline fork has a different membership from its base by design.
+
+    A child that registers no membership -- `b_crpsWeighted`, whose premise is about the
+    validation period and not about the count -- has nothing to disagree with.
+    """
+    found, where = resolve_glob(NODE / "01_weighting",
+                                "*/results/{combo}/model_option_spec.json")
+    if where != COMBO:
+        return
+    for path in found:
+        registered = json.loads(path.read_text()).get("premise", {}).get("members")
+        if registered is None:
+            continue
+        if registered != member_nodes:
+            raise SystemExit(
+                f"{path.relative_to(ROOT)} registers a pool of {len(registered)} "
+                f"members and the pool about to run has {len(member_nodes)}:\n"
+                f"  registered {registered}\n"
+                f"  running    {member_nodes}\n"
+                f"The weighting child's premise is its specification -- with equal "
+                f"weights the member count is the weight -- so this is a model "
+                f"described by a document it contradicts. Re-run "
+                f"01_weighting/a_equal/run.sh under this combination; if that does not "
+                f"settle it, the two are no longer computing membership the same way "
+                f"and the cause is in pool_shape.py, not here.")
+
+
 def main() -> None:
     out = NODE / "results" / COMBO
     out.mkdir(parents=True, exist_ok=True)
 
     ours = pins(OURS)
     members, covariates = [], []
-    selection: list[dict] = []
-    for contract_path in sorted(MODELS.glob("**/scripts/*/MLproject")):
-        model_dir = contract_path.parent
-        if OURS in [model_dir, *model_dir.parents] or model_dir == OURS:
-            continue
-        contract = yaml.safe_load(contract_path.read_text())
-        owner = model_dir.parents[1]
+    # Which contracts exist and which of them this combination's pool contains, from the
+    # one place that decides it. `01_weighting/a_equal` registers its specification from
+    # the same call, three lines earlier in the run log.
+    selection: list[dict] = pool_shape.selection()
+    for row in selection:
+        model_dir = ROOT / row["model_dir"]
+        contract = yaml.safe_load((model_dir / "MLproject").read_text())
+        owner = ROOT / row["node"]
 
-        taken, forks_passed = on_this_combinations_path(owner)
-        selection.append({"model_dir": str(model_dir.relative_to(ROOT)),
-                          "node": str(owner.relative_to(ROOT)),
-                          "is_a_member": taken, "forks": forks_passed})
-        if not taken:
+        if not row["is_a_member"]:
             continue
 
         # The environment check, at the top rather than three subprocesses down.
@@ -327,6 +299,8 @@ def main() -> None:
             f"{[m['model_dir'] for m in members if m['name'] in doubled]}. Two contract "
             f"directories resolved onto this combination's path; a fork above one of "
             f"them is not being taken.")
+
+    check_the_registered_premise([m["node"] for m in members])
 
     # How discovery narrowed, as a file. It is beside `members.json` rather than inside it
     # because the pool's configuration carries `members.json`'s sha256 and the model

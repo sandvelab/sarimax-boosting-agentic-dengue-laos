@@ -20,10 +20,28 @@ are the two worst models on the board.
 a model node depending on a scoring node -- the same shape of error as a result that has no
 provenance, and it failed the moment the node was run under a combination whose scoring
 chain had not run. What the premise needs is not the members' scores but the *shape* of the
-pool, and the shape is a property of the tree: how many Chap contract directories there are
-and which of them are the plan's required baselines. The prediction is registered here in
-words, and `../../scripts/check_pool.py` measures it afterwards against the members' own
-stored evaluations, which is where a number about a member belongs.
+pool: how many members there are and which of them are the plan's required baselines. The
+prediction is registered here in words, and `../../scripts/check_pool.py` measures it
+afterwards against the members' own stored evaluations, which is where a number about a
+member belongs.
+
+**With equal weights, that shape is the whole model.** The member count is the weight each
+member carries; the share of the members that are required baselines is the share of the
+pool's mass sitting on the two worst models on the board, which is exactly what the
+registered prediction below is about. So getting the membership wrong is not getting a
+description wrong -- it is registering a prediction about a different model.
+
+**Which is why the membership is not computed here.** It comes from
+`03_models/scripts/lib/pool_shape.py`, the same call `prepare_members.py` builds the pool
+from a few seconds later. This file used to run its own glob over contract directories,
+which was the same answer until batch 22 gave the persistence baseline and the climatology
+baseline a second published construction each. From then until batch 32 it recorded **six
+members at 1/6 each with two-thirds of the mass on required baselines**, where **four at
+1/4** ran, and both statements were printed by the same run three lines apart. No score
+moved -- nothing in `user_option_values` depends on the count -- but the model's registered
+prediction rested on a premise the same file contradicted, and it contradicted itself:
+`share_of_the_pool_on_the_required_baselines` said two-thirds while the prediction beneath
+it said half.
 
 Writes, under results/$COMBO/:
   model_option_spec.json   the choice, its option values, and the premise it rests on
@@ -33,6 +51,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from pathlib import Path
 
 NODE = Path(__file__).resolve().parents[1]
@@ -47,30 +66,19 @@ def repo_root(start: Path) -> Path:
 
 ROOT = repo_root(NODE)
 COMBO = os.environ.get("COMBO", "main")
-MODELS = ROOT / "analysis" / "03_models"
-POOL = NODE.parents[1]
 
-
-def members() -> list[str]:
-    """The models the pool will contain, as node paths, from the shape of the tree.
-
-    The same glob `prepare_members.py` uses, for the same reason: a list here would be a
-    second statement of what models this project has. Nothing is read from any of them --
-    this is a count and a set of paths, so that the prediction below can say what share of
-    the pool the plan's required baselines will carry.
-    """
-    return sorted(
-        str(p.parent.parents[1].relative_to(ROOT))
-        for p in MODELS.glob("**/scripts/*/MLproject")
-        if POOL not in p.parents)
+sys.path.insert(0, str(ROOT / "analysis" / "03_models" / "scripts" / "lib"))
+import pool_shape  # noqa: E402
 
 
 def main() -> None:
     out = NODE / "results" / COMBO
     out.mkdir(parents=True, exist_ok=True)
 
-    pool = members()
-    baselines = [n for n in pool if "01_baselines" in n]
+    rows = pool_shape.selection()
+    pool = pool_shape.members(rows)
+    baselines = pool_shape.required_baselines(pool)
+    elsewhere = pool_shape.not_members(rows)
 
     spec = {
         "combo": COMBO,
@@ -84,15 +92,29 @@ def main() -> None:
         "user_option_values": {"weighting": "equal"},
         "additional_continuous_covariates": [],
         "premise": {
-            "source": ("the shape of the tree: every Chap contract directory under "
-                       "analysis/03_models except the pool's own"),
+            "source": ("the shape of the tree, by analysis/03_models/scripts/lib/"
+                       "pool_shape.py: every Chap contract directory under "
+                       "analysis/03_models except the pool's own, with every "
+                       "alternatives fork above one resolved to the child this "
+                       "combination takes. It is the same call prepare_members.py "
+                       "builds the pool from, so the pool this specification is about "
+                       "and the pool that runs are one answer and not two"),
             "members": pool,
             "member_count": len(pool),
             "weight_each_member_will_carry": 1.0 / len(pool),
             "required_baselines_among_them": baselines,
             "share_of_the_pool_on_the_required_baselines": len(baselines) / len(pool),
+            # The contracts the glob found that this combination's pool does not contain:
+            # the constructions of a member that this combination did not take. Recorded
+            # because a premise that says only what is in the pool cannot be read against
+            # what the tree holds, and reading those two against each other is what would
+            # have caught this file's own defect at any point in the ten days it stood.
+            "contracts_not_on_this_combinations_path": elsewhere,
             "nothing_downstream_is_read": (
-                "no score, no leaderboard, no evaluation. This node runs before "
+                "no score, no leaderboard, no evaluation. Resolving a fork reads the "
+                "model specifications of models that run before this node -- the same "
+                "lookup prepare_members.py uses a few seconds later, and answered by "
+                "the fork's own main path where nothing has run. This node runs before "
                 "04_score, and a model node that read a scoring node would be a "
                 "circular dependency that only shows up when the scoring node has not "
                 "run yet"),
@@ -114,7 +136,9 @@ def main() -> None:
 
     print(f"weighting/a_equal[{COMBO}]: equal weights, nothing estimated; "
           f"{len(pool)} members at {1 / len(pool):.3f} each, "
-          f"{len(baselines)} of them required baselines -> {out}")
+          f"{len(baselines)} of them required baselines"
+          + (f"; not on this combination's path: {elsewhere}" if elsewhere else "")
+          + f" -> {out}")
 
 
 if __name__ == "__main__":

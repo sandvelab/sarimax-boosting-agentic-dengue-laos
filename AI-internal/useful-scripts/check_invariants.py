@@ -30,6 +30,9 @@ Checks
   git         the working tree is clean, and every commit a provenance record names is
               an ancestor of HEAD -- not merely an object that exists
   crossing    no result file looks like a value transcribed between steps by hand
+  pool        a registered pool membership holds one member per model rather than one
+              per contract directory, names the members the pool was actually built
+              from, and agrees with the copy the family assembler embeds
 
 Dual interface:
     API:  run_checks(root=".", only=None) -> list[Finding]
@@ -636,6 +639,110 @@ def check_crossing(root: Path) -> list[Finding]:
     return out
 
 
+def _alternatives_forks_above(root: Path, node: str) -> list[str]:
+    """Every alternatives fork between `03_models` and the node at this path."""
+    models = root / "analysis" / "03_models"
+    out: list[str] = []
+    current = root / node
+    while current != models and models in current.parents:
+        claim = current.parent / "claim.md"
+        if claim.exists() and _field(claim.read_text(), "kind") == "alternatives":
+            out.append(str(current.parent.relative_to(root)))
+        current = current.parent
+    return out
+
+
+def check_pool(root: Path) -> list[Finding]:
+    """A registered pool membership is the membership that ran, and it is a set of members.
+
+    Candidate 3's weighting fork registers, before the pool runs, how many members the
+    pool will have and which of them are the plan's required baselines. With equal weights
+    that statement *is* the model -- the count is the weight -- so a premise describing a
+    different pool is a prediction registered about a model that was not run.
+
+    It happened, for ten days and forty combinations. Batch 22 gave the persistence and
+    climatology baselines a second published construction each; the weighting child counted
+    contract directories while the pool resolved each fork to one child, and the same run
+    printed *six members at 1/6* and *four members* three lines apart. Batch 32 gave both
+    one rule, and this is the part that does not depend on the two staying imported from
+    it.
+
+    Three clauses, in order of how little they need to know:
+
+    1. **no two members under one alternatives fork.** Two constructions of one baseline
+       are one member, whichever this combination takes; the family fork is the exception,
+       because pooling its children is what the pool is for. This needs only the tree, so
+       it holds for a combination that has never been run;
+    2. **the premise names the members `prepare_members.py` recorded** for the same
+       combination, where that record exists;
+    3. **the copy embedded in `candidate_spec.json` is the child's own.** The family
+       assembler copies the whole specification into `stages`, so a corrected premise that
+       was not re-assembled leaves the contradiction one file further out.
+    """
+    import json
+    out: list[Finding] = []
+    models = root / "analysis" / "03_models"
+    if not models.exists():
+        return out
+    family_fork = "analysis/03_models/03_candidate"
+
+    for node in nodes(root):
+        if models not in node.parents:
+            continue
+        for spec_path in sorted(node.glob("results/*/model_option_spec.json")):
+            try:
+                spec = json.loads(spec_path.read_text())
+            except (OSError, json.JSONDecodeError) as exc:
+                out.append(Finding("pool", str(spec_path.relative_to(root)),
+                                   f"unreadable: {exc}"))
+                continue
+            registered = (spec.get("premise") or {}).get("members")
+            if not registered:
+                continue
+            combination = spec_path.parent.name
+            rel = str(spec_path.relative_to(root))
+
+            # 1 -- one member per model, not one per contract directory.
+            by_fork: dict[str, list[str]] = {}
+            for member in registered:
+                for fork in _alternatives_forks_above(root, member):
+                    if fork != family_fork:
+                        by_fork.setdefault(fork, []).append(member)
+            for fork, together in sorted(by_fork.items()):
+                if len(together) > 1:
+                    out.append(Finding("pool", rel, (
+                        f"registers {len(together)} members under the alternatives fork "
+                        f"{fork}: {together}. A fork chooses between constructions of "
+                        f"one member; only the child this combination takes is in the "
+                        f"pool")))
+
+            # 2 -- against what the pool was actually built from.
+            family = node.parents[1]
+            recorded = family / "results" / combination / "member_selection.json"
+            if recorded.exists():
+                contracts = json.loads(recorded.read_text())["contracts"]
+                ran = [c["node"] for c in contracts if c["is_a_member"]]
+                if ran != registered:
+                    out.append(Finding("pool", rel, (
+                        f"registers {len(registered)} members and "
+                        f"{recorded.relative_to(root)} records {len(ran)} that ran: "
+                        f"registered {registered}, ran {ran}")))
+
+            # 3 -- and against the copy the family assembler carries.
+            assembled = family / "results" / combination / "candidate_spec.json"
+            if assembled.exists():
+                for stage in json.loads(assembled.read_text()).get("stages", []):
+                    if stage.get("node") != spec.get("node"):
+                        continue
+                    embedded = (stage.get("premise") or {}).get("members")
+                    if embedded != registered:
+                        out.append(Finding("pool", rel, (
+                            f"{assembled.relative_to(root)} embeds a different "
+                            f"membership for this stage: {embedded} against "
+                            f"{registered}. Re-run the family's assembler")))
+    return out
+
+
 CHECKS = {
     "tree": check_tree,
     "provenance": check_provenance,
@@ -647,6 +754,7 @@ CHECKS = {
     "freeze": check_freeze,
     "git": check_git,
     "crossing": check_crossing,
+    "pool": check_pool,
 }
 
 

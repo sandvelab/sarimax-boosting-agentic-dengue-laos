@@ -218,10 +218,14 @@ about 2010 in particular.
 
 **It replicates.** Thailand +0.0856 → +0.0197; Vietnam +0.0852 → **−0.0862**; against Laos's
 +0.1485 → +0.0868. All three drops are larger than the two reference bands they are measured
-against, taken together — though for Laos that clause is draw-dependent and is stated as
-such: the Lao drop clears its band sum by 0.0207, and this project has drawn the Lao
-development band four times at 0.0218, 0.0431, 0.0349 and 0.0483, on the largest of which
-the clause is false. Thailand clears by 0.0588 and Vietnam by 0.0418, and neither is close.
+against, taken together — on the draw that is archived. **That clause does not survive a
+re-run**: running the whole analysis again from a clean checkout returned it false for Laos
+and false for Thailand, true only for Vietnam. Laos was the fragile one and was flagged as
+such; Thailand, whose band is the tightest in the project, failed the other way, its drop
+halving because the reference happened to do worse on Thailand's 2010. What survives both
+draws is the direction in all three countries, the ordering, and the sign of the Vietnamese
+loss. What does not is the quantification against the reference's own noise, and it is
+withdrawn rather than restated.
 Three countries of one harmonisation are not a sample and no confidence statement is made
 from them — but the drop is a thing that happens repeatedly rather than a thing that happened
 once.

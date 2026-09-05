@@ -1,0 +1,2264 @@
+{
+ "combinations": 51,
+ "not_reconstructed": 40,
+ "reconstructed": 11,
+ "residual_between_the_rebuilt_pool_and_the_pool_that_ran": {
+  "largest": 0.13551118229165127,
+  "smallest": 0.016296339622641653,
+  "what_it_is": "the members' draws are the same draws; the pool takes a seeded subsample of each member's thousand and the reconstruction takes a different one, so the residual is the sampling error of the pool's own allocation"
+ },
+ "rows": [
+  {
+   "cells": 371,
+   "combination": "autoregressive_lag3",
+   "difference": null,
+   "mean_crps_as_run": 18.813138932614553,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main",
+      "persistence_negBinomialFloor"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow",
+      "main"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "autoregressive_lag3__holdout",
+   "difference": null,
+   "mean_crps_as_run": 76.11691499999999,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main__holdout",
+      "persistence_negBinomialFloor__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow__holdout",
+      "main__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "climatology_frozenWindow",
+   "difference": -0.017796800539088053,
+   "mean_crps_as_run": 18.871890743935314,
+   "mean_crps_rebuilt": 18.854093943396226,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "climatology_frozenWindow",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "climatology_frozenWindow"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "family_hierNB",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_hierNB",
+      "family_hierNB__aggregate_caseWeighted"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "climatology_frozenWindow",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "climatology_frozenWindow",
+      "main"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": null,
+   "reconstructed": true
+  },
+  {
+   "cells": 192,
+   "combination": "climatology_frozenWindow__holdout",
+   "difference": -0.08481473958335073,
+   "mean_crps_as_run": 76.73108261979168,
+   "mean_crps_rebuilt": 76.64626788020833,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "climatology_frozenWindow__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "climatology_frozenWindow__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "family_hierNB__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_hierNB__aggregate_caseWeighted__holdout",
+      "family_hierNB__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "climatology_frozenWindow__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "climatology_frozenWindow__holdout",
+      "main__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": null,
+   "reconstructed": true
+  },
+  {
+   "cells": 371,
+   "combination": "covariates_lagged",
+   "difference": null,
+   "mean_crps_as_run": 18.816973385444747,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main",
+      "persistence_negBinomialFloor"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow",
+      "main"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "covariates_lagged__holdout",
+   "difference": null,
+   "mean_crps_as_run": 75.99675168750001,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main__holdout",
+      "persistence_negBinomialFloor__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow__holdout",
+      "main__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "covariates_rich",
+   "difference": null,
+   "mean_crps_as_run": 18.637908714285714,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main",
+      "persistence_negBinomialFloor"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow",
+      "main"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "covariates_rich__holdout",
+   "difference": null,
+   "mean_crps_as_run": 74.68109999479167,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main__holdout",
+      "persistence_negBinomialFloor__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow__holdout",
+      "main__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "family_ensemble",
+   "difference": -0.016296339622641653,
+   "mean_crps_as_run": 18.816872064690028,
+   "mean_crps_rebuilt": 18.800575725067386,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main",
+      "persistence_negBinomialFloor"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "family_hierNB",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_hierNB",
+      "family_hierNB__aggregate_caseWeighted"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow",
+      "main"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": null,
+   "reconstructed": true
+  },
+  {
+   "cells": 371,
+   "combination": "features_richCalendar",
+   "difference": null,
+   "mean_crps_as_run": 18.812202876010783,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main",
+      "persistence_negBinomialFloor"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "family_hierNB",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_hierNB",
+      "family_hierNB__aggregate_caseWeighted"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow",
+      "main"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "features_richCalendar__holdout",
+   "difference": null,
+   "mean_crps_as_run": 76.69609783854166,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main__holdout",
+      "persistence_negBinomialFloor__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "family_hierNB__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_hierNB__aggregate_caseWeighted__holdout",
+      "family_hierNB__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow__holdout",
+      "main__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "fitTime_refitAtPredict",
+   "difference": null,
+   "mean_crps_as_run": 18.689997032345012,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main",
+      "persistence_negBinomialFloor"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow",
+      "main"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "fitTime_refitAtPredict__holdout",
+   "difference": null,
+   "mean_crps_as_run": 76.24794511458333,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main__holdout",
+      "persistence_negBinomialFloor__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow__holdout",
+      "main__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "head_quantileEnsemble",
+   "difference": null,
+   "mean_crps_as_run": 18.77635030188679,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main",
+      "persistence_negBinomialFloor"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "family_hierNB",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_hierNB",
+      "family_hierNB__aggregate_caseWeighted"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow",
+      "main"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "head_quantileEnsemble__holdout",
+   "difference": null,
+   "mean_crps_as_run": 76.22687365624999,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main__holdout",
+      "persistence_negBinomialFloor__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "family_hierNB__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_hierNB__aggregate_caseWeighted__holdout",
+      "family_hierNB__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow__holdout",
+      "main__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "main",
+   "difference": -0.016296339622641653,
+   "mean_crps_as_run": 18.816872064690028,
+   "mean_crps_rebuilt": 18.800575725067386,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "main",
+      "persistence_negBinomialFloor"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "family_hierNB",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_hierNB",
+      "family_hierNB__aggregate_caseWeighted"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "main",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "climatology_frozenWindow",
+      "main"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": null,
+   "reconstructed": true
+  },
+  {
+   "cells": 192,
+   "combination": "main__holdout",
+   "difference": -0.08481473958335073,
+   "mean_crps_as_run": 76.73108261979168,
+   "mean_crps_rebuilt": 76.64626788020833,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "main__holdout",
+      "persistence_negBinomialFloor__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "family_hierNB__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_hierNB__aggregate_caseWeighted__holdout",
+      "family_hierNB__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "main__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "climatology_frozenWindow__holdout",
+      "main__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": null,
+   "reconstructed": true
+  },
+  {
+   "cells": 371,
+   "combination": "observation_negBinomial",
+   "difference": null,
+   "mean_crps_as_run": 18.918797126684638,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main",
+      "persistence_negBinomialFloor"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow",
+      "main"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "observation_negBinomial__holdout",
+   "difference": null,
+   "mean_crps_as_run": 76.04387380208333,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main__holdout",
+      "persistence_negBinomialFloor__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow__holdout",
+      "main__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "observation_zeroInflated",
+   "difference": null,
+   "mean_crps_as_run": 18.932738547169812,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main",
+      "persistence_negBinomialFloor"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow",
+      "main"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "observation_zeroInflated__holdout",
+   "difference": null,
+   "mean_crps_as_run": 76.353778703125,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main__holdout",
+      "persistence_negBinomialFloor__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow__holdout",
+      "main__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "persistence_negBinomialFloor",
+   "difference": 0.020567876010783692,
+   "mean_crps_as_run": 19.434137274932613,
+   "mean_crps_rebuilt": 19.454705150943397,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "persistence_negBinomialFloor",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "main",
+      "persistence_negBinomialFloor"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "family_hierNB",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_hierNB",
+      "family_hierNB__aggregate_caseWeighted"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "persistence_negBinomialFloor",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "persistence_negBinomialFloor"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": null,
+   "reconstructed": true
+  },
+  {
+   "cells": 192,
+   "combination": "persistence_negBinomialFloor__holdout",
+   "difference": -0.08955719791669026,
+   "mean_crps_as_run": 77.50382808854168,
+   "mean_crps_rebuilt": 77.41427089062499,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "persistence_negBinomialFloor__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "main__holdout",
+      "persistence_negBinomialFloor__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "family_hierNB__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_hierNB__aggregate_caseWeighted__holdout",
+      "family_hierNB__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "persistence_negBinomialFloor__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "persistence_negBinomialFloor__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": null,
+   "reconstructed": true
+  },
+  {
+   "cells": 371,
+   "combination": "popColumn_backCast",
+   "difference": null,
+   "mean_crps_as_run": 19.011371735849053,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "popColumn_backCast",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "popColumn_backCast"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "popColumn_backCast",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "popColumn_backCast"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb', 'boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "popColumn_backCast__holdout",
+   "difference": null,
+   "mean_crps_as_run": 76.29036121354166,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "popColumn_backCast__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "popColumn_backCast__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "popColumn_backCast__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "popColumn_backCast__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb', 'boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "population_covariate",
+   "difference": null,
+   "mean_crps_as_run": 18.844945013477087,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main",
+      "persistence_negBinomialFloor"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow",
+      "main"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "population_covariate__holdout",
+   "difference": null,
+   "mean_crps_as_run": 75.96634168229167,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main__holdout",
+      "persistence_negBinomialFloor__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow__holdout",
+      "main__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "population_ignored",
+   "difference": null,
+   "mean_crps_as_run": 18.860241239892183,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main",
+      "persistence_negBinomialFloor"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow",
+      "main"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "population_ignored__holdout",
+   "difference": null,
+   "mean_crps_as_run": 76.64557919270833,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main__holdout",
+      "persistence_negBinomialFloor__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow__holdout",
+      "main__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "provinces_mergeVientiane",
+   "difference": null,
+   "mean_crps_as_run": 19.006490361185985,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "provinces_mergeVientiane",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_mergeVientiane",
+      "provinces_mergeVientiane__aggregate_caseWeighted",
+      "provinces_mergeVientiane__family_hierNB",
+      "provinces_mergeVientiane__weighting_crpsWeighted"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "provinces_mergeVientiane__family_hierNB",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "provinces_mergeVientiane__family_hierNB"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "provinces_mergeVientiane",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_mergeVientiane",
+      "provinces_mergeVientiane__aggregate_caseWeighted",
+      "provinces_mergeVientiane__family_hierNB",
+      "provinces_mergeVientiane__weighting_crpsWeighted"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "provinces_mergeVientiane__aggregate_caseWeighted",
+   "difference": null,
+   "mean_crps_as_run": 19.006490361185985,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "provinces_mergeVientiane__aggregate_caseWeighted",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_mergeVientiane",
+      "provinces_mergeVientiane__aggregate_caseWeighted",
+      "provinces_mergeVientiane__family_hierNB",
+      "provinces_mergeVientiane__weighting_crpsWeighted"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "provinces_mergeVientiane__family_hierNB",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "provinces_mergeVientiane__family_hierNB"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "provinces_mergeVientiane__aggregate_caseWeighted",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_mergeVientiane",
+      "provinces_mergeVientiane__aggregate_caseWeighted",
+      "provinces_mergeVientiane__family_hierNB",
+      "provinces_mergeVientiane__weighting_crpsWeighted"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "provinces_mergeVientiane__aggregate_caseWeighted__holdout",
+   "difference": null,
+   "mean_crps_as_run": 76.24556227083333,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "provinces_mergeVientiane__aggregate_caseWeighted__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_mergeVientiane__aggregate_caseWeighted__holdout",
+      "provinces_mergeVientiane__family_hierNB__holdout",
+      "provinces_mergeVientiane__holdout",
+      "provinces_mergeVientiane__weighting_crpsWeighted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "provinces_mergeVientiane__family_hierNB__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "provinces_mergeVientiane__family_hierNB__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "provinces_mergeVientiane__aggregate_caseWeighted__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_mergeVientiane__aggregate_caseWeighted__holdout",
+      "provinces_mergeVientiane__family_hierNB__holdout",
+      "provinces_mergeVientiane__holdout",
+      "provinces_mergeVientiane__weighting_crpsWeighted__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "provinces_mergeVientiane__holdout",
+   "difference": null,
+   "mean_crps_as_run": 76.24556227083333,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "provinces_mergeVientiane__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_mergeVientiane__aggregate_caseWeighted__holdout",
+      "provinces_mergeVientiane__family_hierNB__holdout",
+      "provinces_mergeVientiane__holdout",
+      "provinces_mergeVientiane__weighting_crpsWeighted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "provinces_mergeVientiane__family_hierNB__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "provinces_mergeVientiane__family_hierNB__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "provinces_mergeVientiane__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_mergeVientiane__aggregate_caseWeighted__holdout",
+      "provinces_mergeVientiane__family_hierNB__holdout",
+      "provinces_mergeVientiane__holdout",
+      "provinces_mergeVientiane__weighting_crpsWeighted__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "provinces_mergeVientiane__weighting_crpsWeighted",
+   "difference": null,
+   "mean_crps_as_run": 23.091910115902962,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "provinces_mergeVientiane__weighting_crpsWeighted",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_mergeVientiane",
+      "provinces_mergeVientiane__aggregate_caseWeighted",
+      "provinces_mergeVientiane__family_hierNB",
+      "provinces_mergeVientiane__weighting_crpsWeighted"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "provinces_mergeVientiane__family_hierNB",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "provinces_mergeVientiane__family_hierNB"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "provinces_mergeVientiane__weighting_crpsWeighted",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_mergeVientiane",
+      "provinces_mergeVientiane__aggregate_caseWeighted",
+      "provinces_mergeVientiane__family_hierNB",
+      "provinces_mergeVientiane__weighting_crpsWeighted"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "provinces_mergeVientiane__weighting_crpsWeighted__holdout",
+   "difference": null,
+   "mean_crps_as_run": 77.151802703125,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "provinces_mergeVientiane__weighting_crpsWeighted__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_mergeVientiane__aggregate_caseWeighted__holdout",
+      "provinces_mergeVientiane__family_hierNB__holdout",
+      "provinces_mergeVientiane__holdout",
+      "provinces_mergeVientiane__weighting_crpsWeighted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "provinces_mergeVientiane__family_hierNB__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "provinces_mergeVientiane__family_hierNB__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "provinces_mergeVientiane__weighting_crpsWeighted__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_mergeVientiane__aggregate_caseWeighted__holdout",
+      "provinces_mergeVientiane__family_hierNB__holdout",
+      "provinces_mergeVientiane__holdout",
+      "provinces_mergeVientiane__weighting_crpsWeighted__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "provinces_reportingOnly",
+   "difference": null,
+   "mean_crps_as_run": 18.843148671159028,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "provinces_reportingOnly",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_reportingOnly",
+      "provinces_reportingOnly__aggregate_caseWeighted",
+      "provinces_reportingOnly__family_hierNB",
+      "provinces_reportingOnly__weighting_crpsWeighted"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "provinces_reportingOnly__family_hierNB",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "provinces_reportingOnly__family_hierNB"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "provinces_reportingOnly",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_reportingOnly",
+      "provinces_reportingOnly__aggregate_caseWeighted",
+      "provinces_reportingOnly__family_hierNB",
+      "provinces_reportingOnly__weighting_crpsWeighted"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "provinces_reportingOnly__aggregate_caseWeighted",
+   "difference": null,
+   "mean_crps_as_run": 18.843148671159028,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "provinces_reportingOnly__aggregate_caseWeighted",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_reportingOnly",
+      "provinces_reportingOnly__aggregate_caseWeighted",
+      "provinces_reportingOnly__family_hierNB",
+      "provinces_reportingOnly__weighting_crpsWeighted"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "provinces_reportingOnly__family_hierNB",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "provinces_reportingOnly__family_hierNB"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "provinces_reportingOnly__aggregate_caseWeighted",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_reportingOnly",
+      "provinces_reportingOnly__aggregate_caseWeighted",
+      "provinces_reportingOnly__family_hierNB",
+      "provinces_reportingOnly__weighting_crpsWeighted"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "provinces_reportingOnly__aggregate_caseWeighted__holdout",
+   "difference": null,
+   "mean_crps_as_run": 76.55545746354167,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "provinces_reportingOnly__aggregate_caseWeighted__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_reportingOnly__aggregate_caseWeighted__holdout",
+      "provinces_reportingOnly__family_hierNB__holdout",
+      "provinces_reportingOnly__holdout",
+      "provinces_reportingOnly__weighting_crpsWeighted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "provinces_reportingOnly__family_hierNB__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "provinces_reportingOnly__family_hierNB__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "provinces_reportingOnly__aggregate_caseWeighted__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_reportingOnly__aggregate_caseWeighted__holdout",
+      "provinces_reportingOnly__family_hierNB__holdout",
+      "provinces_reportingOnly__holdout",
+      "provinces_reportingOnly__weighting_crpsWeighted__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "provinces_reportingOnly__holdout",
+   "difference": null,
+   "mean_crps_as_run": 76.55545746354167,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "provinces_reportingOnly__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_reportingOnly__aggregate_caseWeighted__holdout",
+      "provinces_reportingOnly__family_hierNB__holdout",
+      "provinces_reportingOnly__holdout",
+      "provinces_reportingOnly__weighting_crpsWeighted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "provinces_reportingOnly__family_hierNB__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "provinces_reportingOnly__family_hierNB__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "provinces_reportingOnly__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_reportingOnly__aggregate_caseWeighted__holdout",
+      "provinces_reportingOnly__family_hierNB__holdout",
+      "provinces_reportingOnly__holdout",
+      "provinces_reportingOnly__weighting_crpsWeighted__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "provinces_reportingOnly__weighting_crpsWeighted",
+   "difference": null,
+   "mean_crps_as_run": 22.579871757412395,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "provinces_reportingOnly__weighting_crpsWeighted",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_reportingOnly",
+      "provinces_reportingOnly__aggregate_caseWeighted",
+      "provinces_reportingOnly__family_hierNB",
+      "provinces_reportingOnly__weighting_crpsWeighted"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "provinces_reportingOnly__family_hierNB",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "provinces_reportingOnly__family_hierNB"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "provinces_reportingOnly__weighting_crpsWeighted",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_reportingOnly",
+      "provinces_reportingOnly__aggregate_caseWeighted",
+      "provinces_reportingOnly__family_hierNB",
+      "provinces_reportingOnly__weighting_crpsWeighted"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "provinces_reportingOnly__weighting_crpsWeighted__holdout",
+   "difference": null,
+   "mean_crps_as_run": 77.41277645312499,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "provinces_reportingOnly__weighting_crpsWeighted__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_reportingOnly__aggregate_caseWeighted__holdout",
+      "provinces_reportingOnly__family_hierNB__holdout",
+      "provinces_reportingOnly__holdout",
+      "provinces_reportingOnly__weighting_crpsWeighted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "provinces_reportingOnly__family_hierNB__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "provinces_reportingOnly__family_hierNB__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "provinces_reportingOnly__weighting_crpsWeighted__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "provinces_reportingOnly__aggregate_caseWeighted__holdout",
+      "provinces_reportingOnly__family_hierNB__holdout",
+      "provinces_reportingOnly__holdout",
+      "provinces_reportingOnly__weighting_crpsWeighted__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "retrain_everySplit",
+   "difference": null,
+   "mean_crps_as_run": 18.551604981132076,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "retrain_everySplit",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "retrain_everySplit"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "retrain_everySplit",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "retrain_everySplit"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb', 'boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "retrain_everySplit__holdout",
+   "difference": null,
+   "mean_crps_as_run": 75.332636453125,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "retrain_everySplit__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "retrain_everySplit__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "retrain_everySplit__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "retrain_everySplit__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb', 'boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "trainingWindow_from2004",
+   "difference": null,
+   "mean_crps_as_run": 18.750661778975743,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "trainingWindow_from2004",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "trainingWindow_from2004"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "trainingWindow_from2004",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "trainingWindow_from2004"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb', 'boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "trainingWindow_from2004__holdout",
+   "difference": null,
+   "mean_crps_as_run": 79.27522797395834,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "climatology": {
+     "chosen": "trainingWindow_from2004__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "trainingWindow_from2004__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "trainingWindow_from2004__holdout",
+     "chosen_by": "this combination's own run of the member",
+     "evaluations_available": [
+      "trainingWindow_from2004__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb', 'boosted'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 371,
+   "combination": "weighting_crpsWeighted",
+   "difference": -0.030370582210242247,
+   "mean_crps_as_run": 22.838326091644205,
+   "mean_crps_rebuilt": 22.807955509433963,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main",
+      "persistence_negBinomialFloor"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "family_hierNB",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_hierNB",
+      "family_hierNB__aggregate_caseWeighted"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow",
+      "main"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": null,
+   "reconstructed": true
+  },
+  {
+   "cells": 371,
+   "combination": "weighting_crpsWeighted__aggregate_caseWeighted",
+   "difference": -0.030370582210242247,
+   "mean_crps_as_run": 22.838326091644205,
+   "mean_crps_rebuilt": 22.807955509433963,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main",
+      "persistence_negBinomialFloor"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "family_hierNB",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_hierNB",
+      "family_hierNB__aggregate_caseWeighted"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow",
+      "main"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": null,
+   "reconstructed": true
+  },
+  {
+   "cells": 192,
+   "combination": "weighting_crpsWeighted__aggregate_caseWeighted__holdout",
+   "difference": -0.13551118229165127,
+   "mean_crps_as_run": 77.74588009895832,
+   "mean_crps_rebuilt": 77.61036891666667,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main__holdout",
+      "persistence_negBinomialFloor__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "family_hierNB__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_hierNB__aggregate_caseWeighted__holdout",
+      "family_hierNB__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow__holdout",
+      "main__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": null,
+   "reconstructed": true
+  },
+  {
+   "cells": 192,
+   "combination": "weighting_crpsWeighted__holdout",
+   "difference": -0.13551118229165127,
+   "mean_crps_as_run": 77.74588009895832,
+   "mean_crps_rebuilt": 77.61036891666667,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main__holdout",
+      "persistence_negBinomialFloor__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": "family_hierNB__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_hierNB__aggregate_caseWeighted__holdout",
+      "family_hierNB__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "persistence": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow__holdout",
+      "main__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": null,
+   "reconstructed": true
+  },
+  {
+   "cells": 371,
+   "combination": "yearVariance_shared",
+   "difference": null,
+   "mean_crps_as_run": 18.840478121293803,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main",
+      "persistence_negBinomialFloor"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "main",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow",
+      "main"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  },
+  {
+   "cells": 192,
+   "combination": "yearVariance_shared__holdout",
+   "difference": null,
+   "mean_crps_as_run": 76.45682468229167,
+   "mean_crps_rebuilt": null,
+   "members": {
+    "boosted": {
+     "chosen": "family_boosted__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "family_boosted__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "climatology": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "main__holdout",
+      "persistence_negBinomialFloor__holdout"
+     ],
+     "not_chosen_because": null
+    },
+    "hier_nb": {
+     "chosen": null,
+     "chosen_by": null,
+     "evaluations_available": [],
+     "not_chosen_because": "no run of this member under the configuration the pool gave it"
+    },
+    "persistence": {
+     "chosen": "main__holdout",
+     "chosen_by": "the fewest forks moved among the combinations this one implies, ties broken by name",
+     "evaluations_available": [
+      "climatology_frozenWindow__holdout",
+      "main__holdout"
+     ],
+     "not_chosen_because": null
+    }
+   },
+   "not_done_because": "no stored evaluation of ['hier_nb'] under the configuration the pool gave them; the reconstruction needs every member's own run",
+   "reconstructed": false
+  }
+ ],
+ "what_this_is": "every combination with a pool, the stored evaluations each of its members has, and the one check_pool's rule compares the pool against. Written after the whole manifest has run, so it does not depend on the order the rows were executed in; the rows re-run to get there are named in the run log, not here, because which files were already correct is a fact about this invocation and not about the analysis",
+ "why_the_rest_cannot_be": "the combination moves a fork inside one of the pool's members, and the tree evaluates a member on its own only under the family fork's own combination, so no run of this analysis produces that member's separate evaluation under that configuration"
+}

@@ -49,9 +49,12 @@ Thailand's final year at **+0.0197**. On Vietnam's final year it **loses**, at *
 It beats both required baselines on **all six**, including the row it loses on.
 → `results/external_conclusions.csv`, `results/external_vs_laos.json`
 
-**The drop from the development backtest to the final year replicates in both countries,
-and in both it is larger than the two reference bands together.** Laos −0.0617, Thailand
-−0.0659, Vietnam −0.1714. Three countries are not a sample and this does not put a
+**The drop from the development backtest to the final year replicates in both countries.**
+Laos −0.0617, Thailand −0.0659, Vietnam −0.1714. **The clause that all three clear the two
+reference bands together holds on this draw and not on the next**: the clean-room run of
+2026-09-05 returned it false for Laos and for Thailand and true only for Vietnam, so it is
+withdrawn as a general statement. What survives both draws is the direction in all three
+countries, the ordering, and the sign of the Vietnamese final-year loss. Three countries are not a sample and this does not put a
 confidence statement on the effect; what it says is that phase E's central finding is a
 thing that happens repeatedly rather than a thing that happened once, and that 2010 alone
 does not account for it — the same year is harder for the model relative to the reference

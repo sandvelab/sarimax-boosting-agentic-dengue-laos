@@ -1,0 +1,44 @@
+{
+ "baselines": [
+  "climatology",
+  "persistence"
+ ],
+ "beats_all_baselines": true,
+ "beats_reference": true,
+ "candidate_exists": true,
+ "combo": "main",
+ "coverage_10_90_ours": 0.862533692722372,
+ "coverage_10_90_reference": 0.8119946091644205,
+ "coverage_25_75_ours": 0.7493261455525606,
+ "coverage_25_75_reference": 0.6118598382749326,
+ "crps_by_model": {
+  "climatology": 24.336908636118597,
+  "ensemble": 18.816872064690028,
+  "persistence": 24.879338288409706,
+  "reference": 22.060330112533695,
+  "reference_r1": 21.989564932614556,
+  "reference_r2": 22.22034630458221,
+  "reference_r3": 21.963501762803237,
+  "reference_r4": 22.067907450134772
+ },
+ "crps_ours": 18.816872064690028,
+ "crps_reference": 22.060330112533695,
+ "dataset": "development",
+ "mae_ours": 23.214285714285715,
+ "n_cells": 371,
+ "n_locations": 16,
+ "n_splits": 8,
+ "our_model": "ensemble",
+ "our_model_basis": "the family of 03_models/03_candidate this combination ran (c_ensemble)",
+ "our_model_is_a_baseline": false,
+ "paired_mean_diff_vs_reference": -3.2434580478436654,
+ "paired_se_cluster_split": 1.6843351635912625,
+ "paired_win_rate_cells": 0.4204851752021563,
+ "resolvable_difference_floor": 0.2568445417789751,
+ "skill_by_model": {
+  "climatology": -0.10319784481790006,
+  "ensemble": 0.14702672314050635,
+  "persistence": -0.12778630970143
+ },
+ "skill_score": 0.14702672314050635
+}

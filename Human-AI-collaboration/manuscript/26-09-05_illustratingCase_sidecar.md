@@ -93,7 +93,7 @@ scope fields of C42 and C43 carry them.
 | passage | claims | basis |
 |---|---|---|
 | Thailand +0.0856 → +0.0197, Vietnam +0.0852 → −0.0862, Laos +0.1485 → +0.0868 | C42 | |
-| All three drops exceed the two reference bands together | C42 | |
+| The band clause holds on this draw and is withdrawn as a general statement | C42 | record (`26-09-05_cleanroom.md`) |
 | Three countries are not a sample; no confidence statement is made | — | C42's scope field |
 | 1.74 times either sibling's; the siblings agree to 0.0004 and sit 0.063 below Laos | C43 | |
 | The gap is not attributable to development alone | — | C43's scope field |

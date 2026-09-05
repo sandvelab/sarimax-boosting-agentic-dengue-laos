@@ -42,6 +42,7 @@
    "passed": true,
    "records_removed": [
     "analysis/03_models/03_candidate/c_ensemble/results/covariates_rich/member_selection.json",
+    "analysis/03_models/03_candidate/c_ensemble/results/covariates_rich/members.json",
     "analysis/03_models/03_candidate/c_ensemble/results/covariates_rich/candidate_spec.json"
    ],
    "restored": true,

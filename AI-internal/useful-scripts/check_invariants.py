@@ -674,7 +674,9 @@ def check_pool(root: Path) -> list[Finding]:
        because pooling its children is what the pool is for. This needs only the tree, so
        it holds for a combination that has never been run;
     2. **the premise names the members `prepare_members.py` recorded** for the same
-       combination, where that record exists;
+       combination -- `member_selection.json` where there is one, and `members.json` for
+       the six pool runs that pre-date that file, so no combination that has run is
+       exempt;
     3. **the copy embedded in `candidate_spec.json` is the child's own.** The family
        assembler copies the whole specification into `stages`, so a corrected premise that
        was not re-assembled leaves the contradiction one file further out.
@@ -716,17 +718,26 @@ def check_pool(root: Path) -> list[Finding]:
                         f"one member; only the child this combination takes is in the "
                         f"pool")))
 
-            # 2 -- against what the pool was actually built from.
+            # 2 -- against what the pool was actually built from. `member_selection.json`
+            # where there is one; `members.json` for the six pool runs that pre-date it,
+            # so no combination that has run is exempt from the clause.
             family = node.parents[1]
             recorded = family / "results" / combination / "member_selection.json"
+            membership = family / "results" / combination / "members.json"
+            ran = None
             if recorded.exists():
                 contracts = json.loads(recorded.read_text())["contracts"]
                 ran = [c["node"] for c in contracts if c["is_a_member"]]
-                if ran != registered:
-                    out.append(Finding("pool", rel, (
-                        f"registers {len(registered)} members and "
-                        f"{recorded.relative_to(root)} records {len(ran)} that ran: "
-                        f"registered {registered}, ran {ran}")))
+                source = recorded
+            elif membership.exists():
+                ran = [m["node"] for m in
+                       json.loads(membership.read_text())["members"]]
+                source = membership
+            if ran is not None and sorted(ran) != sorted(registered):
+                out.append(Finding("pool", rel, (
+                    f"registers {len(registered)} members and "
+                    f"{source.relative_to(root)} records {len(ran)} that ran: "
+                    f"registered {registered}, ran {ran}")))
 
             # 3 -- and against the copy the family assembler carries.
             assembled = family / "results" / combination / "candidate_spec.json"

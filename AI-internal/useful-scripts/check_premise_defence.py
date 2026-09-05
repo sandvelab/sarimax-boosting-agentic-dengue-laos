@@ -27,9 +27,9 @@ Six situations, each restored before the next:
    constructions of one baseline in one pool, once for each of the two baseline forks; a
    membership the pool's own record contradicts; and a copy in `candidate_spec.json`
    saying the same wrong thing. Four findings, because the fork clause is about a fork;
-3. **the structural clause alone**: the same document with `member_selection.json` and
-   `candidate_spec.json` out of reach. The fork clause must still fire on both forks,
-   because a combination that has never been run has no record to be checked against;
+3. **the structural clause alone**: the same document with every record of the run that
+   produced it out of reach. The fork clause must still fire on both forks, because a
+   combination that has never been run has no record to be checked against;
 4. **a stale embedded copy**: the child's specification corrected and the family
    assembler not re-run. Only the third clause may fire -- this is the cascade that made
    one defect into ninety-four documents;
@@ -157,8 +157,9 @@ def situation_three() -> dict:
     spec = EQUAL / "results" / STAGED / "model_option_spec.json"
     keep = spec.read_bytes()
     recorded = ENSEMBLE / "results" / STAGED / "member_selection.json"
+    membership = ENSEMBLE / "results" / STAGED / "members.json"
     assembled = ENSEMBLE / "results" / STAGED / "candidate_spec.json"
-    hidden = [(p, p.read_bytes()) for p in (recorded, assembled)]
+    hidden = [(p, p.read_bytes()) for p in (recorded, membership, assembled)]
     spec.write_text(git_show(BEFORE, spec))
     for path, _ in hidden:
         path.unlink()

@@ -78,6 +78,18 @@ here.
   on the headline holdout row is rewritten to 76.646; a file that is already right is neither
   re-run nor touched; a missing one is produced; and a row that no order of execution could
   reconstruct is left saying so rather than reaching into another combination's directory.
+- `26-09-06_weightingPremiseRewrite.json` — batch 32, and not a `/validate` run: `HEAD`'s
+  copy of every weighting specification and of every `candidate_spec.json` that embeds one,
+  against the versions the fixed rule writes, classified key by key. The batch gave the
+  weighting child and the pool one rule for what the pool contains, and this is what says
+  that all 94 documents changed in the premise only, that 80 had the membership corrected,
+  and that **all 47 `model_configuration.yaml` are byte-identical**, so no model had to be
+  run again.
+- `26-09-06_premiseDefence.json` — batch 32: six situations put to the two defences that
+  keep the registered membership and the pool from parting again, on the live tree and
+  restored after each. The first is driven by the clean-room log of 2026-09-05, which printed
+  `6 members at 0.167 each` and, three lines later, the four-member pool it built. All six
+  pass and `analysis/` is left clean.
 - `26-09-01_freezeDefence.md` — batch 24, and not a `/validate` run: eleven situations put
   to the two defences of the frozen phase-E set, on throwaway copies. The set stops being
   rebuilt on every run of `analysis/run.sh`, and the file is now checked as well as the

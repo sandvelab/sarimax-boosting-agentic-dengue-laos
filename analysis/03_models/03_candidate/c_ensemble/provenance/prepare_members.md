@@ -204,3 +204,59 @@ Found by batch 18's `/validate outsider` run, which walked the headline result's
 
 agency: agent-autonomous.
 information: agent-retrieved — `git merge-base --is-ancestor`, `git rev-parse <c>^{tree}`.
+
+## Batch 32 — the membership rule is lifted, and the registered premise is checked against it
+
+```
+result:              results/$COMBO/members.json, results/$COMBO/member_selection.json
+                     — unchanged, byte for byte, under every combination
+script:              scripts/prepare_members.py
+                     sha256:b55c077513fe6a1c62277890ea0a26dd41c79988fcddd3a919441b3d395ac417
+                     analysis/03_models/scripts/lib/pool_shape.py
+                     sha256:f21b28fd9257e3ef9d4f8e52ae5e614335be021bca4dbd9d1446e3299f4d7e95
+invocation:          unchanged: "$PYTHON" scripts/prepare_members.py, from the node
+                     directory via run.sh
+inputs:              unchanged
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none.
+commit:              91bda84
+instructions-commit: 595c32d
+node:                analysis/03_models/03_candidate/c_ensemble
+produced:            2026-09-06
+```
+
+**What changed in the script, and what did not.** `alternatives_above`, `taken_child` and
+`on_this_combinations_path` moved to `03_models/scripts/lib/pool_shape.py` unchanged, and the
+discovery loop in `main` now iterates `pool_shape.selection()` instead of globbing for
+`MLproject` itself. They are a library because the weighting child one node down had to
+register the same answer before the pool ran and computed its own — wrongly, since batch 22.
+
+**`members.json` and `member_selection.json` are byte-identical.** That is not a nicety: the
+pool's own `model_configuration.yaml` carries `members.json`'s sha256, and the model refuses
+to run when the two disagree, so a lift that moved one byte of that file would have required
+the reported analysis to be run again to say what it is. Verified by digest under `main`
+before and after.
+
+**And one thing is added.** `check_the_registered_premise` reads the weighting child's
+`model_option_spec.json` for this combination and fails the run when its `premise.members`
+is not the membership about to be built. Within one run the two now come from one call and
+cannot differ; what this catches is the way they actually did differ — a **committed**
+specification, written when the tree had a different shape, describing a pool that is not the
+one about to run. It fires before anything is written: put back the pre-batch-32
+specification for `covariates_rich` and the step exits 1 with `members.json` and
+`member_selection.json` untouched, which is situation 5 of
+`AI-generated/validation/26-09-06_premiseDefence.json`.
+
+Only a specification found under this combination itself is checked. One reached through
+`COMBO_BASE` was written for the base combination's pool, and a combination that moved a
+baseline fork has a different membership from its base by design.
+
+alternatives-considered: leaving the check to `/validate invariants` alone, which reads the
+committed documents against each other and needs nothing run. Rejected as insufficient on its
+own — an invariant finds the contradiction after it is on disk, and this batch's whole subject
+is a model configured against a document that contradicted it. Both are kept; the invariant is
+the `pool` check.
+
+agency: agent-autonomous.
+information: agent-retrieved — the digests are computed from the files, the byte-identity from
+`shasum -a 256` before and after the run under `main`.

@@ -24,17 +24,22 @@ Six situations, each restored before the next:
    situation whose evidence was produced by a machine that had never run this repository;
 2. **the record batch 22 left**: `covariates_rich`'s specification as it stood before this
    batch. `/validate invariants` must fail on it, and on all three of its clauses -- two
-   constructions of one baseline in one pool, a membership the pool's own record
-   contradicts, and a copy in `candidate_spec.json` saying the same wrong thing;
+   constructions of one baseline in one pool, once for each of the two baseline forks; a
+   membership the pool's own record contradicts; and a copy in `candidate_spec.json`
+   saying the same wrong thing. Four findings, because the fork clause is about a fork;
 3. **the structural clause alone**: the same document with `member_selection.json` and
-   `candidate_spec.json` out of reach. The fork clause must still fire, because a
-   combination that has never been run has no record to be checked against;
+   `candidate_spec.json` out of reach. The fork clause must still fire on both forks,
+   because a combination that has never been run has no record to be checked against;
 4. **a stale embedded copy**: the child's specification corrected and the family
    assembler not re-run. Only the third clause may fire -- this is the cascade that made
    one defect into ninety-four documents;
-5. **the runtime guard**: with the old specification restored under `main`,
-   `prepare_members.py` must refuse to build the pool rather than build one its own
-   specification contradicts, and must refuse before writing anything;
+5. **the runtime guard**: with the old specification restored, `prepare_members.py` must
+   refuse to build the pool rather than build one its own specification contradicts, and
+   must refuse before writing anything. It is staged on `covariates_rich` and not on
+   `main`, because `main` is one of the seven combinations whose specification was written
+   before batch 22 and named the right four members all along -- the guard has nothing to
+   catch there, which is a property of when that file was last written and not of the
+   defence;
 6. **the tree as it stands**: no finding at all.
 
 Every situation ends with the file back to its committed content, checked by digest, and
@@ -140,10 +145,10 @@ def situation_two() -> dict:
         "record_clause": any("member_selection.json records" in f for f in mine),
         "embedded_clause": any("embeds a different membership" in f for f in mine),
         "restored": digest(spec) == hashlib.sha256(keep).hexdigest(),
-        "passed": (len(mine) == 3
-                   and any("under the alternatives fork" in f for f in mine)
-                   and any("member_selection.json records" in f for f in mine)
-                   and any("embeds a different membership" in f for f in mine)),
+        "passed": (len(mine) == 4
+                   and sum("under the alternatives fork" in f for f in mine) == 2
+                   and sum("member_selection.json records" in f for f in mine) == 1
+                   and sum("embeds a different membership" in f for f in mine) == 1),
     }
 
 
@@ -167,7 +172,7 @@ def situation_three() -> dict:
         "records_removed": [str(p.relative_to(ROOT)) for p, _ in hidden],
         "findings": mine,
         "restored": all(digest(p) == hashlib.sha256(c).hexdigest() for p, c in hidden),
-        "passed": len(mine) == 1 and "under the alternatives fork" in mine[0],
+        "passed": len(mine) == 2 and all("under the alternatives fork" in f for f in mine),
     }
 
 
@@ -189,15 +194,15 @@ def situation_four() -> dict:
 
 def situation_five() -> dict:
     """The runtime guard: the pool refuses to be built against a premise it contradicts."""
-    spec = EQUAL / "results" / "main" / "model_option_spec.json"
-    members = ENSEMBLE / "results" / "main" / "members.json"
-    selection = ENSEMBLE / "results" / "main" / "member_selection.json"
+    spec = EQUAL / "results" / STAGED / "model_option_spec.json"
+    members = ENSEMBLE / "results" / STAGED / "members.json"
+    selection = ENSEMBLE / "results" / STAGED / "member_selection.json"
     keep = spec.read_bytes()
     before = {p: digest(p) for p in (members, selection)}
     spec.write_text(git_show(BEFORE, spec))
     run = subprocess.run([str(PYTHON), str(ENSEMBLE / "scripts" / "prepare_members.py")],
                          capture_output=True, text=True, cwd=ROOT,
-                         env={**os.environ, "COMBO": "main", "COMBO_BASE": ""})
+                         env={**os.environ, "COMBO": STAGED, "COMBO_BASE": ""})
     spec.write_bytes(keep)
     untouched = all(digest(p) == d for p, d in before.items())
     return {

@@ -194,3 +194,44 @@ Found by batch 18's `/validate outsider` run, which walked the headline result's
 
 agency: agent-autonomous.
 information: agent-retrieved — `git merge-base --is-ancestor`, `git rev-parse <c>^{tree}`.
+
+## Batch 32 — the 47 `candidate_spec.json` re-assembled; the script unchanged
+
+```
+result:              results/$COMBO/candidate_spec.json, the 47 combinations whose
+                     weighting is a_equal
+script:              scripts/assemble_candidate_config.py
+                     sha256:d2f1bbae36e3385d4ad702ed2bf0c218340f2793f0552450b203d8dc64b06fc7
+                     analysis/03_models/scripts/lib/assemble_config.py
+                     sha256:8b97f2d78063051ce7b3e1ad74dc3300b1ccf106d0654c68962045044a2af46b
+                     — both unchanged by this batch
+invocation:          "$PYTHON" scripts/assemble_candidate_config.py, once per combination
+                     with COMBO set and COMBO_BASE unset, by
+                     AI-internal/useful-scripts/rewrite_weighting_premise.py
+inputs:              results/$COMBO/members.json — unchanged — and the weighting child's
+                     corrected results/$COMBO/model_option_spec.json
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               unchanged; the component seed is derived from the node path
+commit:              14165dd
+instructions-commit: 595c32d
+node:                analysis/03_models/03_candidate/c_ensemble
+produced:            2026-09-06
+```
+
+`assemble` copies each fork child's whole specification into `stages`, so a weighting premise
+corrected at the child and not re-assembled here would leave the contradiction one file
+further out. That is why these 47 were re-run: nothing about the assembler changed.
+
+**`model_configuration.yaml` is byte-identical for all 47.** The premise is not an option
+value, so it never reached the configuration; `configuration_sha256`, `user_option_values`,
+`members_sha256` and the seed are unchanged, and no model had to be evaluated again. Measured
+key by key in `AI-generated/validation/26-09-06_weightingPremiseRewrite.json`, which lists
+zero fields that should not have moved.
+
+alternatives-considered: leaving `candidate_spec.json` as it stood, on the grounds that the
+authoritative copy is the child's. Rejected — the assembled document is what
+`check_pool.py` reads the registered prediction from, and two copies of one specification
+that disagree is the shape of defect this batch exists to remove.
+
+agency: agent-autonomous.
+information: agent-retrieved — digests computed from the files.

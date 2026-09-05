@@ -773,3 +773,78 @@ batch 18 produced the finding about the freeze rule. Whether an outsider can sti
 alternative to this tree is unestablished.
 
 **agency:** agent-autonomous.
+
+---
+
+## `26-09-06_weightingPremiseRewrite.json` — what batch 32's fix to the pool premise changed
+
+```
+result:       AI-generated/validation/26-09-06_weightingPremiseRewrite.json
+script:       AI-internal/useful-scripts/rewrite_weighting_premise.py
+              sha256:410e97722b3421c1440463042ce3eae81d7103b6875d5644a819962f9e6a1fab
+invocation:   .venv/bin/python AI-internal/useful-scripts/rewrite_weighting_premise.py
+inputs:       analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/*/
+              model_option_spec.json and .../c_ensemble/results/*/candidate_spec.json,
+              each against its own version at HEAD, read with `git show`; and, for the
+              rewrite itself, the tree's own two steps run once per combination
+environment:  .venv (repository machinery); the two analysis steps under
+              environment/chapenv
+commit:       14165dd
+produced:     2026-09-06
+```
+
+The weighting child of candidate 3 registered a six-member pool at 1/6 each where four at 1/4
+ran, in 40 of 47 combinations, from batch 22 until this batch. Correcting the rule means every
+one of the 47 specifications has to be written again, and every `candidate_spec.json` that
+embeds one as its `stages[0]`. This script does that by running the tree's own two steps under
+each combination — never by editing a file — and then compares both versions of every document
+key by key.
+
+**94 documents, all 94 changed in the premise only**: 80 had the membership corrected, 14
+already named the right four and gained the added field and the reworded source. **All 47
+`model_configuration.yaml` are byte-identical to their committed versions**, so
+`configuration_sha256` — what `chap eval` was pointed at — is unchanged and no model had to be
+run again to say what it is. Zero fields that should not have moved. The script exits 1 if
+either of the last two is false. A second pass reproduced all 102 documents byte for byte.
+
+`prepare_members.py` is deliberately not re-run: `members.json`'s digest is carried inside the
+pool's own configuration, so that file is verified unchanged rather than rewritten.
+
+agency: agent-autonomous.
+information: agent-retrieved.
+
+---
+
+## `26-09-06_premiseDefence.json` — six situations put to batch 32's defence
+
+```
+result:       AI-generated/validation/26-09-06_premiseDefence.json
+script:       AI-internal/useful-scripts/check_premise_defence.py
+              sha256:c593650ebc2d88b7269128118a55e98b0bc25fcb14efdfca6fd467daf25534b8
+invocation:   .venv/bin/python AI-internal/useful-scripts/check_premise_defence.py
+inputs:       the live tree, staged one file at a time from commit a4ce730 and restored;
+              AI-generated/validation/26-09-05_cleanroom-artefacts/run.log
+environment:  .venv (repository machinery); the staged analysis steps under
+              environment/chapenv
+commit:       (recorded with this batch's closing commit)
+produced:     2026-09-06
+```
+
+Two defences were built and both have to be shown working under conditions the repository is
+no longer in: `prepare_members.py` refuses to build a pool whose registered premise names
+other members, and `/validate invariants` gains a `pool` check reading the committed documents
+against each other and against the tree. So the repository is put back into those conditions,
+one file at a time, and restored after each.
+
+**Six situations, six passes.** The first is the only one whose evidence came from a machine
+that had never run this repository: the clean-room log of 2026-09-05 prints `6 members at
+0.167 each` and, three lines later, the pool it actually built — `4 — persistence,
+climatology, hier_nb, boosted`, with `b_negBinomialFloor` and `b_frozenWindow` left out. The
+fixed child now prints the first line as the second one already said it, with the same two
+exclusions. The rest stage the pre-batch-32 specification and require the four findings it
+should draw, the two it should still draw with the pool's own records out of reach, the one a
+stale embedded copy should draw alone, and a run that exits 1 having written nothing.
+`analysis/` is left clean by git's own account, which the script checks and reports.
+
+agency: agent-autonomous.
+information: agent-retrieved.

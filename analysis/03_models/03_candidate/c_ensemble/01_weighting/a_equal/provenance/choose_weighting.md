@@ -127,3 +127,69 @@ alternatives are in the first section.
 agency: agent-autonomous.
 information: agent-retrieved — the digest is computed from the file, the change read from the
 diff at `2799be5`, and the spec's contents from the file on disk.
+
+## Batch 32 — the membership comes from the pool's own rule, and the 47 specifications again
+
+```
+result:              results/$COMBO/model_option_spec.json, all 47 combinations
+script:              scripts/choose_weighting.py
+                     sha256:5fef20d06d9e1293b80b14fd110c1b74c6f0a165deb3620691030dfcd43da066
+                     analysis/03_models/scripts/lib/pool_shape.py
+                     sha256:f21b28fd9257e3ef9d4f8e52ae5e614335be021bca4dbd9d1446e3299f4d7e95
+invocation:          unchanged: "$PYTHON" scripts/choose_weighting.py, from the node
+                     directory via the pool's run.sh. For the 46 combinations that are not
+                     on the main path, run once each with COMBO set and COMBO_BASE unset,
+                     by AI-internal/useful-scripts/rewrite_weighting_premise.py
+inputs:              the shape of the tree — every Chap contract directory under
+                     analysis/03_models except the pool's own, with every alternatives fork
+                     above one resolved to the child this combination takes. The
+                     resolution reads the model_spec.json of models that run before this
+                     node, and the fork's own main path where none has run. Nothing
+                     downstream.
+environment:         environment/ (project main) — CPython 3.13.0, chap-core==2.1.0
+seeds:               none.
+commit:              91bda84 (the scripts), 14165dd (the 47 specifications)
+instructions-commit: 595c32d
+node:                analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal
+produced:            2026-09-06
+```
+
+**What changed in the script.** It computed the pool's membership itself, by globbing for
+Chap contract directories and counting them. `prepare_members.py` computed it by resolving
+every alternatives fork above a contract to the child the combination takes. The two agreed
+until batch 22 gave the persistence baseline and the climatology baseline a second published
+construction each, and from that day this file recorded a **six-member pool at 1/6 each with
+two-thirds of its mass on the plan's required baselines** where **four members at 1/4** ran.
+Both statements were printed by the same run, three lines apart, in every log the project
+has — including the clean-room run of 2026-09-05, whose `run.log` says `6 members at 0.167
+each` on one line and `ensemble members[main]: 4` on another.
+
+Both now call `03_models/scripts/lib/pool_shape.py`. The premise gains
+`contracts_not_on_this_combinations_path`, which names the constructions this combination did
+not take, and `source` and `nothing_downstream_is_read` are rewritten to describe the rule
+that is there rather than the glob that is gone.
+
+**Nothing computed moved.** The premise reaches no model: `model_configuration.yaml` is
+built from `user_option_values`, the covariates and the seed. All 47 configurations are
+byte-identical to their previous versions, so `configuration_sha256` — what `chap eval` was
+pointed at — is unchanged and no model had to be run again. 80 documents had the membership
+corrected and 14 already named the right four; the measurement is
+`AI-generated/validation/26-09-06_weightingPremiseRewrite.json`, and a second pass reproduced
+all 102 documents byte for byte.
+
+**`what_the_premise_implies` is unchanged, and was never wrong.** It predicts that an
+equally weighted pool "puts half its mass on the two required baselines" — which is what
+four members with two baselines does. The premise block beneath it said two-thirds on four.
+The file contradicted itself, and the prediction was the half that was right.
+
+alternatives-considered: resolving each fork from `claim.md`'s main path alone, which would
+have made the membership a pure function of the checkout and never read a result. Rejected
+because the pool must name the model the combination actually scored — under
+`persistence_negBinomialFloor` the member is `b_negBinomialFloor`, and no property of the
+tree says so. Recording *how* each fork resolved was also rejected: that sentence moves with
+`COMBO_BASE` while the membership does not, and a premise that changed when an unrelated
+variable was set would be the same class of defect one field over.
+
+agency: agent-autonomous.
+information: agent-retrieved — the digests are computed from the files, the cold-checkout
+evidence read from `AI-generated/validation/26-09-05_cleanroom-artefacts/run.log`.

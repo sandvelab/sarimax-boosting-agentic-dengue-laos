@@ -302,3 +302,15 @@ re-running a batch produces a different report rather than the same one.
   Thailand, 0.565 on Laos and 7.082 on Vietnam**, a factor of 219, so Vietnam's margin sits
   inside its own noise floor and the project's "nothing below 0.57 CRPS" is a property of the
   Lao dataset rather than of the method. Added no batches; **19 is the only open row**.
+- `26-09-05_b19_theCaseTheReportAndTheReleaseThatWaits.md` — batch 19, phase E,
+  `done — produced`: **the case write-up, the reproducibility report, and the release that is
+  not pushed.** `/validate cleanroom` ran to the end with `06_external` in the tree — 14.87 h,
+  exit 0, **207 of 207 scores from models this project wrote came back identical** — and
+  **withdrew batch 20's clause that all three drops clear the two reference bands**, false for
+  Laos and Thailand on the new draw. `/validate outsider` found two arithmetic errors, the
+  resolution yardstick applied to one number out of six (**the held-out headline is 0.94
+  standard errors, below the project's own 1.03 line**), two yardsticks that disagree, three
+  provenance gaps, and a recorded premise contradicting the pool in **40 of 47 combinations** —
+  the last of which is why the release was assembled and not pushed. One of its two agents was
+  killed by an account spend limit, so the write-into-the-tree half did not run. Added
+  batches 32 and 33.

@@ -696,7 +696,7 @@ is finished, and batch 5 decides how.
 Status values: `open` · `done — produced` · `done — expanded` · `blocked`. Update this table
 at the end of every batch, and append newly created batches to it.
 
-**Next open batch: 19, then 32, then 33.** *(Updated 2026-09-05, mid-batch-19: `/validate outsider` found a defect in forty committed files, and the release scan found two questions only the human can answer. Batch 19 delivers the case write-up, the reproducibility report, the hierarchical report, the plan drift, the outsider check and the safety scan; the push moves to 33, behind 32's fix.)* §5 says the ledger runs top to
+**Next open batch: 32, then 33.** *(Updated 2026-09-05, mid-batch-19: `/validate outsider` found a defect in forty committed files, and the release scan found two questions only the human can answer. Batch 19 delivers the case write-up, the reproducibility report, the hierarchical report, the plan drift, the outsider check and the safety scan; the push moves to 33, behind 32's fix.)* §5 says the ledger runs top to
 bottom, and for the phase-E tail it no longer did: **19 and 20 sat above the batches that ran
 before them**, because 19 is the release and must not claim more than the checks support, and
 because batches added later were appended rather than inserted. Both had been open since
@@ -732,7 +732,7 @@ batch 20 closed — none of which adds a batch, and after the last of them one r
 | 16 | E | The holdout, opened once, on the frozen manifest | done — produced | [[26-08-31_b16_holdout]] |
 | 17 | E | Claims and the hierarchical report | done — produced | [[26-08-31_b17_claimsAndReport]] |
 | 18 | E | Clean-room and outsider validation; the plan's own drift | done — produced | [[26-09-01_b18_validationAndDrift]] |
-| 19 | E | The case write-up, the reproducibility report, the release | open | |
+| 19 | E | The case write-up, the reproducibility report, the release. **All three produced, and the release scanned and assembled but not pushed: the outsider check found a defect in forty committed files and a release must not claim more than its checks support.** `/validate cleanroom` ran to the end with `06_external` in the tree — 14.87 h, exit 0, 207 of 207 scores from our models identical — and **withdrew batch 20's clause that all three drops clear the two reference bands**, which came back false for Laos and for Thailand. `/validate outsider` found two arithmetic errors, the resolution yardstick applied to one number out of six (five of the other five are below the project's own 1.03 line, the held-out headline among them), two yardsticks that disagree, three provenance gaps and the defect that stops the release. One of its two agents was killed by an account spend limit, so the write-into-the-tree half did not run | done — produced | [[26-09-05_b19_theCaseTheReportAndTheReleaseThatWaits]] |
 | 32 | E | **`choose_weighting.py`'s premise contradicts the pool it describes, in 40 of 47 combinations.** It builds its statement of what the pool will contain from an unfiltered glob over model contract directories, so since batch 22 added a second child to each baseline fork it has recorded a six-member pool at 1/6 each with two-thirds of its mass on required baselines, where four members at 1/4 ran. The run log prints both statements two lines apart. No score moves — `user_option_values` is unaffected — but the registered prediction is written on a premise the file contradicts, and re-running one main-path step of the reported analysis rewrites a committed file for a reason that is not the unseeded reference. Fifth instance of the fork-blindness family; found by `/validate outsider` on 2026-09-05. **Build the defence against the clean-room run's own output**, as batches 26, 30 and 28 each did | open | |
 | 33 | E | The release's last step: create the remote and push, after batch 32 and after the human has settled the two questions batch 19's `/release` scan raised — whether the unpublished manuscript, proposal and supplement in `Archive/case-source-material/` and the plan in `Archive/plan-as-delivered/` may be published, neither of which carries a licence statement; and whether the home-directory path, which appears 3 939 times in 348 tracked files, may go out with them | open | |
 | 20 | E | The external check on `tha` and `vnm` — **confirmed, not cut; runs before batch 19**. **The reported model, unchanged, on both, in the same two arrangements Laos is reported in and on the same months. The development-to-final-year drop replicates in both — Thailand +0.0856 → +0.0197, Vietnam +0.0852 → −0.0862, against Laos's +0.1485 → +0.0868, every drop larger than the two reference bands together — so 2010 alone does not account for it. Six of six beat both required baselines and five of six the reference. The country the model was developed on is the one it scores highest on, by 0.063, while the two it never saw agree to 0.0004. And the reference's own re-run spread is 0.032 CRPS on Thailand, 0.565 on Laos and 7.082 on Vietnam — a factor of 219 — so the project's noise floor is a property of the dataset and not of the method** | done — produced | [[26-09-04_b20_theDropReplicatesInTwoMoreCountries]] |
@@ -1356,6 +1356,10 @@ Everything else is yours to decide, and the record of how you decided it is a de
 ### Batch 20 — the external check: the drop replicates in two more countries
 
 - [[26-09-04_b20_theDropReplicatesInTwoMoreCountries]]
+
+### Batch 19 — the case, the report, and the release that waits
+
+- [[26-09-05_b19_theCaseTheReportAndTheReleaseThatWaits]]
 
 ### Batch 21 — the greedy branch
 

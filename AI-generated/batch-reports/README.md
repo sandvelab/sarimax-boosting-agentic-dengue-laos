@@ -314,3 +314,15 @@ re-running a batch produces a different report rather than the same one.
   the last of which is why the release was assembled and not pushed. One of its two agents was
   killed by an account spend limit, so the write-into-the-tree half did not run. Added
   batches 32 and 33.
+- `26-09-06_b32_theMembershipIsOneRule.md` — batch 32, phase E, `done — produced`: **the
+  weighting child and the pool stop computing what the pool contains twice.** Both now call
+  `03_models/scripts/lib/pool_shape.py`. Since batch 22 gave two baselines a second published
+  construction each, the registered specification had said **six members at 1/6 with
+  two-thirds of the mass on required baselines** where **four at 1/4** ran, in 40 of 47
+  combinations — and the file contradicted itself, because the prediction beneath that premise
+  said *half*. **94 documents rewritten** and **nothing computed moved**: all 47
+  `model_configuration.yaml` byte-identical, so no model was evaluated again. Two defences —
+  the run refuses to build a pool its registered premise contradicts, and `/validate
+  invariants` gains an eleventh check, `pool` — put to six situations, all passing, the first
+  driven by the clean-room log's own two lines. **Fifth and last instance of the
+  fork-blindness family.** Added no batches; 33 is the only open row.

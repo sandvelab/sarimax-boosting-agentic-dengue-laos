@@ -120,8 +120,12 @@ only remaining blocker. The remote — `github.com/sandvelab/veridical-agentic-d
 human-set 2026-08-31 — does not exist and will be created as the last step, after the scan,
 which has now run.
 
-**Feasibility, measured**: `.git` is 131 MB packed and no tracked file exceeds 50 MB, though
-the working tree is 2.6 GB.
+**Feasibility, measured on 2026-09-05**: `.git` is **189 MB**, and the largest tracked file is
+**41.8 MB** — `main__tha/eval.nc`, one of the external check's NetCDF evaluations. Both figures
+have grown since batch 16 measured 131 MB and the plan recorded it: Thailand carries 76
+provinces against Laos's 16, so its evaluations are the largest objects in the project. 41.8 MB
+is inside GitHub's 50 MB advisory threshold and well inside its 100 MB hard limit, and
+`readme-at-start.md` is corrected. The working tree is 2.6 GB.
 
 ---
 

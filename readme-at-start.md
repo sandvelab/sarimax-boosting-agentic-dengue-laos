@@ -192,6 +192,19 @@ check in batch 18 is a six-hour run. Both human-set, 2026-08-31, on batch 16's q
   the two of them (`AI-generated/validation/26-09-01_freezeDefence.md`); against the superseded
   script six of seven fail and every one exits 0. A second field was being overwritten by every
   run and nobody had noticed: `frozen_on`, one line above the field batch 16 repaired.
+  **Batch 32 added `03_models/scripts/lib/pool_shape.py` and an eleventh invariant.** What
+  the pool contains is now decided in one place, called by both the weighting child that
+  registers it and the step that builds the pool from it; the two had computed it separately
+  and disagreed from batch 22 onward, the specification saying **six members at 1/6 with
+  two-thirds of the mass on the required baselines** where **four at 1/4** ran, in 40 of 47
+  combinations. Ninety-four documents were rewritten by re-running the tree's own two steps —
+  the 47 `model_option_spec.json` and the 47 `candidate_spec.json` that embed one — and **all
+  47 `model_configuration.yaml` came back byte-identical**, so `configuration_sha256` never
+  moved and no model was evaluated again. `/validate invariants` gains a **`pool`** check in
+  three clauses, and `prepare_members.py` refuses to build a pool whose registered premise
+  names other members before it writes anything. Six situations were put to the two of them
+  (`AI-generated/validation/26-09-06_premiseDefence.json`), the first driven by the clean-room
+  run's own log, which printed the wrong count and the right one three lines apart.
   **Batch 16 opened the holdout and ran the frozen set on it.** `01_data/01_partition`
   gained `open_holdout.py`, which reassembles the archived file from the two parts beside it
   and verifies the result byte for byte, so the node that was the only one licensed to read
@@ -218,7 +231,9 @@ check in batch 18 is a six-hour run. Both human-set, 2026-08-31, on batch 16's q
   called a family's `run.sh` after the moved child, which re-runs that fork's sibling when
   the fork belongs to the family that is running. **All four are the same fork-blindness** —
   a step that discovers something from the tree, written when every fork had one child that
-  did anything — and this is the fourth, third and last count of it. The batch also carried
+  did anything. Batch 14 called itself the last count of it and was wrong twice over: batch
+  22 found two more and **batch 32 a fifth**, so the family runs to five and the batch that
+  declared it closed is part of the record of why that kind of declaration is worth little. The batch also carried
   out the **assembler lift** batches 10 and 11 both logged and deferred to whichever batch
   re-ran the combinations those scripts configured: `03_models/scripts/lib/assemble_config.py`
   is now the one way a candidate family's configuration is assembled, and the three families
@@ -230,6 +245,9 @@ check in batch 18 is a six-hour run. Both human-set, 2026-08-31, on batch 16's q
   two persistence baselines and two climatologies**, silently, under `main`; and `01_collect`
   inherited from `COMBO_BASE` per node rather than per fork, which would have put both
   constructions on one leaderboard. Both leave every existing result byte-identical.
+  **It fixed one of two globs that read the tree the same way and left the other**: the
+  weighting child's `choose_weighting.py` counted contract directories to say what the pool
+  would contain, and went on saying six for ten days. That is batch 32.
   **Batch 11 added `03_models/03_candidate/c_ensemble`** — candidate 3, a linear opinion pool
   over the two candidate families and both required baselines — with one fork, `01_weighting`.
   It scores **18.817** and **the family fork was promoted to it**, so `analysis/run.sh` now
@@ -332,11 +350,19 @@ check in batch 18 is a six-hour run. Both human-set, 2026-08-31, on batch 16's q
    went from four (`aggregate`, `family`, `provinces`, `trainingWindow`) to one (`family`).
    Every check here compares values, so every one of them calls that field reproduced. Batch
    19 reports such agreement by identity and not only by count.
-   **What that run did not cover.** `analysis/06_external` was added afterwards, in batch 20,
-   and `analysis/run.sh` now calls it, so the external check's four rows have not been through
-   a clean-room run. Their models are the same models the 192 verified scores come from, on
-   different data; the node's own scripts are not. A `/validate cleanroom` in batch 19 would
-   settle it, at the cost of adding 1.81 hours to a run that already takes eleven.
+   **What that run did not cover, and what covered it.** `analysis/06_external` was added
+   afterwards, in batch 20, so the external check's four rows were outside batch 31's run.
+   **Batch 19 ran `/validate cleanroom` again with that node in the tree** — 14.87 h, exit 0,
+   **207 of 207 scores from models this project wrote came back identical** — which settles it
+   and, in the same run, withdrew batch 20's clause that all three development-to-final-year
+   drops clear the two reference bands.
+   **What has changed since that run.** Batch 32 rewrote **94 committed documents** — the
+   weighting specifications and the assembled specifications that embed them. Nothing computed
+   moved: all 47 `model_configuration.yaml` are byte-identical and a second pass reproduced
+   102 documents byte for byte, so the rewritten files are deterministic functions of the
+   checkout. Whether to spend another full run before the push is nonetheless a live question,
+   and it is **batch 33's, and the human's** — the project's own standard is that a release
+   must not claim more than its checks support.
    **Batch 28 closed the one thing that run left open.** `check_pool.py`'s member matching
    depended on which combinations existed on disk — 13 `pool_check.json` files came back
    changed from the clean checkout, `main` among them. It is now a rule over the combination

@@ -2795,7 +2795,11 @@ their two artefacts under `AI-generated/validation/`. Changed `choose_weighting.
 `prepare_members.py`, `check_invariants.py`, and 94 produced documents. Sections appended to
 three provenance records, to `AI-generated/validation/provenance.md`, and to the READMEs of
 `AI-internal/useful-scripts/`, `AI-generated/validation/` and `AI-generated/batch-reports/`.
-Report: `AI-generated/batch-reports/26-09-06_b32_theMembershipIsOneRule.md`. Five commits.
+`readme-at-start.md` updated in four places: the fork-blindness family runs to five and not to
+four, batch 22 fixed one of two globs that read the tree the same way, batch 32's own addition,
+and the clean-room paragraph — which still said a `/validate cleanroom` in batch 19 *would*
+settle `06_external`, three weeks after batch 19 ran one.
+Report: `AI-generated/batch-reports/26-09-06_b32_theMembershipIsOneRule.md`. Six commits.
 
 ### Follow-ups
 

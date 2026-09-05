@@ -1,0 +1,2734 @@
+{
+ "combinations": 47,
+ "configuration_sha256_unchanged_everywhere": true,
+ "configurations": [
+  {
+   "combination": "autoregressive_lag3",
+   "identical_to_head": true,
+   "sha256": "a3780ff546a845c56811a549df72be84488bcc520a72634989ceb0303ee28e62"
+  },
+  {
+   "combination": "autoregressive_lag3__holdout",
+   "identical_to_head": true,
+   "sha256": "7262f6099bff28440b1c8d6b150f800005a03e7fa3b64b91c0d78fb2ddf10a07"
+  },
+  {
+   "combination": "climatology_frozenWindow",
+   "identical_to_head": true,
+   "sha256": "545e9c7d0fb3e4c89e87fea93133cd233670156f62895aeef5679e5e0027b848"
+  },
+  {
+   "combination": "climatology_frozenWindow__holdout",
+   "identical_to_head": true,
+   "sha256": "05004517561c65cae7cf145449360c9a63af3e40127753e0e545db87432c7e77"
+  },
+  {
+   "combination": "covariates_lagged",
+   "identical_to_head": true,
+   "sha256": "f4f1b8d6e3ea226463f844839950d79a2935ffb23445a8bde4f8a87a3dd46e6e"
+  },
+  {
+   "combination": "covariates_lagged__holdout",
+   "identical_to_head": true,
+   "sha256": "1f883db36cf2edf26234ca27752c412d6325c61094e465c4d3f8a0c9598d81d5"
+  },
+  {
+   "combination": "covariates_rich",
+   "identical_to_head": true,
+   "sha256": "91ab4334b99dfd6ee9360b67f0c404f6873576265462f5efda970a3cc3edf85a"
+  },
+  {
+   "combination": "covariates_rich__holdout",
+   "identical_to_head": true,
+   "sha256": "c77ab407eb6ff50eef66f8429ecd6817c372cc094a1bfb50cb6cb825139c6165"
+  },
+  {
+   "combination": "family_ensemble",
+   "identical_to_head": true,
+   "sha256": "c7494bce539927c4bc0817c781b0b589dd43926e2283ace8bff0a2a0262b12ee"
+  },
+  {
+   "combination": "features_richCalendar",
+   "identical_to_head": true,
+   "sha256": "e8cbf6be1eff73b52c26a28232bad23f240d023d9640e65b871d420bf672c59c"
+  },
+  {
+   "combination": "features_richCalendar__holdout",
+   "identical_to_head": true,
+   "sha256": "7a5851e6d3853b8a3dcd92c69d9d76f5cfd9e8614cad4ce5dfdf514b52e31de9"
+  },
+  {
+   "combination": "fitTime_refitAtPredict",
+   "identical_to_head": true,
+   "sha256": "45bbc6fcf1e5f392ccb0a7975743bc973b394d2a1b4d69fe09e1dc0a8efe2fd1"
+  },
+  {
+   "combination": "fitTime_refitAtPredict__holdout",
+   "identical_to_head": true,
+   "sha256": "e26955d34c5e6be1d2cc1ec4d3739fd306e9512f7687bd21405e24d9e0fae79a"
+  },
+  {
+   "combination": "head_quantileEnsemble",
+   "identical_to_head": true,
+   "sha256": "dd2e4f553957a1f9e3d9c7973720312ace752f1e9000f800d4325fd265c41a66"
+  },
+  {
+   "combination": "head_quantileEnsemble__holdout",
+   "identical_to_head": true,
+   "sha256": "c43e2dee36c10e829a9b186c1f6f70f6a1b7dcafad7f72425a8fe5076357d0b1"
+  },
+  {
+   "combination": "main",
+   "identical_to_head": true,
+   "sha256": "1b7c18190fdd34707754231c300b0551880ab61179b1660033b9b979c5181304"
+  },
+  {
+   "combination": "main__holdout",
+   "identical_to_head": true,
+   "sha256": "db0f54d1273d53e6aebedc45e77793c66d31136399549c7382864991bf3f1b36"
+  },
+  {
+   "combination": "main__tha",
+   "identical_to_head": true,
+   "sha256": "5bac7cea82e02c6130a9eeca6518c8880ec1b1347f7b845fc88d28581cc0033d"
+  },
+  {
+   "combination": "main__thaFinal",
+   "identical_to_head": true,
+   "sha256": "b14a1d46f518d92659f6088999a5cffc08fbd045a0b5eeeb50a5dc331a4de28c"
+  },
+  {
+   "combination": "main__vnm",
+   "identical_to_head": true,
+   "sha256": "ef811469001ece113d842794a5ebbb430b9101b850bd34cf8a3f67e8700f02eb"
+  },
+  {
+   "combination": "main__vnmFinal",
+   "identical_to_head": true,
+   "sha256": "e8da0ca5f7fe5d884efea42c62c1ac801b7866cd8efb6c5713c2aedde5314408"
+  },
+  {
+   "combination": "observation_negBinomial",
+   "identical_to_head": true,
+   "sha256": "1156da502cd78e2034a2053393ab23391709d2c7392ddb68605bce47939f6ca0"
+  },
+  {
+   "combination": "observation_negBinomial__holdout",
+   "identical_to_head": true,
+   "sha256": "f4dcffe3319373c4f0b2904c8c573e4a847e405851a88e6557ab760c146b8fd5"
+  },
+  {
+   "combination": "observation_zeroInflated",
+   "identical_to_head": true,
+   "sha256": "6bd3dfc9c4da0997d0293a4a1614fa29909bcde5e095467a7dd17d352045e060"
+  },
+  {
+   "combination": "observation_zeroInflated__holdout",
+   "identical_to_head": true,
+   "sha256": "5d718c77d7b5f3ee4027ef39d462802b0c1d21bb9dc38022f5b09e97d218f4e1"
+  },
+  {
+   "combination": "persistence_negBinomialFloor",
+   "identical_to_head": true,
+   "sha256": "eb05a76cf0f4c084cddfabde850663582bc50e1bc0754421a0f3ee7ead1139ed"
+  },
+  {
+   "combination": "persistence_negBinomialFloor__holdout",
+   "identical_to_head": true,
+   "sha256": "ab8066f5e08f3d5c67c26b60f8cd63a0c9ef48b540c0ead9146deafd51be2d85"
+  },
+  {
+   "combination": "popColumn_backCast",
+   "identical_to_head": true,
+   "sha256": "92795d2714c4b4fab45e8521eb221f165649bbfdc23904669436336fbacbacc2"
+  },
+  {
+   "combination": "popColumn_backCast__holdout",
+   "identical_to_head": true,
+   "sha256": "1d9d128803f756441e7797b1754f13b41265560a677608cbc125c40bc4e7b8fd"
+  },
+  {
+   "combination": "population_covariate",
+   "identical_to_head": true,
+   "sha256": "40033531687eb3e9811f80509dc5092c4c7e6a3a2e36ea663e775852a0c585ce"
+  },
+  {
+   "combination": "population_covariate__holdout",
+   "identical_to_head": true,
+   "sha256": "15d9f138d9d7f85b5e4f6db091b8c1272b8fc2bc16683c36107bed6caaf01a9f"
+  },
+  {
+   "combination": "population_ignored",
+   "identical_to_head": true,
+   "sha256": "4cd38736aa1abe542877d9f669892fcab9f0ffa77d38b3ba2341c3d1f3a482ba"
+  },
+  {
+   "combination": "population_ignored__holdout",
+   "identical_to_head": true,
+   "sha256": "59cd8f79fe2be4427671f8ee3434b3c84ca422a276e2fa4f73e5b8e8f6fb3a38"
+  },
+  {
+   "combination": "provinces_mergeVientiane",
+   "identical_to_head": true,
+   "sha256": "23da47db0d584f597c6444a246e86797a652de4ed4bac0430fff962600ecb625"
+  },
+  {
+   "combination": "provinces_mergeVientiane__aggregate_caseWeighted",
+   "identical_to_head": true,
+   "sha256": "a85daccd00382ffbdbfc3a2f32f8183006c27f6683b68be02e4d50f0e934a6f6"
+  },
+  {
+   "combination": "provinces_mergeVientiane__aggregate_caseWeighted__holdout",
+   "identical_to_head": true,
+   "sha256": "ac758acd7e56c4987173eae0dcfec5b549499b968394efa5a321f83b0aee5d3c"
+  },
+  {
+   "combination": "provinces_mergeVientiane__holdout",
+   "identical_to_head": true,
+   "sha256": "8073c147aa85428388436654d6ccf80623984961a2cca4ac2af13bf314a4e61f"
+  },
+  {
+   "combination": "provinces_reportingOnly",
+   "identical_to_head": true,
+   "sha256": "5aece957f65e5436a053d752b07cc834324a1ad29679b14540852453da1f5af4"
+  },
+  {
+   "combination": "provinces_reportingOnly__aggregate_caseWeighted",
+   "identical_to_head": true,
+   "sha256": "4ad61d915a1c241d2286b905a82b45560a132497f68a91b5236fdf6e32136cc4"
+  },
+  {
+   "combination": "provinces_reportingOnly__aggregate_caseWeighted__holdout",
+   "identical_to_head": true,
+   "sha256": "f3e9ef8b4203a96f89d746cb1303636190f7a5c93832fcd716ce943d707f8971"
+  },
+  {
+   "combination": "provinces_reportingOnly__holdout",
+   "identical_to_head": true,
+   "sha256": "9e87fc153e2cb13ceaa38263fb19e29b7481601b26bf8c0f87a33f2ed55b8e75"
+  },
+  {
+   "combination": "retrain_everySplit",
+   "identical_to_head": true,
+   "sha256": "2527826e8e1f16d33535d2780b0c4429c2b5d6241ce29a29e55b053e751158e8"
+  },
+  {
+   "combination": "retrain_everySplit__holdout",
+   "identical_to_head": true,
+   "sha256": "92255383e200464d201631169a4db3ee032be97c33ffcd44a115f517f2a716e7"
+  },
+  {
+   "combination": "trainingWindow_from2004",
+   "identical_to_head": true,
+   "sha256": "e65e4062cedfcefb62faadd7d92ff3ae9f5a70df0dd5794617f9b24db85ec52a"
+  },
+  {
+   "combination": "trainingWindow_from2004__holdout",
+   "identical_to_head": true,
+   "sha256": "7d8eae9ec0bb58ca5e51ff34ef51de3edfd48859e92a4cd0819ddb878297265a"
+  },
+  {
+   "combination": "yearVariance_shared",
+   "identical_to_head": true,
+   "sha256": "97f7dac534d68ce11303150a9cbb9fdbcc8d76d2f3182e44a50dcbfc43686a15"
+  },
+  {
+   "combination": "yearVariance_shared__holdout",
+   "identical_to_head": true,
+   "sha256": "568325fe7c555cbc6ee95132e40493d73f4c68378b5c4abbacaf0966df4acf99"
+  }
+ ],
+ "documents": 94,
+ "documents_changed_in_the_premise_only": 94,
+ "documents_unchanged": 0,
+ "fields_that_should_not_have_moved": [],
+ "member_count_after": [
+  4
+ ],
+ "member_count_before": {
+  "four": [
+   "family_ensemble",
+   "main",
+   "popColumn_backCast",
+   "provinces_mergeVientiane",
+   "provinces_reportingOnly",
+   "retrain_everySplit",
+   "trainingWindow_from2004"
+  ],
+  "other": {},
+  "six": [
+   "autoregressive_lag3",
+   "autoregressive_lag3__holdout",
+   "climatology_frozenWindow",
+   "climatology_frozenWindow__holdout",
+   "covariates_lagged",
+   "covariates_lagged__holdout",
+   "covariates_rich",
+   "covariates_rich__holdout",
+   "features_richCalendar",
+   "features_richCalendar__holdout",
+   "fitTime_refitAtPredict",
+   "fitTime_refitAtPredict__holdout",
+   "head_quantileEnsemble",
+   "head_quantileEnsemble__holdout",
+   "main__holdout",
+   "main__tha",
+   "main__thaFinal",
+   "main__vnm",
+   "main__vnmFinal",
+   "observation_negBinomial",
+   "observation_negBinomial__holdout",
+   "observation_zeroInflated",
+   "observation_zeroInflated__holdout",
+   "persistence_negBinomialFloor",
+   "persistence_negBinomialFloor__holdout",
+   "popColumn_backCast__holdout",
+   "population_covariate",
+   "population_covariate__holdout",
+   "population_ignored",
+   "population_ignored__holdout",
+   "provinces_mergeVientiane__aggregate_caseWeighted",
+   "provinces_mergeVientiane__aggregate_caseWeighted__holdout",
+   "provinces_mergeVientiane__holdout",
+   "provinces_reportingOnly__aggregate_caseWeighted",
+   "provinces_reportingOnly__aggregate_caseWeighted__holdout",
+   "provinces_reportingOnly__holdout",
+   "retrain_everySplit__holdout",
+   "trainingWindow_from2004__holdout",
+   "yearVariance_shared",
+   "yearVariance_shared__holdout"
+  ]
+ },
+ "model_configurations_identical_to_head": 47,
+ "model_configurations_rebuilt": 47,
+ "model_configurations_that_changed": [],
+ "rows": [
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "autoregressive_lag3",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/autoregressive_lag3/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "autoregressive_lag3",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/autoregressive_lag3/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "autoregressive_lag3__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/autoregressive_lag3__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "autoregressive_lag3__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/autoregressive_lag3__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "climatology_frozenWindow",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/climatology_frozenWindow/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "climatology_frozenWindow",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/climatology_frozenWindow/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "climatology_frozenWindow__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/climatology_frozenWindow__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "climatology_frozenWindow__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/climatology_frozenWindow__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "covariates_lagged",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/covariates_lagged/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "covariates_lagged",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/covariates_lagged/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "covariates_lagged__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/covariates_lagged__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "covariates_lagged__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/covariates_lagged__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "covariates_rich",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/covariates_rich/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "covariates_rich",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/covariates_rich/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "covariates_rich__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/covariates_rich__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "covariates_rich__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/covariates_rich__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "family_ensemble",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/family_ensemble/model_option_spec.json",
+   "kinds": [
+    "added",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "family_ensemble",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/family_ensemble/candidate_spec.json",
+   "kinds": [
+    "added",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "features_richCalendar",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/features_richCalendar/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "features_richCalendar",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/features_richCalendar/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "features_richCalendar__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/features_richCalendar__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "features_richCalendar__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/features_richCalendar__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "fitTime_refitAtPredict",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/fitTime_refitAtPredict/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "fitTime_refitAtPredict",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/fitTime_refitAtPredict/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "fitTime_refitAtPredict__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/fitTime_refitAtPredict__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "fitTime_refitAtPredict__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/fitTime_refitAtPredict__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "head_quantileEnsemble",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/head_quantileEnsemble/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "head_quantileEnsemble",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/head_quantileEnsemble/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "head_quantileEnsemble__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/head_quantileEnsemble__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "head_quantileEnsemble__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/head_quantileEnsemble__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "main",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/main/model_option_spec.json",
+   "kinds": [
+    "added",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "main",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/main/candidate_spec.json",
+   "kinds": [
+    "added",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "main__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/main__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "main__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/main__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "main__tha",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/main__tha/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "main__tha",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/main__tha/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "main__thaFinal",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/main__thaFinal/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "main__thaFinal",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/main__thaFinal/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "main__vnm",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/main__vnm/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "main__vnm",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/main__vnm/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "main__vnmFinal",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/main__vnmFinal/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "main__vnmFinal",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/main__vnmFinal/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "observation_negBinomial",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/observation_negBinomial/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "observation_negBinomial",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/observation_negBinomial/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "observation_negBinomial__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/observation_negBinomial__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "observation_negBinomial__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/observation_negBinomial__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "observation_zeroInflated",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/observation_zeroInflated/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "observation_zeroInflated",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/observation_zeroInflated/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "observation_zeroInflated__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/observation_zeroInflated__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "observation_zeroInflated__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/observation_zeroInflated__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "persistence_negBinomialFloor",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/persistence_negBinomialFloor/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "persistence_negBinomialFloor",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/persistence_negBinomialFloor/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "persistence_negBinomialFloor__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/persistence_negBinomialFloor__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "persistence_negBinomialFloor__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/persistence_negBinomialFloor__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "popColumn_backCast",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/popColumn_backCast/model_option_spec.json",
+   "kinds": [
+    "added",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "popColumn_backCast",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/popColumn_backCast/candidate_spec.json",
+   "kinds": [
+    "added",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "popColumn_backCast__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/popColumn_backCast__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "popColumn_backCast__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/popColumn_backCast__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "population_covariate",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/population_covariate/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "population_covariate",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/population_covariate/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "population_covariate__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/population_covariate__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "population_covariate__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/population_covariate__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "population_ignored",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/population_ignored/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "population_ignored",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/population_ignored/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "population_ignored__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/population_ignored__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "population_ignored__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/population_ignored__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "provinces_mergeVientiane",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/provinces_mergeVientiane/model_option_spec.json",
+   "kinds": [
+    "added",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "provinces_mergeVientiane",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/provinces_mergeVientiane/candidate_spec.json",
+   "kinds": [
+    "added",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "provinces_mergeVientiane__aggregate_caseWeighted",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/provinces_mergeVientiane__aggregate_caseWeighted/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "provinces_mergeVientiane__aggregate_caseWeighted",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/provinces_mergeVientiane__aggregate_caseWeighted/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "provinces_mergeVientiane__aggregate_caseWeighted__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/provinces_mergeVientiane__aggregate_caseWeighted__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "provinces_mergeVientiane__aggregate_caseWeighted__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/provinces_mergeVientiane__aggregate_caseWeighted__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "provinces_mergeVientiane__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/provinces_mergeVientiane__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "provinces_mergeVientiane__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/provinces_mergeVientiane__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "provinces_reportingOnly",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/provinces_reportingOnly/model_option_spec.json",
+   "kinds": [
+    "added",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "provinces_reportingOnly",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/provinces_reportingOnly/candidate_spec.json",
+   "kinds": [
+    "added",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "provinces_reportingOnly__aggregate_caseWeighted",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/provinces_reportingOnly__aggregate_caseWeighted/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "provinces_reportingOnly__aggregate_caseWeighted",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/provinces_reportingOnly__aggregate_caseWeighted/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "provinces_reportingOnly__aggregate_caseWeighted__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/provinces_reportingOnly__aggregate_caseWeighted__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "provinces_reportingOnly__aggregate_caseWeighted__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/provinces_reportingOnly__aggregate_caseWeighted__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "provinces_reportingOnly__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/provinces_reportingOnly__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "provinces_reportingOnly__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/provinces_reportingOnly__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "retrain_everySplit",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/retrain_everySplit/model_option_spec.json",
+   "kinds": [
+    "added",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "retrain_everySplit",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/retrain_everySplit/candidate_spec.json",
+   "kinds": [
+    "added",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "retrain_everySplit__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/retrain_everySplit__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "retrain_everySplit__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/retrain_everySplit__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "trainingWindow_from2004",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/trainingWindow_from2004/model_option_spec.json",
+   "kinds": [
+    "added",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "trainingWindow_from2004",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/trainingWindow_from2004/candidate_spec.json",
+   "kinds": [
+    "added",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "trainingWindow_from2004__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/trainingWindow_from2004__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "trainingWindow_from2004__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/trainingWindow_from2004__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "yearVariance_shared",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/yearVariance_shared/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "yearVariance_shared",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/yearVariance_shared/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/premise/member_count",
+     "/premise/members",
+     "/premise/required_baselines_among_them",
+     "/premise/share_of_the_pool_on_the_required_baselines",
+     "/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/premise/nothing_downstream_is_read",
+     "/premise/source"
+    ]
+   },
+   "combination": "yearVariance_shared__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/01_weighting/a_equal/results/yearVariance_shared__holdout/model_option_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  },
+  {
+   "changed_fields": {
+    "added": [
+     "/stages/0/premise/contracts_not_on_this_combinations_path"
+    ],
+    "membership": [
+     "/stages/0/premise/member_count",
+     "/stages/0/premise/members",
+     "/stages/0/premise/required_baselines_among_them",
+     "/stages/0/premise/share_of_the_pool_on_the_required_baselines",
+     "/stages/0/premise/weight_each_member_will_carry"
+    ],
+    "reworded": [
+     "/stages/0/premise/nothing_downstream_is_read",
+     "/stages/0/premise/source"
+    ]
+   },
+   "combination": "yearVariance_shared__holdout",
+   "fields_that_should_not_have_moved": [],
+   "file": "analysis/03_models/03_candidate/c_ensemble/results/yearVariance_shared__holdout/candidate_spec.json",
+   "kinds": [
+    "added",
+    "membership",
+    "reworded"
+   ],
+   "unchanged": false
+  }
+ ],
+ "what_this_is": "every model_option_spec.json under 01_weighting/a_equal and every candidate_spec.json that embeds one, HEAD's version against the working tree's, classified field by field, after re-running the tree's own two steps under each combination"
+}

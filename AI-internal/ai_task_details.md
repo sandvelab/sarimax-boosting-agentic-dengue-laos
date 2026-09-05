@@ -2725,3 +2725,30 @@ the run logs — so batch 32 is its only remaining blocker. The agent still asks
 
 **Unestablished:** whether an outsider following these instructions can still add an
 alternative to the tree. That check has not run since batch 18.
+
+### What `/log-tasks` found afterwards, and why it is here rather than in a T32
+
+Running `/log-tasks` after the batch closed did what its step 4 asks — check that what the
+work changed is recorded where it should be — and found three gaps, all of them batch 19's own
+housekeeping rather than new work. They extend this entry rather than opening a new one.
+
+- **`AI-generated/README.md` named `reproducibility-report/`**, a folder that has never
+  existed; the folder is `repro-report/`. A stale path in the index of the directory it
+  indexes, written when the folder was still hypothetical.
+- **`release/` was missing from that README entirely**, both from its table and from its
+  *Currently here* list.
+- **Neither outsider record had a provenance section** — not batch 19's, and not batch 18's,
+  which had gone without one since 2026-08-31. `AGENTS.md` §8 asks for one section per file in
+  any folder holding generated documents.
+
+The outsider entry is the interesting one to write, because **it is the one record in this
+repository that cannot promise reproduction**. Re-running an outsider check at the same commit
+with the same task will not return the same findings: the agents are not seeded, are not the
+same agents, and what they look at is not determined. What the record fixes is the
+*conditions* — the commit, the task verbatim, and what the agent was and was not given — so a
+reader can judge whether the check was fair and run another. It also records that batch 19's
+run is **incomplete**, one agent having been killed by an account spend limit.
+
+The plan-drift entry in the same README still quoted §4b's decision count as 169, which is
+what batch 18 measured; batch 19 remeasured it at 247. Both figures are now there with their
+batches, because the point of that entry is that the count grew.

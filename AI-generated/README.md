@@ -6,7 +6,8 @@ so it can also be deleted without loss — and should be, when its source goes a
 | Path | Produced by | Rebuild with | Regenerable |
 |---|---|---|---|
 | `hierarchical-report/` | `build_hierarchical_report.py` from `analysis/` | `/hierarchical-report` | yes |
-| `reproducibility-report/` | the final text, claims, tree and provenance | `/repro-report` | yes |
+| `repro-report/` | `repro_inventory.py` over the tree, the claims and the provenance, with the narrative written from it | `/repro-report` | inventory yes; the narrative is written and dated |
+| `release/` | `release_scan.py` and `release_manifest.py` over the tree and the git history | `/release` | yes, and the scan's history half takes minutes |
 | `batch-reports/` | `/do`, one per executed batch of the plan | — | **no** |
 | `chap-reconnaissance/` | `AI-internal/reconnaissance/` against the pinned `chap-core` | re-run the script | yes |
 | `method-reconnaissance/` | `AI-internal/reconnaissance/` against the pinned reference model and the model library | re-run the scripts | recipe yes, numbers **no** |
@@ -48,9 +49,19 @@ meantime. If a derived document is wrong, its source is wrong.
   the frozen phase-E set, put to eleven situations to see whether it defends itself. Each
   reports its differences rather than announcing success.
 - `determinism-checks/` — Rule 6 verified by running each of our models twice and diffing.
+- `repro-report/` — the closing report (Rule 10): what was produced, what is tracked and how,
+  the veridical section, the agency record, and what does not hold. Its §5 is the section to
+  read first and is longer than its §1. Every count comes from `repro_inventory.json` beside
+  it rather than from prose, because a closing report that quotes a figure nobody can
+  recompute is the failure the report itself is about.
+- `release/` — Rule 10's safety scan and assembly as files: credentials in the working tree
+  and in every blob the history holds, what each archived dataset says about its own licence,
+  and every item Rule 10 names checked against what git tracks. **The release is the
+  repository**, so assembly is a verification and not a copy.
 - `plan-drift/` — how far the live plan has moved from the plan as delivered, measured
-  rather than described: section-by-section survival, the ledger's growth, §4b's 169
-  decisions tallied by agency, and the plan's commit history. Phase E asks for this as a
+  rather than described: section-by-section survival, the ledger's growth, §4b's decisions
+  tallied by agency — 169 when batch 18 measured it and **247** when batch 19 remeasured it at the
+  end — and the plan's commit history. Phase E asks for this as a
   reported result, because it is the project's only direct evidence on how far an
   agentic system can be handed a research plan and left to run it. Regenerable, and the
   figures are a function of the commit it is run at.

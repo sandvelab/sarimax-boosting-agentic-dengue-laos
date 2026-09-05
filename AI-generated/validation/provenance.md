@@ -717,3 +717,59 @@ comparable figure is 11.6 h for a tree without the external check.
 
 **The scratch clone is gitignored rather than deleted by hand**, since batch 19. It was
 removed after the artefacts were copied out.
+
+---
+
+## `26-08-31_outsider.md` and `26-09-05_outsider.md` — the two outsider checks
+
+**Written on 2026-09-05, batch 19**, when `/log-tasks` found that neither outsider record had
+a section here. Batch 18's has been in the repository since 2026-08-31 without one; this
+covers both, and says so rather than backdating.
+
+```
+result:              AI-generated/validation/26-08-31_outsider.md   (batch 18)
+                     AI-generated/validation/26-09-05_outsider.md   (batch 19)
+script:              none. An outsider check is not a script — it is agent sessions given a
+                     clone and a task, which is why it finds what deterministic code cannot.
+invocation:          two throwaway `git clone`s per run, each handed to a fresh agent with
+                     no conversation history and one task. Batch 18 at commit ad7e64f;
+                     batch 19 at 922506b. The tasks are quoted verbatim in each record.
+inputs:              the repository at the commit named, and nothing else — no summary, no
+                     hint about what was known to be weak. That is the whole method: an
+                     outsider has what a reader would have.
+environment:         each agent's own; the clones built nothing beyond what their task
+                     needed. Batch 19's agent re-ran four analysis scripts under system
+                     CPython with pandas 2.3.0 and numpy 2.3.0 rather than the pinned
+                     versions, and reported that they came back byte-identical.
+seeds:               none, and this is the entry's honest limit — see below.
+commit:              ad7e64f (batch 18), 922506b (batch 19)
+instructions-commit: 595c32d (AGENTS.md, CLAUDE.md, .claude/) for batch 19
+node:                not a node — a check on the method
+produced:            2026-08-31 and 2026-09-05
+alternatives-considered: asking an agent whether the instructions are clear. Rejected in
+                     `AGENTS.md` §5 and by both runs' results: a system asked whether
+                     instructions are clear says yes, and a system asked to follow them
+                     fails visibly at the ambiguous step.
+agency:              agent-autonomous for the tasks and for verifying every finding before
+                     acting on it; that the check runs before release is the plan's.
+```
+
+**This is the one record in the repository that cannot promise reproduction.** Re-running an
+outsider check at the same commit with the same task will not return the same findings: the
+agents are not seeded, they are not the same agents, and what they happen to look at is not
+determined. What the record fixes is the **conditions** — the commit, the task, what the agent
+was and was not given — so that a reader can judge whether the check was fair, and can run
+another one.
+
+**What each run cost and found** is in the documents themselves. Batch 18: six defects, three
+wrong numbers and one broken link in the headline result's chain. Batch 19: two wrong numbers,
+one systematic omission across five of six reported analyses, two yardsticks that disagree,
+three provenance gaps and one defect in forty committed files. `/validate invariants` passed
+before and after both.
+
+**Batch 19's run is incomplete and the record says so.** One of its two agents was killed by
+an account spend limit, and it was the one asked to write into the tree — the half that in
+batch 18 produced the finding about the freeze rule. Whether an outsider can still add an
+alternative to this tree is unestablished.
+
+**agency:** agent-autonomous.

@@ -65,3 +65,23 @@ of it; repeated here because a reader who starts from a schema should not be mis
 schema findings above are the agent's.
 **information:** human-pointed — the two country codes come from
 `Archive/case-source-material/chapOrientation.md` §4.
+
+---
+
+## Correction — 2026-09-05, batch 19, from the outsider check
+
+Two sentences above name **`analysis/06_external/01_ingest`** as the node that re-verifies
+these checksums and holds `schema_reconciliation.json`. **That node does not exist.**
+`analysis/06_external` has no children; the node is **`analysis/01_data/03_siblings`**, as
+`analysis/README.md` and the node's own `claim.md` say, and it is where both the checksum
+verification and the schema reconciliation live.
+
+The error is the agent's, made when this file was written before the node was placed. It is
+appended rather than applied above because `AGENTS.md` §8 makes `Archive/` read-only and this
+file's own header says to append and never overwrite an existing section.
+
+Found by `/validate outsider` on 2026-09-05, which followed the path and found nothing there
+— the shape of finding this check exists to produce, and one no invariant looks for: a path
+in a provenance record is prose until somebody walks it.
+
+**agency:** agent-autonomous.

@@ -97,3 +97,11 @@ here.
   `05_stability/run.sh` rewrites one step earlier, so a plan that recomputed itself could not
   have been the plan committed before the rows ran. Rows are structural and fatal; the
   estimate is a measurement and is reported. All four pass.
+- `26-09-05_outsider.md` — batch 19, the second `/validate outsider` run and the one before
+  release. Two agents on throwaway clones at `922506b`; **one was killed by an account spend
+  limit and the write-into-the-tree half of the check therefore did not run**, which is
+  recorded rather than omitted. The one that finished traced a reported number through
+  twenty-one links, re-executed most of them, and found two wrong numbers, one systematic
+  omission across five of six reported analyses, two yardsticks that disagree, three
+  provenance gaps and one defect in forty committed files. `/validate invariants` passed
+  before and after all of it.

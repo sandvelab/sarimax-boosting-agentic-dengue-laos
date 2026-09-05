@@ -2752,3 +2752,58 @@ run is **incomplete**, one agent having been killed by an account spend limit.
 The plan-drift entry in the same README still quoted §4b's decision count as 169, which is
 what batch 18 measured; batch 19 remeasured it at 247. Both figures are now there with their
 batches, because the point of that entry is that the count grew.
+
+## T32 — batch 32: the pool's membership is one rule, not two (2026-09-06)
+
+### What happened
+
+The defect `/validate outsider` found on 2026-09-05, and the last thing standing between this
+project and its push. Candidate 3's weighting fork registers, before the pool runs, how many
+members the pool will have and what share of its mass sits on the plan's two required
+baselines — and with equal weights that statement *is* the model, because the member count is
+the weight. The child computed it with its own glob over Chap contract directories.
+`prepare_members.py`, three lines later in the same node, computed it by resolving every
+alternatives fork above a contract to the child the combination takes. Batch 22 gave two
+baselines a second published construction each and the two answers parted: six against four,
+1/6 against 1/4, two-thirds of the mass against half.
+
+The fix is a library, `analysis/03_models/scripts/lib/pool_shape.py`, holding
+`alternatives_above`, `taken_child`, `on_this_combinations_path` and a `selection()` both
+callers use. `prepare_members.py`'s output is byte-identical, which had to be true rather than
+merely likely: the pool's `model_configuration.yaml` carries `members.json`'s sha256 and the
+model refuses to run when they disagree, so one moved byte there would have required the
+reported analysis to be evaluated again.
+
+### The decision worth remembering
+
+**A fork above a pool member is resolved from what ran, not from the tree alone.** Reading
+`claim.md`'s main path would have made the membership a pure function of the checkout — the
+property batch 28 fought for one node over — but it would also have been wrong: under
+`persistence_negBinomialFloor` the member is `b_negBinomialFloor`, and no property of the tree
+says so. The combination does. So the risk batch 28's lesson names is not avoided here, it is
+measured: the rule's answer is identical for all 47 combinations to the membership recorded
+when each of them ran, and identical whether or not `COMBO_BASE` is set. What `COMBO_BASE`
+moves is the *sentence explaining* how a fork resolved — which is why that sentence is
+deliberately not registered in the premise, since a premise that changed when an unrelated
+variable was set would be the same defect one field over.
+
+### Files
+
+Added `analysis/03_models/scripts/lib/pool_shape.py`,
+`AI-internal/useful-scripts/rewrite_weighting_premise.py` and `check_premise_defence.py`, and
+their two artefacts under `AI-generated/validation/`. Changed `choose_weighting.py`,
+`prepare_members.py`, `check_invariants.py`, and 94 produced documents. Sections appended to
+three provenance records, to `AI-generated/validation/provenance.md`, and to the READMEs of
+`AI-internal/useful-scripts/`, `AI-generated/validation/` and `AI-generated/batch-reports/`.
+Report: `AI-generated/batch-reports/26-09-06_b32_theMembershipIsOneRule.md`. Five commits.
+
+### Follow-ups
+
+**Batch 33 is the only open row**: create the remote and push. Both human answers batch 19
+waited on are recorded and this batch removes the tree-side blocker. It carries one question
+the human has to settle — whether to spend another `/validate cleanroom` first. The last
+full-tree check ran on a tree that wrote the wrong premise and 94 committed documents have
+changed since; against that, the change is provably score-free (47 byte-identical
+configurations, zero fields that should not have moved, a second pass reproducing 102
+documents byte for byte), so the 15 hours would confirm documents that are deterministic
+functions of the checkout. It is a budget decision.

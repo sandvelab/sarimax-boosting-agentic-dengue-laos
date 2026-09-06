@@ -18,7 +18,13 @@ with the first.
 - `release_manifest.json` — every item Rule 10 says goes into the release, checked against
   what git tracks, with the paths not taken counted and checked for entry points. Written by
   `AI-internal/useful-scripts/release_manifest.py`.
-- `provenance.md` — the record for all three.
+- `provenance.md` — the record for all three, and for the batch-33 re-run.
+
+Both JSON files were **re-run at batch 33**, on the commit being pushed rather than on batch
+19's ancestor of it: 122 files had changed between the two, and a scan is a statement about a
+tree. Both come back clean, and the only fields that moved are counts of what was scanned —
+4 852 tracked files against 4 840, 9 289 history blobs against 8 969, zero credential hits
+either way.
 
 Re-run both with `.venv/bin/python AI-internal/useful-scripts/release_scan.py --root .` and
 `… release_manifest.py --root .`. The scan's history half reads every blob and takes a few

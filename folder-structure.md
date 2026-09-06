@@ -10,6 +10,8 @@ What each directory is for, and the one rule that governs it. Create every folde
 ├── MOTIVATION.md           why the repository is shaped this way
 ├── AGENTS.md               the standing instructions       part of the method
 ├── CLAUDE.md               pointer to AGENTS.md
+├── LICENSE                 CC BY 4.0 — the documents, data and provenance records
+├── LICENSE-CODE            MIT — the scripts, every run.sh, .claude/ and environment/
 ├── .claude/
 │   ├── settings.json
 │   └── commands/           the 17 skills

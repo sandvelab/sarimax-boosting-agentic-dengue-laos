@@ -1,8 +1,8 @@
 {
   "what_this_is": "the safety scan Rule 10 requires before anything here becomes public: credentials in the working tree and in the history, credential files by name, personal information that is not a credential, and what each archived dataset says about its own licence",
-  "scanned_at_commit": "046a2db20",
+  "scanned_at_commit": "4bbe766a4",
   "working_tree": {
-    "files_scanned": 4840,
+    "files_scanned": 4852,
     "credential_hits": [],
     "credential_filenames": [],
     "files_containing_the_home_directory_path": {
@@ -363,18 +363,18 @@
       ],
       "knut.rand@dhis2.org": [
         "AI-generated/method-reconnaissance/ewars_service_info.json",
+        "AI-generated/release/26-09-05_release.md",
         "AI-generated/release/release_scan.json",
         "analysis/03_models/02_reference/results/main/service_info.json",
         "analysis/03_models/02_reference/results/main__holdout/service_info.json",
         "analysis/03_models/02_reference/results/main__tha/service_info.json",
         "analysis/03_models/02_reference/results/main__thaFinal/service_info.json",
-        "analysis/03_models/02_reference/results/main__vnm/service_info.json",
-        "analysis/03_models/02_reference/results/main__vnmFinal/service_info.json"
+        "analysis/03_models/02_reference/results/main__vnm/service_info.json"
       ]
     }
   },
   "history": {
-    "blobs_scanned": 8969,
+    "blobs_scanned": 9289,
     "credential_hits": []
   },
   "data_governance": {

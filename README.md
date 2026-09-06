@@ -70,3 +70,19 @@ For the shape of the work rather than its state: the plan being executed is
 `Human-input/Plans for AI generation/26-08-22_dengueForecastingCase.md`, one batch per
 invocation; each executed batch leaves a report in `AI-generated/batch-reports/`; and
 `AI-generated/validation/` holds the checks on the method itself.
+
+## Licence
+
+Two licences, because this repository is both a record and a program.
+
+- **`LICENSE` — CC BY 4.0** covers the documents, data, records and prose: the root-level
+  documents, `AI-generated/`, `Human-AI-collaboration/`, `Human-input/`, `Archive/`, and
+  under `analysis/` every `claim.md`, every `provenance/` record and every `results/` file.
+- **`LICENSE-CODE` — MIT** covers the scripts: `analysis/**/scripts/`, every `run.sh`,
+  `AI-internal/useful-scripts/`, `.claude/` and `environment/`.
+
+Material under `Archive/` also carries the terms it came with, stated per directory in each
+`provenance.md`; where an upstream licence applies, it governs and nothing here narrows it.
+Third-party code built into the Chap model contract directories carries its own licence.
+
+Use either half and cite the work; both permit commercial use.

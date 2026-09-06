@@ -126,10 +126,10 @@ check in batch 18 is a six-hour run. Both human-set, 2026-08-31, on batch 16's q
 
 - The analysis is a tree of questions under `analysis/`. Start at
   `AI-generated/hierarchical-report/index.html`, or `/node tree`. **Batch 17 built that
-  report**: 1 175 pages, the tree above and four levels below it — the national mean each
+  report** and batch 19 rebuilt it over the external check's four rows: **1 387 pages** and
+  **69 combinations**, the tree above and four levels below it — the national mean each
   model was scored at, that mean by province, each province month by month, and the
-  per-cell scores everything above is an average of, for each of the 65 combinations that
-  were scored. Every number on it is displayed from the file the analysis wrote. It is
+  per-cell scores everything above is an average of, for each combination that was scored. Every number on it is displayed from the file the analysis wrote. It is
   gitignored and rebuilt in about two seconds by `/hierarchical-report`; only its
   `provenance.md` is versioned. Its full design — every node,
   every fork, the file contract between them, and the `COMBO` mechanism that lets one code path

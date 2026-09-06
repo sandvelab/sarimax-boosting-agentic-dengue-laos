@@ -1,7 +1,7 @@
 {
   "what_this_is": "every item Rule 10 says goes into the release, checked against what git tracks. The release is the repository itself, so this is a verification and not a copy",
-  "checked_at_commit": "046a2db20",
-  "tracked_files": 4840,
+  "checked_at_commit": "4bbe766a4",
+  "tracked_files": 4852,
   "items": [
     {
       "rule_10_asks_for": "data, or accessioned references where redistribution is not permitted",
@@ -16,8 +16,8 @@
     {
       "rule_10_asks_for": "all scripts, and analysis/ entire \u2014 alternatives included",
       "tracked_files_per_path": {
-        "analysis": 4430,
-        "AI-internal/useful-scripts": 23
+        "analysis": 4431,
+        "AI-internal/useful-scripts": 26
       },
       "present": true,
       "absent": []
@@ -44,7 +44,7 @@
     {
       "rule_10_asks_for": "the provenance records",
       "tracked_files_per_path": {
-        "analysis": 4430
+        "analysis": 4431
       },
       "present": true,
       "absent": []

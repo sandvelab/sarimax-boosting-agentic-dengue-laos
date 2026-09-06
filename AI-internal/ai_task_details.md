@@ -2811,3 +2811,57 @@ changed since; against that, the change is provably score-free (47 byte-identica
 configurations, zero fields that should not have moved, a second pass reproducing 102
 documents byte for byte), so the 15 hours would confirm documents that are deterministic
 functions of the checkout. It is a budget decision.
+
+## T33 — batch 33: the release, prepared but not pushed (2026-09-06)
+
+### What happened
+
+The last row of the plan, taken as far as it goes without the push. The human asked to read
+the repository through before anything becomes public, so the batch stands **open — the push
+only**, and the ledger row says so rather than claiming a completion.
+
+The substantive finding is one batch 19's own `/release` scan did not surface, because it was
+looking for secrets and permissions rather than terms: **the repository had no licence file at
+all.** The Creative Commons answer of 2026-09-05 was given about `Archive/case-source-material/`
+and `Archive/plan-as-delivered/`, the two archived directories whose `provenance.md` had no
+statement, and it was recorded there and in §4b — but nothing covered the repository itself. A
+public GitHub repository with no licence is all rights reserved by default, which would have
+made Rule 10's release readable and not reusable.
+
+It now carries two, because the release is both a record and a program and Creative Commons
+advises against CC for software: **CC BY 4.0** (`LICENSE`) over the documents, data, prose and
+provenance records, and **MIT** (`LICENSE-CODE`) over `analysis/**/scripts/`, every `run.sh`,
+`AI-internal/useful-scripts/`, `.claude/` and `environment/`. Both permit commercial use, so
+neither narrows `Archive/lao-population/`'s own CC BY 4.0, and archived material keeps the
+terms it came with.
+
+### The re-run that was not optional
+
+Batch 19 scanned at `046a2db2`. Batch 32 rewrote 94 documents and added six files after that,
+and this batch added the licences — 122 files between the two commits. A safety scan is only
+true of the tree it read, so it was run again on the commit being pushed. Clean, and the only
+fields that moved are counts of what was scanned. That comparison is in
+`AI-generated/release/provenance.md`.
+
+### Files
+
+Added `LICENSE` and `LICENSE-CODE`. Changed `README.md` (a `Licence` section),
+`folder-structure.md` (the two files in its tree), `readme-at-start.md` (the
+hierarchical-report figures), both release JSON artefacts, `AI-generated/release/README.md`
+and its `provenance.md`, and the plan's §4b and ledger row 33. Three commits.
+
+### Follow-ups
+
+**The push.** `gh` is authenticated as `sandve` with `repo` scope;
+`sandvelab/veridical-agentic-dengue-laos` does not yet exist; there is no git remote. The
+repository is to be created **public**. Nothing else is outstanding in the tree — all eleven
+invariants pass, the working tree is clean.
+
+**One question still open**: whether batch 21's `greedy` branch — 3 commits, +8 MB, never
+merged, and the counterfactual whose every citation lives on it — is pushed beside `main`.
+Rule 10 argues for it; the plan is silent, saying only that nothing from it reaches `main`.
+
+**And one step neither the agent nor this repository can take**: `/release` asks for a
+citable, versioned snapshot with a persistent identifier, which means linking the repository
+to Zenodo or an equivalent after the push and citing that DOI in the manuscript. It needs an
+account the agent does not have.

@@ -98,3 +98,70 @@ paper, one belonging to the maintainer of the reference service, carried in the
 
 information: agent-retrieved — both artefacts, and the field-by-field comparison against the
 copies batch 19 committed.
+
+## `release_scan.json` and `release_manifest.json` re-run on the pushed commit — 2026-09-06, batch 33
+
+```
+result:              AI-generated/release/release_scan.json
+                     AI-generated/release/release_manifest.json
+script:              AI-internal/useful-scripts/release_scan.py
+                     sha256:2d95b56f0277aa40756644d35b6403284bd5e8070ac3f81f694da4c3d6f40ba1
+                     AI-internal/useful-scripts/release_manifest.py
+                     sha256:4c447ce3cadbc5daa784b9189d2c76608289d9759449167759b7e4388b47e0a6
+                     — both unchanged since batch 19
+invocation:          .venv/bin/python AI-internal/useful-scripts/release_scan.py --root .
+                     .venv/bin/python AI-internal/useful-scripts/release_manifest.py --root .
+inputs:              every tracked file, every blob in the git history, and every
+                     provenance.md under Archive/, at commit 5da6e3875
+environment:         .venv (repository machinery) — CPython 3.13.7
+seeds:               none. Both are walks and pattern matches.
+commit:              5da6e3875
+instructions-commit: 595c32d (AGENTS.md, CLAUDE.md, .claude/)
+node:                not a node — a check on the repository rather than a result of it
+produced:            2026-09-06
+alternatives-considered: pushing on the section above's artefacts. Rejected: they record
+                     `scanned_at_commit: 4bbe766a4`, which is batch 32's head — the two
+                     licence files, the `Licence` section of `README.md` and the three
+                     commits that settled the release were never in the tree that was
+                     scanned. It costs five minutes.
+agency:              agent-autonomous.
+```
+
+**The section above names a commit its own artefacts do not.** It records `inputs … at commit
+f4c1b7c` and `commit: f4c1b7c`, while the two JSON files it produced say
+`scanned_at_commit: 4bbe766a4` and `checked_at_commit: 4bbe766a4`. Both are true of the
+moment they describe — the scripts ran while `4bbe766a4` was HEAD, and their output was
+committed in `f4c1b7c` — but the record reads as though the scan had seen the licences, and
+it had not. **A scan is only ever true of the tree it read**, which is the sentence the
+section above is written around, and the same sentence applied one commit further along says
+the scan authorising the push must be the pushed tree's. That is this section.
+
+**Clean, at the commit that is pushed.** Two fields moved in the scan and two in the manifest,
+and all four are counts of what was read:
+
+| | at `4bbe766a4` | at `5da6e3875` |
+|---|---|---|
+| tracked files | 4 852 | **4 854** |
+| history blobs | 9 289 | **9 318** |
+| credential hits, working tree | 0 | **0** |
+| credential hits, history | 0 | **0** |
+| credential files by name | 0 | **0** |
+| home-directory path, in source files | 0 | **0** |
+| Rule 10 items present | 8 of 8 | **8 of 8** |
+| paths not taken, with an entry point | 23 of 23 | **23 of 23** |
+
+The two tracked files are `LICENSE` and `LICENSE-CODE`; the 29 blobs are those two and the
+27 versions of files the four batch-33 commits touched. Nothing else in either artefact
+differs — the home-directory path is at 3 965 occurrences in 348 files in both, in no source
+file in both, and the five `Archive/` licence statements are the same five strings.
+
+**What the scan cannot cover, and what that leaves.** No scan can read the commit that
+records it: the commit carrying these two files is necessarily a child of the commit they
+scanned. The gap is stated rather than closed, and it is enumerable — between `5da6e3875` and
+the commit pushed to `main`, the only changes are these two JSON files, this section, the
+paragraph in this folder's `README.md`, batch 33's report, and the plan and task-log entries
+that close the batch. No file under `analysis/`, `environment/`, `Archive/` or
+`Human-AI-collaboration/` moves, so nothing the scan looked for could have entered.
+
+information: agent-retrieved — both artefacts, and the field-by-field comparison against the
+copies committed at `f4c1b7c`.

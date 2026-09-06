@@ -20,11 +20,16 @@ with the first.
   `AI-internal/useful-scripts/release_manifest.py`.
 - `provenance.md` — the record for all three, and for the batch-33 re-run.
 
-Both JSON files were **re-run at batch 33**, on the commit being pushed rather than on batch
-19's ancestor of it: 122 files had changed between the two, and a scan is a statement about a
-tree. Both come back clean, and the only fields that moved are counts of what was scanned —
-4 852 tracked files against 4 840, 9 289 history blobs against 8 969, zero credential hits
-either way.
+Both JSON files were **re-run twice at batch 33**, the second time on `5da6e3875` — the commit
+actually pushed, licences included. The first re-run read batch 32's head and so scanned a tree
+without `LICENSE`, `LICENSE-CODE` or the `Licence` section of the root `README.md`; a scan is
+only ever true of the tree it read, and the one that authorises a push has to be the pushed
+tree's. **All three runs come back clean**, and every field that has moved across them is a
+count of what was read — 4 854 tracked files against 4 852 and 4 840, 9 318 history blobs
+against 9 289 and 8 969, zero credential hits in the working tree and zero in the history every
+time, 8 of 8 Rule 10 items, 23 of 23 paths not taken with an entry point. `provenance.md`
+records what no scan can cover: the commit that carries a scan is a child of the commit it
+scanned, and it names which files are in that gap.
 
 Re-run both with `.venv/bin/python AI-internal/useful-scripts/release_scan.py --root .` and
 `… release_manifest.py --root .`. The scan's history half reads every blob and takes a few

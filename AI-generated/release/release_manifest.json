@@ -1,7 +1,7 @@
 {
   "what_this_is": "every item Rule 10 says goes into the release, checked against what git tracks. The release is the repository itself, so this is a verification and not a copy",
-  "checked_at_commit": "4bbe766a4",
-  "tracked_files": 4852,
+  "checked_at_commit": "5da6e3875",
+  "tracked_files": 4854,
   "items": [
     {
       "rule_10_asks_for": "data, or accessioned references where redistribution is not permitted",

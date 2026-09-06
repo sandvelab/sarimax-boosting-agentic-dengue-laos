@@ -1,8 +1,8 @@
 {
   "what_this_is": "the safety scan Rule 10 requires before anything here becomes public: credentials in the working tree and in the history, credential files by name, personal information that is not a credential, and what each archived dataset says about its own licence",
-  "scanned_at_commit": "4bbe766a4",
+  "scanned_at_commit": "5da6e3875",
   "working_tree": {
-    "files_scanned": 4852,
+    "files_scanned": 4854,
     "credential_hits": [],
     "credential_filenames": [],
     "files_containing_the_home_directory_path": {
@@ -374,7 +374,7 @@
     }
   },
   "history": {
-    "blobs_scanned": 9289,
+    "blobs_scanned": 9318,
     "credential_hits": []
   },
   "data_governance": {

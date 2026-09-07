@@ -326,3 +326,16 @@ re-running a batch produces a different report rather than the same one.
   invariants` gains an eleventh check, `pool` — put to six situations, all passing, the first
   driven by the clean-room log's own two lines. **Fifth and last instance of the
   fork-blindness family.** Added no batches; 33 is the only open row.
+- `26-09-07_b33_theReleaseIsPublic.md` — batch 33, phase E, `done — produced`: **the release is
+  public.** `github.com/sandvelab/veridical-agentic-dengue-laos`, `main` at `8690d0a` in 95.98 s
+  and batch 21's unmerged `greedy` at `6bfeecf` in 9.31 s beside it — 4 854 tracked files,
+  `analysis/` entire, **23 paths not taken across 17 forks with an entry point for every one**.
+  The batch's finding is about its own record: the scan and manifest committed as the authority
+  for the push recorded `scanned_at_commit: 4bbe766a4` while the provenance section beside them
+  named `f4c1b7c`, so the tree scanned held neither licence file. Both re-run at `5da6e3875`,
+  the commit pushed, and clean — only counts of what was read moved — with the residue no scan
+  can cover enumerated instead of chased. **Two things are left and neither is a defect in the
+  tree**: the citable snapshot with a persistent identifier `/release` asks for, which needs an
+  account the agent does not have, and GitHub reporting no licence because `LICENSE` links the
+  CC BY legalcode rather than reproducing it. **The last row of the ledger; every row is now
+  closed.**

@@ -2865,3 +2865,79 @@ Rule 10 argues for it; the plan is silent, saying only that nothing from it reac
 citable, versioned snapshot with a persistent identifier, which means linking the repository
 to Zenodo or an equivalent after the push and citing that DOI in the manuscript. It needs an
 account the agent does not have.
+
+## T34 — batch 33 completed: the release is public (2026-09-07)
+
+### What happened
+
+The last step of the last row. `github.com/sandvelab/veridical-agentic-dengue-laos` was
+created public and the repository pushed to it: **`main` at `8690d0a` in 95.98 s**, and
+**batch 21's `greedy` at `6bfeecf` in 9.31 s** beside it, unmerged and staying that way.
+Measured beforehand by bundling — 176.70 MiB for `main` alone, 185.41 MiB with the branch, so
+publishing the counterfactual costs **8.70 MiB**. Largest tracked file 41.8 MB, inside
+GitHub's advisory threshold; nothing rejected, no warning returned.
+
+The human's answer at the batch's last step was `main` and `greedy` together, which is what
+§10 of the plan reserves: the remote's owner and name were settled on 2026-08-31, and the
+agent still asks before the push itself.
+
+### The finding, which is about the batch's own record
+
+The scan and manifest committed on 2026-09-06 as the authority for this push record
+`scanned_at_commit: 4bbe766a4` and `checked_at_commit: 4bbe766a4` — batch 32's head — while
+the provenance section written beside them in the same commit records `inputs … at commit
+f4c1b7c` and `commit: f4c1b7c`. Both statements are true of the moment they describe: the
+scripts ran while `4bbe766a4` was HEAD and their output was committed in `f4c1b7c`. The pair
+is not. `f4c1b7c` is the commit that *introduced* `LICENSE` and `LICENSE-CODE`, so **the tree
+the scan actually read contained neither licence file nor the `Licence` section of
+`README.md`** — the release's own legal statement, and the reason the licence question had
+been reopened hours earlier.
+
+Both scripts were re-run at `5da6e3875`, the commit pushed. Clean, and every field that moved
+is a count of what was read: 4 854 tracked files against 4 852, 9 318 history blobs against
+9 289, zero credential hits in the working tree and zero in the history either way, zero
+credential files by name, the home-directory path at 3 965 occurrences in 348 files and in no
+source file in both, 8 of 8 Rule 10 items, 23 of 23 paths not taken with an entry point. The
+two files are the licences; the 29 blobs are those two and the 27 versions of files the four
+batch-33 commits touched.
+
+**The gap no scan can close is stated rather than chased.** The commit that records a scan is
+necessarily a child of the commit it scanned, so re-running to close the gap reopens it one
+commit along. `AI-generated/release/provenance.md` enumerates the residue instead: between
+`5da6e3875` and what `main` points at, the only changes are the two JSON artefacts, that
+provenance section, a paragraph in the release folder's `README.md`, the batch report, and the
+plan and task-log entries closing the batch. Nothing under `analysis/`, `environment/`,
+`Archive/` or `Human-AI-collaboration/` moves, so nothing the scan looks for could have
+entered.
+
+### What the release rests on
+
+The clean-room run of **2026-09-05** — 14.87 h, exit 0, 207 of 207 scores from models this
+project wrote identical — by the human's decision of 2026-09-06 that batch 32's 94-document
+rewrite is provably score-free and a further 15 hours would confirm deterministic functions of
+the checkout. Both the reproducibility report and batch 33's report name that run rather than
+implying a check of the pushed commit.
+
+### Files
+
+Added `AI-generated/batch-reports/26-09-07_b33_theReleaseIsPublic.md`. Changed the two release
+JSON artefacts, `AI-generated/release/provenance.md` (a new section) and its `README.md`, the
+batch-reports `README.md`, `readme-at-start.md` (status, the git-remote row, the settled
+clean-room question, and the Zenodo step moved to what is left to the human), and the plan
+(ledger row 33 closed, the header's next-open-batch line, a §4b entry, the reports section).
+Two commits.
+
+### Follow-ups
+
+**The citable snapshot.** `/release` asks for a versioned snapshot with a persistent
+identifier, because a repository host is where work lives and not an archive. Linking the
+repository to Zenodo or an equivalent, tagging a release and citing the DOI in the manuscript
+needs an account the agent does not have. Recorded as not done, not counted with the push.
+
+**GitHub reports no licence for the repository.** `licenseInfo` comes back null and the sidebar
+shows none, because the detector matches a licence by its own text: `LICENSE` names CC BY 4.0
+and links the legalcode rather than reproducing its seven thousand words, and `LICENSE-CODE` is
+not a filename it reads. The prose is unambiguous and CC's recommended practice is a notice
+naming and linking the licence, but a reader who reads the sidebar — or any automated consumer
+— sees a repository with no licence, which is the state Rule 10 was reopened to fix. Both
+remedies change what the human decided on 2026-09-06, so it is carried rather than taken.

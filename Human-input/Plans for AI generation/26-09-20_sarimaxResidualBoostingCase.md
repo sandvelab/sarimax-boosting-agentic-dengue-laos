@@ -141,6 +141,12 @@ append-only, oldest first.
 | The backtest scheme reuses the prior project's `n_periods 3 / n_splits 8 / stride 3` as the default | The human's choice, from batch 1's question of whether to re-derive one from scratch or anchor to the prior project's — direct comparability between the two projects' numbers was preferred over a scheme derived in isolation. | human-set |
 | The prior project's EWARS-csd score is not cited anywhere in this project, not even as context | The human's choice, from batch 1's question of whether to keep it as optional context or drop it — this project stands entirely on its own internal comparison (stage 1 alone vs. the two-stage ensemble vs. the required baselines). §1, §2 and §4's "External reference" row updated accordingly. | human-set |
 
+### 2026-09-20 — settling batch 7's open question
+
+| Decision | Basis | Agency |
+|---|---|---|
+| Explore a richer stage-2 input (climate covariates) before moving to phase D, rather than freezing `a_linearLags` on the minimal input and starting stability work immediately | The human's choice, from batch 7's question of whether the central finding ("no stage-2 family earns its place") might change on a richer input before perturbing it. Inserted as ledger row 8; rows formerly 8–15 renumbered 9–16 (§6). | human-set |
+
 ## 5. How this plan is used
 
 Unlike a plan written once and left alone, this one is edited as it runs, the same way the
@@ -162,12 +168,13 @@ One row per `/do` invocation. Status: `open`, `done`, or `blocked` with why.
 | 5 | C (cont.) | Add a tree-based stage-2 family alternative (`04_stage2/b_gradientBoosting`), same minimal input as batch 4's candidate to isolate the model-family comparison. | done |
 | 6 | C (cont.) | Add a non-tree, non-linear stage-2 family alternative (e.g. a Bayesian or linear-with-structure model). | done |
 | 7 | C (cont.) | Decide which stage-2 family sits on the main path, on development evidence, with the rejected families kept runnable; log what stage 2 is allowed to see (lags, covariates, population) as forks. | done |
-| 8–10 | D — Stability | Enumerate the judgment calls made so far as a perturbation manifest (stage 1 order/spec, stage 2 family and its inputs, combination rule, training window, zero-handling, anything else that accrued); cost it; freeze the development manifest; run it; report the distribution rather than the single number. | open |
-| 11 | D (cont.) / freeze | Freeze the phase-E (holdout) manifest before the holdout opens, per §3. | open |
-| 12 | E — Final validation | Open the 2010 holdout once; run exactly the frozen manifest; report the held-out distribution beside the development one. | open |
-| 13 | F — Claims & report | Build the claim collection from the tree; generate the hierarchical report. | open |
-| 14 | F (cont.) | `/validate cleanroom` and `/validate outsider`; fix what they find. | open |
-| 15 | F — Release | Write the manuscript section(s) this project supports; run the release scan; push. | open |
+| 8 | C (cont.) — richer stage-2 input | Build a fourth stage-2 alternative, `04_stage2/d_linearClimate`: same family as the main path (`a_linearLags`) with lag-12 climate covariates (rainfall, mean temperature, mean relative humidity) added to its input, isolating the input-richness question from the model-family one. Score it through the same pipeline; decide whether it changes the main-path pick. *(Inserted 2026-09-20, human-set — batch 7 left phase-C-continuation vs. phase-D as an open choice and the human chose to explore richer inputs first; renumbers what were rows 8–15 to 9–16.)* | open |
+| 9–11 | D — Stability | Enumerate the judgment calls made so far as a perturbation manifest (stage 1 order/spec, stage 2 family and its inputs, combination rule, training window, zero-handling, anything else that accrued); cost it; freeze the development manifest; run it; report the distribution rather than the single number. | open |
+| 12 | D (cont.) / freeze | Freeze the phase-E (holdout) manifest before the holdout opens, per §3. | open |
+| 13 | E — Final validation | Open the 2010 holdout once; run exactly the frozen manifest; report the held-out distribution beside the development one. | open |
+| 14 | F — Claims & report | Build the claim collection from the tree; generate the hierarchical report. | open |
+| 15 | F (cont.) | `/validate cleanroom` and `/validate outsider`; fix what they find. | open |
+| 16 | F — Release | Write the manuscript section(s) this project supports; run the release scan; push. | open |
 
 This ledger will grow rows and renumber batch scope the way the prior project's did — a
 batch's number is an identifier assigned when it starts, not a position fixed in advance — but
@@ -204,3 +211,7 @@ the phase structure above is meant to hold.
 ### Batch 7 — stage-2 main-path decision and input-space forks
 
 - [[26-09-20_b07_stage2MainPathAndInputForks]]
+
+### Batch 8 — climate-covariate stage-2 candidate
+
+- [[26-09-20_b08_stage2LinearClimate]]

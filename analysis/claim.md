@@ -49,3 +49,15 @@ residual, calendar month), also does **not** earn its place: mean CRPS 27.68, **
 than stage 1 alone, and worse than the linear candidate too. Two candidates have now failed
 on the same minimal input — batches 6–7 still owe a non-tree, non-linear candidate and a
 richer input set before the plan's central question can be answered either way.
+
+Batch 6: a third stage-2 candidate, Bayesian ridge regression (`04_stage2/c_bayesianRidge`) on
+the identical minimal input, combining its own posterior predictive variance with stage 1's
+into the final interval, is the worst of the three on CRPS — **28.07, 7.73% worse** than stage
+1 alone — despite being the best-calibrated (86.8% empirical coverage against a nominal 90%,
+vs. 82.7% for stage 1 alone): the wider interval its genuine calibration attempt buys costs
+more CRPS than the mean correction recovers. All three stage-2 candidates built so far lose to
+stage 1 alone on this minimal input
+(`04_stage2/c_bayesianRidge/results/all_candidates_comparison.json`). This does not settle the
+plan's central question on a richer input — batch 7 is reserved for the formal main-path
+decision among the three and for exploring what stage 2 is allowed to see (more lags,
+covariates, population) as its own fork.

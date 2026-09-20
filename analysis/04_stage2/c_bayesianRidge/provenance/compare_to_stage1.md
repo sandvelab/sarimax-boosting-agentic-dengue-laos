@@ -12,7 +12,7 @@ inputs: ../../02_stage1/results/per_cell_scores.csv  sha256:a7132066292f8bbd93c1
 environment: environment/ (project main, unchanged this batch)
          lock.txt sha256:2ed8d10ee004b65ae2076e055d090f487018731cdf02723fa48431c8cfd8bc01
 seeds: none — a deterministic re-aggregation of already-produced files, no fitting.
-commit: (see this batch's close-out commit for the hash)
+commit: f2b5636
 instructions-commit: 595c32d
 node: analysis/04_stage2/c_bayesianRidge
 produced: 2026-09-20

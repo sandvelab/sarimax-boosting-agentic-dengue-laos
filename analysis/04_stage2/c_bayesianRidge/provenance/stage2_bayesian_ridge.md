@@ -32,7 +32,7 @@ verification: this script re-derives stage 1's forecast (`lib/stage1_model.py`),
         max|Δse|=0.0 (bit-identical), recorded in results/conclusion.json under
         "verification_vs_stage1_stored_forecast". The script raises rather than proceeds if
         this check fails.
-commit: (see this batch's close-out commit for the hash)
+commit: f2b5636
 instructions-commit: 595c32d
 node: analysis/04_stage2/c_bayesianRidge
 produced: 2026-09-20

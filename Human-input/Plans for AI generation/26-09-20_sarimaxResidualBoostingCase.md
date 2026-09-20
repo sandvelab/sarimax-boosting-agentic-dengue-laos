@@ -160,7 +160,7 @@ One row per `/do` invocation. Status: `open`, `done`, or `blocked` with why.
 | 3 | B (cont.) | Implement the required baselines through the same pipeline; establish the first honest number for "how much does the backtest resolve" (the prior project's equivalent finding, re-derived for this project's own scheme and models). | done |
 | 4 | C — Stage 2, first candidate | Build the residual-correction contract (stage 2 reads stage 1's residuals and whatever covariates its first configuration uses) and one concrete stage-2 family as the first alternatives child; get the two-stage ensemble scoring end to end. | done |
 | 5 | C (cont.) | Add a tree-based stage-2 family alternative (`04_stage2/b_gradientBoosting`), same minimal input as batch 4's candidate to isolate the model-family comparison. | done |
-| 6 | C (cont.) | Add a non-tree, non-linear stage-2 family alternative (e.g. a Bayesian or linear-with-structure model). | open |
+| 6 | C (cont.) | Add a non-tree, non-linear stage-2 family alternative (e.g. a Bayesian or linear-with-structure model). | done |
 | 7 | C (cont.) | Decide which stage-2 family sits on the main path, on development evidence, with the rejected families kept runnable; log what stage 2 is allowed to see (lags, covariates, population) as forks. | open |
 | 8–10 | D — Stability | Enumerate the judgment calls made so far as a perturbation manifest (stage 1 order/spec, stage 2 family and its inputs, combination rule, training window, zero-handling, anything else that accrued); cost it; freeze the development manifest; run it; report the distribution rather than the single number. | open |
 | 11 | D (cont.) / freeze | Freeze the phase-E (holdout) manifest before the holdout opens, per §3. | open |
@@ -196,3 +196,7 @@ the phase structure above is meant to hold.
 ### Batch 5 — tree-based stage-2 candidate
 
 - [[26-09-20_b05_stage2GradientBoosting]]
+
+### Batch 6 — Bayesian stage-2 candidate
+
+- [[26-09-20_b06_stage2BayesianRidge]]

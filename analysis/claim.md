@@ -3,8 +3,9 @@
 Develop, as autonomously as the setup allows, a two-stage forecasting ensemble for monthly
 dengue case counts across the provinces of Laos — a SARIMAX-family model (stage 1) whose
 residuals are corrected by a second model (stage 2, family open) — and establish whether the
-second stage earns its place against stage 1 alone, the required baselines, and the prior
-project's externally reported reference, on Chap's dataset for Laos.
+second stage earns its place against stage 1 alone and the required baselines, on the same
+Laos dataset. No external reference model is used or cited (plan §1, §2, §4b, human-set
+2026-09-20) — the comparison is entirely internal to this project's own models and data.
 
 Full aim, success criteria and non-negotiables:
 `Human-input/Plans for AI generation/26-09-20_sarimaxResidualBoostingCase.md`.
@@ -41,3 +42,10 @@ against stage 1 alone's 26.05, **0.78% worse**, with essentially unchanged inter
 The plan's central question (§1–§2: does *some* stage-2 family beat stage 1 alone?) is not yet
 answered — one candidate failing does not settle it; batches 5–7 add a tree-based candidate
 and a non-tree structural candidate as further alternatives before any conclusion is drawn.
+
+Batch 5: a second stage-2 candidate, gradient-boosted regression trees
+(`04_stage2/b_gradientBoosting`) on the identical minimal input as `a_linearLags` (lag-12
+residual, calendar month), also does **not** earn its place: mean CRPS 27.68, **6.25% worse**
+than stage 1 alone, and worse than the linear candidate too. Two candidates have now failed
+on the same minimal input — batches 6–7 still owe a non-tree, non-linear candidate and a
+richer input set before the plan's central question can be answered either way.

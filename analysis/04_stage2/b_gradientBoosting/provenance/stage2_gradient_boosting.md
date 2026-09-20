@@ -35,7 +35,7 @@ verification: this script re-derives stage 1's forecast (`lib/stage1_model.py`),
         max|Δse|=0.0 (bit-identical), recorded in results/conclusion.json under
         "verification_vs_stage1_stored_forecast". The script raises rather than proceeds if
         this check fails.
-commit: (see this batch's commit for 04_stage2/b_gradientBoosting)
+commit: 66a048e
 instructions-commit: 595c32d
 node: analysis/04_stage2/b_gradientBoosting
 produced: 2026-09-20

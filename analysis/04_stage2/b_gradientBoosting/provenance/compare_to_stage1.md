@@ -9,7 +9,7 @@ inputs: ../../02_stage1/results/per_cell_scores.csv  sha256:a7132066292f8bbd93c1
 environment: environment/ (project main, re-pinned this batch for scikit-learn)
          lock.txt sha256:2ed8d10ee004b65ae2076e055d090f487018731cdf02723fa48431c8cfd8bc01
 seeds: none — a deterministic re-aggregation of two already-produced files, no fitting.
-commit: (see this batch's commit for 04_stage2/b_gradientBoosting)
+commit: 66a048e
 instructions-commit: 595c32d
 node: analysis/04_stage2/b_gradientBoosting
 produced: 2026-09-20

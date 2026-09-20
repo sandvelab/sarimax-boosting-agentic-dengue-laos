@@ -7,7 +7,7 @@ invocation: ../../../environment/env/bin/python scripts/compute_schedule.py
 inputs: ../01_prepare/results/development.csv  sha256:138c568c84e33bc7c94fe10f1e4d6bef4f339469dd81ec49b8180be18bf2033f
 environment: environment/ (project main)
 seeds: none — deterministic
-commit: (this batch's commit for 03_backtest_scheme — see git log)
+commit: 9d9590f
 instructions-commit: 595c32d
 node: analysis/01_data/03_backtest_scheme
 produced: 2026-09-20

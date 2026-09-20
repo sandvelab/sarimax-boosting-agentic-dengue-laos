@@ -13,5 +13,7 @@ inherits: the project main environment (`environment/`)
 
 ## Answers
 
-_(What this node's analysis yielded. Each answer belongs in the claim collection
-under `Human-AI-collaboration/claims/` with a pointer to the result grounding it.)_
+Yes: a seasonal-climatology forecast (mean of that calendar month's training-window values,
+sigma the same calendar month's training-window standard deviation) scores **mean CRPS
+26.91** over the same 371 cells stage 1 and persistence score, with no fit failures (0/408).
+`results/conclusion.json`, `results/per_cell_scores.csv`.

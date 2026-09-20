@@ -1,0 +1,9 @@
+{
+  "model": "seasonal climatology (mean of same calendar month in training window), sigma = std of same calendar month's training-window values",
+  "n_provinces": 17,
+  "n_splits": 8,
+  "n_cells_total": 408,
+  "n_cells_scored": 371,
+  "n_fit_failures": 0,
+  "mean_crps": 26.91345927648973
+}

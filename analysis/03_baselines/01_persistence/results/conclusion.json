@@ -1,0 +1,9 @@
+{
+  "model": "persistence (last observed, held flat), sigma = std of training-window one-step differences",
+  "n_provinces": 17,
+  "n_splits": 8,
+  "n_cells_total": 408,
+  "n_cells_scored": 371,
+  "n_fit_failures": 0,
+  "mean_crps": 28.316429844857996
+}

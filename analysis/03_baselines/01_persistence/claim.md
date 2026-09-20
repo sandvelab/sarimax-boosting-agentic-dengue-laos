@@ -13,5 +13,7 @@ inherits: the project main environment (`environment/`)
 
 ## Answers
 
-_(What this node's analysis yielded. Each answer belongs in the claim collection
-under `Human-AI-collaboration/claims/` with a pointer to the result grounding it.)_
+Yes: a persistence forecast (last observed value, held flat across each split's test window,
+with sigma taken as the training window's own one-step-difference standard deviation) scores
+**mean CRPS 28.32** over the same 371 cells stage 1 scores, with no fit failures (0/408).
+`results/conclusion.json`, `results/per_cell_scores.csv`.

@@ -159,3 +159,69 @@ rows 8–10) has not started — the perturbation manifest still needs enumerati
 order/spec, stage-2 family and its inputs, combination rule, training window, zero-handling),
 costing, freezing and running. The climate-covariate and population stage-2 forks are logged
 but unbuilt. Nothing from this session has been pushed to the remote.
+
+## T3: Batch 8 — the climate-covariate stage-2 fork
+
+Full account in `AI-generated/batch-reports/26-09-20_b08_stage2LinearClimate.md`.
+
+**Context.** Batch 7 closed with an explicit choice left to the human: move to phase D
+(stability) with `a_linearLags` frozen as the stage-2 default, or spend a further batch on
+richer stage-2 inputs first (climate covariates named as the most plausible untried route).
+Asked via `AskUserQuestion` before doing anything else this batch; the human chose to explore
+inputs first. The plan was edited to reflect that choice before any modelling: backed up to
+`/tmp/claude_backups/` first, then a new ledger row 8 inserted with the reason and its agency
+recorded in the plan's own §4b, renumbering the stability phase and everything after it from
+rows 8–15 to 9–16 (§6).
+
+**What was built** (`analysis/04_stage2/d_linearClimate`, via `/node`): a fourth stage-2
+alternative that is `a_linearLags`'s exact OLS family — same lag-12 in-sample residual,
+same cyclical calendar-month features — with three more regressors: `rainfall`,
+`mean_temperature` and `mean_relative_humidity`, all already present in
+`development.csv` alongside `disease_cases`, so no new data acquisition was needed. The
+climate columns are read at **lag 12**, not contemporaneously: `development.csv` holds
+already-observed historical climate for every month including the backtest's test months,
+but a real 1–3-month-ahead deployment would not know next quarter's rainfall with the
+certainty the file implies, and Laos's climate is strongly seasonal, so the value from 12
+months before any test month — always inside the training window regardless of which of the
+3 test months is being predicted — stands in as a same-season proxy. This is the identical
+leakage argument `a_linearLags` already made for the residual lag, applied to a new input; it
+is deliberately conservative (it forgoes the current season's anomaly) and that gap is
+recorded as an untried refinement, not a rejected one. Kept the same family as `a_linearLags`
+on purpose, rather than also trying a new one, so the result isolates the input-richness
+question from the model-family question batches 5–6 already answered; `MIN_TRAIN_ROWS` raised
+from 12 to 21 to keep the same "≥3× parameter count" rule at 7 parameters instead of 4.
+
+**Result: negative, like every candidate before it.** Mean CRPS 26.85 over the same 371 cells
+— worse than stage 1 alone (26.05, +3.05%) and worse than `a_linearLags` on the minimal input
+(26.26, +2.25%); coverage essentially unchanged (83.0% vs. 83.3%, both against nominal 90%).
+The most plausible untried fork named in batch 7 did not change the central finding when tried
+on the family it was tried with. `a_linearLags` remains `04_stage2`'s main path. Updated
+development ranking (mean CRPS): stage 1 alone (26.05) < `a_linearLags` (26.26) <
+`d_linearClimate` (26.85) < seasonal climatology (26.91) < `b_gradientBoosting` (27.68) <
+`c_bayesianRidge` (28.07) < persistence (28.32). All four stage-2 candidates built so far lose
+to stage 1 alone; `04_stage2/claim.md` and the root `analysis/claim.md` both updated, and the
+node's own `claim.md` and provenance records (two files, referencing "After" commit `8c414b7`)
+name what remains untried: a non-linear family given the same climate input, a genuinely
+forward (non-lag-12) climate signal, population, and cross-province pooling.
+
+**Self-caught issue**: the first draft of the root `analysis/claim.md` ranking sentence placed
+`d_linearClimate` after seasonal climatology by mistake (26.85 is actually lower than 26.91);
+caught on re-reading before committing and corrected.
+
+**Also done**: `AI-generated/batch-reports/README.md` brought current — it had gone stale
+after batch 1's entry and never listed batches 2–7's reports, a gap noticed while adding
+batch 8's own entry; `readme-at-start.md`'s status line updated for the fourth candidate.
+
+**Checks run**: `check_invariants.py` passes (`tree`, `provenance`, `hashes`, `plots`,
+`seeds`, `claims`, `combos`, `freeze`, `crossing`, `pool`) after every commit; `git` fails
+only mid-batch on expected uncommitted edits and, at the end, only on the pre-existing,
+out-of-scope untracked `.idea/`. Stage-1 forecast re-derivation verified bit-for-bit against
+`02_stage1`'s stored `per_cell_scores.csv` (408/408 cells, max|Δ|=0.0) before trusting the
+residuals, exactly as `a_linearLags` does.
+
+**Follow-ups**: batch 8's own record does not recommend further input-grid exploration before
+phase D — the cost/informativeness trade-off has, if anything, worsened (four families now
+tried and lost, not three) — but does not decide that unilaterally either;
+`04_stage2/claim.md` remains where a future batch or the human would look to keep exploring
+inputs versus moving on. Batch 9 is expected to start phase D (stability, ledger rows 9–11)
+unless redirected. Nothing from this session has been pushed to the remote.

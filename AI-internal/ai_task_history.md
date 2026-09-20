@@ -42,3 +42,22 @@ reader who was not present can follow, and keep them honest about what did not w
   `/validate invariants` passes clean after every batch's close-out commit. Reports:
   `26-09-20_b02_dataAndStage1.md` through `26-09-20_b07_stage2MainPathAndInputForks.md`.
   Nothing pushed to the remote this session.
+- T3 (2026-09-20): Ran batch 8, after asking the human to settle the open question batch 7
+  left (move to phase D now, or try richer stage-2 inputs first) — the human chose to explore
+  inputs. Inserted a new ledger row 8 into the plan (backed up first), renumbering the
+  stability phase and everything after it from rows 8–15 to 9–16, and logged the choice in the
+  plan's §4b as human-set. Built a fourth stage-2 alternative, `04_stage2/d_linearClimate`:
+  `a_linearLags`'s exact OLS family with lag-12 rainfall, mean temperature and mean relative
+  humidity added — lag-12 rather than contemporaneous, for the same forecast-time-leakage
+  reason `a_linearLags` used lag-12 for the residual, and the same family as `a_linearLags` on
+  purpose, to isolate the input question from the model-family question batches 5–6 already
+  answered. Result: mean CRPS 26.85, worse than stage 1 alone (26.05, +3.05%) and worse than
+  `a_linearLags` on the minimal input (26.26, +2.25%) — the most plausible untried fork named
+  in batch 7 did not change the central finding. `a_linearLags` remains `04_stage2`'s main
+  path; all four stage-2 candidates built so far lose to stage 1 alone. Updated
+  `04_stage2/claim.md` and the root `analysis/claim.md` with the result and what remains
+  untried (a non-linear family given climate, a genuinely forward climate signal, population,
+  cross-province pooling). Brought `AI-generated/batch-reports/README.md` current — it had
+  gone stale after batch 1, never updated for batches 2–7. `/validate invariants` passes
+  except `git`, which fails only on the pre-existing, out-of-scope untracked `.idea/`. Report:
+  `26-09-20_b08_stage2LinearClimate.md`. Nothing pushed to the remote this session.

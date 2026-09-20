@@ -1,0 +1,19 @@
+location,location_name,n_months_total,n_months_present,n_months_missing,first_present_month,last_present_month,zero_rate,modelable
+LA-AT,Attapeu,144,144,0,1998-01,2009-12,0.7222,True
+LA-BK,Bokeo,144,144,0,1998-01,2009-12,0.6597,True
+LA-BL,Bolikhamsai,144,144,0,1998-01,2009-12,0.1181,True
+LA-CH,Champasak,144,144,0,1998-01,2009-12,0.0903,True
+LA-HO,Houaphan,144,144,0,1998-01,2009-12,0.8681,True
+LA-KH,Khammouane,144,144,0,1998-01,2009-12,0.5069,True
+LA-LM,Luang Namtha,144,144,0,1998-01,2009-12,0.8958,True
+LA-LP,Luang Prabang,144,144,0,1998-01,2009-12,0.25,True
+LA-OU,Oudomxay,144,144,0,1998-01,2009-12,0.8889,True
+LA-PH,Phongsaly,144,131,13,1998-01,2009-12,0.9924,True
+LA-SL,Salavan,144,144,0,1998-01,2009-12,0.6181,True
+LA-SV,Savannakhet,144,144,0,1998-01,2009-12,0.2014,True
+LA-VI,Vientiane,144,0,144,,,,False
+LA-VT,Vientiane Capital,144,144,0,1998-01,2009-12,0.0,True
+LA-XA,Xaignabouli,144,144,0,1998-01,2009-12,0.3611,True
+LA-XE,Xekong,144,140,4,1998-01,2009-12,0.6786,True
+LA-XI,Xiangkhouang,144,144,0,1998-01,2009-12,0.9444,True
+LA-XN,Xaisomboun,144,96,48,1998-01,2005-12,0.9375,True

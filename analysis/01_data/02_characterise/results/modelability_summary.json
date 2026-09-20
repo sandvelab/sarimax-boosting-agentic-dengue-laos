@@ -1,0 +1,27 @@
+{
+  "min_modelable_months": 24,
+  "n_provinces_total": 18,
+  "n_modelable": 17,
+  "modelable_provinces": [
+    "LA-AT",
+    "LA-BK",
+    "LA-BL",
+    "LA-CH",
+    "LA-HO",
+    "LA-KH",
+    "LA-LM",
+    "LA-LP",
+    "LA-OU",
+    "LA-PH",
+    "LA-SL",
+    "LA-SV",
+    "LA-VT",
+    "LA-XA",
+    "LA-XE",
+    "LA-XI",
+    "LA-XN"
+  ],
+  "excluded_provinces": [
+    "LA-VI"
+  ]
+}

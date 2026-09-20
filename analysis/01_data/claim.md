@@ -13,5 +13,8 @@ inherits: the project main environment (`environment/`)
 
 ## Answers
 
-_(What this node's analysis yielded. Each answer belongs in the claim collection
-under `Human-AI-collaboration/claims/` with a pointer to the result grounding it.)_
+The archived Laos file (18 provinces × 156 months, 1998-01 to 2010-12) partitions cleanly
+into a 2,592-row development file (1998-01 to 2009-12) and a 216-row, complete holdout file
+(2010), sealed per plan §3. Of the 18 provinces, 17 are modelable on development data; LA-VI
+(Vientiane) reports nothing at all and is excluded. See `01_prepare/claim.md` and
+`02_characterise/claim.md` for the grounding results.

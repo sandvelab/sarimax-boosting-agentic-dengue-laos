@@ -13,7 +13,7 @@ Full aim, success criteria and non-negotiables:
 ## Children
 
 kind: sub-analyses
-main-path: (none yet)
+main-path: -
 
 ## Environment
 
@@ -61,3 +61,20 @@ stage 1 alone on this minimal input
 plan's central question on a richer input — batch 7 is reserved for the formal main-path
 decision among the three and for exploring what stage 2 is allowed to see (more lags,
 covariates, population) as its own fork.
+
+Batch 7: `04_stage2`'s main path is `a_linearLags` — the least-bad of the three candidates
+built (mean CRPS 26.26 vs. stage 1's 26.05), not an endorsement that it earns its place. **The
+plan's central comparison (§1–§2), answered as of this batch: no stage-2 family tried so far
+beats stage 1 alone.** All three families explored — a plain linear correction, gradient-
+boosted trees, and a Bayesian ridge regression — lose to stage 1, by 0.78%, 6.25% and 7.73%
+mean CRPS respectively, all on the identical minimal input (stage 1's lag-12 in-sample
+residual and cyclical calendar month). That input set was fixed once in batch 4 and reused
+unexamined by batches 5–6; this batch logs it as an explicit, unexplored fork rather than a
+silent default (`04_stage2/claim.md`) — richer inputs (additional lags, the rainfall/
+temperature/humidity/population columns already present in the archived dataset, province
+identity used structurally) remain untried, so "no stage-2 family earns its place" is a
+finding about this minimal input, not a closed question about stage 2 in general. Persistence
+(28.32) and seasonal climatology (26.91) remain worse than stage 1 alone (batch 3), so the
+honest ranking on development data, best to worst, is: **stage 1 alone (26.05) < a_linearLags
+(26.26) < seasonal climatology (26.91) < b_gradientBoosting (27.68) < c_bayesianRidge (28.07) <
+persistence (28.32)**. This closes phase C; phase D (stability, ledger rows 8–10) is next.

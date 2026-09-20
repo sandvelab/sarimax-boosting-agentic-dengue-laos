@@ -27,3 +27,55 @@ side by side. This does not close the question the plan asks (§1: is there *a* 
 that earns its place) on a richer input — batch 7 is reserved for the formal main-path
 decision among the three and for exploring what stage 2 is allowed to see (more lags,
 covariates, population) as its own fork.
+
+**Batch 7 — main-path decision.** `a_linearLags` is the main path (least-bad of the three,
+still losing to stage 1 alone; `run.sh` and `main-path:` above already reflected this since
+batch 6). The formal decision, made explicit here: none of the three earns its place, so
+"main path" records which of the three the stability phase (rows 8–10) treats as the default
+stage-2 configuration when it perturbs stage 1's spec, the training window, and zero-handling
+— not a claim that stage 2 should be adopted.
+
+**Batch 7 — what stage 2 is allowed to see, logged as an explicit fork (plan §3: "each is
+either an alternatives node with its rejected siblings intact, or an explicitly logged
+decision with its basis").** All three candidates built (`a_linearLags`, `b_gradientBoosting`,
+`c_bayesianRidge`) share one input set — stage 1's lag-12 in-sample residual plus cyclical
+calendar month — fixed once in batch 4's leakage analysis (lag-1 is unsafe for the 2nd/3rd
+test month of a 3-month split; lag-12 is always inside the training window) and reused
+unexamined by batches 5 and 6. This batch surveyed what else is actually available rather than
+guessing, and **did not build any of it** — recorded here as a visible absence, not a silent
+one (AGENTS.md §5/§6):
+
+- **Additional lags** (lag-2 through lag-11, or lag-1 restricted to only the first test month
+  of each split, where it is genuinely available): not tried. Cheap to add, plausible effect
+  unknown; deferred to the stability phase or a future alternatives child, whichever is
+  reached first.
+- **Climate covariates**: `analysis/01_data/01_prepare/results/development.csv` already
+  carries `rainfall`, `mean_temperature` and `mean_relative_humidity` per province-month —
+  reused directly from the archived dataset, no new acquisition needed. Not tried by any
+  candidate. This is the most informative untried fork: dengue transmission has a known
+  climate dependence, so a stage-2 model given these columns (rather than stage 1, which sees
+  none of them) is the most plausible way for the two-stage architecture to actually earn its
+  place, and its absence should not be read as "climate covariates were considered and
+  rejected" — they were not tried at all.
+- **Population**: `development.csv` also carries a per-province `population` column
+  (`Archive/lao-population/` separately holds only a country-level World Bank total, coarser
+  than what is already in the working dataset and not needed). Not tried. Population is
+  near-constant within a province across this backtest's span relative to its month-to-month
+  case variation, so it was judged the least informative of the untried covariates — a
+  reasoned deprioritisation, not an oversight, but still not run.
+- **Province identity, used structurally**: `c_bayesianRidge` fits independently per
+  province, like its siblings — none of the three pools information across provinces (e.g. a
+  shared/partial-pooled coefficient on the lag-12 term). Not tried. This is a different kind of
+  fork from a raw input feature (it changes what the model borrows strength from, not what it
+  literally reads), named separately per plan §3's own distinction between "covariates" and
+  "population" as separate items.
+
+**Why none of these was run in this batch** (AGENTS.md §6, cost vs. informativeness): each
+would need its own alternatives or sub-analyses node, a fresh contract check against stage 1's
+stored forecast, and its own provenance record — the same scope as batches 4–6 individually,
+not a small addition. Given three families have already been tried and lost on the same
+minimal input, the more informative next step is deciding *whether* to spend further batches on
+richer inputs at all versus moving to the stability phase (rows 8–10) with `a_linearLags` as
+the frozen default — left as an open question for the human rather than a call this batch
+makes for itself, since it trades further exploration against the plan's own stated tracking
+level (AGENTS.md §6) and is exactly the kind of scope decision plan §6 reserves for dialogue.

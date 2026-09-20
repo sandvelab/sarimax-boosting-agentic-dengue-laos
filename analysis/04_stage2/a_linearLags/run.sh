@@ -1,18 +1,16 @@
 #!/usr/bin/env bash
-# Main script for node: analysis
+# Main script for node: a_linearLags
 # Generated shape -- edit the "own scripts" block; the child calls are maintained
 # by `node.py rebuild`, which enforces the alternatives/sub-analyses semantics.
 set -euo pipefail
 cd "$(dirname "$0")"
-REPO_ROOT="$(cd ".." && pwd)"
+REPO_ROOT="$(cd "../../.." && pwd)"
 # Node scripts run under the pinned analysis environment (AGENTS.md §2), not under
 # .venv, which is the repository's own machinery. A node needing something beyond it
 # declares env/ and overrides PYTHON below.
 PYTHON="$REPO_ROOT/environment/env/bin/python"
 
-# Sub-analyses: every child runs, in order.
-bash "00_metric/run.sh"
-bash "01_data/run.sh"
-bash "02_stage1/run.sh"
-bash "03_baselines/run.sh"
-bash "04_stage2/run.sh"
+
+# Own scripts
+"$PYTHON" "scripts/01_stage2_linear_lags.py"
+"$PYTHON" "scripts/02_compare_to_stage1.py"

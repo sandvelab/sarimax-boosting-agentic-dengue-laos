@@ -1,0 +1,29 @@
+{
+  "stage1_alone_mean_crps": 26.052787630892933,
+  "a_linearLags": {
+    "mean_crps": 26.25689213098635,
+    "pct_change_vs_stage1": 0.7834267218736884,
+    "coverage_empirical": 0.8328840970350404
+  },
+  "b_gradientBoosting": {
+    "mean_crps": 27.680013236868255,
+    "pct_change_vs_stage1": 6.245879055359847,
+    "coverage_empirical": 0.8221024258760108
+  },
+  "c_bayesianRidge": {
+    "mean_crps": 28.0654446421887,
+    "pct_change_vs_stage1": 7.7253038707811665,
+    "coverage_empirical": 0.8679245283018868
+  },
+  "d_linearClimate": {
+    "mean_crps": 26.846655915112652,
+    "pct_change_vs_stage1": 3.0471529398963995,
+    "coverage_empirical": 0.8301886792452831
+  },
+  "e_pooledRandomForest": {
+    "mean_crps": 25.88918881222549,
+    "pct_change_vs_stage1": -0.6279513002034729,
+    "coverage_empirical": 0.6442048517520216
+  },
+  "any_candidate_earns_its_place": true
+}

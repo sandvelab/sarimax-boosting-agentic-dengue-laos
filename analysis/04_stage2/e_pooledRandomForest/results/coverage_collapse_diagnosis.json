@@ -1,0 +1,143 @@
+{
+  "question": "why does interval coverage collapse (82.7% -> 64.4%) for a pooled model when per-province candidates leave it roughly unchanged?",
+  "final_mean_negative": {
+    "this_candidate": {
+      "n": 102,
+      "of": 371,
+      "pct": 27.493261455525605
+    },
+    "stage1_alone": {
+      "n": 15,
+      "of": 371,
+      "pct": 4.0431266846361185
+    },
+    "sibling_candidates": {
+      "a_linearLags": {
+        "n_final_mean_negative": 40,
+        "n_cells": 371,
+        "pct": 10.78167115902965
+      },
+      "d_linearClimate": {
+        "n_final_mean_negative": 43,
+        "n_cells": 371,
+        "pct": 11.590296495956874
+      }
+    }
+  },
+  "correlation_province_mean_cases_vs_pct_negative_forecast": -0.5259071560546432,
+  "interpretation": "A negative Pearson correlation here means provinces with fewer mean cases have a higher share of impossible (negative) corrected forecasts -- consistent with a single pooled correction function, shaped by the mixed-scale training pool, overshooting on the low-count provinces it was not specifically fit to. final_mean_negative is 2.4-2.5x every per-province sibling's rate and 6-7x stage 1 alone's own rate, concentrated exactly where mean case counts are lowest.",
+  "per_province": [
+    {
+      "province": "LA-HO",
+      "n_cells": 24,
+      "mean_actual_cases": 0.25,
+      "n_final_mean_negative": 18,
+      "pct_final_mean_negative": 75.0
+    },
+    {
+      "province": "LA-LM",
+      "n_cells": 24,
+      "mean_actual_cases": 0.9583333333333334,
+      "n_final_mean_negative": 18,
+      "pct_final_mean_negative": 75.0
+    },
+    {
+      "province": "LA-OU",
+      "n_cells": 24,
+      "mean_actual_cases": 2.2083333333333335,
+      "n_final_mean_negative": 15,
+      "pct_final_mean_negative": 62.5
+    },
+    {
+      "province": "LA-XI",
+      "n_cells": 24,
+      "mean_actual_cases": 3.5,
+      "n_final_mean_negative": 14,
+      "pct_final_mean_negative": 58.333333333333336
+    },
+    {
+      "province": "LA-SV",
+      "n_cells": 24,
+      "mean_actual_cases": 8.0,
+      "n_final_mean_negative": 12,
+      "pct_final_mean_negative": 50.0
+    },
+    {
+      "province": "LA-XE",
+      "n_cells": 24,
+      "mean_actual_cases": 4.25,
+      "n_final_mean_negative": 9,
+      "pct_final_mean_negative": 37.5
+    },
+    {
+      "province": "LA-KH",
+      "n_cells": 24,
+      "mean_actual_cases": 44.0,
+      "n_final_mean_negative": 7,
+      "pct_final_mean_negative": 29.166666666666668
+    },
+    {
+      "province": "LA-BK",
+      "n_cells": 24,
+      "mean_actual_cases": 38.625,
+      "n_final_mean_negative": 3,
+      "pct_final_mean_negative": 12.5
+    },
+    {
+      "province": "LA-AT",
+      "n_cells": 24,
+      "mean_actual_cases": 23.583333333333332,
+      "n_final_mean_negative": 2,
+      "pct_final_mean_negative": 8.333333333333334
+    },
+    {
+      "province": "LA-BL",
+      "n_cells": 24,
+      "mean_actual_cases": 9.5,
+      "n_final_mean_negative": 2,
+      "pct_final_mean_negative": 8.333333333333334
+    },
+    {
+      "province": "LA-VT",
+      "n_cells": 24,
+      "mean_actual_cases": 154.45833333333334,
+      "n_final_mean_negative": 1,
+      "pct_final_mean_negative": 4.166666666666667
+    },
+    {
+      "province": "LA-XA",
+      "n_cells": 24,
+      "mean_actual_cases": 5.208333333333333,
+      "n_final_mean_negative": 1,
+      "pct_final_mean_negative": 4.166666666666667
+    },
+    {
+      "province": "LA-CH",
+      "n_cells": 24,
+      "mean_actual_cases": 101.29166666666667,
+      "n_final_mean_negative": 0,
+      "pct_final_mean_negative": 0.0
+    },
+    {
+      "province": "LA-LP",
+      "n_cells": 24,
+      "mean_actual_cases": 55.666666666666664,
+      "n_final_mean_negative": 0,
+      "pct_final_mean_negative": 0.0
+    },
+    {
+      "province": "LA-SL",
+      "n_cells": 24,
+      "mean_actual_cases": 60.625,
+      "n_final_mean_negative": 0,
+      "pct_final_mean_negative": 0.0
+    },
+    {
+      "province": "LA-PH",
+      "n_cells": 11,
+      "mean_actual_cases": 0.0,
+      "n_final_mean_negative": 0,
+      "pct_final_mean_negative": 0.0
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "n_cells": 371,
+  "stage1_alone": {
+    "mean_crps": 26.052787630892933,
+    "coverage_nominal": 0.9,
+    "coverage_empirical": 0.8274932614555256
+  },
+  "two_stage_ensemble": {
+    "mean_crps": 25.88918881222549,
+    "coverage_nominal": 0.9,
+    "coverage_empirical": 0.6442048517520216
+  },
+  "delta_crps": -0.16359881866744175,
+  "pct_change_vs_stage1": -0.6279513002034729,
+  "earns_its_place": true,
+  "vs_d_linearClimate": {
+    "d_linearClimate_mean_crps": 26.846655915112652,
+    "delta_crps": -0.9574671028871613,
+    "pct_change_vs_d_linearClimate": -3.5664296734558256,
+    "pooling_helps_over_per_province_on_same_input": true
+  }
+}

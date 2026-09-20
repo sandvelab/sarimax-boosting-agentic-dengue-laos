@@ -14,3 +14,4 @@ PYTHON="$REPO_ROOT/environment/env/bin/python"
 # Own scripts
 "$PYTHON" "scripts/01_stage2_pooled_random_forest.py"
 "$PYTHON" "scripts/02_compare_to_stage1.py"
+"$PYTHON" "scripts/03_diagnose_coverage_collapse.py"

@@ -13,3 +13,6 @@ PYTHON="$REPO_ROOT/environment/env/bin/python"
 # Sub-analyses: every child runs, in order.
 bash "01_persistence/run.sh"
 bash "02_climatology/run.sh"
+
+# Own scripts
+"$PYTHON" "scripts/comparison.py"

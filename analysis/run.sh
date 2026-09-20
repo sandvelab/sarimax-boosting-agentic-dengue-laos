@@ -11,5 +11,6 @@ REPO_ROOT="$(cd ".." && pwd)"
 PYTHON="$REPO_ROOT/environment/env/bin/python"
 
 # Sub-analyses: every child runs, in order.
+bash "00_metric/run.sh"
 bash "01_data/run.sh"
 bash "02_stage1/run.sh"

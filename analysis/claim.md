@@ -21,4 +21,8 @@ inherits: the project main environment (`environment/`) — not yet pinned; see
 
 ## Answers
 
-_(Nothing yet — no batch has run.)_
+Batch 2: the data partitions and characterises cleanly (`01_data`), the project's own CRPS
+implementation is verified (`00_metric`), and stage 1 alone — a per-province SARIMAX(1,1,1)×
+(1,0,0,12) on raw counts, refit every split — scores **mean CRPS 26.05** over 371 cells on
+the development backtest, with no fit failures. The plan's actual question (§2: does stage 2
+improve on this?) is not yet answered — stage 2 has not been built.

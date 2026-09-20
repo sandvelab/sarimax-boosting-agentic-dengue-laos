@@ -156,7 +156,7 @@ One row per `/do` invocation. Status: `open`, `done`, or `blocked` with why.
 | Batch | Phase | Aim | Status |
 |---|---|---|---|
 | 1 | A — Orient & set up | Read `readme-at-start.md`, `AGENTS.md`, `MOTIVATION.md`; re-verify the archived Laos dataset's checksums and re-read its `provenance.md`; stand up the repository's own `.venv`; write the root `analysis/claim.md`; raise any open questions this plan leaves the human (backtest scheme, whether to keep the EWARS citation, anything else). No modelling. | done |
-| 2 | B — Data & stage 1 | Characterise the reused dataset for this project's purposes (it does not need re-discovery, but per-province handling does); implement the fixed backtest scheme (§4) and verify the CRPS computation against a known-correct reference; build stage 1 (SARIMAX family) as a runnable node with a first, defensible default specification; get an end-to-end backtest running and producing a file-grounded score. | open |
+| 2 | B — Data & stage 1 | Characterise the reused dataset for this project's purposes (it does not need re-discovery, but per-province handling does); implement the fixed backtest scheme (§4) and verify the CRPS computation against a known-correct reference; build stage 1 (SARIMAX family) as a runnable node with a first, defensible default specification; get an end-to-end backtest running and producing a file-grounded score. | done |
 | 3 | B (cont.) | Implement the required baselines through the same pipeline; establish the first honest number for "how much does the backtest resolve" (the prior project's equivalent finding, re-derived for this project's own scheme and models). | open |
 | 4 | C — Stage 2, first candidate | Build the residual-correction contract (stage 2 reads stage 1's residuals and whatever covariates its first configuration uses) and one concrete stage-2 family as the first alternatives child; get the two-stage ensemble scoring end to end. | open |
 | 5–7 | C (cont.) | Add further stage-2 family alternatives (at least one tree-based, at least one that is not, e.g. a Bayesian or linear-with-structure model); decide which family sits on the main path, on development evidence, with the rejected families kept runnable; log what stage 2 is allowed to see (lags, covariates, population) as forks. | open |
@@ -178,3 +178,7 @@ the phase structure above is meant to hold.
 ### Batch 1 — orient and set up
 
 - [[26-09-20_b01_orientAndSetUp]]
+
+### Batch 2 — data, metric, and stage 1
+
+- [[26-09-20_b02_dataAndStage1]]

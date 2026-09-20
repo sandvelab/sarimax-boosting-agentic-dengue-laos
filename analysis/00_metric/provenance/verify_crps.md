@@ -1,9 +1,9 @@
 result: results/verification.json
 script: scripts/verify_crps.py
         sha256:ede42223ccfb7c89baf79fc8f23486bf736a5dad380a20003b45b72b217ca33e
-        ../../scripts/lib/crps.py
+        ../scripts/lib/crps.py
         sha256:90f29c8379d42e50bba1fa9b129c3617fff8d112d650217f82197fd4446b278e
-        ../../scripts/lib/project_seed.py
+        ../scripts/lib/project_seed.py
         sha256:8cf8c777a92e0d43663854423c4a6854675ea150613d42b5d08f69de14b18a5b
 invocation: ../../environment/env/bin/python scripts/verify_crps.py
 inputs: readme-at-start.md (project seed only)

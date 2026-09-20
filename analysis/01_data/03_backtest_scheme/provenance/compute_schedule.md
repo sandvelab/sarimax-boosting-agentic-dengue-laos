@@ -1,7 +1,7 @@
 result: results/split_schedule.csv · results/schedule_summary.json
 script: scripts/compute_schedule.py
         sha256:f6c39a6d1f8a4a0f8405eed56da335916264a32c0f227ebbf21a6e291e2967bf
-        ../../../scripts/lib/backtest.py
+        ../../scripts/lib/backtest.py
         sha256:bb036170c3e82031614c3fa2e7c9454ee98dad17ff7b3a387397d0addbf5f405
 invocation: ../../../environment/env/bin/python scripts/compute_schedule.py
 inputs: ../01_prepare/results/development.csv  sha256:138c568c84e33bc7c94fe10f1e4d6bef4f339469dd81ec49b8180be18bf2033f

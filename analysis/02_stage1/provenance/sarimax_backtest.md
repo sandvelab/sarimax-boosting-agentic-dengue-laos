@@ -1,7 +1,7 @@
 result: results/per_cell_scores.csv · results/conclusion.json
 script: scripts/sarimax_backtest.py
         sha256:82690b24ae6ee3023278264e6d4e39d11e62f6f043204d5110c75bd39f46adb7
-        ../../scripts/lib/crps.py
+        ../scripts/lib/crps.py
         sha256:90f29c8379d42e50bba1fa9b129c3617fff8d112d650217f82197fd4446b278e
 invocation: ../../environment/env/bin/python scripts/sarimax_backtest.py
 inputs: ../01_data/01_prepare/results/development.csv  sha256:138c568c84e33bc7c94fe10f1e4d6bef4f339469dd81ec49b8180be18bf2033f
@@ -13,7 +13,7 @@ seeds: none — SARIMAX MLE fitting here draws no randomness (deterministic L-BF
         starting values). Verified by fitting one province/split twice outside the tree and
         comparing forecast mean and se bit-for-bit (identical to full float64 precision);
         not re-verified for all 136 fits, a scope decision recorded below.
-commit: (see this batch's commit for 02_stage1)
+commit: 28e2821
 instructions-commit: 595c32d
 node: analysis/02_stage1
 produced: 2026-09-20

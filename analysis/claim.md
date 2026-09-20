@@ -78,3 +78,17 @@ finding about this minimal input, not a closed question about stage 2 in general
 honest ranking on development data, best to worst, is: **stage 1 alone (26.05) < a_linearLags
 (26.26) < seasonal climatology (26.91) < b_gradientBoosting (27.68) < c_bayesianRidge (28.07) <
 persistence (28.32)**. This closes phase C; phase D (stability, ledger rows 8–10) is next.
+
+Batch 8: the human chose to try the most plausible untried fork named by batch 7 — climate
+covariates — before moving to phase D. A fourth candidate, `04_stage2/d_linearClimate`, adds
+lag-12 rainfall, mean temperature and mean relative humidity to `a_linearLags`'s exact input
+and family (isolating the input question from the family question already explored by
+`b_gradientBoosting` and `c_bayesianRidge`). **It does not earn its place either: mean CRPS
+26.85, 3.05% worse than stage 1 alone and 2.25% worse than `a_linearLags` on the minimal
+input.** `a_linearLags` remains `04_stage2`'s main path. The updated ranking, best to worst:
+**stage 1 alone (26.05) < a_linearLags (26.26) < d_linearClimate (26.85) < seasonal
+climatology (26.91) < b_gradientBoosting (27.68) < c_bayesianRidge (28.07) < persistence
+(28.32)**. This narrows but
+does not close the climate question: a non-linear family given the same climate input, and a
+genuinely forward (rather than lag-12 proxy) climate signal, remain untried
+(`04_stage2/claim.md`). Phase D (stability) is next, renumbered to ledger rows 9–11.

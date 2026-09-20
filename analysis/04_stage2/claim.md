@@ -79,3 +79,19 @@ richer inputs at all versus moving to the stability phase (rows 8–10) with `a_
 the frozen default — left as an open question for the human rather than a call this batch
 makes for itself, since it trades further exploration against the plan's own stated tracking
 level (AGENTS.md §6) and is exactly the kind of scope decision plan §6 reserves for dialogue.
+
+**Batch 8 — the climate-covariate fork, tried (human-set: explore richer inputs before phase
+D, plan §4b).** A fourth candidate, `d_linearClimate`, added lag-12 rainfall, mean temperature
+and mean relative humidity to `a_linearLags`'s exact input and family, isolating the
+input-richness question from the model-family one flagged above. **Result: worse, not
+better** — mean CRPS 26.85 against stage 1 alone's 26.05 (+3.05%) and against `a_linearLags`'s
+own 26.26 (+2.25%). The most plausible untried route named in batch 7 did not change the
+central finding when tried on the family it was tried with; `a_linearLags` remains the main
+path. `analysis/04_stage2/d_linearClimate/results/all_candidates_comparison.json` holds all
+four candidates side by side — **no stage-2 family or input tried so far earns its place.**
+This narrows, but does not close, the climate-covariate question: it rules out lag-12 climate
+added to a linear correction, not climate added to a non-linear one (`b_gradientBoosting` or
+`c_bayesianRidge`'s families, given the same input, remain an untried cell of the
+family × input grid) nor a genuinely forward climate signal (not available in this dataset).
+Population and cross-province pooling remain untried, as recorded above. **Ledger row 8
+closes here**; the plan's §6 renumbers the stability phase to rows 9–11 (was 8–10).

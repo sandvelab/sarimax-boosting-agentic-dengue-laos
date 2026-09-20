@@ -17,4 +17,7 @@ reader who was not present can follow, and keep them honest about what did not w
   `environment/env/`. `/validate invariants` passes except `git` (resolved by this batch's
   commit). Report: `26-09-20_b01_orientAndSetUp.md`. Three open questions raised for the
   human: the backtest scheme, whether to keep citing the prior project's EWARS score, and
-  environment scoping (deferred to batch 2).
+  environment scoping (deferred to batch 2). **Same day, in dialogue**: the human settled the
+  first two — reuse the prior project's backtest scheme (`3/8/3`) as the default, and drop the
+  EWARS citation entirely rather than keep it as context. Recorded in the plan's §4b and
+  propagated to §1, §2, §4 and `readme-at-start.md`; pushed to the remote.

@@ -32,9 +32,10 @@ above.
 ## The article
 
 - **Target venue**: not yet decided.
-- **Status**: batch 1 complete (orient and set up — no modelling yet). Three open questions
-  raised to the human: backtest scheme, whether to keep citing the prior project's EWARS
-  score, and environment scoping (deferred to batch 2).
+- **Status**: batch 1 complete (orient and set up — no modelling yet). Batch 1's two
+  open questions on scope were settled the same day, in dialogue: the backtest scheme reuses
+  the prior project's, and the prior project's EWARS score is not cited at all (plan §4b).
+  Environment scoping remains open, for batch 2.
 - **Manuscript**: `Human-AI-collaboration/manuscript/` (empty).
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-09-20_sarimaxResidualBoostingCase.md`. It carries
@@ -45,8 +46,8 @@ above.
 | Setting | Value |
 |---|---|
 | Project random seed | `20260920`. Every component seed derives from it. |
-| Main environment | Not yet pinned. `environment/environment.yml` is a placeholder; batch 1 scopes what is needed (a SARIMAX implementation, a CRPS implementation, candidate stage-2 libraries) and `/pin-environment` produces the lockfile. |
-| Repository machinery interpreter | Not yet created. `python3 -m venv .venv` at batch 1, per `setup-guide.md` §3. |
+| Main environment | Not yet pinned. `environment/environment.yml` is a placeholder; batch 2 scopes what is needed (a SARIMAX implementation, a CRPS implementation, candidate stage-2 libraries) and `/pin-environment` produces the lockfile. |
+| Repository machinery interpreter | `.venv`, created batch 1 (CPython 3.13.7), per `setup-guide.md` §3. |
 | Tracking level | **Full** (`AGENTS.md` §6), carried over from the prior project's settled position. Raise it with the human rather than drifting. |
 | Compute budget for stability work | Not yet set — phase D (plan §6) sets it once stage 1 and stage 2 are running and their per-run cost is known. |
 | Storage budget | Not a constraint by default, matching the prior project's settled position; raised with the human if this project's outputs turn out to be unusually large. |
@@ -54,12 +55,12 @@ above.
 | Target | `disease_cases` (reported dengue), monthly, admin-1, Laos. |
 | Development data | 1998-01 to 2009-12. The only file development ever sees. |
 | Held-out data | 2010-01 to 2010-12. Sealed until the final validation (plan §3). |
-| Backtest scheme | Not yet fixed — the prior project's scheme was shaped partly by a Chap platform constraint that does not apply here (plan §4); batch 1 or 2 re-derives one. |
+| Backtest scheme | `n_periods 3 / n_splits 8 / stride 3`, reused from the prior project as the default (human-set, 2026-09-20, plan §4b), for comparability between the two projects. |
 | Evaluation harness | Native Python, not Chap — plan §4 records why. The CRPS implementation must be verified against a known-correct reference before it is trusted on real data. |
 | Metric | Mean CRPS across regions and splits, from our own verified implementation. Secondary: interval coverage, MAE. |
 | Primary comparison | The two-stage ensemble vs. stage 1 alone, on the same splits — the question this project exists to answer (plan §2). |
 | Required baselines | Persistence and seasonal climatology, scored through the same pipeline as every model. |
-| External reference | The prior project's reported EWARS-csd score, citable as context, not reproduced. |
+| External reference | None (human-set, 2026-09-20, plan §4b) — the prior project's EWARS-csd score is not cited. |
 | Git remote | `github.com/sandvelab/sarimax-boosting-agentic-dengue-laos`, public, already connected. The release batch runs the secrets/data-permission scan before pushing anything beyond this reset. |
 
 ## What must not happen

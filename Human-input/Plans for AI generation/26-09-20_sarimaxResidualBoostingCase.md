@@ -44,11 +44,10 @@ repository's standing purpose (`AGENTS.md` §1):
 alone vs. the two-stage ensemble, on the same data, same splits, same everything else. A
 project that only reports the two-stage ensemble's absolute score without the ablation against
 stage 1 alone has not answered its own question. Comparison against the required baselines
-(persistence, seasonal climatology) is still owed, as is a citation — not a re-run — of the
-prior project's externally reported EWARS score, for context. Re-running the WHO EWARS-csd
-reference is not required — the point of this project is the two-stage architecture, not
-another platform-compatibility exercise. Whether it is worth pointing at as a landmark is a
-batch-1 question, not a requirement.
+(persistence, seasonal climatology) is still owed. **The prior project's EWARS-csd score is
+not cited here** — settled 2026-09-20, human-set (§4b): this project stands on its own
+comparison, stage 1 alone vs. the two-stage ensemble vs. the required baselines, without
+reaching for the prior project's external reference at all.
 
 ## 2. What "earns its place" means
 
@@ -61,9 +60,9 @@ project used, narrowed to what this project is actually asking:
   alternative ways of building either stage, are the real content of the answer.
 - **Secondary**: both required baselines (persistence, seasonal climatology), implemented the
   same way for comparability.
-- **Contextual, not required**: the prior project's reported EWARS-csd score on the same
-  dataset and the same development/holdout split, cited from its record rather than
-  re-produced. Useful for scale, not a target this project is bound to beat.
+
+No external reference model is used or cited (§4b, 2026-09-20, human-set) — the comparison
+this project answers is entirely internal to the two datasets and models named above.
 
 **The aim is to conclude, and the conclusion will be an uncertain call**, for the same
 statistical reason the prior project reported: one held-out year is roughly 216 province-months
@@ -118,11 +117,11 @@ Settled here so that execution does not reopen them.
 | **Data** | Reused from `Archive/lao-dataset/`, already pinned by commit, checksummed, and `(IS_SHADOW)`-marked; batch 1 re-verifies the checksums rather than re-fetching. `Archive/lao-population/` likewise, if population is used at either stage. `Archive/sibling-datasets/` (Thailand, Vietnam) is available as an optional external check, not required. |
 | **Development data** | 1998-01 to 2009-12, same as the prior project — the only file development ever sees. |
 | **Held-out data** | 2010-01 to 2010-12, sealed until the final validation (§3), same as the prior project. |
-| **Backtest scheme** | Not fixed here. The prior project's `n_periods 3 / n_splits 8 / stride 3` was chosen partly to match a Chap-imposed constraint (EWARS forces `n_periods=3`) that does not apply to this project. Batch 1 or 2 re-derives a scheme against this project's own data and cost, and records why it does or does not match the prior project's. |
+| **Backtest scheme** | `n_periods 3 / n_splits 8 / stride 3` on development, reused from the prior project as the default, for direct comparability of the two projects' numbers even though the constraint that produced it (Chap forcing `n_periods=3` for EWARS) does not itself apply here. *(human-set, 2026-09-20.)* Batch 2 may still deviate with a concrete, recorded reason — this fixes the default, not a ban on reconsidering it. |
 | **Evaluation harness** | **Not Chap.** The prior project routed every score through a locally installed, version-pinned `chap-core` because the point was platform-compatible comparison against a Chap-native reference model. This project's question is about the two-stage architecture, not platform integration, so the default is a native Python pipeline: the model code, the backtest splitter and the CRPS computation are ours, each written once, tested, and used identically for every candidate — matching the discipline `AGENTS.md` §1 asks for by a different route than Chap's harness supplied it. *(agent-autonomous, reconsider in batch 1 if the native CRPS implementation cannot be verified against a known-correct reference.)* |
 | **Metric** | Mean CRPS across regions and splits from our own verified implementation (verify against a reference implementation such as `scoringrules`, `properscoring`, or a Chap re-derivation on a toy case, before trusting it on real data — Rule 1 makes an unverified metric implementation the single most likely way this project ends up dishonest). Secondary: interval coverage, MAE. |
 | **Required baselines** | Persistence (next month = last observed) and seasonal climatology (next month = mean of that calendar month in the training window), scored through the same native pipeline as every other model. |
-| **External reference** | The prior project's reported EWARS-csd score (development mean CRPS 22.098, holdout 76.731/84.026 raw, full record in the prior repository) may be cited as context; not reproduced here. |
+| **External reference** | None. The prior project's EWARS-csd score is not cited, even as context. *(human-set, 2026-09-20 — settling what batch 1 had left open.)* |
 | **Environment** | One native Python environment, pinned per `AGENTS.md` §3 / Rule 3 once batch 1 or 2 knows what it needs (a SARIMAX implementation — e.g. `statsmodels` or `pmdarima` — and a stage-2 library, chosen per family explored). No Docker requirement unless a stage-2 family turns out to need one. |
 | **Tracking level** | Full (`AGENTS.md` §6), same as the prior project — this repository is about tracking, and reusing its own dataset and disciplines is not a reason to relax that. |
 | **Storage budget** | Not a constraint by default, matching the prior project's own settled position; raised with the human if this project's model outputs turn out to be unusually large. |
@@ -131,9 +130,16 @@ Settled here so that execution does not reopen them.
 
 ## 4b. Decisions settled during execution
 
-Empty at plan start. Accumulates as `AGENTS.md` §4 and the prior project's own plan §4b did:
-each entry with its basis and its agency (`human-set`, `agent-on-human-assessment`,
-`agent-autonomous`), append-only, oldest first.
+Accumulates as `AGENTS.md` §4 and the prior project's own plan §4b did: each entry with its
+basis and its agency (`human-set`, `agent-on-human-assessment`, `agent-autonomous`),
+append-only, oldest first.
+
+### 2026-09-20 — settling batch 1's open questions, in dialogue
+
+| Decision | Basis | Agency |
+|---|---|---|
+| The backtest scheme reuses the prior project's `n_periods 3 / n_splits 8 / stride 3` as the default | The human's choice, from batch 1's question of whether to re-derive one from scratch or anchor to the prior project's — direct comparability between the two projects' numbers was preferred over a scheme derived in isolation. | human-set |
+| The prior project's EWARS-csd score is not cited anywhere in this project, not even as context | The human's choice, from batch 1's question of whether to keep it as optional context or drop it — this project stands entirely on its own internal comparison (stage 1 alone vs. the two-stage ensemble vs. the required baselines). §1, §2 and §4's "External reference" row updated accordingly. | human-set |
 
 ## 5. How this plan is used
 
@@ -150,7 +156,7 @@ One row per `/do` invocation. Status: `open`, `done`, or `blocked` with why.
 | Batch | Phase | Aim | Status |
 |---|---|---|---|
 | 1 | A — Orient & set up | Read `readme-at-start.md`, `AGENTS.md`, `MOTIVATION.md`; re-verify the archived Laos dataset's checksums and re-read its `provenance.md`; stand up the repository's own `.venv`; write the root `analysis/claim.md`; raise any open questions this plan leaves the human (backtest scheme, whether to keep the EWARS citation, anything else). No modelling. | done |
-| 2 | B — Data & stage 1 | Characterise the reused dataset for this project's purposes (it does not need re-discovery, but the backtest scheme and any per-province handling do); implement and verify the CRPS computation against a known-correct reference; build stage 1 (SARIMAX family) as a runnable node with a first, defensible default specification; get an end-to-end backtest running and producing a file-grounded score. | open |
+| 2 | B — Data & stage 1 | Characterise the reused dataset for this project's purposes (it does not need re-discovery, but per-province handling does); implement the fixed backtest scheme (§4) and verify the CRPS computation against a known-correct reference; build stage 1 (SARIMAX family) as a runnable node with a first, defensible default specification; get an end-to-end backtest running and producing a file-grounded score. | open |
 | 3 | B (cont.) | Implement the required baselines through the same pipeline; establish the first honest number for "how much does the backtest resolve" (the prior project's equivalent finding, re-derived for this project's own scheme and models). | open |
 | 4 | C — Stage 2, first candidate | Build the residual-correction contract (stage 2 reads stage 1's residuals and whatever covariates its first configuration uses) and one concrete stage-2 family as the first alternatives child; get the two-stage ensemble scoring end to end. | open |
 | 5–7 | C (cont.) | Add further stage-2 family alternatives (at least one tree-based, at least one that is not, e.g. a Bayesian or linear-with-structure model); decide which family sits on the main path, on development evidence, with the rejected families kept runnable; log what stage 2 is allowed to see (lags, covariates, population) as forks. | open |

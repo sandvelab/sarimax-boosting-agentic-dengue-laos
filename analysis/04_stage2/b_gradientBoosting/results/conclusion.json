@@ -1,0 +1,29 @@
+{
+  "model": "stage1 SARIMAX(1,1,1)x(1,0,0,12) + GradientBoostingRegressor(lag12 residual, sin/cos month; n_estimators=50, max_depth=2, learning_rate=0.05), additive correction to the mean, sigma unchanged from stage 1",
+  "seed": 690660778,
+  "gbm_params": {
+    "n_estimators": 50,
+    "max_depth": 2,
+    "learning_rate": 0.05,
+    "subsample": 1.0,
+    "max_features": null,
+    "random_state": 690660778
+  },
+  "determinism_check": {
+    "performed": true,
+    "identical_across_random_state": true
+  },
+  "n_provinces": 17,
+  "n_splits": 8,
+  "n_cells_total": 408,
+  "n_cells_scored": 371,
+  "n_fit_failures": 0,
+  "n_stage2_abstained": 40,
+  "mean_crps": 27.680013236868255,
+  "verification_vs_stage1_stored_forecast": {
+    "n_cells_verified": 408,
+    "max_abs_diff_mean": 0.0,
+    "max_abs_diff_se": 0.0,
+    "tolerance": 1e-06
+  }
+}

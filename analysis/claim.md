@@ -26,3 +26,10 @@ implementation is verified (`00_metric`), and stage 1 alone — a per-province S
 (1,0,0,12) on raw counts, refit every split — scores **mean CRPS 26.05** over 371 cells on
 the development backtest, with no fit failures. The plan's actual question (§2: does stage 2
 improve on this?) is not yet answered — stage 2 has not been built.
+
+Batch 3: both required baselines are built (`03_baselines`) and stage 1 beats each of them on
+the identical 371-cell set — **7.99% lower mean CRPS than persistence (28.32), 3.20% lower
+than seasonal climatology (26.91)**. This backtest resolves enough to separate stage 1 from
+naive forecasting, with a modest margin over climatology whose stability across reasonable
+alternative choices is deferred to the stability phase (plan §4). Stage 2 has still not been
+built.

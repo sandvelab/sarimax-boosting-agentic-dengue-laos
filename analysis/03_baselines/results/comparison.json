@@ -1,0 +1,12 @@
+{
+  "n_cells_compared": 371,
+  "mean_crps": {
+    "stage1_sarimax": 26.05278763089295,
+    "persistence": 28.31642984485804,
+    "seasonal_climatology": 26.913459276489746
+  },
+  "stage1_pct_reduction_vs_persistence": 7.994094687668196,
+  "stage1_pct_reduction_vs_climatology": 3.197922781887185,
+  "stage1_beats_persistence": true,
+  "stage1_beats_climatology": true
+}

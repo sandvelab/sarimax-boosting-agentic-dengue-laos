@@ -1,9 +1,0 @@
-additional_continuous_covariates:
-- rainfall
-- mean_temperature
-- mean_relative_humidity
-user_option_values:
-  members_file: analysis/03_models/03_candidate/c_ensemble/results/fitTime_refitAtPredict/members.json
-  members_sha256: ce2ee37df8698279a1579625844f7b3ec3a437a3255ee1bd7dfd5d0b18051119
-  seed: 1648567750
-  weighting: equal

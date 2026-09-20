@@ -1,8 +1,0 @@
-[
- {
-  "child": "b_crpsWeighted",
-  "combo": "weighting_crpsWeighted",
-  "fork": "analysis/03_models/03_candidate/c_ensemble/01_weighting",
-  "sweep_seconds": 95.6
- }
-]

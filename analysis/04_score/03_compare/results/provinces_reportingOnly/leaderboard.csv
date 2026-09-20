@@ -1,9 +1,0 @@
-model,weighting,n_cells,mean_crps,mae,coverage_10_90,coverage_25_75,n_locations,n_splits,observed_total,origin,kind,node,seeded,wall_clock_seconds,seconds_per_split,skill_vs_reference
-ensemble,unweighted,371,18.843148671159028,23.483827493261455,0.862533692722372,0.77088948787062,16,8,12291.0,ours,local-mlproject,analysis/03_models/03_candidate/c_ensemble,True,67.6,8.5,0.18605112567234483
-reference_r1,unweighted,371,22.326886269541777,27.230458221024257,0.7250673854447439,0.5471698113207547,16,8,12291.0,external,chapkit-service,analysis/03_models/02_reference,False,,,0.03556755489859942
-reference_r3,unweighted,371,23.060169563342317,27.014824797843666,0.784366576819407,0.633423180592992,16,8,12291.0,external,chapkit-service,analysis/03_models/02_reference,False,,,0.0038926410098308883
-reference,unweighted,371,23.15028531334232,27.54009433962264,0.7668463611859838,0.6071428571428571,16,8,12291.0,external,repeat-mean,analysis/03_models/02_reference,False,702.1,21.9,0.0
-reference_r2,unweighted,371,23.169820765498653,27.148247978436657,0.7816711590296496,0.633423180592992,16,8,12291.0,external,chapkit-service,analysis/03_models/02_reference,False,,,-0.0008438536239150363
-reference_r4,unweighted,371,24.044264654986524,28.766846361185983,0.7762803234501348,0.6145552560646901,16,8,12291.0,external,chapkit-service,analysis/03_models/02_reference,False,,,-0.03861634228451494
-climatology,unweighted,371,24.336908636118597,30.61994609164421,0.6495956873315364,0.5417789757412399,16,8,12291.0,ours,local-mlproject,analysis/03_models/01_baselines/02_climatology/a_expandingWindow,False,17.3,2.2,-0.05125739517743155
-persistence,unweighted,371,24.879338288409706,29.07277628032345,0.6657681940700808,0.490566037735849,16,8,12291.0,ours,local-mlproject,analysis/03_models/01_baselines/01_persistence/a_empiricalChange,False,19.0,2.4,-0.07468819289544015

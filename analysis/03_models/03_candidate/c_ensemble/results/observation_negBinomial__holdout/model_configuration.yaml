@@ -1,9 +1,0 @@
-additional_continuous_covariates:
-- rainfall
-- mean_temperature
-- mean_relative_humidity
-user_option_values:
-  members_file: analysis/03_models/03_candidate/c_ensemble/results/observation_negBinomial__holdout/members.json
-  members_sha256: e34cd645a6cd08f8639249d58b83034b46399c2cab72ac3aa611961982d37c14
-  seed: 1648567750
-  weighting: equal

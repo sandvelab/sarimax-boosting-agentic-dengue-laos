@@ -1,22 +1,5 @@
-# Declarative specification of the analysis environment — what was asked for.
-#
-# The resolved layer is environment/lock.txt (174 packages, exact versions); the build that
-# produces it is environment/install-chap.sh. Read this file for intent and lock.txt for
-# what actually reproduces.
-#
-# This is *not* the .venv at the repository root, which runs the repository's own machinery
-# (node.py, check_invariants.py) and is a tool rather than part of the result.
-name: analysis
-
-# CPython, pinned to the patch. chap-core 2.1.0 declares requires-python >=3.13,<3.14, so
-# the major.minor is forced; the patch is pinned because "3.13" resolves to whichever 3.13
-# the building machine happens to have, which is not a specification.
-python: 3.13.0
-
-# The platform. Everything the analysis reports is produced by chap eval, so this single
-# pin fixes the metric, the backtest arithmetic and the model runner in one.
-dependencies:
-  - chap-core==2.1.0
-
-# How the two above are turned into environment/chapenv:
-build: bash environment/install-chap.sh
+# Declarative environment spec for the analysis (not the repository's own .venv machinery).
+# Not yet filled in or pinned -- batch 1 does that. See environment/README.md.
+name: sarimax-residual-boosting
+channels: []
+dependencies: []

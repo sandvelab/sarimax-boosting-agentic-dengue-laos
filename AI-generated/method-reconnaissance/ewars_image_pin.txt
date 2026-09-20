@@ -1,2 +1,0 @@
-sha256:cde5faf171f9f835cd87a22abb8aef89e8e859d0ad38d093c1fb7962be58b30b amd64/linux 4730610962 a4c2fa423d7030e6eb7c1031b066e147bbc5aaa5
-ghcr.io/chap-models/chapkit_ewars_model@sha256:abd8098f2b828d3ef9899ed136d20a4f5387f8c3abe901f386905cec166d823a

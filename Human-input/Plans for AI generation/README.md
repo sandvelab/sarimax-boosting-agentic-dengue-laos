@@ -14,18 +14,6 @@ run it end to end without asking anything?**
 
 ## Currently here
 
-- `26-08-22_dengueForecastingCase.md` — the plan this repository exists to execute. Run one
-  batch per `/do` invocation; §6 is the live batch ledger and §4b logs the decisions settled
-  during execution, each with its agency.
-
-**This plan is edited as it runs**, which is unusual for this folder and is stated in the
-plan's own §5: the ledger fills in, sketched phases become concrete batches, and questions
-reserved to the human get settled into the text. The plan as it stood before the first batch
-ran is kept unedited at `Archive/plan-as-delivered/`, and the drift between the two is a
-reported result rather than bookkeeping — how much of an original research plan survives an
-agentic system executing it is one of the questions this project asks.
-
-Note the tension with `AGENTS.md` §8, which says plans here are the human's and are not
-rewritten except to add output links. §5 of the plan wins for this plan, because a batch
-ledger that cannot be updated cannot work. It is flagged in the batch-1 report §3 as an
-instruction conflict for the human to resolve.
+- `26-09-20_sarimaxResidualBoostingCase.md` — the plan this repository now exists to execute.
+  Run one batch per `/do` invocation; §6 is the live batch ledger and §4b logs the decisions
+  settled during execution, each with its agency.

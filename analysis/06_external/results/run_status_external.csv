@@ -1,5 +1,0 @@
-combination,status,seconds,steps,log,at
-main__vnm,ran,1325.3,13,analysis/06_external/results/logs/main__vnm.log,2026-09-04T20:09:33+00:00
-main__vnmFinal,ran,853.4,13,analysis/06_external/results/logs/main__vnmFinal.log,2026-09-04T20:23:47+00:00
-main__tha,ran,1865.8,13,analysis/06_external/results/logs/main__tha.log,2026-09-04T20:54:52+00:00
-main__thaFinal,ran,2472.5,13,analysis/06_external/results/logs/main__thaFinal.log,2026-09-04T21:36:05+00:00

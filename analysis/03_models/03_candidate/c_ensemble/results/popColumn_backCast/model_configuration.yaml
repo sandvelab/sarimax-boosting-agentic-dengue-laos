@@ -1,9 +1,0 @@
-additional_continuous_covariates:
-- rainfall
-- mean_temperature
-- mean_relative_humidity
-user_option_values:
-  members_file: analysis/03_models/03_candidate/c_ensemble/results/popColumn_backCast/members.json
-  members_sha256: 4711fa96ddf2851614c9ff5d3c87fcbbddbaf440755869e89f2dfbc45e3318db
-  seed: 1648567750
-  weighting: equal

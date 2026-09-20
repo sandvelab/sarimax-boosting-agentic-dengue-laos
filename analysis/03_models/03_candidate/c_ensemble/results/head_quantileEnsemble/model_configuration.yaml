@@ -1,9 +1,0 @@
-additional_continuous_covariates:
-- rainfall
-- mean_temperature
-- mean_relative_humidity
-user_option_values:
-  members_file: analysis/03_models/03_candidate/c_ensemble/results/head_quantileEnsemble/members.json
-  members_sha256: 2d98c8cea5fc9066435abd971a284e9e994aa5ddbd6a9fcc23f7cf76831c9668
-  seed: 1648567750
-  weighting: equal

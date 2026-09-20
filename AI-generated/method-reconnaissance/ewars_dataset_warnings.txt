@@ -1,4 +1,0 @@
-2026-08-23T23:29:10 [WARNING] Rejected regions: ['LA-VI'] due to missing target values for the whole training period [chap_core.rest_api.db_worker_functions]
-2026-08-23T23:29:10 [WARNING] Column 'mean_relative_humidity' is present in the dataset but not used by the model [chap_core.cli_endpoints._common]
-2026-08-23T23:29:10 [WARNING] Column 'mean_temperature' is present in the dataset but not used by the model [chap_core.cli_endpoints._common]
-2026-08-23T23:29:10 [WARNING] Column 'rainfall' is present in the dataset but not used by the model [chap_core.cli_endpoints._common]

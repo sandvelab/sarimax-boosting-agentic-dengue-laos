@@ -64,7 +64,7 @@ REPO_ROOT="$(cd "{up}" && pwd)"
 # Node scripts run under the pinned analysis environment (AGENTS.md §2), not under
 # .venv, which is the repository's own machinery. A node needing something beyond it
 # declares env/ and overrides PYTHON below.
-PYTHON="$REPO_ROOT/environment/chapenv/bin/python"
+PYTHON="$REPO_ROOT/environment/env/bin/python"
 """
 
 

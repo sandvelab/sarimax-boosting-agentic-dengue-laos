@@ -1,0 +1,19 @@
+{
+  "stage1_alone_mean_crps": 26.052787630892933,
+  "a_linearLags": {
+    "mean_crps": 26.25689213098635,
+    "pct_change_vs_stage1": 0.7834267218736884,
+    "coverage_empirical": 0.8328840970350404
+  },
+  "b_gradientBoosting": {
+    "mean_crps": 27.680013236868255,
+    "pct_change_vs_stage1": 6.245879055359847,
+    "coverage_empirical": 0.8221024258760108
+  },
+  "c_bayesianRidge": {
+    "mean_crps": 28.0654446421887,
+    "pct_change_vs_stage1": 7.7253038707811665,
+    "coverage_empirical": 0.8679245283018868
+  },
+  "any_candidate_earns_its_place": false
+}

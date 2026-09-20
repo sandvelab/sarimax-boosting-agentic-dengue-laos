@@ -1,0 +1,16 @@
+{
+  "n_cells": 371,
+  "stage1_alone": {
+    "mean_crps": 26.052787630892933,
+    "coverage_nominal": 0.9,
+    "coverage_empirical": 0.8274932614555256
+  },
+  "two_stage_ensemble": {
+    "mean_crps": 28.0654446421887,
+    "coverage_nominal": 0.9,
+    "coverage_empirical": 0.8679245283018868
+  },
+  "delta_crps": 2.0126570112957687,
+  "pct_change_vs_stage1": 7.7253038707811665,
+  "earns_its_place": false
+}

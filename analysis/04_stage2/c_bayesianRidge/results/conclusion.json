@@ -1,0 +1,21 @@
+{
+  "model": "stage1 SARIMAX(1,1,1)x(1,0,0,12) + BayesianRidge(lag12 residual, sin/cos month; features standardised on training-window statistics), additive correction to the mean, final variance = stage1_se^2 + stage2 posterior predictive variance (independence assumed)",
+  "seeds": "none -- BayesianRidge has no random_state and uses no random initialisation; verified deterministic by fitting twice from identical data and comparing bit-for-bit",
+  "determinism_check": {
+    "performed": true,
+    "identical_across_two_fits": true
+  },
+  "n_provinces": 17,
+  "n_splits": 8,
+  "n_cells_total": 408,
+  "n_cells_scored": 371,
+  "n_fit_failures": 0,
+  "n_stage2_abstained": 40,
+  "mean_crps": 28.0654446421887,
+  "verification_vs_stage1_stored_forecast": {
+    "n_cells_verified": 408,
+    "max_abs_diff_mean": 0.0,
+    "max_abs_diff_se": 0.0,
+    "tolerance": 1e-06
+  }
+}

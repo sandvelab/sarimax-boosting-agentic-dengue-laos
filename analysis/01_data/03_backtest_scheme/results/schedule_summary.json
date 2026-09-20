@@ -1,0 +1,11 @@
+{
+  "n_periods": 3,
+  "n_splits": 8,
+  "stride": 3,
+  "n_months_development": 144,
+  "evaluated_span": [
+    "2008-01",
+    "2009-12"
+  ],
+  "n_evaluated_months": 24
+}

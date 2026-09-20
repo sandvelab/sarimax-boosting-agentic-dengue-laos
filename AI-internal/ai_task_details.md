@@ -225,3 +225,83 @@ tried and lost, not three) — but does not decide that unilaterally either;
 `04_stage2/claim.md` remains where a future batch or the human would look to keep exploring
 inputs versus moving on. Batch 9 is expected to start phase D (stability, ledger rows 9–11)
 unless redirected. Nothing from this session has been pushed to the remote.
+
+## T4: Batch 9 — pooled random forest, adapted from chap-models
+
+Full account in `AI-generated/batch-reports/26-09-20_b09_stage2PooledRandomForest.md`.
+
+**Context.** Mid-turn, before batch 9 was even started, the human instructed: keep exploring
+stage-2 candidates (rather than move to phase D as batch 8's report suggested), and use an
+existing model from `github.com/chap-models` for stage 2. The plan was updated to record this
+before any modelling — inserted as ledger row 9, human-set, renumbering phase D onward from
+rows 9–16 to 10–17.
+
+**Model selection.** `github.com/chap-models` holds dozens of forecasting models built for the
+Chap platform, none of them a residual-correction model in this project's sense. Rather than
+guess, the org's repo listing was fetched via `gh api` and four candidates' contents inspected
+directly: `XGBoost_for_Malawi`, `ewars_plus_template`, `Vietnam-dengue-superensemble` (all R,
+would need a new environment dependency) and `rwanda_random_forest` (Python,
+`sklearn.ensemble.RandomForestRegressor`, no new dependency — `scikit-learn` was already pinned
+in batch 5). `rwanda_random_forest` was picked: beyond the environment fit, its central
+structural idea — **one model pooled across every location**, rather than fit per location — is
+exactly the cross-province-pooling fork `04_stage2/claim.md` logged as untried at the end of
+batch 7.
+
+**What was built** (`analysis/04_stage2/e_pooledRandomForest`): for each of the 8 backtest
+splits, one `RandomForestRegressor` fit on every modelable province's training rows pooled
+together (rather than `a_linearLags`/`b_gradientBoosting`/`c_bayesianRidge`/`d_linearClimate`'s
+independent per-province fits), then used to predict every province's test-month corrections
+for that split. Three deliberate deviations from the original repo, each logged with its reason
+in the script's module docstring and the node's provenance: (1) input set — reused
+`d_linearClimate`'s lag-12 residual/calendar/climate features rather than the original repo's
+lag-1..3 climate and lag-1..3 target lags, which are leakage-unsafe for this project's 3-month
+test window (the same argument `a_linearLags` made in batch 4); (2) no population/log1p
+incidence transform — this project's stage-2 contract predicts a residual, not a raw count;
+(3) a fixed, modest hyperparameter configuration (`n_estimators=200, max_depth=5,
+min_samples_leaf=5, max_features="sqrt"`) instead of the original repo's `RandomizedSearchCV`,
+rejected as expensive and a reproducibility risk inside an 8-split backtest — the same
+conservative-defaults-over-search choice `b_gradientBoosting` made for its own tree candidate.
+
+**Result: the first candidate to beat stage 1 alone — and the first to fail calibration this
+badly.** Mean CRPS 25.89 against stage 1 alone's 26.05 (-0.63%) and against `d_linearClimate`'s
+26.85 on the identical input (-3.57%), isolating pooling as a real source of the gain. But
+empirical interval coverage collapsed to 64.4% against a nominal 90% (every prior candidate
+stayed near stage 1's own 82.7-86.8%). Rather than leave the "why" as a terminal observation, a
+third script, `03_diagnose_coverage_collapse.py`, was written to ground it in a file (Rule 1):
+27.5% of this candidate's corrected forecasts are negative (impossible for a case count) — 2.4-
+2.5x every per-province sibling's rate and 6.8x stage 1 alone's own rate — concentrated in the
+lowest-case-count provinces (Pearson r=-0.53 between a province's mean case count and its
+negative-forecast rate; provinces averaging under 1 case/month have three-quarters of their
+cells corrected negative, while every province averaging over 55 cases/month has none). The
+pooled correction function, shaped by a training pool spanning under 1 to over 150 mean monthly
+cases, overshoots on the scales it was not specifically fit to.
+
+**Verdict, per plan §2** ("a model that wins on mean CRPS while being badly calibrated has not
+won"): this candidate does not earn its place either. The pooling *idea* is not ruled out —
+only this scale-blind implementation of it; a version preserving each province's own scale
+under pooling (a per-province offset or standardisation before pooling) is logged as an untried
+refinement in both `04_stage2/claim.md` and the node's own `claim.md`, not a rejected option.
+Updated ranking among candidates clearing both bars (unchanged from batch 8): stage 1 alone
+(26.05) < `a_linearLags` (26.26) < `d_linearClimate` (26.85) < seasonal climatology (26.91) <
+`b_gradientBoosting` (27.68) < `c_bayesianRidge` (28.07) < persistence (28.32), with
+`e_pooledRandomForest` (25.89) reported alongside as CRPS-best-but-miscalibrated rather than
+folded into that ranking.
+
+**Seeding (Rule 6).** Unlike `b_gradientBoosting`'s configuration (no real randomness regardless
+of seed), a random forest's bootstrap resampling is genuine randomness. Pinned via
+`random_state=component_seed("04_stage2/e_pooledRandomForest")` and `n_jobs=1`; verified by
+running the whole script twice end to end and diffing `per_cell_scores.csv` and
+`conclusion.json` byte for byte (identical both times), recorded in the batch's "After" commit
+message and this node's provenance rather than re-run automatically on every future invocation.
+
+**Checks run**: `check_invariants.py` passes throughout except the expected mid-batch `git`
+failures and the pre-existing, out-of-scope untracked `.idea/`. Stage-1 re-derivation verified
+bit-for-bit against `02_stage1`'s stored forecast (408/408 cells) exactly as every sibling
+candidate does.
+
+**Follow-ups**: neither this batch nor batch 8 decides whether to build the scale-preserving
+pooling fix, try population, move to phase D, or stop exploring stage-2 candidates — that
+remains the human's call. If exploration continues, the scale-preserving pooling refinement is
+the most directly motivated next step, since it targets the specific, now-understood failure of
+the one candidate that has actually beaten stage 1 alone. Nothing from this session has been
+pushed to the remote.

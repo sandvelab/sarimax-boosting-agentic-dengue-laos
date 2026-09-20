@@ -61,3 +61,23 @@ reader who was not present can follow, and keep them honest about what did not w
   gone stale after batch 1, never updated for batches 2–7. `/validate invariants` passes
   except `git`, which fails only on the pre-existing, out-of-scope untracked `.idea/`. Report:
   `26-09-20_b08_stage2LinearClimate.md`. Nothing pushed to the remote this session.
+- T4 (2026-09-20): Ran batch 9, mid-turn, after the human said to keep exploring stage-2
+  candidates and to try an existing model from `github.com/chap-models`. Inspected the org via
+  `gh api` (not from memory) and picked `chap-models/rwanda_random_forest` (Python, no new
+  environment dependency) over three R-based alternatives, because its pooled-across-locations
+  design directly addresses the cross-province-pooling fork `04_stage2/claim.md` logged as
+  untried since batch 7. Built `04_stage2/e_pooledRandomForest`: a random forest fit once per
+  split on every province's training rows pooled together, on `d_linearClimate`'s exact input
+  (the original repo's own feature set, target transform and hyperparameter search were each
+  deliberately not reused, and why is logged in the node's provenance). Result: mean CRPS
+  25.89 — the first stage-2 candidate to beat stage 1 alone (26.05) — but empirical interval
+  coverage collapses to 64.4% against nominal 90%. Wrote a third script,
+  `03_diagnose_coverage_collapse.py`, to ground the mechanism in a file rather than a terminal
+  observation: 27.5% of corrected forecasts are negative (impossible for a case count),
+  concentrated in the lowest-case-count provinces (Pearson r=-0.53 between a province's mean
+  case count and its negative-forecast rate). Per plan §2, this candidate does not earn its
+  place either — the pooling idea is not ruled out, only this scale-blind implementation of
+  it. Verified determinism by running the script twice and diffing outputs byte for byte.
+  Inserted ledger row 9 (human-set) into the plan before any modelling, renumbering phase D
+  onward from rows 9-16 to 10-17. Report: `26-09-20_b09_stage2PooledRandomForest.md`. Nothing
+  pushed to the remote this session.

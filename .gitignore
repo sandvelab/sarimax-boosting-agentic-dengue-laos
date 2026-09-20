@@ -25,7 +25,7 @@ AI-generated/hierarchical-report/*
 
 # The analysis environment itself — rebuilt from environment/lock.txt by
 # environment/install-chap.sh. The specification is tracked; the build is not.
-environment/chapenv/
+environment/env/
 
 # The reconnaissance smoke test's working directory: a fetched example dataset, a cloned
 # example model and the ~200 MB virtual environment chap-core builds for it. Rebuilt from

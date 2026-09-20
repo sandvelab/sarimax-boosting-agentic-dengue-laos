@@ -46,7 +46,7 @@ above.
 | Setting | Value |
 |---|---|
 | Project random seed | `20260920`. Every component seed derives from it. |
-| Main environment | Not yet pinned. `environment/environment.yml` is a placeholder; batch 2 scopes what is needed (a SARIMAX implementation, a CRPS implementation, candidate stage-2 libraries) and `/pin-environment` produces the lockfile. |
+| Main environment | Pinned, batch 2: CPython 3.13.0, `pandas`/`numpy`/`scipy`/`statsmodels`/`properscoring`, installed from `environment/lock.txt` by `environment/install-env.sh`. Invoked as `environment/env/bin/python`. No Docker. Stage-2 libraries not yet added — a candidate family needing one declares it when it arrives. |
 | Repository machinery interpreter | `.venv`, created batch 1 (CPython 3.13.7), per `setup-guide.md` §3. |
 | Tracking level | **Full** (`AGENTS.md` §6), carried over from the prior project's settled position. Raise it with the human rather than drifting. |
 | Compute budget for stability work | Not yet set — phase D (plan §6) sets it once stage 1 and stage 2 are running and their per-run cost is known. |

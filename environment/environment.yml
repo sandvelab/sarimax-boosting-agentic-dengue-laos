@@ -1,5 +1,9 @@
 # Declarative environment spec for the analysis (not the repository's own .venv machinery).
-# Not yet filled in or pinned -- batch 1 does that. See environment/README.md.
 name: sarimax-residual-boosting
-channels: []
-dependencies: []
+python: "3.13"
+dependencies:
+  - pandas          # data handling
+  - numpy           # numerics
+  - scipy           # stats (normal CDF/PDF for the closed-form CRPS)
+  - statsmodels     # SARIMAX (stage 1)
+  - properscoring   # independent CRPS reference, used only to verify our own implementation

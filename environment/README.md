@@ -4,11 +4,25 @@ The **one main environment** for the whole analysis, used generally. A node over
 only where it genuinely needs something else, in that node's `env/`, with the reason
 recorded in that node's `claim.md`.
 
-Not yet pinned. Fill in `environment.yml` with what the analysis needs, then `/pin-environment`
-to produce the lockfile and image, and `/pin-environment verify` to confirm it rebuilds clean.
-See `setup-guide.md` at the repository root, §4.
+Native Python — no Chap, no Docker (plan §4, batch 1). Pinned batch 2.
 
-The built environment belongs at `environment/env/` (not tracked; rebuilt from the lockfile),
-invoked directly as `environment/env/bin/python` — never by activating it — matching the
-convention `AGENTS.md` §8 sets for `.venv`. Node scripts under `analysis/` set `PYTHON`
-accordingly; `AI-internal/useful-scripts/node.py` generates them that way.
+| File | What it is |
+|---|---|
+| `environment.yml` | Declarative — CPython 3.13, `pandas`, `numpy`, `scipy`, `statsmodels` (stage 1), `properscoring` (verification reference for the CRPS implementation, not used to score). |
+| `install-env.sh` | The build. Creates `env/` **from `lock.txt`**, and re-resolves only with `RESOLVE=1`, reporting any difference between what it built and that file. |
+| `lock.txt` | Resolved — 14 packages with exact versions (`uv pip freeze`). **This is what reproduces.** |
+| `env/` | The built environment. Not tracked; rebuild with `install-env.sh`. |
+
+Invoke directly, as `environment/env/bin/python` — never by activating it — matching the
+convention `AGENTS.md` §8 sets for `.venv`. Note this is *not* the `.venv` at the repository
+root, which runs the repository's own machinery (`node.py`, `check_invariants.py`).
+
+## What has been verified
+
+`install-env.sh` was run twice on 2026-09-20: once with `RESOLVE=1` (resolved and wrote
+`lock.txt`), once without (installed from `lock.txt`, into a freshly recreated `env/`, and
+confirmed the built environment matches the lockfile exactly).
+
+No Dockerfile yet — this is a lightweight native-Python pipeline with no compiled
+platform-specific model runner (unlike the prior project's Chap/R-INLA reference), so an
+image is not judged worth the upkeep unless a later stage-2 family needs one.

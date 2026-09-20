@@ -95,3 +95,30 @@ added to a linear correction, not climate added to a non-linear one (`b_gradient
 family × input grid) nor a genuinely forward climate signal (not available in this dataset).
 Population and cross-province pooling remain untried, as recorded above. **Ledger row 8
 closes here**; the plan's §6 renumbers the stability phase to rows 9–11 (was 8–10).
+
+**Batch 9 — the cross-province-pooling fork, tried (human-set: keep exploring, and try an
+existing `chap-models` model for stage 2).** A fifth candidate, `e_pooledRandomForest`,
+adapts `chap-models/rwanda_random_forest`: one random forest fit per split, pooled across all
+17 provinces, on `d_linearClimate`'s exact input — isolating pooling as the one axis this
+candidate changes. **Result: mixed, and on balance still a no.** Mean CRPS **25.89** — the
+first candidate to beat stage 1 alone (26.05, -0.63%) and to beat `d_linearClimate` on the
+identical input (26.85, -3.57%) — but empirical interval coverage collapses to **64.4%**
+against nominal 90% (every prior candidate stayed near stage 1's own 82.7-86.8%). Per plan §2
+("a model that wins on mean CRPS while being badly calibrated has not won"), this candidate
+does not earn its place either.
+`analysis/04_stage2/e_pooledRandomForest/results/coverage_collapse_diagnosis.json` traces the
+break to 27.5% of its corrected forecasts landing below zero (impossible for a case count),
+concentrated in the lowest-case-count provinces (r=-0.53 between a province's mean case count
+and its negative-forecast rate) — a pooled correction shaped by provinces spanning under 1 to
+over 150 mean monthly cases overshoots on the scales it was not specifically fit to. **The
+pooling idea itself is not ruled out, only this implementation of it**: a version preserving
+each province's own scale under pooling (e.g. a per-province offset or standardisation before
+pooling) is logged as an untried refinement, not a rejected one. On mean CRPS alone,
+`e_pooledRandomForest` (25.89) ranks best of everything built so far, ahead of stage 1 alone
+(26.05); but since it fails the calibration bar plan §2 sets, the ranking among candidates
+that meet both criteria is unchanged from batch 8: **stage 1 alone (26.05) < a_linearLags
+(26.26) < d_linearClimate (26.85) < seasonal climatology (26.91) < b_gradientBoosting (27.68)
+< c_bayesianRidge (28.07) < persistence (28.32)**, with `e_pooledRandomForest` reported
+alongside rather than slotted into that ranking, since collapsing it to a single CRPS number
+would hide the trade-off that disqualifies it. `results/all_candidates_comparison.json` holds
+all five side by side. **Ledger row 9 closes here.**

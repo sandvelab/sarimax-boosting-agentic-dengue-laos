@@ -91,4 +91,28 @@ climatology (26.91) < b_gradientBoosting (27.68) < c_bayesianRidge (28.07) < per
 (28.32)**. This narrows but
 does not close the climate question: a non-linear family given the same climate input, and a
 genuinely forward (rather than lag-12 proxy) climate signal, remain untried
-(`04_stage2/claim.md`). Phase D (stability) is next, renumbered to ledger rows 9–11.
+(`04_stage2/claim.md`).
+
+Batch 9: at the human's direction to keep exploring and to try an existing model from
+`github.com/chap-models`, a fifth candidate, `04_stage2/e_pooledRandomForest`, adapts
+`chap-models/rwanda_random_forest` — a random forest pooled across all 17 provinces in one
+shared fit per split, rather than every prior candidate's independent per-province fits, on
+`d_linearClimate`'s exact input. **This is the first stage-2 candidate to beat stage 1 alone
+on mean CRPS: 25.89 against 26.05 (-0.63%), and -3.57% against `d_linearClimate` on the
+identical input it isolates pooling from.** But it does not earn its place either: empirical
+interval coverage collapses to **64.4%** against a nominal 90% (every prior candidate stayed
+near stage 1's own 82.7-86.8%), which plan §2 explicitly disqualifies ("a model that wins on
+mean CRPS while being badly calibrated has not won"). The mechanism, traced in
+`04_stage2/e_pooledRandomForest/results/coverage_collapse_diagnosis.json`: 27.5% of its
+corrected forecasts are negative (impossible for a case count), concentrated in the
+lowest-case-count provinces (Pearson r=-0.53 between a province's mean case count and its
+negative-forecast rate) — the pooled correction, shaped by provinces spanning under 1 to over
+150 mean monthly cases, overshoots on scales it was not specifically fit to. The pooling
+*idea* is not ruled out by this, only this implementation of it; a scale-preserving version
+(a per-province offset or standardisation before pooling) is logged as untried. The ranking
+among candidates that clear both the CRPS and calibration bars is unchanged from batch 8:
+**stage 1 alone (26.05) < a_linearLags (26.26) < d_linearClimate (26.85) < seasonal
+climatology (26.91) < b_gradientBoosting (27.68) < c_bayesianRidge (28.07) < persistence
+(28.32)**, with `e_pooledRandomForest` reported alongside as CRPS-best-but-miscalibrated
+rather than folded into it. Phase D (stability) is next, renumbered to ledger rows 10–12
+unless the human chooses to keep exploring further.

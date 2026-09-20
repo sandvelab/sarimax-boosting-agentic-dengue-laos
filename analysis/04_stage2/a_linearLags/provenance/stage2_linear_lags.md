@@ -28,7 +28,7 @@ verification: this script re-derives stage 1's forecast (`lib/stage1_model.py`) 
         408/408 cells verified, max|Δmean|=0.0, max|Δse|=0.0 (bit-identical), recorded in
         results/conclusion.json under "verification_vs_stage1_stored_forecast". The script
         raises rather than proceeds if this check fails.
-commit: (see this batch's commit for a_linearLags)
+commit: fe845c3
 instructions-commit: 595c32d
 node: analysis/04_stage2/a_linearLags
 produced: 2026-09-20

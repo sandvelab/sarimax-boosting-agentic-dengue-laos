@@ -9,7 +9,7 @@ inputs: ../../02_stage1/results/per_cell_scores.csv  sha256:a7132066292f8bbd93c1
 environment: environment/ (project main)
          lock.txt sha256:1d10c3af0cce41440634defbe5b77b0fa30243333df2fd9493015ba2e197278a
 seeds: none — a deterministic re-aggregation of two already-produced files, no fitting.
-commit: (see this batch's commit for a_linearLags)
+commit: fe845c3
 instructions-commit: 595c32d
 node: analysis/04_stage2/a_linearLags
 produced: 2026-09-20

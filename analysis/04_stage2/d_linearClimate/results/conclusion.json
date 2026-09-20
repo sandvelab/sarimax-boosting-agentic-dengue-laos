@@ -1,0 +1,22 @@
+{
+  "model": "stage1 SARIMAX(1,1,1)x(1,0,0,12) + linear(lag12 residual, sin/cos month, lag12 rainfall/temperature/humidity), additive correction to the mean, sigma unchanged from stage 1",
+  "climate_columns": [
+    "rainfall",
+    "mean_temperature",
+    "mean_relative_humidity"
+  ],
+  "climate_lag": 12,
+  "n_provinces": 17,
+  "n_splits": 8,
+  "n_cells_total": 408,
+  "n_cells_scored": 371,
+  "n_fit_failures": 0,
+  "n_stage2_abstained": 40,
+  "mean_crps": 26.846655915112652,
+  "verification_vs_stage1_stored_forecast": {
+    "n_cells_verified": 408,
+    "max_abs_diff_mean": 0.0,
+    "max_abs_diff_se": 0.0,
+    "tolerance": 1e-06
+  }
+}

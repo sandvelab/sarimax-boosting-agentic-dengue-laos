@@ -83,7 +83,7 @@ def families(seed: int) -> dict:
         "ridge": lambda: make_pipeline(StandardScaler(), Ridge(alpha=1.0)),
         "ridge_strong": lambda: make_pipeline(StandardScaler(), Ridge(alpha=30.0)),
         "random_forest": lambda: RandomForestRegressor(
-            n_estimators=200, max_depth=4, min_samples_leaf=10, max_features="sqrt",
+            n_estimators=100, max_depth=4, min_samples_leaf=10, max_features="sqrt",
             random_state=seed, n_jobs=1),
         "gradient_boosting": lambda: GradientBoostingRegressor(
             n_estimators=100, max_depth=2, learning_rate=0.05, subsample=0.8,

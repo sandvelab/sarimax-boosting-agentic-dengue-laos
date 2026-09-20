@@ -5,7 +5,7 @@ Which stage-2 model family, trained to predict stage 1's residuals and added bac
 ## Children
 
 kind: alternatives
-main-path: a_linearLags
+main-path: g_oosErrorBoosting
 
 ## Environment
 
@@ -122,3 +122,58 @@ that meet both criteria is unchanged from batch 8: **stage 1 alone (26.05) < a_l
 alongside rather than slotted into that ranking, since collapsing it to a single CRPS number
 would hide the trade-off that disqualifies it. `results/all_candidates_comparison.json` holds
 all five side by side. **Ledger row 9 closes here.**
+
+**Batch 10 — a systematic second iteration (human-set: literature, diagnostics, then
+candidates; plan §4b).** Two things changed the picture. First, `05_residualStructure` showed
+*why* candidates a–e found nothing: they were trained on stage 1's in-sample one-step
+residual, which is essentially white (mean autocorrelation within ±0.06 at every lag), whereas
+the quantity a stage 2 must correct — the 1-, 2- and 3-step out-of-sample error — is not:
+stage 1 over-predicts in two thirds of cells, more at high forecast levels and in November–
+April, and under-predicts in June–July; the dominant errors, and the whole coverage deficit,
+are reporting-regime breaks in 2008–09 (Bokeo, Salavan, Savannakhet) that no province's own
+history predicts. Climate anomalies at lags 1–3 carry no usable signal (|ρ| ≤ 0.05), and the
+coverage gap cannot be fixed by scaling sigma without losing CRPS (an oracle factor takes
+26.05 to 35.65). Second, the literature retrieved this batch (stacking: Wolpert 1992, Breiman
+1996; horizon-specific correction of a recursive base forecast: Ben Taieb & Hyndman 2014;
+the hybrid-ARIMA critique: Taşkaya-Temizel & Casey 2005; global models with per-series
+scaling: Montero-Manso & Hyndman 2021) says the same thing from theory.
+
+Two candidates were built on that basis, differing only in family: both train on stage 1's
+h-step error computed inside each split's training window from every origin with parameters
+fixed (~5,000 rows per split, pooled across provinces), standardised by stage 1's own se and
+winsorised at ±3, from forecast-time features (horizon, target month, forecast level relative
+to the province's residual scale, recent residuals and their cross-province mean, trailing
+incidence, trailing zero fraction); the correction z-hat × se is added to stage 1's mean and
+the result clipped at zero; sigma unchanged.
+
+- **`f_oosErrorRidge`** (ridge): mean CRPS **25.63**, −1.64% vs stage 1, coverage 84.6%
+  (stage 1: 82.7%). Improves 4 of 8 splits and 56.6% of cells.
+- **`g_oosErrorBoosting`** (shallow gradient-boosted trees): mean CRPS **25.16**, −3.41%,
+  coverage 85.7%. Improves 5 of 8 splits and 56.6% of cells.
+
+**Both clear plan §2's two bars — lower mean CRPS than stage 1 alone, with calibration not
+worse (here: better) — the first candidates to do so.** Clipping stage 1's mean at zero alone
+accounts for −0.56% of either gain; the correction accounts for the rest (−1.09% and −2.87%
+against the clipped stage 1). Gains sit in Khammouane, Salavan, Bokeo and Champasak and grow
+with horizon; both lose in Savannakhet, where stage 1's se is tens of times the 2008–09 case
+level and a small standardised correction becomes a large absolute one — a refinement (bound
+the correction relative to the forecast level) logged as untried. The updated ranking, best to
+worst, among candidates clearing both bars: **g_oosErrorBoosting (25.16) < f_oosErrorRidge
+(25.63) < stage 1 alone (26.05) < a_linearLags (26.26) < d_linearClimate (26.85) < seasonal
+climatology (26.91) < b_gradientBoosting (27.68) < c_bayesianRidge (28.07) < persistence
+(28.32)**, with `e_pooledRandomForest` (25.89, coverage 64.4%) still reported alongside.
+`g_oosErrorBoosting/results/all_candidates_comparison.json` holds all seven side by side.
+
+**Main-path decision (batch 10, agent-autonomous, reversible with `/node promote`):
+`g_oosErrorBoosting` becomes `04_stage2`'s main path**, replacing `a_linearLags`, which was
+only ever the least-bad losing candidate. This is the first time the main path is a candidate
+that earns its place on development evidence rather than a placeholder. The margin is modest,
+concentrated in a few provinces and the later splits, was reached after diagnostics that
+looked at the same development test cells, and rests on fixed rather than searched
+hyperparameters — so it is exactly what the stability phase (rows 11–13) exists to test, with
+`f_oosErrorRidge` the linear not-taken sibling it runs. Forks logged as untried after this
+batch: a correction bounded relative to the forecast level; a heavier-tailed or count
+predictive family at stage 1 (the honest fix for coverage); per-horizon separate models; a
+true rolling refit for the in-window errors; ENSO indices as an external forecast-time
+covariate (the literature's one climate signal with multi-month lead, not in this dataset).
+**Ledger row 10 closes here.**

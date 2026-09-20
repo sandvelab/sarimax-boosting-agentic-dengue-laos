@@ -13,5 +13,7 @@ inherits: the project main environment (`environment/`)
 
 ## Answers
 
-_(What this node's analysis yielded. Each answer belongs in the claim collection
-under `Human-AI-collaboration/claims/` with a pointer to the result grounding it.)_
+The project's closed-form Gaussian CRPS matches `properscoring.crps_gaussian` to within
+1.11e-16 over a 45-case grid, and matches `properscoring.crps_ensemble`'s Monte-Carlo estimate
+(a general empirical estimator, not tied to the Gaussian formula) within relative tolerance at
+three sample sizes. It is trusted for scoring from here on. `results/verification.json`.

@@ -9,7 +9,9 @@ invocation: ../../environment/env/bin/python scripts/verify_crps.py
 inputs: readme-at-start.md (project seed only)
 environment: environment/ (project main)
 seeds: project 20260920; component 1607043955 (blake2b("20260920:00_metric-verify_crps"))
-commit: (see git log for analysis/00_metric at time of run)
+commit: b83b280 (script iterated twice after the run first executed -- see the commit
+        message; this digest and commit are the version that actually produced the archived
+        result)
 instructions-commit: 595c32d
 node: analysis/00_metric
 produced: 2026-09-20

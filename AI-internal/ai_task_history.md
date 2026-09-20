@@ -21,3 +21,24 @@ reader who was not present can follow, and keep them honest about what did not w
   first two — reuse the prior project's backtest scheme (`3/8/3`) as the default, and drop the
   EWARS citation entirely rather than keep it as context. Recorded in the plan's §4b and
   propagated to §1, §2, §4 and `readme-at-start.md`; pushed to the remote.
+- T2 (2026-09-20): Resumed after a machine crash mid-close-out of batch 2, then ran batches
+  3–7. Closing batch 2: fixed a relative-path bug in three provenance records (one `../` too
+  many, pointing outside `analysis/scripts/lib/`), re-verified every affected sha256 against
+  the actual files, filled in `02_stage1`'s deferred commit hash, and wrote its batch report.
+  Batch 3 built the required baselines (`03_baselines/`: persistence 28.32, seasonal
+  climatology 26.91 mean CRPS) — stage 1 (26.05) beats both. Batch 4 built the stage-2
+  residual-correction contract and its first candidate (`04_stage2/a_linearLags`, OLS on
+  stage-1's lag-12 residual + calendar month): 26.26, 0.78% worse than stage 1 alone — the
+  first honest negative result on the project's central question. Batch 5 added a tree-based
+  candidate (`b_gradientBoosting`, pinning `scikit-learn`): 27.68, 6.25% worse. Batch 6 added
+  a Bayesian candidate (`c_bayesianRidge`, using its own posterior predictive variance rather
+  than borrowing stage 1's): 28.07 CRPS but the best-calibrated of the three (86.8% vs.
+  nominal 90% coverage). Batch 7 formalised `a_linearLags` as `04_stage2`'s main path (the
+  least-bad candidate, not an endorsement), updated the root `analysis/claim.md` to state
+  plainly that no stage-2 family tried beats stage 1 alone, and logged climate covariates and
+  population — both already present in the development data, neither yet used by any stage-2
+  candidate — as an explicit, unexplored input-space fork rather than a silent default.
+  `readme-at-start.md`'s status and environment rows, stale since batch 2, brought current.
+  `/validate invariants` passes clean after every batch's close-out commit. Reports:
+  `26-09-20_b02_dataAndStage1.md` through `26-09-20_b07_stage2MainPathAndInputForks.md`.
+  Nothing pushed to the remote this session.

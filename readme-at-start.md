@@ -32,10 +32,17 @@ above.
 ## The article
 
 - **Target venue**: not yet decided.
-- **Status**: batch 1 complete (orient and set up — no modelling yet). Batch 1's two
-  open questions on scope were settled the same day, in dialogue: the backtest scheme reuses
-  the prior project's, and the prior project's EWARS score is not cited at all (plan §4b).
-  Environment scoping remains open, for batch 2.
+- **Status**: batches 1–7 complete (phases A–C). Stage 1 (per-province SARIMAX,
+  mean CRPS 26.05 over 371 cells) beats both required baselines (persistence 28.32,
+  seasonal climatology 26.91). Three stage-2 residual-correction families were built and
+  scored on the same minimal input (stage-1 lag-12 residual + calendar month) — linear
+  (26.26), gradient boosting (27.68), Bayesian ridge (28.07, best-calibrated) — and **all
+  three lose to stage 1 alone**; the central comparison (plan §2) currently reads "the
+  residual stage does not earn its place under any family tried." `a_linearLags` is
+  `04_stage2`'s main path as the least-bad candidate, not an endorsement. Climate covariates
+  and population, already present in the development data, are logged as an unexplored
+  stage-2 input fork rather than silently skipped. Phase D (stability/perturbation, ledger
+  rows 8–10) has not started.
 - **Manuscript**: `Human-AI-collaboration/manuscript/` (empty).
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-09-20_sarimaxResidualBoostingCase.md`. It carries
@@ -46,7 +53,7 @@ above.
 | Setting | Value |
 |---|---|
 | Project random seed | `20260920`. Every component seed derives from it. |
-| Main environment | Pinned, batch 2: CPython 3.13.0, `pandas`/`numpy`/`scipy`/`statsmodels`/`properscoring`, installed from `environment/lock.txt` by `environment/install-env.sh`. Invoked as `environment/env/bin/python`. No Docker. Stage-2 libraries not yet added — a candidate family needing one declares it when it arrives. |
+| Main environment | Pinned, batch 2: CPython 3.13.0, `pandas`/`numpy`/`scipy`/`statsmodels`/`properscoring`. `scikit-learn` added batch 5 (tree-based and Bayesian-ridge stage-2 candidates). Installed from `environment/lock.txt` by `environment/install-env.sh`. Invoked as `environment/env/bin/python`. No Docker. |
 | Repository machinery interpreter | `.venv`, created batch 1 (CPython 3.13.7), per `setup-guide.md` §3. |
 | Tracking level | **Full** (`AGENTS.md` §6), carried over from the prior project's settled position. Raise it with the human rather than drifting. |
 | Compute budget for stability work | Not yet set — phase D (plan §6) sets it once stage 1 and stage 2 are running and their per-run cost is known. |

@@ -71,3 +71,91 @@ backtest scheme (the prior project's was partly shaped by a Chap constraint that
 apply here); whether the prior project's EWARS score is worth citing at all, given the plan
 already makes it optional; and environment scoping, deliberately deferred to batch 2 once
 stage 1's actual library needs are known rather than guessed now.
+
+## T2: Recover from a crash mid-batch-2, then run batches 3–7
+
+Full account in each batch's own report,
+`AI-generated/batch-reports/26-09-20_b0{2,3,4,5,6,7}_*.md`; this entry summarises the whole
+session.
+
+**Context.** A prior session's machine crashed while closing out batch 2 (data, metric,
+stage 1) — the "After" commit for `02_stage1` existed, but the wrap-up edits it depends on
+(provenance corrections, the root claim answer, the batch report) were still uncommitted in
+the working tree. This session began by reconstructing that state rather than redoing it:
+diffed every uncommitted change against the actual files, re-verified each provenance
+record's sha256 by hand, confirmed the plan-ledger and batch-report edits were internally
+consistent, and committed the close-out (`ae2e5f8`) once verified rather than trusting the
+uncommitted diff on its own.
+
+**What batch 2's close-out fixed**: three provenance records
+(`00_metric/provenance/verify_crps.md`, `01_data/03_backtest_scheme/provenance/
+compute_schedule.md`, `02_stage1/provenance/sarimax_backtest.md`) had a relative path one
+level too deep, pointing at a nonexistent `scripts/lib/` outside `analysis/scripts/lib/`
+rather than inside it — a bug introduced when writing the records, not a computation error;
+the recorded sha256 hashes were correct throughout and re-verified against the real files
+before the fix was trusted.
+
+**Batches 3–7**, run as five sequential background agents, each verified (`git log`, `git
+status`, `check_invariants.py`) before the next was launched:
+
+- **Batch 3 — baselines** (`analysis/03_baselines/`): persistence and seasonal climatology,
+  scored through the identical pipeline and cell set as stage 1. Neither baseline's forecast
+  is naturally a Gaussian, so each was given a sigma drawn from the historical quantity its
+  point forecast is built from (persistence: std of training-window one-step differences;
+  climatology: std of the same calendar month's training-window values) rather than an
+  invented free parameter — an `agent-autonomous` judgment call, logged in each node's
+  provenance. Result: stage 1 (26.05) beats persistence (28.32, −7.99%) and climatology
+  (26.91, −3.20%) — the backtest resolves, modestly.
+- **Batch 4 — stage-2 contract and first candidate** (`analysis/04_stage2/a_linearLags`):
+  established the contract — stage 1's forecast re-derived independently and verified
+  bit-identical to `02_stage1`'s stored output (408/408 cells) rather than importing its
+  closed script, since a node's own output is never edited or reached into. First candidate:
+  OLS on stage 1's lag-12 in-sample residual plus cyclical calendar month (lag-1 excluded as
+  leaking within a 3-month test window), sigma left at stage 1's value, interval coverage
+  tracked rather than assumed unaffected. Result: 26.26, 0.78% worse than stage 1 alone — the
+  project's first negative result on its central question.
+- **Batch 5 — tree-based candidate** (`04_stage2/b_gradientBoosting`): a regularised
+  gradient-boosting regressor on the same minimal input as batch 4, to isolate the
+  model-family comparison from the input-set question. Required pinning `scikit-learn`
+  (Rule 3: declarative spec, re-resolved lockfile, verified clean rebuild — `environment/
+  README.md` updated in the same batch). Result: 27.68, 6.25% worse than stage 1 alone, and
+  worse than the linear candidate. Also fixed, visibly, a stale line in the root
+  `analysis/claim.md` still citing the prior project's external reference three batches after
+  plan §4b settled that this project cites none.
+- **Batch 6 — Bayesian candidate** (`04_stage2/c_bayesianRidge`): the one family genuinely
+  different in kind from the other two — a Bayesian ridge regression whose own posterior
+  predictive variance is combined with stage 1's forecast variance for the final interval,
+  rather than borrowing stage 1's sigma unchanged as the other two candidates did. Result:
+  28.07 CRPS, the worst of the three on that metric, but the best-calibrated (86.8% empirical
+  coverage against a nominal 90%, vs. 82.7% for stage 1 alone) — the wider, better-calibrated
+  interval costs more CRPS than the mean correction recovers.
+- **Batch 7 — main-path decision and input-space forks**: with all three stage-2 candidates
+  losing to stage 1 alone, formalised `a_linearLags` as `04_stage2`'s main path as the
+  least-bad candidate — explicitly not an endorsement that stage 2 earns its place, a
+  distinction the root `analysis/claim.md` now states plainly. Logged, as a required explicit
+  fork rather than a silent default (plan §3), that every stage-2 candidate so far shares one
+  untested input set: climate covariates (`rainfall`, `mean_temperature`,
+  `mean_relative_humidity`) and `population` already sit unused in `development.csv`, flagged
+  as the most plausible untried route to a stage-2 model that helps, each costing roughly a
+  full batch to explore and none run this session.
+
+**Honest development ranking** (mean CRPS, lower is better): stage 1 alone (26.05) <
+`a_linearLags` (26.26) < seasonal climatology (26.91) < `b_gradientBoosting` (27.68) <
+`c_bayesianRidge` (28.07) < persistence (28.32). The project's central comparison (plan §1,
+§2) currently reads: no stage-2 family tried beats stage 1 alone, on the one input set tried
+so far.
+
+**Also done**: `readme-at-start.md`'s "Status" and "Main environment" rows, unchanged since
+batch 2 and increasingly stale (still said "batch 1 complete", "environment scoping remains
+open", "stage-2 libraries not yet added"), brought current.
+
+**Checks run**: `check_invariants.py` clean after every batch's close-out commit (only the
+expected mid-batch `git` finding, and the pre-existing, out-of-scope untracked `.idea/`
+left alone throughout — a JetBrains project folder, not part of this project's method, never
+added to `.gitignore` without being asked).
+
+**Follow-ups**, explicitly not this session's job: phase D (stability/perturbation, ledger
+rows 8–10) has not started — the perturbation manifest still needs enumerating (stage 1
+order/spec, stage-2 family and its inputs, combination rule, training window, zero-handling),
+costing, freezing and running. The climate-covariate and population stage-2 forks are logged
+but unbuilt. Nothing from this session has been pushed to the remote.

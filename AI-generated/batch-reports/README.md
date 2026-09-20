@@ -28,3 +28,7 @@ different report, not the same one.
 - `26-09-20_b08_stage2LinearClimate.md` — batch 8: fourth stage-2 candidate, `d_linearClimate`
   (the climate-covariate fork tried, at the human's direction); also loses to stage 1 alone
   and to `a_linearLags`.
+- `26-09-20_b09_stage2PooledRandomForest.md` — batch 9: fifth stage-2 candidate,
+  `e_pooledRandomForest`, adapted from `chap-models/rwanda_random_forest` at the human's
+  direction; the first to beat stage 1 alone on mean CRPS, but disqualified by a collapse in
+  interval coverage traced to negative forecasts concentrated in low-case-count provinces.

@@ -1,0 +1,12 @@
+{
+  "source": "Archive/lao-dataset/chap_LAO_admin1_monthly.csv",
+  "source_sha256": "19488aa1fc4d961ae1a6aeb75b874789576877664fce47713628f497a06fff56",
+  "n_rows_total": 2808,
+  "n_rows_development": 2592,
+  "n_rows_holdout": 216,
+  "development_range": [
+    "1998-01",
+    "2009-12"
+  ],
+  "holdout_complete": true
+}

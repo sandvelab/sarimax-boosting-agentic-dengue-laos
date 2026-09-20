@@ -1,0 +1,41 @@
+{
+  "n_rows": 216,
+  "n_provinces": 18,
+  "provinces": [
+    "LA-AT",
+    "LA-BK",
+    "LA-BL",
+    "LA-CH",
+    "LA-HO",
+    "LA-KH",
+    "LA-LM",
+    "LA-LP",
+    "LA-OU",
+    "LA-PH",
+    "LA-SL",
+    "LA-SV",
+    "LA-VI",
+    "LA-VT",
+    "LA-XA",
+    "LA-XE",
+    "LA-XI",
+    "LA-XN"
+  ],
+  "months": [
+    "2010-01",
+    "2010-02",
+    "2010-03",
+    "2010-04",
+    "2010-05",
+    "2010-06",
+    "2010-07",
+    "2010-08",
+    "2010-09",
+    "2010-10",
+    "2010-11",
+    "2010-12"
+  ],
+  "n_months": 12,
+  "expected_n_rows": 216,
+  "complete": true
+}

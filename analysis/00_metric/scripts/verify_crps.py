@@ -26,9 +26,16 @@ from lib.project_seed import component_seed  # noqa: E402
 
 RESULTS = NODE / "results"
 EXACT_TOL = 1e-10
-MC_SAMPLE_SIZES = [1_000, 10_000, 100_000]
-# Loosest tolerance at the smallest sample size; Monte-Carlo error shrinks like 1/sqrt(n).
-MC_TOL = {1_000: 0.05, 10_000: 0.015, 100_000: 0.005}
+# properscoring.crps_ensemble has no numba installed here, so it falls back to an O(n^2)
+# pairwise-difference implementation (confirmed: ~3.5 GB / 4.5 s at n=10,000). Kept small
+# enough to stay fast and memory-safe without adding a compiler-toolchain dependency for a
+# one-off verification.
+MC_SAMPLE_SIZES = [200, 1_000, 4_000]
+# Tolerance as a fraction of sigma (Monte-Carlo error on CRPS scales with the distribution's
+# spread, not just n) -- empirically, one draw at these sizes gave relative error up to 0.035
+# at n=200 and 0.0094 at n=4000; these keep roughly 3x margin above that while still catching
+# a real defect (a sign or factor error produces relative error of order 1, not 0.1).
+MC_TOL_REL = {200: 0.12, 1_000: 0.08, 4_000: 0.04}
 
 GRID = [
     (mu, sigma, y)
@@ -42,14 +49,14 @@ def exact_check() -> dict:
     rows = []
     worst = 0.0
     for mu, sigma, y in GRID:
-        ours = crps_gaussian(y, mu, sigma)
+        ours = float(crps_gaussian(y, mu, sigma))
         reference = float(ps.crps_gaussian(y, mu, sigma))
         diff = abs(ours - reference)
         worst = max(worst, diff)
         rows.append({"mu": mu, "sigma": sigma, "y": y, "ours": ours,
                      "properscoring": reference, "abs_diff": diff})
     return {"n_cases": len(rows), "max_abs_diff": worst, "tolerance": EXACT_TOL,
-            "passed": worst < EXACT_TOL, "rows": rows}
+            "passed": bool(worst < EXACT_TOL), "rows": rows}
 
 
 def monte_carlo_check(seed: int) -> dict:
@@ -63,11 +70,14 @@ def monte_carlo_check(seed: int) -> dict:
             samples = rng.normal(mu, sigma, size=n)
             empirical = float(ps.crps_ensemble(y, samples))
             diff = abs(empirical - closed_form)
-            tol = MC_TOL[n]
-            all_passed &= diff < tol
+            rel_diff = float(diff / sigma)
+            tol = MC_TOL_REL[n]
+            passed = bool(rel_diff < tol)
+            all_passed = all_passed and passed
             rows.append({"mu": mu, "sigma": sigma, "y": y, "n": n,
                          "closed_form": closed_form, "empirical": empirical,
-                         "abs_diff": diff, "tolerance": tol, "passed": diff < tol})
+                         "abs_diff": diff, "relative_diff": rel_diff,
+                         "tolerance_relative": tol, "passed": passed})
     return {"seed": seed, "passed": all_passed, "rows": rows}
 
 

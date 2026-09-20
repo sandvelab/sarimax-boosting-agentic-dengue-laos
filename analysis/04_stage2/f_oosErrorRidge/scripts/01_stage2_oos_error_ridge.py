@@ -85,6 +85,7 @@ STAGE1_CELLS_CSV = ANALYSIS / "02_stage1" / "results" / "per_cell_scores.csv"
 RESULTS = NODE / "results"
 
 VERIFY_ATOL = 1e-6
+SEED = None  # no seed: ridge regression and SARIMAX maximum likelihood are deterministic
 RIDGE_ALPHA = 10.0
 CLIP_AT_ZERO = True
 MIN_TRAIN_ROWS = 200

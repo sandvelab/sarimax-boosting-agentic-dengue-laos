@@ -38,7 +38,7 @@ import statsmodels.api as sm
 from lib.stage1_model import ORDER, SEASONAL_ORDER
 
 CLIMATE_COLS = ["rainfall", "mean_temperature", "mean_relative_humidity"]
-WARMUP_MONTHS = 24  # diffuse-initialisation warm-up excluded from residual-scale estimates
+WARMUP_MONTHS = 24  # months of diffuse-initialisation warm-up that residual-scale estimates skip
 
 
 def fit_stage1(series: pd.Series):

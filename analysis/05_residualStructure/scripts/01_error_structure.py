@@ -67,6 +67,7 @@ STAGE1_CELLS_CSV = ANALYSIS / "02_stage1" / "results" / "per_cell_scores.csv"
 RESULTS = NODE / "results"
 
 VERIFY_ATOL = 1e-6
+SEED = None  # no seed: this script is deterministic (maximum likelihood and closed-form statistics)
 NOMINAL = 0.90
 Z90 = 1.6448536269514722  # norm.ppf(0.95); the same interval every compare script uses
 LAG12 = 12

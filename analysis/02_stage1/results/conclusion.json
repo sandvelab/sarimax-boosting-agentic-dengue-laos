@@ -1,0 +1,9 @@
+{
+  "model": "SARIMAX(1, 1, 1)x(1, 0, 0, 12), raw disease_cases, refit every split",
+  "n_provinces": 17,
+  "n_splits": 8,
+  "n_cells_total": 408,
+  "n_cells_scored": 371,
+  "n_fit_failures": 0,
+  "mean_crps": 26.052787630892933
+}

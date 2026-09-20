@@ -13,5 +13,10 @@ inherits: the project main environment (`environment/`)
 
 ## Answers
 
-_(What this node's analysis yielded. Each answer belongs in the claim collection
-under `Human-AI-collaboration/claims/` with a pointer to the result grounding it.)_
+Yes: a per-province SARIMAX(1,1,1)×(1,0,0,12), fitted on raw `disease_cases` and refit at
+every split, produces a well-formed backtest: **mean CRPS 26.05** over 371 scored cells (16
+of 17 modelable provinces contribute a scored cell in the evaluated span; LA-XN stops
+reporting before 2008 and contributes none — consistent with the prior project's independent
+finding of 371 evaluable cells on the same scheme). No fit failed (0/136). This is stage 1
+*alone*; whether stage 2's residual correction improves on it is the plan's actual question
+(§2) and is not yet answered. `results/conclusion.json`, `results/per_cell_scores.csv`.

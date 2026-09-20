@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Stage 1 alone vs. this candidate: mean CRPS and 90% interval coverage, on the identical
-cell set -- plus the decomposition the combination rule owes.
+cell set -- plus the decomposition the combination rule owes, and all seven stage-2 candidates side by side.
 
 This candidate changes two things relative to stage 1's mean: it adds a predicted correction
 and it clips the result at zero. Both are stored per cell, so the four combinations are scored
@@ -126,6 +126,27 @@ def main() -> None:
         "share_abstained": float(np.mean([r["stage2_abstained"] == "True" for r in own])),
     }
     (RESULTS / "comparison.json").write_text(json.dumps(summary, indent=2) + "\n")
+
+    # All seven stage-2 candidates side by side, read from each sibling's own comparison file.
+    side = {"stage1_alone_mean_crps": stage1_crps,
+            "stage1_alone_coverage_empirical": variants["stage1"]["coverage_empirical"]}
+    for name in ("a_linearLags", "b_gradientBoosting", "c_bayesianRidge", "d_linearClimate",
+                 "e_pooledRandomForest", "f_oosErrorRidge"):
+        c = json.loads((NODE.parents[0] / name / "results" / "comparison.json").read_text())
+        side[name] = {"mean_crps": c["two_stage_ensemble"]["mean_crps"],
+                      "pct_change_vs_stage1": c["pct_change_vs_stage1"],
+                      "coverage_empirical": c["two_stage_ensemble"]["coverage_empirical"]}
+    side["g_oosErrorBoosting"] = {"mean_crps": cand["mean_crps"], "pct_change_vs_stage1": cand["pct_change_vs_stage1"],
+                                  "coverage_empirical": cand["coverage_empirical"]}
+    ranked = sorted((k for k in side if k not in ("stage1_alone_mean_crps", "stage1_alone_coverage_empirical")),
+                    key=lambda k: side[k]["mean_crps"])
+    side["ranking_by_mean_crps"] = ranked
+    side["candidates_beating_stage1_on_crps"] = [k for k in ranked if side[k]["mean_crps"] < stage1_crps]
+    side["candidates_beating_stage1_on_crps_with_coverage_within_5_points"] = [
+        k for k in ranked if side[k]["mean_crps"] < stage1_crps
+        and abs(side[k]["coverage_empirical"] - side["stage1_alone_coverage_empirical"]) <= 0.05]
+    (RESULTS / "all_candidates_comparison.json").write_text(json.dumps(side, indent=2) + "\n")
+    print(json.dumps(side, indent=2))
     print(json.dumps({k: v for k, v in summary.items() if k != "by_province_sorted_by_gain"}, indent=2))
     print(json.dumps(summary["by_province_sorted_by_gain"][:5] + summary["by_province_sorted_by_gain"][-3:], indent=2))
 

@@ -11,4 +11,6 @@ REPO_ROOT="$(cd "../../.." && pwd)"
 PYTHON="$REPO_ROOT/environment/env/bin/python"
 
 
-# Own scripts -- add calls here as scripts/ fills up.
+# Own scripts
+"$PYTHON" "scripts/01_stage2_oos_error_boosting.py"
+"$PYTHON" "scripts/02_compare_to_stage1.py"

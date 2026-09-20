@@ -79,7 +79,7 @@ def main() -> None:
         },
         "delta_crps": delta,
         "pct_change_vs_stage1": pct,
-        "earns_its_place": delta < 0,
+        "earns_its_place": bool(delta < 0),
     }
     (RESULTS / "comparison.json").write_text(json.dumps(summary, indent=2) + "\n")
     print(json.dumps(summary, indent=2))

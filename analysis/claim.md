@@ -33,3 +33,11 @@ than seasonal climatology (26.91)**. This backtest resolves enough to separate s
 naive forecasting, with a modest margin over climatology whose stability across reasonable
 alternative choices is deferred to the stability phase (plan §4). Stage 2 has still not been
 built.
+
+Batch 4: the residual-correction contract and first stage-2 candidate are built
+(`04_stage2/a_linearLags`) — a linear regression on stage 1's lag-12 residual and calendar
+month, added to stage 1's forecast mean. It does **not** earn its place: mean CRPS 26.26
+against stage 1 alone's 26.05, **0.78% worse**, with essentially unchanged interval coverage.
+The plan's central question (§1–§2: does *some* stage-2 family beat stage 1 alone?) is not yet
+answered — one candidate failing does not settle it; batches 5–7 add a tree-based candidate
+and a non-tree structural candidate as further alternatives before any conclusion is drawn.

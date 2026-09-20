@@ -32,17 +32,19 @@ above.
 ## The article
 
 - **Target venue**: not yet decided.
-- **Status**: batches 1–7 complete (phases A–C). Stage 1 (per-province SARIMAX,
+- **Status**: batches 1–8 complete (phases A–C). Stage 1 (per-province SARIMAX,
   mean CRPS 26.05 over 371 cells) beats both required baselines (persistence 28.32,
-  seasonal climatology 26.91). Three stage-2 residual-correction families were built and
-  scored on the same minimal input (stage-1 lag-12 residual + calendar month) — linear
-  (26.26), gradient boosting (27.68), Bayesian ridge (28.07, best-calibrated) — and **all
-  three lose to stage 1 alone**; the central comparison (plan §2) currently reads "the
-  residual stage does not earn its place under any family tried." `a_linearLags` is
-  `04_stage2`'s main path as the least-bad candidate, not an endorsement. Climate covariates
-  and population, already present in the development data, are logged as an unexplored
-  stage-2 input fork rather than silently skipped. Phase D (stability/perturbation, ledger
-  rows 8–10) has not started.
+  seasonal climatology 26.91). Four stage-2 residual-correction candidates were built and
+  scored — three on the minimal input (stage-1 lag-12 residual + calendar month): linear
+  (26.26), gradient boosting (27.68), Bayesian ridge (28.07, best-calibrated); and one,
+  `d_linearClimate` (26.85), the linear family with lag-12 climate covariates (rainfall,
+  temperature, humidity) added — and **all four lose to stage 1 alone**; the central
+  comparison (plan §2) currently reads "the residual stage does not earn its place under any
+  family or input tried." `a_linearLags` is `04_stage2`'s main path as the least-bad
+  candidate, not an endorsement. Population, cross-province pooling, a non-linear family
+  given climate, and a genuinely forward (non-lag-12) climate signal remain unexplored
+  stage-2 forks, logged rather than silently skipped. Phase D (stability/perturbation, ledger
+  rows 9–11) has not started.
 - **Manuscript**: `Human-AI-collaboration/manuscript/` (empty).
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-09-20_sarimaxResidualBoostingCase.md`. It carries

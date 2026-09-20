@@ -53,17 +53,28 @@ SEED = component_seed("05_residualStructure")
 Z90 = 1.6448536269514722
 N_PERMUTATIONS = 30
 
+ZCLIP = 3.0  # training target is z winsorised here; |z|>3 cells are the reporting-regime breaks
+MONTH_DUMMIES = [f"m{k}" for k in range(1, 13)]
+
 FEATURE_SETS = {
     "calendar_only": ["sin_m", "cos_m"],
     "calendar_h": ["sin_m", "cos_m", "h"],
+    "month_dummies_h": MONTH_DUMMIES + ["h"],
     "lag12_calendar (earlier candidates' input)": ["r_lag12", "sin_m", "cos_m"],
     "recent_residuals": ["r_last", "r_last3", "h"],
     "recent_plus_national": ["r_last", "r_last3", "nat_last3", "h"],
     "climate_anomalies": ["rain_anom", "temp_anom", "hum_anom", "rain_anom3", "temp_anom3", "hum_anom3", "h"],
     "level": ["level_std", "log_train_mean", "h"],
+    "incidence_anomalies": ["inc_anom3", "nat_inc_anom3", "h"],
+    "susceptibility_reporting": ["cum12_anom", "cum36_anom", "zero_frac24", "h"],
     "recent_national_level": ["r_last", "r_last3", "nat_last3", "level_std", "log_train_mean", "h", "sin_m", "cos_m"],
+    "incidence_recent_level_month": ["inc_anom3", "nat_inc_anom3", "r_last", "r_last3", "level_std",
+                                     "log_train_mean", "cum12_anom", "zero_frac24", "h"] + MONTH_DUMMIES,
+    "all_no_climate": ["r_last", "r_last3", "r_lag12", "nat_last3", "level_std", "log_train_mean", "h",
+                       "inc_anom3", "nat_inc_anom3", "cum12_anom", "cum36_anom", "zero_frac24"] + MONTH_DUMMIES,
     "all": ["r_last", "r_last3", "r_lag12", "nat_last3", "rain_anom", "temp_anom", "hum_anom",
-            "rain_anom3", "temp_anom3", "hum_anom3", "level_std", "log_train_mean", "h", "sin_m", "cos_m"],
+            "rain_anom3", "temp_anom3", "hum_anom3", "level_std", "log_train_mean", "h",
+            "inc_anom3", "nat_inc_anom3", "cum12_anom", "cum36_anom", "zero_frac24"] + MONTH_DUMMIES,
 }
 
 
@@ -99,10 +110,14 @@ def loso_predict(df: pd.DataFrame, feats: list[str], make_model, y: np.ndarray) 
     return pred
 
 
-def score(df: pd.DataFrame, zhat: np.ndarray) -> dict:
+def skill(target: np.ndarray, pred: np.ndarray) -> float:
+    return float(1 - np.mean((target - pred) ** 2) / np.mean(target ** 2))
+
+
+def score(df: pd.DataFrame, zhat: np.ndarray, zw: np.ndarray) -> dict:
+    """Skill on the winsorised target (what was fit), skill on the raw z, and -- the objective
+    that matters -- CRPS in case units once zhat*se is added to stage 1's mean."""
     z = df["z"].to_numpy()
-    mse0 = float(np.mean(z ** 2))
-    mse = float(np.mean((z - zhat) ** 2))
     mu = df["mu1"].to_numpy() + zhat * df["se1"].to_numpy()
     se = df["se1"].to_numpy()
     crps = float(np.mean([crps_gaussian(a, m, max(s, 1e-6)) for a, m, s in zip(df["actual"], mu, se)]))
@@ -110,14 +125,20 @@ def score(df: pd.DataFrame, zhat: np.ndarray) -> dict:
     per_h = {}
     for h in sorted(df["h"].unique()):
         sel = (df["h"] == h).to_numpy()
-        per_h[f"h{int(h)}"] = float(1 - np.mean((z[sel] - zhat[sel]) ** 2) / np.mean(z[sel] ** 2))
-    return {"skill_z": 1 - mse / mse0, "skill_by_horizon": per_h, "mean_crps_corrected": crps,
-            "coverage_90": cov, "mean_abs_correction_in_z": float(np.mean(np.abs(zhat)))}
+        per_h[f"h{int(h)}"] = skill(zw[sel], zhat[sel])
+    return {"skill_winsorised_z": skill(zw, zhat), "skill_raw_z": skill(z, zhat), "skill_by_horizon": per_h,
+            "mean_crps_corrected": crps, "coverage_90": cov,
+            "mean_abs_correction_in_z": float(np.mean(np.abs(zhat))),
+            "share_final_mean_negative": float(np.mean(mu < 0))}
 
 
 def main() -> None:
     df = pd.read_csv(CELLS_CSV)
+    cm = df["month"].str[5:7].astype(int)
+    for k in range(1, 13):
+        df[f"m{k}"] = (cm == k).astype(float)
     z = df["z"].to_numpy(float)
+    zw = np.clip(z, -ZCLIP, ZCLIP)
     fams = families(SEED)
     rng = np.random.default_rng(SEED)
     stage1_crps = float(df["crps1"].mean())
@@ -126,26 +147,28 @@ def main() -> None:
     rows, detail = [], {}
     for fs_name, feats in FEATURE_SETS.items():
         for fam_name, make in fams.items():
-            zhat = loso_predict(df, feats, make, z)
-            real = score(df, zhat)
+            zhat = loso_predict(df, feats, make, zw)
+            real = score(df, zhat, zw)
             perm_skills = []
             for _ in range(N_PERMUTATIONS):
-                zp = rng.permutation(z)
+                zp = rng.permutation(zw)
                 zhat_p = loso_predict(df, feats, make, zp)
-                perm_skills.append(1 - np.mean((zp - zhat_p) ** 2) / np.mean(zp ** 2))
+                perm_skills.append(skill(zp, zhat_p))
             perm_skills = np.array(perm_skills)
             p95 = float(np.quantile(perm_skills, 0.95))
             rows.append({
                 "feature_set": fs_name, "family": fam_name, "n_features": len(feats),
-                "skill_z": real["skill_z"], "skill_h1": real["skill_by_horizon"].get("h1"),
+                "skill_winsorised_z": real["skill_winsorised_z"], "skill_raw_z": real["skill_raw_z"],
+                "skill_h1": real["skill_by_horizon"].get("h1"),
                 "skill_h2": real["skill_by_horizon"].get("h2"), "skill_h3": real["skill_by_horizon"].get("h3"),
                 "mean_crps_corrected": real["mean_crps_corrected"],
                 "pct_change_crps_vs_stage1": 100 * (real["mean_crps_corrected"] - stage1_crps) / stage1_crps,
                 "coverage_90": real["coverage_90"],
+                "share_final_mean_negative": real["share_final_mean_negative"],
                 "mean_abs_correction_in_z": real["mean_abs_correction_in_z"],
                 "permutation_skill_mean": float(perm_skills.mean()),
                 "permutation_skill_p95": p95,
-                "better_than_chance": bool(real["skill_z"] > p95),
+                "better_than_chance": bool(real["skill_winsorised_z"] > p95),
             })
             detail[f"{fs_name} | {fam_name}"] = {**real, "permutation_skills": perm_skills.tolist()}
 
@@ -157,16 +180,17 @@ def main() -> None:
 
     best = rows[0]
     summary = {
-        "design": "leave-one-split-out CV over 8 backtest splits on 02_stage1's test cells; target z = "
-                  "error/se; correction = zhat*se added to stage 1's mean, sigma unchanged; chance = "
-                  f"same model on permuted z, {N_PERMUTATIONS} permutations, threshold = 95th percentile",
+        "design": "leave-one-split-out CV over 8 backtest splits on 02_stage1's test cells; target = z = "
+                  f"error/se winsorised at +/-{ZCLIP} for fitting; correction = zhat*se added to stage 1's "
+                  f"mean, sigma unchanged; chance = same model on permuted target, {N_PERMUTATIONS} "
+                  "permutations, threshold = 95th percentile of permutation skill",
         "seed": SEED,
-        "stage1_alone": {"mean_crps": stage1_crps, "coverage_90": stage1_cov, "skill_z": 0.0},
+        "stage1_alone": {"mean_crps": stage1_crps, "coverage_90": stage1_cov, "skill": 0.0},
         "n_configurations": len(rows),
         "n_better_than_chance": int(sum(r["better_than_chance"] for r in rows)),
         "n_beating_stage1_crps": int(sum(r["mean_crps_corrected"] < stage1_crps for r in rows)),
         "best_by_crps": best,
-        "best_skill": max(rows, key=lambda r: r["skill_z"]),
+        "best_skill": max(rows, key=lambda r: r["skill_winsorised_z"]),
         "earlier_candidates_input": [r for r in rows if r["feature_set"].startswith("lag12_calendar")],
         "per_configuration": detail,
     }

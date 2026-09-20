@@ -71,6 +71,27 @@ NOMINAL = 0.90
 Z90 = 1.6448536269514722  # norm.ppf(0.95); the same interval every compare script uses
 LAG12 = 12
 ACF_LAGS = 12
+RECENT_MONTHS = 24  # "recent" in-window origins, for the recency check on spread calibration
+ZCLIP = 3.0  # winsorisation bound for the robust summaries (|z| > 3 is already outside a 99.7% interval)
+
+
+def q90_factor(zvals) -> float:
+    """The multiplier on sigma that would put the 90th percentile of |z| at the nominal 90%
+    interval's half-width -- a quantile-based (tail-robust) calibration factor, unlike rms_z."""
+    zvals = np.asarray(zvals, float)
+    return float(np.quantile(np.abs(zvals), 0.90) / Z90) if len(zvals) else float("nan")
+
+
+def spearman(x, y):
+    x, y = np.asarray(x, float), np.asarray(y, float)
+    ok = ~(np.isnan(x) | np.isnan(y))
+    x, y = x[ok], y[ok]
+    if len(x) < 3:
+        return None, int(len(x))
+    rx, ry = pd.Series(x).rank().to_numpy(), pd.Series(y).rank().to_numpy()
+    if rx.std() == 0 or ry.std() == 0:
+        return None, int(len(x))
+    return float(np.corrcoef(rx, ry)[0, 1]), int(len(x))
 
 
 def load_series(province, months, dev_rows):
@@ -109,6 +130,29 @@ def pearson(x, y):
     return float(np.corrcoef(x, y)[0, 1]), int(len(x))
 
 
+def incidence_features(series: pd.Series) -> dict[str, float]:
+    """Forecast-time incidence features from the training-window series alone."""
+    vals = series.to_numpy(float)
+    months = np.array([p.month for p in series.index])
+    clim = {m: float(np.nanmean(vals[months == m])) for m in range(1, 13)}
+    last3 = vals[-3:]
+    clim3 = np.array([clim[m] for m in months[-3:]])
+    ok = ~np.isnan(last3)
+    inc_anom3 = float(np.mean(np.log1p(np.maximum(last3[ok], 0)) - np.log1p(np.maximum(clim3[ok], 0)))) if ok.any() else float("nan")
+    annual_typical = float(np.nanmean(vals[WARMUP_MONTHS:]) * 12) if len(vals) > WARMUP_MONTHS else float(np.nanmean(vals) * 12)
+    cum12 = float(np.nansum(vals[-12:]))
+    cum36 = float(np.nansum(vals[-36:]))
+    n36 = int(np.sum(~np.isnan(vals[-36:])))
+    zero24 = vals[-24:]
+    zero24 = zero24[~np.isnan(zero24)]
+    return {
+        "inc_anom3": inc_anom3,
+        "cum12_anom": float(np.log1p(cum12) - np.log1p(max(annual_typical, 0))),
+        "cum36_anom": float(np.log1p(cum36 * 12 / max(n36, 1)) - np.log1p(max(annual_typical, 0))),
+        "zero_frac24": float(np.mean(zero24 == 0)) if len(zero24) else float("nan"),
+    }
+
+
 def acf(values: np.ndarray, lags: int) -> list[float]:
     v = values[~np.isnan(values)]
     v = v - v.mean()
@@ -132,6 +176,7 @@ def main() -> None:
     cells: list[dict] = []
     pseudo_by_h: dict[int, list[float]] = defaultdict(list)        # z of in-window h-step errors
     pseudo_rmse_by_h: dict[int, list[float]] = defaultdict(list)   # raw errors, for scale comparison
+    pseudo_recent_by_h: dict[int, list[float]] = defaultdict(list)  # z, origins in the last RECENT months
     insample_rms_all: list[float] = []
     acf_rows: list[dict] = []
     n_verified, max_dm, max_ds = 0, 0.0, 0.0
@@ -166,6 +211,8 @@ def main() -> None:
             for row in pseudo:
                 pseudo_by_h[row["h"]].append(row["z"])
                 pseudo_rmse_by_h[row["h"]].append(row["error"])
+                if row["origin"] >= len(series) - 1 - RECENT_MONTHS:
+                    pseudo_recent_by_h[row["h"]].append(row["z"])
             insample_rms_all.append(scale)
             state[p] = dict(series=series, fit=fit, fc=fc, resid=resid, scale=scale,
                             clim=clim, train_mean=float(series.iloc[WARMUP_MONTHS:].mean()))
@@ -181,6 +228,20 @@ def main() -> None:
                for s in state.values() if isinstance(s, dict)]
         nat = [v for v in nat if not np.isnan(v)]
         nat_last3 = float(np.mean(nat)) if nat else float("nan")
+
+        # Incidence-derived features the dengue literature favours (batch 10's search, logged
+        # in this node's provenance): recent-incidence anomaly against the province's own
+        # monthly climatology, its national mean, cumulative incidence over the trailing 12
+        # and 36 months against the training window's typical value (a susceptibility proxy),
+        # and the trailing-24-month zero fraction (reporting level). All from the training
+        # window only.
+        inc_feats = {}
+        for p, s in state.items():
+            if not isinstance(s, dict):
+                continue
+            inc_feats[p] = incidence_features(s["series"])
+        nat_inc = [v["inc_anom3"] for v in inc_feats.values() if not np.isnan(v["inc_anom3"])]
+        nat_inc_anom3 = float(np.mean(nat_inc)) if nat_inc else float("nan")
 
         # Pass 2: the test cells with their features.
         for p in modelable:
@@ -214,6 +275,7 @@ def main() -> None:
                     "temp_anom3": an3["mean_temperature"] if an3 else float("nan"),
                     "hum_anom3": an3["mean_relative_humidity"] if an3 else float("nan"),
                     "sin_m": sin_m, "cos_m": cos_m,
+                    **inc_feats[p], "nat_inc_anom3": nat_inc_anom3,
                 })
 
     if n_verified == 0 or max_dm > VERIFY_ATOL or max_ds > VERIFY_ATOL:
@@ -242,84 +304,133 @@ def main() -> None:
         return {
             "n": int(len(sub)),
             "bias_mean_error": float(ee.mean()),
+            "median_error": float(np.median(ee)),
+            "share_error_positive": float((ee > 0).mean()),
             "mae": float(np.abs(ee).mean()),
             "rmse": float(np.sqrt(np.mean(ee ** 2))),
             "mean_stage1_se": float(se.mean()),
             "rms_z": float(np.sqrt(np.mean(zz ** 2))),
+            "rms_z_winsorised": float(np.sqrt(np.mean(np.clip(zz, -ZCLIP, ZCLIP) ** 2))),
+            "median_abs_z": float(np.median(np.abs(zz))),
+            "q90_abs_z": float(np.quantile(np.abs(zz), 0.90)),
+            "q90_calibration_factor": q90_factor(zz),
             "mean_z": float(zz.mean()),
+            "median_z": float(np.median(zz)),
             "coverage_90": float((np.abs(zz) <= Z90).mean()),
             "mean_crps_stage1": float(sub["crps1"].mean()),
         }
+
+    def pseudo_block(pz, pe=None) -> dict:
+        pz = np.asarray(pz, float)
+        out = {"n": int(len(pz)), "rms_z": float(np.sqrt(np.mean(pz ** 2))),
+               "median_abs_z": float(np.median(np.abs(pz))), "q90_abs_z": float(np.quantile(np.abs(pz), 0.90)),
+               "q90_calibration_factor": q90_factor(pz), "coverage_90": float((np.abs(pz) <= Z90).mean())}
+        if pe is not None:
+            out["rmse"] = float(np.sqrt(np.mean(np.asarray(pe, float) ** 2)))
+        return out
 
     by_h = {}
     for h in sorted(df["h"].unique()):
         sub = df[df["h"] == h]
         block = horizon_block(sub)
-        pz = np.array(pseudo_by_h[int(h)])
-        pe = np.array(pseudo_rmse_by_h[int(h)])
-        block["in_window_pseudo_oos"] = {
-            "n": int(len(pz)), "rms_z": float(np.sqrt(np.mean(pz ** 2))),
-            "coverage_90": float((np.abs(pz) <= Z90).mean()), "rmse": float(np.sqrt(np.mean(pe ** 2))),
-        }
+        block["in_window_pseudo_oos_all_origins"] = pseudo_block(pseudo_by_h[int(h)], pseudo_rmse_by_h[int(h)])
+        block[f"in_window_pseudo_oos_last_{RECENT_MONTHS}_origins"] = pseudo_block(pseudo_recent_by_h[int(h)])
         by_h[f"h{int(h)}"] = block
 
-    # Spread: what inflating sigma by the test-cell rms_z per horizon would do (an *oracle*
-    # upper bound, since the factor is estimated on the cells it is scored on), and clipping.
+    # Spread and sign fixes, scored on the test cells. Two kinds of factor are shown for
+    # sigma: rms_z (moment-based; ruined by the tail) and the q90 factor (quantile-based).
+    # Both are *oracles* here -- estimated on the cells they are scored on -- so they bound
+    # what a spread correction could give; they are not achievable scores. Clipping the mean
+    # at zero needs nothing estimated and is achievable as is.
     rms_by_h = {int(h): by_h[f"h{int(h)}"]["rms_z"] for h in df["h"].unique()}
-    crps_clip = [crps_gaussian(a, max(m, 0.0), max(s, 1e-6)) for a, m, s in zip(df["actual"], df["mu1"], df["se1"])]
-    crps_infl = [crps_gaussian(a, m, max(s * rms_by_h[int(h)], 1e-6))
-                 for a, m, s, h in zip(df["actual"], df["mu1"], df["se1"], df["h"])]
-    crps_both = [crps_gaussian(a, max(m, 0.0), max(s * rms_by_h[int(h)], 1e-6))
-                 for a, m, s, h in zip(df["actual"], df["mu1"], df["se1"], df["h"])]
-    cov_infl = float(np.mean(np.abs(df["z"] / df["h"].map(rms_by_h)) <= Z90))
+    q90_by_h = {int(h): by_h[f"h{int(h)}"]["q90_calibration_factor"] for h in df["h"].unique()}
+
+    def crps_under(mu_fn, sig_fn):
+        return float(np.mean([crps_gaussian(a, mu_fn(m), max(sig_fn(s, int(h)), 1e-6))
+                              for a, m, s, h in zip(df["actual"], df["mu1"], df["se1"], df["h"])]))
+
+    def cov_under(sig_fn):
+        return float(np.mean([abs(a - m) <= Z90 * sig_fn(s, int(h))
+                              for a, m, s, h in zip(df["actual"], df["mu1"], df["se1"], df["h"])]))
+
+    fixes = {
+        "note": "sigma factors are oracle upper bounds (estimated on the scored cells); clipping is achievable.",
+        "mean_crps_stage1": float(df["crps1"].mean()),
+        "coverage_90_stage1": float((np.abs(z) <= Z90).mean()),
+        "mean_crps_mean_clipped_at_zero": crps_under(lambda m: max(m, 0.0), lambda s, h: s),
+        "mean_crps_sigma_x_rms_z_by_h": crps_under(lambda m: m, lambda s, h: s * rms_by_h[h]),
+        "mean_crps_sigma_x_q90_factor_by_h": crps_under(lambda m: m, lambda s, h: s * q90_by_h[h]),
+        "coverage_90_sigma_x_q90_factor_by_h": cov_under(lambda s, h: s * q90_by_h[h]),
+        "mean_crps_clip_and_q90_factor": crps_under(lambda m: max(m, 0.0), lambda s, h: s * q90_by_h[h]),
+        "rms_z_by_h": rms_by_h, "q90_factor_by_h": q90_by_h,
+        "share_stage1_mean_negative": float((df["mu1"] < 0).mean()),
+        "share_cells_actual_zero": float((df["actual"] == 0).mean()),
+    }
 
     by_month = {}
     for cm, sub in df.assign(cm=df["month"].str[5:7].astype(int)).groupby("cm"):
+        ee = sub["error"].to_numpy()
         by_month[int(cm)] = {"n": int(len(sub)), "mean_z": float(sub["z"].mean()),
-                             "mean_error": float(sub["error"].mean()),
-                             "mean_actual": float(sub["actual"].mean())}
+                             "median_z": float(sub["z"].median()),
+                             "mean_error": float(ee.mean()), "median_error": float(np.median(ee)),
+                             "share_error_positive": float((ee > 0).mean()),
+                             "mean_actual": float(sub["actual"].mean()),
+                             "mean_crps_stage1": float(sub["crps1"].mean())}
 
     by_province = []
+    total_crps = float(df["crps1"].sum())
     for p, sub in df.groupby("province"):
         zz = sub["z"].to_numpy()
         by_province.append({
-            "province": p, "n": int(len(sub)), "train_mean_cases": float(sub["train_mean_cases"].iloc[0]),
-            "mean_actual": float(sub["actual"].mean()), "bias_mean_error": float(sub["error"].mean()),
-            "rms_z": float(np.sqrt(np.mean(zz ** 2))), "coverage_90": float((np.abs(zz) <= Z90).mean()),
+            "province": p, "n": int(len(sub)), "train_mean_cases_split0": float(sub["train_mean_cases"].iloc[0]),
+            "mean_actual_test": float(sub["actual"].mean()), "bias_mean_error": float(sub["error"].mean()),
+            "median_error": float(sub["error"].median()),
+            "rms_z": float(np.sqrt(np.mean(zz ** 2))), "median_abs_z": float(np.median(np.abs(zz))),
+            "coverage_90": float((np.abs(zz) <= Z90).mean()),
             "share_stage1_mean_negative": float((sub["mu1"] < 0).mean()),
             "mean_crps_stage1": float(sub["crps1"].mean()),
+            "share_of_total_crps": float(sub["crps1"].sum() / total_crps),
         })
-    by_province.sort(key=lambda r: r["train_mean_cases"])
+    by_province.sort(key=lambda r: -r["share_of_total_crps"])
 
     # Heteroscedasticity: does |z| grow with the forecast level (relative to the province's
     # own residual scale)? A Gaussian with the right sigma would give no relation.
     r_absz_level, _ = pearson(np.abs(df["z"]), df["level_std"])
+    rs_absz_level, _ = spearman(np.abs(df["z"]), df["level_std"])
     r_abserr_mu, _ = pearson(np.abs(df["error"]), df["mu1"])
 
-    # Synchrony: z as a province x test-month matrix; mean off-diagonal correlation across
-    # provinces, share of z variance explained by the test-month mean (one-way R^2), and the
-    # first principal component's share.
-    mat = df.pivot_table(index="province", columns="month", values="z")
-    mat = mat.dropna(axis=0, how="any")
-    corr = np.corrcoef(mat.to_numpy())
+    # Synchrony: z as a province x test-month matrix. Each province's row is standardised
+    # first (otherwise one heavy-tailed province owns the first component); then the mean
+    # off-diagonal correlation, the share of z variance explained by the test-month mean
+    # (one-way R^2, on winsorised z), and the first principal component's share.
+    mat = df.pivot_table(index="province", columns="month", values="z").dropna(axis=0, how="any")
+    m_np = np.clip(mat.to_numpy(), -ZCLIP, ZCLIP)
+    m_std = (m_np - m_np.mean(axis=1, keepdims=True)) / np.where(m_np.std(axis=1, keepdims=True) > 0,
+                                                                 m_np.std(axis=1, keepdims=True), 1)
+    corr = np.corrcoef(m_std)
     off = corr[~np.eye(len(corr), dtype=bool)]
-    month_means = df.groupby("month")["z"].transform("mean")
-    r2_month = float(1 - np.sum((df["z"] - month_means) ** 2) / np.sum((df["z"] - df["z"].mean()) ** 2))
-    centred = mat.to_numpy() - mat.to_numpy().mean(axis=1, keepdims=True)
-    sv = np.linalg.svd(centred, compute_uv=False)
+    zw = np.clip(df["z"], -ZCLIP, ZCLIP)
+    month_means = zw.groupby(df["month"]).transform("mean")
+    r2_month = float(1 - np.sum((zw - month_means) ** 2) / np.sum((zw - zw.mean()) ** 2))
+    sv = np.linalg.svd(m_std, compute_uv=False)
     pc1_share = float(sv[0] ** 2 / np.sum(sv ** 2))
 
     features = ["r_last", "r_last3", "r_lag12", "nat_last3", "rain_anom", "temp_anom", "hum_anom",
-                "rain_anom3", "temp_anom3", "hum_anom3", "level_std", "log_train_mean", "sin_m", "cos_m", "h"]
+                "rain_anom3", "temp_anom3", "hum_anom3", "level_std", "log_train_mean", "sin_m", "cos_m", "h",
+                "inc_anom3", "nat_inc_anom3", "cum12_anom", "cum36_anom", "zero_frac24"]
     feature_corr = {}
     for feat in features:
         r_all, n_all = pearson(df[feat], df["z"])
+        rs_all, _ = spearman(df[feat], df["z"])
+        rw_all, _ = pearson(df[feat], zw)
         per_h = {}
         for h in sorted(df["h"].unique()):
             sub = df[df["h"] == h]
             r_h, n_h = pearson(sub[feat], sub["z"])
-            per_h[f"h{int(h)}"] = {"r": r_h, "n": n_h}
-        feature_corr[feat] = {"r_with_z": r_all, "n": n_all, "by_horizon": per_h}
+            rs_h, _ = spearman(sub[feat], sub["z"])
+            per_h[f"h{int(h)}"] = {"pearson": r_h, "spearman": rs_h, "n": n_h}
+        feature_corr[feat] = {"pearson_with_z": r_all, "spearman_with_z": rs_all,
+                              "pearson_with_winsorised_z": rw_all, "n": n_all, "by_horizon": per_h}
 
     # In-sample one-step residual scale vs the out-of-sample error scale a stage 2 corrects.
     acf_df = pd.DataFrame(acf_rows)
@@ -338,25 +449,16 @@ def main() -> None:
                                                    "tolerance": VERIFY_ATOL},
         "overall": {**horizon_block(df), "coverage_nominal": NOMINAL},
         "by_horizon": by_h,
-        "spread_and_sign_fixes_on_test_cells": {
-            "note": "sigma inflation uses the test cells' own rms_z per horizon -- an oracle upper "
-                    "bound on what a spread correction can give, not an achievable score; clipping "
-                    "the mean at zero needs nothing estimated and is achievable as is.",
-            "mean_crps_stage1": float(df["crps1"].mean()),
-            "mean_crps_mean_clipped_at_zero": float(np.mean(crps_clip)),
-            "mean_crps_sigma_inflated_oracle": float(np.mean(crps_infl)),
-            "mean_crps_both": float(np.mean(crps_both)),
-            "coverage_90_sigma_inflated_oracle": cov_infl,
-            "share_stage1_mean_negative": float((df["mu1"] < 0).mean()),
-            "share_cells_actual_zero": float((df["actual"] == 0).mean()),
-        },
+        "spread_and_sign_fixes_on_test_cells": fixes,
         "by_calendar_month": by_month,
         "by_province": by_province,
         "heteroscedasticity": {
             "pearson_abs_z_vs_level_std": r_absz_level,
+            "spearman_abs_z_vs_level_std": rs_absz_level,
             "pearson_abs_error_vs_mu1": r_abserr_mu,
         },
         "cross_province_synchrony_of_z": {
+            "note": f"z winsorised at +/-{ZCLIP} and standardised per province before the matrix statistics",
             "n_provinces_in_matrix": int(len(mat)), "n_test_months": int(mat.shape[1]),
             "mean_pairwise_correlation": float(off.mean()),
             "share_variance_explained_by_test_month_mean": r2_month,
@@ -365,15 +467,16 @@ def main() -> None:
         "insample_vs_oos_scale": {
             "mean_insample_one_step_residual_rms": float(np.mean(insample_rms_all)),
             "oos_rmse_by_horizon": {k: v["rmse"] for k, v in by_h.items()},
-            "in_window_pseudo_oos_rmse_by_horizon": {k: v["in_window_pseudo_oos"]["rmse"] for k, v in by_h.items()},
+            "in_window_pseudo_oos_rmse_by_horizon": {k: v["in_window_pseudo_oos_all_origins"]["rmse"]
+                                                     for k, v in by_h.items()},
         },
         "insample_residual_acf_final_split": acf_summary,
         "feature_correlations_with_z": feature_corr,
     }
     (RESULTS / "error_structure.json").write_text(json.dumps(summary, indent=2) + "\n")
     print(json.dumps({k: summary[k] for k in ("overall", "by_horizon", "spread_and_sign_fixes_on_test_cells",
-                                              "heteroscedasticity", "cross_province_synchrony_of_z",
-                                              "insample_vs_oos_scale")}, indent=2))
+                                              "by_calendar_month", "heteroscedasticity",
+                                              "cross_province_synchrony_of_z", "insample_vs_oos_scale")}, indent=2))
 
 
 if __name__ == "__main__":

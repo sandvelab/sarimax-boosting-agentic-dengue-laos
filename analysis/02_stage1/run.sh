@@ -11,4 +11,5 @@ REPO_ROOT="$(cd "../.." && pwd)"
 PYTHON="$REPO_ROOT/environment/env/bin/python"
 
 
-# Own scripts -- add calls here as scripts/ fills up.
+# Own scripts
+"$PYTHON" "scripts/sarimax_backtest.py"

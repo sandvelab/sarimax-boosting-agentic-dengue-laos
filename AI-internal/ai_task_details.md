@@ -305,3 +305,53 @@ remains the human's call. If exploration continues, the scale-preserving pooling
 the most directly motivated next step, since it targets the specific, now-understood failure of
 the one candidate that has actually beaten stage 1 alone. Nothing from this session has been
 pushed to the remote.
+
+## T5: Batch 10 — a systematic second iteration on stage 2
+
+Full account in `AI-generated/batch-reports/26-09-20_b10_stage2SystematicSecondIteration.md`.
+
+**Context.** After batch 9 (pooled random forest: better CRPS, broken calibration) the human
+asked for a systematic try rather than a sixth ad-hoc candidate: literature, an analysis of what
+the residuals are and what could predict them, then a couple of models. The request's premise —
+that improving on stage 1 means predicting its residuals better than chance — was taken
+literally: the diagnostic node makes "chance" a permutation distribution.
+
+**Design decisions.** (1) The diagnostics are a tree node (`05_residualStructure`), numbered
+after `04_stage2` because they read stage 1's stored backtest, with no data flowing to any
+candidate — every candidate estimates what it needs inside its own training window. (2) The
+key finding is a target mismatch: candidates a–e trained on the in-sample one-step residual
+(white), while the h-step out-of-sample error is what stage 2 corrects. The new candidates
+compute that error inside each training window from every origin with stage 1's parameters
+fixed (`get_prediction(dynamic=True)`, verified against `apply(refit=False)`), a cheap and
+mildly optimistic stand-in for a rolling refit, logged as such. (3) Target standardised by
+stage 1's own se and winsorised at ±3; correction = zhat × se, clipped at zero; sigma unchanged
+because the diagnostics show any spread scaling loses CRPS (the coverage deficit is a heavy
+tail of regime-break cells, a predictive-family problem for stage 1). (4) No climate features,
+on both the diagnostics (|ρ| ≤ 0.05) and the literature. (5) Two families on identical rows —
+ridge and shallow boosting — with fixed hyperparameters, no search. (6) `g_oosErrorBoosting`
+promoted to main path on development evidence; `f_oosErrorRidge` is the linear not-taken
+sibling.
+
+**Files.** New: `analysis/05_residualStructure/` (2 scripts, 5 results, 2 provenance
+records), `analysis/04_stage2/f_oosErrorRidge/` and `g_oosErrorBoosting/` (2 scripts, 3–4
+results, 2 provenance records each), `analysis/scripts/lib/residual_features.py`,
+`analysis/scripts/lib/stage2_oos.py`. Edited: the plan (row 10, §4b, report link),
+`analysis/claim.md`, `04_stage2/claim.md` (+ main-path promote via `node.py`),
+`readme-at-start.md`, `AI-generated/batch-reports/README.md`. `stage1_model.py` was not
+modified (earlier provenance records hash it).
+
+**What did not work or is uneven.** Both candidates lose in Savannakhet (stage 1's se there is
+tens of times the 2008–09 level, so a small standardised correction is a large absolute one)
+and Vientiane Capital (level shrinkage wrong in a genuine surge). The ridge improves 4 of 8
+splits, the boosting 5 of 8, both 56.6% of cells — the mean gain is real on this backtest but
+not uniform. The cross-validated predictability test on the test cells themselves was far more
+pessimistic (2 of 56 configurations lower CRPS) than the in-window-trained candidates turned
+out; the two designs differ in training rows (~325 vs ~5,000) and regime.
+
+**Follow-ups.** Phase D's manifest should perturb: stage 1's predictive family (count or
+heavier-tailed — the one change that could fix coverage), the winsorisation bound, the ridge
+penalty and boosting configuration, the feature set (with/without cross-province and incidence
+terms), clipping, per-horizon vs pooled fitting, the warm-up. Untried refinements: bounding the
+correction relative to the forecast level; a true rolling refit for in-window errors; ENSO as
+an external covariate (new data). The invariant checker's manifest paths (`05_stability`,
+inherited) need revising when the stability node is created at the next free number.

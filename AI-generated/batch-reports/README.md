@@ -32,3 +32,8 @@ different report, not the same one.
   `e_pooledRandomForest`, adapted from `chap-models/rwanda_random_forest` at the human's
   direction; the first to beat stage 1 alone on mean CRPS, but disqualified by a collapse in
   interval coverage traced to negative forecasts concentrated in low-case-count provinces.
+- `26-09-20_b10_stage2SystematicSecondIteration.md` — batch 10: literature search, a
+  diagnostic node on stage 1's out-of-sample errors (`05_residualStructure`), and two
+  candidates trained on those errors rather than on in-sample residuals (`f_oosErrorRidge`,
+  `g_oosErrorBoosting`); both beat stage 1 alone with improved coverage, and
+  `g_oosErrorBoosting` becomes `04_stage2`'s main path.

@@ -116,3 +116,25 @@ climatology (26.91) < b_gradientBoosting (27.68) < c_bayesianRidge (28.07) < per
 (28.32)**, with `e_pooledRandomForest` reported alongside as CRPS-best-but-miscalibrated
 rather than folded into it. Phase D (stability) is next, renumbered to ledger rows 10–12
 unless the human chooses to keep exploring further.
+
+Batch 10: at the human's direction, a systematic second iteration rather than a sixth ad-hoc
+candidate — a literature search, a diagnostic node (`05_residualStructure`) on what stage 1's
+out-of-sample errors are and what predicts them, then candidates built on both. The
+diagnostics explain the five failures: candidates a–e trained on stage 1's in-sample one-step
+residual, which is essentially white, while the h-step out-of-sample error a stage 2 must
+correct carries a level-dependent over-prediction, a calendar bias and a horizon effect —
+modest, predictable structure — alongside unpredictable reporting-regime breaks in 2008–09
+that make up the entire coverage deficit. Two candidates trained on that error inside each
+training window, pooled across provinces on the standardised scale, **both beat stage 1 alone
+on mean CRPS with improved coverage: `04_stage2/f_oosErrorRidge` 25.63 (−1.64%, coverage
+84.6%) and `04_stage2/g_oosErrorBoosting` 25.16 (−3.41%, coverage 85.7%), against 26.05 and
+82.7%** — the first candidates to clear both of plan §2's bars. **The plan's central
+comparison, as of this batch: a residual-correction stage can earn its place, when it is
+trained on the right target.** The margin is modest, sits in four provinces and the later
+splits, and loses ground in Savannakhet and Vientiane Capital; `g_oosErrorBoosting` is
+promoted to `04_stage2`'s main path on this development evidence, and whether the margin
+survives reasonable alternative choices is now the stability phase's question (ledger rows
+11–13). Ranking among candidates clearing both bars: **g_oosErrorBoosting (25.16) <
+f_oosErrorRidge (25.63) < stage 1 alone (26.05) < a_linearLags (26.26) < d_linearClimate
+(26.85) < seasonal climatology (26.91) < b_gradientBoosting (27.68) < c_bayesianRidge (28.07)
+< persistence (28.32)**.

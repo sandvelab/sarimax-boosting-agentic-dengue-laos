@@ -81,3 +81,23 @@ reader who was not present can follow, and keep them honest about what did not w
   Inserted ledger row 9 (human-set) into the plan before any modelling, renumbering phase D
   onward from rows 9-16 to 10-17. Report: `26-09-20_b09_stage2PooledRandomForest.md`. Nothing
   pushed to the remote this session.
+- T5 (2026-09-20): Ran batch 10, a systematic second iteration on stage 2 at the human's
+  request (literature search, residual diagnostics, then candidates). Inserted ledger row 10
+  (human-set), renumbering phase D onward from rows 10-17 to 11-18. Two delegated web searches
+  (residual-stage hybrids and calibration; dengue predictors in Laos and Southeast Asia) were
+  read in full and condensed into the batch report with verification flags. Built
+  `analysis/05_residualStructure`: stage 1's in-sample one-step residual — what candidates a-e
+  trained on — is essentially white; the h-step out-of-sample error a stage 2 must correct
+  carries a level-dependent over-prediction, a calendar bias and a horizon effect, plus
+  unpredictable 2008-09 reporting-regime breaks (Bokeo, Salavan, Savannakhet) that make up the
+  whole coverage deficit; scaling sigma cannot fix coverage without losing CRPS (oracle factor:
+  26.05 -> 35.65); climate anomalies at lags 1-3 carry no signal; a leave-one-split-out,
+  permutation-referenced predictability test found 2 of 56 configurations lower CRPS. Built
+  `04_stage2/f_oosErrorRidge` (25.63, -1.64%, coverage 84.6%) and `04_stage2/g_oosErrorBoosting`
+  (25.16, -3.41%, coverage 85.7%), both trained on the in-window h-step error pooled across
+  provinces on the standardised scale — the first candidates to beat stage 1 alone (26.05,
+  82.7%) on both of plan §2's criteria. Promoted `g_oosErrorBoosting` to `04_stage2`'s main path
+  (own commit, reversible). New shared libraries `lib/residual_features.py` and
+  `lib/stage2_oos.py`; `stage1_model.py` untouched. Determinism verified for both scripts that
+  draw randomness. Report: `26-09-20_b10_stage2SystematicSecondIteration.md`. Nothing pushed to
+  the remote this session.

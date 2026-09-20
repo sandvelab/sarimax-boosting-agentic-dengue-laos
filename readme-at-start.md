@@ -32,20 +32,27 @@ above.
 ## The article
 
 - **Target venue**: not yet decided.
-- **Status**: batches 1–9 complete (phases A–C). Stage 1 (per-province SARIMAX,
-  mean CRPS 26.05 over 371 cells) beats both required baselines (persistence 28.32,
-  seasonal climatology 26.91). Five stage-2 residual-correction candidates were built and
-  scored: four independent-per-province fits — linear on the minimal input (26.26), linear
-  with lag-12 climate added (26.85), gradient boosting (27.68), Bayesian ridge (28.07,
-  best-calibrated) — all four **lose to stage 1 alone**; and a fifth, `e_pooledRandomForest`
-  (25.89, adapted from `chap-models/rwanda_random_forest`, a random forest pooled across all
-  provinces rather than fit per province), the **first to beat stage 1 alone on mean CRPS**
-  but disqualified by a collapse in interval coverage (64.4% against nominal 90%) traced to
-  negative forecasts concentrated in the lowest-case-count provinces. `a_linearLags` remains
-  `04_stage2`'s main path. Population, a non-linear family given climate, a genuinely forward
-  (non-lag-12) climate signal, and a scale-preserving version of pooling remain unexplored
-  stage-2 forks, logged rather than silently skipped. Phase D (stability/perturbation, ledger
-  rows 10–12) has not started.
+- **Status**: batches 1–10 complete (phases A–C). Stage 1 (per-province SARIMAX,
+  mean CRPS 26.05 over 371 cells, 90% coverage 82.7%) beats both required baselines
+  (persistence 28.32, seasonal climatology 26.91). Seven stage-2 residual-correction
+  candidates exist under `04_stage2`. Five (batches 4–9) were trained on stage 1's
+  **in-sample one-step residual** and failed: four lose to stage 1 alone (26.26–28.07); the
+  fifth, `e_pooledRandomForest` (25.89), wins on CRPS but collapses coverage to 64.4%.
+  Batch 10's diagnostic node `05_residualStructure` showed why — that residual is essentially
+  white, while the **h-step out-of-sample error** a stage 2 must correct carries a
+  level-dependent over-prediction, a calendar bias and a horizon effect (and unpredictable
+  2008–09 reporting-regime breaks that make up the whole coverage deficit). Two candidates
+  trained on that error inside each training window, pooled across provinces on the
+  standardised-error scale, **both beat stage 1 alone with improved coverage**:
+  `f_oosErrorRidge` 25.63 (−1.64%, coverage 84.6%) and `g_oosErrorBoosting` 25.16 (−3.41%,
+  coverage 85.7%) — the first candidates to clear both of plan §2's bars.
+  **`g_oosErrorBoosting` is `04_stage2`'s main path** (promoted batch 10, agent-autonomous).
+  The margin is modest, sits in four provinces and the later splits, and loses ground in
+  Savannakhet and Vientiane Capital; whether it survives reasonable alternative choices is
+  phase D's question. Logged, untried forks: a correction bounded relative to the forecast
+  level; a heavier-tailed or count predictive family at stage 1; per-horizon models; a true
+  rolling refit for in-window errors; ENSO indices as an external covariate. Phase D
+  (stability/perturbation, ledger rows 11–13) has not started.
 - **Manuscript**: `Human-AI-collaboration/manuscript/` (empty).
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-09-20_sarimaxResidualBoostingCase.md`. It carries

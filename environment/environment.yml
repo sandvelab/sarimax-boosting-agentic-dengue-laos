@@ -7,3 +7,4 @@ dependencies:
   - scipy           # stats (normal CDF/PDF for the closed-form CRPS)
   - statsmodels     # SARIMAX (stage 1)
   - properscoring   # independent CRPS reference, used only to verify our own implementation
+  - scikit-learn    # tree-based stage-2 candidate (batch 5)

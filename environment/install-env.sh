@@ -13,7 +13,7 @@ uv venv --python "$PY" "$ENV_DIR" >/dev/null
 
 if [[ "${RESOLVE:-}" == "1" || ! -f "$LOCK" ]]; then
     uv pip install --python "$ENV_DIR/bin/python" \
-        pandas numpy scipy statsmodels properscoring
+        pandas numpy scipy statsmodels properscoring scikit-learn
     uv pip freeze --python "$ENV_DIR/bin/python" > "$LOCK"
     echo "Resolved and wrote $LOCK"
 else

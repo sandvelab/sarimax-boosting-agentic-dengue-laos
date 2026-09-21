@@ -102,4 +102,6 @@ reader who was not present can follow, and keep them honest about what did not w
   draw randomness. Report: `26-09-20_b10_stage2SystematicSecondIteration.md`. Follow-up (2026-09-21,
   human-set): stage 2's horizon set bound to the evaluation scheme's `n_periods` (3 months,
   verified as Chap's evaluate default in chap-core) instead of a constant; scores unchanged.
-  Nothing pushed to the remote this session.
+  Noted the CSV line-ending mismatch (working copy CRLF, repository LF) in the plan for the
+  clean-room batch. Pushed main to the public remote (3c90fe0..c8fd3f5) at the human's
+  instruction after a lightweight secrets scan; the release batch's full scan still runs.

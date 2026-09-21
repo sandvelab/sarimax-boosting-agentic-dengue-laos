@@ -367,3 +367,12 @@ windows. Re-run: per-cell scores byte-identical to the committed ones (the worki
 differs only in CRLF line endings, which git normalises); `conclusion.json` records
 `horizon_months` and its source. Provenance records for both candidates carry a section with
 the new digests and the new input. Candidates a–e are deliberately left unchanged.
+
+**Follow-up 2, 2026-09-21 (human-set).** The CSV line-ending mismatch (every node's CSV is
+written `\r\n` by Python's `csv` module; git stores `\n` under `core.autocrlf = input`) is
+carried in the plan: §4b entry, an explicit clause in ledger row 17 (settle it tree-wide before
+the clean-room byte comparison), and a row in `readme-at-start.md`. At the human's instruction
+the repository was pushed to the public remote for the first time since batch 1 (`3c90fe0` to
+`c8fd3f5`), after grepping tracked files for key/token/password patterns (prose mentions only)
+and confirming no credential-like files are tracked; the decision and the scan are recorded in
+the plan's §4b, and the release batch's full scan is unchanged.

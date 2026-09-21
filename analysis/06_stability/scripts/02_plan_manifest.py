@@ -53,7 +53,7 @@ ROOT = ANALYSIS.parent
 RESULTS = NODE / "results"
 RUN_COSTS = RESULTS / "run_costs.csv"
 
-BUDGET_WALL_SECONDS = 3600  # provisional ceiling on stability compute; see docstring
+BUDGET_WALL_SECONDS = 3600  # provisional ceiling on stability compute, agent-autonomous, revisable by the human
 MAIN_STAGE2 = "g_oosErrorBoosting"
 ROLLING_REFIT_EXTRA_SECONDS = 17 * 8 * 110 * 0.05  # provinces x splits x origins x one SARIMAX fit
 

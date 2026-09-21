@@ -11,5 +11,5 @@ REPO_ROOT="$(cd "../.." && pwd)"
 PYTHON="$REPO_ROOT/environment/env/bin/python"
 
 # Alternatives: only the main path is run here.
-# Not taken: a_linearLags, b_gradientBoosting, c_bayesianRidge, d_linearClimate, e_pooledRandomForest, f_oosErrorRidge, h_levelOnlyBoosting, i_boundedBoosting, j_levelOnlyBoundedBoosting
-bash "g_oosErrorBoosting/run.sh"
+# Not taken: a_linearLags, b_gradientBoosting, c_bayesianRidge, d_linearClimate, e_pooledRandomForest, f_oosErrorRidge, g_oosErrorBoosting, i_boundedBoosting, j_levelOnlyBoundedBoosting
+bash "h_levelOnlyBoosting/run.sh"

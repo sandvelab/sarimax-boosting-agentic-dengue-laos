@@ -5,7 +5,7 @@ Which stage-2 model family, trained to predict stage 1's residuals and added bac
 ## Children
 
 kind: alternatives
-main-path: g_oosErrorBoosting
+main-path: h_levelOnlyBoosting
 
 ## Environment
 

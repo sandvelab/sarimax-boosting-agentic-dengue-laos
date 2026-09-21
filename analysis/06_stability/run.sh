@@ -14,3 +14,5 @@ PYTHON="$REPO_ROOT/environment/env/bin/python"
 # Own scripts
 "$PYTHON" "scripts/01_measure_run_costs.py"
 "$PYTHON" "scripts/02_plan_manifest.py"
+"$PYTHON" "scripts/03_run_combinations.py"
+"$PYTHON" "scripts/04_collect_conclusions.py"

@@ -116,3 +116,18 @@ reader who was not present can follow, and keep them honest about what did not w
   as the most consequential absence) — set a provisional one-hour compute budget that excludes
   nothing, and froze the manifest. Split ledger row 11-13 into plan/run/report. Report:
   `26-09-21_b11_stabilityPlan.md`. Nothing pushed.
+- T7 (2026-09-21): Batch 12, the `/perturb run` step. Built the perturbable
+  two-stage pipeline `analysis/scripts/lib/stage2_perturb.py` (stage 1 spec and window,
+  scheme and modelability, and every main-path stage-2 constant as parameters) and the
+  stability node's runner `03_run_combinations.py`, which refuses a manifest that no longer
+  hashes to its frozen digest, refuses a manifest/runner mismatch, and runs the `main`
+  combination first as a gate: it reproduced `g_oosErrorBoosting`'s 408 per-cell rows value
+  for value (0 mismatches) before any perturbation ran. The first full run stopped at the
+  rolling-refit combination (diverged SARIMAX refits at some origins gave non-finite
+  features); fixed by skipping and counting such origins, plus a path bug in the collector,
+  and re-run. Six combinations completed before the failure, all keeping the two-stage model
+  ahead of stage 1 alone. The re-run completed: all 29 planned rows in 1,937 s of the 3,600 s
+  ceiling; every one keeps the two-stage ensemble ahead of stage 1 alone with coverage not
+  worse (−0.70% to −10.64%, median −3.32%); the only losing rows are the four early siblings
+  trained on the in-sample residual. Provenance, node answers and report
+  `26-09-21_b12_stabilityRun.md` written; ledger row 12 done. Nothing pushed.

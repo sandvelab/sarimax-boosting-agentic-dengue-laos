@@ -54,8 +54,10 @@ above.
   rolling refit for in-window errors; ENSO indices as an external covariate. Phase D has
   started: batch 11 built `06_stability`, measured that the whole model tree re-runs in 87 s
   with byte-identical outputs, and froze the development perturbation manifest (40 rows: 6
-  siblings, 29 planned parametric perturbations, 5 not run with reasons). Batch 12 runs it,
-  batch 13 reports the distribution.
+  siblings, 29 planned parametric perturbations, 5 not run with reasons). Batch 12 ran it in
+  full (1,937 s; runner verified against the main path first): all 29 perturbations keep the
+  two-stage ensemble ahead of stage 1 alone with coverage not worse (−0.70% to −10.64%).
+  Batch 13 reports the distribution and what the margin turns on.
 - **Manuscript**: `Human-AI-collaboration/manuscript/` (empty).
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-09-20_sarimaxResidualBoostingCase.md`. It carries

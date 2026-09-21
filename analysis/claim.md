@@ -147,3 +147,12 @@ not run, each with its reason). Re-running the whole existing tree costs 87 seco
 reproduces every output byte for byte, so the compute budget is set provisionally at one hour
 and excludes nothing planned. **Nothing about the central comparison changes in this batch**;
 batch 12 runs the set and batch 13 reports the distribution of conclusions across it.
+
+Batch 12: the frozen set ran in full (29 perturbations, 1,937 s of a 3,600 s ceiling; the
+runner first reproduced the main path's per-cell scores value for value). Every one of the 29
+tier-2 perturbations — stage 1's specification, the training window, Chap's default scheme,
+the modelability threshold, and every constant of the main-path stage 2 — keeps the two-stage
+ensemble ahead of stage 1 alone on mean CRPS with coverage not worse, from −0.70% to −10.64%
+(`06_stability/results/conclusions.csv`). The only rows where it loses are the four early
+siblings trained on the in-sample residual. The distribution, and which choices the margin
+turns on, are batch 13's report.

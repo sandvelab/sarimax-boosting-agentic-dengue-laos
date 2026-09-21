@@ -178,6 +178,14 @@ append-only, oldest first.
 | Row "11–13" split into three rows with distinct aims (plan / run / report) | The three steps have different deliverables and the run cannot start before the manifest is frozen and the runner verified. | agent-autonomous |
 | Five alternatives are listed as tier 3 and not run: log1p stage 1; a negative-binomial or truncated-normal predictive family; a multiplicative combination rule; an ENSO covariate; Chap-native evaluation | Each needs machinery this project has not built (a verified metric extension, a combination design, a data acquisition) or reopens a §4 decision; they are recorded with the reason so the line is visible. The predictive-family fork is flagged as the most consequential one not run: batch 10's diagnostics show the coverage deficit is a heavy tail a Gaussian cannot carry. Whether to build it is a human call. | agent-autonomous (the listing); the decision to build any of them is left open |
 
+### 2026-09-21 — batch 12: the stability run
+
+| Decision | Basis | Agency |
+|---|---|---|
+| Tier-2 perturbations run through a separate parametrised pipeline (`lib/stage2_perturb.py`, `06_stability/scripts/03_run_combinations.py`) rather than by editing the candidates' scripts | The candidates' scripts fix their constants and refuse a stage-1 forecast that differs from `02_stage1`'s stored one, so they cannot run a stage-1 perturbation; the runner is trusted only because its `main` combination reproduced `g_oosErrorBoosting`'s 408 per-cell rows value for value (0 mismatches) before any perturbation ran, and it refuses a manifest that no longer hashes to its frozen digest. | agent-autonomous |
+| In the rolling-refit combination, an origin whose fresh SARIMAX fit returns a non-finite prediction contributes no training row | The first full run stopped there with NaN features. Skipping is recorded, not hidden: the per-split row counts in that combination's `conclusion.json` are 3 below `main`'s in every split (3 skipped origins per split, out of ~4,700 rows), and the runner's non-finite-feature counter is documented as not covering this case. No other combination was affected; all 29 rows were re-run from scratch after the fix. | agent-autonomous |
+| Where the budget line fell: nowhere — all 29 planned rows ran, 1,937 s of the 3,600 s ceiling (the rolling refit alone 990 s) | Recorded in `06_stability/results/run_summary.json` and `run_log.csv`. | agent-autonomous |
+
 ### 2026-09-21 — stage 2's horizon set is the evaluation scheme's
 
 | Decision | Basis | Agency |
@@ -209,7 +217,7 @@ One row per `/do` invocation. Status: `open`, `done`, or `blocked` with why.
 | 9 | C (cont.) — pooling fork, external model | Build a fifth stage-2 alternative, `04_stage2/e_pooledRandomForest`, adapting `chap-models/rwanda_random_forest` (a community model from the Chap ecosystem the human pointed at): a random forest pooled across all provinces in one shared fit per split, rather than the per-province independent fits every prior candidate used, on the same input as `d_linearClimate`. Isolates the pooling fork logged as untried at the end of batch 7. *(Inserted 2026-09-20, human-set — "keep exploring", and use an existing chap-models model for stage 2; renumbers what were rows 9–16 to 10–17.)* | done |
 | 10 | C (cont.) — second iteration on stage 2, systematic | Rather than a sixth ad-hoc candidate: (i) a literature search on when residual-correction hybrids help or fail and on what predicts dengue at 1–3-month horizons in Laos and mainland Southeast Asia (sources retrieved and read, not recalled); (ii) a diagnostic node, `05_residualStructure`, that characterises stage 1's *out-of-sample* forecast errors on the development backtest — by horizon, calendar month, province scale, spread calibration, cross-province synchrony — and estimates from information available at forecast time how much of them is predictable at all ("better than chance"), which is what a stage 2 has to achieve to earn its place; (iii) new `04_stage2` alternatives built on what (i) and (ii) show, scored through the unchanged pipeline, calibration reported beside CRPS. *(Inserted 2026-09-20, human-set — "do a systematic try for how to improve in a second iteration"; renumbers what were rows 10–17 to 11–18.)* | done |
 | 11 | D — Stability: plan | Create the stability node (`06_stability`); enumerate the judgment calls made in batches 1–10 as a perturbation manifest (stage 1 order/spec, stage 2 family, target, inputs and combination rule, training window, zero-handling, backtest scheme, seeds); measure per-run cost by re-running the existing tree; set the compute budget; rank by informativeness; freeze the development manifest. | done |
-| 12 | D — Stability: run | Build the combination runner (verified against the main path's stored per-cell scores before anything else is trusted); run every planned row of the frozen manifest; write `results/<combination>/` per row; record where the budget line fell. | open |
+| 12 | D — Stability: run | Build the combination runner (verified against the main path's stored per-cell scores before anything else is trusted); run every planned row of the frozen manifest; write `results/<combination>/` per row; record where the budget line fell. | done |
 | 13 | D — Stability: report | Report the distribution of conclusions across the set — which choices the central comparison is insensitive to and which it turns on; each conclusion and the stability claim itself to the claim collection. | open |
 | 14 | D (cont.) / freeze | Freeze the phase-E (holdout) manifest before the holdout opens, per §3. | open |
 | 15 | E — Final validation | Open the 2010 holdout once; run exactly the frozen manifest; report the held-out distribution beside the development one. | open |
@@ -268,4 +276,8 @@ the phase structure above is meant to hold.
 ### Batch 11 — the stability plan
 
 - [[26-09-21_b11_stabilityPlan]]
+
+### Batch 12 — the stability run
+
+- [[26-09-21_b12_stabilityRun]]
 

@@ -50,3 +50,26 @@ inherits: the project main environment (`environment/`)
   scores byte for byte. Batch 13 reports the distribution.
 
 No conclusion about stability is drawn here; the claim is answered by batch 13.
+
+**Batch 12 — run.** Every planned row ran (`results/run_log.csv`, `results/run_summary.json`:
+29 combinations, 1,937 s of the 3,600 s ceiling; the rolling refit alone 990 s). The runner
+(`scripts/03_run_combinations.py`, on `lib/stage2_perturb.py`) was gated: its `main`
+combination reproduced `04_stage2/g_oosErrorBoosting`'s 408 per-cell rows value for value
+(`results/main/conclusion.json`, `verification_vs_main_path`: 0 mismatches) before any
+perturbation ran, and it refuses a manifest that does not hash to the frozen digest. Each
+combination's per-cell scores and conclusion are under `results/<combination>/`;
+`results/conclusions.csv` gathers one row per manifest row (tier 1 from the siblings' own
+comparison files, tier 3 as not run).
+
+Headline counts from `conclusions.csv`, ahead of batch 13's report: of the 36 rows that ran
+(main, 6 siblings, 29 perturbations), the two-stage ensemble beats stage 1 alone on mean CRPS
+in 32 and does so with coverage not worse in 31. **All 29 tier-2 perturbations keep the
+two-stage ensemble ahead of stage 1 alone with coverage not worse**, from −0.70% (true rolling
+refit of the in-window errors) to −10.64% (the airline stage 1, whose stage 1 alone is much
+worse at 29.15 and is largely rescued by the correction). The four rows where the ensemble
+loses are the four batch 4–8 siblings trained on the in-sample residual (a–d); the one row
+that wins on CRPS with worse coverage is `e_pooledRandomForest`. One caveat recorded rather
+than hidden: in the rolling-refit combination, 3 origins per split whose refit returned
+non-finite predictions contributed no training row (visible as the per-split row counts, 3
+below `main`'s); the runner's non-finite-feature counter does not cover that case.
+Batch 13 reports the distribution and which choices the margin turns on.

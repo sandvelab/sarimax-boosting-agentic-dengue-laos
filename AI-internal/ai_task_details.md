@@ -404,3 +404,50 @@ the `main` combination against `g_oosErrorBoosting` before anything else runs), 
 cannot reuse the candidates' own scripts, which refuse a stage-1 forecast that differs from
 `02_stage1`'s stored one. Batch 13: the distribution report and the stability claims. The
 human may revise the provisional budget and decide whether to build the predictive-family fork.
+
+## T7: Batch 12 — running the frozen perturbation set
+
+**What exists so far.** `lib/stage2_perturb.py`: dataclass configs for stage 1
+(`order`, `seasonal_order`, `enforce`, `window` expanding/rolling/start), the scheme
+(`n_periods`, `n_splits`, `stride`, `min_modelable_months`) and stage 2 (`family`, GBM params,
+ridge alpha, seed component, `zclip`, `clip_at_zero`, `standardise` se/resid_rms,
+`bounded_correction`, `per_horizon`, `features` full/no_cross_province/no_incidence/
+level_only/with_climate, `warmup`, `oos_mode` fixed/rolling_refit, `min_train_rows`), and
+`run_combination()` returning per-cell rows and a conclusion (stage-1 and two-stage mean
+CRPS and coverage, by horizon and by split). It reuses the shared library functions wherever
+the quantity is the same, and re-implements only the feature row, because the feature set is
+itself perturbed. `06_stability/scripts/03_run_combinations.py` maps every planned manifest
+row to a configuration (`COMBINATIONS`), checks the frozen digest, runs `main` and compares it
+value for value with the main path's stored per-cell file (gate passed: 408 rows, 0
+mismatches, two-stage 25.164), then runs the planned rows into `results/<combination>/` and
+writes `run_log.csv`/`run_summary.json`. `04_collect_conclusions.py` gathers tier 1 (from the
+siblings' comparison files), tier 2 and tier 3 into `results/conclusions.csv`.
+
+**What went wrong.** The first run failed on `stage2=g_rolling_refit_oos`: a fresh SARIMAX
+fit on a truncated series diverged at some origins and returned non-finite predictions, which
+reached the booster as NaN features. Fix: non-finite predictions contribute no training row,
+the count is recorded in the conclusion (`n_training_rows_dropped_nonfinite`), and a
+non-finite test feature is set to 0 (no information). The collector built the tier-1 path
+from `analysis/` twice; fixed. Both fixes committed before the re-run.
+
+**Early results (six rows, before the failure).** All kept the two-stage ensemble ahead of
+stage 1 alone with coverage not worse; the bounded correction (−5.85%) and the level-only
+feature set (−6.53%) improved on the main path's −3.41%; with the airline stage 1, stage 1
+alone is much worse (29.15) and the correction recovers most of it (26.05, −10.6%). These
+are not the report — batch 13 reports the full distribution.
+
+**Follow-ups.** When the re-run completes: provenance records for `03`/`04`, the node's
+answer, batch report `26-09-21_b12_stabilityRun.md`, ledger row 12 → done, invariants,
+commit. Then batch 13.
+
+**Completion.** The re-run finished: 29 combinations, 1,937 s (rolling refit 990 s), gate 0
+mismatches, `conclusions.csv` with 41 rows (36 run). All 29 tier-2 rows keep the ensemble
+ahead of stage 1 alone with coverage not worse; several beat the main path on development data
+(level-only features −6.53%, bounded correction −5.85%, no cross-province term −5.84%, climate
+anomalies −5.78%) and none was promoted, since the main path was frozen before the run. The
+rolling-refit combination skipped 3 origins per split (non-finite refit predictions), visible
+in its per-split row counts; the runner's non-finite counter does not cover that case and the
+provenance says so. Files: `06_stability/results/<combination>/` (30 directories incl. main),
+`run_log.csv`, `run_summary.json`, `conclusions.csv`; provenance `run_combinations.md`,
+`collect_conclusions.md`; report `26-09-21_b12_stabilityRun.md`; plan row 12 done and §4b
+entries; `readme-at-start.md` status. Next: batch 13, the distribution report and claims.

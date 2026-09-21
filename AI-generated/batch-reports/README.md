@@ -40,3 +40,6 @@ different report, not the same one.
 - `26-09-21_b11_stabilityPlan.md` — batch 11: phase D opens with `06_stability`; per-run
   costs measured by re-running the whole tree (87 s, byte-identical), the development
   perturbation manifest planned, ranked and frozen (40 rows), the run design fixed for batch 12.
+- `26-09-21_b12_stabilityRun.md` — batch 12: the combination runner built and verified against
+  the main path; all 29 planned perturbations run (1,937 s); every one keeps the two-stage
+  ensemble ahead of stage 1 alone with coverage not worse.

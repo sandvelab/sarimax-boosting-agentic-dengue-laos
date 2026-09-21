@@ -11,12 +11,15 @@ not reproduce the main path exactly, nothing else runs. (4) Every row with tier 
 `planned` is mapped to its configuration (`COMBINATIONS` -- the manifest names a row, this
 dictionary says what it means, and the run refuses a mismatch either way), run, and written
 to `results/<combination>/`. Rows marked superseded are not re-run; their results stand.
-(5) `results/run_log.csv` and `results/run_summary.json` record wall-clock per combination
-and where the budget line fell.
+(5) `results/run_log<suffix>.csv` and `results/run_summary<suffix>.json` record wall-clock per
+combination and where the budget line fell.
 
 **Versions.** v1 (batch 12) ran around `g_oosErrorBoosting` with unsuffixed names; v2 (batch
 15) runs around `h_levelOnlyBoosting` with names suffixed `@h`. `MAIN_CONFIGS` gives each
-main path's Stage2Config; every v2 row is that config with one change.
+main path's Stage2Config; every v2 row is that config with one change. The run log and
+summary of a version after the first carry the version in their name (`run_log_v2.csv`,
+`run_summary_v2.json`), so v1's files stay as the record of the batch-12 run and are not
+overwritten by a later version's run.
 
 **Seeds**: gradient-boosted rows pin `random_state` to the main path's component seed (or the
 alternative component for the seed row); everything else is deterministic.
@@ -139,6 +142,8 @@ def main() -> None:
     if main_path != freeze.get("main_path", "g_oosErrorBoosting"):
         raise RuntimeError(f"the tree's main path is {main_path!r} but the manifest was frozen for {freeze.get('main_path')!r}")
     tag = TAG[main_path]
+    version = freeze.get("version", 1)
+    suffix = "" if version == 1 else f"_v{version}"
     combos = combinations(main_path)
     with (RESULTS / "manifest.csv").open(newline="") as f:
         manifest = list(csv.DictReader(f))
@@ -173,14 +178,14 @@ def main() -> None:
               f"two-stage {conclusion['two_stage']['mean_crps']:.3f}  ({conclusion['pct_change_vs_stage1']:+.2f}%)  "
               f"cov {conclusion['stage1_alone']['coverage_90']:.3f}->{conclusion['two_stage']['coverage_90']:.3f}", flush=True)
 
-    with (RESULTS / "run_log.csv").open("w", newline="") as f:
+    with (RESULTS / f"run_log{suffix}.csv").open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["combination", "status", "wall_seconds", "two_stage_mean_crps"], lineterminator="\n")
         w.writeheader()
         w.writerows(log)
-    summary = {"version": freeze.get("version", 1), "main_path": main_path, "n_planned": len(planned),
+    summary = {"version": version, "main_path": main_path, "n_planned": len(planned),
                "n_run": sum(1 for r in log if r["status"] == "run"),
                "total_wall_seconds": round(sum(r["wall_seconds"] for r in log), 1), "gate": gate}
-    (RESULTS / "run_summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+    (RESULTS / f"run_summary{suffix}.json").write_text(json.dumps(summary, indent=2) + "\n")
     print(json.dumps(summary, indent=2))
 
 

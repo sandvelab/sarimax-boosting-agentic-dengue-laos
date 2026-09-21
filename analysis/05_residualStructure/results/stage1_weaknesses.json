@@ -1,0 +1,184 @@
+{
+  "decision": "stage 1 is not repaired (human-set, 2026-09-21); these weaknesses are documented, not fixed",
+  "n_weaknesses": 6,
+  "weaknesses": [
+    {
+      "id": "W1",
+      "weakness": "Interval coverage below nominal, and the deficit is a heavy tail a Gaussian cannot carry",
+      "evidence": {
+        "coverage_90_by_horizon": {
+          "h1": 0.8709677419354839,
+          "h2": 0.8211382113821138,
+          "h3": 0.7903225806451613
+        },
+        "median_abs_z": 0.2823924045804525,
+        "q90_abs_z": 3.321209389030307,
+        "q99_abs_z": 22.71151985993241,
+        "max_abs_z": 163.77731438047775,
+        "share_cells_abs_z_above_3": 0.11320754716981132,
+        "sigma_factor_for_nominal_coverage_by_horizon": {
+          "1": 1.2220365374456184,
+          "2": 1.9122514873607084,
+          "3": 2.444311931338274
+        },
+        "mean_crps_if_sigma_scaled_by_that_factor (oracle)": 35.651550604852716,
+        "mean_crps_stage1": 26.052787630892947,
+        "source": "results/error_structure.json, results/test_cells.csv"
+      },
+      "effect": "Most cells are over-covered (median |z| about 0.3) while a few percent are far outside any interval; scaling sigma to reach 90% coverage raises mean CRPS from 26.05 to 35.65.",
+      "stage2_can_address": "No -- a stage 2 that adds to the mean cannot change the shape of the predictive distribution.",
+      "stage1_fork_not_taken": "A count or heavier-tailed predictive family (negative binomial, zero-truncated normal), with a verified CRPS for it (plan \u00a74b 2026-09-21: not taken, human-set)."
+    },
+    {
+      "id": "W2",
+      "weakness": "Negative forecast means for a count",
+      "evidence": {
+        "share_test_cells_stage1_mean_negative": 0.04043126684636118,
+        "mean_crps_if_mean_clipped_at_zero": 25.907223661909438,
+        "provinces_with_most_negative_means": [
+          [
+            "LA-SV",
+            0.4166666666666667
+          ],
+          [
+            "LA-KH",
+            0.125
+          ],
+          [
+            "LA-OU",
+            0.08333333333333333
+          ]
+        ],
+        "source": "results/error_structure.json"
+      },
+      "effect": "4.0% of stage 1's forecast means are below zero, concentrated in Savannakhet after its 2008 collapse; clipping them alone lowers mean CRPS by 0.56%.",
+      "stage2_can_address": "Partly -- every stage-2 candidate from batch 10 on clips the corrected mean at zero.",
+      "stage1_fork_not_taken": "A non-negative predictive family, or a log1p transform with bias-corrected back-transform."
+    },
+    {
+      "id": "W3",
+      "weakness": "The standard error does not grow with the forecast level as a count's variance does",
+      "evidence": {
+        "spearman_abs_z_vs_level": 0.6484951954824141,
+        "pearson_abs_error_vs_mu1": 0.45455113485779536,
+        "example_savannakhet_se_range_2008_09": [
+          199.9992431007222,
+          419.5674617069116
+        ],
+        "example_savannakhet_mean_actual_2008_09": 8.0,
+        "source": "results/error_structure.json, results/test_cells.csv"
+      },
+      "effect": "The se is set by the training window's innovation variance, so a province whose level collapsed keeps an se tens of times its current level (Savannakhet: se 200-414, mean actual 8), and a province whose level rose has an se far too small (|z| up to 164). A standardised correction inherits this: the same z-hat is 130-190 cases in Savannakhet and under one case in Xiangkhouang.",
+      "stage2_can_address": "Partly -- bounding the correction relative to the forecast level (i_boundedBoosting) limits the damage; it does not fix the interval.",
+      "stage1_fork_not_taken": "A variance that scales with the mean (count family), or a multiplicative model."
+    },
+    {
+      "id": "W4",
+      "weakness": "Systematic multi-step bias: over-prediction at high forecast levels and in November-April, under-prediction in the June-July onset",
+      "evidence": {
+        "share_test_cells_error_positive_by_horizon": {
+          "h1": 0.33064516129032256,
+          "h2": 0.3170731707317073,
+          "h3": 0.3790322580645161
+        },
+        "median_error_by_horizon": {
+          "h1": -0.17600783445196772,
+          "h2": -0.2597150706835069,
+          "h3": -0.1411444513693507
+        },
+        "mean_error_by_horizon": {
+          "h1": -0.500459908478156,
+          "h2": 2.56154664264999,
+          "h3": 7.286338189720033
+        },
+        "share_error_positive_by_calendar_month": {
+          "1": 0.1935483870967742,
+          "2": 0.12903225806451613,
+          "3": 0.22580645161290322,
+          "4": 0.22580645161290322,
+          "5": 0.41935483870967744,
+          "6": 0.5483870967741935,
+          "7": 0.5483870967741935,
+          "8": 0.43333333333333335,
+          "9": 0.41935483870967744,
+          "10": 0.3548387096774194,
+          "11": 0.2903225806451613,
+          "12": 0.3225806451612903
+        },
+        "spearman_z_vs_forecast_level": -0.26808667636421746,
+        "source": "results/error_structure.json"
+      },
+      "effect": "Two thirds of forecasts are too high; the few that are too low are far too low. The seasonal AR term carries last year's level into the off-season and lags the onset.",
+      "stage2_can_address": "Yes -- this is the structure the batch-10 candidates learned (forecast level, month, horizon), and the reason they earn their place at 2-3 months ahead.",
+      "stage1_fork_not_taken": "A different seasonal specification (the airline model was run as a perturbation: stage 1 alone worse, corrected forecast similar), or a transform."
+    },
+    {
+      "id": "W5",
+      "weakness": "Reporting-regime breaks in the test years that no province's own history predicts",
+      "evidence": {
+        "provinces": {
+          "LA-SV": {
+            "train_mean_cases_split0": 166.39583333333334,
+            "mean_actual_test": 8.0,
+            "share_of_total_crps": 0.1881312978154047,
+            "coverage_90": 1.0
+          },
+          "LA-BK": {
+            "train_mean_cases_split0": 0.7395833333333334,
+            "mean_actual_test": 38.625,
+            "share_of_total_crps": 0.10508695487637164,
+            "coverage_90": 0.25
+          },
+          "LA-SL": {
+            "train_mean_cases_split0": 3.9895833333333335,
+            "mean_actual_test": 60.625,
+            "share_of_total_crps": 0.12920432641121082,
+            "coverage_90": 0.5833333333333334
+          },
+          "LA-XI": {
+            "train_mean_cases_split0": 0.03125,
+            "mean_actual_test": 3.5,
+            "share_of_total_crps": 0.01629614940906684,
+            "coverage_90": 0.75
+          },
+          "LA-XE": {
+            "train_mean_cases_split0": 0.8695652173913043,
+            "mean_actual_test": 4.25,
+            "share_of_total_crps": 0.007955229378928076,
+            "coverage_90": 0.7916666666666666
+          }
+        },
+        "context": "Laos moved from paper-based reporting to the electronic EWARN system in 2008 and not all provinces reported before 2010 (Khampapongpane et al. 2014, WPSAR; batch 10 report)",
+        "source": "results/error_structure.json"
+      },
+      "effect": "Savannakhet fell from 166 to 8 cases a month between the training window and 2008-09; Bokeo rose from 0.7 to 39, Salavan from 4 to 61. These cells are the coverage deficit and much of the CRPS.",
+      "stage2_can_address": "Only after the break is a few months old (recent-residual and reporting-level features); not at the break.",
+      "stage1_fork_not_taken": "A level-shift or intervention term; a rolling window (run as a perturbation: stage 1 alone better at 23.99, and the corrected forecast still ahead)."
+    },
+    {
+      "id": "W6",
+      "weakness": "The specification was a first default, not a selected one",
+      "evidence": {
+        "stage1_spec": "SARIMAX(1, 1, 1)x(1, 0, 0, 12), raw disease_cases, refit every split",
+        "mean_crps_stage1": 26.052787630892933,
+        "vs_baselines": {
+          "n_cells_compared": 371,
+          "mean_crps": {
+            "stage1_sarimax": 26.05278763089295,
+            "persistence": 28.31642984485804,
+            "seasonal_climatology": 26.913459276489746
+          },
+          "stage1_pct_reduction_vs_persistence": 7.994094687668196,
+          "stage1_pct_reduction_vs_climatology": 3.197922781887185,
+          "stage1_beats_persistence": true,
+          "stage1_beats_climatology": true
+        },
+        "alternative_specifications_scored_at": "../06_stability/results/perturbation_effects.csv (rows stage1=* and window=*: stage-1-alone mean CRPS under each)",
+        "source": "../02_stage1/results/conclusion.json, ../03_baselines/results/comparison.json"
+      },
+      "effect": "Stage 1 alone beats both required baselines (03_baselines/results/comparison.json). Its own score moves materially under alternative orders and windows (06_stability/results/perturbation_effects.csv); the stage-2 margin survives every one of them, but the absolute level of the two-stage forecast depends on them.",
+      "stage2_can_address": "Not applicable -- this is a statement about what the premise is.",
+      "stage1_fork_not_taken": "Order selection by information criterion or by backtest; both are selection on the same development data and were deliberately not done (plan \u00a74b, 2026-09-21)."
+    }
+  ]
+}

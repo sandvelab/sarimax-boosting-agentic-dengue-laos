@@ -1,0 +1,265 @@
+{
+  "n_cells": 371,
+  "stage1_alone": {
+    "mean_crps": 26.052787630892947,
+    "coverage_nominal": 0.9,
+    "coverage_empirical": 0.8274932614555256
+  },
+  "two_stage_ensemble": {
+    "mean_crps": 24.350777879905046,
+    "coverage_nominal": 0.9,
+    "coverage_empirical": 0.8517520215633423
+  },
+  "delta_crps": -1.7020097509879015,
+  "pct_change_vs_stage1": -6.532927589559312,
+  "earns_its_place": true,
+  "coverage_not_worse_than_stage1": true,
+  "vs_g_oosErrorBoosting": {
+    "parent_mean_crps": 25.16411721353624,
+    "delta_crps": -0.8133393336311947,
+    "pct_change_vs_parent": -3.232139346393143,
+    "parent_coverage_empirical": 0.8571428571428571,
+    "better_than_parent_on_crps": true
+  },
+  "combination_rule_decomposition": {
+    "stage1": {
+      "mean_crps": 26.052787630892947,
+      "coverage_empirical": 0.8274932614555256,
+      "share_mean_negative": 0.04043126684636118,
+      "pct_change_vs_stage1": 0.0
+    },
+    "stage1_clipped": {
+      "mean_crps": 25.907223661909438,
+      "coverage_empirical": 0.8274932614555256,
+      "share_mean_negative": 0.0,
+      "pct_change_vs_stage1": -0.5587270392934931
+    },
+    "corrected_unclipped": {
+      "mean_crps": 24.472978513271688,
+      "coverage_empirical": 0.8517520215633423,
+      "share_mean_negative": 0.0431266846361186,
+      "pct_change_vs_stage1": -6.0638774629550545
+    },
+    "corrected_clipped (this candidate)": {
+      "mean_crps": 24.350777879905046,
+      "coverage_empirical": 0.8517520215633423,
+      "share_mean_negative": 0.0,
+      "pct_change_vs_stage1": -6.532927589559312
+    }
+  },
+  "by_horizon": {
+    "h1": {
+      "n": 124,
+      "stage1_mean_crps": 19.471728919687738,
+      "candidate_mean_crps": 19.018301636190955
+    },
+    "h2": {
+      "n": 123,
+      "stage1_mean_crps": 25.603469789368084,
+      "candidate_mean_crps": 24.03187987486837
+    },
+    "h3": {
+      "n": 124,
+      "stage1_mean_crps": 33.07954065264298,
+      "candidate_mean_crps": 29.999580370550664
+    }
+  },
+  "by_split": {
+    "split0": {
+      "n": 45,
+      "stage1_mean_crps": 14.471443583850073,
+      "candidate_mean_crps": 14.728089309600113,
+      "pct_change": 1.7734631950364186
+    },
+    "split1": {
+      "n": 45,
+      "stage1_mean_crps": 28.668277644274585,
+      "candidate_mean_crps": 27.93253025740635,
+      "pct_change": -2.5664164272358194
+    },
+    "split2": {
+      "n": 45,
+      "stage1_mean_crps": 31.386128180064922,
+      "candidate_mean_crps": 27.34032520838625,
+      "pct_change": -12.890417538816994
+    },
+    "split3": {
+      "n": 45,
+      "stage1_mean_crps": 23.179245393609584,
+      "candidate_mean_crps": 22.178701728825867,
+      "pct_change": -4.316549774564973
+    },
+    "split4": {
+      "n": 48,
+      "stage1_mean_crps": 18.243398736399445,
+      "candidate_mean_crps": 16.34266348759875,
+      "pct_change": -10.41875626501726
+    },
+    "split5": {
+      "n": 48,
+      "stage1_mean_crps": 23.729668002884,
+      "candidate_mean_crps": 24.001115968092574,
+      "pct_change": 1.1439180909550957
+    },
+    "split6": {
+      "n": 47,
+      "stage1_mean_crps": 44.009717381709656,
+      "candidate_mean_crps": 38.63309591152706,
+      "pct_change": -12.21689615397783
+    },
+    "split7": {
+      "n": 48,
+      "stage1_mean_crps": 24.70189634488253,
+      "candidate_mean_crps": 23.620782896666228,
+      "pct_change": -4.376641506069135
+    }
+  },
+  "n_splits_improved_of_8": 6,
+  "share_cells_improved": 0.555256064690027,
+  "by_province_sorted_by_gain": [
+    {
+      "province": "LA-KH",
+      "n": 24,
+      "mean_actual": 44.0,
+      "stage1_crps_sum": 1100.3660619977811,
+      "candidate_crps_sum": 755.9746844601932,
+      "delta_crps_sum": -344.3913775375879,
+      "mean_abs_correction": 36.72830515082703
+    },
+    {
+      "province": "LA-SL",
+      "n": 24,
+      "mean_actual": 60.625,
+      "stage1_crps_sum": 1248.8352973610076,
+      "candidate_crps_sum": 944.7741886472697,
+      "delta_crps_sum": -304.0611087137379,
+      "mean_abs_correction": 18.970809381850646
+    },
+    {
+      "province": "LA-BK",
+      "n": 24,
+      "mean_actual": 38.625,
+      "stage1_crps_sum": 1015.7268118415672,
+      "candidate_crps_sum": 866.8443899390212,
+      "delta_crps_sum": -148.88242190254596,
+      "mean_abs_correction": 10.799814719262478
+    },
+    {
+      "province": "LA-CH",
+      "n": 24,
+      "mean_actual": 101.29166666666667,
+      "stage1_crps_sum": 775.9222377742235,
+      "candidate_crps_sum": 695.4072181936555,
+      "delta_crps_sum": -80.51501958056804,
+      "mean_abs_correction": 22.659708059659597
+    },
+    {
+      "province": "LA-XI",
+      "n": 24,
+      "mean_actual": 3.5,
+      "stage1_crps_sum": 157.5118044293721,
+      "candidate_crps_sum": 129.8471285326811,
+      "delta_crps_sum": -27.664675896690994,
+      "mean_abs_correction": 1.1901889845050062
+    },
+    {
+      "province": "LA-XA",
+      "n": 24,
+      "mean_actual": 5.208333333333333,
+      "stage1_crps_sum": 279.8970367212742,
+      "candidate_crps_sum": 274.4464586689894,
+      "delta_crps_sum": -5.450578052284811,
+      "mean_abs_correction": 5.717803267312973
+    },
+    {
+      "province": "LA-XE",
+      "n": 24,
+      "mean_actual": 4.25,
+      "stage1_crps_sum": 76.89193948033807,
+      "candidate_crps_sum": 74.66411566797805,
+      "delta_crps_sum": -2.2278238123600147,
+      "mean_abs_correction": 0.3938516596820955
+    },
+    {
+      "province": "LA-LM",
+      "n": 24,
+      "mean_actual": 0.9583333333333334,
+      "stage1_crps_sum": 22.0142302053075,
+      "candidate_crps_sum": 21.82083491605399,
+      "delta_crps_sum": -0.1933952892535089,
+      "mean_abs_correction": 0.06354984434049658
+    },
+    {
+      "province": "LA-PH",
+      "n": 11,
+      "mean_actual": 0.0,
+      "stage1_crps_sum": 0.9948545151140881,
+      "candidate_crps_sum": 1.0483959583944833,
+      "delta_crps_sum": 0.05354144328039523,
+      "mean_abs_correction": 0.036838319214958906
+    },
+    {
+      "province": "LA-HO",
+      "n": 24,
+      "mean_actual": 0.25,
+      "stage1_crps_sum": 7.167972809409528,
+      "candidate_crps_sum": 7.411526671520861,
+      "delta_crps_sum": 0.24355386211133379,
+      "mean_abs_correction": 0.12459898512488321
+    },
+    {
+      "province": "LA-AT",
+      "n": 24,
+      "mean_actual": 23.583333333333332,
+      "stage1_crps_sum": 343.3914005448787,
+      "candidate_crps_sum": 349.8170572743188,
+      "delta_crps_sum": 6.425656729440107,
+      "mean_abs_correction": 3.3622802202091937
+    },
+    {
+      "province": "LA-OU",
+      "n": 24,
+      "mean_actual": 2.2083333333333335,
+      "stage1_crps_sum": 27.45526723740354,
+      "candidate_crps_sum": 33.88151672768171,
+      "delta_crps_sum": 6.426249490278174,
+      "mean_abs_correction": 0.621713784645931
+    },
+    {
+      "province": "LA-SV",
+      "n": 24,
+      "mean_actual": 8.0,
+      "stage1_crps_sum": 1818.3989017710437,
+      "candidate_crps_sum": 1826.3300297516907,
+      "delta_crps_sum": 7.931127980647034,
+      "mean_abs_correction": 26.705050373186406
+    },
+    {
+      "province": "LA-BL",
+      "n": 24,
+      "mean_actual": 9.5,
+      "stage1_crps_sum": 234.7209337665811,
+      "candidate_crps_sum": 242.7607112646079,
+      "delta_crps_sum": 8.03977749802678,
+      "mean_abs_correction": 5.97598276704089
+    },
+    {
+      "province": "LA-LP",
+      "n": 24,
+      "mean_actual": 55.666666666666664,
+      "stage1_crps_sum": 1005.5428631091193,
+      "candidate_crps_sum": 1063.0122796343915,
+      "delta_crps_sum": 57.46941652527221,
+      "mean_abs_correction": 10.122309444019935
+    },
+    {
+      "province": "LA-VT",
+      "n": 24,
+      "mean_actual": 154.45833333333334,
+      "stage1_crps_sum": 1550.746597496863,
+      "candidate_crps_sum": 1746.098057136322,
+      "delta_crps_sum": 195.3514596394591,
+      "mean_abs_correction": 55.94554499384132
+    }
+  ]
+}

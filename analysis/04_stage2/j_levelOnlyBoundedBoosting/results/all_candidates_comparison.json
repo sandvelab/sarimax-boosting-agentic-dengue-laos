@@ -1,0 +1,89 @@
+{
+  "stage1_alone_mean_crps": 26.052787630892947,
+  "stage1_alone_coverage_empirical": 0.8274932614555256,
+  "a_linearLags": {
+    "mean_crps": 26.25689213098635,
+    "pct_change_vs_stage1": 0.7834267218736884,
+    "coverage_empirical": 0.8328840970350404,
+    "n_splits_improved_of_8": null
+  },
+  "b_gradientBoosting": {
+    "mean_crps": 27.680013236868255,
+    "pct_change_vs_stage1": 6.245879055359847,
+    "coverage_empirical": 0.8221024258760108,
+    "n_splits_improved_of_8": null
+  },
+  "c_bayesianRidge": {
+    "mean_crps": 28.0654446421887,
+    "pct_change_vs_stage1": 7.7253038707811665,
+    "coverage_empirical": 0.8679245283018868,
+    "n_splits_improved_of_8": null
+  },
+  "d_linearClimate": {
+    "mean_crps": 26.846655915112652,
+    "pct_change_vs_stage1": 3.0471529398963995,
+    "coverage_empirical": 0.8301886792452831,
+    "n_splits_improved_of_8": null
+  },
+  "e_pooledRandomForest": {
+    "mean_crps": 25.88918881222549,
+    "pct_change_vs_stage1": -0.6279513002034729,
+    "coverage_empirical": 0.6442048517520216,
+    "n_splits_improved_of_8": null
+  },
+  "f_oosErrorRidge": {
+    "mean_crps": 25.625333986074974,
+    "pct_change_vs_stage1": -1.6407213342157134,
+    "coverage_empirical": 0.8463611859838275,
+    "n_splits_improved_of_8": 4
+  },
+  "g_oosErrorBoosting": {
+    "mean_crps": 25.16411721353624,
+    "pct_change_vs_stage1": -3.411037735950132,
+    "coverage_empirical": 0.8571428571428571,
+    "n_splits_improved_of_8": 5
+  },
+  "h_levelOnlyBoosting": {
+    "mean_crps": 24.350777879905046,
+    "pct_change_vs_stage1": -6.532927589559312,
+    "coverage_empirical": 0.8517520215633423,
+    "n_splits_improved_of_8": 6
+  },
+  "i_boundedBoosting": {
+    "mean_crps": 24.529753688147764,
+    "pct_change_vs_stage1": -5.84595385462397,
+    "coverage_empirical": 0.8571428571428571,
+    "n_splits_improved_of_8": 7
+  },
+  "j_levelOnlyBoundedBoosting": {
+    "mean_crps": 24.287534429151272,
+    "pct_change_vs_stage1": -6.7756787747675356,
+    "coverage_empirical": 0.8517520215633423,
+    "n_splits_improved_of_8": 6
+  },
+  "ranking_by_mean_crps": [
+    "j_levelOnlyBoundedBoosting",
+    "h_levelOnlyBoosting",
+    "i_boundedBoosting",
+    "g_oosErrorBoosting",
+    "f_oosErrorRidge",
+    "e_pooledRandomForest",
+    "a_linearLags",
+    "d_linearClimate",
+    "b_gradientBoosting",
+    "c_bayesianRidge"
+  ],
+  "candidates_clearing_both_bars (beat stage 1 on CRPS, coverage not worse)": [
+    "j_levelOnlyBoundedBoosting",
+    "h_levelOnlyBoosting",
+    "i_boundedBoosting",
+    "g_oosErrorBoosting",
+    "f_oosErrorRidge"
+  ],
+  "main_path_rule": "among g, h, i, j: lowest development mean CRPS with 90% coverage >= stage 1's; tie within 0.1 CRPS -> more splits improved -> fewer changes from g",
+  "main_path_by_rule": "h_levelOnlyBoosting",
+  "tied_within_0.1": [
+    "h_levelOnlyBoosting",
+    "j_levelOnlyBoundedBoosting"
+  ]
+}

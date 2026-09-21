@@ -1,8 +1,17 @@
 {
   "frozen_file": "results/manifest.csv",
-  "sha256": "ba01a061bfbe0a4f3e636d4a747b2a3bffe8d2cd1f673342af790fb2bdc9340b",
-  "rows": 40,
-  "frozen_at_commit": "62d16bf",
+  "version": 2,
+  "main_path": "h_levelOnlyBoosting",
+  "sha256": "d2c5e813e7215eb908787049546e0e8346c3311ea7b6d6b3ca6fd43c53834ac0",
+  "rows": 70,
+  "frozen_at_commit": "cef9a18",
   "frozen_on": "2026-09-21",
-  "note": "The development perturbation set. A later change is a recorded decision in the plan's \u00a74b, not an edit. The holdout manifest is frozen separately before the holdout opens (plan \u00a73, ledger row 14)."
+  "supersedes": {
+    "version": null,
+    "sha256": "ba01a061bfbe0a4f3e636d4a747b2a3bffe8d2cd1f673342af790fb2bdc9340b",
+    "frozen_at_commit": "62d16bf",
+    "frozen_on": "2026-09-21",
+    "main_path": null
+  },
+  "note": "The development perturbation set. A later change is a recorded decision in the plan's \u00a74b, not an edit; a change of main path produces a new version with the previous rows kept as superseded. The holdout manifest is frozen separately before the holdout opens (plan \u00a73)."
 }

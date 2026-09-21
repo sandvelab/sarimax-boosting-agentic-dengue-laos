@@ -67,3 +67,15 @@ alternatives-considered:
     library change after six rows had run would have left them under a different digest from
     the rest.
 agency: agent-autonomous
+
+---
+section appended at commit cef9a18 (batch 14): script changed, **not yet run under this
+version** -- the v2 run is batch 15's.
+script: scripts/03_run_combinations.py
+        sha256:f923da2f9531d01fb0cd9a019b5b68e8ce1d15580f6a0a4fd4ee594476ce332f
+        (was e353726e…: the main path is read from 04_stage2/claim.md and must match the one
+        the manifest was frozen for; configurations are held per main path (g: the v1 rows;
+        h: the v2 `@h` rows) with the main path's Stage2Config as the base each row varies; the
+        gate row is `main<tag>` and compares with that main path's stored per-cell file; rows
+        marked superseded are not re-run). The committed results under results/<v1 name>/
+        remain those of the edc5158 run described above.

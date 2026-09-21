@@ -27,3 +27,12 @@ alternatives-considered:
   - Repeating each run several times for a variance estimate: not worth it at these
     magnitudes (7-22 s); the budget decision does not turn on seconds.
 agency: agent-autonomous
+
+---
+section appended at commit cef9a18 (batch 14): re-run, script unchanged
+(sha256:4da436e894318e7445d6e6e119c79ce575894a850f93fa34238be599dd950b5c), to include the
+three stage-2 nodes added in batch 14. 11 nodes timed, all exit 0, all outputs byte-identical
+on re-run again (the third whole-tree determinism check). Total wall 396.9 s -- higher per
+node than batch 11's 86.8 s for 8 nodes (g 54 s against 22 s) on a machine carrying other
+load at the time; the manifest's cost estimates use these higher figures, and the budget line
+still binds nothing. results/run_costs.csv now sha256:ad24662a7eeca8a1f7769991170fab5928218b78824f86701e8b12bd83f98f83.

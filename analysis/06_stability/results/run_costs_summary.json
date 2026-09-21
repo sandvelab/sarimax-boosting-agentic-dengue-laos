@@ -1,13 +1,13 @@
 {
-  "n_nodes_timed": 8,
-  "total_wall_seconds": 86.77,
+  "n_nodes_timed": 11,
+  "total_wall_seconds": 396.88,
   "all_exit_zero": true,
   "all_outputs_identical_on_rerun": true,
   "nodes_with_changed_outputs": [],
   "per_node": [
     {
       "node": "analysis/02_stage1",
-      "wall_seconds": 7.69,
+      "wall_seconds": 15.4,
       "exit_code": 0,
       "n_result_files": 2,
       "all_outputs_identical": true,
@@ -15,7 +15,7 @@
     },
     {
       "node": "analysis/04_stage2/a_linearLags",
-      "wall_seconds": 7.49,
+      "wall_seconds": 20.81,
       "exit_code": 0,
       "n_result_files": 3,
       "all_outputs_identical": true,
@@ -23,7 +23,7 @@
     },
     {
       "node": "analysis/04_stage2/b_gradientBoosting",
-      "wall_seconds": 8.57,
+      "wall_seconds": 21.1,
       "exit_code": 0,
       "n_result_files": 3,
       "all_outputs_identical": true,
@@ -31,7 +31,7 @@
     },
     {
       "node": "analysis/04_stage2/c_bayesianRidge",
-      "wall_seconds": 7.41,
+      "wall_seconds": 18.57,
       "exit_code": 0,
       "n_result_files": 4,
       "all_outputs_identical": true,
@@ -39,7 +39,7 @@
     },
     {
       "node": "analysis/04_stage2/d_linearClimate",
-      "wall_seconds": 7.37,
+      "wall_seconds": 16.12,
       "exit_code": 0,
       "n_result_files": 4,
       "all_outputs_identical": true,
@@ -47,7 +47,7 @@
     },
     {
       "node": "analysis/04_stage2/e_pooledRandomForest",
-      "wall_seconds": 10.17,
+      "wall_seconds": 21.32,
       "exit_code": 0,
       "n_result_files": 5,
       "all_outputs_identical": true,
@@ -55,7 +55,7 @@
     },
     {
       "node": "analysis/04_stage2/f_oosErrorRidge",
-      "wall_seconds": 16.27,
+      "wall_seconds": 41.79,
       "exit_code": 0,
       "n_result_files": 4,
       "all_outputs_identical": true,
@@ -63,9 +63,33 @@
     },
     {
       "node": "analysis/04_stage2/g_oosErrorBoosting",
-      "wall_seconds": 21.8,
+      "wall_seconds": 54.47,
       "exit_code": 0,
       "n_result_files": 5,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/h_levelOnlyBoosting",
+      "wall_seconds": 52.5,
+      "exit_code": 0,
+      "n_result_files": 3,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/i_boundedBoosting",
+      "wall_seconds": 68.2,
+      "exit_code": 0,
+      "n_result_files": 3,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/j_levelOnlyBoundedBoosting",
+      "wall_seconds": 66.6,
+      "exit_code": 0,
+      "n_result_files": 4,
       "all_outputs_identical": true,
       "changed_files": ""
     }

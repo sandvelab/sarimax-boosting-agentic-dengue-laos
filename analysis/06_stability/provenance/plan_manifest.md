@@ -51,3 +51,34 @@ information: agent-retrieved -- Chap's evaluate defaults (n_periods 3, n_splits 
         cli_endpoints/evaluate.py via the GitHub API on 2026-09-21; Ben Taieb & Hyndman (2014)
         and Wang et al. (2013), cited in two rows' bases, come from batch 10's literature
         search (batch report b10).
+
+---
+section appended at commit cef9a18 -- **manifest v2, around h_levelOnlyBoosting** (batch 14;
+the main path changed by the human's decision to explore stage 2 further and annotate a main
+path now, plan §4b 2026-09-21):
+script: scripts/02_plan_manifest.py
+        sha256:b600c76a9776e4226a807072ec99531de0fcf75514320ae07a456730bcf786ae
+        (was 52cd84a8…: the main path is now read from 04_stage2/claim.md; tier-2 rows are
+        specified around it and tagged with its suffix (`@h`); the previous version's tier-2
+        rows are kept, marked `superseded_by_v2`, so their results directories stay named and
+        the v1 report stays grounded; a tier-0 gate row `main@h` is added; the freeze records
+        what it supersedes)
+inputs: results/run_costs.csv  sha256:ad24662a7eeca8a1f7769991170fab5928218b78824f86701e8b12bd83f98f83
+        (regenerated at cef9a18 by 01_measure_run_costs.py to include h, i, j -- see
+        measure_run_costs.md)
+result: results/manifest.csv (70 rows: 1 gate, 9 tier 1, 26 tier 2 planned around h, 5 tier 3
+        not run, 29 v1 rows superseded), results/manifest_summary.json, results/manifest_freeze.json
+        -- v2 sha256 d2c5e813e7215eb908787049546e0e8346c3311ea7b6d6b3ca6fd43c53834ac0, frozen at
+        cef9a18, superseding v1 (ba01a061…, frozen at 62d16bf).
+budget: 26 planned rows estimated at 2,221 s against the 3,600 s ceiling (per-run costs
+        measured higher this time -- h 52 s, the rolling refit ~1,050 s -- on a loaded machine);
+        the line falls below every row.
+alternatives-considered (this section):
+  - Regenerating v1's rows from the tree and deleting their results: rejected -- v1 is the
+    record of g's stability (batch 13) and stays, superseded not erased.
+  - Re-running v1's rows around h under the same names: rejected -- the same name would then
+    mean two different things; v2 rows carry the `@h` tag.
+  - Feature rows in v2: the minimal input is now the main path, so the v1 "drop" rows become
+    "add back" rows (recent + incidence; recent + cross-province; g's full set + climate), and
+    the bound is tried without its floor since j (floor 10) is a tier-1 sibling.
+agency: agent-autonomous (the v2 specification); the main-path change it follows is human-set.

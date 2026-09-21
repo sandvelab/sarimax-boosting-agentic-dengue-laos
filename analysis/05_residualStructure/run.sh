@@ -14,3 +14,4 @@ PYTHON="$REPO_ROOT/environment/env/bin/python"
 # Own scripts
 "$PYTHON" "scripts/01_error_structure.py"
 "$PYTHON" "scripts/02_predictability.py"
+"$PYTHON" "scripts/03_stage1_weaknesses.py"

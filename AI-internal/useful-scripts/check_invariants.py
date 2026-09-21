@@ -77,11 +77,13 @@ def script_files(directory: Path) -> list[Path]:
     )
 
 
-MANIFEST = Path("analysis/05_stability/results/manifest.csv")
+# This project's stability node is `06_stability` (batch 11): `05` went to the residual
+# diagnostics in batch 10, and a sub-analysis's number is its run order, not a fixed slot.
+MANIFEST = Path("analysis/06_stability/results/manifest.csv")
 # The frozen phase-E set. Its rows are the development rows under holdout names, so a
 # `results/` directory produced by the holdout run is planned exactly as a development one
 # is -- and a holdout directory whose name is in neither manifest is the same failure.
-MANIFEST_HOLDOUT = Path("analysis/05_stability/results/manifest_holdout.csv")
+MANIFEST_HOLDOUT = Path("analysis/06_stability/results/manifest_holdout.csv")
 # The external check's four rows, planned and committed before they ran, exactly as the
 # other two manifests were. They move no fork -- the reported model runs unchanged and the
 # country underneath is what differs -- so they never appear in the fork agreement below;
@@ -504,7 +506,7 @@ def check_freeze(root: Path) -> list[Finding]:
     moves them without anything being wrong.
     """
     out: list[Finding] = []
-    freeze = root / "analysis/05_stability/results/holdout_freeze.json"
+    freeze = root / MANIFEST_HOLDOUT.parent / "holdout_freeze.json"
     manifest = root / MANIFEST_HOLDOUT
     if not freeze.exists() or not manifest.exists():
         return out
@@ -547,7 +549,7 @@ def check_freeze(root: Path) -> list[Finding]:
     # The verification the script writes on every run of `analysis/run.sh`. If it is
     # present it must be about the file that is here, and it must not be carrying a
     # difference the frozen set cannot absorb.
-    check = root / "analysis/05_stability/results/holdout_freeze_check.json"
+    check = root / MANIFEST_HOLDOUT.parent / "holdout_freeze_check.json"
     if check.exists():
         seen = json.loads(check.read_text())
         if seen.get("frozen", {}).get("sha256") not in (None, current):

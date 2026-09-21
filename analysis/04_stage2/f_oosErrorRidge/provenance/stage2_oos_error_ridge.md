@@ -91,3 +91,23 @@ script: scripts/01_stage2_oos_error_ridge.py
         (was c6339fc4…: the comment on WARMUP_MONTHS reworded, see
         05_residualStructure/provenance/error_structure.md)
 The committed results are those of the d8f9b07 run; no logic changed in either file.
+
+---
+section appended at commit e590d27 (run at 926cd1a; human-set follow-up, plan §4b 2026-09-21):
+the horizon set stage 2 trains on is now read from the evaluation scheme, not fixed.
+script: scripts/01_stage2_oos_error_ridge.py
+        sha256:2b6758437a6115707b16e99b593f25805cd188acf56afab1c325edab5f1febac
+        (was a94ab31e…: reads the scheme's n_periods via check_horizons and passes it to every
+        row builder; conclusion.json gains horizon_months and horizon_source)
+        ../../scripts/lib/stage2_oos.py
+        sha256:d6f12d8cf9643eab708ed9fc175b372f562dcd9578da4efd19ec7ccf603e0074
+        (was 04dbf43a…: N_AHEAD/HORIZONS/FEATURES constants replaced by horizons(n_ahead),
+        features(n_ahead), check_horizons(); training_rows/test_rows/design_matrix take
+        n_ahead; test_rows refuses a test window of another length)
+inputs (added): ../../01_data/03_backtest_scheme/results/schedule_summary.json
+        sha256:dc56ddb766c0e73e253236485169d2e97ab8e8aaa648e2319d4587cd603e9ccc
+        (n_periods = 3 -- Chap's evaluate default, verified in chap-core's
+        cli_endpoints/evaluate.py: BacktestParams(n_periods=3, n_splits=7, stride=1))
+outcome: results/per_cell_scores.csv and results/ridge_coefficients.csv byte-identical to the
+        d8f9b07 run (git reports no change); results/conclusion.json differs only by the two
+        added horizon fields. The scores above stand.

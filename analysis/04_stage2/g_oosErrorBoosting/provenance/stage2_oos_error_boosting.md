@@ -57,3 +57,19 @@ re-run):
         (was c6339fc4…: the comment on WARMUP_MONTHS reworded, see
         05_residualStructure/provenance/error_structure.md). This node's own script is
         unchanged. The committed results are those of the 90add4c run.
+
+---
+section appended at commit e590d27 (run at 926cd1a; human-set follow-up, plan §4b 2026-09-21):
+the horizon set stage 2 trains on is now read from the evaluation scheme, not fixed.
+script: scripts/01_stage2_oos_error_boosting.py
+        sha256:2168ed84b9ba1b2dbde0950655352f81b961b23e7a12dfa24dac89e20472840b
+        (was d4613712…: same change as f_oosErrorRidge's script -- reads n_periods via
+        check_horizons, passes it to every row builder, records horizon_months)
+        ../../scripts/lib/stage2_oos.py
+        sha256:d6f12d8cf9643eab708ed9fc175b372f562dcd9578da4efd19ec7ccf603e0074
+        (was 04dbf43a…; see f_oosErrorRidge/provenance/stage2_oos_error_ridge.md)
+inputs (added): ../../01_data/03_backtest_scheme/results/schedule_summary.json
+        sha256:dc56ddb766c0e73e253236485169d2e97ab8e8aaa648e2319d4587cd603e9ccc
+outcome: results/per_cell_scores.csv and results/feature_importances.csv byte-identical to the
+        90add4c run (same seed, same rows); results/conclusion.json differs only by the two
+        added horizon fields. The scores above stand.

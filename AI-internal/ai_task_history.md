@@ -99,5 +99,7 @@ reader who was not present can follow, and keep them honest about what did not w
   82.7%) on both of plan §2's criteria. Promoted `g_oosErrorBoosting` to `04_stage2`'s main path
   (own commit, reversible). New shared libraries `lib/residual_features.py` and
   `lib/stage2_oos.py`; `stage1_model.py` untouched. Determinism verified for both scripts that
-  draw randomness. Report: `26-09-20_b10_stage2SystematicSecondIteration.md`. Nothing pushed to
-  the remote this session.
+  draw randomness. Report: `26-09-20_b10_stage2SystematicSecondIteration.md`. Follow-up (2026-09-21,
+  human-set): stage 2's horizon set bound to the evaluation scheme's `n_periods` (3 months,
+  verified as Chap's evaluate default in chap-core) instead of a constant; scores unchanged.
+  Nothing pushed to the remote this session.

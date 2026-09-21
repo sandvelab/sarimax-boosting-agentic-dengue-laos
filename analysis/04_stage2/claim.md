@@ -177,3 +177,12 @@ predictive family at stage 1 (the honest fix for coverage); per-horizon separate
 true rolling refit for the in-window errors; ENSO indices as an external forecast-time
 covariate (the literature's one climate signal with multi-month lead, not in this dataset).
 **Ledger row 10 closes here.**
+
+**Batch 10 follow-up (2026-09-21, human-set): stage 2's horizon set is bound to the
+evaluation scheme's.** Both new candidates train on every horizon the backtest scores,
+h = 1..`n_periods`, with `n_periods` now read from the schedule (3 months — Chap's own
+evaluate default, verified in chap-core) and a differing test window refused, instead of a
+constant in the library. No number changed (per-cell scores byte-identical; `conclusion.json`
+gains `horizon_months` and its source). Candidates a–e trained on the one-step in-sample
+residual and are left as they were: the mismatch between their target and the 1–3-month
+evaluation horizon is the record of why they found nothing (plan §4b).

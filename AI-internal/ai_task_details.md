@@ -355,3 +355,15 @@ terms), clipping, per-horizon vs pooled fitting, the warm-up. Untried refinement
 correction relative to the forecast level; a true rolling refit for in-window errors; ENSO as
 an external covariate (new data). The invariant checker's manifest paths (`05_stability`,
 inherited) need revising when the stability node is created at the next free number.
+
+**Follow-up, 2026-09-21 (human-set).** The human asked that the second-stage model relate to
+the full horizon the evaluation uses — the scheme's default horizon, which is Chap's.
+Verified in chap-core's evaluate endpoint (fetched via the GitHub API): the default is
+`BacktestParams(n_periods=3, n_splits=7, stride=1)`, so this project's `n_periods = 3` is Chap's
+horizon (its `n_splits`/`stride` differ by the batch-1 decision). `lib/stage2_oos.py` had fixed
+the horizons at 1..3 as constants; it now takes `n_ahead` from the caller, and both candidate
+scripts read it from the schedule via `check_horizons`, which refuses unequal or mismatched test
+windows. Re-run: per-cell scores byte-identical to the committed ones (the working-copy `cmp`
+differs only in CRLF line endings, which git normalises); `conclusion.json` records
+`horizon_months` and its source. Provenance records for both candidates carry a section with
+the new digests and the new input. Candidates a–e are deliberately left unchanged.

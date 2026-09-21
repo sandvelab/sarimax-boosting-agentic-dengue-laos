@@ -164,9 +164,23 @@ def in_window_errors(fit, series: pd.Series, s1: Stage1Config, s2: Stage2Config,
                 if pd.isna(y):
                     continue
                 mu, se = float(row["mean"]), float(row["mean_se"])
+                if not (np.isfinite(mu) and np.isfinite(se)):
+                    continue  # a refit that diverged at this origin contributes no row; counted by the caller
                 out.append({"origin": o, "target": target, "h": h, "actual": float(y),
                             "pred_mean": mu, "pred_se": se, "error": float(y) - mu})
     return out
+
+
+def finite_row(row: dict, names: list[str]) -> bool:
+    return all(np.isfinite(row[f]) for f in names) and np.isfinite(row.get("z", 0.0))
+
+
+def zero_nonfinite(row: dict, names: list[str]) -> dict:
+    """A test-time feature that is not finite carries no information: set it to 0."""
+    for f in names:
+        if not np.isfinite(row[f]):
+            row[f] = 0.0
+    return row
 
 
 # ---- stage 2 rows -----------------------------------------------------------------------------
@@ -239,7 +253,7 @@ def run_combination(dev_rows: list[dict], s1: Stage1Config, sc: SchemeConfig, s2
     zclip_pred = s2.zclip if s2.zclip is not None else np.inf
 
     per_cell: list[dict] = []
-    n_fit_failures = n_abstained = 0
+    n_fit_failures = n_abstained = n_rows_dropped_nonfinite = 0
     n_train_rows = {}
 
     for split in splits:
@@ -278,7 +292,10 @@ def run_combination(dev_rows: list[dict], s1: Stage1Config, sc: SchemeConfig, s2
                 denom = e["pred_se"] if s2.standardise == "se" else s["scale"]
                 row["z"] = target_value(e, denom, s2)
                 row["h"] = e["h"]
-                rows.append(row)
+                if finite_row(row, names):
+                    rows.append(row)
+                else:
+                    n_rows_dropped_nonfinite += 1
         n_train_rows[split["split"]] = len(rows)
 
         models: dict = {}
@@ -310,8 +327,9 @@ def run_combination(dev_rows: list[dict], s1: Stage1Config, sc: SchemeConfig, s2
                 cum12, zf = incidence_state(series, len(series) - 1)
                 c0 = climate_anomaly(climates[p], s["clim"], str(origin)) if climates else None
                 c3 = mean_anomaly(climates[p], s["clim"], [str(origin - i) for i in range(3)]) if climates else None
-                trows = [make_row(h, n_ahead, pd.Period(month, freq="M"), float(r["mean"]), s["scale"],
-                                  s["log_train_mean"], r_last, r_last3, nat.get(origin, 0.0), cum12, zf, c0, c3, s2.zclip)
+                trows = [zero_nonfinite(make_row(h, n_ahead, pd.Period(month, freq="M"), float(r["mean"]), s["scale"],
+                                                 s["log_train_mean"], r_last, r_last3, nat.get(origin, 0.0), cum12, zf, c0, c3,
+                                                 s2.zclip), names)
                          for h, (month, (_, r)) in enumerate(zip(split["test_months"], s["fc"].iterrows()), start=1)]
                 if s2.per_horizon:
                     zhat = np.array([float(np.clip(models[h].predict(matrix([trows[h - 1]], names))[0], -zclip_pred, zclip_pred))
@@ -359,7 +377,7 @@ def run_combination(dev_rows: list[dict], s1: Stage1Config, sc: SchemeConfig, s2
         "config": configs_as_dict(s1, sc, s2),
         "n_provinces": len(provinces), "n_splits": len(splits), "horizon_months": n_ahead,
         "n_cells_scored": len(scored), "n_fit_failures": n_fit_failures, "n_stage2_abstained": n_abstained,
-        "n_training_rows_by_split": n_train_rows,
+        "n_training_rows_by_split": n_train_rows, "n_training_rows_dropped_nonfinite": n_rows_dropped_nonfinite,
         "stage1_alone": {"mean_crps": c1, "coverage_90": cov1},
         "two_stage": {"mean_crps": c2, "coverage_90": cov2},
         "delta_crps": c2 - c1, "pct_change_vs_stage1": 100 * (c2 - c1) / c1,

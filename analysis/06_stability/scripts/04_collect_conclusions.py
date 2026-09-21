@@ -34,7 +34,7 @@ def main() -> None:
                  "n_cells": g["n_cells"], "informativeness_rank": "-", "reason_if_not_run": ""})
     for r in manifest:
         if r["tier"] == "1":
-            c = json.loads((ANALYSIS / r["node"] / "results" / "comparison.json").read_text())
+            c = json.loads((ANALYSIS.parent / r["node"] / "results" / "comparison.json").read_text())
             rows.append({"combination": r["combination"], "tier": 1, "status": "run",
                          "stage1_mean_crps": c["stage1_alone"]["mean_crps"], "two_stage_mean_crps": c["two_stage_ensemble"]["mean_crps"],
                          "pct_change_vs_stage1": c["pct_change_vs_stage1"], "stage1_coverage_90": c["stage1_alone"]["coverage_empirical"],

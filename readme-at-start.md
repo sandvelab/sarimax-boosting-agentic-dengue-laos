@@ -78,7 +78,8 @@ above.
 | Primary comparison | The two-stage ensemble vs. stage 1 alone, on the same splits — the question this project exists to answer (plan §2). |
 | Required baselines | Persistence and seasonal climatology, scored through the same pipeline as every model. |
 | External reference | None (human-set, 2026-09-20, plan §4b) — the prior project's EWARS-csd score is not cited. |
-| Git remote | `github.com/sandvelab/sarimax-boosting-agentic-dengue-laos`, public, already connected. The release batch runs the secrets/data-permission scan before pushing anything beyond this reset. |
+| Git remote | `github.com/sandvelab/sarimax-boosting-agentic-dengue-laos`, public, already connected. Pushed through batch 10 on 2026-09-21 at the human's instruction, after a lightweight secrets scan (plan §4b); the release batch still runs the full secrets/data-permission scan. |
+| Open reproducibility item | Result CSVs are written with Windows line endings but stored by git with Unix endings, so a fresh clone's CSVs hash differently from the working-copy digests in provenance records. To be settled tree-wide before the clean-room check (plan §6 row 17, §4b 2026-09-21). |
 
 ## What must not happen
 

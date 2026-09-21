@@ -1,0 +1,129 @@
+{
+  "combination": "stage1=airline_011x011",
+  "config": {
+    "stage1": {
+      "order": [
+        0,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        0,
+        1,
+        1,
+        12
+      ],
+      "enforce": false,
+      "window": "expanding",
+      "window_months": 72,
+      "window_start": "2002-01"
+    },
+    "scheme": {
+      "n_periods": 3,
+      "n_splits": 8,
+      "stride": 3,
+      "min_modelable_months": 24
+    },
+    "stage2": {
+      "family": "gbm",
+      "gbm_params": {
+        "n_estimators": 150,
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "subsample": 0.8,
+        "min_samples_leaf": 20
+      },
+      "ridge_alpha": 10.0,
+      "seed_component": "04_stage2/g_oosErrorBoosting",
+      "zclip": 3.0,
+      "clip_at_zero": true,
+      "standardise": "se",
+      "bounded_correction": false,
+      "bound_floor": 10.0,
+      "per_horizon": false,
+      "features": "full",
+      "warmup": 24,
+      "oos_mode": "fixed",
+      "min_train_rows": 200
+    }
+  },
+  "n_provinces": 17,
+  "n_splits": 8,
+  "horizon_months": 3,
+  "n_cells_scored": 371,
+  "n_fit_failures": 0,
+  "n_stage2_abstained": 0,
+  "n_training_rows_by_split": {
+    "0": 4710,
+    "1": 4845,
+    "2": 4980,
+    "3": 5115,
+    "4": 5250,
+    "5": 5394,
+    "6": 5538,
+    "7": 5679
+  },
+  "n_training_rows_dropped_nonfinite": 0,
+  "stage1_alone": {
+    "mean_crps": 29.146089560770083,
+    "coverage_90": 0.8247978436657682
+  },
+  "two_stage": {
+    "mean_crps": 26.045994848163073,
+    "coverage_90": 0.8652291105121294
+  },
+  "delta_crps": -3.10009471260701,
+  "pct_change_vs_stage1": -10.63640014604107,
+  "two_stage_beats_stage1_on_crps": true,
+  "coverage_not_worse_than_stage1": true,
+  "n_splits_improved": 4,
+  "share_cells_improved": 0.5956873315363881,
+  "by_horizon": {
+    "h1": {
+      "stage1": 22.370822730981576,
+      "two_stage": 20.17841259294415
+    },
+    "h2": {
+      "stage1": 29.23945541453586,
+      "two_stage": 25.584650257162902
+    },
+    "h3": {
+      "stage1": 35.8287434872264,
+      "two_stage": 32.371201173487016
+    }
+  },
+  "by_split": {
+    "split0": {
+      "stage1": 16.114683112591816,
+      "two_stage": 16.411281769484884
+    },
+    "split1": {
+      "stage1": 30.17913478398382,
+      "two_stage": 30.345916397091838
+    },
+    "split2": {
+      "stage1": 45.5529837952962,
+      "two_stage": 31.385194990745816
+    },
+    "split3": {
+      "stage1": 28.86244171027302,
+      "two_stage": 22.083832231452476
+    },
+    "split4": {
+      "stage1": 16.569690934751534,
+      "two_stage": 15.536832727751289
+    },
+    "split5": {
+      "stage1": 25.405879380787216,
+      "two_stage": 26.127813670239252
+    },
+    "split6": {
+      "stage1": 37.75140887067777,
+      "two_stage": 40.901446472316195
+    },
+    "split7": {
+      "stage1": 33.16957670586387,
+      "two_stage": 25.63776947648373
+    }
+  }
+}

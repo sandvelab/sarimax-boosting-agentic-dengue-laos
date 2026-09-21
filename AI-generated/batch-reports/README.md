@@ -50,3 +50,7 @@ different report, not the same one.
   weaknesses documented (human-set); three more stage-2 candidates (`h`, `i`, `j`) built
   through the verified pipeline; `h_levelOnlyBoosting` annotated as main path by a
   pre-registered rule; the stability manifest re-planned around it (v2).
+- `26-09-22_b15_stabilityRunV2.md` — batch 15: the v2 manifest run around `h` (26 rows, gate
+  408/408) and reported beside v1 — sign stable in all 26, size turning on stage 1 and the
+  training-error construction; the no-differencing stage 1 alone comes within 0.6 CRPS of the
+  two-stage main path; claims C8–C13.

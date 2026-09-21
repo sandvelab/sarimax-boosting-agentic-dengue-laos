@@ -79,3 +79,59 @@ script: scripts/03_run_combinations.py
         gate row is `main<tag>` and compares with that main path's stored per-cell file; rows
         marked superseded are not re-run). The committed results under results/<v1 name>/
         remain those of the edc5158 run described above.
+
+---
+section appended at commit ba79a02 (batch 15): **the v2 run, around h_levelOnlyBoosting**.
+script: scripts/03_run_combinations.py
+        sha256:1a12e18cbca89d778be8e40174be18a51d976b5b2b4fcca61da8ed176762c637
+change: (was f923da2f…) the run log and summary of a version after the first are written as
+        run_log_v<N>.csv and run_summary_v<N>.json, so v1's run_log.csv and run_summary.json
+        stay the record of the batch-12 run. The library files are unchanged from the section
+        above (stage2_perturb b5371bb8…, stage2_oos d6f12d8c…, residual_features cbe02569…,
+        backtest bb036170…, crps 90f29c83…, project_seed 8cf8c777…).
+result: results/$COMBO/per_cell_scores.csv · results/$COMBO/conclusion.json for main@h and
+        every planned tier-2 row of manifest v2 (the 26 rows suffixed `@h`) ·
+        results/run_log_v2.csv  sha256:5ff022a2aa40ed861bfe3ece742eaeb85c97a499b41bf65b42ad17973c3701c9 ·
+        results/run_summary_v2.json  sha256:3f5ab45a7756f402518ca8af7ffda20749a6bdf2054f5f4b48e975eee9833ecb
+invocation: ../../environment/env/bin/python scripts/03_run_combinations.py
+inputs: results/manifest.csv  sha256:d2c5e813e7215eb908787049546e0e8346c3311ea7b6d6b3ca6fd43c53834ac0
+         (v2, frozen at cef9a18; the run refuses to start unless it hashes to the frozen digest
+         and unless 04_stage2/claim.md's main path is the one it was frozen for)
+         results/manifest_freeze.json  sha256:a6e1efa271432a42694d4c106aa366a6641a5c52d3ac41d345c3101aeff15d95
+         ../01_data/01_prepare/results/development.csv  sha256:138c568c84e33bc7c94fe10f1e4d6bef4f339469dd81ec49b8180be18bf2033f
+         ../04_stage2/h_levelOnlyBoosting/results/per_cell_scores.csv  sha256:52d9f2457dfa1d9a675d2978479621df195eccb315aa0ada95a66cb70c8f3b41
+         (the gate: main@h reproduced it on all 408 rows with 0 mismatched values,
+         results/main@h/conclusion.json "verification_vs_main_path", before any row ran)
+environment: environment/ (project main)
+         lock.txt sha256:2ed8d10ee004b65ae2076e055d090f487018731cdf02723fa48431c8cfd8bc01
+seeds: project 20260920. h_levelOnlyBoosting's Stage2Config keeps seed_component
+        "04_stage2/g_oosErrorBoosting" (random_state 3256270425) -- the node was built from this
+        pipeline with that seed, which is what lets the gate reproduce it -- so every gradient-
+        boosted v2 row uses it and differs from main@h by its perturbation alone; the
+        `stage2=alt_seed@h` row uses component_seed("04_stage2/g_oosErrorBoosting/alt").
+        Determinism shown by the gate and by `stage2=min_train_rows1000@h` and
+        `modelable=36_months@h`, which change nothing binding and reproduce main@h's 24.3508
+        exactly; and by four rows whose configuration is, by construction, identical to a v1
+        row (main@h = stage2=g_level_month_horizon_only; plus_recent_and_incidence@h =
+        g_no_cross_province; plus_recent_and_cross@h = g_no_incidence_terms; full_plus_climate@h
+        = g_with_climate_anomalies), all four reproducing the v1 two-stage mean CRPS to the last
+        digit (results/version_comparison_v2.csv, written by 05_report_distribution.py).
+commit: ba79a02
+instructions-commit: 595c32d
+node: analysis/06_stability
+produced: 2026-09-22
+where the budget line fell: nowhere. All 26 planned rows ran; total wall 1,536.6 s of the
+        3,600 s ceiling (results/run_summary_v2.json); the rolling refit alone 773.6 s
+        (results/run_log_v2.csv). The gate took 28.7 s.
+caveat carried from v1: in `stage2=rolling_refit_oos@h`, 3 origins per split whose refit
+        returned non-finite predictions contributed no training row (per-split counts 4707 …
+        5676 against main@h's 4710 … 5679; n_training_rows_dropped_nonfinite is 0 because the
+        counter does not cover origins skipped inside in_window_errors).
+alternatives-considered (this section):
+  - Overwriting run_log.csv and run_summary.json with the v2 run's: rejected -- v1's files are
+    the record of the batch-12 run that the batch-13 report and claims C2-C7 cite.
+  - Dropping the four rows whose configuration coincides with a v1 row as redundant: rejected
+    -- they are what the manifest planned around h, and their exact reproduction of v1's
+    values is a free determinism check that is recorded rather than discarded.
+agency: agent-autonomous (the run and its output naming); the main path it runs around is
+        the batch-14 pre-registered choice (rule agent-autonomous, annotating now human-set).

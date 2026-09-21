@@ -210,6 +210,16 @@ append-only, oldest first.
 |---|---|---|
 | Stage 2 is trained on every horizon the evaluation scores, h = 1..`n_periods`, with `n_periods` read from the backtest schedule (`01_data/03_backtest_scheme/results/schedule_summary.json`) rather than fixed in code; a test window of a different length is refused | The human's instruction, after batch 10, that the second-stage model must relate to the full horizon the evaluation uses — the scheme's default horizon, which is Chap's. Verified against chap-core itself (`chap_core/cli_endpoints/evaluate.py`, fetched via the GitHub API, `agent-retrieved`): Chap's evaluate default is `BacktestParams(n_periods=3, n_splits=7, stride=1)`, so this project's `n_periods = 3` is Chap's default horizon (its `n_splits 8 / stride 3` differ, by the batch-1 decision above). `f_oosErrorRidge` and `g_oosErrorBoosting` already trained on h = 1..3, so no score changed (per-cell outputs byte-identical); what changed is that the coupling is now read from the scheme and checked, not assumed, and `conclusion.json` records `horizon_months` and its source. Candidates a–e, which trained on the one-step in-sample residual, are unchanged: their mismatch with the evaluation horizon is part of the record of why they failed. | human-set (the requirement); agent-autonomous (the implementation) |
 
+### 2026-09-22 — batch 15: the stability v2 run and report
+
+| Decision | Basis | Agency |
+|---|---|---|
+| The v2 run, conclusions and report are written as `_v2` files beside v1's (`run_log_v2.csv`, `run_summary_v2.json`, `conclusions_v2.csv`, `distribution_v2.json`, `perturbation_effects_v2.csv`, `province_stability_v2.csv`, `horizon_stability_v2.csv`, `version_comparison_v2.csv`); v1's files are not overwritten | v1's files are the grounds of the batch-13 report and claims C2–C7; the runner, collector and reporter now read the version and main path from the freeze rather than naming a candidate in code, and a later version gets `_v3` files the same way. | agent-autonomous |
+| The four v2 rows whose configuration is by construction identical to a v1 row (the main path itself and the three "add features back" rows) were run, not dropped, and their exact reproduction of v1's values is recorded as a determinism check | They are what the manifest planned around `h`; a free check is recorded rather than discarded. All four reproduced v1 to the last digit. | agent-autonomous |
+| No better-scoring v2 row is promoted (winsorisation at 5, −6.92%; the bound without floor, −6.78%; no winsorisation, −6.57%, against `h`'s −6.53%) | The main path is the pre-registered choice (batch 14) and the report is a measurement of it; the three lie within the seed row's own distance from the main path. If a change is wanted it belongs before the holdout freeze in batch 16, as a recorded decision, and this batch does not make it. | agent-autonomous |
+| **The no-differencing stage 1 finding is recorded against stage 1's documented weaknesses, and stage 1 is not reopened.** SARIMAX(1,0,1)×(1,0,0,12) alone scores 24.93 on development data, better than the fixed stage 1 (26.05) and within 0.6 CRPS of the two-stage main path (24.35); under it the correction is worth −1.06%. | The decision not to repair stage 1 is the human's (2026-09-21); the finding bears on how the central comparison is read — part of the second stage's margin repairs a differencing choice — so it is a claim (C10) and is flagged here for the human. | human-set (stage 1 fixed); agent-autonomous (the recording); the decision whether this changes anything is open |
+| "Moves the size" stays at two percentage points for v2 | Comparability with v1; the threshold is a column in the output. | agent-autonomous |
+
 ## 5. How this plan is used
 
 Unlike a plan written once and left alone, this one is edited as it runs, the same way the
@@ -238,7 +248,7 @@ One row per `/do` invocation. Status: `open`, `done`, or `blocked` with why.
 | 12 | D — Stability: run | Build the combination runner (verified against the main path's stored per-cell scores before anything else is trusted); run every planned row of the frozen manifest; write `results/<combination>/` per row; record where the budget line fell. | done |
 | 13 | D — Stability: report | Report the distribution of conclusions across the set — which choices the central comparison is insensitive to and which it turns on; each conclusion and the stability claim itself to the claim collection. | done |
 | 14 | C (cont.) — third stage-2 iteration, and the main path annotated | Stage 1 stays SARIMAX as specified and is **not repaired**; its weaknesses are documented, file-grounded, in one place (`05_residualStructure/results/stage1_weaknesses.json`, `02_stage1/claim.md`). Build the stage-2 configurations the stability run found better than the frozen main path as proper alternatives nodes — the minimal (level-only) input, the bounded correction, and their combination — through the unchanged pipeline, each verified against stage 1's stored forecast. Then **annotate one of them as `04_stage2`'s main path now**, by a rule written down before the combination's result is seen, so the holdout evaluates a pre-registered configuration. Re-plan the development stability manifest around the annotated main path (v2; v1 superseded and kept). *(Inserted 2026-09-21, human-set — "do not repair anything in stage 1; document the weaknesses; explore several stage-2 solutions further, but annotate one as the main already now"; renumbers what were rows 14–18 to 16–20.)* | done |
-| 15 | D (cont.) — stability v2 | Run the v2 manifest around the annotated main path with the verified runner; report its distribution beside v1's; claims. | open |
+| 15 | D (cont.) — stability v2 | Run the v2 manifest around the annotated main path with the verified runner; report its distribution beside v1's; claims. | done |
 | 16 | D (cont.) / freeze | Freeze the phase-E (holdout) manifest before the holdout opens, per §3. | open |
 | 17 | E — Final validation | Open the 2010 holdout once; run exactly the frozen manifest; report the held-out distribution beside the development one. | open |
 | 18 | F — Claims & report | Build the claim collection from the tree; generate the hierarchical report. | open |
@@ -308,4 +318,8 @@ the phase structure above is meant to hold.
 ### Batch 14 — stage 1 fixed and documented; third stage-2 iteration; main path annotated
 
 - [[26-09-21_b14_stage2ThirdIterationAndMainPath]]
+
+### Batch 15 — the stability set re-run around the annotated main path (v2)
+
+- [[26-09-22_b15_stabilityRunV2]]
 

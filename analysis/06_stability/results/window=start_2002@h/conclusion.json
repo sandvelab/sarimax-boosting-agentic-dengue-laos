@@ -1,0 +1,129 @@
+{
+  "combination": "window=start_2002@h",
+  "config": {
+    "stage1": {
+      "order": [
+        1,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        1,
+        0,
+        0,
+        12
+      ],
+      "enforce": false,
+      "window": "start",
+      "window_months": 72,
+      "window_start": "2002-01"
+    },
+    "scheme": {
+      "n_periods": 3,
+      "n_splits": 8,
+      "stride": 3,
+      "min_modelable_months": 24
+    },
+    "stage2": {
+      "family": "gbm",
+      "gbm_params": {
+        "n_estimators": 150,
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "subsample": 0.8,
+        "min_samples_leaf": 20
+      },
+      "ridge_alpha": 10.0,
+      "seed_component": "04_stage2/g_oosErrorBoosting",
+      "zclip": 3.0,
+      "clip_at_zero": true,
+      "standardise": "se",
+      "bounded_correction": false,
+      "bound_floor": 10.0,
+      "per_horizon": false,
+      "features": "level_only",
+      "warmup": 24,
+      "oos_mode": "fixed",
+      "min_train_rows": 200
+    }
+  },
+  "n_provinces": 17,
+  "n_splits": 8,
+  "horizon_months": 3,
+  "n_cells_scored": 371,
+  "n_fit_failures": 0,
+  "n_stage2_abstained": 0,
+  "n_training_rows_by_split": {
+    "0": 2262,
+    "1": 2397,
+    "2": 2532,
+    "3": 2667,
+    "4": 2802,
+    "5": 2946,
+    "6": 3090,
+    "7": 3231
+  },
+  "n_training_rows_dropped_nonfinite": 0,
+  "stage1_alone": {
+    "mean_crps": 27.37177109023829,
+    "coverage_90": 0.862533692722372
+  },
+  "two_stage": {
+    "mean_crps": 27.081640820702614,
+    "coverage_90": 0.8706199460916442
+  },
+  "delta_crps": -0.2901302695356769,
+  "pct_change_vs_stage1": -1.0599616246211676,
+  "two_stage_beats_stage1_on_crps": true,
+  "coverage_not_worse_than_stage1": true,
+  "n_splits_improved": 4,
+  "share_cells_improved": 0.5040431266846361,
+  "by_horizon": {
+    "h1": {
+      "stage1": 20.5077519654779,
+      "two_stage": 20.280117084751197
+    },
+    "h2": {
+      "stage1": 26.87633726155303,
+      "two_stage": 26.943486215369578
+    },
+    "h3": {
+      "stage1": 34.72722860958165,
+      "two_stage": 34.020205011944064
+    }
+  },
+  "by_split": {
+    "split0": {
+      "stage1": 17.276410255142725,
+      "two_stage": 17.490114432222914
+    },
+    "split1": {
+      "stage1": 30.741465163700525,
+      "two_stage": 30.87867017332136
+    },
+    "split2": {
+      "stage1": 32.825763715004754,
+      "two_stage": 30.24110863028635
+    },
+    "split3": {
+      "stage1": 24.12856308886938,
+      "two_stage": 23.728408090097563
+    },
+    "split4": {
+      "stage1": 19.800462368595053,
+      "two_stage": 17.93105216125336
+    },
+    "split5": {
+      "stage1": 25.33313508603945,
+      "two_stage": 26.314937245809663
+    },
+    "split6": {
+      "stage1": 43.639026051853605,
+      "two_stage": 43.349350206249795
+    },
+    "split7": {
+      "stage1": 25.286064004094744,
+      "two_stage": 26.684129866273697
+    }
+  }
+}

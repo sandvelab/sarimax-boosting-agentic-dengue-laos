@@ -32,7 +32,7 @@ above.
 ## The article
 
 - **Target venue**: not yet decided.
-- **Status**: batches 1–14 complete (phases A–D, and a third stage-2 iteration after D). Stage 1 (per-province SARIMAX,
+- **Status**: batches 1–15 complete (phases A–D, a third stage-2 iteration after D, and the stability set re-run around its main path). Stage 1 (per-province SARIMAX,
   mean CRPS 26.05 over 371 cells, 90% coverage 82.7%) beats both required baselines
   (persistence 28.32, seasonal climatology 26.91). Seven stage-2 residual-correction
   candidates exist under `04_stage2`. Five (batches 4–9) were trained on stage 1's
@@ -71,8 +71,17 @@ above.
   24.29, −6.78%) — and **annotated `h_levelOnlyBoosting` as `04_stage2`'s main path now**, by a
   rule written before the combination's result was seen (lowest development CRPS with coverage
   not worse; tie within 0.1 → splits improved → simplicity). The development stability manifest
-  was re-planned around `h` (v2; v1's rows and results kept as superseded). Batch 15 runs v2;
-  batch 16 freezes the holdout manifest.
+  was re-planned around `h` (v2; v1's rows and results kept as superseded). Batch 15 ran v2
+  (26 rows, gate 408/408, 1,537 s; `_v2` files beside v1's): **sign stable in all 26**
+  (−10.41% to −1.06%, median −5.91%, coverage never worse), size turning on stage 1 and on the
+  training-error construction as before, hyperparameters and seed within two points; the
+  conservative rolling-refit reading is −2.99%. **New: the no-differencing SARIMAX alone scores
+  24.93, within 0.6 CRPS of the two-stage main path (24.35)**, so part of the margin repairs
+  stage 1's differencing choice (recorded, stage 1 not reopened; claim C10). The gain is in
+  Khammouane, Salavan, Bokeo, Xiangkhouang and Xekong in every combination, never in Oudomxay,
+  and reaches one month ahead in 23 of 27 combinations. Three v2 rows score better than `h` on
+  development data and none is promoted. Claims C8–C13. Batch 16 freezes the holdout manifest
+  from v2.
 - **Manuscript**: `Human-AI-collaboration/manuscript/` (empty).
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-09-20_sarimaxResidualBoostingCase.md`. It carries

@@ -507,3 +507,33 @@ The development margin now stands at −6.53%, a third selection on the same cel
 `04_collect_conclusions.py` and `05_report_distribution.py` to v2 (main from the tree, `@h`
 rows, nine tier-1 siblings), report beside v1, claims. Batch 16: freeze the holdout manifest
 from v2. The human's open decision on the provisional budget stands.
+
+## T10: Batch 15 — the stability set re-run around the annotated main path (v2)
+
+Full account in `AI-generated/batch-reports/26-09-22_b15_stabilityRunV2.md`.
+
+**Design.** The three stability scripts became version-aware without touching v1's outputs:
+`03_run_combinations.py` writes `run_log_v<N>.csv` / `run_summary_v<N>.json` for a version after
+the first; `04_collect_conclusions.py` reads version, main path and tag from
+`manifest_freeze.json` / `manifest_summary.json`, copies the main row from the main path's own
+`comparison.json`, skips the gate row and superseded rows, and writes `conclusions_v2.csv`;
+`05_report_distribution.py` assigns groups by a version-independent base name, writes `_v2`
+report files, and adds `versus_v1` (pairing by perturbation name, 22 pairs, and by exact
+`config` identity, 4 pairs, with an exact-reproduction check) plus `version_comparison_v2.csv`.
+The "Before" commit (ba79a02) carried the script changes; the run and report ran at it.
+
+**Findings.** 26 of 26 keep the ensemble ahead with coverage not worse; eight rows move the
+size beyond two points (airline and enforced-stationarity stage 1 larger; per-horizon, rolling
+window, added-back recent+cross features, rolling refit, 2002 start and no-differencing stage 1
+smaller); hyperparameters and seed within two points. The no-differencing stage 1 alone
+(24.93) beats the fixed stage 1 (26.05) and nearly matches the two-stage main path (24.35) —
+recorded as claim C10 and flagged in the plan's §4b; stage 1 stays fixed (human-set). Around
+`h` the margin is larger and more uniform across stage-2 choices than around `g`, and more
+exposed to stage 1's specification. One-month-ahead improvement rose from 47% to 85% of
+combinations. Three rows beat `h` on development data; none promoted.
+
+**Follow-ups.** Batch 16: freeze the holdout manifest from v2 (`manifest_holdout.csv` +
+`holdout_freeze.json`, as `check_invariants.py`'s `freeze` check expects) before the 2010 file
+is opened. Open for the human: whether the no-differencing finding changes the decision not to
+repair stage 1; whether a better-scoring stage-2 row should be pre-registered instead of `h`.
+The line-ending item (row 19) and the provisional budget stand.

@@ -180,3 +180,16 @@ rule written before the combination's result was seen (lowest development CRPS w
 not worse; tie within 0.1 broken by splits improved, then simplicity). **The central
 comparison now stands at −6.53% on development data**, the third selection on the same
 cells; the holdout is the guard. Stability around `h` (v2) is planned here and run next.
+
+Batch 15: the development stability set re-run around `h_levelOnlyBoosting`
+(`06_stability/results/distribution_v2.json`; claims C8–C13). **The sign holds in all 26
+perturbations** (−10.41% to −1.06%, median −5.91%, coverage never worse), **and the size still
+turns on stage 1 and on the construction of the training errors, not on the stage-2 family's
+tuning.** New in this round: the no-differencing SARIMAX alone scores 24.93, better than the
+main path's stage 1 (26.05) and within 0.6 CRPS of the two-stage main path (24.35), so under
+that stage 1 the correction is worth only −1.06% — part of the second stage's margin is a
+repair of stage 1's differencing choice, recorded against stage 1's documented weaknesses
+(stage 1 stays as specified, human-set). The true rolling refit, the conservative reading,
+gives −2.99% (v1: −0.70%). The gain is concentrated in the same provinces as before, with
+Xekong joining the always-improved set, and now reaches one month ahead in 23 of 27
+combinations. Nothing is promoted; batch 16 freezes the holdout manifest from v2.

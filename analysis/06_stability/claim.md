@@ -105,3 +105,52 @@ improve in every combination; one month ahead in 47%.
 heavier-tailed predictive family at stage 1, the one change that could repair the coverage
 deficit. Everything here is development data; the sealed 2010 holdout is opened once, in
 batch 15, across a manifest frozen in batch 14.
+
+**Batch 15 — the v2 run and report, around `h_levelOnlyBoosting`** (`results/run_summary_v2.json`,
+`results/conclusions_v2.csv`, `results/distribution_v2.json`, `results/perturbation_effects_v2.csv`,
+`results/province_stability_v2.csv`, `results/horizon_stability_v2.csv`,
+`results/version_comparison_v2.csv`; claims C8–C13). Batch 14 annotated `h` as `04_stage2`'s
+main path and re-planned the manifest around it (v2: 26 tier-2 rows suffixed `@h`, nine tier-1
+siblings, five tier-3 not run; v1's 29 rows kept as superseded). The runner's `main@h` gate
+reproduced `h`'s 408 per-cell rows with 0 mismatches; all 26 rows ran in 1,537 s of the 3,600 s
+ceiling. v1's files are untouched: v2 writes `_v2` files beside them.
+
+*The sign survives, again.* In all 26 perturbations the two-stage ensemble beats stage 1 alone
+on mean CRPS with 90% coverage not worse: −10.41% to −1.06%, quartiles −6.53% to −4.90%, median
+−5.91% against the main path's −6.53%. No row improves fewer than half the splits (21 rows 6 of
+8, 5 rows 4 of 8).
+
+*The size turns on stage 1 and on what the correction is trained on, not on the family's
+tuning.* Eight rows move the margin by more than two points. Larger: the airline stage 1
+(29.15 → 26.11, −10.4%) and stationarity enforced (26.80 → 24.08, −10.2%). Smaller: one model
+per horizon (−3.5%), the rolling 72-month window (−3.4%), adding the recent-residual and
+cross-province features back to the minimal input (−3.3%), the true rolling refit of the
+in-window errors (−3.0%), the 2002 window start (−1.1%) and — the new finding — the
+no-differencing stage 1 (−1.1%): SARIMAX(1,0,1)×(1,0,0,12) alone scores 24.93, better than the
+main path's stage 1 (26.05) and within 0.6 CRPS of the two-stage main path (24.35), so part of
+the second stage's margin is a repair of stage 1's differencing choice. Stage 1 stays as
+specified (human-set, batch 14); this is recorded as its documented weakness bearing on the
+central comparison. The five hyperparameter and seed rows stay within two points (−4.8% to
+−6.5%), as do winsorisation, the bound without its floor, clipping, standardisation and
+warm-up.
+
+*Beside v1.* Changing the main path from `g` to `h` moves the margin from −3.41% to −6.53%,
+and 20 of the 22 perturbations shared by name move with it (median shift −2.3 points); the
+two exceptions are stage-1 changes (airline −10.64% → −10.41%; no differencing −3.36% →
+−1.06%). The conservative rolling-refit reading moves from −0.70% to −2.99%. Chap's default
+scheme moved the size in v1 and not in v2; the per-horizon fit, the rolling window and the
+no-differencing stage 1 move it in v2 and not in v1. Four v2 rows are, by construction, the
+same configuration as a v1 row and reproduce its two-stage mean CRPS to the last digit.
+
+*The gain is concentrated, as before, and reaches one month ahead now.* Khammouane, Salavan,
+Bokeo, Xiangkhouang and Xekong improve in every one of the 27 combinations and Champasak in
+25; Oudomxay never improves, and Phongsaly, Luang Prabang and Vientiane Capital improve in at
+most 10% (Savannakhet in 4 of 27: the airline stage 1, the rolling window, the bound without
+floor, the tighter winsorisation). Three months ahead improves in every combination, two in
+26 of 27, one month ahead in 23 of 27 (v1: 47%).
+
+*Not promoted, and not covered.* Three v2 rows score better on development data than `h`
+(winsorisation at 5: −6.92%; the bound without floor: −6.78%; no winsorisation: −6.57%) —
+within the seed row's own distance from the main path — and none is promoted: the main path
+is the pre-registered choice the holdout will evaluate. The five tier-3 alternatives are
+unchanged and uncovered. Batch 16 freezes the holdout manifest from v2.

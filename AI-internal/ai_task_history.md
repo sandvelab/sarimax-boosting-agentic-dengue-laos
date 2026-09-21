@@ -156,3 +156,12 @@ reader who was not present can follow, and keep them honest about what did not w
   within 0.1 CRPS and on splits improved; h simpler). Re-planned the stability manifest around
   h (v2, `@h` rows; v1 rows kept as superseded) and adapted the runner to read the main path
   from the tree. Report: `26-09-21_b14_stage2ThirdIterationAndMainPath.md`. Nothing pushed.
+- T10 (2026-09-22): Batch 15 — ran the v2 development stability manifest around
+  `h_levelOnlyBoosting` (gate 408/408, 0 mismatches; 26 rows, 1,537 s of 3,600 s) and reported
+  its distribution beside v1's: sign stable in all 26 (−10.41% to −1.06%, median −5.91%,
+  coverage never worse); size turns on stage 1 and the training-error construction; the
+  no-differencing SARIMAX alone (24.93) comes within 0.6 CRPS of the two-stage main path
+  (24.35). Runner, collector and reporter write `_v2` files beside v1's and read the main path
+  from the freeze; the reporter compares v2 with v1 by file (`version_comparison_v2.csv`, four
+  configuration-identical rows reproduce v1 exactly). Claims C8–C13. Report:
+  `26-09-22_b15_stabilityRunV2.md`. Nothing pushed.

@@ -1,0 +1,137 @@
+{
+  "combination": "main@h",
+  "config": {
+    "stage1": {
+      "order": [
+        1,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        1,
+        0,
+        0,
+        12
+      ],
+      "enforce": false,
+      "window": "expanding",
+      "window_months": 72,
+      "window_start": "2002-01"
+    },
+    "scheme": {
+      "n_periods": 3,
+      "n_splits": 8,
+      "stride": 3,
+      "min_modelable_months": 24
+    },
+    "stage2": {
+      "family": "gbm",
+      "gbm_params": {
+        "n_estimators": 150,
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "subsample": 0.8,
+        "min_samples_leaf": 20
+      },
+      "ridge_alpha": 10.0,
+      "seed_component": "04_stage2/g_oosErrorBoosting",
+      "zclip": 3.0,
+      "clip_at_zero": true,
+      "standardise": "se",
+      "bounded_correction": false,
+      "bound_floor": 10.0,
+      "per_horizon": false,
+      "features": "level_only",
+      "warmup": 24,
+      "oos_mode": "fixed",
+      "min_train_rows": 200
+    }
+  },
+  "n_provinces": 17,
+  "n_splits": 8,
+  "horizon_months": 3,
+  "n_cells_scored": 371,
+  "n_fit_failures": 0,
+  "n_stage2_abstained": 0,
+  "n_training_rows_by_split": {
+    "0": 4710,
+    "1": 4845,
+    "2": 4980,
+    "3": 5115,
+    "4": 5250,
+    "5": 5394,
+    "6": 5538,
+    "7": 5679
+  },
+  "n_training_rows_dropped_nonfinite": 0,
+  "stage1_alone": {
+    "mean_crps": 26.052787630892947,
+    "coverage_90": 0.8274932614555256
+  },
+  "two_stage": {
+    "mean_crps": 24.350777879905046,
+    "coverage_90": 0.8517520215633423
+  },
+  "delta_crps": -1.7020097509879015,
+  "pct_change_vs_stage1": -6.532927589559312,
+  "two_stage_beats_stage1_on_crps": true,
+  "coverage_not_worse_than_stage1": true,
+  "n_splits_improved": 6,
+  "share_cells_improved": 0.555256064690027,
+  "by_horizon": {
+    "h1": {
+      "stage1": 19.471728919687738,
+      "two_stage": 19.018301636190955
+    },
+    "h2": {
+      "stage1": 25.603469789368084,
+      "two_stage": 24.03187987486837
+    },
+    "h3": {
+      "stage1": 33.07954065264298,
+      "two_stage": 29.999580370550664
+    }
+  },
+  "by_split": {
+    "split0": {
+      "stage1": 14.471443583850073,
+      "two_stage": 14.728089309600113
+    },
+    "split1": {
+      "stage1": 28.668277644274585,
+      "two_stage": 27.93253025740635
+    },
+    "split2": {
+      "stage1": 31.386128180064922,
+      "two_stage": 27.34032520838625
+    },
+    "split3": {
+      "stage1": 23.179245393609584,
+      "two_stage": 22.178701728825867
+    },
+    "split4": {
+      "stage1": 18.243398736399445,
+      "two_stage": 16.34266348759875
+    },
+    "split5": {
+      "stage1": 23.729668002884,
+      "two_stage": 24.001115968092574
+    },
+    "split6": {
+      "stage1": 44.009717381709656,
+      "two_stage": 38.63309591152706
+    },
+    "split7": {
+      "stage1": 24.70189634488253,
+      "two_stage": 23.620782896666228
+    }
+  },
+  "verification_vs_main_path": {
+    "compared_with": "analysis/04_stage2/h_levelOnlyBoosting/results/per_cell_scores.csv",
+    "n_rows_ours": 408,
+    "n_rows_main_path": 408,
+    "n_mismatched_values": 0,
+    "identical_on_shared_columns": true,
+    "first_mismatches": []
+  }
+}

@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
-# Main script for node: 04_stage2
+# Main script for node: j_levelOnlyBoundedBoosting
 # Generated shape -- edit the "own scripts" block; the child calls are maintained
 # by `node.py rebuild`, which enforces the alternatives/sub-analyses semantics.
 set -euo pipefail
 cd "$(dirname "$0")"
-REPO_ROOT="$(cd "../.." && pwd)"
+REPO_ROOT="$(cd "../../.." && pwd)"
 # Node scripts run under the pinned analysis environment (AGENTS.md §2), not under
 # .venv, which is the repository's own machinery. A node needing something beyond it
 # declares env/ and overrides PYTHON below.
 PYTHON="$REPO_ROOT/environment/env/bin/python"
 
-# Alternatives: only the main path is run here.
-# Not taken: a_linearLags, b_gradientBoosting, c_bayesianRidge, d_linearClimate, e_pooledRandomForest, f_oosErrorRidge, h_levelOnlyBoosting, i_boundedBoosting, j_levelOnlyBoundedBoosting
-bash "g_oosErrorBoosting/run.sh"
+
+# Own scripts
+"$PYTHON" "scripts/01_stage2_levelonlyboundedboosting.py"
+"$PYTHON" "scripts/02_compare_to_stage1.py"

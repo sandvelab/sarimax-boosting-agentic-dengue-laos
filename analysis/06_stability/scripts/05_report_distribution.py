@@ -34,7 +34,7 @@ from pathlib import Path
 
 NODE = Path(__file__).resolve().parents[1]
 RESULTS = NODE / "results"
-SENSITIVITY_POINTS = 2.0  # a perturbation "moves the size" if its margin differs from main's by more than this
+SENSITIVITY_POINTS = 2.0  # reporting threshold: a margin this many points away (either way) counts as moving the size
 
 GROUPS = {
     "stage 1 specification": ["stage1=airline_011x011", "stage1=nodiff_101x100", "stage1=enforce_stationarity"],

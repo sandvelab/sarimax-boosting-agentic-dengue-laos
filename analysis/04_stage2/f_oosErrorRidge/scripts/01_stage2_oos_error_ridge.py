@@ -17,7 +17,9 @@ forecast error, standardised by stage 1's own predictive se.
    off-season months, and under-predicts in the May-July onset. This candidate trains on
    exactly that quantity, computed inside each split's training window from every origin with
    stage 1's parameters fixed (`lib.residual_features.pseudo_oos_errors`), one row per
-   (province, origin, horizon) -- roughly 14,000 rows per split instead of ~100 per province.
+   (province, origin, horizon), for every horizon h = 1..n_ahead the evaluation scores (the
+   scheme's n_periods, read from the schedule: 3 months, Chap's default) -- roughly 5,000 rows
+   per split instead of ~100 per province.
    Horizon-specific correction of a recursive base forecast is the design of Ben Taieb &
    Hyndman (2014).
 
@@ -28,7 +30,7 @@ forecast error, standardised by stage 1's own predictive se.
    calibration. Winsorising keeps the reporting-regime breaks of 2008-09 (|z| up to 164) from
    owning the fit and bounds every correction at three standard errors.
 
-3. **The inputs.** Forecast-time features only (`lib.stage2_oos.FEATURES`): horizon and
+3. **The inputs.** Forecast-time features only (`lib.stage2_oos.features(n_ahead)`): horizon and
    target-month indicators, stage 1's forecast level relative to the province's residual
    scale, recent standardised residuals and their cross-province mean at the origin, trailing
    incidence against the typical year, trailing zero fraction. No climate: the diagnostics
@@ -75,12 +77,13 @@ ANALYSIS = NODE.parents[1]
 sys.path.insert(0, str(ANALYSIS / "scripts"))
 from lib.crps import crps_gaussian  # noqa: E402
 from lib.residual_features import WARMUP_MONTHS, fit_stage1, insample_residuals, residual_scale  # noqa: E402
-from lib.stage2_oos import FEATURES, ZCLIP, design_matrix, national_index, test_rows, training_rows  # noqa: E402
+from lib.stage2_oos import ZCLIP, check_horizons, design_matrix, features, national_index, test_rows, training_rows  # noqa: E402
 
 DATA_NODE = ANALYSIS / "01_data"
 DEV_CSV = DATA_NODE / "01_prepare" / "results" / "development.csv"
 MODELABILITY = DATA_NODE / "02_characterise" / "results" / "modelability_summary.json"
 SCHEDULE_CSV = DATA_NODE / "03_backtest_scheme" / "results" / "split_schedule.csv"
+SCHEDULE_SUMMARY = DATA_NODE / "03_backtest_scheme" / "results" / "schedule_summary.json"
 STAGE1_CELLS_CSV = ANALYSIS / "02_stage1" / "results" / "per_cell_scores.csv"
 RESULTS = NODE / "results"
 
@@ -123,6 +126,11 @@ def main() -> None:
     all_months = sorted({r["time_period"] for r in dev_rows})
     modelable = json.loads(MODELABILITY.read_text())["modelable_provinces"]
     schedule = read_schedule()
+    # The horizon set stage 2 is trained on is the evaluation scheme's, read from the
+    # schedule (plan §4: n_periods = 3, the Chap default this project's scheme reuses) --
+    # every horizon the backtest scores, and refused if the splits disagree with the scheme.
+    n_ahead = check_horizons(schedule, json.loads(SCHEDULE_SUMMARY.read_text()))
+    feature_names = features(n_ahead)
     stage1_cells = load_stage1_cells()
     actuals_by_p = {p: load_actuals(p, dev_rows) for p in modelable}
 
@@ -133,7 +141,7 @@ def main() -> None:
 
     for split in schedule:
         train_months = [m for m in all_months if m <= split["train_end"]]
-        n_test = len(split["test_months"])
+        n_test = len(split["test_months"])  # == n_ahead, guaranteed by check_horizons
         state = {}
         for p in modelable:
             series = load_series(p, train_months, dev_rows)
@@ -160,15 +168,16 @@ def main() -> None:
 
         rows = []
         for p, s in ok.items():
-            rows += training_rows(p, s["fit"], s["series"], s["resid"], s["scale"], s["log_train_mean"], nat)
+            rows += training_rows(p, s["fit"], s["series"], s["resid"], s["scale"], s["log_train_mean"], nat,
+                                  n_ahead)
         n_train_rows_by_split[split["split"]] = len(rows)
         model = None
         if len(rows) >= MIN_TRAIN_ROWS:
             model = make_model()
-            model.fit(design_matrix(rows), np.array([r["z"] for r in rows]))
+            model.fit(design_matrix(rows, n_ahead), np.array([r["z"] for r in rows]))
             ridge = model.named_steps["ridge"]
             coef_rows.append({"split": split["split"], "intercept": float(ridge.intercept_),
-                              **{f: float(c) for f, c in zip(FEATURES, ridge.coef_)}})
+                              **{f: float(c) for f, c in zip(feature_names, ridge.coef_)}})
 
         for p in modelable:
             s = state[p]
@@ -181,8 +190,8 @@ def main() -> None:
                                      "crps": None, "fit_failed": True, "error": str(s)[:200]})
                 continue
             trows = test_rows(p, s["fc"], split["test_months"], s["series"], s["resid"], s["scale"],
-                              s["log_train_mean"], nat) if p in ok else None
-            zhat = (np.clip(model.predict(design_matrix(trows)), -ZCLIP, ZCLIP)
+                              s["log_train_mean"], nat, n_ahead) if p in ok else None
+            zhat = (np.clip(model.predict(design_matrix(trows, n_ahead)), -ZCLIP, ZCLIP)
                     if (model is not None and trows is not None) else None)
             for h, (month, (_, row)) in enumerate(zip(split["test_months"], s["fc"].iterrows()), start=1):
                 mu1, se1 = float(row["mean"]), float(row["mean_se"])
@@ -225,7 +234,10 @@ def main() -> None:
                  "standardised h-step in-window out-of-sample error (z = error/se, winsorised at +/-3), "
                  "forecast-time features only; correction = zhat*se added to stage 1's mean, clipped at "
                  "zero; sigma unchanged from stage 1",
-        "ridge_alpha": RIDGE_ALPHA, "zclip": ZCLIP, "clip_at_zero": CLIP_AT_ZERO, "features": FEATURES,
+        "ridge_alpha": RIDGE_ALPHA, "zclip": ZCLIP, "clip_at_zero": CLIP_AT_ZERO, "features": feature_names,
+        "horizon_months": n_ahead,
+        "horizon_source": "01_data/03_backtest_scheme/results/schedule_summary.json n_periods (plan §4: the "
+                          "evaluation scheme's default, Chap's n_periods = 3); stage 2 is trained on h = 1..horizon_months",
         "n_training_rows_by_split": n_train_rows_by_split,
         "n_provinces": len(modelable), "n_splits": len(schedule),
         "n_cells_total": len(per_cell), "n_cells_scored": len(scored),

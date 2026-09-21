@@ -3,7 +3,14 @@ from forecast-time features -- the design batch 10's diagnostics (`05_residualSt
 literature search point to, shared by the `04_stage2` candidates built on it so that they
 differ only in the model family fitted to identical rows.
 
-**Target.** For an origin o inside a split's training window and a horizon h in {1, 2, 3},
+**Horizon.** The set of horizons stage 2 is trained on is *the evaluation scheme's*: every
+h from 1 to `n_ahead`, where `n_ahead` is the backtest scheme's `n_periods` (plan §4: 3
+months, the Chap default this project's scheme reuses), read from the schedule by the caller
+and passed in -- never fixed here. A stage 2 trained on fewer horizons than the evaluation
+scores, or on one-step errors only, would be corrected for the wrong task; a caller that
+passes a horizon set different from the one it forecasts is refused by `check_horizons`.
+
+**Target.** For an origin o inside a split's training window and a horizon h in 1..n_ahead,
 stage 1's forecast of month o+h made at o with parameters fixed at the window's estimates
 (`residual_features.pseudo_oos_errors`), and the standardised error
 
@@ -40,14 +47,35 @@ import pandas as pd
 from lib.residual_features import WARMUP_MONTHS, pseudo_oos_errors, recent_residuals
 
 ZCLIP = 3.0
-N_AHEAD = 3
-HORIZONS = (1, 2, 3)
-FEATURES = (
-    [f"h{h}" for h in HORIZONS]
-    + [f"m{k}" for k in range(1, 13)]
-    + ["level_log", "pred_negative", "level_log_x_h", "log_train_mean",
-       "r_last", "r_last3", "nat_last3", "cum12_anom", "zero_frac24"]
-)
+
+
+def horizons(n_ahead: int) -> tuple[int, ...]:
+    """Every horizon the evaluation scores, 1..n_ahead."""
+    if n_ahead < 1:
+        raise ValueError(f"n_ahead must be >= 1, got {n_ahead}")
+    return tuple(range(1, n_ahead + 1))
+
+
+def features(n_ahead: int) -> list[str]:
+    """The design-matrix columns, in order, for a given evaluation horizon."""
+    return (
+        [f"h{h}" for h in horizons(n_ahead)]
+        + [f"m{k}" for k in range(1, 13)]
+        + ["level_log", "pred_negative", "level_log_x_h", "log_train_mean",
+           "r_last", "r_last3", "nat_last3", "cum12_anom", "zero_frac24"]
+    )
+
+
+def check_horizons(schedule: list[dict], schedule_summary: dict) -> int:
+    """The one horizon set this run may use: the schedule's test-window length, which must be
+    the same for every split and equal to the scheme's recorded `n_periods`. Returns it."""
+    lengths = {len(s["test_months"]) for s in schedule}
+    if len(lengths) != 1:
+        raise RuntimeError(f"splits have unequal test windows {sorted(lengths)}; one horizon set is required")
+    n_ahead = lengths.pop()
+    if n_ahead != int(schedule_summary["n_periods"]):
+        raise RuntimeError(f"schedule test window {n_ahead} != scheme n_periods {schedule_summary['n_periods']}")
+    return n_ahead
 
 
 def wins(x: float, bound: float = ZCLIP) -> float:
@@ -68,10 +96,10 @@ def incidence_state(series: pd.Series, upto: int) -> tuple[float, float]:
     return float(np.log1p(cum12) - np.log1p(max(annual_typical, 0.0))), zero_frac
 
 
-def _row(h: int, target: pd.Period, mu: float, scale: float, log_train_mean: float,
+def _row(h: int, n_ahead: int, target: pd.Period, mu: float, scale: float, log_train_mean: float,
          r_last: float, r_last3: float, nat_last3: float, cum12_anom: float, zero_frac24: float) -> dict:
     level_log = float(np.log1p(max(mu, 0.0) / scale))
-    row = {f"h{k}": float(k == h) for k in HORIZONS}
+    row = {f"h{k}": float(k == h) for k in horizons(n_ahead)}
     row.update({f"m{k}": float(target.month == k) for k in range(1, 13)})
     row.update({
         "level_log": level_log, "pred_negative": float(mu < 0), "level_log_x_h": level_log * h,
@@ -97,13 +125,14 @@ def national_index(resids: dict[str, pd.Series], scales: dict[str, float], month
 
 
 def training_rows(province: str, fit, series: pd.Series, resid: pd.Series, scale: float,
-                  log_train_mean: float, nat: dict[pd.Period, float]) -> list[dict]:
+                  log_train_mean: float, nat: dict[pd.Period, float], n_ahead: int) -> list[dict]:
+    """One row per (origin, h) for h = 1..n_ahead -- the full evaluation horizon."""
     rows = []
-    for e in pseudo_oos_errors(fit, series, n_ahead=N_AHEAD):
+    for e in pseudo_oos_errors(fit, series, n_ahead=n_ahead):
         origin = series.index[e["origin"]]
         r_last, r_last3 = recent_residuals(resid, origin, scale)
         cum12_anom, zero_frac24 = incidence_state(series, e["origin"])
-        row = _row(e["h"], series.index[e["target"]], e["pred_mean"], scale, log_train_mean,
+        row = _row(e["h"], n_ahead, series.index[e["target"]], e["pred_mean"], scale, log_train_mean,
                    r_last, r_last3, nat.get(origin, 0.0), cum12_anom, zero_frac24)
         row.update({"province": province, "origin": str(origin), "target": e["target_month"],
                     "z": wins(e["z"]), "z_raw": e["z"]})
@@ -112,13 +141,19 @@ def training_rows(province: str, fit, series: pd.Series, resid: pd.Series, scale
 
 
 def test_rows(province: str, fc: pd.DataFrame, test_months: list[str], series: pd.Series,
-              resid: pd.Series, scale: float, log_train_mean: float, nat: dict[pd.Period, float]) -> list[dict]:
+              resid: pd.Series, scale: float, log_train_mean: float, nat: dict[pd.Period, float],
+              n_ahead: int) -> list[dict]:
+    """One row per test month, at its horizon 1..n_ahead; refuses a forecast frame or test
+    window whose length is not the horizon set the model was trained on."""
+    if len(test_months) != n_ahead or len(fc) != n_ahead:
+        raise RuntimeError(f"{province}: test window {len(test_months)} / forecast rows {len(fc)} "
+                           f"!= trained horizon set {n_ahead}")
     origin = series.index[-1]
     r_last, r_last3 = recent_residuals(resid, origin, scale)
     cum12_anom, zero_frac24 = incidence_state(series, len(series) - 1)
     rows = []
     for h, (month, (_, r)) in enumerate(zip(test_months, fc.iterrows()), start=1):
-        row = _row(h, pd.Period(month, freq="M"), float(r["mean"]), scale, log_train_mean,
+        row = _row(h, n_ahead, pd.Period(month, freq="M"), float(r["mean"]), scale, log_train_mean,
                    r_last, r_last3, nat.get(origin, 0.0), cum12_anom, zero_frac24)
         row.update({"province": province, "month": month, "h": h,
                     "mu1": float(r["mean"]), "se1": float(r["mean_se"])})
@@ -126,5 +161,5 @@ def test_rows(province: str, fc: pd.DataFrame, test_months: list[str], series: p
     return rows
 
 
-def design_matrix(rows: list[dict]) -> np.ndarray:
-    return np.array([[row[f] for f in FEATURES] for row in rows], dtype=float)
+def design_matrix(rows: list[dict], n_ahead: int) -> np.ndarray:
+    return np.array([[row[f] for f in features(n_ahead)] for row in rows], dtype=float)

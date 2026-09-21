@@ -37,6 +37,8 @@
     "cum12_anom",
     "zero_frac24"
   ],
+  "horizon_months": 3,
+  "horizon_source": "01_data/03_backtest_scheme/results/schedule_summary.json n_periods (plan \u00a74: the evaluation scheme's default, Chap's n_periods = 3); stage 2 is trained on h = 1..horizon_months",
   "n_training_rows_by_split": {
     "0": 4710,
     "1": 4845,

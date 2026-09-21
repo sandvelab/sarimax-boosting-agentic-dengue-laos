@@ -35,3 +35,11 @@ alternatives-considered:
   - Plots of the margin distribution: not produced (no plotting library in the pinned
     environment; the plotted values would be perturbation_effects.csv).
 agency: agent-autonomous
+
+---
+section appended at commit cbeee04 (comment-only change after the run; nothing re-run):
+script: scripts/05_report_distribution.py
+        sha256:ce4f65912ad72d5134cf363eb400ca282bbff1efaf2593aae050843f98db882b
+        (was 241ba500…: the comment on SENSITIVITY_POINTS reworded; the crossing heuristic
+        read the old wording as a value transcribed from another step, which it is not.) The
+        committed results are those of the eda4fbc run.

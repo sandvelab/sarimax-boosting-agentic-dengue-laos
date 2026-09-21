@@ -46,3 +46,7 @@ different report, not the same one.
 - `26-09-21_b13_stabilityReport.md` — batch 13: the distribution of the central conclusion
   across the set — sign stable, size not; the gain concentrated in four provinces and at 2–3
   months ahead; seven claims into the collection. Phase D closes.
+- `26-09-21_b14_stage2ThirdIterationAndMainPath.md` — batch 14: stage 1 fixed and its six
+  weaknesses documented (human-set); three more stage-2 candidates (`h`, `i`, `j`) built
+  through the verified pipeline; `h_levelOnlyBoosting` annotated as main path by a
+  pre-registered rule; the stability manifest re-planned around it (v2).

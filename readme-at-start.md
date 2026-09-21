@@ -32,7 +32,7 @@ above.
 ## The article
 
 - **Target venue**: not yet decided.
-- **Status**: batches 1–13 complete (phases A–D). Stage 1 (per-province SARIMAX,
+- **Status**: batches 1–14 complete (phases A–D, and a third stage-2 iteration after D). Stage 1 (per-province SARIMAX,
   mean CRPS 26.05 over 371 cells, 90% coverage 82.7%) beats both required baselines
   (persistence 28.32, seasonal climatology 26.91). Seven stage-2 residual-correction
   candidates exist under `04_stage2`. Five (batches 4–9) were trained on stage 1's
@@ -62,9 +62,17 @@ above.
   smallest (−0.70%) under a true rolling refit of the training errors; the gain sits in
   Khammouane, Salavan, Bokeo and Xiangkhouang in every combination and never in Savannakhet
   or Vientiane Capital; it is a 2–3-month-ahead gain. Claims C1–C7 are in the collection.
-  Phase D is closed; batch 14 freezes the holdout manifest. Two open human decisions: whether
-  to pre-register a better-scoring stage-2 simplification before the freeze, and whether to
-  build the predictive-family fork (the one change that could repair coverage).
+  After phase D the human settled both open decisions (plan §4b 2026-09-21): **stage 1 is not
+  repaired** — it stays SARIMAX as specified and its six weaknesses are documented in
+  `05_residualStructure/results/stage1_weaknesses.json` and `02_stage1/claim.md`; and stage 2
+  was explored further. Batch 14 built three more candidates through the verified pipeline —
+  the minimal level-only input (`h_levelOnlyBoosting`, 24.35, −6.53%, coverage 85.2%), the
+  bounded correction (`i_boundedBoosting`, 24.53, −5.85%) and both (`j_levelOnlyBoundedBoosting`,
+  24.29, −6.78%) — and **annotated `h_levelOnlyBoosting` as `04_stage2`'s main path now**, by a
+  rule written before the combination's result was seen (lowest development CRPS with coverage
+  not worse; tie within 0.1 → splits improved → simplicity). The development stability manifest
+  was re-planned around `h` (v2; v1's rows and results kept as superseded). Batch 15 runs v2;
+  batch 16 freezes the holdout manifest.
 - **Manuscript**: `Human-AI-collaboration/manuscript/` (empty).
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-09-20_sarimaxResidualBoostingCase.md`. It carries

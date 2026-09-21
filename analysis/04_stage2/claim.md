@@ -186,3 +186,32 @@ constant in the library. No number changed (per-cell scores byte-identical; `con
 gains `horizon_months` and its source). Candidates a–e trained on the one-step in-sample
 residual and are left as they were: the mismatch between their target and the 1–3-month
 evaluation horizon is the record of why they found nothing (plan §4b).
+
+**Batch 14 — the third stage-2 iteration, and the main path annotated now (human-set: stage 1
+is not repaired; explore stage 2 further; annotate one as main already; plan §4b
+2026-09-21).** Three configurations the v1 stability run scored better than `g` were built as
+nodes through the verified parametrised pipeline, each one clean axis from its parent, each
+verified against `02_stage1`'s stored forecast (408/408):
+
+| Candidate | Change from `g` | Mean CRPS | vs stage 1 | Coverage | Splits improved |
+|---|---|---|---|---|---|
+| `h_levelOnlyBoosting` | input = horizon, month, forecast level only | **24.35** | −6.53% | 85.2% | 6 of 8 |
+| `i_boundedBoosting` | correction bounded at max(stage-1 mean, 10) | 24.53 | −5.85% | 85.7% | 7 of 8 |
+| `j_levelOnlyBoundedBoosting` | both | 24.29 | −6.78% | 85.2% | 6 of 8 |
+
+All three clear both of plan §2's bars. The minimal input is the larger of the two gains and
+removes most of the Savannakhet loss on its own (+8 CRPS-units summed under h against +211
+under g); the bound adds −0.26% on top of it. Vientiane Capital's loss persists in every
+configuration (+104 to +198).
+
+**Main-path decision: `h_levelOnlyBoosting`**, by the rule written into the plan's §4b before
+`j`'s result was seen — lowest development mean CRPS with coverage not worse than stage 1's,
+a tie within 0.1 CRPS broken by more splits improved, then by fewer changes from `g`. `j` and
+`h` tie (24.29 vs 24.35; 6 of 8 splits each); `h` is the simpler. This is the third round of
+selection on the same 371 development cells (`j_levelOnlyBoundedBoosting/results/
+all_candidates_comparison.json` records the rule and its application), and it is made now so
+that the holdout, opened once across a manifest frozen beforehand, evaluates a pre-registered
+configuration. Ranking among candidates clearing both bars: **h (24.35) ≈ j (24.29) < i
+(24.53) < g (25.16) < f (25.63) < stage 1 alone (26.05)**; `e` (25.89) alongside with coverage
+64.4%; a–d behind stage 1. The v1 stability report (batch 13) remains the record of `g`'s
+stability; a v2 manifest around `h` is planned in this batch and run in the next.

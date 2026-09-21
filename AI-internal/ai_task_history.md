@@ -143,3 +143,16 @@ reader who was not present can follow, and keep them honest about what did not w
   better-scoring stage-2 simplifications were not promoted (main path frozen before the run).
   Seven claims (C1–C7) added to the collection via `claims.py`, audit clean. Report:
   `26-09-21_b13_stabilityReport.md`. Nothing pushed.
+- T9 (2026-09-21): Ran batch 14 at the human's direction (stage 1 not repaired, weaknesses
+  documented; stage 2 explored further; a main path annotated now). Inserted ledger row 14
+  (human-set), renumbering rows 14-18 to 16-20 and adding row 15 (stability v2). Wrote
+  `05_residualStructure/03_stage1_weaknesses.py` -> `stage1_weaknesses.json` (six weaknesses,
+  each with evidence, effect, whether stage 2 can address it, and the stage-1 fork not taken)
+  and the matching section in `02_stage1/claim.md`. Built `04_stage2/h_levelOnlyBoosting`
+  (24.35, -6.53%, cov 85.2%), `i_boundedBoosting` (24.53, -5.85%, 85.7%) and
+  `j_levelOnlyBoundedBoosting` (24.29, -6.78%, 85.2%) as thin nodes on the verified
+  parametrised pipeline, each verified 408/408 against stage 1's stored forecast. Promoted
+  `h_levelOnlyBoosting` to main path by the rule pre-registered in plan section 4b (tie with j
+  within 0.1 CRPS and on splits improved; h simpler). Re-planned the stability manifest around
+  h (v2, `@h` rows; v1 rows kept as superseded) and adapted the runner to read the main path
+  from the tree. Report: `26-09-21_b14_stage2ThirdIterationAndMainPath.md`. Nothing pushed.

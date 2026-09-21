@@ -167,3 +167,16 @@ from a true rolling refit rather than the fixed-parameter shortcut. The gain sit
 Khammouane, Salavan, Bokeo and Xiangkhouang in every combination and never in Savannakhet or
 Vientiane Capital; it is a two-and-three-months-ahead gain. The predictive-family fork that
 could repair coverage was not run. Phase D closes; batch 14 freezes the holdout manifest.
+
+Batch 14 (human-set: stage 1 is not repaired; stage 2 explored further; one configuration
+annotated as main now): stage 1's weaknesses are documented in one file-grounded place
+(`05_residualStructure/results/stage1_weaknesses.json`, `02_stage1/claim.md`) — six of them,
+each with evidence, effect, whether a stage 2 can address it, and the stage-1 fork not taken.
+Three stage-2 configurations were built as nodes: the minimal level-only input
+(`h_levelOnlyBoosting`, 24.35, −6.53%, coverage 85.2%), the bounded correction
+(`i_boundedBoosting`, 24.53, −5.85%, 85.7%) and both (`j_levelOnlyBoundedBoosting`, 24.29,
+−6.78%, 85.2%); all clear both bars. **`h_levelOnlyBoosting` is `04_stage2`'s main path**, by a
+rule written before the combination's result was seen (lowest development CRPS with coverage
+not worse; tie within 0.1 broken by splits improved, then simplicity). **The central
+comparison now stands at −6.53% on development data**, the third selection on the same
+cells; the holdout is the guard. Stability around `h` (v2) is planned here and run next.

@@ -482,3 +482,28 @@ a stage-2 simplification that scored better on development data — a recorded d
 (2) Whether to build the predictive-family fork (negative binomial / zero-truncated normal at
 stage 1) before the holdout; it is the only change that could repair coverage and needs a
 verified metric extension. (3) The provisional one-hour budget stands unrevised.
+
+## T9: Batch 14 — stage 1 fixed and documented, a third stage-2 iteration, the main path annotated
+
+Full account in `AI-generated/batch-reports/26-09-21_b14_stage2ThirdIterationAndMainPath.md`.
+
+**Design.** The new candidate nodes do not re-implement the pipeline: each runs
+`lib.stage2_perturb.run_combination` with its `Stage2Config`, verifies the derived stage-1
+forecast against `02_stage1` cell for cell, and writes per-cell and conclusion files in the
+perturbation schema (which carries `crps_stage1`; the compare scripts reconstruct the
+unclipped mean from `stage1_mean + stage2_correction`). The main-path rule was written into the
+plan before `j`'s result existed; `j`'s compare script applies it and records the outcome.
+`02_plan_manifest.py` now reads the main path from `04_stage2/claim.md`, tags rows by main
+path (`@h`), keeps the previous version's tier-2 rows as superseded, adds a tier-0 gate row,
+and records what the freeze supersedes; `03_run_combinations.py` reads the main path, refuses
+a manifest frozen for a different one, and holds per-main-path configurations. The weaknesses
+script reads only results produced earlier in `analysis/run.sh`'s order.
+
+**Findings.** The level-only input is the larger gain and removes most of the Savannakhet loss
+by itself; the bound adds little on top of it; Vientiane Capital's loss persists everywhere.
+The development margin now stands at −6.53%, a third selection on the same cells.
+
+**Follow-ups.** Batch 15: re-run `01_measure_run_costs.py` (adds h/i/j), run v2, adapt
+`04_collect_conclusions.py` and `05_report_distribution.py` to v2 (main from the tree, `@h`
+rows, nine tier-1 siblings), report beside v1, claims. Batch 16: freeze the holdout manifest
+from v2. The human's open decision on the provisional budget stands.

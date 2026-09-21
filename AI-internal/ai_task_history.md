@@ -105,3 +105,14 @@ reader who was not present can follow, and keep them honest about what did not w
   Noted the CSV line-ending mismatch (working copy CRLF, repository LF) in the plan for the
   clean-room batch. Pushed main to the public remote (3c90fe0..c8fd3f5) at the human's
   instruction after a lightweight secrets scan; the release batch's full scan still runs.
+- T6 (2026-09-21): Ran batch 11, the `/perturb plan` step that opens phase D. Created
+  `analysis/06_stability` and moved the invariant checker's manifest paths from the prior
+  project's `05_stability` to it (own commit). Measured per-run cost by re-running stage 1 and
+  all seven stage-2 candidates: 87 s in total, every output byte-identical to the committed
+  one. Enumerated the judgment calls of batches 1-10 as a 40-row manifest — 6 tier-1 siblings
+  derived from the tree, 29 tier-2 parametric perturbations (stage 1 spec, window, scheme,
+  every main-path stage-2 constant) ranked by informativeness with a basis per row, 5 tier-3
+  alternatives not run with reasons (the negative-binomial/truncated predictive family flagged
+  as the most consequential absence) — set a provisional one-hour compute budget that excludes
+  nothing, and froze the manifest. Split ledger row 11-13 into plan/run/report. Report:
+  `26-09-21_b11_stabilityPlan.md`. Nothing pushed.

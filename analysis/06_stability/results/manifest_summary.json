@@ -1,0 +1,22 @@
+{
+  "n_rows": 40,
+  "n_tier1": 6,
+  "n_tier2": 29,
+  "n_tier3_not_run": 5,
+  "n_tier2_planned": 29,
+  "n_tier2_below_budget_line": 0,
+  "budget_wall_seconds": 3600,
+  "planned_tier2_cost_s": 1423.1,
+  "where_the_line_fell": "below every tier-2 row: nothing planned is excluded for budget",
+  "measured_costs_s": {
+    "analysis/02_stage1": 7.69,
+    "analysis/04_stage2/a_linearLags": 7.49,
+    "analysis/04_stage2/b_gradientBoosting": 8.57,
+    "analysis/04_stage2/c_bayesianRidge": 7.41,
+    "analysis/04_stage2/d_linearClimate": 7.37,
+    "analysis/04_stage2/e_pooledRandomForest": 10.17,
+    "analysis/04_stage2/f_oosErrorRidge": 16.27,
+    "analysis/04_stage2/g_oosErrorBoosting": 21.8
+  },
+  "run_design_for_batch_12": "tier 1: call each sibling's run.sh and read its results; tier 2: a combination runner in this node recomputes stage 1 (with the combination's stage-1 settings) and the main-path stage 2 (with the combination's stage-2 settings) for the combination's schedule, writes results/<combination>/, and is trusted only after its 'main' combination reproduces 04_stage2/g_oosErrorBoosting/results/per_cell_scores.csv byte for byte; conclusions are collected per combination as (mean CRPS stage 1, mean CRPS two-stage, coverage of each, sign of the difference) and reported as a distribution"
+}

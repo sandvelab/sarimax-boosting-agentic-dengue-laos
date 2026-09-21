@@ -37,3 +37,6 @@ different report, not the same one.
   candidates trained on those errors rather than on in-sample residuals (`f_oosErrorRidge`,
   `g_oosErrorBoosting`); both beat stage 1 alone with improved coverage, and
   `g_oosErrorBoosting` becomes `04_stage2`'s main path.
+- `26-09-21_b11_stabilityPlan.md` — batch 11: phase D opens with `06_stability`; per-run
+  costs measured by re-running the whole tree (87 s, byte-identical), the development
+  perturbation manifest planned, ranked and frozen (40 rows), the run design fixed for batch 12.

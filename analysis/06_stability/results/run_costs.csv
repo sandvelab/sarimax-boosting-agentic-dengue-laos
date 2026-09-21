@@ -1,0 +1,9 @@
+node,wall_seconds,exit_code,n_result_files,all_outputs_identical,changed_files
+analysis/02_stage1,7.69,0,2,True,
+analysis/04_stage2/a_linearLags,7.49,0,3,True,
+analysis/04_stage2/b_gradientBoosting,8.57,0,3,True,
+analysis/04_stage2/c_bayesianRidge,7.41,0,4,True,
+analysis/04_stage2/d_linearClimate,7.37,0,4,True,
+analysis/04_stage2/e_pooledRandomForest,10.17,0,5,True,
+analysis/04_stage2/f_oosErrorRidge,16.27,0,4,True,
+analysis/04_stage2/g_oosErrorBoosting,21.8,0,5,True,

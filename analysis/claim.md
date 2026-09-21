@@ -138,3 +138,12 @@ survives reasonable alternative choices is now the stability phase's question (l
 f_oosErrorRidge (25.63) < stage 1 alone (26.05) < a_linearLags (26.26) < d_linearClimate
 (26.85) < seasonal climatology (26.91) < b_gradientBoosting (27.68) < c_bayesianRidge (28.07)
 < persistence (28.32)**.
+
+Batch 11: phase D opens with `06_stability`. The development perturbation set is planned,
+costed and frozen (`06_stability/results/manifest.csv`, 40 rows: 6 tier-1 siblings already in
+the tree, 29 tier-2 parametric perturbations of stage 1's specification, the training window
+and scheme, and every constant in the main-path stage 2, all planned; 5 tier-3 alternatives
+not run, each with its reason). Re-running the whole existing tree costs 87 seconds and
+reproduces every output byte for byte, so the compute budget is set provisionally at one hour
+and excludes nothing planned. **Nothing about the central comparison changes in this batch**;
+batch 12 runs the set and batch 13 reports the distribution of conclusions across it.

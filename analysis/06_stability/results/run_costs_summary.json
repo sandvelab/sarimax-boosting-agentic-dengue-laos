@@ -1,0 +1,73 @@
+{
+  "n_nodes_timed": 8,
+  "total_wall_seconds": 86.77,
+  "all_exit_zero": true,
+  "all_outputs_identical_on_rerun": true,
+  "nodes_with_changed_outputs": [],
+  "per_node": [
+    {
+      "node": "analysis/02_stage1",
+      "wall_seconds": 7.69,
+      "exit_code": 0,
+      "n_result_files": 2,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/a_linearLags",
+      "wall_seconds": 7.49,
+      "exit_code": 0,
+      "n_result_files": 3,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/b_gradientBoosting",
+      "wall_seconds": 8.57,
+      "exit_code": 0,
+      "n_result_files": 3,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/c_bayesianRidge",
+      "wall_seconds": 7.41,
+      "exit_code": 0,
+      "n_result_files": 4,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/d_linearClimate",
+      "wall_seconds": 7.37,
+      "exit_code": 0,
+      "n_result_files": 4,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/e_pooledRandomForest",
+      "wall_seconds": 10.17,
+      "exit_code": 0,
+      "n_result_files": 5,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/f_oosErrorRidge",
+      "wall_seconds": 16.27,
+      "exit_code": 0,
+      "n_result_files": 4,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/g_oosErrorBoosting",
+      "wall_seconds": 21.8,
+      "exit_code": 0,
+      "n_result_files": 5,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    }
+  ]
+}

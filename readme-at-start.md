@@ -51,8 +51,11 @@ above.
   Savannakhet and Vientiane Capital; whether it survives reasonable alternative choices is
   phase D's question. Logged, untried forks: a correction bounded relative to the forecast
   level; a heavier-tailed or count predictive family at stage 1; per-horizon models; a true
-  rolling refit for in-window errors; ENSO indices as an external covariate. Phase D
-  (stability/perturbation, ledger rows 11–13) has not started.
+  rolling refit for in-window errors; ENSO indices as an external covariate. Phase D has
+  started: batch 11 built `06_stability`, measured that the whole model tree re-runs in 87 s
+  with byte-identical outputs, and froze the development perturbation manifest (40 rows: 6
+  siblings, 29 planned parametric perturbations, 5 not run with reasons). Batch 12 runs it,
+  batch 13 reports the distribution.
 - **Manuscript**: `Human-AI-collaboration/manuscript/` (empty).
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-09-20_sarimaxResidualBoostingCase.md`. It carries
@@ -66,7 +69,7 @@ above.
 | Main environment | Pinned, batch 2: CPython 3.13.0, `pandas`/`numpy`/`scipy`/`statsmodels`/`properscoring`. `scikit-learn` added batch 5 (tree-based and Bayesian-ridge stage-2 candidates). Installed from `environment/lock.txt` by `environment/install-env.sh`. Invoked as `environment/env/bin/python`. No Docker. |
 | Repository machinery interpreter | `.venv`, created batch 1 (CPython 3.13.7), per `setup-guide.md` §3. |
 | Tracking level | **Full** (`AGENTS.md` §6), carried over from the prior project's settled position. Raise it with the human rather than drifting. |
-| Compute budget for stability work | Not yet set — phase D (plan §6) sets it once stage 1 and stage 2 are running and their per-run cost is known. |
+| Compute budget for stability work | One hour of wall-clock, provisional (agent-autonomous, batch 11; plan §4b). Measured: the whole model tree re-runs in 87 s and the planned perturbations are estimated at 24 min, so the budget excludes nothing planned. |
 | Storage budget | Not a constraint by default, matching the prior project's settled position; raised with the human if this project's outputs turn out to be unusually large. |
 | Data governance | Public and redistributable — the Lao, population and sibling-country data are unchanged from the prior project's archived, checksummed, `(IS_SHADOW)`-marked copies. |
 | Target | `disease_cases` (reported dengue), monthly, admin-1, Laos. |

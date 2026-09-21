@@ -376,3 +376,31 @@ the repository was pushed to the public remote for the first time since batch 1 
 `c8fd3f5`), after grepping tracked files for key/token/password patterns (prose mentions only)
 and confirming no credential-like files are tracked; the decision and the scan are recorded in
 the plan's §4b, and the release batch's full scan is unchanged.
+
+## T6: Batch 11 — the stability plan
+
+Full account in `AI-generated/batch-reports/26-09-21_b11_stabilityPlan.md`.
+
+**Design decisions.** The stability node is `06_stability` (05 went to the residual
+diagnostics); `check_invariants.py`'s `MANIFEST`/`MANIFEST_HOLDOUT` constants and the two
+freeze-file paths were moved accordingly, committed alone as a methodological change. Cost was
+measured rather than estimated: `01_measure_run_costs.py` re-runs each node's `run.sh`, times
+it, and hashes `results/` before and after — a whole-tree determinism check for free (all
+identical). `02_plan_manifest.py` derives tier 1 from the tree (so `combos` cannot disagree),
+carries tier 2 and tier 3 as hand-written registries with node, parameter, main and alternative
+values, basis and rank, costs tier 2 from the measured times, places the budget line on
+cumulative cost, and writes `manifest.csv`, `manifest_summary.json` (including the run design
+for batch 12) and `manifest_freeze.json` (sha256 + planning commit). Both scripts write CSVs
+with `\n` line endings, unlike earlier nodes (the plan's row-17 item).
+
+**Files.** New: `analysis/06_stability/` (2 scripts, 5 results, 2 provenance records).
+Edited: `check_invariants.py`, `analysis/claim.md`, the plan (rows 11–13 split, §4b, report
+link), `readme-at-start.md` (compute budget row, status), batch-reports README.
+
+**Follow-ups.** Batch 12: build the combination runner (stage 1 under the combination's
+spec/window/scheme plus the main-path stage 2 under its settings; verified byte-for-byte on
+the `main` combination against `g_oosErrorBoosting` before anything else runs), then run the
+29 planned rows into `06_stability/results/<combination>/`. Note that stage-1 perturbations
+cannot reuse the candidates' own scripts, which refuse a stage-1 forecast that differs from
+`02_stage1`'s stored one. Batch 13: the distribution report and the stability claims. The
+human may revise the provisional budget and decide whether to build the predictive-family fork.

@@ -131,3 +131,15 @@ reader who was not present can follow, and keep them honest about what did not w
   worse (−0.70% to −10.64%, median −3.32%); the only losing rows are the four early siblings
   trained on the in-sample residual. Provenance, node answers and report
   `26-09-21_b12_stabilityRun.md` written; ledger row 12 done. Nothing pushed.
+- T8 (2026-09-21): Ran batch 13, the `/perturb report` step; phase D closes. Wrote
+  `06_stability/scripts/05_report_distribution.py`, which reads the collected conclusions and
+  every combination's per-cell file and writes `distribution.json`, `perturbation_effects.csv`,
+  `province_stability.csv` and `horizon_stability.csv`. Finding: the sign of the central
+  comparison is stable (29 of 29 perturbations, coverage never worse, margin −0.70% to
+  −10.64%, median −3.32%) and its size is not — insensitive to the stage-2 family's tuning
+  and seed (all within two points), larger under a weaker stage 1, smallest under a true
+  rolling refit of the training errors (−0.70%); four provinces improve in every combination,
+  five in at most 20%; 2–3 months ahead improve always, 1 month ahead in 47%. Four
+  better-scoring stage-2 simplifications were not promoted (main path frozen before the run).
+  Seven claims (C1–C7) added to the collection via `claims.py`, audit clean. Report:
+  `26-09-21_b13_stabilityReport.md`. Nothing pushed.

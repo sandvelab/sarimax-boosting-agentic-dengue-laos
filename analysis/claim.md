@@ -156,3 +156,14 @@ ensemble ahead of stage 1 alone on mean CRPS with coverage not worse, from −0.
 (`06_stability/results/conclusions.csv`). The only rows where it loses are the four early
 siblings trained on the in-sample residual. The distribution, and which choices the margin
 turns on, are batch 13's report.
+
+Batch 13: the stability report (`06_stability/results/distribution.json`; claims C1–C7).
+**On development data the central conclusion — a stage 2 trained on stage 1's multi-step
+out-of-sample error earns its place — is stable in sign across every reasonable alternative
+run** (29 of 29, coverage never worse), **and unstable in size**: the margin is −3.41% on the
+main path, between −2.41% and −4.19% for half the perturbations, as large as −10.6% when
+stage 1 is specified worse, and as small as −0.70% when the in-window training errors come
+from a true rolling refit rather than the fixed-parameter shortcut. The gain sits in
+Khammouane, Salavan, Bokeo and Xiangkhouang in every combination and never in Savannakhet or
+Vientiane Capital; it is a two-and-three-months-ahead gain. The predictive-family fork that
+could repair coverage was not run. Phase D closes; batch 14 freezes the holdout manifest.

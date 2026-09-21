@@ -32,7 +32,7 @@ above.
 ## The article
 
 - **Target venue**: not yet decided.
-- **Status**: batches 1–10 complete (phases A–C). Stage 1 (per-province SARIMAX,
+- **Status**: batches 1–13 complete (phases A–D). Stage 1 (per-province SARIMAX,
   mean CRPS 26.05 over 371 cells, 90% coverage 82.7%) beats both required baselines
   (persistence 28.32, seasonal climatology 26.91). Seven stage-2 residual-correction
   candidates exist under `04_stage2`. Five (batches 4–9) were trained on stage 1's
@@ -55,9 +55,16 @@ above.
   started: batch 11 built `06_stability`, measured that the whole model tree re-runs in 87 s
   with byte-identical outputs, and froze the development perturbation manifest (40 rows: 6
   siblings, 29 planned parametric perturbations, 5 not run with reasons). Batch 12 ran it in
-  full (1,937 s; runner verified against the main path first): all 29 perturbations keep the
-  two-stage ensemble ahead of stage 1 alone with coverage not worse (−0.70% to −10.64%).
-  Batch 13 reports the distribution and what the margin turns on.
+  full (1,937 s; runner verified against the main path first). Batch 13 reported the
+  distribution: **sign stable, size not** — all 29 perturbations keep the ensemble ahead of
+  stage 1 alone with coverage not worse (−0.70% to −10.64%, median −3.32%); the margin is
+  insensitive to the stage-2 family's tuning and seed, larger under a weaker stage 1, and
+  smallest (−0.70%) under a true rolling refit of the training errors; the gain sits in
+  Khammouane, Salavan, Bokeo and Xiangkhouang in every combination and never in Savannakhet
+  or Vientiane Capital; it is a 2–3-month-ahead gain. Claims C1–C7 are in the collection.
+  Phase D is closed; batch 14 freezes the holdout manifest. Two open human decisions: whether
+  to pre-register a better-scoring stage-2 simplification before the freeze, and whether to
+  build the predictive-family fork (the one change that could repair coverage).
 - **Manuscript**: `Human-AI-collaboration/manuscript/` (empty).
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-09-20_sarimaxResidualBoostingCase.md`. It carries

@@ -451,3 +451,34 @@ provenance says so. Files: `06_stability/results/<combination>/` (30 directories
 `run_log.csv`, `run_summary.json`, `conclusions.csv`; provenance `run_combinations.md`,
 `collect_conclusions.md`; report `26-09-21_b12_stabilityRun.md`; plan row 12 done and §4b
 entries; `readme-at-start.md` status. Next: batch 13, the distribution report and claims.
+
+## T8: Batch 13 — the stability report
+
+Full account in `AI-generated/batch-reports/26-09-21_b13_stabilityReport.md`.
+
+**Design.** The report is a script's output (Rule 1): `05_report_distribution.py` groups the
+29 tier-2 rows by judgment call (stage 1 specification; window/scheme/data; stage-2 target and
+combination rule; features; hyperparameters and seed; training-error construction), reports
+quantiles of the margin, sign flips, coverage, a "moves the size" flag at two percentage points
+from the main path (a reporting threshold, recorded in the output), per-province and
+per-horizon stability across main + 29 combinations from the per-cell files, and restates tier
+1 and tier 3. Prose in `06_stability/claim.md`, the root `analysis/claim.md`, the batch report
+and the claims cites those files.
+
+**What it showed.** Sign stable, size not. The conservative reading is the rolling-refit row
+(−0.70%): the main path's fixed-parameter shortcut for the in-window errors flatters the
+margin. The gain is concentrated (KH, SL, BK, XI always; SV, VT, LP, XA, OU almost never) and
+is a 2–3-month-ahead gain. Four stage-2 simplifications scored better than the frozen main
+path (level-only features −6.5%, bounded correction −5.8%, no cross-province term −5.8%,
+climate anomalies −5.8%); none promoted, since the main path was frozen before the run.
+
+**Files.** New: `05_report_distribution.py`, four results, provenance `report_distribution.md`;
+`Human-AI-collaboration/claims/claims.md` now holds C1–C7 (first claims in this project).
+Edited: node and root `claim.md`, plan (row 13 done, §4b, report link), `readme-at-start.md`,
+batch-reports README.
+
+**Open for the human before batch 14 (holdout manifest freeze).** (1) Whether to pre-register
+a stage-2 simplification that scored better on development data — a recorded decision, or none.
+(2) Whether to build the predictive-family fork (negative binomial / zero-truncated normal at
+stage 1) before the holdout; it is the only change that could repair coverage and needs a
+verified metric extension. (3) The provisional one-hour budget stands unrevised.

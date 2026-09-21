@@ -186,6 +186,15 @@ append-only, oldest first.
 | In the rolling-refit combination, an origin whose fresh SARIMAX fit returns a non-finite prediction contributes no training row | The first full run stopped there with NaN features. Skipping is recorded, not hidden: the per-split row counts in that combination's `conclusion.json` are 3 below `main`'s in every split (3 skipped origins per split, out of ~4,700 rows), and the runner's non-finite-feature counter is documented as not covering this case. No other combination was affected; all 29 rows were re-run from scratch after the fix. | agent-autonomous |
 | Where the budget line fell: nowhere — all 29 planned rows ran, 1,937 s of the 3,600 s ceiling (the rolling refit alone 990 s) | Recorded in `06_stability/results/run_summary.json` and `run_log.csv`. | agent-autonomous |
 
+### 2026-09-21 — batch 13: the stability report
+
+| Decision | Basis | Agency |
+|---|---|---|
+| The report is written from `conclusions.csv` and the per-combination files by a script (`05_report_distribution.py`) into `distribution.json` and three tables, and the prose in the node's `claim.md`, the batch report and the claims cites those files | Rule 1: no number reaches a claim except through a file; the distribution is a result like any other. | agent-autonomous |
+| "Moves the size" is defined as a margin more than two percentage points from the main path's | A reporting threshold, not a test; chosen so that hyperparameter and seed noise (all within two points) is separated from the choices that change the finding's magnitude. Recorded in the script and in `distribution.json` (`sensitivity_points`). | agent-autonomous |
+| Seven claims (C1–C7) enter the claim collection now, scoped to the development backtest | The perturb skill asks that each stability conclusion be a claim; phase F builds the rest of the collection from the tree. Each carries grounds, scope and the alternatives that would support a different statement. | agent-autonomous |
+| No perturbation that beat the main path on development data is promoted | The main path was frozen before the run so the report is a measurement, not a selection (plan §3); the better-scoring simplifications (level-only features, bounded correction) are recorded as such and are candidates for a *pre-registered* change before the holdout manifest is frozen in batch 14, if the human wants one — a decision this batch does not make. | agent-autonomous |
+
 ### 2026-09-21 — stage 2's horizon set is the evaluation scheme's
 
 | Decision | Basis | Agency |
@@ -218,7 +227,7 @@ One row per `/do` invocation. Status: `open`, `done`, or `blocked` with why.
 | 10 | C (cont.) — second iteration on stage 2, systematic | Rather than a sixth ad-hoc candidate: (i) a literature search on when residual-correction hybrids help or fail and on what predicts dengue at 1–3-month horizons in Laos and mainland Southeast Asia (sources retrieved and read, not recalled); (ii) a diagnostic node, `05_residualStructure`, that characterises stage 1's *out-of-sample* forecast errors on the development backtest — by horizon, calendar month, province scale, spread calibration, cross-province synchrony — and estimates from information available at forecast time how much of them is predictable at all ("better than chance"), which is what a stage 2 has to achieve to earn its place; (iii) new `04_stage2` alternatives built on what (i) and (ii) show, scored through the unchanged pipeline, calibration reported beside CRPS. *(Inserted 2026-09-20, human-set — "do a systematic try for how to improve in a second iteration"; renumbers what were rows 10–17 to 11–18.)* | done |
 | 11 | D — Stability: plan | Create the stability node (`06_stability`); enumerate the judgment calls made in batches 1–10 as a perturbation manifest (stage 1 order/spec, stage 2 family, target, inputs and combination rule, training window, zero-handling, backtest scheme, seeds); measure per-run cost by re-running the existing tree; set the compute budget; rank by informativeness; freeze the development manifest. | done |
 | 12 | D — Stability: run | Build the combination runner (verified against the main path's stored per-cell scores before anything else is trusted); run every planned row of the frozen manifest; write `results/<combination>/` per row; record where the budget line fell. | done |
-| 13 | D — Stability: report | Report the distribution of conclusions across the set — which choices the central comparison is insensitive to and which it turns on; each conclusion and the stability claim itself to the claim collection. | open |
+| 13 | D — Stability: report | Report the distribution of conclusions across the set — which choices the central comparison is insensitive to and which it turns on; each conclusion and the stability claim itself to the claim collection. | done |
 | 14 | D (cont.) / freeze | Freeze the phase-E (holdout) manifest before the holdout opens, per §3. | open |
 | 15 | E — Final validation | Open the 2010 holdout once; run exactly the frozen manifest; report the held-out distribution beside the development one. | open |
 | 16 | F — Claims & report | Build the claim collection from the tree; generate the hierarchical report. | open |
@@ -280,4 +289,8 @@ the phase structure above is meant to hold.
 ### Batch 12 — the stability run
 
 - [[26-09-21_b12_stabilityRun]]
+
+### Batch 13 — the stability report
+
+- [[26-09-21_b13_stabilityReport]]
 

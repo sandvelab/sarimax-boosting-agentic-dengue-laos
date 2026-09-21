@@ -43,3 +43,6 @@ different report, not the same one.
 - `26-09-21_b12_stabilityRun.md` — batch 12: the combination runner built and verified against
   the main path; all 29 planned perturbations run (1,937 s); every one keeps the two-stage
   ensemble ahead of stage 1 alone with coverage not worse.
+- `26-09-21_b13_stabilityReport.md` — batch 13: the distribution of the central conclusion
+  across the set — sign stable, size not; the gain concentrated in four provinces and at 2–3
+  months ahead; seven claims into the collection. Phase D closes.

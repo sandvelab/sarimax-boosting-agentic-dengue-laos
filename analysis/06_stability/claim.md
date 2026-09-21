@@ -73,3 +73,35 @@ than hidden: in the rolling-refit combination, 3 origins per split whose refit r
 non-finite predictions contributed no training row (visible as the per-split row counts, 3
 below `main`'s); the runner's non-finite-feature counter does not cover that case.
 Batch 13 reports the distribution and which choices the margin turns on.
+
+**Batch 13 — the answer** (`results/distribution.json`, `results/perturbation_effects.csv`,
+`results/province_stability.csv`, `results/horizon_stability.csv`; claims C1–C7 in the
+collection).
+
+*The sign survives.* In all 29 planned perturbations the two-stage ensemble beats stage 1
+alone on mean CRPS with 90% coverage not worse: margin −0.70% to −10.64%, quartiles −4.19% to
+−2.41%, median −3.32% against the main path's −3.41%. No perturbation flips it. The only
+configurations that lose are the four early siblings trained on the in-sample one-step
+residual, which is white.
+
+*The size turns on how the training errors are made and on stage 1, not on the stage-2
+family's tuning.* Nine rows move the margin by more than two points. It is larger when stage
+1 is weaker (airline specification: stage 1 alone 29.15, corrected 26.05, −10.6%; enforced
+stationarity −8.4%; Chap's default scheme −7.2%) and under four stage-2 simplifications that
+were not selected (level-only features −6.5%, bounded correction −5.8%, no cross-province
+term −5.8%, climate anomalies added −5.8%). It is smaller under a 2002 training-window start
+(−0.9%) and, most importantly, under a true rolling refit of the in-window errors (−0.7%) —
+the honest version of the main path's fixed-parameter shortcut. A reader who weights that row
+most should read the development margin as under one percent. All seven hyperparameter and
+seed perturbations stay within two points (−1.6% to −4.2%). Split-level agreement is 5 or
+more of 8 splits in 22 rows, 4 in 6 rows, and 3 in one (the rolling 72-month window).
+
+*The gain is concentrated, and the concentration is stable.* Khammouane, Salavan, Bokeo and
+Xiangkhouang improve in every one of the 30 combinations; Savannakhet, Vientiane Capital,
+Luang Prabang, Xayaboury and Oudomxay improve in at most 20%. Two and three months ahead
+improve in every combination; one month ahead in 47%.
+
+*What the statement does not cover*: the five tier-3 alternatives, above all a count or
+heavier-tailed predictive family at stage 1, the one change that could repair the coverage
+deficit. Everything here is development data; the sealed 2010 holdout is opened once, in
+batch 15, across a manifest frozen in batch 14.

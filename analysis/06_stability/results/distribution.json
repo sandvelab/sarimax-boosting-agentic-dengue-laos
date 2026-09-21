@@ -1,0 +1,253 @@
+{
+  "main_path": {
+    "combination": "main (04_stage2=g_oosErrorBoosting)",
+    "pct_change_vs_stage1": -3.411037735950132,
+    "stage1_mean_crps": 26.052787630892947,
+    "two_stage_mean_crps": 25.16411721353624,
+    "coverage_stage1": 0.8274932614555256,
+    "coverage_two_stage": 0.8571428571428571
+  },
+  "tier2_distribution_of_pct_change": {
+    "n": 29,
+    "min": -10.63640014604107,
+    "q10": -6.656686609229721,
+    "q25": -4.187657451512733,
+    "median": -3.3202913816254207,
+    "q75": -2.4113846239874728,
+    "q90": -1.6250537905402958,
+    "max": -0.6969876823934371,
+    "n_two_stage_beats_stage1": 29,
+    "n_coverage_not_worse": 29,
+    "n_sign_flips": 0,
+    "n_moving_size_beyond_points": 9,
+    "sensitivity_points": 2.0,
+    "rows_with_larger_margin_than_main": [
+      "stage1=airline_011x011",
+      "stage1=enforce_stationarity",
+      "scheme=chap_default_7x1",
+      "stage2=g_level_month_horizon_only",
+      "stage2=g_bounded_correction",
+      "stage2=g_no_cross_province",
+      "stage2=g_with_climate_anomalies"
+    ],
+    "rows_with_smaller_margin_than_main": [
+      "window=start_2002",
+      "stage2=g_rolling_refit_oos"
+    ],
+    "splits_improved_distribution": {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 1,
+      "4": 6,
+      "5": 13,
+      "6": 7,
+      "7": 1,
+      "8": 1
+    },
+    "rows_improving_fewer_than_half_the_splits": [
+      "window=rolling_72m"
+    ]
+  },
+  "by_judgment_call_group": {
+    "stage 1 specification": {
+      "n": 3,
+      "min_pct": -10.63640014604107,
+      "median_pct": -8.398071388340105,
+      "max_pct": -3.3589516501706815,
+      "all_beat_stage1": true,
+      "all_coverage_not_worse": true,
+      "rows_moving_size": [
+        "stage1=airline_011x011",
+        "stage1=enforce_stationarity"
+      ],
+      "splits_improved_range": [
+        4,
+        8
+      ]
+    },
+    "training window, scheme, data": {
+      "n": 4,
+      "min_pct": -7.151722687911358,
+      "median_pct": -2.7143443928430755,
+      "max_pct": -0.9232486062541743,
+      "all_beat_stage1": true,
+      "all_coverage_not_worse": true,
+      "rows_moving_size": [
+        "scheme=chap_default_7x1",
+        "window=start_2002"
+      ],
+      "splits_improved_range": [
+        3,
+        6
+      ]
+    },
+    "stage 2 target and combination rule": {
+      "n": 7,
+      "min_pct": -5.84595385462397,
+      "median_pct": -2.8800068911863606,
+      "max_pct": -1.6160011653348134,
+      "all_beat_stage1": true,
+      "all_coverage_not_worse": true,
+      "rows_moving_size": [
+        "stage2=g_bounded_correction"
+      ],
+      "splits_improved_range": [
+        5,
+        7
+      ]
+    },
+    "stage 2 features": {
+      "n": 4,
+      "min_pct": -6.532927589559312,
+      "median_pct": -5.809140322301386,
+      "max_pct": -3.3221465316152496,
+      "all_beat_stage1": true,
+      "all_coverage_not_worse": true,
+      "rows_moving_size": [
+        "stage2=g_level_month_horizon_only",
+        "stage2=g_no_cross_province",
+        "stage2=g_with_climate_anomalies"
+      ],
+      "splits_improved_range": [
+        4,
+        6
+      ]
+    },
+    "stage 2 family hyperparameters and seed": {
+      "n": 7,
+      "min_pct": -4.187657451512733,
+      "median_pct": -2.4113846239874728,
+      "max_pct": -1.6273169468416664,
+      "all_beat_stage1": true,
+      "all_coverage_not_worse": true,
+      "rows_moving_size": [],
+      "splits_improved_range": [
+        4,
+        6
+      ]
+    },
+    "how the training errors are made": {
+      "n": 4,
+      "min_pct": -3.723456876540691,
+      "median_pct": -3.2590548677465865,
+      "max_pct": -0.6969876823934371,
+      "all_beat_stage1": true,
+      "all_coverage_not_worse": true,
+      "rows_moving_size": [
+        "stage2=g_rolling_refit_oos"
+      ],
+      "splits_improved_range": [
+        4,
+        5
+      ]
+    }
+  },
+  "province_stability": {
+    "n_provinces": 16,
+    "always_improved": [
+      "LA-KH",
+      "LA-SL",
+      "LA-BK",
+      "LA-XI"
+    ],
+    "never_improved": [
+      "LA-OU"
+    ],
+    "improved_in_at_least_90pct_of_combinations": [
+      "LA-KH",
+      "LA-SL",
+      "LA-BK",
+      "LA-XI"
+    ],
+    "improved_in_at_most_10pct_of_combinations": [
+      "LA-PH",
+      "LA-OU",
+      "LA-VT",
+      "LA-SV"
+    ]
+  },
+  "horizon_stability": [
+    {
+      "horizon": "h1",
+      "n_combinations": 30,
+      "share_combinations_improved": 0.4666666666666667
+    },
+    {
+      "horizon": "h2",
+      "n_combinations": 30,
+      "share_combinations_improved": 1.0
+    },
+    {
+      "horizon": "h3",
+      "n_combinations": 30,
+      "share_combinations_improved": 1.0
+    }
+  ],
+  "tier1_siblings": [
+    {
+      "combination": "04_stage2=a_linearLags",
+      "pct_change_vs_stage1": 0.7834267218736884,
+      "two_stage_coverage_90": 0.8328840970350404,
+      "beats_stage1_on_crps": false,
+      "coverage_not_worse": true
+    },
+    {
+      "combination": "04_stage2=b_gradientBoosting",
+      "pct_change_vs_stage1": 6.245879055359847,
+      "two_stage_coverage_90": 0.8221024258760108,
+      "beats_stage1_on_crps": false,
+      "coverage_not_worse": false
+    },
+    {
+      "combination": "04_stage2=c_bayesianRidge",
+      "pct_change_vs_stage1": 7.7253038707811665,
+      "two_stage_coverage_90": 0.8679245283018868,
+      "beats_stage1_on_crps": false,
+      "coverage_not_worse": true
+    },
+    {
+      "combination": "04_stage2=d_linearClimate",
+      "pct_change_vs_stage1": 3.0471529398963995,
+      "two_stage_coverage_90": 0.8301886792452831,
+      "beats_stage1_on_crps": false,
+      "coverage_not_worse": true
+    },
+    {
+      "combination": "04_stage2=e_pooledRandomForest",
+      "pct_change_vs_stage1": -0.6279513002034729,
+      "two_stage_coverage_90": 0.6442048517520216,
+      "beats_stage1_on_crps": true,
+      "coverage_not_worse": false
+    },
+    {
+      "combination": "04_stage2=f_oosErrorRidge",
+      "pct_change_vs_stage1": -1.6407213342157134,
+      "two_stage_coverage_90": 0.8463611859838275,
+      "beats_stage1_on_crps": true,
+      "coverage_not_worse": true
+    }
+  ],
+  "tier3_not_run": [
+    {
+      "combination": "stage1=log1p_transform",
+      "reason": "needs a verified CRPS on the transformed or lognormal scale (an extension of 00_metric); development cost, not compute"
+    },
+    {
+      "combination": "stage1=negative_binomial_family",
+      "reason": "needs a verified count-distribution CRPS and a different stage-2 contract (correction on a non-Gaussian mean); the most consequential fork not run"
+    },
+    {
+      "combination": "stage2=g_multiplicative",
+      "reason": "undefined where stage 1's mean is near or below zero; needs a design decision"
+    },
+    {
+      "combination": "stage2=g_enso_covariate",
+      "reason": "a new data acquisition and a data-governance decision (plan \u00a74); human call"
+    },
+    {
+      "combination": "evaluation=chap_native",
+      "reason": "decided against in plan \u00a74 (agent-autonomous, batch 1); reopening it is a plan change, not a perturbation"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "combination": "baseline=climatology__holdout",
+  "model": "seasonal climatology (mean of same calendar month in training window), sigma = std of same calendar month's training-window values",
+  "n_provinces": 17,
+  "n_splits": 4,
+  "n_cells_total": 204,
+  "n_cells_scored": 192,
+  "n_fit_failures": 0,
+  "mean_crps": 77.28820446741271,
+  "coverage_90": 0.546875,
+  "evaluated_months": [
+    "2010-01",
+    "2010-02",
+    "2010-03",
+    "2010-04",
+    "2010-05",
+    "2010-06",
+    "2010-07",
+    "2010-08",
+    "2010-09",
+    "2010-10",
+    "2010-11",
+    "2010-12"
+  ],
+  "by_split": {
+    "split0": 12.157327039049854,
+    "split1": 30.021991729393093,
+    "split2": 214.6436915604833,
+    "split3": 52.32980754072478
+  },
+  "config": {
+    "scheme": {
+      "n_periods": 3,
+      "n_splits": 4,
+      "stride": 3,
+      "min_modelable_months": 24
+    }
+  }
+}

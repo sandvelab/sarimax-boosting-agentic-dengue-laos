@@ -1,0 +1,39 @@
+{
+  "combination": "baseline=persistence__holdout",
+  "model": "persistence (last observed, held flat), sigma = std of training-window one-step differences",
+  "n_provinces": 17,
+  "n_splits": 4,
+  "n_cells_total": 204,
+  "n_cells_scored": 192,
+  "n_fit_failures": 0,
+  "mean_crps": 127.5812312836565,
+  "coverage_90": 0.5625,
+  "evaluated_months": [
+    "2010-01",
+    "2010-02",
+    "2010-03",
+    "2010-04",
+    "2010-05",
+    "2010-06",
+    "2010-07",
+    "2010-08",
+    "2010-09",
+    "2010-10",
+    "2010-11",
+    "2010-12"
+  ],
+  "by_split": {
+    "split0": 19.270906119776225,
+    "split1": 34.38751383747237,
+    "split2": 208.02329220637282,
+    "split3": 248.64321297100471
+  },
+  "config": {
+    "scheme": {
+      "n_periods": 3,
+      "n_splits": 4,
+      "stride": 3,
+      "min_modelable_months": 24
+    }
+  }
+}

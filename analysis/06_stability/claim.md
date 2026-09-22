@@ -212,3 +212,48 @@ longer hashes to its freeze or if a re-plan would change anything beyond the cos
 change of main path still plans a new version, as batch 14 did. **`manifest.csv` is unchanged**
 — still `d2c5e813…`, the v2 digest frozen at `cef9a18`. Both refusals were exercised rather
 than assumed.
+
+**Batch 17 — the held-out year, opened once** (`results/run_status_holdout.csv`,
+`results/run_summary_holdout.json`, `results/conclusions_holdout.csv`,
+`results/distribution_holdout.json`, `results/perturbation_effects_holdout.csv`,
+`results/province_stability_holdout.csv`, `results/horizon_stability_holdout.csv`,
+`results/development_comparison_holdout.csv`, `results/holdout_year_context.json`; claims
+C14–C20). Opening number 1, at commit `8eda4fd`; the four preflight refusals all passed, all 33
+planned rows ran in 623 s, and nothing was added, dropped, re-tuned or re-run.
+
+*The primary answer, by the frozen rule: the second stage earns its place.* On the 192 scored
+cells the two-stage ensemble scores mean CRPS **99.20 against stage 1 alone's 128.51, −22.81%**,
+with 90% coverage **61.5% against 57.3%** — both of plan §2's bars cleared, all 4 splits and 75%
+of cells improved, every horizon improved. The margin is **larger** than development's −6.53%,
+by 16.3 points, and 29 of the 31 rows paired by name have a larger margin on the held-out year
+than on development. The sign survives every frozen perturbation: 26 of 26, −29.25% to −4.18%,
+median −20.89%, no flips, coverage never worse.
+
+*And the two-stage model still loses to a naive baseline.* On the same cells **seasonal
+climatology scores 77.29** — 22% better than the two-stage ensemble and 40% better than stage 1
+alone — while persistence (127.58) is level with stage 1. This reverses the development ranking,
+where stage 1 beat climatology by 3.2%. Coverage collapses for everything: 57.3%, 61.5%, 56.2%
+and 54.7% against a nominal 90%, where development gave 82.7% and 85.2%. **The correction
+improves a first stage that is itself badly beaten on this year**, and no configuration in the
+frozen set is adequately calibrated on it.
+
+*Why the numbers are so much larger.* 2010 is an epidemic year unlike the development test span:
+22,903 cases in twelve months against 12,291 in twenty-four, 3.6× the mean cases per cell, with a
+September peak of 5,649 against a development-span maximum of 1,410
+(`results/holdout_year_context.json`, written after the opening and not part of the frozen set).
+
+*What the held-out year turns on.* The input, far more sharply than development showed. The two
+level-only configurations gain about 23% (`h` −22.81%, `j` −22.70%); every configuration carrying
+the recent-residual and cross-province features gains 4% or less (`f` −3.89%, `i` −2.27%, `g`
+−2.25%, and adding those features back to the main path −4.18%). On development that gap was
+about 3 points; here it is about 19. Had `g_oosErrorBoosting` remained the main path, as it was
+until batch 14, the held-out margin reported here would have been −2.25%.
+
+*Not promoted, and not covered.* Three tier-2 rows beat the main path on the held-out year (no
+winsorisation −29.25%, the looser bound −28.72%, a higher learning rate −25.77%); none is
+promoted, because the holdout measures a pre-registered configuration and selecting on it would
+spend the only unused data this project has. The five tier-3 alternatives and the five
+in-sample-residual siblings were not run, with their reasons. **Sixteen of 26 rows move the
+margin beyond the two-point threshold, against eight of 26 on development**, so the size is less
+stable here, not more. One province, LA-XN, reports no cases for any month of 2010 and so
+contributes no scored cell: the held-out evaluation is 16 provinces, not 17.

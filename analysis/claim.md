@@ -208,3 +208,32 @@ gated here rather than in phase E, reproducing the main path's and both baseline
 development per-cell scores on 408 rows each with 0 mismatches, so that no code is written or
 corrected with a held-out number on screen. At the freeze the human kept `h_levelOnlyBoosting`
 and left stage 1 unreopened (plan §4b, 2026-09-22). Batch 17 opens the year once.
+
+Batch 17: **the held-out year was opened once and the frozen set run in full**
+(`06_stability/results/run_status_holdout.csv` records the opening; `distribution_holdout.json`
+the answer; claims C14–C20). The project's own question is answered in the affirmative, and the
+answer arrives with a second finding that qualifies it.
+
+**The second stage earns its place on data never used in development.** On the 192 scored cells
+of 2010 the two-stage ensemble scores mean CRPS **99.20 against stage 1 alone's 128.51
+(−22.81%)**, with 90% coverage **61.5% against 57.3%** — both of plan §2's bars cleared, all four
+splits and 75% of cells improved. The margin is larger than development's −6.53%, not smaller,
+and it survives every one of the 26 frozen perturbations (−29.25% to −4.18%, median −20.89%, no
+sign flips, coverage never worse).
+
+**And the whole two-stage model is beaten on that year by seasonal climatology**, one of the two
+required baselines, scored on the same cells through the same pipeline: **77.29 against the
+ensemble's 99.20 and stage 1's 128.51**. On development the ranking was the other way round
+(stage 1 26.05 < climatology 26.91). Coverage collapses for every model — 54.7% to 61.5% against
+a nominal 90%. 2010 is an epidemic year quite unlike the development test span (22,903 cases in
+twelve months against 12,291 in twenty-four; a September peak of 5,649 against a maximum of
+1,410), and a SARIMAX on raw counts with a Gaussian predictive interval does not follow it.
+
+So the honest statement of what this project found: **a residual-correction stage trained on
+stage 1's multi-step out-of-sample error does earn its place, robustly and by a wide margin on
+held-out data — on top of a first stage that is itself the wrong model for the year it was tested
+on.** The stage-1 fork that batch 10's diagnostics identified as the one that could repair
+calibration, a count or heavier-tailed predictive family, was recorded as not run by a human-set
+decision and remains the largest thing this analysis does not cover. Nothing was promoted on
+held-out evidence, and three tier-2 rows that beat the main path there are recorded as such and
+left alone.

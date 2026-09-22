@@ -32,7 +32,7 @@ above.
 ## The article
 
 - **Target venue**: not yet decided.
-- **Status**: batches 1–16 complete (phases A–D, a third stage-2 iteration after D, the stability set re-run around its main path, and the phase-E set frozen). Stage 1 (per-province SARIMAX,
+- **Status**: batches 1–17 complete (phases A–E). **The held-out year has been opened, once, and the project's own question is answered** — see the end of this entry. Stage 1 (per-province SARIMAX,
   mean CRPS 26.05 over 371 cells, 90% coverage 82.7%) beats both required baselines
   (persistence 28.32, seasonal climatology 26.91). Seven stage-2 residual-correction
   candidates exist under `04_stage2`. Five (batches 4–9) were trained on stage 1's
@@ -89,8 +89,22 @@ above.
   reporting rule. Phase E's machinery was built and gated in the same batch, before the freeze:
   it reproduces the main path's and both required baselines' stored development per-cell scores,
   408 rows each, 0 mismatches. At the freeze the human kept `h_levelOnlyBoosting` as the
-  pre-registered main path and left stage 1 unreopened (plan §4b, 2026-09-22). Batch 17 opens
-  2010 once and runs exactly that set.
+  pre-registered main path and left stage 1 unreopened (plan §4b, 2026-09-22).
+  **Batch 17 opened 2010 once** (opening 1, recorded in
+  `06_stability/results/run_status_holdout.csv`; all four preflight refusals passed; 33 of 33
+  rows in 623 s; nothing added, dropped, re-tuned, re-run or promoted afterwards). **The second
+  stage earns its place on held-out data**: on the 192 scored cells the ensemble scores mean
+  CRPS 99.20 against stage 1 alone's 128.51 (−22.81%), coverage 61.5% against 57.3%,
+  all 4 splits and 75% of cells improved; sign-stable across all 26 frozen perturbations
+  (−29.25% to −4.18%, median −20.89%). The margin is 16.3 points *larger* than development's.
+  **And the whole two-stage model is beaten on that year by seasonal climatology (77.29)**,
+  which reverses the development ranking, while coverage collapses for every model (54.7–61.5%
+  against a nominal 90%). 2010 is an epidemic year unlike the development test span (22,903
+  cases in twelve months against 12,291 in twenty-four; September peak 5,649 against a
+  development maximum of 1,410). The held-out result turns sharply on stage 2's input: the two
+  level-only configurations gain ~23%, every configuration carrying recent-residual and
+  cross-province features gains ≤4%. One province (LA-XN) reports no 2010 cases, so the
+  evaluation is 16 provinces. Claims C14–C20.
 - **Manuscript**: `Human-AI-collaboration/manuscript/` (empty).
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-09-20_sarimaxResidualBoostingCase.md`. It carries

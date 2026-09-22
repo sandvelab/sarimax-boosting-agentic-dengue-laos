@@ -64,6 +64,7 @@ def main() -> None:
             rows.append(row)
             continue
         c = json.loads(path.read_text())
+        row["status"] = "run"
         if "two_stage" in c:
             row.update({"model_type": "two_stage",
                         "stage1_mean_crps": c["stage1_alone"]["mean_crps"],

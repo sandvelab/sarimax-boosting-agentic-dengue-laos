@@ -1,0 +1,157 @@
+{
+  "combination": "scheme=chap_default_7x1@h__holdout",
+  "config": {
+    "stage1": {
+      "order": [
+        1,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        1,
+        0,
+        0,
+        12
+      ],
+      "enforce": false,
+      "window": "expanding",
+      "window_months": 72,
+      "window_start": "2002-01"
+    },
+    "scheme": {
+      "n_periods": 3,
+      "n_splits": 7,
+      "stride": 1,
+      "min_modelable_months": 24
+    },
+    "stage2": {
+      "family": "gbm",
+      "gbm_params": {
+        "n_estimators": 150,
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "subsample": 0.8,
+        "min_samples_leaf": 20
+      },
+      "ridge_alpha": 10.0,
+      "seed_component": "04_stage2/g_oosErrorBoosting",
+      "zclip": 3.0,
+      "clip_at_zero": true,
+      "standardise": "se",
+      "bounded_correction": false,
+      "bound_floor": 10.0,
+      "per_horizon": false,
+      "features": "level_only",
+      "warmup": 24,
+      "oos_mode": "fixed",
+      "min_train_rows": 200
+    }
+  },
+  "n_provinces": 17,
+  "n_splits": 7,
+  "horizon_months": 3,
+  "n_cells_scored": 336,
+  "n_fit_failures": 0,
+  "n_stage2_abstained": 0,
+  "n_training_rows_by_split": {
+    "0": 5967,
+    "1": 6015,
+    "2": 6063,
+    "3": 6111,
+    "4": 6159,
+    "5": 6207,
+    "6": 6255
+  },
+  "n_training_rows_dropped_nonfinite": 0,
+  "stage1_alone": {
+    "mean_crps": 156.58353723304268,
+    "coverage_90": 0.4523809523809524
+  },
+  "two_stage": {
+    "mean_crps": 119.5449085799726,
+    "coverage_90": 0.5238095238095238
+  },
+  "delta_crps": -37.03862865307008,
+  "pct_change_vs_stage1": -23.654229114741245,
+  "two_stage_beats_stage1_on_crps": true,
+  "coverage_not_worse_than_stage1": true,
+  "n_splits_improved": 7,
+  "share_cells_improved": 0.6755952380952381,
+  "by_horizon": {
+    "h1": {
+      "stage1": 98.4498162829119,
+      "two_stage": 84.58637755102995
+    },
+    "h2": {
+      "stage1": 157.92967965186565,
+      "two_stage": 124.81817312991897
+    },
+    "h3": {
+      "stage1": 213.37111576435044,
+      "two_stage": 149.2301750589689
+    }
+  },
+  "by_split": {
+    "split0": {
+      "stage1": 36.7152359805238,
+      "two_stage": 32.672472033572376
+    },
+    "split1": {
+      "stage1": 108.32000651581689,
+      "two_stage": 90.01232990192425
+    },
+    "split2": {
+      "stage1": 165.40656763816136,
+      "two_stage": 143.2841890812449
+    },
+    "split3": {
+      "stage1": 209.90974632853138,
+      "two_stage": 205.39808474916663
+    },
+    "split4": {
+      "stage1": 167.578846215705,
+      "two_stage": 127.58318400020407
+    },
+    "split5": {
+      "stage1": 160.87844390385786,
+      "two_stage": 96.30684439805664
+    },
+    "split6": {
+      "stage1": 247.27591404870236,
+      "two_stage": 141.55725589563943
+    }
+  },
+  "province_set": {
+    "source": "development months, min_modelable_months=24",
+    "provinces": [
+      "LA-AT",
+      "LA-BK",
+      "LA-BL",
+      "LA-CH",
+      "LA-HO",
+      "LA-KH",
+      "LA-LM",
+      "LA-LP",
+      "LA-OU",
+      "LA-PH",
+      "LA-SL",
+      "LA-SV",
+      "LA-VT",
+      "LA-XA",
+      "LA-XE",
+      "LA-XI",
+      "LA-XN"
+    ]
+  },
+  "evaluated_months": [
+    "2010-04",
+    "2010-05",
+    "2010-06",
+    "2010-07",
+    "2010-08",
+    "2010-09",
+    "2010-10",
+    "2010-11",
+    "2010-12"
+  ]
+}

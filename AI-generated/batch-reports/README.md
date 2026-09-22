@@ -59,3 +59,8 @@ different report, not the same one.
   phase E's machinery built and gated in the same batch against the stored development results
   (three reproductions, 408 rows each, 0 mismatches); the invariant that dates the freeze fixed
   from the prior project's layout to this one's. No result about dengue changes.
+- `26-09-22_b17_finalValidation.md` — batch 17: the held-out year opened once (33 of 33 frozen
+  rows, 623 s, nothing promoted afterwards). The second stage earns its place on 2010 by a wide
+  margin (−22.81%, coverage 61.5% vs 57.3%, sign-stable across all 26 perturbations) — and the
+  whole two-stage model is beaten there by seasonal climatology (77.29 vs 99.20 vs stage 1's
+  128.51), on an epidemic year no model in the frozen set is calibrated for. Claims C14–C20.

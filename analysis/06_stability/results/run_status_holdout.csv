@@ -1,0 +1,2 @@
+opened_on,opened_at_commit,manifest_sha256,holdout_csv_sha256,n_rows_planned,n_rows_run,wall_seconds,opening_number,note
+2026-09-22 19:59:33,8eda4fd,835bb52cab2e91cc630d420f59b07691cf8a7ddb0990e5079bfbba25d9080ab0,389e4f4975980588c88a8a0f9d44e6ad903644faf096ebb469e62d89122e100d,33,33,622.9,1,the single opening the plan allows

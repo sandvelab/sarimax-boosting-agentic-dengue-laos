@@ -120,3 +120,59 @@ grounds: analysis/06_stability/results/horizon_stability_v2.csv · analysis/06_s
 node: analysis/06_stability
 scope: holds on the development backtest (3-month horizon) only
 by: agent-autonomous
+
+## C14
+On the sealed 2010 holdout, opened once across a manifest frozen beforehand, the two-stage ensemble clears both of the plan's bars: mean CRPS 99.20 against stage 1 alone's 128.51 on the same 192 cells (-22.81%), with 90% interval coverage 61.5% against stage 1's 57.3%. It improves all 4 splits, 75% of cells, and every horizon. The residual-correction stage earns its place on data never used in development.
+grounds: analysis/06_stability/results/distribution_holdout.json · analysis/06_stability/results/main@h__holdout/conclusion.json · analysis/06_stability/results/conclusions_holdout.csv
+node: analysis/06_stability
+scope: the held-out year 2010, 16 provinces x 12 months = 192 scored cells at horizons 1-3; the configuration evaluated is h_levelOnlyBoosting, pre-registered in batch 14 and frozen in batch 16 before the year was opened
+alternatives: the three not-taken siblings with the full feature set gain far less on the same cells (f -3.89%, g -2.25%, i -2.27%), so a different pre-registered configuration would have supported a much weaker statement; j_levelOnlyBoundedBoosting, the other level-only candidate, gives -22.70%
+by: agent-autonomous
+
+## C15
+The held-out margin is far larger than the development one and in the same direction: -22.81% against -6.53%, a shift of 16.3 percentage points. Across the 31 rows paired by name between the two datasets, 29 have a larger margin on the holdout than on development (median shift -15.6 points, range -22.7 to +3.6). The development backtest understated the second stage's value on this year rather than overstating it.
+grounds: analysis/06_stability/results/development_comparison_holdout.csv · analysis/06_stability/results/distribution_holdout.json
+node: analysis/06_stability
+scope: a comparison of two datasets of different character, not a replication: 2010 is an epidemic year and the development test span is not
+alternatives: had the held-out year resembled the development span, the expectation from phase D was a margin near -6.5%
+by: agent-autonomous
+
+## C16
+On the held-out year the conclusion is sign-stable across every frozen perturbation: all 26 tier-2 rows keep the two-stage ensemble ahead of stage 1 alone with coverage not worse, from -29.25% to -4.18% (median -20.89%, quartiles -22.81% to -17.82%), no sign flips, and no row improving fewer than half its splits. Sixteen of the 26 move the margin by more than two percentage points from the main path's, against eight of 26 on development.
+grounds: analysis/06_stability/results/perturbation_effects_holdout.csv · analysis/06_stability/results/distribution_holdout.json
+node: analysis/06_stability
+scope: the held-out year only; the 26 rows are the development v2 perturbation set under holdout names, frozen in batch 16
+alternatives: the five tier-3 alternatives and the five in-sample-residual siblings were not run on the holdout, each with a recorded reason in manifest_holdout.csv
+by: agent-autonomous
+
+## C17
+On the held-out year both stages lose decisively to a required baseline: seasonal climatology scores mean CRPS 77.29 on the same 192 cells, against the two-stage ensemble's 99.20 and stage 1 alone's 128.51. Persistence (127.58) is level with stage 1. This reverses the development ranking, where stage 1 alone (26.05) beat climatology (26.91) by 3.2%. The two-stage architecture improves on its own first stage and is still 28% worse than taking the mean of the same calendar month.
+grounds: analysis/06_stability/results/baseline=climatology__holdout/conclusion.json · analysis/06_stability/results/baseline=persistence__holdout/conclusion.json · analysis/06_stability/results/distribution_holdout.json · analysis/03_baselines/results/comparison.json
+node: analysis/06_stability
+scope: the held-out year 2010 on the 192 scored cells, scored through the same pipeline and the same CRPS implementation as every other row; the baselines were frozen into the phase-E manifest in batch 16 by plan sections 2 and 4
+alternatives: on the development backtest the ranking is the opposite (stage 1 26.05 < climatology 26.91 < persistence 28.32); no stage-1 alternative was run that closes this gap, and the tier-3 predictive-family fork that might was not built
+by: agent-autonomous
+
+## C18
+Every model is calibrated far worse on the held-out year than on development: 90% interval coverage is 57.3% for stage 1 alone and 61.5% for the two-stage ensemble, against 82.7% and 85.2% on the development backtest, and the baselines are worse still (persistence 56.2%, climatology 54.7%). The correction improves coverage on the holdout as it did on development, by 4.2 percentage points, but from a level at which no configuration in the frozen set is adequately calibrated.
+grounds: analysis/06_stability/results/distribution_holdout.json · analysis/06_stability/results/conclusions_holdout.csv · analysis/06_stability/results/distribution_v2.json
+node: analysis/06_stability
+scope: the held-out year 2010; nominal coverage is 90% and every model here is scored as Gaussian
+alternatives: the tier-3 negative-binomial or zero-truncated-normal predictive family at stage 1, recorded as the most consequential fork not run, is the change batch 10's diagnostics identified as the one that could repair coverage; stage 1 was fixed by a human-set decision
+by: agent-autonomous
+
+## C19
+2010 is an epidemic year unlike anything in the development test span, which is why every model's CRPS is several times larger there. The 192 scored held-out cells carry 22,903 cases in twelve months against 12,291 in the twenty-four development-backtest months: 3.6 times the mean cases per cell and 3.7 times the mean monthly national total, peaking at 5,649 cases in September 2010 against a development-span maximum of 1,410.
+grounds: analysis/06_stability/results/holdout_year_context.json
+node: analysis/06_stability
+scope: a description of the held-out year written after it was opened, from the cells that were scored; it is not a row of the frozen set and nothing in the frozen comparison depends on it
+alternatives: none: this is a property of the data, not a modelling choice
+by: agent-autonomous
+
+## C20
+The held-out result turns on which input the second stage is given, far more sharply than development showed. The two level-only configurations gain about 23% (h_levelOnlyBoosting -22.81%, j_levelOnlyBoundedBoosting -22.70%), while every configuration carrying the recent-residual and cross-province features gains 4% or less (f_oosErrorRidge -3.89%, i_boundedBoosting -2.27%, g_oosErrorBoosting -2.25%, and the perturbation that adds those features back to the main path -4.18%). On development the same gap was about 3 percentage points; on the held-out year it is about 19.
+grounds: analysis/06_stability/results/conclusions_holdout.csv · analysis/06_stability/results/perturbation_effects_holdout.csv · analysis/06_stability/results/development_comparison_holdout.csv
+node: analysis/06_stability
+scope: the held-out year 2010; the pre-registered main path is one of the two level-only configurations, chosen in batch 14 on development evidence by a rule written before the results were seen
+alternatives: had g_oosErrorBoosting remained the main path, as it was until batch 14, the held-out margin reported here would have been -2.25% rather than -22.81%
+by: agent-autonomous

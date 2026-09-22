@@ -1,0 +1,32 @@
+# Result and data CSVs are bytes, not text.
+#
+# Their sha256 is what provenance records bind a result to, and the phase-E freeze records the
+# sealed holdout file's digest so that the file opened is provably the file that was sealed
+# (`06_stability/scripts/08_run_holdout.py` refuses to open anything else). Git's default text
+# handling broke that: nineteen CSVs are written with Windows line endings by Python's `csv`
+# module default, `core.autocrlf = input` normalised them to Unix endings on commit, and a fresh
+# clone therefore received different bytes from the ones every digest was computed over. The
+# consequence was not cosmetic — a clean clone's `holdout.csv` hashed to e6d57643… against the
+# frozen 389e4f49…, so **phase E could not be reproduced from a clone at all**: the runner
+# correctly refused to open a file that was not the sealed one.
+#
+# `-text` tells git to store and check these out exactly as written, so working copy, repository
+# and any clone agree byte for byte and every recorded digest means what it says.
+#
+# The alternative — writing every CSV with `lineterminator="\n"` and re-running the tree — was
+# rejected (batch 19, plan §4b): it would change the bytes of `holdout.csv`, and re-freezing the
+# phase-E seal after the year has been opened is exactly what the seal exists to prevent.
+#
+# A consequence to know about: the convention is now "whatever the script wrote is what is
+# stored", and the scripts are not uniform — the older nodes write CRLF, everything from the
+# stability node onward writes LF. **Do not "fix" a writer and re-run without re-hashing every
+# provenance record that names its output**, and never for `01_data/01_prepare`, whose outputs
+# the freeze binds.
+*.csv -text
+
+# Everything else keeps git's normal text handling.
+*.py text
+*.sh text
+*.md text
+*.json text
+*.txt text

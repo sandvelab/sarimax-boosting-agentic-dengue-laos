@@ -549,6 +549,25 @@ def check_freeze(root: Path) -> list[Finding]:
             f"records {recorded[:12]}…: it has been rewritten since it was frozen, and "
             f"the holdout spread is then a set chosen after the year was opened")))
 
+    # The sealed file itself must still be the sealed file. `08_run_holdout.py` refuses to open
+    # anything whose digest differs from the one recorded at the freeze, which is the right
+    # behaviour and is also why this has to be checked outside that script: until batch 19 a
+    # fresh clone received `holdout.csv` with different bytes (git normalised the line endings
+    # the writer emitted), so the runner would have refused and phase E was not reproducible
+    # from a clone at all. `.gitattributes` fixes the bytes; this says so if it ever stops
+    # holding, in the working copy or in a clone.
+    for rel, digest_recorded in (record.get("frozen_inputs") or {}).items():
+        if not rel.startswith("analysis/01_data/"):
+            continue
+        f = root / rel
+        if not f.exists():
+            out.append(Finding("freeze", rel, "the freeze records this input and it is gone"))
+        elif hashlib.sha256(f.read_bytes()).hexdigest() != digest_recorded:
+            out.append(Finding("freeze", rel, (
+                f"hashes to {hashlib.sha256(f.read_bytes()).hexdigest()[:12]}… and the phase-E "
+                f"freeze records {digest_recorded[:12]}…: the sealed data has changed since the "
+                f"freeze, and 08_run_holdout.py will refuse to open it")))
+
     import csv
     rows = list(csv.DictReader(manifest.open()))
     if record.get("rows") not in (None, len(rows)):

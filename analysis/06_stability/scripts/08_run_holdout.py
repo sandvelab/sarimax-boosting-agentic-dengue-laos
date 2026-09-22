@@ -7,13 +7,28 @@ the file. It refuses to start unless all four of these hold:
 
 1. `results/manifest_holdout.csv` hashes to the digest in `results/holdout_freeze.json` -- the
    set has not moved since it was frozen;
-2. `results/holdout_runner_verification.json` hashes to the digest the freeze recorded for it,
-   and records three identical reproductions of stored development results -- the machinery is
-   the machinery that was gated;
-3. `01_data/01_prepare/results/holdout.csv` hashes to the digest the freeze recorded -- the file
+2. `01_data/01_prepare/results/holdout.csv` hashes to the digest the freeze recorded -- the file
    being opened is the file that was sealed;
+3. `results/holdout_runner_verification.json` records three reproductions of stored development
+   results with zero mismatched values, over a row set and a cell set that still agree with the
+   frozen manifest -- the machinery is the machinery that was gated, and it is gated on the same
+   scope the set was frozen for;
 4. every planned row has an executable configuration in `lib/holdout_eval.holdout_combinations()`
    and every configuration has a planned row.
+
+**Why (3) checks the gate's verdict and scope rather than its bytes.** The gate file carries the
+wall-clock of its own three checks, which `06_verify_holdout_runner.py` re-measures on every run
+of `analysis/run.sh` -- so its digest moves without anything about the gate changing, and a
+byte-equality precondition would make phase E unrunnable from a clean clone. `holdout_freeze.json`
+is explicit about what binds: `frozen_file` is the manifest, and the other `frozen_inputs`
+entries are digests recorded *at* the freeze, context rather than the frozen artefact (the same
+distinction `check_invariants.check_freeze` draws). What the gate has to still be true about is
+its verdict -- three reproductions, zero mismatches -- and its scope, and the scope is checked
+against the frozen manifest itself: the gate's province count times the frozen schedule's splits
+and horizon must reproduce the `n_expected_cells` the frozen manifest records for the main row,
+and the gate's row set must be the manifest's planned rows. A first version of this script
+compared bytes, and refused to open the year; it was wrong, the year stayed shut, and this is
+what it should have asserted.
 
 **The opening is recorded.** `results/run_status_holdout.csv` is appended to, never overwritten:
 one row per opening, with the date, the commit, the digests of the set and of the sealed file,
@@ -76,13 +91,6 @@ def preflight() -> tuple[dict, list[str]]:
     if digest(MANIFEST) != frozen["results/manifest_holdout.csv"]:
         raise RuntimeError("manifest_holdout.csv does not hash to the frozen digest -- the "
                            "phase-E set has moved since it was frozen; refusing to open the year")
-    if digest(VERIFICATION) != frozen["results/holdout_runner_verification.json"]:
-        raise RuntimeError("holdout_runner_verification.json does not hash to the digest the "
-                           "freeze recorded -- the gate is not the gate that was passed")
-    verification = json.loads(VERIFICATION.read_text())
-    if not verification["all_reproductions_identical"]:
-        raise RuntimeError("the gate does not record three identical reproductions of the stored "
-                           "development results; refusing to open the year")
     if digest(HOLDOUT_CSV) != frozen["analysis/01_data/01_prepare/results/holdout.csv"]:
         raise RuntimeError("holdout.csv does not hash to the digest recorded at the freeze -- the "
                            "file being opened is not the file that was sealed")
@@ -96,6 +104,26 @@ def preflight() -> tuple[dict, list[str]]:
     if missing or extra:
         raise RuntimeError(f"manifest/runner disagree: rows without a configuration {missing}; "
                            f"configurations without a planned row {extra}")
+
+    # The gate's verdict and its scope, the scope checked against the frozen manifest.
+    verification = json.loads(VERIFICATION.read_text())
+    checks = verification["reproduction_checks"]
+    bad = {k: v["n_mismatched_values"] for k, v in checks.items()
+           if v["n_mismatched_values"] or v["n_rows_ours"] != v["n_rows_stored"]}
+    if len(checks) != 3 or bad or not verification["all_reproductions_identical"]:
+        raise RuntimeError(f"the gate does not record three exact reproductions of the stored "
+                           f"development results ({bad or checks}); refusing to open the year")
+    if sorted(verification["row_set"]["rows"]) != sorted(planned):
+        raise RuntimeError("the gate was run over a different row set than the frozen manifest plans")
+    schedule = verification["holdout_schedule"]
+    if not schedule["covers_the_holdout_year_exactly_once"]:
+        raise RuntimeError("the frozen schedule does not cover the held-out months exactly once")
+    main_row = next(r for r in manifest if r["combination"] == f"main@h{'__holdout'}")
+    expected = (verification["frozen_province_set"]["n_provinces"]
+                * schedule["n_splits"] * schedule["n_periods"])
+    if expected != int(main_row["n_expected_cells"]):
+        raise RuntimeError(f"the gate's cell set ({expected}) is not the one the frozen manifest "
+                           f"records for the main row ({main_row['n_expected_cells']})")
     return freeze, planned
 
 
@@ -177,8 +205,10 @@ def main() -> None:
                "n_planned": len(planned), "n_run": len(log),
                "total_wall_seconds": round(wall, 1),
                "estimated_wall_seconds": json.loads((RESULTS / "manifest_holdout_summary.json").read_text())["planned_cost_s"],
-               "preflight": {"manifest_matches_freeze": True, "gate_matches_freeze": True,
-                             "holdout_file_matches_seal": True, "rows_all_executable": True}}
+               "preflight": {"manifest_matches_freeze": True, "holdout_file_matches_seal": True,
+                             "gate_verdict_three_exact_reproductions": True,
+                             "gate_scope_matches_frozen_manifest": True,
+                             "rows_all_executable": True}}
     (RESULTS / "run_summary_holdout.json").write_text(json.dumps(summary, indent=2) + "\n")
     print(json.dumps(summary, indent=2))
 

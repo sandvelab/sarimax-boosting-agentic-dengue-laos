@@ -61,7 +61,7 @@ name: each of them describes a run that happened under that version and is right
 
 The failure this prevents is not carelessness. It is a batch appending its section when it
 runs a script, changing the script again later in the same batch, and not appending again —
-which is what happened at twenty records before batch 23, including the one for this
+which is what happened at twenty records before the prior project's batch 23, including the one for this
 project's headline result. Nothing looks wrong afterwards, and that is the whole difficulty.
 
 ## What the invariant checker verifies

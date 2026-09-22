@@ -129,3 +129,32 @@ alternatives-considered:
     rejected -- it would have surfaced there as one difference among many, after the holdout
     had been opened against a development set whose digest no longer matched.
 agency: agent-autonomous (finding it, and the fix).
+
+---
+section appended in batch 19 — **the refusal message was a dead end for a contributor**; no
+result changes and the frozen set is untouched:
+script: scripts/02_plan_manifest.py
+        sha256:4e36ae07ad178a3cae3976e09f1df39feebcffe2bd89e811ce41413dd3613251
+        (was 4199ccb9…: only the RuntimeError text raised when a re-plan would change the set
+        beyond the two cost columns)
+result: results/manifest.csv is unchanged — still
+        d2c5e813e7215eb908787049546e0e8346c3311ea7b6d6b3ca6fd43c53834ac0, the v2 digest frozen
+        at cef9a18.
+the defect: `/validate outsider` (batch 19) walked the documented route for adding a new
+        alternatives child and found it closed. `check_invariants`' `combos` check fails on a
+        non-main child with no tier-1 manifest row and told the contributor to re-run this
+        script; this script then refused with "re-planning would change the frozen set beyond
+        measured cost" and no indication of what to do instead. The only branch that re-plans is
+        a change of main path — which after the holdout has been opened is itself forbidden
+        (plan §4b, batch 17). Following the error message in good faith ends in hand-editing a
+        frozen artefact, which is precisely what the freeze exists to prevent.
+the fix: the refusal now names the frozen version and main path, says that manifest.csv must
+        not be hand-edited, says that a changed set is a recorded decision in the plan's §4b and
+        a new version (the v1→v2 path batch 14 took), and states plainly that after the holdout
+        is opened a new path cannot enter the phase-E set at all — it can be built, scored on
+        development data and reported as a path not taken. `check_invariants`' hint was widened
+        the same way.
+commit: batch 19
+produced: 2026-09-23
+agency: agent-autonomous (the fix); the defect was found by the outsider check the plan's row 19
+        calls for.

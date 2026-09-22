@@ -128,7 +128,7 @@ above.
 | Data governance | Public and redistributable — the Lao, population and sibling-country data are unchanged from the prior project's archived, checksummed, `(IS_SHADOW)`-marked copies. |
 | Target | `disease_cases` (reported dengue), monthly, admin-1, Laos. |
 | Development data | 1998-01 to 2009-12. The only file development ever sees. |
-| Held-out data | 2010-01 to 2010-12. Sealed until the final validation (plan §3). |
+| Held-out data | 2010-01 to 2010-12. **Opened, once, in batch 17 on 2026-09-22** — the opening is recorded in `analysis/06_stability/results/run_status_holdout.csv`. It was sealed from the start of the project until then (plan §3). What is permitted now: reading and reporting the stored results. Nothing may be added, dropped, re-tuned, re-run or promoted on held-out evidence, and a further opening would be a second row in that file and a recorded decision in plan §4b. |
 | Backtest scheme | `n_periods 3 / n_splits 8 / stride 3`, reused from the prior project as the default (human-set, 2026-09-20, plan §4b), for comparability between the two projects. |
 | Evaluation harness | Native Python, not Chap — plan §4 records why. The CRPS implementation must be verified against a known-correct reference before it is trusted on real data. |
 | Metric | Mean CRPS across regions and splits, from our own verified implementation. Secondary: interval coverage, MAE. |
@@ -136,7 +136,7 @@ above.
 | Required baselines | Persistence and seasonal climatology, scored through the same pipeline as every model. |
 | External reference | None (human-set, 2026-09-20, plan §4b) — the prior project's EWARS-csd score is not cited. |
 | Git remote | `github.com/sandvelab/sarimax-boosting-agentic-dengue-laos`, public, already connected. Pushed through batch 10 on 2026-09-21 at the human's instruction, after a lightweight secrets scan (plan §4b); the release batch still runs the full secrets/data-permission scan. |
-| Open reproducibility item | Result CSVs are written with Windows line endings but stored by git with Unix endings, so a fresh clone's CSVs hash differently from the working-copy digests in provenance records. To be settled tree-wide before the clean-room check (plan §6 row 17, §4b 2026-09-21). |
+| Line endings, settled | **Settled in batch 19** by `.gitattributes` (`*.csv -text`) plus `git add --renormalize`: git now stores and checks out CSVs exactly as written, so working copy, repository and any clone agree byte for byte. This was not cosmetic — a fresh clone's `holdout.csv` hashed differently from the digest the phase-E freeze recorded, so the holdout runner would have refused to open it and phase E was not reproducible from a clone. Do not "fix" a CSV writer and re-run without re-hashing every provenance record that names its output. |
 
 ## What must not happen
 

@@ -38,7 +38,7 @@ stale on its own.** A record is a running account: when a script changes, append
 saying what changed and what has run on it since, rather than editing the digest above.
 Earlier sections keep the version they name, because each describes a run that happened under
 it. `/validate invariants`' `hashes` check fails when a record does not name the file's
-current digest — it was added in batch 23 after twenty records, the headline result's
+current digest — it was added in the prior project's batch 23, after twenty records, the headline result's
 included, were found describing versions that no longer existed.
 
 `alternatives-considered` and `agency` are not optional. A record that says only what was

@@ -58,3 +58,23 @@ just renamed to `chap_LAO_admin1_monthly.geojson`. The rename is the subject of 
 the commit pin, the fetch script and the write-once archive convention are the agent's.
 **information:** human-pointed — the repository and the three filenames come from
 `Archive/case-source-material/chapOrientation.md` §4.
+
+---
+section appended 2026-09-23 (batch 19, `/validate outsider`) — **the paths above belong to the
+prior project and do not exist in this repository.**
+
+This folder's data is unchanged and its checksums still verify; what is stale is the prose
+around them. An outsider following the instructions found that no archived dataset's provenance
+record here can be re-enacted as written, because every `fetched by:` line names
+`AI-internal/data-acquisition/fetch_*.sh` and that directory was removed with the prior
+project's own material. The data was **not re-fetched** for this project: `readme-at-start.md`
+and plan §4 record that it is reused from the archived, checksummed, commit-pinned copies, and
+batch 1 re-verified the checksums rather than fetching anything.
+
+So: to re-obtain this data, go to the prior project's released record at
+`github.com/sandvelab/veridical-agentic-dengue-laos`, which holds the fetch scripts and their
+own provenance. To verify the copy that is here, compare against the checksums above — which is
+what `analysis/01_data/01_prepare` does on every run.
+
+Appended rather than corrected in place: this file is append-only (`AGENTS.md` §8) and the
+sections above are a true record of how the data was obtained *by the project that obtained it*.

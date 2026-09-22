@@ -472,8 +472,13 @@ def check_combos(root: Path) -> list[Finding]:
                 actual.add((str(node.relative_to(root)), kid))
     for fork, child in sorted(actual - planned):
         out.append(Finding("combos", f"{fork}/{child}",
-                           "a path not taken with no row in the stability manifest; "
-                           "re-run 06_stability/scripts/02_plan_manifest.py"))
+                           "a path not taken with no row in the stability manifest. If the "
+                           "development set is not yet frozen, re-run "
+                           "06_stability/scripts/02_plan_manifest.py. If it is, adding this "
+                           "path is a change to the frozen set: record it in the plan's §4b "
+                           "and plan a new version -- never edit manifest.csv by hand, and "
+                           "note that after the holdout is opened a new path cannot enter the "
+                           "phase-E set at all"))
     for fork, child in sorted(planned - actual):
         out.append(Finding("combos", f"{fork}/{child}",
                            "the manifest names a child the tree does not have"))

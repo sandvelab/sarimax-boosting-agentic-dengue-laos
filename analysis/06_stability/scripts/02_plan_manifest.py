@@ -267,8 +267,24 @@ def main() -> None:
             raise RuntimeError("manifest.csv no longer hashes to manifest_freeze.json's digest")
         beyond_cost = set(check["replanned_differs_only_in"]) - {"est_cost_s", "cumulative_cost_s"}
         if beyond_cost:
-            raise RuntimeError(f"re-planning would change the frozen set beyond measured cost: "
-                               f"{sorted(beyond_cost)}")
+            # The commonest way to get here is adding an alternatives child to the tree: it
+            # earns a tier-1 row, the row set moves, and `/validate invariants`' `combos` check
+            # points the contributor at this script. Refusing without saying why sends them to
+            # hand-edit a frozen artefact, which is the one thing this freeze exists to stop.
+            raise RuntimeError(
+                f"re-planning would change the frozen development set beyond measured cost: "
+                f"{sorted(beyond_cost)}.\n"
+                f"The set is frozen at version {old_freeze.get('version')} around "
+                f"{old_freeze.get('main_path')} (results/manifest_freeze.json). This script "
+                f"will not rewrite it, and manifest.csv must not be edited by hand.\n"
+                f"If the tree has gained or lost a path not taken, that is a real change to "
+                f"what the stability set covers, and it is a recorded decision, not a re-run: "
+                f"write it into the plan's §4b and plan a new version, the way batch 14 went "
+                f"from v1 to v2 (the rewrite path here is taken when the tree's main path "
+                f"differs from the one the freeze names).\n"
+                f"Note that after the holdout has been opened a new path cannot enter the "
+                f"phase-E set at all (plan §3, §4b batch 17): it can be built, scored on "
+                f"development data and reported as a path not taken, and that is all.")
         return
 
     with (RESULTS / "manifest.csv").open("w", newline="") as f:

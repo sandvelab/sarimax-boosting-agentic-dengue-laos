@@ -33,16 +33,34 @@ hand. Ordinary code, no attention budget.
 
 ## cleanroom — before release, and on a schedule during a long project
 
-Build the environment from nothing, run `analysis/run.sh`, compare against the archived
-results, and report differences rather than announcing success. Run it on a schedule, not
-only at submission: it is how you find out an upstream dependency changed while you were
-still writing.
+```bash
+bash AI-internal/useful-scripts/cleanroom.sh          # clone, build, run, compare
+SKIP_RUN=1 bash AI-internal/useful-scripts/cleanroom.sh   # clone, build, compare inputs only
+```
+
+Clones the repository, builds both environments from nothing, runs `analysis/run.sh` and
+compares every tracked result byte for byte, reporting differences rather than announcing
+success. It refuses to start from a dirty tree. Findings go to
+`AI-generated/validation/<date>_cleanroom-artefacts/`.
+
+It compares the **checked-out inputs** against the repository before running anything, which is
+what caught batch 19's line-ending defect: a fresh clone received `holdout.csv` with different
+bytes from the ones the phase-E freeze recorded, so the holdout runner would have refused it and
+phase E was not reproducible from a clone at all. Files whose content measures this machine or
+this moment — wall-clock logs, run summaries, freeze-check timestamps — are declared in the
+script's `VARYING` list and reported separately, so that a real difference is never lost in
+noise. Run it on a schedule, not only at submission: it is how you find out an upstream
+dependency changed while you were still writing.
 
 ## outsider — after any substantial change to the instructions, and before release
 
 Start a **fresh agent with no context** — a subagent is enough — give it only what a reader
 would have (the repository and its instructions, no conversation history), and ask it to
-**follow** the instructions, not to judge them. A system asked whether instructions are
+**follow** the instructions, not to judge them. Give it concrete tasks with checkable answers
+(which interpreter runs what; what the main path is; how to add a competing variant; what may
+be done with the holdout right now; trace one reported number to its raw file and command) and
+ask it to report every point where it guessed, and every statement that is false about the
+repository as it actually is. Tell it to change nothing. A system asked whether instructions are
 clear will say yes; a system asked to follow them fails visibly at the ambiguous step.
 
 Record what it got wrong, fix the documentation, repeat. What it misunderstands is what an
@@ -57,8 +75,8 @@ provenance record can name the wrong script; a claim can point at a result that 
 support it. Structural checking narrows where a human must look. It does not remove the
 need to look.
 
-Batch 18 put it more sharply, after `/validate outsider` found five statements that were
-true as prose and false as behaviour: **these checks verify shape and never content.** Batch
+The prior project's batch 18 put it more sharply, after `/validate outsider` found five
+statements that were true as prose and false as behaviour: **these checks verify shape and never content.** Batch
 23 moved one thing across that line — a record's digest is now checked against the file
 rather than merely being present — and the rest of the line is where it was. A number can be
 right and its noun wrong, and nothing here looks at nouns.

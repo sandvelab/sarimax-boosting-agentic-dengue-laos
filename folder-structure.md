@@ -1,7 +1,8 @@
 # Folder structure
 
 What each directory is for, and the one rule that governs it. Create every folder with a
-`README.md` at the same time.
+`README.md` at the same time — **except node directories under `analysis/`**, which carry a
+`claim.md` instead and are owed no README (`AGENTS.md` §8).
 
 ```
 <repo>/
@@ -18,33 +19,26 @@ What each directory is for, and the one rule that governs it. Create every folde
 ├── analysis/               THE CLAIM TREE — the project itself
 │   ├── claim.md            the top-level analytical aim
 │   ├── run.sh              reproduces the entire reported analysis
-│   ├── scripts/  results/  provenance/
+│   ├── scripts/            lib/ — the shared pipeline every node imports
+│   ├── results/  provenance/
 │   ├── NN_name/            sub-analyses children — numbered, every one of them runs
 │   └── a_name/             alternatives children — lettered, only the main path runs
-│                           (every node below 01_data reads and writes results/$COMBO/,
-│                            which defaults to `main`)
-├── environment/            the one main environment (spec · build · lockfile · image)
+│                           (only 04_stage2 is an alternatives node in this project;
+│                            06_stability holds one results/<combination>/ per manifest row)
+├── environment/            the one main environment (spec · build · lockfile). No image:
+│                           this project has no Docker requirement (readme-at-start.md)
 ├── Archive/                imported source material and data, never edited
-│   ├── case-source-material/  the five documents the project starts from, (IS_SHADOW)
 │   ├── lao-dataset/        the data, pinned by commit, with a checksum manifest
-│   ├── lao-population/     the annual national series the population fork back-casts from
-│   ├── sibling-datasets/   Thailand and Vietnam, same commit — the external check's data
+│   ├── lao-population/     the annual national series, available if population is used
+│   ├── sibling-datasets/   Thailand and Vietnam — available, and NOT used by this project
 │   └── plan-as-delivered/  the plan before any of it had been run
 ├── AI-generated/           derived documents — regenerable, therefore deletable
 │   ├── batch-reports/      one per executed batch — the exception: not regenerable
-│   ├── chap-reconnaissance/  what the pinned platform is and does
-│   ├── method-reconnaissance/  what the reference model scores and costs, and what else the library holds
-│   ├── vertical-slice/     the first model end to end, before the tree existed
 │   ├── validation/         what /validate cleanroom and /validate outsider found
-│   ├── determinism-checks/ Rule 6: our models run twice and diffed
-│   ├── hierarchical-report/
-│   └── reproducibility-report/
+│   └── hierarchical-report/  built by /hierarchical-report; gitignored except provenance.md
 ├── AI-internal/
 │   ├── useful-scripts/     node.py · check_invariants.py · claims.py ·
-│   │                       build_hierarchical_report.py · verify_model_determinism.sh
-│   ├── reconnaissance/     facts about external systems the project does not control
-│   ├── vertical-slice/     the scripts of batch 6; its model now lives in the tree
-│   ├── data-acquisition/   scripts that bring external data into Archive/
+│   │                       build_hierarchical_report.py · cleanroom.sh
 │   ├── skill-references/   the detail the thin skills defer to
 │   ├── ai_task_history.md
 │   └── ai_task_details.md
@@ -70,6 +64,16 @@ What each directory is for, and the one rule that governs it. Create every folde
 
 ## Node directories
 
-Named `NN_shortName`, numbered in the order the parent runs them. Each holds `claim.md`,
-`run.sh`, `scripts/`, `results/`, `provenance/`, and `env/` only where it overrides the main
-environment.
+**Named for the relationship they stand in to their siblings** (`AGENTS.md` §8, and
+`/validate invariants` enforces it):
+
+- **sub-analyses children are numbered** `NN_shortName`, in the order the parent runs them,
+  because that order is part of the approach;
+- **alternatives children are lettered** `a_shortName`, `b_shortName`, because they are mutually
+  exclusive and unordered and only one ever runs on the main path. A number on an alternative
+  would assert a sequence that does not exist.
+
+Each holds `claim.md`, `run.sh`, `scripts/`, `results/`, `provenance/`, and `env/` only where it
+overrides the main environment. A node directory carries **no `README.md`**: its `claim.md` says
+what it is for and what it yielded, and a README beside it would be a second place answering the
+same question (`AGENTS.md` §8).

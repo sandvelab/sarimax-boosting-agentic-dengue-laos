@@ -154,3 +154,61 @@ floor, the tighter winsorisation). Three months ahead improves in every combinat
 within the seed row's own distance from the main path — and none is promoted: the main path
 is the pre-registered choice the holdout will evaluate. The five tier-3 alternatives are
 unchanged and uncovered. Batch 16 freezes the holdout manifest from v2.
+
+**Batch 16 — the phase-E set, frozen** (`results/manifest_holdout.csv`,
+`results/holdout_freeze.json`, `results/manifest_holdout_summary.json`,
+`results/holdout_runner_verification.json`). Nothing here is a result about dengue: this batch
+fixes what the held-out year will be evaluated across, and proves that every row of it can be
+run, before the year is opened.
+
+*The evaluation design.* The project's fixed scheme — `n_periods 3`, `stride 3`, expanding
+window ending at the file's last period — resolves over the combined 1998-01 to 2010-12 span to
+**four successive three-month blocks covering 2010 exactly once**, trained on 144, 147, 150 and
+153 months. Each block after the first trains on the holdout months already forecast, which is
+what a forecaster operating through 2010 would have had, and it keeps the horizons h = 1..3 that
+stage 2 is trained on. **The province set is development's seventeen**, derived from the
+development months alone, so the cell set cannot move when the year opens; the base set is
+17 × 12 = 204 cells per row. The alternative — one origin at 2009-12 forecasting twelve months
+— was rejected: it scores the year at horizons no model here is built or evaluated for.
+
+*The machinery is gated before it is frozen.* `lib/holdout_eval.py` runs in development mode and
+reproduces three stored results value for value: the main path's 408 per-cell scores (0
+mismatches) and both required baselines' 408 each (0, 0). The baselines matter most —
+`03_baselines`' scripts cannot read another file, so these are a second implementation, and
+nothing but the comparison says the two agree. The planner refuses to freeze a set the gate has
+not passed, refuses a manifest and a configuration set that disagree in either direction, and
+on every later run verifies the frozen file rather than rewriting it.
+
+*The set.* 43 rows, 33 planned, an estimated 940 s against the 3,600 s ceiling carried over from
+phase D — the line falls below every planned row and nothing is excluded for budget. Tier 0 (3):
+the pre-registered main path `h_levelOnlyBoosting` and the two required baselines; stage 1 alone
+needs no row, since every two-stage row scores it on the same cells. Tier 1 (9): the four
+not-taken siblings the parametrised pipeline expresses (`f`, `g`, `i`, `j`) planned; `a`–`e` not
+run, because each would need a holdout-capable rewrite of its own script, all five lose to stage
+1 alone on development, and batch 10's diagnostics explain why. Tier 2 (26): the development v2
+perturbations under holdout names, so every judgment call measured on development is measured
+again on the held-out year and the two pair by row name. Tier 3 (5): carried forward unchanged.
+
+*What binds.* `holdout_freeze.json` records the manifest's sha256, 43 rows, the commit it was
+frozen at (67f998c — which carries every script the set will be run by and no holdout result),
+and the sealed holdout file's own digest, so the file phase E opens is the file that was sealed.
+The reporting rule is frozen with the set: plan §2's two bars on the main path as the primary
+answer, both baselines beside it, the tier-2 spread reported as a distribution and never as a
+best row, every row paired with its development counterpart — and, afterwards, nothing added,
+dropped, re-tuned or re-run once a holdout number has been seen, nothing promoted on held-out
+evidence, and a result contradicting development reported as the finding. Two decisions were the
+human's at the freeze (plan §4b, 2026-09-22): the main path stays `h_levelOnlyBoosting`, and
+stage 1 is not reopened after the no-differencing finding.
+
+*A defect found on the way, in this node's own development freeze.* `02_plan_manifest.py`
+rewrote `results/manifest.csv` on every run, with `est_cost_s` taken from wall-clock that
+`01_measure_run_costs.py` re-measures each time — so every full run of `analysis/run.sh` moved
+the file away from the digest recorded in `manifest_freeze.json`, and nothing noticed, because
+the `freeze` invariant covered only the phase-E set. The cost columns change nothing the
+manifest plans, which is exactly why it was invisible; the frozen digest is what the batch-13
+and batch-15 reports rest on. The script now re-plans in memory, compares, writes
+`results/manifest_freeze_check.json` and leaves the file alone, failing if the manifest no
+longer hashes to its freeze or if a re-plan would change anything beyond the cost columns; a
+change of main path still plans a new version, as batch 14 did. **`manifest.csv` is unchanged**
+— still `d2c5e813…`, the v2 digest frozen at `cef9a18`. Both refusals were exercised rather
+than assumed.

@@ -32,7 +32,7 @@ above.
 ## The article
 
 - **Target venue**: not yet decided.
-- **Status**: batches 1–15 complete (phases A–D, a third stage-2 iteration after D, and the stability set re-run around its main path). Stage 1 (per-province SARIMAX,
+- **Status**: batches 1–16 complete (phases A–D, a third stage-2 iteration after D, the stability set re-run around its main path, and the phase-E set frozen). Stage 1 (per-province SARIMAX,
   mean CRPS 26.05 over 371 cells, 90% coverage 82.7%) beats both required baselines
   (persistence 28.32, seasonal climatology 26.91). Seven stage-2 residual-correction
   candidates exist under `04_stage2`. Five (batches 4–9) were trained on stage 1's
@@ -80,8 +80,17 @@ above.
   stage 1's differencing choice (recorded, stage 1 not reopened; claim C10). The gain is in
   Khammouane, Salavan, Bokeo, Xiangkhouang and Xekong in every combination, never in Oudomxay,
   and reaches one month ahead in 23 of 27 combinations. Three v2 rows score better than `h` on
-  development data and none is promoted. Claims C8–C13. Batch 16 freezes the holdout manifest
-  from v2.
+  development data and none is promoted. Claims C8–C13. **Batch 16 froze the phase-E set**
+  (`06_stability/results/manifest_holdout.csv`, 43 rows: 33 planned at an estimated 940 s of the
+  3,600 s ceiling; 3 tier-0 — the pre-registered main path and both required baselines — 4 of the
+  9 siblings, the 26 development v2 perturbations under holdout names, and 10 rows not run with
+  reasons), together with the evaluation design (four expanding three-month blocks covering 2010
+  exactly once, at h = 1..3, on development's seventeen provinces: 204 cells per row) and the
+  reporting rule. Phase E's machinery was built and gated in the same batch, before the freeze:
+  it reproduces the main path's and both required baselines' stored development per-cell scores,
+  408 rows each, 0 mismatches. At the freeze the human kept `h_levelOnlyBoosting` as the
+  pre-registered main path and left stage 1 unreopened (plan §4b, 2026-09-22). Batch 17 opens
+  2010 once and runs exactly that set.
 - **Manuscript**: `Human-AI-collaboration/manuscript/` (empty).
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-09-20_sarimaxResidualBoostingCase.md`. It carries

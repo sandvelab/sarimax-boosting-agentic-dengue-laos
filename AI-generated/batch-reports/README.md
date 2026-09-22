@@ -54,3 +54,8 @@ different report, not the same one.
   408/408) and reported beside v1 — sign stable in all 26, size turning on stage 1 and the
   training-error construction; the no-differencing stage 1 alone comes within 0.6 CRPS of the
   two-stage main path; claims C8–C13.
+- `26-09-22_b16_holdoutFreeze.md` — batch 16: the phase-E set frozen before the held-out year
+  opens (43 rows, 33 planned), together with the evaluation design and the reporting rule;
+  phase E's machinery built and gated in the same batch against the stored development results
+  (three reproductions, 408 rows each, 0 mismatches); the invariant that dates the freeze fixed
+  from the prior project's layout to this one's. No result about dengue changes.

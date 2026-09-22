@@ -1,0 +1,173 @@
+{
+  "verified_on": "development data only; no holdout case value is read by this script",
+  "development_scheme": {
+    "n_periods": 3,
+    "n_splits": 8,
+    "stride": 3
+  },
+  "reproduction_checks": {
+    "two_stage_main_path": {
+      "compared_with": "analysis/04_stage2/h_levelOnlyBoosting/results/per_cell_scores.csv",
+      "n_rows_ours": 408,
+      "n_rows_stored": 408,
+      "n_mismatched_values": 0,
+      "identical_on_shared_columns": true,
+      "first_mismatches": [],
+      "wall_seconds_on_development": 17.3
+    },
+    "baseline_persistence": {
+      "compared_with": "analysis/03_baselines/01_persistence/results/per_cell_scores.csv",
+      "n_rows_ours": 408,
+      "n_rows_stored": 408,
+      "n_mismatched_values": 0,
+      "identical_on_shared_columns": true,
+      "first_mismatches": [],
+      "wall_seconds_on_development": 0.1
+    },
+    "baseline_climatology": {
+      "compared_with": "analysis/03_baselines/02_climatology/results/per_cell_scores.csv",
+      "n_rows_ours": 408,
+      "n_rows_stored": 408,
+      "n_mismatched_values": 0,
+      "identical_on_shared_columns": true,
+      "first_mismatches": [],
+      "wall_seconds_on_development": 0.0
+    }
+  },
+  "all_reproductions_identical": true,
+  "row_set": {
+    "n_rows": 33,
+    "suffix": "__holdout",
+    "rows": [
+      "04_stage2=f_oosErrorRidge__holdout",
+      "04_stage2=g_oosErrorBoosting__holdout",
+      "04_stage2=i_boundedBoosting__holdout",
+      "04_stage2=j_levelOnlyBoundedBoosting__holdout",
+      "baseline=climatology__holdout",
+      "baseline=persistence__holdout",
+      "main@h__holdout",
+      "modelable=36_months@h__holdout",
+      "scheme=chap_default_7x1@h__holdout",
+      "stage1=airline_011x011@h__holdout",
+      "stage1=enforce_stationarity@h__holdout",
+      "stage1=nodiff_101x100@h__holdout",
+      "stage2=alt_seed@h__holdout",
+      "stage2=bounded_floor0@h__holdout",
+      "stage2=depth2@h__holdout",
+      "stage2=depth4_300trees@h__holdout",
+      "stage2=full_plus_climate@h__holdout",
+      "stage2=lr0.1@h__holdout",
+      "stage2=min_leaf50@h__holdout",
+      "stage2=min_train_rows1000@h__holdout",
+      "stage2=no_clip@h__holdout",
+      "stage2=no_winsorisation@h__holdout",
+      "stage2=per_horizon@h__holdout",
+      "stage2=plus_recent_and_cross@h__holdout",
+      "stage2=plus_recent_and_incidence@h__holdout",
+      "stage2=rolling_refit_oos@h__holdout",
+      "stage2=scale_by_residual_rms@h__holdout",
+      "stage2=warmup12@h__holdout",
+      "stage2=warmup36@h__holdout",
+      "stage2=zclip2@h__holdout",
+      "stage2=zclip5@h__holdout",
+      "window=rolling_72m@h__holdout",
+      "window=start_2002@h__holdout"
+    ],
+    "malformed_rows": [],
+    "all_constructible": true
+  },
+  "frozen_province_set": {
+    "n_provinces": 17,
+    "provinces": [
+      "LA-AT",
+      "LA-BK",
+      "LA-BL",
+      "LA-CH",
+      "LA-HO",
+      "LA-KH",
+      "LA-LM",
+      "LA-LP",
+      "LA-OU",
+      "LA-PH",
+      "LA-SL",
+      "LA-SV",
+      "LA-VT",
+      "LA-XA",
+      "LA-XE",
+      "LA-XI",
+      "LA-XN"
+    ]
+  },
+  "holdout_schedule": {
+    "n_months_combined": 156,
+    "combined_span": [
+      "1998-01",
+      "2010-12"
+    ],
+    "n_periods": 3,
+    "n_splits": 4,
+    "stride": 3,
+    "splits": [
+      {
+        "split": 0,
+        "train_start": "1998-01",
+        "train_end": "2009-12",
+        "n_train_months": 144,
+        "test_months": [
+          "2010-01",
+          "2010-02",
+          "2010-03"
+        ]
+      },
+      {
+        "split": 1,
+        "train_start": "1998-01",
+        "train_end": "2010-03",
+        "n_train_months": 147,
+        "test_months": [
+          "2010-04",
+          "2010-05",
+          "2010-06"
+        ]
+      },
+      {
+        "split": 2,
+        "train_start": "1998-01",
+        "train_end": "2010-06",
+        "n_train_months": 150,
+        "test_months": [
+          "2010-07",
+          "2010-08",
+          "2010-09"
+        ]
+      },
+      {
+        "split": 3,
+        "train_start": "1998-01",
+        "train_end": "2010-09",
+        "n_train_months": 153,
+        "test_months": [
+          "2010-10",
+          "2010-11",
+          "2010-12"
+        ]
+      }
+    ],
+    "evaluated_months": [
+      "2010-01",
+      "2010-02",
+      "2010-03",
+      "2010-04",
+      "2010-05",
+      "2010-06",
+      "2010-07",
+      "2010-08",
+      "2010-09",
+      "2010-10",
+      "2010-11",
+      "2010-12"
+    ],
+    "covers_the_holdout_year_exactly_once": true
+  },
+  "wall_seconds": 17.4
+}

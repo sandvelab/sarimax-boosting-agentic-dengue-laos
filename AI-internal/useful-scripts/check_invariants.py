@@ -427,7 +427,7 @@ def check_combos(root: Path) -> list[Finding]:
     And a fork added to the tree after the manifest was written is a reasonable
     alternative the stability run does not know about. That is the silent absence
     `AGENTS.md` §4 forbids, so the manifest's tier-1 rows must agree exactly with the
-    tree's non-main children. `plan_manifest.py` keeps them in step; this is what says
+    tree's non-main children. `06_stability/scripts/02_plan_manifest.py` keeps them in step; this is what says
     so when it has not been re-run.
     """
     import csv
@@ -473,7 +473,7 @@ def check_combos(root: Path) -> list[Finding]:
     for fork, child in sorted(actual - planned):
         out.append(Finding("combos", f"{fork}/{child}",
                            "a path not taken with no row in the stability manifest; "
-                           "re-run plan_manifest.py"))
+                           "re-run 06_stability/scripts/02_plan_manifest.py"))
     for fork, child in sorted(planned - actual):
         out.append(Finding("combos", f"{fork}/{child}",
                            "the manifest names a child the tree does not have"))
@@ -490,10 +490,11 @@ def check_freeze(root: Path) -> list[Finding]:
 
     Two things are asserted from that, and both were prose until batch 24.
 
-    **The frozen set has not been rewritten.** `freeze_holdout_manifest.py` now refuses to
-    rewrite it, but the refusal lives in the script; this is the statement that holds
-    whatever wrote the file. Batch 18 found the script rebuilding the set on every run of
-    `analysis/run.sh` and returning the same bytes only because the tree had not changed.
+    **The frozen set has not been rewritten.** `06_stability/scripts/07_plan_holdout_manifest.py`
+    refuses to rewrite it, but the refusal lives in the script; this is the statement that
+    holds whatever wrote the file. The prior project's batch 18 found its script rebuilding the
+    set on every run of `analysis/run.sh` and returning the same bytes only because the tree had
+    not changed.
 
     **The freeze predates the opening.** `holdout_freeze.json`'s own note claims that no
     holdout result exists at the commit it was frozen at. That is the entire evidence that
@@ -514,11 +515,29 @@ def check_freeze(root: Path) -> list[Finding]:
     moves them without anything being wrong.
     """
     out: list[Finding] = []
+    import json
+
+    # The development set is frozen too (`manifest_freeze.json`, batch 11 and batch 14), and
+    # until batch 16 nothing asserted that it stayed frozen. It could not: `est_cost_s` is
+    # measured wall-clock and `02_plan_manifest.py` rewrote the file on every run of
+    # `analysis/run.sh`, so the frozen digest was a record of a file that no longer existed the
+    # moment the tree was reproduced. The script now verifies instead of rewriting; this is the
+    # statement that holds whatever wrote the file, and it is the same assertion phase E's set
+    # gets below.
+    dev_freeze = root / MANIFEST.parent / "manifest_freeze.json"
+    if dev_freeze.exists() and (root / MANIFEST).exists():
+        record = json.loads(dev_freeze.read_text())
+        current = hashlib.sha256((root / MANIFEST).read_bytes()).hexdigest()
+        if record.get("sha256") and record["sha256"] != current:
+            out.append(Finding("freeze", str(MANIFEST), (
+                f"the frozen development set hashes to {current[:12]}… and manifest_freeze.json "
+                f"records {record['sha256'][:12]}…: it has been rewritten since it was frozen, so "
+                f"the stability report is of a set the repository no longer holds")))
+
     freeze = root / MANIFEST_HOLDOUT.parent / "holdout_freeze.json"
     manifest = root / MANIFEST_HOLDOUT
     if not freeze.exists() or not manifest.exists():
         return out
-    import json
     record = json.loads(freeze.read_text())
     where = str(MANIFEST_HOLDOUT)
 
@@ -564,7 +583,7 @@ def check_freeze(root: Path) -> list[Finding]:
         if seen.get("frozen", {}).get("sha256") not in (None, current):
             out.append(Finding("freeze", str(check.relative_to(root)),
                                "the last verification was of a different file; re-run "
-                               "freeze_holdout_manifest.py"))
+                               "06_stability/scripts/07_plan_holdout_manifest.py"))
         fatal = seen.get("fatal", {})
         for name in ("frozen_rows_the_tree_no_longer_carries",
                      "frozen_rows_whose_structure_moved"):

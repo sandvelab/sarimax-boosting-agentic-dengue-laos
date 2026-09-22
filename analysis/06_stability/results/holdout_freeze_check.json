@@ -1,0 +1,18 @@
+{
+  "checked_on": "2026-09-22",
+  "frozen": {
+    "file": "results/manifest_holdout.csv",
+    "sha256": "835bb52cab2e91cc630d420f59b07691cf8a7ddb0990e5079bfbba25d9080ab0",
+    "matches_holdout_freeze_json": true,
+    "rows": 43
+  },
+  "replanned_now": {
+    "sha256": "835bb52cab2e91cc630d420f59b07691cf8a7ddb0990e5079bfbba25d9080ab0",
+    "identical_to_frozen": true
+  },
+  "fatal": {
+    "frozen_rows_the_tree_no_longer_carries": [],
+    "frozen_rows_whose_structure_moved": []
+  },
+  "note": "The frozen phase-E set is not rewritten. This file records that it is still the file that was frozen, that every frozen row still has the configuration it was frozen with, and that re-planning now would produce the same set."
+}

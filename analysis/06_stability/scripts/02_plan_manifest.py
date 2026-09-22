@@ -185,6 +185,27 @@ def superseded_rows(previous_manifest: Path, current_main: str) -> list[dict]:
     return out
 
 
+def render(rows: list[dict], fieldnames: list[str]) -> bytes:
+    """The bytes the manifest would have, without touching the file."""
+    import io
+    buf = io.StringIO(newline="")
+    w = csv.DictWriter(buf, fieldnames=fieldnames, extrasaction="ignore", lineterminator="\n")
+    w.writeheader()
+    w.writerows(rows)
+    return buf.getvalue().encode()
+
+
+def diff_columns(current: bytes, replanned: bytes, fieldnames: list[str]) -> list[str]:
+    """Which columns a re-plan would change. Rows are compared by combination, so a set that
+    gained or lost a row shows up as the sentinel `<row set>` rather than as a column."""
+    def table(b: bytes) -> dict[str, dict]:
+        return {r["combination"]: r for r in csv.DictReader(b.decode().splitlines())}
+    a, b = table(current), table(replanned)
+    if set(a) != set(b):
+        return ["<row set>"]
+    return sorted({f for k in a for f in fieldnames if a[k].get(f) != b[k].get(f)})
+
+
 def main() -> None:
     main = main_stage2()
     costs = read_costs()
@@ -218,6 +239,38 @@ def main() -> None:
     rows = gate + t1 + t2 + t3 + previous
     old_freeze = json.loads((RESULTS / "manifest_freeze.json").read_text()) if (RESULTS / "manifest_freeze.json").exists() else None
     RESULTS.mkdir(exist_ok=True)
+
+    # A frozen set is not rewritten by a re-run. `est_cost_s` is measured wall-clock, so
+    # re-planning on a differently loaded machine changes the manifest's bytes while changing
+    # nothing about what it plans -- and the digest in manifest_freeze.json would then be a
+    # record of a file that no longer exists. Batch 16 found this while building the phase-E
+    # freeze: every full run of analysis/run.sh silently moved the development set.
+    # A new version is still planned, because that is a recorded decision, not a re-run: the
+    # rewrite path is taken when there is no freeze yet, or when the tree's main path is no
+    # longer the one the freeze was written for (batch 14's v1 -> v2).
+    if old_freeze and (RESULTS / "manifest.csv").exists() and old_freeze.get("main_path") == main:
+        current = (RESULTS / "manifest.csv").read_bytes()
+        replanned = render(rows, fieldnames)
+        check = {"checked_on": time.strftime("%Y-%m-%d"), "version": old_freeze.get("version"),
+                 "main_path": main, "frozen_sha256": old_freeze.get("sha256"),
+                 "current_sha256": hashlib.sha256(current).hexdigest(),
+                 "still_the_frozen_file": hashlib.sha256(current).hexdigest() == old_freeze.get("sha256"),
+                 "replanned_sha256": hashlib.sha256(replanned).hexdigest(),
+                 "replanned_differs_only_in": diff_columns(current, replanned, fieldnames),
+                 "note": "The frozen development set is not rewritten by a re-run. Differences "
+                         "confined to est_cost_s/cumulative_cost_s are re-measured wall-clock and "
+                         "change nothing the manifest plans; a difference anywhere else is a "
+                         "change to the set and must be a recorded decision (plan §4b)."}
+        (RESULTS / "manifest_freeze_check.json").write_text(json.dumps(check, indent=2) + "\n")
+        print(json.dumps(check, indent=2))
+        if not check["still_the_frozen_file"]:
+            raise RuntimeError("manifest.csv no longer hashes to manifest_freeze.json's digest")
+        beyond_cost = set(check["replanned_differs_only_in"]) - {"est_cost_s", "cumulative_cost_s"}
+        if beyond_cost:
+            raise RuntimeError(f"re-planning would change the frozen set beyond measured cost: "
+                               f"{sorted(beyond_cost)}")
+        return
+
     with (RESULTS / "manifest.csv").open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore", lineterminator="\n")
         w.writeheader()

@@ -75,7 +75,9 @@ STAGE2 = ANALYSIS / "04_stage2"
 PREPARE = ANALYSIS / "01_data" / "01_prepare" / "results"
 
 BUDGET_WALL_SECONDS = 3600  # the phase-D ceiling, carried over (agent-autonomous, revisable)
-SENSITIVITY_POINTS = 2.0    # "moves the size", unchanged from v1 and v2 so the three compare
+SENSITIVITY_POINTS = 2.0    # reporting threshold: a margin this many points away counts as
+                            # moving the size. The same value v1 and v2 used, so the three
+                            # versions' reports compare without a rescaling.
 
 FIELDS = ["combination", "tier", "development_row", "node", "parameter", "main_value", "value",
           "basis", "informativeness_rank", "est_cost_s", "cumulative_cost_s", "n_expected_cells",

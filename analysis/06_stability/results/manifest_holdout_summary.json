@@ -1,0 +1,133 @@
+{
+  "phase": "E",
+  "main_path": "h_levelOnlyBoosting",
+  "suffix": "__holdout",
+  "n_rows": 43,
+  "n_planned": 33,
+  "n_tier0": 3,
+  "n_tier1_planned": 4,
+  "n_tier1_not_run": 5,
+  "n_tier2_planned": 26,
+  "n_tier2_below_budget_line": 0,
+  "n_tier3_not_run": 5,
+  "evaluation_design": {
+    "n_months_combined": 156,
+    "combined_span": [
+      "1998-01",
+      "2010-12"
+    ],
+    "n_periods": 3,
+    "n_splits": 4,
+    "stride": 3,
+    "splits": [
+      {
+        "split": 0,
+        "train_start": "1998-01",
+        "train_end": "2009-12",
+        "n_train_months": 144,
+        "test_months": [
+          "2010-01",
+          "2010-02",
+          "2010-03"
+        ]
+      },
+      {
+        "split": 1,
+        "train_start": "1998-01",
+        "train_end": "2010-03",
+        "n_train_months": 147,
+        "test_months": [
+          "2010-04",
+          "2010-05",
+          "2010-06"
+        ]
+      },
+      {
+        "split": 2,
+        "train_start": "1998-01",
+        "train_end": "2010-06",
+        "n_train_months": 150,
+        "test_months": [
+          "2010-07",
+          "2010-08",
+          "2010-09"
+        ]
+      },
+      {
+        "split": 3,
+        "train_start": "1998-01",
+        "train_end": "2010-09",
+        "n_train_months": 153,
+        "test_months": [
+          "2010-10",
+          "2010-11",
+          "2010-12"
+        ]
+      }
+    ],
+    "evaluated_months": [
+      "2010-01",
+      "2010-02",
+      "2010-03",
+      "2010-04",
+      "2010-05",
+      "2010-06",
+      "2010-07",
+      "2010-08",
+      "2010-09",
+      "2010-10",
+      "2010-11",
+      "2010-12"
+    ],
+    "covers_the_holdout_year_exactly_once": true
+  },
+  "province_set": {
+    "n_provinces": 17,
+    "provinces": [
+      "LA-AT",
+      "LA-BK",
+      "LA-BL",
+      "LA-CH",
+      "LA-HO",
+      "LA-KH",
+      "LA-LM",
+      "LA-LP",
+      "LA-OU",
+      "LA-PH",
+      "LA-SL",
+      "LA-SV",
+      "LA-VT",
+      "LA-XA",
+      "LA-XE",
+      "LA-XI",
+      "LA-XN"
+    ]
+  },
+  "cost_model": {
+    "scale_factor": 0.569,
+    "holdout_training_months_total": 594,
+    "development_training_months_total": 1044,
+    "source": "results/run_log_v2.csv for rows with a development counterpart; the measured development cost in holdout_runner_verification.json for the baselines"
+  },
+  "budget_wall_seconds": 3600,
+  "planned_cost_s": 939.8,
+  "where_the_line_fell": "below every planned row: nothing is excluded for budget",
+  "gate": {
+    "source": "results/holdout_runner_verification.json",
+    "reproduction_checks": {
+      "two_stage_main_path": 0,
+      "baseline_persistence": 0,
+      "baseline_climatology": 0
+    },
+    "all_identical": true
+  },
+  "reporting_rule": {
+    "written": "before the held-out year was opened; this is what batch 17 reports, whatever it finds",
+    "primary": "main@h__holdout's mean CRPS and 90% coverage against stage 1 alone on the same cells, from its own conclusion.json. The two-stage ensemble earns its place on the held-out year if and only if it clears both of plan \u00a72's bars there: lower mean CRPS than stage 1 alone, and 90% coverage not worse",
+    "secondary": "stage 1 alone and the two-stage ensemble against persistence and seasonal climatology on the same cells (plan \u00a72, \u00a74)",
+    "spread": "the distribution of pct_change_vs_stage1 over the tier-2 rows that ran: how many beat stage 1 alone, how many with coverage not worse, min/quartiles/median/max, the rows more than 2.0 percentage points from the main path's margin (the same threshold as v1 and v2), splits improved, and the province and horizon concentration -- reported as a distribution, never as a best row",
+    "pairing": "every holdout row paired by name with its development v2 row, so the held-out margin is read beside the development one rather than on its own",
+    "binding": "nothing is added, dropped, re-tuned or re-run on the holdout after a number from it has been seen; no configuration is promoted on held-out evidence; a holdout result that contradicts the development conclusion is the finding and is reported as such. If the year is ever opened a second time, that is recorded (plan \u00a73)"
+  },
+  "sensitivity_points": 2.0
+}

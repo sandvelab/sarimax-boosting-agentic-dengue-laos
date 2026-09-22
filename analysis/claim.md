@@ -193,3 +193,18 @@ repair of stage 1's differencing choice, recorded against stage 1's documented w
 gives −2.99% (v1: −0.70%). The gain is concentrated in the same provinces as before, with
 Xekong joining the always-improved set, and now reaches one month ahead in 23 of 27
 combinations. Nothing is promoted; batch 16 freezes the holdout manifest from v2.
+
+Batch 16: the phase-E set is frozen before the held-out year is opened
+(`06_stability/results/manifest_holdout.csv`, 43 rows, sha256 recorded in
+`holdout_freeze.json` at a commit carrying every script the set will be run by and no holdout
+result). **No number about dengue changes in this batch.** What it fixes is what the held-out
+year will be asked: the twelve months are scored as four expanding-window three-month blocks
+covering 2010 exactly once at h = 1..3, on development's seventeen provinces — 204 cells per
+row; the set is the pre-registered main path `h_levelOnlyBoosting` with both required baselines,
+four of the nine not-taken siblings, the 26 development v2 perturbations under holdout names,
+and ten rows not run with their reasons; and the reporting rule is frozen with it, so what
+counts as the answer is decided before the numbers exist. Phase E's machinery was built and
+gated here rather than in phase E, reproducing the main path's and both baselines' stored
+development per-cell scores on 408 rows each with 0 mismatches, so that no code is written or
+corrected with a held-out number on screen. At the freeze the human kept `h_levelOnlyBoosting`
+and left stage 1 unreopened (plan §4b, 2026-09-22). Batch 17 opens the year once.

@@ -1,0 +1,11 @@
+{
+  "checked_on": "2026-09-22",
+  "version": 2,
+  "main_path": "h_levelOnlyBoosting",
+  "frozen_sha256": "d2c5e813e7215eb908787049546e0e8346c3311ea7b6d6b3ca6fd43c53834ac0",
+  "current_sha256": "d2c5e813e7215eb908787049546e0e8346c3311ea7b6d6b3ca6fd43c53834ac0",
+  "still_the_frozen_file": true,
+  "replanned_sha256": "d2c5e813e7215eb908787049546e0e8346c3311ea7b6d6b3ca6fd43c53834ac0",
+  "replanned_differs_only_in": [],
+  "note": "The frozen development set is not rewritten by a re-run. Differences confined to est_cost_s/cumulative_cost_s are re-measured wall-clock and change nothing the manifest plans; a difference anywhere else is a change to the set and must be a recorded decision (plan \u00a74b)."
+}

@@ -82,3 +82,50 @@ alternatives-considered (this section):
     "add back" rows (recent + incidence; recent + cross-province; g's full set + climate), and
     the bound is tried without its floor since j (floor 10) is a tier-1 sibling.
 agency: agent-autonomous (the v2 specification); the main-path change it follows is human-set.
+
+---
+section appended in batch 16 -- **the frozen development set is no longer rewritten by a
+re-run** (a defect found while building the phase-E freeze, not a change to the set):
+script: scripts/02_plan_manifest.py
+        sha256:4199ccb9ae9d8240331c64e0914efa20ace29c05887bbabb6e54317694f680de
+        (was b600c76a…)
+result: results/manifest_freeze_check.json (new; results/manifest.csv, manifest_summary.json
+        and manifest_freeze.json are unchanged -- manifest.csv still hashes to
+        d2c5e813e7215eb908787049546e0e8346c3311ea7b6d6b3ca6fd43c53834ac0, the v2 digest frozen
+        at cef9a18)
+invocation: ../../environment/env/bin/python scripts/02_plan_manifest.py
+the defect: `est_cost_s` is measured wall-clock, read from results/run_costs.csv, which
+        01_measure_run_costs.py re-measures on every run of this node's run.sh -- and this
+        script rewrote results/manifest.csv unconditionally. So every full run of
+        analysis/run.sh moved the development manifest's bytes, and manifest_freeze.json's
+        digest became a record of a file that no longer existed, while nothing checked it:
+        check_invariants.py's `freeze` check covered only the phase-E set. The cost columns
+        change nothing the manifest plans, which is why this was invisible; the frozen digest
+        is the thing the batch-13 and batch-15 reports rest on, and it was not holding.
+the fix: with a freeze present and the tree's main path still the one it was written for, the
+        script re-plans in memory, compares, writes results/manifest_freeze_check.json and
+        returns without touching manifest.csv. It fails if the file no longer hashes to the
+        frozen digest, and fails if re-planning would change anything beyond est_cost_s and
+        cumulative_cost_s. A new version is still planned normally, because a change of main
+        path is a recorded decision rather than a re-run -- the path batch 14 took from v1 to
+        v2 is unchanged.
+verified: run on 2026-09-22 -- manifest.csv untouched, still d2c5e813…, replanned digest
+        identical, `replanned_differs_only_in` empty. Both refusals were exercised: appending
+        one row to manifest.csv makes the script raise and makes check_invariants' `freeze`
+        check report it; restoring the file makes both pass.
+also: check_invariants.py's `freeze` check now asserts the development freeze as well as the
+        phase-E one (a methodological change, AGENTS.md §3 Rule 4, committed with this batch).
+environment: environment/ (project main)
+        lock.txt sha256:2ed8d10ee004b65ae2076e055d090f487018731cdf02723fa48431c8cfd8bc01
+seeds: none drawn.
+commit: 67f998c
+instructions-commit: 67f998c
+produced: 2026-09-22
+alternatives-considered:
+  - Dropping est_cost_s from the manifest so a re-plan is deterministic: rejected -- the cost
+    estimate and where the budget line fell are what AGENTS.md §6 asks be recorded, and the
+    column is the record of it.
+  - Leaving it for the clean-room batch (row 19), where it would have surfaced as a diff:
+    rejected -- it would have surfaced there as one difference among many, after the holdout
+    had been opened against a development set whose digest no longer matched.
+agency: agent-autonomous (finding it, and the fix).

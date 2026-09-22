@@ -1,0 +1,27 @@
+{
+  "frozen_file": "results/manifest_holdout.csv",
+  "phase": "E",
+  "main_path": "h_levelOnlyBoosting",
+  "rows": 43,
+  "sha256": "835bb52cab2e91cc630d420f59b07691cf8a7ddb0990e5079bfbba25d9080ab0",
+  "frozen_at_commit": "67f998c",
+  "frozen_on": "2026-09-22",
+  "frozen_inputs": {
+    "results/manifest_holdout.csv": "835bb52cab2e91cc630d420f59b07691cf8a7ddb0990e5079bfbba25d9080ab0",
+    "results/manifest.csv": "d2c5e813e7215eb908787049546e0e8346c3311ea7b6d6b3ca6fd43c53834ac0",
+    "results/conclusions_v2.csv": "27916dca54ddc7a7277cd3f5b6cda6465b9ed45681b0aa842e76ff5003123045",
+    "results/distribution_v2.json": "9aeda5a303c562148f568ea0f32bec62cabd458b5c330833f803f13278efd524",
+    "results/holdout_runner_verification.json": "c9882891526c5def98e033633e216d0f60db9a8bd29743ce2eb1976293fc9dfd",
+    "analysis/01_data/01_prepare/results/development.csv": "138c568c84e33bc7c94fe10f1e4d6bef4f339469dd81ec49b8180be18bf2033f",
+    "analysis/01_data/01_prepare/results/holdout.csv": "389e4f4975980588c88a8a0f9d44e6ad903644faf096ebb469e62d89122e100d"
+  },
+  "note": "The set the held-out year is evaluated across, fixed before it was opened. frozen_at_commit is HEAD at the moment of freezing, so it precedes the commit that adds this file; no holdout result exists at it, which is what /validate invariants' freeze check asserts. The holdout file's own digest is recorded so that the file phase E opens is the file that was sealed -- its case values are not read here. Changing this set is not an edit: it is a recorded decision in the plan's \u00a74b, made before the year is opened.",
+  "reporting_rule": {
+    "written": "before the held-out year was opened; this is what batch 17 reports, whatever it finds",
+    "primary": "main@h__holdout's mean CRPS and 90% coverage against stage 1 alone on the same cells, from its own conclusion.json. The two-stage ensemble earns its place on the held-out year if and only if it clears both of plan \u00a72's bars there: lower mean CRPS than stage 1 alone, and 90% coverage not worse",
+    "secondary": "stage 1 alone and the two-stage ensemble against persistence and seasonal climatology on the same cells (plan \u00a72, \u00a74)",
+    "spread": "the distribution of pct_change_vs_stage1 over the tier-2 rows that ran: how many beat stage 1 alone, how many with coverage not worse, min/quartiles/median/max, the rows more than 2.0 percentage points from the main path's margin (the same threshold as v1 and v2), splits improved, and the province and horizon concentration -- reported as a distribution, never as a best row",
+    "pairing": "every holdout row paired by name with its development v2 row, so the held-out margin is read beside the development one rather than on its own",
+    "binding": "nothing is added, dropped, re-tuned or re-run on the holdout after a number from it has been seen; no configuration is promoted on held-out evidence; a holdout result that contradicts the development conclusion is the finding and is reported as such. If the year is ever opened a second time, that is recorded (plan \u00a73)"
+  }
+}

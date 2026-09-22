@@ -66,3 +66,28 @@ alternatives-considered:
 agency: agent-autonomous (the execution). The set, the design and the reporting rule were frozen
         in batch 16; the main path they are built around is human-set (plan §4b, 2026-09-22).
 information: none retrieved; every input is a file already in this repository.
+
+---
+section appended in batch 19 -- **the note written into a second status row was true as prose
+and misleading as behaviour**; no result changes and the year is not reopened:
+script: scripts/08_run_holdout.py
+        sha256:97b5c8ea55854960a3196bd86f22020da80f59233c9d63770d1cf49770878fc1
+        (was 2acfd8c5…: only the `note` string written into results/run_status_holdout.csv for
+        row 2 and beyond)
+the defect: the note asserted "a SECOND opening of the held-out year -- plan §3 requires this be
+        visible; the reason belongs in the plan's §4b". A clean-room run reaches that line
+        legitimately: it reproduces the recorded analysis in a fresh clone, and the status file
+        is tracked, so row 1 travels with the clone and the reproduction writes row 2. The
+        gitignore comment on the working-tree seal marker says exactly this is intended --
+        "a versioned seal would seal every clone, which is what stopped analysis/run.sh from
+        reproducing phase E from nothing" -- so the script would have labelled the intended
+        behaviour as the forbidden one.
+the fix: the note states both readings and leaves the commit and timestamp in the row to
+        distinguish them, because the script cannot. Found by `/validate cleanroom` (batch 19)
+        while reasoning about what the clone's run would write, before the full run.
+not-rerun: this tree's results/run_status_holdout.csv still holds its single row, written by
+        2acfd8c5…, and is unchanged. The new string can only appear on a row that does not
+        exist here.
+commit: batch 19
+produced: 2026-09-22
+agency: agent-autonomous.

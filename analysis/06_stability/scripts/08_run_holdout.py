@@ -147,9 +147,16 @@ def record_opening(freeze: dict, n_planned: int, n_run: int, wall: float) -> int
     n = len(existing) + 1
     head = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "--short", "HEAD"],
                           capture_output=True, text=True).stdout.strip()
+    # Row 2 and beyond mean one of two quite different things and this file cannot tell them
+    # apart, so it states both rather than asserting the alarming one. A clean-room run
+    # reproduces the recorded analysis in a fresh clone and reaches here legitimately, carrying
+    # row 1 with it because the file is tracked; a second opening in the tree that produced the
+    # reported result is what plan §3 requires be visible. The commit and timestamp in the row
+    # are what distinguish them.
     note = ("the single opening the plan allows" if n == 1 else
-            "a SECOND opening of the held-out year -- plan §3 requires this be visible; "
-            "the reason belongs in the plan's §4b")
+            f"opening {n} in this working tree -- either a reproduction of the recorded "
+            f"analysis, as a clean-room run in a fresh clone is, or a genuine second opening of "
+            f"the held-out year, which plan §3 requires be recorded with its reason in §4b")
     existing.append({"opened_on": time.strftime("%Y-%m-%d %H:%M:%S"), "opened_at_commit": head,
                      "manifest_sha256": freeze["sha256"],
                      "holdout_csv_sha256": freeze["frozen_inputs"]["analysis/01_data/01_prepare/results/holdout.csv"],

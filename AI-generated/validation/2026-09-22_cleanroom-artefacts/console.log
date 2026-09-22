@@ -1,0 +1,56 @@
+[cleanroom] root   /Users/geirksa_1_2_3/ai/special-purpose vaults/sarimax-boosting-agentic-dengue-laos
+[cleanroom] clone  /Users/geirksa_1_2_3/ai/special-purpose vaults/sarimax-boosting-agentic-dengue-laos/AI-internal/useful-scripts/repo
+[cleanroom] date   2026-09-22T21:56:53Z
+[cleanroom] HEAD   a8eb05b
+[cleanroom] --- clone ---
+[cleanroom] cloned at a8eb05b
+[cleanroom] --- inputs: clone vs. repository, byte for byte ---
+[cleanroom] 0 tracked input file(s) differ before anything ran
+[cleanroom] --- build the environment from nothing ---
+Using CPython 3.13.0
+Creating virtual environment at: environment/env
+Activate with: source environment/env/bin/activate
+Using Python 3.13.0 environment at: environment/env
+Resolved 18 packages in 255ms
+Installed 18 packages in 190ms
+ + cloudpickle==3.1.2
+ + formulaic==1.2.2
+ + interface-meta==2.0.1
+ + joblib==1.6.0
+ + narwhals==2.26.0
+ + numpy==2.5.3
+ + packaging==26.3
+ + pandas==3.0.6
+ + patsy==1.0.3
+ + properscoring==0.1
+ + python-dateutil==2.9.0.post0
+ + scikit-learn==1.9.1
+ + scipy==1.18.1
+ + six==1.17.0
+ + statsmodels==0.15.0
+ + threadpoolctl==3.7.0
+ + typing-extensions==4.16.0
+ + wrapt==2.4.1
+Using Python 3.13.0 environment at: environment/env
+Built environment matches environment/lock.txt exactly.
+Python 3.13.0
+[cleanroom] environment built
+[cleanroom] machinery .venv built
+[cleanroom] SKIP_RUN=1 — stopping before analysis/run.sh
+[cleanroom] --- compare results ---
+[cleanroom] identical 299 · differing 0 · declared-varying 0 · missing in clone 0
+[cleanroom] differences listed in /Users/geirksa_1_2_3/ai/special-purpose vaults/sarimax-boosting-agentic-dengue-laos/AI-generated/validation/2026-09-22_cleanroom-artefacts/differences.txt
+[cleanroom] --- the clone's own invariants ---
+ok    tree
+ok    provenance
+ok    hashes
+ok    plots
+ok    seeds
+ok    claims
+ok    combos
+ok    freeze
+ok    git
+ok    crossing
+ok    pool
+
+All invariants hold.

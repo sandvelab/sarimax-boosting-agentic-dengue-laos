@@ -178,3 +178,14 @@ reader who was not present can follow, and keep them honest about what did not w
   re-measured wall-clock on every run. Human-set at the freeze: the main path stays `h` and
   stage 1 is not reopened. Report: `26-09-22_b16_holdoutFreeze.md`. Nothing pushed; no dengue
   result changed.
+- T12 (2026-09-22): Batch 17 — opened the sealed 2010 holdout, once, and ran the frozen phase-E
+  set in full (33 of 33 rows, 623 s; opening 1 recorded in
+  `06_stability/results/run_status_holdout.csv`; four preflight refusals passed before a
+  held-out byte was parsed; nothing added, dropped, re-tuned, re-run or promoted afterwards).
+  **The project's own question is answered yes**: the two-stage ensemble scores mean CRPS 99.20
+  against stage 1 alone's 128.51 on the 192 scored cells (−22.81%), coverage 61.5% against
+  57.3%, sign-stable across all 26 frozen perturbations. **And seasonal climatology (77.29)
+  beats the whole two-stage model there**, reversing the development ranking, on an epidemic
+  year for which no configuration in the set is adequately calibrated. The held-out margin turns
+  sharply on stage 2's input (level-only ~23%, richer inputs ≤4%). Claims C14–C20. Report:
+  `26-09-22_b17_finalValidation.md`. Nothing pushed.

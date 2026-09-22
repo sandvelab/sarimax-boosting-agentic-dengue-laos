@@ -583,3 +583,52 @@ third consequence) and should settle the `.gitignore` entry for the working-tree
 which still names the prior project's `analysis/05_stability/`. Other prior-project prose
 remains in `check_invariants.py` and is row 19's to settle with `/validate outsider`. The
 line-ending item (row 19) and the provisional compute budget stand.
+
+## T12 — batch 17: the held-out year, opened once (2026-09-22)
+
+**What was produced.** `06_stability/scripts/08_run_holdout.py` (the only script in the
+repository that reads a 2010 case value), `09_collect_holdout.py`, `10_report_holdout.py` and
+`11_characterise_holdout_year.py`, wired into the node's `run.sh`; results
+`run_status_holdout.csv`, `run_log_holdout.csv`, `run_summary_holdout.json`, a
+`results/<row>/` directory per frozen row, `conclusions_holdout.csv`,
+`distribution_holdout.json`, `perturbation_effects_holdout.csv`,
+`province_stability_holdout.csv`, `horizon_stability_holdout.csv`,
+`development_comparison_holdout.csv` and `holdout_year_context.json`; two provenance records;
+claims C14–C20. Report: `26-09-22_b17_finalValidation.md`.
+
+**The answer.** The second stage earns its place on data never used in development, by a margin
+16.3 points larger than the development one and sign-stable across every frozen perturbation.
+The same run shows seasonal climatology beating the whole two-stage model on that year, and
+every model's 90% interval covering 55–62% of outcomes. Both statements are the result; the
+report leads with the first and gives the second equal weight, because plan §2 requires a
+badly-calibrated winner to be reported as not having won.
+
+**Why the numbers look nothing like development's.** 2010 is an epidemic year: 22,903 cases in
+twelve months against 12,291 in the twenty-four development-backtest months, peaking at 5,649 in
+September against a development-span maximum of 1,410. `11_characterise_holdout_year.py` was
+written after the opening to make the held-out CRPS figures readable, and is recorded — in the
+script, its provenance and the plan's §4b — as a description of the opened data and not a row of
+the frozen set.
+
+**Two corrections, both before anything was read from the faulty code.** The runner's first gate
+precondition compared `holdout_runner_verification.json` byte for byte with the digest the freeze
+recorded; that file carries the wall-clock of its own checks, so its digest had already moved
+inside batch 16, and from a clean clone the precondition could never have been met. It refused to
+open the year, which is what writing the runner a batch early is for. It now asserts the gate's
+verdict and its scope, the scope checked against the frozen manifest's `n_expected_cells`. The
+collector separately left rows that ran marked `planned`, so its first table reported zero rows
+run; it wrote only status strings and produced no held-out number.
+
+**Things a future session needs.** The holdout has been opened and the opening is recorded; a
+second opening would append a second row to `run_status_holdout.csv` and is a human decision.
+Three tier-2 rows beat the main path on 2010 and none was promoted, deliberately. LA-XN reports
+no 2010 cases, so the held-out evaluation is 16 provinces and 192 of 204 cell slots — batch 1's
+completeness check recorded rows and months present but not whether `disease_cases` was
+populated, which is a gap for row 19.
+
+**Follow-ups.** Batch 18 builds the claim collection from the tree and generates the hierarchical
+report; batch 19 runs the clean-room and outsider checks and settles the line-ending item and the
+completeness-check gap; batch 20 writes the manuscript and runs the release scan. Open for the
+human: whether the held-out calibration collapse reopens stage 1 (the negative-binomial /
+zero-truncated-normal fork is recorded as not run by a human-set decision), and whether anything
+further may be evaluated on 2010 at all.

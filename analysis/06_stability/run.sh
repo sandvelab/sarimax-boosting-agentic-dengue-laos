@@ -23,3 +23,10 @@ PYTHON="$REPO_ROOT/environment/env/bin/python"
 # Neither script reads a case value from the holdout file.
 "$PYTHON" "scripts/06_verify_holdout_runner.py"
 "$PYTHON" "scripts/07_plan_holdout_manifest.py"
+# Phase E. 08 is the only script in the repository that reads a case value from 2010; it
+# refuses to start unless the frozen set, the gate and the sealed file all still hash to what
+# holdout_freeze.json recorded, and it appends one row to results/run_status_holdout.csv per
+# opening. 09 and 10 read only what 08 wrote, and 10 reports by the rule frozen with the set.
+"$PYTHON" "scripts/08_run_holdout.py"
+"$PYTHON" "scripts/09_collect_holdout.py"
+"$PYTHON" "scripts/10_report_holdout.py"

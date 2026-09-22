@@ -165,3 +165,16 @@ reader who was not present can follow, and keep them honest about what did not w
   from the freeze; the reporter compares v2 with v1 by file (`version_comparison_v2.csv`, four
   configuration-identical rows reproduce v1 exactly). Claims C8–C13. Report:
   `26-09-22_b15_stabilityRunV2.md`. Nothing pushed.
+- T11 (2026-09-22): Batch 16 — froze the phase-E set before the held-out year opens, and built
+  and gated the machinery that will run it. `06_stability/results/manifest_holdout.csv` (43
+  rows, 33 planned, ~940 s of the 3,600 s ceiling; sha256 `835bb52c…` recorded in
+  `holdout_freeze.json` at commit `67f998c`), with the evaluation design (four expanding
+  three-month blocks covering 2010 exactly once at h = 1..3, on development's seventeen
+  provinces — 204 cells per row) and the reporting rule frozen alongside. New
+  `analysis/scripts/lib/holdout_eval.py` reproduces `h_levelOnlyBoosting`'s and both required
+  baselines' stored development per-cell scores, 408 rows each, 0 mismatches. Fixed two
+  invariants that were not holding: the `freeze` check's leak detection named the prior
+  project's results layout, and the frozen *development* manifest was rewritten from
+  re-measured wall-clock on every run. Human-set at the freeze: the main path stays `h` and
+  stage 1 is not reopened. Report: `26-09-22_b16_holdoutFreeze.md`. Nothing pushed; no dengue
+  result changed.

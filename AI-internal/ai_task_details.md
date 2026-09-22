@@ -537,3 +537,49 @@ combinations. Three rows beat `h` on development data; none promoted.
 is opened. Open for the human: whether the no-differencing finding changes the decision not to
 repair stage 1; whether a better-scoring stage-2 row should be pre-registered instead of `h`.
 The line-ending item (row 19) and the provisional budget stand.
+
+## T11 — batch 16: the phase-E set frozen, and its machinery gated first (2026-09-22)
+
+**What was produced.** `analysis/scripts/lib/holdout_eval.py` (phase E's evaluation design and
+the executable definition of every frozen row), `06_stability/scripts/06_verify_holdout_runner.py`
+(the development gate) and `07_plan_holdout_manifest.py` (the planner and freezer), wired into
+the node's `run.sh`; results `manifest_holdout.csv`, `manifest_holdout_summary.json`,
+`holdout_freeze.json`, `holdout_freeze_check.json` and `holdout_runner_verification.json`, with
+provenance records for both scripts. Report: `26-09-22_b16_holdoutFreeze.md`.
+
+**The design decisions.** The holdout is scored as four expanding-window three-month blocks
+covering 2010 exactly once, which is what the project's fixed `n_periods 3` / `stride 3`
+resolves to over the combined span; the alternative (one origin, h = 1..12) is recorded as
+rejected because it evaluates horizons no model here is built for. The province set is
+development's seventeen, derived from development months alone, so the cell set cannot move
+when the year opens. Candidates `a`–`e` are not run on the holdout, with the reason in the
+manifest. The reporting rule is frozen with the set, so what counts as the answer does not get
+chosen after the numbers exist.
+
+**Why the machinery was built in this batch and not phase E.** Plan §3 allows one opening. If
+the code that opens the year were also the code being debugged, the first failure would be
+repaired with a held-out number on screen. So `lib/holdout_eval.py` was gated on development
+first: three reproductions of stored per-cell scores, 408 rows each, 0 mismatched values. The
+two baselines are a second implementation — `03_baselines`' scripts are closed records that
+cannot read another file — and that comparison is the only thing saying the two agree.
+
+**Two invariants that were not holding.** `check_invariants.py`'s `freeze` check looked for
+holdout results under `analysis/results/*__holdout/`, the prior project's layout, so it passed by
+matching nothing. And `02_plan_manifest.py` rewrote the frozen development `manifest.csv` on
+every run, with `est_cost_s` taken from wall-clock `01_measure_run_costs.py` re-measures each
+time — so every full run of `analysis/run.sh` moved it away from `manifest_freeze.json`'s digest,
+and nothing checked, because the invariant covered only phase E's set. The second was found by
+starting a full node re-run as a reproduction check and stopping to think about what it would
+overwrite. Both are fixed, both refusals were exercised rather than assumed, and `manifest.csv`
+is unchanged (`d2c5e813…`).
+
+**Recorded rather than hidden.** While checking the holdout file's column layout, its first data
+row was displayed, so one held-out value was seen (Attapeu, 2010-01). No decision in this batch
+rests on it, but plan §3 asks that the holdout not be characterised before it opens.
+
+**Follow-ups.** Batch 17 opens 2010 once, runs the 33 planned rows and reports by the frozen
+rule; it also owes a record of the opening itself (a tracked `run_status_holdout.csv`, plan §3's
+third consequence) and should settle the `.gitignore` entry for the working-tree seal marker,
+which still names the prior project's `analysis/05_stability/`. Other prior-project prose
+remains in `check_invariants.py` and is row 19's to settle with `/validate outsider`. The
+line-ending item (row 19) and the provisional compute budget stand.

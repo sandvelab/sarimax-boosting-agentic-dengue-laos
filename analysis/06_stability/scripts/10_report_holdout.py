@@ -191,7 +191,14 @@ def main() -> None:
     dev_dist = json.loads((RESULTS / "distribution_v2.json").read_text())
     summary = {
         "phase": "E", "reporting_rule": rule, "sensitivity_points": points,
-        "opening": json.loads((RESULTS / "run_summary_holdout.json").read_text()),
+        # The identity of the opening, not its stopwatch. Embedding run_summary_holdout.json
+        # whole put `total_wall_seconds` and `opening_number` inside a result file, so the
+        # report could not reproduce byte for byte in a clean clone even when every number in
+        # it did -- which is what /validate cleanroom found in batch 19. The timings stay one
+        # file away, in run_summary_holdout.json, which is declared as varying.
+        "opening": {k: json.loads((RESULTS / "run_summary_holdout.json").read_text())[k]
+                    for k in ("phase", "main_path", "manifest_sha256", "frozen_at_commit",
+                              "n_planned", "n_run", "preflight")},
         "primary": {
             "combination": main_combo, "main_path": freeze["main_path"],
             "n_cells": main_c["n_cells_scored"], "evaluated_months": main_c["evaluated_months"],

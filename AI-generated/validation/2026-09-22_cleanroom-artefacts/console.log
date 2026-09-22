@@ -1,9 +1,9 @@
 [cleanroom] root   /Users/geirksa_1_2_3/ai/special-purpose vaults/sarimax-boosting-agentic-dengue-laos
 [cleanroom] clone  /Users/geirksa_1_2_3/ai/special-purpose vaults/sarimax-boosting-agentic-dengue-laos/AI-internal/useful-scripts/repo
-[cleanroom] date   2026-09-22T21:56:53Z
-[cleanroom] HEAD   a8eb05b
+[cleanroom] date   2026-09-22T21:58:09Z
+[cleanroom] HEAD   3ba1876
 [cleanroom] --- clone ---
-[cleanroom] cloned at a8eb05b
+[cleanroom] cloned at 3ba1876
 [cleanroom] --- inputs: clone vs. repository, byte for byte ---
 [cleanroom] 0 tracked input file(s) differ before anything ran
 [cleanroom] --- build the environment from nothing ---
@@ -11,8 +11,8 @@ Using CPython 3.13.0
 Creating virtual environment at: environment/env
 Activate with: source environment/env/bin/activate
 Using Python 3.13.0 environment at: environment/env
-Resolved 18 packages in 255ms
-Installed 18 packages in 190ms
+Resolved 18 packages in 45ms
+Installed 18 packages in 135ms
  + cloudpickle==3.1.2
  + formulaic==1.2.2
  + interface-meta==2.0.1
@@ -36,9 +36,1507 @@ Built environment matches environment/lock.txt exactly.
 Python 3.13.0
 [cleanroom] environment built
 [cleanroom] machinery .venv built
-[cleanroom] SKIP_RUN=1 — stopping before analysis/run.sh
+[cleanroom] --- run the whole analysis ---
+/Users/geirksa_1_2_3/ai/special-purpose vaults/sarimax-boosting-agentic-dengue-laos/AI-internal/useful-scripts/repo/environment/env/lib/python3.13/site-packages/properscoring/_crps.py:246: SyntaxWarning: invalid escape sequence '\i'
+  """
+/Users/geirksa_1_2_3/ai/special-purpose vaults/sarimax-boosting-agentic-dengue-laos/AI-internal/useful-scripts/repo/environment/env/lib/python3.13/site-packages/properscoring/_brier.py:7: SyntaxWarning: invalid escape sequence '\i'
+  """
+/Users/geirksa_1_2_3/ai/special-purpose vaults/sarimax-boosting-agentic-dengue-laos/AI-internal/useful-scripts/repo/environment/env/lib/python3.13/site-packages/properscoring/_brier.py:95: SyntaxWarning: invalid escape sequence '\i'
+  """
+exact check: max abs diff 1.11e-16 (tolerance 1e-10) -- PASS
+monte carlo check (seed 1607043955): PASS
+{
+  "source": "Archive/lao-dataset/chap_LAO_admin1_monthly.csv",
+  "source_sha256": "19488aa1fc4d961ae1a6aeb75b874789576877664fce47713628f497a06fff56",
+  "n_rows_total": 2808,
+  "n_rows_development": 2592,
+  "n_rows_holdout": 216,
+  "development_range": [
+    "1998-01",
+    "2009-12"
+  ],
+  "holdout_complete": true
+}
+18 provinces, 17 modelable
+  excluded: LA-VI (Vientiane) - 0/144 months present
+{
+  "n_periods": 3,
+  "n_splits": 8,
+  "stride": 3,
+  "n_months_development": 144,
+  "evaluated_span": [
+    "2008-01",
+    "2009-12"
+  ],
+  "n_evaluated_months": 24
+}
+{
+  "model": "SARIMAX(1, 1, 1)x(1, 0, 0, 12), raw disease_cases, refit every split",
+  "n_provinces": 17,
+  "n_splits": 8,
+  "n_cells_total": 408,
+  "n_cells_scored": 371,
+  "n_fit_failures": 0,
+  "mean_crps": 26.052787630892933
+}
+{
+  "model": "persistence (last observed, held flat), sigma = std of training-window one-step differences",
+  "n_provinces": 17,
+  "n_splits": 8,
+  "n_cells_total": 408,
+  "n_cells_scored": 371,
+  "n_fit_failures": 0,
+  "mean_crps": 28.316429844857996
+}
+{
+  "model": "seasonal climatology (mean of same calendar month in training window), sigma = std of same calendar month's training-window values",
+  "n_provinces": 17,
+  "n_splits": 8,
+  "n_cells_total": 408,
+  "n_cells_scored": 371,
+  "n_fit_failures": 0,
+  "mean_crps": 26.91345927648973
+}
+{
+  "n_cells_compared": 371,
+  "mean_crps": {
+    "stage1_sarimax": 26.05278763089295,
+    "persistence": 28.31642984485804,
+    "seasonal_climatology": 26.913459276489746
+  },
+  "stage1_pct_reduction_vs_persistence": 7.994094687668196,
+  "stage1_pct_reduction_vs_climatology": 3.197922781887185,
+  "stage1_beats_persistence": true,
+  "stage1_beats_climatology": true
+}
+{
+  "model": "stage1 SARIMAX(1,1,1)x(1,0,0,12) + gradient-boosted trees on the standardised h-step in-window out-of-sample error, features: horizon, target month, forecast level relative to residual scale (level-only); correction zhat*se, clipped at zero; sigma unchanged",
+  "mean_crps": 24.350777879905046,
+  "stage1_alone": {
+    "mean_crps": 26.052787630892947,
+    "coverage_90": 0.8274932614555256
+  },
+  "two_stage": {
+    "mean_crps": 24.350777879905046,
+    "coverage_90": 0.8517520215633423
+  },
+  "pct_change_vs_stage1": -6.532927589559312,
+  "n_splits_improved": 6,
+  "verification_vs_stage1_stored_forecast": {
+    "n_cells_verified": 408,
+    "max_abs_diff_mean": 0.0,
+    "max_abs_diff_se": 0.0,
+    "tolerance": 1e-06
+  }
+}
+{
+  "n_cells": 371,
+  "stage1_alone": {
+    "mean_crps": 26.052787630892947,
+    "coverage_nominal": 0.9,
+    "coverage_empirical": 0.8274932614555256
+  },
+  "two_stage_ensemble": {
+    "mean_crps": 24.350777879905046,
+    "coverage_nominal": 0.9,
+    "coverage_empirical": 0.8517520215633423
+  },
+  "delta_crps": -1.7020097509879015,
+  "pct_change_vs_stage1": -6.532927589559312,
+  "earns_its_place": true,
+  "coverage_not_worse_than_stage1": true,
+  "vs_g_oosErrorBoosting": {
+    "parent_mean_crps": 25.16411721353624,
+    "delta_crps": -0.8133393336311947,
+    "pct_change_vs_parent": -3.232139346393143,
+    "parent_coverage_empirical": 0.8571428571428571,
+    "better_than_parent_on_crps": true
+  },
+  "combination_rule_decomposition": {
+    "stage1": {
+      "mean_crps": 26.052787630892947,
+      "coverage_empirical": 0.8274932614555256,
+      "share_mean_negative": 0.04043126684636118,
+      "pct_change_vs_stage1": 0.0
+    },
+    "stage1_clipped": {
+      "mean_crps": 25.907223661909438,
+      "coverage_empirical": 0.8274932614555256,
+      "share_mean_negative": 0.0,
+      "pct_change_vs_stage1": -0.5587270392934931
+    },
+    "corrected_unclipped": {
+      "mean_crps": 24.472978513271688,
+      "coverage_empirical": 0.8517520215633423,
+      "share_mean_negative": 0.0431266846361186,
+      "pct_change_vs_stage1": -6.0638774629550545
+    },
+    "corrected_clipped (this candidate)": {
+      "mean_crps": 24.350777879905046,
+      "coverage_empirical": 0.8517520215633423,
+      "share_mean_negative": 0.0,
+      "pct_change_vs_stage1": -6.532927589559312
+    }
+  },
+  "by_horizon": {
+    "h1": {
+      "n": 124,
+      "stage1_mean_crps": 19.471728919687738,
+      "candidate_mean_crps": 19.018301636190955
+    },
+    "h2": {
+      "n": 123,
+      "stage1_mean_crps": 25.603469789368084,
+      "candidate_mean_crps": 24.03187987486837
+    },
+    "h3": {
+      "n": 124,
+      "stage1_mean_crps": 33.07954065264298,
+      "candidate_mean_crps": 29.999580370550664
+    }
+  },
+  "n_splits_improved_of_8": 6,
+  "share_cells_improved": 0.555256064690027
+}
+{
+  "overall": {
+    "n": 371,
+    "bias_mean_error": 3.1173022747168244,
+    "median_error": -0.18364109367865628,
+    "share_error_positive": 0.3423180592991914,
+    "mae": 25.43651100979535,
+    "rmse": 52.71900739194433,
+    "mean_stage1_se": 56.919773528965806,
+    "rms_z": 11.617101174340698,
+    "rms_z_winsorised": 1.2071752034173633,
+    "median_abs_z": 0.2823924045804525,
+    "q90_abs_z": 3.321209389030307,
+    "q90_calibration_factor": 2.019151938270488,
+    "mean_z": 1.163205750546752,
+    "median_z": -0.09578823871645491,
+    "coverage_90": 0.8274932614555256,
+    "mean_crps_stage1": 26.052787630892947,
+    "coverage_nominal": 0.9
+  },
+  "by_horizon": {
+    "h1": {
+      "n": 124,
+      "bias_mean_error": -0.500459908478156,
+      "median_error": -0.17600783445196772,
+      "share_error_positive": 0.33064516129032256,
+      "mae": 19.892820555063178,
+      "rmse": 40.537486674716035,
+      "mean_stage1_se": 42.03919706168871,
+      "rms_z": 2.9190706402150255,
+      "rms_z_winsorised": 1.0682944018452927,
+      "median_abs_z": 0.26753477982524687,
+      "q90_abs_z": 2.010071230884644,
+      "q90_calibration_factor": 1.2220365374456184,
+      "mean_z": 0.0033387999674758823,
+      "median_z": -0.1543675653280016,
+      "coverage_90": 0.8709677419354839,
+      "mean_crps_stage1": 19.471728919687738,
+      "in_window_pseudo_oos_all_origins": {
+        "n": 13973,
+        "rms_z": 1.0351533615558648,
+        "median_abs_z": 0.16328991214595148,
+        "q90_abs_z": 1.0199604430458453,
+        "q90_calibration_factor": 0.6200919196294765,
+        "coverage_90": 0.9374507979675087,
+        "rmse": 72.12837791719073
+      },
+      "in_window_pseudo_oos_last_24_origins": {
+        "n": 2978,
+        "rms_z": 1.1315279236291775,
+        "median_abs_z": 0.2515068077471777,
+        "q90_abs_z": 1.2282107741132258,
+        "q90_calibration_factor": 0.7466991311497783,
+        "coverage_90": 0.9278038952316991
+      }
+    },
+    "h2": {
+      "n": 123,
+      "bias_mean_error": 2.56154664264999,
+      "median_error": -0.2597150706835069,
+      "share_error_positive": 0.3170731707317073,
+      "mae": 24.376432091564954,
+      "rmse": 48.00320667295806,
+      "mean_stage1_se": 58.97093174668152,
+      "rms_z": 14.939146639496185,
+      "rms_z_winsorised": 1.1910725251455134,
+      "median_abs_z": 0.2813194672246491,
+      "q90_abs_z": 3.1453737946286084,
+      "q90_calibration_factor": 1.9122514873607084,
+      "mean_z": 1.5588863586255162,
+      "median_z": -0.09720765144610502,
+      "coverage_90": 0.8211382113821138,
+      "mean_crps_stage1": 25.603469789368084,
+      "in_window_pseudo_oos_all_origins": {
+        "n": 13837,
+        "rms_z": 1.0451174829411916,
+        "median_abs_z": 0.17579770449320928,
+        "q90_abs_z": 1.0739879532898964,
+        "q90_calibration_factor": 0.6529383135935305,
+        "coverage_90": 0.9340174893401749,
+        "rmse": 107.4150811284313
+      },
+      "in_window_pseudo_oos_last_24_origins": {
+        "n": 2851,
+        "rms_z": 1.1334427326438181,
+        "median_abs_z": 0.27762395039393856,
+        "q90_abs_z": 1.157014467449371,
+        "q90_calibration_factor": 0.7034148501066023,
+        "coverage_90": 0.9333567169414241
+      }
+    },
+    "h3": {
+      "n": 124,
+      "bias_mean_error": 7.286338189720033,
+      "median_error": -0.1411444513693507,
+      "share_error_positive": 0.3790322580645161,
+      "mae": 32.031731359223805,
+      "rmse": 66.23031792932268,
+      "mean_stage1_se": 69.76573337705715,
+      "rms_z": 13.186489432297742,
+      "rms_z_winsorised": 1.3459560872764458,
+      "median_abs_z": 0.3359253426951314,
+      "q90_abs_z": 4.020535345662518,
+      "q90_calibration_factor": 2.444311931338274,
+      "mean_z": 1.930583065693061,
+      "median_z": -0.08709662937677212,
+      "coverage_90": 0.7903225806451613,
+      "mean_crps_stage1": 33.07954065264298,
+      "in_window_pseudo_oos_all_origins": {
+        "n": 13701,
+        "rms_z": 1.036825797338131,
+        "median_abs_z": 0.19227963824317454,
+        "q90_abs_z": 1.053893527843664,
+        "q90_calibration_factor": 0.6407217703601519,
+        "coverage_90": 0.9385446317787023,
+        "rmse": 133.18101562987147
+      },
+      "in_window_pseudo_oos_last_24_origins": {
+        "n": 2724,
+        "rms_z": 1.086593606662647,
+        "median_abs_z": 0.27911962674650614,
+        "q90_abs_z": 1.0952753314829216,
+        "q90_calibration_factor": 0.6658801205994698,
+        "coverage_90": 0.9372246696035242
+      }
+    }
+  },
+  "spread_and_sign_fixes_on_test_cells": {
+    "note": "sigma factors are oracle upper bounds (estimated on the scored cells); clipping is achievable.",
+    "mean_crps_stage1": 26.052787630892947,
+    "coverage_90_stage1": 0.8274932614555256,
+    "mean_crps_mean_clipped_at_zero": 25.907223661909438,
+    "mean_crps_sigma_x_rms_z_by_h": 153.5770660606741,
+    "mean_crps_sigma_x_q90_factor_by_h": 35.651550604852716,
+    "coverage_90_sigma_x_q90_factor_by_h": 0.894878706199461,
+    "mean_crps_clip_and_q90_factor": 35.5643126132699,
+    "rms_z_by_h": {
+      "1": 2.9190706402150255,
+      "2": 14.939146639496185,
+      "3": 13.186489432297742
+    },
+    "q90_factor_by_h": {
+      "1": 1.2220365374456184,
+      "2": 1.9122514873607084,
+      "3": 2.444311931338274
+    },
+    "share_stage1_mean_negative": 0.04043126684636118,
+    "share_cells_actual_zero": 0.3692722371967655
+  },
+  "by_calendar_month": {
+    "1": {
+      "n": 31,
+      "mean_z": -0.306714436152863,
+      "median_z": -0.1925024739480134,
+      "mean_error": -6.925965266273351,
+      "median_error": -0.22977145642942476,
+      "share_error_positive": 0.1935483870967742,
+      "mean_actual": 6.741935483870968,
+      "mean_crps_stage1": 13.110266611183347
+    },
+    "2": {
+      "n": 31,
+      "mean_z": -0.20037047947673103,
+      "median_z": -0.16077675808071862,
+      "mean_error": -4.938097493119715,
+      "median_error": -0.5379069694923331,
+      "share_error_positive": 0.12903225806451613,
+      "mean_actual": 8.774193548387096,
+      "mean_crps_stage1": 16.424815027283785
+    },
+    "3": {
+      "n": 31,
+      "mean_z": -0.13809339604386436,
+      "median_z": -0.1747866481080106,
+      "mean_error": -3.839303222297026,
+      "median_error": -0.27845345331962607,
+      "share_error_positive": 0.22580645161290322,
+      "mean_actual": 10.870967741935484,
+      "mean_crps_stage1": 19.719695800901476
+    },
+    "4": {
+      "n": 31,
+      "mean_z": 0.01870901729061424,
+      "median_z": -0.17469161120729612,
+      "mean_error": 0.26144304399845103,
+      "median_error": -0.29014350504451,
+      "share_error_positive": 0.22580645161290322,
+      "mean_actual": 11.96774193548387,
+      "mean_crps_stage1": 12.121987437881954
+    },
+    "5": {
+      "n": 31,
+      "mean_z": 6.021014007854862,
+      "median_z": -0.01534658998855823,
+      "mean_error": 10.6357737646298,
+      "median_error": -0.036059524538657725,
+      "share_error_positive": 0.41935483870967744,
+      "mean_actual": 24.161290322580644,
+      "mean_crps_stage1": 25.241917204022357
+    },
+    "6": {
+      "n": 31,
+      "mean_z": 7.178077108091467,
+      "median_z": 0.08659108974942335,
+      "mean_error": 30.94653795115578,
+      "median_error": 1.844827479565145,
+      "share_error_positive": 0.5483870967741935,
+      "mean_actual": 48.74193548387097,
+      "mean_crps_stage1": 40.99404884618564
+    },
+    "7": {
+      "n": 31,
+      "mean_z": 0.07498138084238168,
+      "median_z": 0.015534500213695186,
+      "mean_error": 5.737251835955798,
+      "median_error": 0.5402432493747522,
+      "share_error_positive": 0.5483870967741935,
+      "mean_actual": 51.58064516129032,
+      "mean_crps_stage1": 34.11861115889188
+    },
+    "8": {
+      "n": 30,
+      "mean_z": 0.06452461642486744,
+      "median_z": -0.05966021617627429,
+      "mean_error": 7.0355700968391535,
+      "median_error": -0.10619812114499363,
+      "share_error_positive": 0.43333333333333335,
+      "mean_actual": 53.43333333333333,
+      "mean_crps_stage1": 36.05636222051524
+    },
+    "9": {
+      "n": 31,
+      "mean_z": 0.6241297410799375,
+      "median_z": -0.09292282575331844,
+      "mean_error": 14.730926364785283,
+      "median_error": -0.04487124534160982,
+      "share_error_positive": 0.41935483870967744,
+      "mean_actual": 62.83870967741935,
+      "mean_crps_stage1": 43.27305395168292
+    },
+    "10": {
+      "n": 31,
+      "mean_z": 0.22637923788977052,
+      "median_z": -0.11479845004183035,
+      "mean_error": -1.074569247593524,
+      "median_error": -0.21694739972018973,
+      "share_error_positive": 0.3548387096774194,
+      "mean_actual": 47.70967741935484,
+      "mean_crps_stage1": 18.536050470793786
+    },
+    "11": {
+      "n": 31,
+      "mean_z": 0.302172072208723,
+      "median_z": -0.18418481388650332,
+      "mean_error": -2.342736460517369,
+      "median_error": -0.6870029050740079,
+      "share_error_positive": 0.2903225806451613,
+      "mean_actual": 42.483870967741936,
+      "mean_crps_stage1": 25.02797478407505
+    },
+    "12": {
+      "n": 31,
+      "mean_z": 0.05821880964470141,
+      "median_z": -0.23756947893422647,
+      "mean_error": -12.692808334763907,
+      "median_error": -2.377327077686239,
+      "share_error_positive": 0.3225806451612903,
+      "mean_actual": 28.903225806451612,
+      "mean_crps_stage1": 28.3313640118019
+    }
+  },
+  "heteroscedasticity": {
+    "pearson_abs_z_vs_level_std": 0.07306983419329463,
+    "spearman_abs_z_vs_level_std": 0.6484951954824141,
+    "pearson_abs_error_vs_mu1": 0.45455113485779536
+  },
+  "cross_province_synchrony_of_z": {
+    "note": "z winsorised at +/-3.0 and standardised per province before the matrix statistics",
+    "n_provinces_in_matrix": 15,
+    "n_test_months": 24,
+    "mean_pairwise_correlation": 0.10055499660033758,
+    "share_variance_explained_by_test_month_mean": 0.14543636020589745,
+    "first_pc_share_of_variance": 0.26930467408610087
+  },
+  "insample_vs_oos_scale": {
+    "mean_insample_one_step_residual_rms": 39.9709125845169,
+    "oos_rmse_by_horizon": {
+      "h1": 40.537486674716035,
+      "h2": 48.00320667295806,
+      "h3": 66.23031792932268
+    },
+    "in_window_pseudo_oos_rmse_by_horizon": {
+      "h1": 72.12837791719073,
+      "h2": 107.4150811284313,
+      "h3": 133.18101562987147
+    }
+  }
+}
+{
+  "design": "leave-one-split-out CV over 8 backtest splits on 02_stage1's test cells; target = z = error/se winsorised at +/-3.0 for fitting; correction = zhat*se added to stage 1's mean, sigma unchanged; chance = same model on permuted target, 30 permutations, threshold = 95th percentile of permutation skill",
+  "seed": 3209744922,
+  "stage1_alone": {
+    "mean_crps": 26.052787630892947,
+    "coverage_90": 0.8274932614555256,
+    "skill": 0.0
+  },
+  "n_configurations": 56,
+  "n_better_than_chance": 10,
+  "n_beating_stage1_crps": 2,
+  "best_by_crps": {
+    "feature_set": "level",
+    "family": "ridge",
+    "n_features": 3,
+    "skill_winsorised_z": 0.13622538854533317,
+    "skill_raw_z": 0.011023580683542034,
+    "skill_h1": 0.1208697066458394,
+    "skill_h2": 0.10585540815876515,
+    "skill_h3": 0.16948980774854683,
+    "mean_crps_corrected": 25.833332183395328,
+    "pct_change_crps_vs_stage1": -0.8423491973557289,
+    "coverage_90": 0.8436657681940701,
+    "share_final_mean_negative": 0.01078167115902965,
+    "mean_abs_correction_in_z": 0.3216609205878715,
+    "permutation_skill_mean": -0.014628016894272471,
+    "permutation_skill_p95": 0.0007001044011690385,
+    "better_than_chance": true
+  },
+  "best_skill": {
+    "feature_set": "recent_national_level",
+    "family": "ridge_strong",
+    "n_features": 8,
+    "skill_winsorised_z": 0.15629114177445913,
+    "skill_raw_z": 0.014386639036866988,
+    "skill_h1": 0.11620297163326165,
+    "skill_h2": 0.1051814972481726,
+    "skill_h3": 0.22124645289458178,
+    "mean_crps_corrected": 27.215855852768204,
+    "pct_change_crps_vs_stage1": 4.464275525341905,
+    "coverage_90": 0.8247978436657682,
+    "share_final_mean_negative": 0.0646900269541779,
+    "mean_abs_correction_in_z": 0.4272030830328622,
+    "permutation_skill_mean": -0.02624104304155884,
+    "permutation_skill_p95": 0.010192204680511118,
+    "better_than_chance": true
+  },
+  "earlier_candidates_input": [
+    {
+      "feature_set": "lag12_calendar (earlier candidates' input)",
+      "family": "ridge_strong",
+      "n_features": 3,
+      "skill_winsorised_z": -0.16869433316581572,
+      "skill_raw_z": -0.008470664026849928,
+      "skill_h1": -0.1956078958996912,
+      "skill_h2": -0.166214761088592,
+      "skill_h3": -0.15366566819618566,
+      "mean_crps_corrected": 28.26616768316652,
+      "pct_change_crps_vs_stage1": 8.495751332379431,
+      "coverage_90": 0.8194070080862533,
+      "share_final_mean_negative": 0.09433962264150944,
+      "mean_abs_correction_in_z": 0.19839329323437735,
+      "permutation_skill_mean": -0.008227588682984932,
+      "permutation_skill_p95": 0.012947617071890311,
+      "better_than_chance": false
+    },
+    {
+      "feature_set": "lag12_calendar (earlier candidates' input)",
+      "family": "ridge",
+      "n_features": 3,
+      "skill_winsorised_z": -0.18817880104750162,
+      "skill_raw_z": -0.009385026035701127,
+      "skill_h1": -0.2136710748609194,
+      "skill_h2": -0.18483635119674524,
+      "skill_h3": -0.17471577221667833,
+      "mean_crps_corrected": 28.528263298467845,
+      "pct_change_crps_vs_stage1": 9.501768880346306,
+      "coverage_90": 0.8194070080862533,
+      "share_final_mean_negative": 0.11320754716981132,
+      "mean_abs_correction_in_z": 0.216034586749408,
+      "permutation_skill_mean": -0.014645746414026906,
+      "permutation_skill_p95": 0.010168413960571963,
+      "better_than_chance": false
+    },
+    {
+      "feature_set": "lag12_calendar (earlier candidates' input)",
+      "family": "random_forest",
+      "n_features": 3,
+      "skill_winsorised_z": -0.07667968387583879,
+      "skill_raw_z": 0.0016434261986132404,
+      "skill_h1": -0.1951806808488068,
+      "skill_h2": -0.10865419653473807,
+      "skill_h3": 0.022809596252536646,
+      "mean_crps_corrected": 28.760441887662797,
+      "pct_change_crps_vs_stage1": 10.392954086645068,
+      "coverage_90": 0.8113207547169812,
+      "share_final_mean_negative": 0.1105121293800539,
+      "mean_abs_correction_in_z": 0.20610242654285507,
+      "permutation_skill_mean": -0.020534991562486362,
+      "permutation_skill_p95": -0.0005420914615976004,
+      "better_than_chance": false
+    },
+    {
+      "feature_set": "lag12_calendar (earlier candidates' input)",
+      "family": "gradient_boosting",
+      "n_features": 3,
+      "skill_winsorised_z": -0.14789928105514139,
+      "skill_raw_z": -0.0001553427134877161,
+      "skill_h1": -0.38010501067234337,
+      "skill_h2": -0.18058742899662272,
+      "skill_h3": 0.023774949190591754,
+      "mean_crps_corrected": 31.129323415381172,
+      "pct_change_crps_vs_stage1": 19.485576194036742,
+      "coverage_90": 0.8274932614555256,
+      "share_final_mean_negative": 0.15902964959568733,
+      "mean_abs_correction_in_z": 0.3383995701593453,
+      "permutation_skill_mean": -0.06231991231850485,
+      "permutation_skill_p95": -0.023902686694164142,
+      "better_than_chance": false
+    }
+  ]
+}
+W1 Interval coverage below nominal, and the deficit is a heavy tail a Gaussian cannot carry
+W2 Negative forecast means for a count
+W3 The standard error does not grow with the forecast level as a count's variance does
+W4 Systematic multi-step bias: over-prediction at high forecast levels and in November-April, under-prediction in the June-July onset
+W5 Reporting-regime breaks in the test years that no province's own history predicts
+W6 The specification was a first default, not a selected one
+{
+  "n_nodes_timed": 11,
+  "total_wall_seconds": 290.29,
+  "all_exit_zero": true,
+  "all_outputs_identical_on_rerun": true,
+  "nodes_with_changed_outputs": [],
+  "per_node": [
+    {
+      "node": "analysis/02_stage1",
+      "wall_seconds": 15.03,
+      "exit_code": 0,
+      "n_result_files": 2,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/a_linearLags",
+      "wall_seconds": 13.56,
+      "exit_code": 0,
+      "n_result_files": 3,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/b_gradientBoosting",
+      "wall_seconds": 15.88,
+      "exit_code": 0,
+      "n_result_files": 3,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/c_bayesianRidge",
+      "wall_seconds": 13.91,
+      "exit_code": 0,
+      "n_result_files": 4,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/d_linearClimate",
+      "wall_seconds": 15.3,
+      "exit_code": 0,
+      "n_result_files": 4,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/e_pooledRandomForest",
+      "wall_seconds": 18.96,
+      "exit_code": 0,
+      "n_result_files": 5,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/f_oosErrorRidge",
+      "wall_seconds": 33.29,
+      "exit_code": 0,
+      "n_result_files": 4,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/g_oosErrorBoosting",
+      "wall_seconds": 44.18,
+      "exit_code": 0,
+      "n_result_files": 5,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/h_levelOnlyBoosting",
+      "wall_seconds": 38.11,
+      "exit_code": 0,
+      "n_result_files": 3,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/i_boundedBoosting",
+      "wall_seconds": 44.2,
+      "exit_code": 0,
+      "n_result_files": 3,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    },
+    {
+      "node": "analysis/04_stage2/j_levelOnlyBoundedBoosting",
+      "wall_seconds": 37.87,
+      "exit_code": 0,
+      "n_result_files": 4,
+      "all_outputs_identical": true,
+      "changed_files": ""
+    }
+  ]
+}
+{
+  "checked_on": "2026-09-23",
+  "version": 2,
+  "main_path": "h_levelOnlyBoosting",
+  "frozen_sha256": "d2c5e813e7215eb908787049546e0e8346c3311ea7b6d6b3ca6fd43c53834ac0",
+  "current_sha256": "d2c5e813e7215eb908787049546e0e8346c3311ea7b6d6b3ca6fd43c53834ac0",
+  "still_the_frozen_file": true,
+  "replanned_sha256": "a06a997566cbeabb2d4d3569dce788b3f322f93473078e565864e14137187bf5",
+  "replanned_differs_only_in": [
+    "cumulative_cost_s",
+    "est_cost_s"
+  ],
+  "note": "The frozen development set is not rewritten by a re-run. Differences confined to est_cost_s/cumulative_cost_s are re-measured wall-clock and change nothing the manifest plans; a difference anywhere else is a change to the set and must be a recorded decision (plan \u00a74b)."
+}
+stage1=airline_011x011@h                      42.8s  stage1 29.146  two-stage 26.111  (-10.41%)  cov 0.825->0.849
+stage2=rolling_refit_oos@h                  1064.7s  stage1 26.053  two-stage 25.273  (-2.99%)  cov 0.827->0.854
+stage2=plus_recent_and_incidence@h            45.9s  stage1 26.053  two-stage 24.532  (-5.84%)  cov 0.827->0.860
+window=rolling_72m@h                          19.5s  stage1 23.986  two-stage 23.171  (-3.40%)  cov 0.836->0.846
+stage1=nodiff_101x100@h                       36.2s  stage1 24.929  two-stage 24.666  (-1.06%)  cov 0.833->0.838
+stage2=plus_recent_and_cross@h                44.1s  stage1 26.053  two-stage 25.187  (-3.32%)  cov 0.827->0.857
+scheme=chap_default_7x1@h                     39.3s  stage1 34.999  two-stage 32.323  (-7.65%)  cov 0.718->0.757
+stage2=per_horizon@h                          40.9s  stage1 26.053  two-stage 25.150  (-3.47%)  cov 0.827->0.846
+window=start_2002@h                           21.0s  stage1 27.372  two-stage 27.082  (-1.06%)  cov 0.863->0.871
+stage2=alt_seed@h                             38.1s  stage1 26.053  two-stage 24.441  (-6.19%)  cov 0.827->0.852
+stage2=scale_by_residual_rms@h                40.5s  stage1 26.053  two-stage 24.609  (-5.54%)  cov 0.827->0.854
+stage2=zclip2@h                               38.4s  stage1 26.053  two-stage 24.667  (-5.32%)  cov 0.827->0.846
+stage2=bounded_floor0@h                       42.2s  stage1 26.053  two-stage 24.286  (-6.78%)  cov 0.827->0.852
+stage2=full_plus_climate@h                    58.0s  stage1 26.053  two-stage 24.547  (-5.78%)  cov 0.827->0.849
+stage2=no_winsorisation@h                     40.9s  stage1 26.053  two-stage 24.340  (-6.57%)  cov 0.827->0.865
+stage2=depth2@h                               36.9s  stage1 26.053  two-stage 24.550  (-5.77%)  cov 0.827->0.849
+stage2=depth4_300trees@h                      49.7s  stage1 26.053  two-stage 24.535  (-5.83%)  cov 0.827->0.854
+stage2=zclip5@h                               38.5s  stage1 26.053  two-stage 24.250  (-6.92%)  cov 0.827->0.857
+stage1=enforce_stationarity@h                 46.8s  stage1 26.805  two-stage 24.082  (-10.16%)  cov 0.833->0.846
+stage2=lr0.1@h                                37.9s  stage1 26.053  two-stage 24.372  (-6.45%)  cov 0.827->0.857
+stage2=min_leaf50@h                           40.6s  stage1 26.053  two-stage 24.812  (-4.76%)  cov 0.827->0.852
+stage2=no_clip@h                              37.5s  stage1 26.053  two-stage 24.473  (-6.06%)  cov 0.827->0.852
+stage2=warmup12@h                             46.1s  stage1 26.053  two-stage 24.493  (-5.99%)  cov 0.827->0.846
+stage2=warmup36@h                             31.5s  stage1 26.053  two-stage 24.480  (-6.04%)  cov 0.827->0.852
+stage2=min_train_rows1000@h                   28.8s  stage1 26.053  two-stage 24.351  (-6.53%)  cov 0.827->0.852
+modelable=36_months@h                         28.3s  stage1 26.053  two-stage 24.351  (-6.53%)  cov 0.827->0.852
+{
+  "version": 2,
+  "main_path": "h_levelOnlyBoosting",
+  "n_planned": 26,
+  "n_run": 26,
+  "total_wall_seconds": 2070.3,
+  "gate": {
+    "compared_with": "analysis/04_stage2/h_levelOnlyBoosting/results/per_cell_scores.csv",
+    "n_rows_ours": 408,
+    "n_rows_main_path": 408,
+    "n_mismatched_values": 0,
+    "identical_on_shared_columns": true,
+    "first_mismatches": []
+  }
+}
+version 2 around h_levelOnlyBoosting: 41 rows, 36 run; two-stage beats stage 1 on CRPS in 32 of them, with coverage not worse in 31
+{
+  "version": 2,
+  "main_path": {
+    "combination": "main@h (04_stage2=h_levelOnlyBoosting)",
+    "pct_change_vs_stage1": -6.532927589559312,
+    "stage1_mean_crps": 26.052787630892947,
+    "two_stage_mean_crps": 24.350777879905046,
+    "coverage_stage1": 0.8274932614555256,
+    "coverage_two_stage": 0.8517520215633423
+  },
+  "tier2_distribution_of_pct_change": {
+    "n": 26,
+    "min": -10.414905300948973,
+    "q10": -7.283038279225935,
+    "q25": -6.532927589559312,
+    "median": -5.911390304335947,
+    "q75": -4.902587712395806,
+    "q90": -3.1569739010426368,
+    "max": -1.0551117707798072,
+    "n_two_stage_beats_stage1": 26,
+    "n_coverage_not_worse": 26,
+    "n_sign_flips": 0,
+    "n_moving_size_beyond_points": 8,
+    "sensitivity_points": 2.0,
+    "rows_with_larger_margin_than_main": [
+      "stage1=airline_011x011@h",
+      "stage1=enforce_stationarity@h"
+    ],
+    "rows_with_smaller_margin_than_main": [
+      "stage2=per_horizon@h",
+      "window=rolling_72m@h",
+      "stage2=plus_recent_and_cross@h",
+      "stage2=rolling_refit_oos@h",
+      "window=start_2002@h",
+      "stage1=nodiff_101x100@h"
+    ],
+    "splits_improved_distribution": {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 5,
+      "5": 0,
+      "6": 21,
+      "7": 0,
+      "8": 0
+    },
+    "rows_improving_fewer_than_half_the_splits": []
+  },
+  "by_judgment_call_group": {
+    "stage 1 specification": {
+      "n": 3,
+      "min_pct": -10.414905300948973,
+      "median_pct": -10.158833275023168,
+      "max_pct": -1.0551117707798072,
+      "all_beat_stage1": true,
+      "all_coverage_not_worse": true,
+      "rows_moving_size": [
+        "stage1=airline_011x011@h",
+        "stage1=enforce_stationarity@h",
+        "stage1=nodiff_101x100@h"
+      ],
+      "splits_improved_range": [
+        6,
+        6
+      ]
+    },
+    "training window, scheme, data": {
+      "n": 4,
+      "min_pct": -7.646557711309379,
+      "median_pct": -4.964787093410174,
+      "max_pct": -1.0599616246211676,
+      "all_beat_stage1": true,
+      "all_coverage_not_worse": true,
+      "rows_moving_size": [
+        "window=rolling_72m@h",
+        "window=start_2002@h"
+      ],
+      "splits_improved_range": [
+        4,
+        6
+      ]
+    },
+    "stage 2 target and combination rule": {
+      "n": 7,
+      "min_pct": -6.919518847142491,
+      "median_pct": -6.0638774629550545,
+      "max_pct": -3.465304003420167,
+      "all_beat_stage1": true,
+      "all_coverage_not_worse": true,
+      "rows_moving_size": [
+        "stage2=per_horizon@h"
+      ],
+      "splits_improved_range": [
+        4,
+        6
+      ]
+    },
+    "stage 2 features": {
+      "n": 3,
+      "min_pct": -5.836858638290223,
+      "median_pct": -5.781422006312549,
+      "max_pct": -3.3221465316152496,
+      "all_beat_stage1": true,
+      "all_coverage_not_worse": true,
+      "rows_moving_size": [
+        "stage2=plus_recent_and_cross@h"
+      ],
+      "splits_improved_range": [
+        4,
+        6
+      ]
+    },
+    "stage 2 family hyperparameters and seed": {
+      "n": 5,
+      "min_pct": -6.45199306855333,
+      "median_pct": -5.826174680579387,
+      "max_pct": -4.763974013174761,
+      "all_beat_stage1": true,
+      "all_coverage_not_worse": true,
+      "rows_moving_size": [],
+      "splits_improved_range": [
+        6,
+        6
+      ]
+    },
+    "how the training errors are made": {
+      "n": 4,
+      "min_pct": -6.532927589559312,
+      "median_pct": -6.011052776160631,
+      "max_pct": -2.9918012704700243,
+      "all_beat_stage1": true,
+      "all_coverage_not_worse": true,
+      "rows_moving_size": [
+        "stage2=rolling_refit_oos@h"
+      ],
+      "splits_improved_range": [
+        4,
+        6
+      ]
+    }
+  },
+  "province_stability": {
+    "n_provinces": 16,
+    "always_improved": [
+      "LA-KH",
+      "LA-SL",
+      "LA-BK",
+      "LA-XI",
+      "LA-XE"
+    ],
+    "never_improved": [
+      "LA-OU"
+    ],
+    "improved_in_at_least_90pct_of_combinations": [
+      "LA-KH",
+      "LA-SL",
+      "LA-BK",
+      "LA-CH",
+      "LA-XI",
+      "LA-XE"
+    ],
+    "improved_in_at_most_10pct_of_combinations": [
+      "LA-PH",
+      "LA-OU",
+      "LA-LP",
+      "LA-VT"
+    ]
+  },
+  "horizon_stability": [
+    {
+      "horizon": "h1",
+      "n_combinations": 27,
+      "share_combinations_improved": 0.8518518518518519
+    },
+    {
+      "horizon": "h2",
+      "n_combinations": 27,
+      "share_combinations_improved": 0.9629629629629629
+    },
+    {
+      "horizon": "h3",
+      "n_combinations": 27,
+      "share_combinations_improved": 1.0
+    }
+  ],
+  "versus_v1": {
+    "v1_main_path": "main (04_stage2=g_oosErrorBoosting)",
+    "v1_main_pct_change": -3.411037735950132,
+    "this_version_main_pct_change": -6.532927589559312,
+    "main_path_shift_points": -3.1218898536091806,
+    "v1_tier2_distribution": {
+      "n": 29,
+      "min": -10.63640014604107,
+      "q25": -4.187657451512733,
+      "median": -3.3202913816254207,
+      "q75": -2.4113846239874728,
+      "max": -0.6969876823934371,
+      "n_two_stage_beats_stage1": 29,
+      "n_coverage_not_worse": 29,
+      "n_sign_flips": 0,
+      "n_moving_size_beyond_points": 9
+    },
+    "n_perturbations_paired_by_name": 22,
+    "n_paired_with_larger_margin_this_version": 20,
+    "n_paired_with_smaller_margin_this_version": 2,
+    "shift_points_min": -4.957861411315657,
+    "shift_points_median": -2.3312864845978924,
+    "shift_points_max": 2.3038398793908743,
+    "paired_rows_moving_size_in_v1_only": [
+      "scheme=chap_default_7x1@h"
+    ],
+    "paired_rows_moving_size_in_this_version_only": [
+      "stage2=per_horizon@h",
+      "window=rolling_72m@h",
+      "stage1=nodiff_101x100@h"
+    ],
+    "unpaired_rows_this_version": [
+      "stage2=bounded_floor0@h",
+      "stage2=plus_recent_and_incidence@h",
+      "stage2=full_plus_climate@h",
+      "stage2=plus_recent_and_cross@h"
+    ],
+    "v1_rows_without_counterpart": [
+      "stage2=bounded_correction",
+      "stage2=f_alpha1",
+      "stage2=f_alpha100",
+      "stage2=level_month_horizon_only",
+      "stage2=no_cross_province",
+      "stage2=no_incidence_terms",
+      "stage2=with_climate_anomalies"
+    ],
+    "configuration_reproduction_checks": [
+      {
+        "this_version": "main@h",
+        "v1_row": "stage2=g_level_month_horizon_only",
+        "two_stage_mean_crps_this_version": 24.350777879905046,
+        "two_stage_mean_crps_v1": 24.350777879905046,
+        "identical": true
+      },
+      {
+        "this_version": "stage2=plus_recent_and_incidence@h",
+        "v1_row": "stage2=g_no_cross_province",
+        "two_stage_mean_crps_this_version": 24.532123245543765,
+        "two_stage_mean_crps_v1": 24.532123245543765,
+        "identical": true
+      },
+      {
+        "this_version": "stage2=full_plus_climate@h",
+        "v1_row": "stage2=g_with_climate_anomalies",
+        "two_stage_mean_crps_this_version": 24.54656603354263,
+        "two_stage_mean_crps_v1": 24.54656603354263,
+        "identical": true
+      },
+      {
+        "this_version": "stage2=plus_recent_and_cross@h",
+        "v1_row": "stage2=g_no_incidence_terms",
+        "two_stage_mean_crps_this_version": 25.18727585022415,
+        "two_stage_mean_crps_v1": 25.18727585022415,
+        "identical": true
+      }
+    ],
+    "n_reproduction_checks": 4,
+    "n_reproduction_checks_identical": 4
+  }
+}
+{
+  "verified_on": "development data only; no holdout case value is read by this script",
+  "development_scheme": {
+    "n_periods": 3,
+    "n_splits": 8,
+    "stride": 3
+  },
+  "reproduction_checks": {
+    "two_stage_main_path": {
+      "compared_with": "analysis/04_stage2/h_levelOnlyBoosting/results/per_cell_scores.csv",
+      "n_rows_ours": 408,
+      "n_rows_stored": 408,
+      "n_mismatched_values": 0,
+      "identical_on_shared_columns": true,
+      "first_mismatches": [],
+      "wall_seconds_on_development": 28.1
+    },
+    "baseline_persistence": {
+      "compared_with": "analysis/03_baselines/01_persistence/results/per_cell_scores.csv",
+      "n_rows_ours": 408,
+      "n_rows_stored": 408,
+      "n_mismatched_values": 0,
+      "identical_on_shared_columns": true,
+      "first_mismatches": [],
+      "wall_seconds_on_development": 0.1
+    },
+    "baseline_climatology": {
+      "compared_with": "analysis/03_baselines/02_climatology/results/per_cell_scores.csv",
+      "n_rows_ours": 408,
+      "n_rows_stored": 408,
+      "n_mismatched_values": 0,
+      "identical_on_shared_columns": true,
+      "first_mismatches": [],
+      "wall_seconds_on_development": 0.0
+    }
+  },
+  "all_reproductions_identical": true,
+  "holdout_schedule": {
+    "n_months_combined": 156,
+    "combined_span": [
+      "1998-01",
+      "2010-12"
+    ],
+    "n_periods": 3,
+    "n_splits": 4,
+    "stride": 3,
+    "splits": [
+      {
+        "split": 0,
+        "train_start": "1998-01",
+        "train_end": "2009-12",
+        "n_train_months": 144,
+        "test_months": [
+          "2010-01",
+          "2010-02",
+          "2010-03"
+        ]
+      },
+      {
+        "split": 1,
+        "train_start": "1998-01",
+        "train_end": "2010-03",
+        "n_train_months": 147,
+        "test_months": [
+          "2010-04",
+          "2010-05",
+          "2010-06"
+        ]
+      },
+      {
+        "split": 2,
+        "train_start": "1998-01",
+        "train_end": "2010-06",
+        "n_train_months": 150,
+        "test_months": [
+          "2010-07",
+          "2010-08",
+          "2010-09"
+        ]
+      },
+      {
+        "split": 3,
+        "train_start": "1998-01",
+        "train_end": "2010-09",
+        "n_train_months": 153,
+        "test_months": [
+          "2010-10",
+          "2010-11",
+          "2010-12"
+        ]
+      }
+    ],
+    "evaluated_months": [
+      "2010-01",
+      "2010-02",
+      "2010-03",
+      "2010-04",
+      "2010-05",
+      "2010-06",
+      "2010-07",
+      "2010-08",
+      "2010-09",
+      "2010-10",
+      "2010-11",
+      "2010-12"
+    ],
+    "covers_the_holdout_year_exactly_once": true
+  },
+  "wall_seconds": 28.3
+}
+{
+  "checked_on": "2026-09-23",
+  "frozen": {
+    "file": "results/manifest_holdout.csv",
+    "sha256": "835bb52cab2e91cc630d420f59b07691cf8a7ddb0990e5079bfbba25d9080ab0",
+    "matches_holdout_freeze_json": true,
+    "rows": 43
+  },
+  "replanned_now": {
+    "sha256": "360213be6c764ed9c3c761b2ab7a7c971e6dc69eb277556e940ea9980dd65458",
+    "identical_to_frozen": false
+  },
+  "fatal": {
+    "frozen_rows_the_tree_no_longer_carries": [],
+    "frozen_rows_whose_structure_moved": []
+  },
+  "note": "The frozen phase-E set is not rewritten. This file records that it is still the file that was frozen, that every frozen row still has the configuration it was frozen with, and that re-planning now would produce the same set."
+}
+main@h__holdout                                     16.5s  stage1 128.509  two-stage 99.199  (-22.81%)  cov 0.573->0.615
+baseline=persistence__holdout                        0.1s  mean CRPS 127.581  cov 0.562  (192 cells)
+baseline=climatology__holdout                        0.0s  mean CRPS 77.288  cov 0.547  (192 cells)
+04_stage2=f_oosErrorRidge__holdout                  14.4s  stage1 128.509  two-stage 123.508  (-3.89%)  cov 0.573->0.589
+04_stage2=g_oosErrorBoosting__holdout               19.8s  stage1 128.509  two-stage 125.619  (-2.25%)  cov 0.573->0.583
+04_stage2=i_boundedBoosting__holdout                20.0s  stage1 128.509  two-stage 125.597  (-2.27%)  cov 0.573->0.583
+04_stage2=j_levelOnlyBoundedBoosting__holdout       16.3s  stage1 128.509  two-stage 99.339  (-22.70%)  cov 0.573->0.615
+stage1=airline_011x011@h__holdout                   19.5s  stage1 109.125  two-stage 91.070  (-16.55%)  cov 0.594->0.625
+stage2=rolling_refit_oos@h__holdout                468.6s  stage1 128.509  two-stage 97.581  (-24.07%)  cov 0.573->0.625
+stage2=plus_recent_and_incidence@h__holdout         19.2s  stage1 128.509  two-stage 105.342  (-18.03%)  cov 0.573->0.615
+/Users/geirksa_1_2_3/ai/special-purpose vaults/sarimax-boosting-agentic-dengue-laos/AI-internal/useful-scripts/repo/analysis/scripts/lib/stage2_oos.py:91: RuntimeWarning: Mean of empty slice
+  annual_typical = float(np.nanmean(base) * 12) if np.isfinite(np.nanmean(base)) else 0.0
+/Users/geirksa_1_2_3/ai/special-purpose vaults/sarimax-boosting-agentic-dengue-laos/AI-internal/useful-scripts/repo/analysis/scripts/lib/stage2_oos.py:91: RuntimeWarning: Mean of empty slice
+  annual_typical = float(np.nanmean(base) * 12) if np.isfinite(np.nanmean(base)) else 0.0
+/Users/geirksa_1_2_3/ai/special-purpose vaults/sarimax-boosting-agentic-dengue-laos/AI-internal/useful-scripts/repo/analysis/scripts/lib/stage2_oos.py:91: RuntimeWarning: Mean of empty slice
+  annual_typical = float(np.nanmean(base) * 12) if np.isfinite(np.nanmean(base)) else 0.0
+/Users/geirksa_1_2_3/ai/special-purpose vaults/sarimax-boosting-agentic-dengue-laos/AI-internal/useful-scripts/repo/analysis/scripts/lib/stage2_oos.py:91: RuntimeWarning: Mean of empty slice
+  annual_typical = float(np.nanmean(base) * 12) if np.isfinite(np.nanmean(base)) else 0.0
+window=rolling_72m@h__holdout                        7.5s  stage1 127.579  two-stage 103.006  (-19.26%)  cov 0.562->0.568
+stage1=nodiff_101x100@h__holdout                    14.3s  stage1 124.131  two-stage 100.596  (-18.96%)  cov 0.594->0.635
+stage2=plus_recent_and_cross@h__holdout             19.3s  stage1 128.509  two-stage 123.139  (-4.18%)  cov 0.573->0.573
+scheme=chap_default_7x1@h__holdout                  29.5s  stage1 156.584  two-stage 119.545  (-23.65%)  cov 0.452->0.524
+stage2=per_horizon@h__holdout                       16.0s  stage1 128.509  two-stage 107.149  (-16.62%)  cov 0.573->0.620
+window=start_2002@h__holdout                        10.6s  stage1 127.536  two-stage 106.959  (-16.13%)  cov 0.599->0.620
+stage2=alt_seed@h__holdout                          16.4s  stage1 128.509  two-stage 99.388  (-22.66%)  cov 0.573->0.615
+stage2=scale_by_residual_rms@h__holdout             16.4s  stage1 128.509  two-stage 105.759  (-17.70%)  cov 0.573->0.615
+stage2=zclip2@h__holdout                            16.5s  stage1 128.509  two-stage 105.695  (-17.75%)  cov 0.573->0.615
+stage2=bounded_floor0@h__holdout                    16.5s  stage1 128.509  two-stage 99.344  (-22.69%)  cov 0.573->0.609
+stage2=full_plus_climate@h__holdout                 25.2s  stage1 128.509  two-stage 102.296  (-20.40%)  cov 0.573->0.625
+stage2=no_winsorisation@h__holdout                  16.4s  stage1 128.509  two-stage 90.926  (-29.25%)  cov 0.573->0.620
+stage2=depth2@h__holdout                            15.7s  stage1 128.509  two-stage 102.441  (-20.29%)  cov 0.573->0.604
+stage2=depth4_300trees@h__holdout                   19.9s  stage1 128.509  two-stage 96.155  (-25.18%)  cov 0.573->0.615
+stage2=zclip5@h__holdout                            16.5s  stage1 128.509  two-stage 91.599  (-28.72%)  cov 0.573->0.620
+stage1=enforce_stationarity@h__holdout              17.4s  stage1 123.219  two-stage 97.568  (-20.82%)  cov 0.578->0.615
+stage2=lr0.1@h__holdout                             16.3s  stage1 128.509  two-stage 95.393  (-25.77%)  cov 0.573->0.609
+stage2=min_leaf50@h__holdout                        16.3s  stage1 128.509  two-stage 106.221  (-17.34%)  cov 0.573->0.625
+stage2=no_clip@h__holdout                           16.3s  stage1 128.509  two-stage 99.250  (-22.77%)  cov 0.573->0.615
+stage2=warmup12@h__holdout                          17.4s  stage1 128.509  two-stage 101.568  (-20.96%)  cov 0.573->0.604
+stage2=warmup36@h__holdout                          15.4s  stage1 128.509  two-stage 100.693  (-21.65%)  cov 0.573->0.620
+stage2=min_train_rows1000@h__holdout                16.4s  stage1 128.509  two-stage 99.199  (-22.81%)  cov 0.573->0.615
+modelable=36_months@h__holdout                      16.4s  stage1 128.509  two-stage 99.199  (-22.81%)  cov 0.573->0.615
+{
+  "phase": "E",
+  "opening_number": 2,
+  "main_path": "h_levelOnlyBoosting",
+  "manifest_sha256": "835bb52cab2e91cc630d420f59b07691cf8a7ddb0990e5079bfbba25d9080ab0",
+  "frozen_at_commit": "67f998c",
+  "n_planned": 33,
+  "n_run": 33,
+  "total_wall_seconds": 982.9,
+  "estimated_wall_seconds": 939.8,
+  "preflight": {
+    "manifest_matches_freeze": true,
+    "holdout_file_matches_seal": true,
+    "gate_verdict_three_exact_reproductions": true,
+    "gate_scope_matches_frozen_manifest": true,
+    "rows_all_executable": true
+  }
+}
+43 frozen rows, 33 run (31 two-stage). On the held-out year the two-stage ensemble beats stage 1 alone on CRPS in 31 of them, with coverage not worse in 31
+{
+  "phase": "E",
+  "sensitivity_points": 2.0,
+  "primary": {
+    "combination": "main@h__holdout",
+    "main_path": "h_levelOnlyBoosting",
+    "n_cells": 192,
+    "evaluated_months": [
+      "2010-01",
+      "2010-02",
+      "2010-03",
+      "2010-04",
+      "2010-05",
+      "2010-06",
+      "2010-07",
+      "2010-08",
+      "2010-09",
+      "2010-10",
+      "2010-11",
+      "2010-12"
+    ],
+    "stage1_mean_crps": 128.50904396623517,
+    "two_stage_mean_crps": 99.1989146131419,
+    "pct_change_vs_stage1": -22.807833945752723,
+    "coverage_stage1": 0.5729166666666666,
+    "coverage_two_stage": 0.6145833333333334,
+    "beats_stage1_on_crps": true,
+    "coverage_not_worse": true,
+    "earns_its_place_on_the_holdout": true,
+    "n_splits_improved": 4,
+    "n_splits": 4,
+    "share_cells_improved": 0.75,
+    "by_split": {
+      "split0": {
+        "stage1": 20.13527950718303,
+        "two_stage": 17.16784577418922
+      },
+      "split1": {
+        "stage1": 36.7152359805238,
+        "two_stage": 32.672472033572376
+      },
+      "split2": {
+        "stage1": 209.90974632853138,
+        "two_stage": 205.39808474916663
+      },
+      "split3": {
+        "stage1": 247.27591404870236,
+        "two_stage": 141.55725589563943
+      }
+    },
+    "by_horizon": {
+      "h1": {
+        "stage1": 102.39806172815247,
+        "two_stage": 82.09880827587132
+      },
+      "h2": {
+        "stage1": 126.9856491195915,
+        "two_stage": 94.06280308032234
+      },
+      "h3": {
+        "stage1": 156.14342105096148,
+        "two_stage": 121.43513248323208
+      }
+    },
+    "development_pct_change": -6.532927589559312,
+    "shift_points_vs_development": -16.274906356193412
+  },
+  "required_baselines": [
+    {
+      "combination": "baseline=persistence__holdout",
+      "mean_crps": 127.5812312836565,
+      "coverage_90": 0.5625,
+      "n_cells": 192
+    },
+    {
+      "combination": "baseline=climatology__holdout",
+      "mean_crps": 77.28820446741271,
+      "coverage_90": 0.546875,
+      "n_cells": 192
+    }
+  ],
+  "tier2_distribution_of_pct_change": {
+    "n": 26,
+    "min": -29.24513485967078,
+    "q10": -25.473064943434387,
+    "q25": -22.807833945752723,
+    "median": -20.89100907585293,
+    "q75": -17.82134936725967,
+    "q90": -16.583251665007364,
+    "max": -4.178529647556655,
+    "n_two_stage_beats_stage1": 26,
+    "n_coverage_not_worse": 26,
+    "n_sign_flips": 0,
+    "n_moving_size_beyond_points": 16,
+    "rows_with_larger_margin_than_main": [
+      "stage2=no_winsorisation@h__holdout",
+      "stage2=zclip5@h__holdout",
+      "stage2=lr0.1@h__holdout",
+      "stage2=depth4_300trees@h__holdout"
+    ],
+    "rows_with_smaller_margin_than_main": [
+      "stage2=full_plus_climate@h__holdout",
+      "stage2=depth2@h__holdout",
+      "window=rolling_72m@h__holdout",
+      "stage1=nodiff_101x100@h__holdout",
+      "stage2=plus_recent_and_incidence@h__holdout",
+      "stage2=zclip2@h__holdout",
+      "stage2=scale_by_residual_rms@h__holdout",
+      "stage2=min_leaf50@h__holdout",
+      "stage2=per_horizon@h__holdout",
+      "stage1=airline_011x011@h__holdout",
+      "window=start_2002@h__holdout",
+      "stage2=plus_recent_and_cross@h__holdout"
+    ],
+    "splits_improved_distribution": {
+      "0": 0,
+      "1": 0,
+      "2": 1,
+      "3": 4,
+      "4": 20,
+      "5": 0,
+      "6": 0,
+      "7": 1,
+      "8": 0
+    },
+    "rows_improving_fewer_than_half_the_splits": []
+  },
+  "by_judgment_call_group": {
+    "stage 1 specification": {
+      "n": 3,
+      "min_pct": -20.817591496946868,
+      "median_pct": -18.95944477899075,
+      "max_pct": -16.54541878915456,
+      "all_beat_stage1": true,
+      "all_coverage_not_worse": true,
+      "rows_moving_size": [
+        "stage1=nodiff_101x100@h__holdout",
+        "stage1=airline_011x011@h__holdout"
+      ],
+      "splits_improved_range": [
+        2,
+        4
+      ]
+    },
+    "training window, scheme, data": {
+      "n": 4,
+      "min_pct": -23.654229114741245,
+      "median_pct": -21.034136012644492,
+      "max_pct": -16.13452083542436,
+      "all_beat_stage1": true,
+      "all_coverage_not_worse": true,
+      "rows_moving_size": [
+        "window=rolling_72m@h__holdout",
+        "window=start_2002@h__holdout"
+      ],
+      "splits_improved_range": [
+        3,
+        7
+      ]
+    },
+    "stage 2 target and combination rule": {
+      "n": 7,
+      "min_pct": -29.24513485967078,
+      "median_pct": -22.694566462049956,
+      "max_pct": -16.621084540860167,
+      "all_beat_stage1": true,
+      "all_coverage_not_worse": true,
+      "rows_moving_size": [
+        "stage2=no_winsorisation@h__holdout",
+        "stage2=zclip5@h__holdout",
+        "stage2=zclip2@h__holdout",
+        "stage2=scale_by_residual_rms@h__holdout",
+        "stage2=per_horizon@h__holdout"
+      ],
+      "splits_improved_range": [
+        4,
+        4
+      ]
+    },
+    "stage 2 features": {
+      "n": 3,
+      "min_pct": -20.397636221296555,
+      "median_pct": -18.02762009699217,
+      "max_pct": -4.178529647556655,
+      "all_beat_stage1": true,
+      "all_coverage_not_worse": true,
+      "rows_moving_size": [
+        "stage2=full_plus_climate@h__holdout",
+        "stage2=plus_recent_and_incidence@h__holdout",
+        "stage2=plus_recent_and_cross@h__holdout"
+      ],
+      "splits_improved_range": [
+        3,
+        4
+      ]
+    },
+    "stage 2 family hyperparameters and seed": {
+      "n": 5,
+      "min_pct": -25.76978846755835,
+      "median_pct": -22.660974001044824,
+      "max_pct": -17.34365559783197,
+      "all_beat_stage1": true,
+      "all_coverage_not_worse": true,
+      "rows_moving_size": [
+        "stage2=lr0.1@h__holdout",
+        "stage2=depth4_300trees@h__holdout",
+        "stage2=depth2@h__holdout",
+        "stage2=min_leaf50@h__holdout"
+      ],
+      "splits_improved_range": [
+        4,
+        4
+      ]
+    },
+    "how the training errors are made": {
+      "n": 4,
+      "min_pct": -24.066862578126944,
+      "median_pct": -22.22660139334903,
+      "max_pct": -20.964426654758995,
+      "all_beat_stage1": true,
+      "all_coverage_not_worse": true,
+      "rows_moving_size": [],
+      "splits_improved_range": [
+        4,
+        4
+      ]
+    }
+  },
+  "province_stability": {
+    "n_provinces": 16,
+    "always_improved": [
+      "LA-VT",
+      "LA-CH",
+      "LA-LP",
+      "LA-SL",
+      "LA-XI",
+      "LA-BK",
+      "LA-LM",
+      "LA-OU"
+    ],
+    "never_improved": [],
+    "improved_in_at_least_90pct_of_combinations": [
+      "LA-VT",
+      "LA-CH",
+      "LA-SV",
+      "LA-LP",
+      "LA-SL",
+      "LA-BL",
+      "LA-KH",
+      "LA-XE",
+      "LA-XI",
+      "LA-BK",
+      "LA-LM",
+      "LA-OU",
+      "LA-XA",
+      "LA-HO"
+    ],
+    "improved_in_at_most_10pct_of_combinations": [
+      "LA-AT"
+    ]
+  },
+  "horizon_stability": [
+    {
+      "horizon": "h1",
+      "n_combinations": 27,
+      "share_combinations_improved": 1.0
+    },
+    {
+      "horizon": "h2",
+      "n_combinations": 27,
+      "share_combinations_improved": 1.0
+    },
+    {
+      "horizon": "h3",
+      "n_combinations": 27,
+      "share_combinations_improved": 0.9629629629629629
+    }
+  ],
+  "versus_development": {
+    "development_version": 2,
+    "development_main_pct_change": -6.532927589559312,
+    "holdout_main_pct_change": -22.807833945752723,
+    "main_path_shift_points": -16.274906356193412,
+    "development_tier2_distribution": {
+      "n": 26,
+      "min": -10.414905300948973,
+      "q25": -6.532927589559312,
+      "median": -5.911390304335947,
+      "q75": -4.902587712395806,
+      "max": -1.0551117707798072,
+      "n_two_stage_beats_stage1": 26,
+      "n_coverage_not_worse": 26,
+      "n_sign_flips": 0,
+      "n_moving_size_beyond_points": 8
+    },
+    "n_rows_paired": 31,
+    "n_paired_with_larger_margin_on_holdout": 29,
+    "n_paired_with_smaller_margin_on_holdout": 2,
+    "shift_points_min": -22.67127228302031,
+    "shift_points_median": -15.609185259005745,
+    "shift_points_max": 3.57999383795983
+  }
+}
+[cleanroom] analysis/run.sh exited 0 after 5256s
 [cleanroom] --- compare results ---
-[cleanroom] identical 299 · differing 0 · declared-varying 0 · missing in clone 0
+[cleanroom] identical 288 · differing 1 · declared-varying 10 · missing in clone 0
 [cleanroom] differences listed in /Users/geirksa_1_2_3/ai/special-purpose vaults/sarimax-boosting-agentic-dengue-laos/AI-generated/validation/2026-09-22_cleanroom-artefacts/differences.txt
 [cleanroom] --- the clone's own invariants ---
 ok    tree
@@ -49,8 +1547,9 @@ ok    seeds
 ok    claims
 ok    combos
 ok    freeze
-ok    git
+FAIL  git  (1)
+        .: working tree not clean (11 changed path(s))
 ok    crossing
 ok    pool
 
-All invariants hold.
+1 invariant failure(s). Fix the cause, not the check.

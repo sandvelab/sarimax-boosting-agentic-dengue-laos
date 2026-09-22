@@ -1,0 +1,11 @@
+DIFFERS            analysis/06_stability/results/distribution_holdout.json
+VARIES (declared)  analysis/06_stability/results/holdout_freeze_check.json
+VARIES (declared)  analysis/06_stability/results/holdout_runner_verification.json
+VARIES (declared)  analysis/06_stability/results/manifest_freeze_check.json
+VARIES (declared)  analysis/06_stability/results/run_costs.csv
+VARIES (declared)  analysis/06_stability/results/run_costs_summary.json
+VARIES (declared)  analysis/06_stability/results/run_log_holdout.csv
+VARIES (declared)  analysis/06_stability/results/run_log_v2.csv
+VARIES (declared)  analysis/06_stability/results/run_status_holdout.csv
+VARIES (declared)  analysis/06_stability/results/run_summary_holdout.json
+VARIES (declared)  analysis/06_stability/results/run_summary_v2.json

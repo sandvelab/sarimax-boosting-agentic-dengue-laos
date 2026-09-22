@@ -60,3 +60,29 @@ alternatives-considered:
 agency: agent-autonomous (the collection, the report and the characterisation); the rule they
         follow was frozen in batch 16.
 information: none retrieved; every input is a file already in this repository.
+
+---
+section appended in batch 19 — **the report embedded a stopwatch, so it could not reproduce
+byte for byte even when every number in it did**:
+script: scripts/10_report_holdout.py
+        sha256:8997bf12476e6d166691a86d266cffbfc32dde1184f183ac153067715e1cc348
+        (was 646e0343…: the "opening" block now carries the identity of the opening — phase,
+        main path, manifest digest, frozen commit, row counts, the four preflight results —
+        and not its timings)
+result: results/distribution_holdout.json regenerated. **No scientific value changed**: the
+        regenerated file differs from the previous one only by the removal of
+        `opening_number`, `total_wall_seconds` and `estimated_wall_seconds`.
+the defect: `/validate cleanroom` (batch 19) ran the whole analysis in a fresh clone and found
+        288 of 289 results byte-identical, with this the single genuine difference. The cause
+        was that the report embedded `run_summary_holdout.json` whole, so a result file carried
+        `total_wall_seconds` (622.9 here, 982.9 in the clone) and `opening_number` (1 here, 2
+        in the clone, because the status file is tracked and the clone's reproduction is a
+        second row in its own lineage). Both are true and neither belongs in a result.
+the fix: embed the opening's identity, not its stopwatch. The timings stay one file away in
+        `run_summary_holdout.json`, which the clean-room script declares as varying.
+verified: the corrected reporter was run in this tree and in the clone — both read only stored
+        files, so neither reopens the year — and the two `distribution_holdout.json` files are
+        now byte-identical. That is the check, not the argument.
+commit: batch 19
+produced: 2026-09-23
+agency: agent-autonomous.

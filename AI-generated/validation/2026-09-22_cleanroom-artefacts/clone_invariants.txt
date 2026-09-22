@@ -6,8 +6,9 @@ ok    seeds
 ok    claims
 ok    combos
 ok    freeze
-ok    git
+FAIL  git  (1)
+        .: working tree not clean (11 changed path(s))
 ok    crossing
 ok    pool
 
-All invariants hold.
+1 invariant failure(s). Fix the cause, not the check.

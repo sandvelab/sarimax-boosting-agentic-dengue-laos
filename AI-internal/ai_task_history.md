@@ -209,3 +209,15 @@ reader who was not present can follow, and keep them honest about what did not w
   conclusion, the stored per-split and per-horizon blocks, province and month groupings, and a
   link to the per-cell file. 127 pages, 1.8 MB. Report: `26-09-22_b18_claimsAndReport.md`.
   Nothing pushed; no dengue result changed.
+- T15 (2026-09-23): Batch 19 — `/validate cleanroom` and `/validate outsider`. The line-ending
+  item turned out not to be cosmetic: a fresh clone's `holdout.csv` hashed differently from the
+  frozen digest, so the holdout runner would have refused it and **phase E was not reproducible
+  from a clone at all**. Settled with `.gitattributes` (`*.csv -text`) plus
+  `git add --renormalize`; re-running the writers was rejected because it would change the
+  sealed file's bytes. Wrote `cleanroom.sh`, which this repository lacked, and ran it: 88 min,
+  exit 0, 288 of 289 results byte-identical, the one difference being a stopwatch the holdout
+  report had embedded in itself — fixed, and 289 of 289 after. The outsider test found twelve
+  defects; ten fixed (most seriously `AGENTS.md` naming an interpreter that does not exist, and
+  a deadlock making a new alternatives child impossible without hand-editing a frozen artefact),
+  one raised with the human (`.claude/settings.json` placeholders; the parent `CLAUDE.md` is in
+  every session), one recorded. Report: `26-09-23_b19_cleanroomAndOutsider.md`. Nothing pushed.

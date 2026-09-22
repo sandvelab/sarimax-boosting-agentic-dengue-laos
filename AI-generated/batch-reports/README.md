@@ -69,3 +69,9 @@ different report, not the same one.
   report's drill-down rebuilt for this project's layout — it had addressed the prior project's
   paths and reported "0 combination(s) scored", so Rule 8's link down to raw values was not
   being met. Now 103 scored results, 127 pages. No result about dengue changes.
+- `26-09-23_b19_cleanroomAndOutsider.md` — batch 19: the line-ending item settled with
+  `.gitattributes` after it turned out phase E was not reproducible from a clone at all; the
+  clean-room check written and run (88 min, 289 of 289 results byte-identical after one fix);
+  and the outsider test, which found twelve defects — ten fixed, one raised with the human
+  (`.claude/settings.json`'s placeholders, and the parent `CLAUDE.md` in every session), one
+  recorded. Eleven of the twelve were prior-project prose.

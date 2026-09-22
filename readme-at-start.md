@@ -32,7 +32,7 @@ above.
 ## The article
 
 - **Target venue**: not yet decided.
-- **Status**: batches 1–18 complete (phases A–E, and phase F's claim collection and report). **The held-out year has been opened, once, and the project's own question is answered** — see the end of this entry. Stage 1 (per-province SARIMAX,
+- **Status**: batches 1–19 complete (phases A–F bar the release). **The analysis reproduces from a fresh clone, byte for byte** (`/validate cleanroom`, batch 19: 289 of 289 comparable results), and its instruction files have been walked by a fresh agent that had never seen them (`/validate outsider`, batch 19: twelve findings, ten fixed). **The held-out year has been opened, once, and the project's own question is answered** — see the end of this entry. Stage 1 (per-province SARIMAX,
   mean CRPS 26.05 over 371 cells, 90% coverage 82.7%) beats both required baselines
   (persistence 28.32, seasonal climatology 26.91). Seven stage-2 residual-correction
   candidates exist under `04_stage2`. Five (batches 4–9) were trained on stage 1's

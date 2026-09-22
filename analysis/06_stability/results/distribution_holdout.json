@@ -11,14 +11,11 @@
   "sensitivity_points": 2.0,
   "opening": {
     "phase": "E",
-    "opening_number": 1,
     "main_path": "h_levelOnlyBoosting",
     "manifest_sha256": "835bb52cab2e91cc630d420f59b07691cf8a7ddb0990e5079bfbba25d9080ab0",
     "frozen_at_commit": "67f998c",
     "n_planned": 33,
     "n_run": 33,
-    "total_wall_seconds": 622.9,
-    "estimated_wall_seconds": 939.8,
     "preflight": {
       "manifest_matches_freeze": true,
       "holdout_file_matches_seal": true,

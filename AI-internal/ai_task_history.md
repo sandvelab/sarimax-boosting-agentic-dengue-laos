@@ -189,3 +189,12 @@ reader who was not present can follow, and keep them honest about what did not w
   year for which no configuration in the set is adequately calibrated. The held-out margin turns
   sharply on stage 2's input (level-only ~23%, richer inputs ≤4%). Claims C14–C20. Report:
   `26-09-22_b17_finalValidation.md`. Nothing pushed.
+- T13 (2026-09-22): Row 17b — wrote the overview article
+  `Human-AI-collaboration/manuscript/26-09-22_twoStageDengueLaos.md` (1–2 pages: design,
+  development results, held-out results, what the conclusion turns on, implications,
+  limitations), from claims C1–C20, with the provenance sidecar
+  `26-09-22_twoStageDengueLaos_claims.md` and a `provenance.md` section beside it.
+  `/claims check-text` flagged 12 sentences; ten are method or interpretation mapped in the
+  sidecar, two were missing from it and were added, and one factual error was caught and fixed
+  (climatology called "the simplest baseline"; persistence is simpler and the ensemble beats
+  it). Ledger row 17b added because work outside the batch sequence still needs a row.

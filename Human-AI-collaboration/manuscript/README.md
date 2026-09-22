@@ -17,4 +17,9 @@ meant to be slightly uncomfortable.
 
 ## Currently here
 
-Nothing yet — no claims exist to write from.
+- `26-09-22_twoStageDengueLaos.md` — a short overview article (1–2 pages) of the whole study:
+  design, development results, held-out results, what the conclusion turns on, implications and
+  limitations. Written from claims C1–C20.
+- `26-09-22_twoStageDengueLaos_claims.md` — its provenance sidecar, every statement mapped to
+  the claim it rests on or to the file that fixes the design fact.
+- `provenance.md` — one section per document.

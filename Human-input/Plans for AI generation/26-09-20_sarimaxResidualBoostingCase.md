@@ -250,6 +250,14 @@ append-only, oldest first.
 | **The comparison against the required baselines is reported as the finding it is**, not as a footnote: seasonal climatology (77.29) beats both the two-stage ensemble (99.20) and stage 1 alone (128.51) on the held-out year, reversing the development ranking. | Plan §2 makes both baselines part of the reported comparison on both datasets, and §2 also says an honest negative is a conclusion. The two-stage architecture improving on its own first stage, while that first stage is beaten by a naive seasonal mean, is the single most important thing the held-out year says. | agent-autonomous |
 | **Open for the human, and not decided here**: whether the project now builds the stage-1 predictive-family fork (tier 3, recorded as not run by the human-set decision of 2026-09-21) in the light of the held-out calibration collapse, and whether anything further may be evaluated on 2010 at all given that it has been opened. | Plan §3 allows one opening and the manuscript can be written from what is now in hand. Re-opening is a decision with a cost that only the human should pay. | (open) |
 
+### 2026-09-22 — row 17b: an overview article, requested outside the batch sequence
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **A short overview article is written now, from the claim collection**, rather than waiting for phase F's row 20. It is `Human-AI-collaboration/manuscript/26-09-22_twoStageDengueLaos.md`, with a provenance sidecar beside it. | The human's request, once the held-out result was in: a 1–2 page overview a reader can take in quickly. Given a ledger row of its own (row 17b) because nothing is done here that the ledger does not name (AGENTS.md §8); row 20's full manuscript is unaffected. | human-set (that it is written now); agent-autonomous (what it contains) |
+| **The article reports the held-out baseline result as a headline, beside the positive answer to the project's own question** | Plan §2: a model that wins on mean CRPS while being badly calibrated has not won, and an honest negative is a conclusion. The second stage earning its place (C14) and the two-stage model losing to seasonal climatology (C17) are both results, and neither is a footnote to the other. | agent-autonomous |
+| **`/claims check-text` found one factual error, corrected before the draft was committed** | The draft called climatology "the simplest baseline in the study"; the simplest is persistence, which the ensemble beats. The check flags sentences with no matching claim and is deliberately crude; reading each flag is what caught this, which is the point of running it. | agent-autonomous |
+
 ## 5. How this plan is used
 
 Unlike a plan written once and left alone, this one is edited as it runs, the same way the
@@ -281,6 +289,7 @@ One row per `/do` invocation. Status: `open`, `done`, or `blocked` with why.
 | 15 | D (cont.) — stability v2 | Run the v2 manifest around the annotated main path with the verified runner; report its distribution beside v1's; claims. | done |
 | 16 | D (cont.) / freeze | Freeze the phase-E (holdout) manifest before the holdout opens, per §3 — and, with it, the evaluation design (how the twelve held-out months are split, which provinces are scored) and the reporting rule. Build and gate phase E's machinery in this batch rather than in row 17, against this repository's stored development results, so that no code is written or corrected with a held-out number on screen. *(Scope widened 2026-09-22, agent-autonomous; §4b.)* | done |
 | 17 | E — Final validation | Open the 2010 holdout once; run exactly the frozen manifest with the gated machinery; report the held-out distribution beside the development one, by the rule frozen in row 16. **Record the opening itself**: a tracked `run_status_holdout.csv` written when the year is read, so that a second opening would be visible (plan §3's third consequence). The prior project's `.gitignore` entry for its working-tree seal marker still names `analysis/05_stability/` and is this row's to settle. | done |
+| 17b | F (early) — overview article | A short 1–2 page article covering the whole study, with results from both the development backtest and the held-out year, and the implications; written from the claim collection, with a provenance sidecar. *(Requested by the human outside the batch sequence, 2026-09-22; §4b. Row 20 still owes the full manuscript.)* | done |
 | 18 | F — Claims & report | Build the claim collection from the tree; generate the hierarchical report. | open |
 | 19 | F (cont.) | `/validate cleanroom` and `/validate outsider`; fix what they find. **Before the clean-room comparison, settle the line-ending mismatch noted in §4b (2026-09-21)**: every node's CSV outputs are written with Windows line endings (Python's `csv` module default) while git stores them with Unix endings (`core.autocrlf = input`, no `.gitattributes`), so a fresh clone's result files hash differently from the working-copy digests recorded in provenance. Either write CSVs with `lineterminator="\n"` and re-run (re-hashing every record), or commit a `.gitattributes` that fixes the convention and make the clean-room comparison line-ending-aware — decide, record which, and apply it once for the whole tree rather than node by node. | open |
 | 20 | F — Release | Write the manuscript section(s) this project supports; run the release scan; push. | open |
@@ -360,4 +369,8 @@ the phase structure above is meant to hold.
 ### Batch 17 — the held-out year opened once, and what it said
 
 - [[26-09-22_b17_finalValidation]]
+
+### Row 17b — the overview article
+
+- [[26-09-22_twoStageDengueLaos]]
 

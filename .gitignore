@@ -70,3 +70,7 @@ AI-internal/useful-scripts/run_exit_status.txt
 AI-internal/useful-scripts/run_seconds.txt
 AI-internal/useful-scripts/diff_status.txt
 AI-internal/useful-scripts/diff_stat.txt
+
+# JetBrains IDE state — not part of the method, and untracked it fails the `git` invariant
+# on every batch. Added in batch 16 for the same reason .obsidian/ is here.
+.idea/

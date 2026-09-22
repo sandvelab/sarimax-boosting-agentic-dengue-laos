@@ -17,3 +17,9 @@ PYTHON="$REPO_ROOT/environment/env/bin/python"
 "$PYTHON" "scripts/03_run_combinations.py"
 "$PYTHON" "scripts/04_collect_conclusions.py"
 "$PYTHON" "scripts/05_report_distribution.py"
+# Phase E's machinery and its frozen set. 06 gates the holdout pipeline against this
+# repository's stored development results; 07 freezes the set the held-out year is
+# evaluated across, and on every later run verifies that set instead of rewriting it.
+# Neither script reads a case value from the holdout file.
+"$PYTHON" "scripts/06_verify_holdout_runner.py"
+"$PYTHON" "scripts/07_plan_holdout_manifest.py"

@@ -25,8 +25,8 @@ Checks
               names -- the development manifest or the frozen holdout one -- and the
               development manifest names every non-main child in the tree
   freeze      the frozen phase-E set still hashes to what holdout_freeze.json recorded,
-              and no holdout result exists at the commit that added it -- so the set was
-              fixed before the held-out year was opened, and has not moved since
+              and no holdout result exists at the commit it was frozen at -- so the set
+              was fixed before the held-out year was opened, and has not moved since
   git         the working tree is clean, and every commit a provenance record names is
               an ancestor of HEAD -- not merely an object that exists
   crossing    no result file looks like a value transcribed between steps by hand
@@ -418,10 +418,11 @@ def check_combos(root: Path) -> list[Finding]:
     A `results/` subdirectory nobody planned -- a scratch run, a combination renamed
     halfway, a typo that created a second directory beside the real one -- is a set of
     numbers with no row in the manifest, and therefore an analysis that is in the
-    repository and not in anything reported. All three manifests count: batch 15 froze
-    the holdout set, whose rows are the same analyses under `__holdout` names, batch 20
-    planned the external check's four, and a directory nobody planned is the same failure
-    whichever dataset it is on.
+    repository and not in anything reported. All three manifests count: this project's
+    batch 16 froze the holdout set, whose rows are the same analyses under `__holdout`
+    names, the prior project's batch 20 planned an external check's four (no such node
+    exists here), and a directory nobody planned is the same failure whichever dataset it
+    is on.
 
     And a fork added to the tree after the manifest was written is a reasonable
     alternative the stability run does not know about. That is the silent absence
@@ -495,9 +496,16 @@ def check_freeze(root: Path) -> list[Finding]:
     `analysis/run.sh` and returning the same bytes only because the tree had not changed.
 
     **The freeze predates the opening.** `holdout_freeze.json`'s own note claims that no
-    file under `analysis/results/*__holdout/` exists at the commit that added the manifest.
-    That is the entire evidence that the set was fixed in advance, and it is checkable
-    against git rather than believed.
+    holdout result exists at the commit it was frozen at. That is the entire evidence that
+    the set was fixed in advance, and it is checkable against git rather than believed.
+
+    A holdout result is a tracked path under `analysis/` carrying `__holdout`, which is the
+    suffix every frozen row's name ends in. The prior project wrote its combinations to
+    `analysis/results/<combination>/` and this check named that path literally; this project's
+    stability node writes to `analysis/06_stability/results/<combination>/`, so the literal
+    path matched nothing here and the check passed by looking in an empty place. That is worse
+    than a check that fails: it reads as evidence and is not. Fixed in batch 16, before the
+    freeze it is meant to protect (a methodological change, AGENTS.md §3 Rule 4).
 
     The other digests `holdout_freeze.json` carries -- `conclusions.csv`,
     `distribution.json`, the development `manifest.csv` -- are deliberately not checked.
@@ -539,12 +547,13 @@ def check_freeze(root: Path) -> list[Finding]:
                                f"repository, so the freeze cannot be dated"))
         else:
             leaked = [p for p in listed.stdout.splitlines()
-                      if p.startswith("analysis/results/") and "__holdout" in p]
+                      if p.startswith("analysis/") and "__holdout" in p
+                      and p != str(MANIFEST_HOLDOUT)]
             if leaked:
                 out.append(Finding("freeze", where, (
-                    f"{len(leaked)} file(s) under analysis/results/*__holdout/ already "
-                    f"exist at {commit}, the commit that added the frozen set: the set "
-                    f"was not fixed before the year was opened")))
+                    f"{len(leaked)} holdout result file(s) already exist at {commit}, the "
+                    f"commit the set was frozen at (first: {leaked[0]}): the set was not "
+                    f"fixed before the year was opened")))
 
     # The verification the script writes on every run of `analysis/run.sh`. If it is
     # present it must be about the file that is here, and it must not be carrying a

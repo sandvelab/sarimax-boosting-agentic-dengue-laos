@@ -258,6 +258,15 @@ append-only, oldest first.
 | **The article reports the held-out baseline result as a headline, beside the positive answer to the project's own question** | Plan §2: a model that wins on mean CRPS while being badly calibrated has not won, and an honest negative is a conclusion. The second stage earning its place (C14) and the two-stage model losing to seasonal climatology (C17) are both results, and neither is a footnote to the other. | agent-autonomous |
 | **`/claims check-text` found one factual error, corrected before the draft was committed** | The draft called climatology "the simplest baseline in the study"; the simplest is persistence, which the ensemble beats. The check flags sentences with no matching claim and is deliberately crude; reading each flag is what caught this, which is the point of running it. | agent-autonomous |
 
+### 2026-09-22 — batch 18: the claim collection completed from the tree, and the report's drill-down rebuilt
+
+| Decision | Basis | Agency |
+|---|---|---|
+| **Twelve claims added (C21–C32) so that every node in the tree is represented in the collection**, not only the stability node. Before this batch 20 of 21 claims sat on `06_stability` and the metric, data, stage-1, baseline, diagnostic and stage-2 nodes had none. | Rule 9 makes the collection the bridge from results to text, and phase F's job is to build it *from the tree*. A node whose answer is in its `claim.md` and nowhere in the collection cannot be written from. | agent-autonomous |
+| **C26, on stage 1's six documented weaknesses, is recorded as `human-set`** rather than agent-autonomous | The statement exists because the human decided stage 1 would be documented instead of repaired (2026-09-21, reaffirmed 2026-09-22); the agency field records who made the call the claim reports, not who typed it. | human-set |
+| **The hierarchical report's drill-down below the tree was rebuilt for this project's layout.** It addressed the prior project's paths (`04_score/01_collect/results/<combo>/metrics_cell.csv`, `crps_by_location.csv`, `leaderboard.csv`), none of which exist here, so the root page reported "0 combination(s) scored" and Rule 8's requirement that summaries link down to the values they aggregate was not met. It now discovers every directory holding a `per_cell_scores.csv` — 103 of them — and gives each a page with the stored conclusion, the stored per-split and per-horizon blocks, the same cells grouped by province and by month, and a link to the per-cell file. | The tree rendered and the level below it was empty, which reads as "there is nothing here" rather than "this was never wired up" — the same failure as a check that passes by looking in an empty place (batch 16). A generated report that silently omits a rule's deliverable is worse than one that fails. | agent-autonomous |
+| **The by-province and by-month tables are computed by the report for display and say so on the page**; they are not stored results | Storing an aggregate beside each of the 103 results would mean re-running the analysis inside a reporting batch. The boundary is recorded in `AI-generated/hierarchical-report/provenance.md` and on every page that shows such a table. | agent-autonomous |
+
 ## 5. How this plan is used
 
 Unlike a plan written once and left alone, this one is edited as it runs, the same way the
@@ -290,7 +299,7 @@ One row per `/do` invocation. Status: `open`, `done`, or `blocked` with why.
 | 16 | D (cont.) / freeze | Freeze the phase-E (holdout) manifest before the holdout opens, per §3 — and, with it, the evaluation design (how the twelve held-out months are split, which provinces are scored) and the reporting rule. Build and gate phase E's machinery in this batch rather than in row 17, against this repository's stored development results, so that no code is written or corrected with a held-out number on screen. *(Scope widened 2026-09-22, agent-autonomous; §4b.)* | done |
 | 17 | E — Final validation | Open the 2010 holdout once; run exactly the frozen manifest with the gated machinery; report the held-out distribution beside the development one, by the rule frozen in row 16. **Record the opening itself**: a tracked `run_status_holdout.csv` written when the year is read, so that a second opening would be visible (plan §3's third consequence). The prior project's `.gitignore` entry for its working-tree seal marker still names `analysis/05_stability/` and is this row's to settle. | done |
 | 17b | F (early) — overview article | A short 1–2 page article covering the whole study, with results from both the development backtest and the held-out year, and the implications; written from the claim collection, with a provenance sidecar. *(Requested by the human outside the batch sequence, 2026-09-22; §4b. Row 20 still owes the full manuscript.)* | done |
-| 18 | F — Claims & report | Build the claim collection from the tree; generate the hierarchical report. | open |
+| 18 | F — Claims & report | Build the claim collection from the tree; generate the hierarchical report. | done |
 | 19 | F (cont.) | `/validate cleanroom` and `/validate outsider`; fix what they find. **Before the clean-room comparison, settle the line-ending mismatch noted in §4b (2026-09-21)**: every node's CSV outputs are written with Windows line endings (Python's `csv` module default) while git stores them with Unix endings (`core.autocrlf = input`, no `.gitattributes`), so a fresh clone's result files hash differently from the working-copy digests recorded in provenance. Either write CSVs with `lineterminator="\n"` and re-run (re-hashing every record), or commit a `.gitattributes` that fixes the convention and make the clean-room comparison line-ending-aware — decide, record which, and apply it once for the whole tree rather than node by node. | open |
 | 20 | F — Release | Write the manuscript section(s) this project supports; run the release scan; push. | open |
 
@@ -373,4 +382,8 @@ the phase structure above is meant to hold.
 ### Row 17b — the overview article
 
 - [[26-09-22_twoStageDengueLaos]]
+
+### Batch 18 — the claim collection and the hierarchical report
+
+- [[26-09-22_b18_claimsAndReport]]
 

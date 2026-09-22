@@ -64,3 +64,8 @@ different report, not the same one.
   margin (−22.81%, coverage 61.5% vs 57.3%, sign-stable across all 26 perturbations) — and the
   whole two-stage model is beaten there by seasonal climatology (77.29 vs 99.20 vs stage 1's
   128.51), on an epidemic year no model in the frozen set is calibrated for. Claims C14–C20.
+- `26-09-22_b18_claimsAndReport.md` — batch 18: the claim collection completed from the tree
+  (C21–C32, one or two per node that had none; 32 claims all resolving), and the hierarchical
+  report's drill-down rebuilt for this project's layout — it had addressed the prior project's
+  paths and reported "0 combination(s) scored", so Rule 8's link down to raw values was not
+  being met. Now 103 scored results, 127 pages. No result about dengue changes.

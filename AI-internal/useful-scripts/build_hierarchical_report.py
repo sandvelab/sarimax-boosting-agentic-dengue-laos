@@ -77,9 +77,9 @@ summary { cursor: pointer; color: var(--muted); font-size: .9rem; }
 # The three levels below the tree, and the file each is read from. Nothing here
 # recomputes an aggregate: every level is displayed from the file the analysis
 # wrote, so the report cannot disagree with the analysis about a number.
-COLLECT = "04_score/01_collect"
-AGGREGATE = "04_score/02_aggregate"
-COMPARE = "04_score/03_compare"
+# This project stores one per-cell score file per scored result; the drill-down is
+# discovered from those rather than from a fixed set of node paths.
+PER_CELL = "per_cell_scores.csv"
 
 
 # --------------------------------------------------------------------------- tree
@@ -191,42 +191,37 @@ def _num(v: str | float | None, places: int = 3) -> str:
 # ------------------------------------------------------------------- the detail
 
 
-def _combinations(root: Path) -> list[str]:
-    """Every combination that was scored, newest question first: `main`, then the rest.
+def _scored_results(root: Path) -> dict[str, Path]:
+    """Every directory holding a per-cell score file, labelled by where it sits in the tree.
 
-    Discovered from the collecting node's own results rather than from the manifest,
-    because the report's job is to show what is on disk. A combination in the manifest
-    and not here is a row that did not run, and `05_stability`'s own `run_status` is
-    where that is reported.
+    Discovered from what is on disk rather than from a manifest, because the report's job is
+    to show what the analysis produced. A node's own `results/` is labelled by the node; a
+    combination directory inside one is labelled `<node>/<combination>`.
     """
-    d = root / "analysis" / COLLECT / "results"
-    if not d.is_dir():
-        return []
-    combos = sorted(p.name for p in d.iterdir() if p.is_dir())
-    lead = [c for c in ("main", "main__holdout") if c in combos]
-    return lead + [c for c in combos if c not in lead]
+    out: dict[str, Path] = {}
+    for f in sorted((root / "analysis").rglob(PER_CELL)):
+        parts = f.parent.relative_to(root / "analysis").parts
+        label = ("/".join(parts[:-1]) if parts[-1] == "results"
+                 else "/".join(parts[:-2] + (parts[-1],)))
+        out[label or "analysis"] = f.parent
+    lead = [k for k in ("02_stage1", "04_stage2/h_levelOnlyBoosting",
+                        "06_stability/main@h__holdout", "06_stability/baseline=climatology__holdout",
+                        "06_stability/baseline=persistence__holdout",
+                        "03_baselines/01_persistence", "03_baselines/02_climatology") if k in out]
+    return {k: out[k] for k in lead + [k for k in out if k not in lead]}
 
 
-def _aggregate_dir(root: Path, combo: str) -> Path | None:
-    """The child of the weighting fork that ran under this combination.
-
-    Found by searching for the one child with results here, never by naming a child —
-    which is the same rule every downstream step in the tree follows.
-    """
-    base = root / "analysis" / AGGREGATE
-    if not base.is_dir():
-        return None
-    for child in sorted(base.iterdir()):
-        d = child / "results" / combo
-        if d.is_dir():
-            return d
-    return None
+def _stored_conclusion(d: Path) -> tuple[dict | None, str | None]:
+    """The conclusion file beside a per-cell file, whichever of the two names it uses."""
+    for name in ("comparison.json", "conclusion.json"):
+        if (d / name).is_file():
+            return json.loads((d / name).read_text()), name
+    return None, None
 
 
 def _location_names(root: Path) -> dict[str, str]:
-    rows = _read_csv(root / "analysis/01_data/02_characterise/results"
-                          "/evaluable_cells_by_province.csv")
-    return {r["location"]: r["location_name"] for r in rows if r.get("location")}
+    rows = _read_csv(root / "analysis/01_data/02_characterise/results/province_summary.csv")
+    return {r["location"]: r.get("location_name", "") for r in rows if r.get("location")}
 
 
 def _table(headers: list[tuple[str, bool]], rows: list[list[str]],
@@ -245,226 +240,121 @@ def _table(headers: list[tuple[str, bool]], rows: list[list[str]],
     return out
 
 
-def _conclusion_block(concl: dict) -> list[str]:
-    """The reported answer for one combination, as the file states it."""
-    parts = ["<h2>The conclusion under this combination</h2>"]
-    skill = concl.get("skill_score")
-    parts.append(
-        f'<p class=claim>Skill score against the reference model: '
-        f'<strong>{_num(skill, 4)}</strong> — mean CRPS {_num(concl.get("crps_ours"))} '
-        f'for <strong>{html.escape(str(concl.get("our_model", "?")))}</strong> against the '
-        f'reference&rsquo;s {_num(concl.get("crps_reference"))}, over '
-        f'{concl.get("n_cells", "?")} cells in {concl.get("n_locations", "?")} provinces '
-        f'and {concl.get("n_splits", "?")} splits of the '
-        f'{html.escape(str(concl.get("dataset", "?")))} data.</p>')
-    rows = [
-        ["beats the reference", str(concl.get("beats_reference"))],
-        ["beats both required baselines", str(concl.get("beats_all_baselines"))],
-        ["10–90 coverage, ours (nominal 0.80)", _num(concl.get("coverage_10_90_ours"))],
-        ["10–90 coverage, reference", _num(concl.get("coverage_10_90_reference"))],
-        ["paired mean difference vs reference", _num(concl.get("paired_mean_diff_vs_reference"))],
-        ["its standard error, clustered by split", _num(concl.get("paired_se_cluster_split"))],
-        ["what this backtest can resolve at all", _num(concl.get("resolvable_difference_floor"))],
-    ]
-    parts += _table([("", False), ("value", True)], rows)
+def _flatten(concl: dict) -> list[list[str]]:
+    """The conclusion file's own numbers, one row each. Scalars and one level of nesting;
+    long lists and configuration blocks are left to the file itself."""
+    rows: list[list[str]] = []
+    for k, v in concl.items():
+        if k in ("config", "province_set", "evaluated_months", "by_split", "by_horizon",
+                 "n_training_rows_by_split", "verification_vs_main_path"):
+            continue
+        if isinstance(v, dict):
+            for k2, v2 in v.items():
+                if isinstance(v2, (int, float, str, bool)) or v2 is None:
+                    rows.append([html.escape(f"{k}.{k2}"), _num(v2) if isinstance(v2, float)
+                                 else html.escape(str(v2))])
+        elif isinstance(v, (int, float, str, bool)) or v is None:
+            rows.append([html.escape(k), _num(v) if isinstance(v, float) else html.escape(str(v))])
+    return rows
+
+
+def _conclusion_block(concl: dict, fname: str, to_files: str, d_rel: str) -> list[str]:
+    parts = ["<h2>The conclusion, as the file states it</h2>",
+             f'<p class=meta>Every value below is displayed from '
+             f'<a href="{html.escape(to_files + d_rel + "/" + fname)}"><code>{html.escape(fname)}</code></a>; '
+             f'nothing on this line of the page is recomputed.</p>']
+    parts += _table([("", False), ("value", True)], _flatten(concl))
+    for key, label, cols in (("by_split", "By split", "split"), ("by_horizon", "By horizon", "horizon")):
+        block = concl.get(key)
+        if not isinstance(block, dict) or not block:
+            continue
+        inner = next(iter(block.values()))
+        if isinstance(inner, dict):
+            heads = [(cols, False)] + [(k, True) for k in inner]
+            rows = [[html.escape(k)] + [_num(v.get(h[0])) for h in heads[1:]] for k, v in block.items()]
+        else:
+            heads, rows = [(cols, False), ("mean CRPS", True)], [[html.escape(k), _num(v)] for k, v in block.items()]
+        parts.append(f"<h3>{label}</h3>")
+        parts.append(f'<p class=meta>Stored in <code>{html.escape(fname)}</code>.</p>')
+        parts += _table(heads, rows)
     return parts
 
 
-def _detail_pages(root: Path, out: Path) -> dict[str, str]:
-    """Write the three levels below the tree, one directory per combination.
+def _group(cells: list[dict], key: str, names: dict[str, str]) -> list[list[str]]:
+    """Group the per-cell file by one column. A grouping of the values shown below it on the
+    same page, not a separately stored result -- the page says so."""
+    acc: dict[str, dict] = {}
+    for r in cells:
+        if r.get("crps") in ("", None):
+            continue
+        e = acc.setdefault(r[key], {"n": 0, "crps": 0.0, "crps1": 0.0, "has1": False, "actual": 0.0})
+        e["n"] += 1
+        e["crps"] += _f(r["crps"])
+        e["actual"] += _f(r.get("actual"))
+        if r.get("crps_stage1") not in ("", None):
+            e["crps1"] += _f(r["crps_stage1"])
+            e["has1"] = True
+    rows = []
+    for k in sorted(acc, key=lambda x: -acc[x]["crps"]):
+        e = acc[k]
+        label = f"{k} {names[k]}" if key == "province" and names.get(k) else k
+        row = [html.escape(label), str(e["n"]), _num(e["actual"] / e["n"]), _num(e["crps"] / e["n"])]
+        row += [_num(e["crps1"] / e["n"]), _num((e["crps"] - e["crps1"]) / e["n"])] if e["has1"] else ["", ""]
+        rows.append(row)
+    return rows
 
-    Returns combination -> the page's path relative to the report root, so the tree
-    pages above can link into it.
+
+def _detail_pages(root: Path, out: Path) -> dict[str, str]:
+    """One page per scored result: the stored conclusion, then the same values grouped by
+    province and by month, then a link to the per-cell file every number above averages.
+
+    Returns label -> page path relative to the report root.
     """
     names = _location_names(root)
     written: dict[str, str] = {}
+    for label, d in _scored_results(root).items():
+        slug = label.replace("/", "__")
+        page = out / "detail" / f"{slug}.html"
+        page.parent.mkdir(parents=True, exist_ok=True)
+        to_report_root, to_files = "../", "../../"
+        d_rel = d.relative_to(root).as_posix()
+        cells = _read_csv(d / PER_CELL)
+        scored = [r for r in cells if r.get("crps") not in ("", None)]
+        concl, fname = _stored_conclusion(d)
 
-    for combo in _combinations(root):
-        cdir = out / "detail" / combo
-        cdir.mkdir(parents=True, exist_ok=True)
-        to_repo_root = "../../"          # detail/<combo>/ -> report root
-        to_files = "../../../../"        # ... -> repository root
-
-        cells = _read_csv(root / "analysis" / COLLECT / "results" / combo / "metrics_cell.csv")
-        models = _read_csv(root / "analysis" / COLLECT / "results" / combo / "models.csv")
-        agg = _aggregate_dir(root, combo)
-        summary = _read_csv(agg / "metrics_summary.csv") if agg else []
-        by_location = _read_csv(agg / "crps_by_location.csv") if agg else []
-        by_split = _read_csv(agg / "crps_by_split.csv") if agg else []
-        by_horizon = _read_csv(agg / "crps_by_horizon.csv") if agg else []
-        leaderboard = _read_csv(root / "analysis" / COMPARE / "results" / combo
-                                / "leaderboard.csv")
-        cpath = root / "analysis" / "results" / combo / "conclusion.json"
-        concl = json.loads(cpath.read_text()) if cpath.is_file() else None
-
-        ours = {r["model"] for r in models if r.get("origin") == "ours"}
         parts = ["<!doctype html><meta charset=utf-8>",
-                 f"<title>{html.escape(combo)}</title><style>{CSS}</style>",
-                 f'<div class=crumb><a href="{to_repo_root}index.html">Analysis report</a>'
-                 f' / <a href="{to_repo_root}analysis/index.html">analysis</a>'
-                 f' / detail / {html.escape(combo)}</div>',
-                 f"<h1>{html.escape(combo)}</h1>",
-                 '<p class=meta>National, then province, then month, then the values. '
-                 'Every figure on this page is displayed from the file the analysis wrote; '
-                 'nothing here is recomputed.</p>']
-
-        if concl:
-            parts += _conclusion_block(concl)
+                 f"<title>{html.escape(label)}</title><style>{CSS}</style>",
+                 f'<div class=crumb><a href="{to_report_root}index.html">Analysis report</a>'
+                 f' / <a href="{to_report_root}analysis/index.html">analysis</a>'
+                 f' / detail / {html.escape(label)}</div>',
+                 f"<h1>{html.escape(label)}</h1>",
+                 f'<p class=meta>{len(scored)} scored cell(s) of {len(cells)}. '
+                 f'Source directory: <a href="{html.escape(to_files + d_rel)}">'
+                 f'<code>{html.escape(d_rel)}</code></a>.</p>']
+        if concl and fname:
+            parts += _conclusion_block(concl, fname, to_files, d_rel)
         else:
-            parts.append('<h2>The conclusion under this combination</h2>'
-                         '<p class=meta>No <code>conclusion.json</code> — this combination '
-                         'was scored but not concluded. <code>05_stability</code>&rsquo;s '
-                         '<code>conclusions.csv</code> records why.</p>')
+            parts.append('<p class=meta>No conclusion file beside this per-cell file.</p>')
 
-        # ---- level 1: national
-        if summary:
-            weighting = summary[0].get("weighting", "?")
-            parts.append(f"<h2>National <span class=tag>{html.escape(weighting)}</span></h2>")
-            parts.append('<p class=meta>The mean each model is reported at, over every '
-                         'evaluated cell.</p>')
-            rows, mark = [], set()
-            for i, r in enumerate(sorted(summary, key=lambda x: _f(x["mean_crps"]))):
-                if r["model"] in ours:
-                    mark.add(i)
-                rows.append([html.escape(r["model"]), _num(r["mean_crps"]), _num(r["mae"]),
-                             _num(r["coverage_10_90"]), _num(r["coverage_25_75"]),
-                             r["n_cells"], r["n_locations"], r["n_splits"]])
-            parts += _table([("model", False), ("mean CRPS", True), ("MAE", True),
-                             ("10–90", True), ("25–75", True), ("cells", True),
-                             ("provinces", True), ("splits", True)], rows, mark)
-            href = to_files + (agg / "metrics_summary.csv").relative_to(root).as_posix()
-            parts.append(f'<p class=meta>Bold is a model of ours. '
-                         f'<a href="{html.escape(href)}">metrics_summary.csv</a></p>')
+        heads = [("", False), ("cells", True), ("mean actual", True), ("mean CRPS", True),
+                 ("mean CRPS, stage 1", True), ("difference", True)]
+        for key, title in (("province", "By province"), ("month", "By month")):
+            if not scored or key not in scored[0]:
+                continue
+            parts.append(f"<h2>{title}</h2>")
+            parts.append('<p class=meta>A grouping of the per-cell values linked below, shown so '
+                         'the mean above can be taken apart. It is not a separately stored '
+                         'result; the file underneath it is.</p>')
+            parts += _table(heads, _group(scored, key, names))
 
-        if by_split or by_horizon:
-            parts.append("<h3>The same mean, cut two other ways</h3>")
-            for label, rows_in, key in (("by split", by_split, "split_first_period"),
-                                        ("by horizon, months ahead", by_horizon,
-                                         "horizon_distance")):
-                if not rows_in:
-                    continue
-                keys = sorted({r[key] for r in rows_in})
-                mnames = sorted({r["model"] for r in rows_in})
-                table = []
-                for m in mnames:
-                    at = {r[key]: r for r in rows_in if r["model"] == m}
-                    table.append([html.escape(m)]
-                                 + [_num(at[k]["mean_crps"]) if k in at else "—" for k in keys])
-                parts.append(f"<p class=meta>{label}</p>")
-                parts += _table([("model", False)] + [(k, True) for k in keys], table)
-
-        # ---- level 2: province
-        if by_location:
-            parts.append("<h2>By province</h2>")
-            parts.append('<p class=meta>Each province&rsquo;s own mean, and one click to the '
-                         'months it averages.</p>')
-            locs = sorted({r["location"] for r in by_location})
-            mnames = sorted({r["model"] for r in by_location})
-            table = []
-            for loc in locs:
-                at = {r["model"]: r for r in by_location if r["location"] == loc}
-                any_row = next(iter(at.values()))
-                table.append(
-                    [f'<a href="{html.escape(loc)}.html">{html.escape(loc)}</a>',
-                     html.escape(names.get(loc, "")),
-                     any_row["n_cells"], _num(any_row["observed_total"], 0)]
-                    + [_num(at[m]["mean_crps"]) if m in at else "—" for m in mnames])
-            parts += _table([("province", False), ("name", False), ("cells", True),
-                             ("cases observed", True)] + [(m, True) for m in mnames], table)
-
-            # ---- level 3 and 4: month, and the values
-            for loc in locs:
-                _province_page(cdir / f"{loc}.html", root, combo, loc,
-                               names.get(loc, ""), cells,
-                               [r for r in by_location if r["location"] == loc], mnames)
-
-        if leaderboard:
-            parts.append("<h2>Where these numbers come from</h2><ul>")
-            for label, p in (("per-cell scores, every model",
-                              root / "analysis" / COLLECT / "results" / combo
-                              / "metrics_cell.csv"),
-                             ("the models that were scored, and under which combination",
-                              root / "analysis" / COLLECT / "results" / combo / "models.csv"),
-                             ("the leaderboard",
-                              root / "analysis" / COMPARE / "results" / combo
-                              / "leaderboard.csv"),
-                             ("the paired comparison against the reference",
-                              root / "analysis" / COMPARE / "results" / combo
-                              / "paired_summary.csv")):
-                if p.is_file():
-                    parts.append(
-                        f'<li><a href="{to_files}'
-                        f'{html.escape(p.relative_to(root).as_posix())}">'
-                        f'{html.escape(p.name)}</a> <span class=meta>— {label}</span></li>')
-            parts.append("</ul>")
-
-        (cdir / "index.html").write_text("\n".join(parts))
-        written[combo] = f"detail/{combo}/index.html"
+        parts.append("<h2>The values</h2>")
+        parts.append(f'<p class=meta>Every number on this page is an average of these.</p>'
+                     f'<ul><li><a href="{html.escape(to_files + d_rel + "/" + PER_CELL)}">'
+                     f'<code>{html.escape(PER_CELL)}</code></a> — one row per evaluated cell'
+                     f'</li></ul>')
+        page.write_text("\n".join(parts), encoding="utf-8")
+        written[label] = f"detail/{slug}.html"
     return written
-
-
-def _province_page(page: Path, root: Path, combo: str, loc: str, name: str,
-                   cells: list[dict], loc_rows: list[dict], mnames: list[str]) -> None:
-    """One province, month by month, down to the per-cell values."""
-    here = [r for r in cells if r["location"] == loc]
-    months = sorted({r["time_period"] for r in here})
-    to_repo_root = "../../"
-    to_files = "../../../../"
-
-    parts = ["<!doctype html><meta charset=utf-8>",
-             f"<title>{html.escape(loc)} · {html.escape(combo)}</title><style>{CSS}</style>",
-             f'<div class=crumb><a href="{to_repo_root}index.html">Analysis report</a>'
-             f' / <a href="index.html">{html.escape(combo)}</a>'
-             f' / {html.escape(loc)}</div>',
-             f"<h1>{html.escape(loc)} — {html.escape(name)}</h1>",
-             f'<p class=meta>Combination <code>{html.escape(combo)}</code>. '
-             f'{len(months)} evaluated month(s).</p>']
-
-    if loc_rows:
-        parts.append("<h2>This province&rsquo;s means</h2>")
-        rows = [[html.escape(r["model"]), r["n_cells"], _num(r["mean_crps"]), _num(r["mae"]),
-                 _num(r["coverage_10_90"]), _num(r["coverage_25_75"]),
-                 _num(r["observed_total"], 0)]
-                for r in sorted(loc_rows, key=lambda x: _f(x["mean_crps"]))]
-        parts += _table([("model", False), ("cells", True), ("mean CRPS", True), ("MAE", True),
-                         ("10–90", True), ("25–75", True), ("cases observed", True)], rows)
-
-    parts.append("<h2>Month by month — the values</h2>")
-    parts.append('<p class=meta>CRPS per model at each evaluated month, with the count that '
-                 'was observed and the split and horizon the cell belongs to. This is the '
-                 'bottom: every mean above is an average of these.</p>')
-    rows = []
-    for mth in months:
-        at = {r["model"]: r for r in here if r["time_period"] == mth}
-        any_row = next(iter(at.values()))
-        rows.append([html.escape(mth), _num(any_row["observed"], 0),
-                     html.escape(any_row["split_first_period"]),
-                     any_row["horizon_distance"]]
-                    + [_num(at[m]["crps"]) if m in at else "—" for m in mnames])
-    parts += _table([("month", False), ("observed", True), ("split", False),
-                     ("horizon", True)] + [(m, True) for m in mnames], rows)
-
-    parts.append("<h3>Whether the outcome fell inside each model&rsquo;s interval</h3>")
-    rows = []
-    for mth in months:
-        at = {r["model"]: r for r in here if r["time_period"] == mth}
-        rows.append([html.escape(mth)]
-                    + [("in" if at[m]["in_10_90"] in ("1", "1.0", "True") else "out")
-                       if m in at else "—" for m in mnames])
-    parts += _table([("month", False)] + [(m, False) for m in mnames], rows)
-    parts.append('<p class=meta>10–90 interval. The 25–75 column is in the per-cell file; on '
-                 'this dataset it is not a clean reading of calibration, because a model whose '
-                 'quartiles coincide has the interval [0, 0] and every zero month falls inside '
-                 'it.</p>')
-
-    cell_file = root / "analysis" / COLLECT / "results" / combo / "metrics_cell.csv"
-    parts.append(f'<p class=meta><a href="{to_files}'
-                 f'{html.escape(cell_file.relative_to(root).as_posix())}">'
-                 f'metrics_cell.csv</a> — the file every number on this page is read from.</p>')
-    page.write_text("\n".join(parts))
-
-
-# ------------------------------------------------------------------ the tree pages
 
 
 def _claims_for(node_rel: str, all_claims: list[dict]) -> list[dict]:
@@ -585,17 +475,18 @@ def _page(root: Path, node: Path, out: Path, ancestors: list[str],
                          f'<span class=meta>{html.escape(first)}</span></li>')
         parts.append("</ul>")
 
-    # The root and the scoring nodes are where the within-result detail hangs: the
-    # root because that is where a conclusion is written, the scoring nodes because
-    # that is where the values it averages are.
-    hangs_detail = {"analysis", f"analysis/{COLLECT}", f"analysis/{AGGREGATE}",
-                    f"analysis/{COMPARE}"}
-    if rel.as_posix() in hangs_detail and detail:
+    # Every node that produced scored cells hangs its own drill-down, and the root hangs
+    # all of them: a summary has to link down to the values it aggregates (Rule 8), and the
+    # node that owns those values is where a reader looks first.
+    here = rel.as_posix().removeprefix("analysis/").removeprefix("analysis")
+    mine = {k: v for k, v in detail.items()
+            if rel.as_posix() == "analysis" or k == here or k.startswith(here + "/")}
+    if mine:
         parts.append("<h2>Down to the values</h2>")
-        parts.append('<p class=meta>National mean, then province, then month, then the '
-                     'per-cell scores everything above is an average of — one page per '
-                     'combination that was scored.</p><ul>')
-        for combo, href in detail.items():
+        parts.append('<p class=meta>The stored conclusion, then that mean grouped by province '
+                     'and by month, then the per-cell scores everything above averages — one '
+                     'page per scored result.</p><ul>')
+        for combo, href in mine.items():
             parts.append(f'<li><a href="{html.escape(to_report_root + href)}">'
                          f'{html.escape(combo)}</a></li>')
         parts.append("</ul>")

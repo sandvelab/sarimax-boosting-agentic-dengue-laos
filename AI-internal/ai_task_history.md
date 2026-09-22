@@ -198,3 +198,14 @@ reader who was not present can follow, and keep them honest about what did not w
   sidecar, two were missing from it and were added, and one factual error was caught and fixed
   (climatology called "the simplest baseline"; persistence is simpler and the ensemble beats
   it). Ledger row 17b added because work outside the batch sequence still needs a row.
+- T14 (2026-09-22): Batch 18 — completed the claim collection from the tree and rebuilt the
+  hierarchical report's drill-down. Twelve claims added (C21–C32), one or two for each node that
+  had none: the metric, the three data nodes, stage 1 (including its six documented weaknesses,
+  recorded `human-set`), the baselines, the three residual-structure findings, the reported
+  stage-2 configuration and the ten-candidate ranking; 32 claims now, all resolving. The
+  report's `_detail_pages` addressed the prior project's `04_score/...` layout, so the root page
+  reported "0 combination(s) scored" and Rule 8's link down to raw values was not met; it now
+  discovers every directory holding a `per_cell_scores.csv` (103) and gives each the stored
+  conclusion, the stored per-split and per-horizon blocks, province and month groupings, and a
+  link to the per-cell file. 127 pages, 1.8 MB. Report: `26-09-22_b18_claimsAndReport.md`.
+  Nothing pushed; no dengue result changed.

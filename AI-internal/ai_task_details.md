@@ -632,3 +632,35 @@ completeness-check gap; batch 20 writes the manuscript and runs the release scan
 human: whether the held-out calibration collapse reopens stage 1 (the negative-binomial /
 zero-truncated-normal fork is recorded as not run by a human-set decision), and whether anything
 further may be evaluated on 2010 at all.
+
+## T14 — batch 18: the claim collection from the tree, and the report's missing level (2026-09-22)
+
+**The collection.** 21 claims existed and 20 of them sat on `06_stability`; six result-producing
+nodes had none, so their answers lived only in their own `claim.md`. C21–C32 close that, one or
+two per node, each grounded in a file that exists. C26 (stage 1's six weaknesses) is recorded
+`by: human-set`, because the decision it reports — document rather than repair — is the
+human's; the agency field records who made the call the claim states, not who wrote it down.
+
+**The report.** `build_hierarchical_report.py` rendered the tree correctly and the level below
+it not at all: `_detail_pages` addressed `analysis/04_score/01_collect/results/<combo>/…` and the
+other prior-project paths, so it found nothing and the root page printed "0 combination(s)
+scored". Rule 8 asks that summaries link down to the values they aggregate, and they did not.
+Rewritten to discover scored results from disk — any directory holding a `per_cell_scores.csv`,
+103 of them — with one page each: the stored conclusion displayed from its own file, the
+`by_split`/`by_horizon` blocks that file already carries, province and month groupings, and a
+link to the per-cell file. `_location_names` was repointed from the prior project's
+`evaluable_cells_by_province.csv` to `province_summary.csv`. 127 pages, 1.8 MB.
+
+**A boundary worth remembering.** The province and month tables are groupings the report computes
+for display, not stored results. Every such table says so on the page and the report's
+`provenance.md` records the alternative not taken (storing an aggregate beside each of the 103
+results, which would mean re-running the analysis inside a reporting batch).
+
+**This is the second inherited artefact found pointing at the prior project's layout** — the
+first was `check_invariants.py`'s freeze check in batch 16. Both were found by hand. Row 19's
+`/validate outsider` is the check most likely to find the rest.
+
+**Follow-ups.** Row 19 owes three things together: the CSV line-ending mismatch; the holdout
+completeness check that records rows and months present but not whether `disease_cases` is
+populated (why LA-XN turned out unscoreable only when the year opened); and the prior-project
+prose still in `check_invariants.py`. Row 20 writes the full manuscript and runs the release scan.

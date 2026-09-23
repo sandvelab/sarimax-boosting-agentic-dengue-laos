@@ -120,6 +120,7 @@ corrected to it (`journals.plos.org/globalpublichealth/article?id=10.1371/journa
 | 4.5 "a reader who weights it most should read the development margin as about three percent" | **C9** (alternatives) |
 | 4.5 "a no-differencing stage 1… alone scores 24.93… within 0.6 CRPS… only −1.06%. Part of the second stage's development margin is a repair of stage 1's differencing choice" | **C10** |
 | 4.5 "first run around the full-feature boosting candidate (g)… all 29 perturbations… (−0.70% to −10.64%, median −3.32%), nine moved the size, and the rolling refit gave the smallest margin (−0.70%)" | **C2**, **C3** |
+| 4.5 "Khammouane, Salavan, Bokeo and Xiangkhouang improved in every one of those 30 combinations while Savannakhet and Vientiane Capital improved in at most 20%" | **C4** |
 | 4.5 "Changing the reported configuration from g to h moved the margin from −3.41% to −6.53%, and 20 of the 22 perturbations… median of 2.3 points; the two exceptions are stage-1 changes" | **C11** |
 | 4.5 "Khammouane, Salavan, Bokeo, Xiangkhouang and Xekong improve in every one of the 27 combinations… Champasak in 25; Oudomxay never… at most 10%" | **C12** |
 | 4.5 "three months ahead in all 27 combinations, two months ahead in 26 and one month ahead in 23; around g it helped one month ahead in fewer than half" | **C13**, **C5** |

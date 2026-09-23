@@ -378,7 +378,9 @@ Part of the second stage's development margin is a repair of stage 1's differenc
 The same set was first run around the full-feature boosting candidate (g) before the
 pre-registered configuration was chosen, with the same qualitative result: all 29 perturbations
 kept the ensemble ahead with coverage not worse (−0.70% to −10.64%, median −3.32%), nine moved
-the size, and the rolling refit gave the smallest margin (−0.70%). Changing the reported
+the size, and the rolling refit gave the smallest margin (−0.70%); Khammouane, Salavan, Bokeo and
+Xiangkhouang improved in every one of those 30 combinations while Savannakhet and Vientiane
+Capital improved in at most 20%. Changing the reported
 configuration from g to h moved the margin from −3.41% to −6.53%, and 20 of the 22 perturbations
 shared by name between the two runs moved with it, by a median of 2.3 points; the two exceptions
 are stage-1 changes.

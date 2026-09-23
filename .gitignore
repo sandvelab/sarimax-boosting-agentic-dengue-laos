@@ -40,7 +40,7 @@ analysis/06_stability/.holdout_opened
 # The clean-room's scratch clone and its logs. `/validate cleanroom` clones the repository
 # into AI-internal/useful-scripts/repo, builds the environment there and runs the whole
 # analysis, which is about 22 GB of working directories inside the repository it is
-# checking. Batches 18, 25, 27 and 31 each deleted it by hand before committing; ignoring it
+# checking. The prior project deleted it by hand before committing, batch after batch; ignoring it
 # is the same discipline without the step that can be forgotten, and a forgotten one would
 # stage twenty gigabytes. The run's findings are copied to
 # AI-generated/validation/<date>_cleanroom-artefacts/, which is tracked.

@@ -27,3 +27,9 @@ nothing in the repository writes to it.
 place licensed to open `chap_LAO_admin1_monthly.csv` end to end; it writes the development
 period and the sealed 2010 holdout, and everything downstream reads those. See the plan's
 §3.
+
+---
+Correction appended 2026-09-23 (batch 20, `/validate outsider`): the node named above as the one
+place licensed to open the whole file is **`analysis/01_data/01_prepare`**, not `01_partition`.
+The name was the prior project's. Appended rather than edited because `Archive/` is read-only
+(`AGENTS.md` §8); everything else in this README describes the folder as it is.

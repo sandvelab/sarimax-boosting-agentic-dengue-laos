@@ -13,6 +13,8 @@ inherits: the project main environment (`environment/`)
 
 ## Answers
 
+*Answers accumulate by batch, oldest first. The main path in force is the one in `main-path:` above (`h_levelOnlyBoosting`, since batch 14); earlier paragraphs that name another are the record of what the main path was then.*
+
 Not yet settled — three candidates now, all negative, all on the identical minimal input
 (stage 1's lag-12 in-sample residual, cyclical calendar month). `a_linearLags` (plain OLS):
 mean CRPS 26.26 vs. stage 1 alone's 26.05, 0.78% worse. `b_gradientBoosting` (regularised

@@ -19,7 +19,7 @@ by: agent-autonomous
 Claims about **stability** are claims like any other and belong here too: what the
 perturbation set showed, and which choices the conclusion turned out to be sensitive to.
 
-No claims yet — the tree has not produced a result.
+The claims follow, numbered in the order they were added.
 
 ## C1
 On the development backtest, the two-stage ensemble with the main-path stage 2 (gradient-boosted trees on stage 1's in-window h-step out-of-sample error, pooled across provinces on the standardised-error scale) beats stage 1 alone on mean CRPS, 25.16 against 26.05 (-3.41%), with 90% interval coverage improved from 82.7% to 85.7%.

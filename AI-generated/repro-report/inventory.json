@@ -1,0 +1,1140 @@
+{
+  "produced": "2026-09-23",
+  "head": "abf811c",
+  "tree": {
+    "n_nodes": 23,
+    "n_alternatives_nodes": 1,
+    "n_alternatives_children_total": 10,
+    "n_paths_not_taken": 9,
+    "alternatives": [
+      {
+        "node": "analysis/04_stage2",
+        "main_path": "h_levelOnlyBoosting",
+        "children": [
+          "a_linearLags",
+          "b_gradientBoosting",
+          "c_bayesianRidge",
+          "d_linearClimate",
+          "e_pooledRandomForest",
+          "f_oosErrorRidge",
+          "g_oosErrorBoosting",
+          "h_levelOnlyBoosting",
+          "i_boundedBoosting",
+          "j_levelOnlyBoundedBoosting"
+        ]
+      }
+    ],
+    "n_sub_analyses_nodes": 3,
+    "n_leaf_nodes": 19,
+    "n_node_scripts": 43,
+    "n_shared_library_scripts": 9,
+    "n_run_sh": 23,
+    "n_env_overrides": 0,
+    "n_result_files": 299,
+    "n_scored_results": 103,
+    "nodes": [
+      {
+        "node": "analysis/00_metric",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 1,
+        "n_results": 2,
+        "n_provenance_records": 1,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/01_data/01_prepare",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 1,
+        "n_results": 5,
+        "n_provenance_records": 1,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/01_data/02_characterise",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 1,
+        "n_results": 3,
+        "n_provenance_records": 1,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/01_data/03_backtest_scheme",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 1,
+        "n_results": 3,
+        "n_provenance_records": 1,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/01_data",
+        "children_kind": "sub-analyses",
+        "main_path": "-",
+        "children": [
+          "01_prepare",
+          "02_characterise",
+          "03_backtest_scheme"
+        ],
+        "n_scripts": 0,
+        "n_results": 1,
+        "n_provenance_records": 0,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/02_stage1",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 1,
+        "n_results": 3,
+        "n_provenance_records": 1,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/03_baselines/01_persistence",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 1,
+        "n_results": 3,
+        "n_provenance_records": 1,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/03_baselines/02_climatology",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 1,
+        "n_results": 3,
+        "n_provenance_records": 1,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/03_baselines",
+        "children_kind": "sub-analyses",
+        "main_path": "-",
+        "children": [
+          "01_persistence",
+          "02_climatology"
+        ],
+        "n_scripts": 1,
+        "n_results": 2,
+        "n_provenance_records": 1,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/04_stage2/a_linearLags",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 2,
+        "n_results": 4,
+        "n_provenance_records": 2,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/04_stage2/b_gradientBoosting",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 2,
+        "n_results": 4,
+        "n_provenance_records": 2,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/04_stage2/c_bayesianRidge",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 2,
+        "n_results": 5,
+        "n_provenance_records": 2,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/04_stage2",
+        "children_kind": "alternatives",
+        "main_path": "h_levelOnlyBoosting",
+        "children": [
+          "a_linearLags",
+          "b_gradientBoosting",
+          "c_bayesianRidge",
+          "d_linearClimate",
+          "e_pooledRandomForest",
+          "f_oosErrorRidge",
+          "g_oosErrorBoosting",
+          "h_levelOnlyBoosting",
+          "i_boundedBoosting",
+          "j_levelOnlyBoundedBoosting"
+        ],
+        "n_scripts": 0,
+        "n_results": 1,
+        "n_provenance_records": 0,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/04_stage2/d_linearClimate",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 2,
+        "n_results": 5,
+        "n_provenance_records": 2,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/04_stage2/e_pooledRandomForest",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 3,
+        "n_results": 6,
+        "n_provenance_records": 3,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/04_stage2/f_oosErrorRidge",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 2,
+        "n_results": 5,
+        "n_provenance_records": 2,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/04_stage2/g_oosErrorBoosting",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 2,
+        "n_results": 6,
+        "n_provenance_records": 2,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/04_stage2/h_levelOnlyBoosting",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 2,
+        "n_results": 4,
+        "n_provenance_records": 2,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/04_stage2/i_boundedBoosting",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 2,
+        "n_results": 4,
+        "n_provenance_records": 2,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/04_stage2/j_levelOnlyBoundedBoosting",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 2,
+        "n_results": 5,
+        "n_provenance_records": 2,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/05_residualStructure",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 3,
+        "n_results": 7,
+        "n_provenance_records": 3,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis/06_stability",
+        "children_kind": "-",
+        "main_path": "-",
+        "children": [],
+        "n_scripts": 11,
+        "n_results": 217,
+        "n_provenance_records": 9,
+        "has_run_sh": true,
+        "has_env_override": false
+      },
+      {
+        "node": "analysis",
+        "children_kind": "sub-analyses",
+        "main_path": "-",
+        "children": [
+          "00_metric",
+          "01_data",
+          "02_stage1",
+          "03_baselines",
+          "04_stage2",
+          "05_residualStructure",
+          "06_stability"
+        ],
+        "n_scripts": 0,
+        "n_results": 1,
+        "n_provenance_records": 0,
+        "has_run_sh": true,
+        "has_env_override": false
+      }
+    ]
+  },
+  "provenance_records": {
+    "n_records": 41,
+    "n_sections_total": 48,
+    "field_present_in_n_records": {
+      "result": 41,
+      "script": 41,
+      "invocation": 41,
+      "inputs": 41,
+      "environment": 41,
+      "seeds": 41,
+      "commit": 41,
+      "instructions-commit": 41,
+      "node": 41,
+      "produced": 41,
+      "alternatives-considered": 40,
+      "agency": 41,
+      "information": 13
+    },
+    "records_missing_any_required_field": [],
+    "records_missing_alternatives_considered": 1,
+    "records_missing_information_field": 28,
+    "agency": {
+      "agent-autonomous": 37,
+      "mixed": 4
+    },
+    "information": {
+      "none": 28,
+      "agent-retrieved": 9,
+      "stated-other": 4
+    },
+    "distinct_instruction_set_commits": [
+      "595c32d",
+      "67f998c",
+      "8eda4fd"
+    ],
+    "n_distinct_instruction_set_commits": 3,
+    "n_distinct_run_commits": 26
+  },
+  "claims": {
+    "n_claims": 32,
+    "n_grounds_pointers": 67,
+    "n_grounds_unresolved": 0,
+    "by": {
+      "agent-autonomous": 31,
+      "human-set": 1
+    },
+    "n_with_scope": 32,
+    "n_with_alternatives_field": 28,
+    "n_scoped_to_holdout": 17,
+    "nodes_with_claims": {
+      "analysis/04_stage2/g_oosErrorBoosting": 1,
+      "analysis/06_stability": 19,
+      "analysis/00_metric": 1,
+      "analysis/01_data/01_prepare": 1,
+      "analysis/01_data/02_characterise": 1,
+      "analysis/01_data/03_backtest_scheme": 1,
+      "analysis/02_stage1": 2,
+      "analysis/03_baselines": 1,
+      "analysis/05_residualStructure": 3,
+      "analysis/04_stage2/h_levelOnlyBoosting": 1,
+      "analysis/04_stage2": 1
+    },
+    "claims": [
+      {
+        "id": "C1",
+        "node": "analysis/04_stage2/g_oosErrorBoosting",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/04_stage2/g_oosErrorBoosting/results/comparison.json",
+          "analysis/04_stage2/g_oosErrorBoosting/results/all_candidates_comparison.json"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": true
+      },
+      {
+        "id": "C2",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/distribution.json",
+          "analysis/06_stability/results/conclusions.csv"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": true
+      },
+      {
+        "id": "C3",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/perturbation_effects.csv",
+          "analysis/06_stability/results/distribution.json"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": true
+      },
+      {
+        "id": "C4",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/province_stability.csv"
+        ],
+        "grounds_resolve": [
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": true
+      },
+      {
+        "id": "C5",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/horizon_stability.csv"
+        ],
+        "grounds_resolve": [
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": false,
+        "scope_holdout": true
+      },
+      {
+        "id": "C6",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/conclusions.csv",
+          "analysis/05_residualStructure/results/error_structure.json"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": false,
+        "scope_holdout": true
+      },
+      {
+        "id": "C7",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/manifest.csv",
+          "analysis/05_residualStructure/results/error_structure.json"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": false,
+        "scope_holdout": false
+      },
+      {
+        "id": "C8",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/distribution_v2.json",
+          "analysis/06_stability/results/conclusions_v2.csv"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": true
+      },
+      {
+        "id": "C9",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/perturbation_effects_v2.csv",
+          "analysis/06_stability/results/distribution_v2.json"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": true
+      },
+      {
+        "id": "C10",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/stage1=nodiff_101x100@h/conclusion.json",
+          "analysis/06_stability/results/perturbation_effects_v2.csv",
+          "analysis/05_residualStructure/results/stage1_weaknesses.json"
+        ],
+        "grounds_resolve": [
+          true,
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": true
+      },
+      {
+        "id": "C11",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/version_comparison_v2.csv",
+          "analysis/06_stability/results/distribution_v2.json"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": true
+      },
+      {
+        "id": "C12",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/province_stability_v2.csv"
+        ],
+        "grounds_resolve": [
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": true
+      },
+      {
+        "id": "C13",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/horizon_stability_v2.csv",
+          "analysis/06_stability/results/horizon_stability.csv"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": false,
+        "scope_holdout": true
+      },
+      {
+        "id": "C14",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/distribution_holdout.json",
+          "analysis/06_stability/results/main@h__holdout/conclusion.json",
+          "analysis/06_stability/results/conclusions_holdout.csv"
+        ],
+        "grounds_resolve": [
+          true,
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": false
+      },
+      {
+        "id": "C15",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/development_comparison_holdout.csv",
+          "analysis/06_stability/results/distribution_holdout.json"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": false
+      },
+      {
+        "id": "C16",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/perturbation_effects_holdout.csv",
+          "analysis/06_stability/results/distribution_holdout.json"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": true
+      },
+      {
+        "id": "C17",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/baseline=climatology__holdout/conclusion.json",
+          "analysis/06_stability/results/baseline=persistence__holdout/conclusion.json",
+          "analysis/06_stability/results/distribution_holdout.json",
+          "analysis/03_baselines/results/comparison.json"
+        ],
+        "grounds_resolve": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": false
+      },
+      {
+        "id": "C18",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/distribution_holdout.json",
+          "analysis/06_stability/results/conclusions_holdout.csv",
+          "analysis/06_stability/results/distribution_v2.json"
+        ],
+        "grounds_resolve": [
+          true,
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": false
+      },
+      {
+        "id": "C19",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/holdout_year_context.json"
+        ],
+        "grounds_resolve": [
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": false
+      },
+      {
+        "id": "C20",
+        "node": "analysis/06_stability",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/06_stability/results/conclusions_holdout.csv",
+          "analysis/06_stability/results/perturbation_effects_holdout.csv",
+          "analysis/06_stability/results/development_comparison_holdout.csv"
+        ],
+        "grounds_resolve": [
+          true,
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": false
+      },
+      {
+        "id": "C21",
+        "node": "analysis/00_metric",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/00_metric/results/verification.json"
+        ],
+        "grounds_resolve": [
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": false
+      },
+      {
+        "id": "C22",
+        "node": "analysis/01_data/01_prepare",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/01_data/01_prepare/results/partition_summary.json",
+          "analysis/01_data/01_prepare/results/holdout_completeness.json"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": false
+      },
+      {
+        "id": "C23",
+        "node": "analysis/01_data/02_characterise",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/01_data/02_characterise/results/modelability_summary.json",
+          "analysis/01_data/02_characterise/results/province_summary.csv"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": true
+      },
+      {
+        "id": "C24",
+        "node": "analysis/01_data/03_backtest_scheme",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/01_data/03_backtest_scheme/results/schedule_summary.json",
+          "analysis/01_data/03_backtest_scheme/results/split_schedule.csv",
+          "analysis/06_stability/results/holdout_runner_verification.json"
+        ],
+        "grounds_resolve": [
+          true,
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": false
+      },
+      {
+        "id": "C25",
+        "node": "analysis/02_stage1",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/02_stage1/results/conclusion.json",
+          "analysis/02_stage1/results/per_cell_scores.csv"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": false
+      },
+      {
+        "id": "C26",
+        "node": "analysis/02_stage1",
+        "by": "human-set",
+        "grounds": [
+          "analysis/05_residualStructure/results/stage1_weaknesses.json",
+          "analysis/05_residualStructure/results/error_structure.json"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": true
+      },
+      {
+        "id": "C27",
+        "node": "analysis/03_baselines",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/03_baselines/results/comparison.json",
+          "analysis/03_baselines/01_persistence/results/conclusion.json",
+          "analysis/03_baselines/02_climatology/results/conclusion.json"
+        ],
+        "grounds_resolve": [
+          true,
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": false
+      },
+      {
+        "id": "C28",
+        "node": "analysis/05_residualStructure",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/05_residualStructure/results/insample_residual_acf.csv",
+          "analysis/05_residualStructure/results/error_structure.json"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": false
+      },
+      {
+        "id": "C29",
+        "node": "analysis/05_residualStructure",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/05_residualStructure/results/error_structure.json",
+          "analysis/05_residualStructure/results/test_cells.csv"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": true
+      },
+      {
+        "id": "C30",
+        "node": "analysis/05_residualStructure",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/05_residualStructure/results/predictability.json",
+          "analysis/05_residualStructure/results/predictability.csv"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": false
+      },
+      {
+        "id": "C31",
+        "node": "analysis/04_stage2/h_levelOnlyBoosting",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/04_stage2/h_levelOnlyBoosting/results/comparison.json",
+          "analysis/04_stage2/h_levelOnlyBoosting/results/conclusion.json"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": true
+      },
+      {
+        "id": "C32",
+        "node": "analysis/04_stage2",
+        "by": "agent-autonomous",
+        "grounds": [
+          "analysis/04_stage2/j_levelOnlyBoundedBoosting/results/all_candidates_comparison.json",
+          "analysis/04_stage2/claim.md"
+        ],
+        "grounds_resolve": [
+          true,
+          true
+        ],
+        "has_scope": true,
+        "has_alternatives": true,
+        "scope_holdout": false
+      }
+    ]
+  },
+  "manuscripts": {
+    "manuscripts": [
+      {
+        "draft": "Human-AI-collaboration/manuscript/26-09-22_twoStageDengueLaos.md",
+        "sidecar": "Human-AI-collaboration/manuscript/26-09-22_twoStageDengueLaos_claims.md",
+        "draft_words": 1450,
+        "sidecar_statement_rows": 48,
+        "rows_resting_on_a_claim": 35,
+        "rows_marked_method": 12,
+        "rows_neither": 1,
+        "distinct_claims_cited": 13,
+        "claims_cited": [
+          "C1",
+          "C6",
+          "C7",
+          "C8",
+          "C9",
+          "C10",
+          "C14",
+          "C15",
+          "C16",
+          "C17",
+          "C18",
+          "C19",
+          "C20"
+        ],
+        "claims_not_cited": [
+          "C2",
+          "C3",
+          "C4",
+          "C5",
+          "C11",
+          "C12",
+          "C13",
+          "C21",
+          "C22",
+          "C23",
+          "C24",
+          "C25",
+          "C26",
+          "C27",
+          "C28",
+          "C29",
+          "C30",
+          "C31",
+          "C32"
+        ]
+      },
+      {
+        "draft": "Human-AI-collaboration/manuscript/26-09-23_twoStageDengueLaosManuscript.md",
+        "sidecar": "Human-AI-collaboration/manuscript/26-09-23_twoStageDengueLaosManuscript_claims.md",
+        "draft_words": 7228,
+        "sidecar_statement_rows": 127,
+        "rows_resting_on_a_claim": 85,
+        "rows_marked_method": 37,
+        "rows_neither": 5,
+        "distinct_claims_cited": 31,
+        "claims_cited": [
+          "C1",
+          "C2",
+          "C3",
+          "C5",
+          "C6",
+          "C7",
+          "C8",
+          "C9",
+          "C10",
+          "C11",
+          "C12",
+          "C13",
+          "C14",
+          "C15",
+          "C16",
+          "C17",
+          "C18",
+          "C19",
+          "C20",
+          "C21",
+          "C22",
+          "C23",
+          "C24",
+          "C25",
+          "C26",
+          "C27",
+          "C28",
+          "C29",
+          "C30",
+          "C31",
+          "C32"
+        ],
+        "claims_not_cited": [
+          "C4"
+        ]
+      }
+    ]
+  },
+  "stability": {
+    "manifest.csv": {
+      "rows": 70,
+      "by_tier_and_status": {
+        "tier 0 / gate": 1,
+        "tier 1 / planned": 9,
+        "tier 2 / planned": 26,
+        "tier 2 / superseded_by_v2 (run in batch 12 around g_oosErrorBoosting; results kept)": 29,
+        "tier 3 / not_run": 5
+      },
+      "not_run_with_reason": 5,
+      "not_run_without_reason": 0,
+      "superseded_kept": 29,
+      "versions": {}
+    },
+    "manifest_holdout.csv": {
+      "rows": 43,
+      "by_tier_and_status": {
+        "tier 0 / planned": 3,
+        "tier 1 / not_run": 5,
+        "tier 1 / planned": 4,
+        "tier 2 / planned": 26,
+        "tier 3 / not_run": 5
+      },
+      "not_run_with_reason": 10,
+      "not_run_without_reason": 0,
+      "superseded_kept": 0,
+      "versions": {}
+    },
+    "manifest_freeze.json": {
+      "frozen_at_commit": "cef9a18",
+      "frozen_on": "2026-09-21",
+      "rows": 70,
+      "sha256": "d2c5e813e7215eb908787049546e0e8346c3311ea7b6d6b3ca6fd43c53834ac0",
+      "main_path": "h_levelOnlyBoosting",
+      "version": 2
+    },
+    "holdout_freeze.json": {
+      "frozen_at_commit": "67f998c",
+      "frozen_on": "2026-09-22",
+      "rows": 43,
+      "sha256": "835bb52cab2e91cc630d420f59b07691cf8a7ddb0990e5079bfbba25d9080ab0",
+      "main_path": "h_levelOnlyBoosting"
+    },
+    "holdout_openings": [
+      {
+        "opened_on": "2026-09-22 19:59:33",
+        "opened_at_commit": "8eda4fd",
+        "opening_number": "1",
+        "n_rows_planned": "33",
+        "n_rows_run": "33"
+      }
+    ]
+  },
+  "plan": {
+    "plan": "Human-input/Plans for AI generation/26-09-20_sarimaxResidualBoostingCase.md",
+    "n_decisions_logged_in_4b": 69,
+    "decisions_by_agency": {
+      "human-set": 12,
+      "agent-autonomous": 50,
+      "mixed": 5,
+      "open": 2
+    },
+    "n_ledger_rows": 21,
+    "ledger_status": {
+      "done": 20,
+      "open": 1
+    }
+  },
+  "environment": {
+    "declarative_spec": true,
+    "lockfile": true,
+    "n_locked_packages": 18,
+    "build_script": true,
+    "container_image": false,
+    "python_pin": "3.13"
+  },
+  "validation": {
+    "cleanroom_runs": [
+      {
+        "folder": "2026-09-22_cleanroom-artefacts",
+        "date": "2026-09-22",
+        "head": "cbb2a26",
+        "input_files_differing_on_checkout": 0,
+        "results_identical": 288,
+        "results_differing": 1,
+        "results_declared_varying": 10,
+        "results_missing_in_clone": 0
+      }
+    ],
+    "outsider_tests": [
+      "2026-09-23_outsider-test.md"
+    ],
+    "release_scans": [
+      {
+        "folder": "2026-09-23_release-scan",
+        "date": "2026-09-23",
+        "head": "0642af0",
+        "commits_scanned": 269,
+        "secret_shaped_hits_tracked": 0,
+        "secret_shaped_hits_history": 0,
+        "history_added_lines_over_4000_chars_skipped": 22,
+        "credential_filenames_history": 1,
+        "secret_word_prose_lines_for_reading": 0,
+        "imported_data_files": 7,
+        "identifying_lines_tracked": 13,
+        "tracked_files_over_5mb": 1,
+        "secrets_scan_failed": true,
+        "note": "secrets_scan_failed is the only automatic verdict. Data permission and identifying strings are listed for a reader; the scan cannot judge them."
+      }
+    ],
+    "invariants": {
+      "exit_code": 0,
+      "checks": {
+        "tree": "ok",
+        "provenance": "ok",
+        "hashes": "ok",
+        "plots": "ok",
+        "seeds": "ok",
+        "claims": "ok",
+        "combos": "ok",
+        "freeze": "ok",
+        "git": "ok",
+        "crossing": "ok",
+        "pool": "ok"
+      },
+      "all_hold": true
+    }
+  },
+  "git": {
+    "n_commits": 268,
+    "first_commit": "1f0a147 2026-08-23",
+    "head": "abf811c 2026-09-23",
+    "n_before_commits": 35,
+    "n_after_commits": 26,
+    "n_methodological_change_commits": 2,
+    "instruction_files_tracked": [
+      "AGENTS.md",
+      "CLAUDE.md",
+      ".claude/settings.json"
+    ],
+    "n_skill_files_tracked": 17,
+    "working_tree_clean": true
+  }
+}

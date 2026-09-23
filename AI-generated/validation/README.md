@@ -14,6 +14,11 @@ finding, not the same one.
 - `2026-09-23_outsider-test.md` — the first outsider test (batch 19): a fresh agent given only
   the repository and asked to follow its instructions, with every point at which it guessed or
   hit a false statement.
+- `2026-09-23_outsider-test-release.md` — the second outsider test (batch 20, at release): nine
+  checkable questions answered from the instructions alone, the manuscript's held-out headline
+  traced to its raw file with twelve digests verified and the means recomputed, and fourteen
+  false or stale statements found — nine fixed in the batch, three in-progress states of the
+  batch itself, two recorded. The disposition of each is in the file's first table.
 - `2026-09-23_release-scan/` — the release safety scan (batch 20), written by
   `AI-internal/useful-scripts/release_scan.sh`: `summary.json` with the counts and the one
   automatic verdict, `secrets_tracked.txt` and `secrets_history.txt` (secret-shaped strings at

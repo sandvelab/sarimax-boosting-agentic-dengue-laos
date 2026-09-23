@@ -12,12 +12,41 @@ cd /path/to/new-project
 
 The trailing dot matters, or `.claude/` is left behind.
 
-## 2 — Substitute the placeholders
+## 2 — Substitute the placeholders, in the *local* settings file
 
-`.claude/settings.json` contains `<PARENT_DIR>` and `<HOME>`. Replace both with real paths,
-or delete the `claudeMdExcludes` entries you do not need — they exist to stop a parent
-directory's `CLAUDE.md` leaking into this project's instructions, which would silently
-change the method.
+`.claude/settings.json` contains `<PARENT_DIR>` and `<HOME>` in its `claudeMdExcludes`.
+They exist to stop an ancestor directory's `CLAUDE.md` leaking into this project's
+instructions, which would silently change the method.
+
+**Write the real paths into `.claude/settings.local.json`, not into `settings.json`.**
+`settings.json` is tracked and published; absolute paths in it would carry your home
+directory into a public repository and would still be wrong on every other machine.
+`settings.local.json` is gitignored and is the designed place for machine-specific
+settings. Leave the placeholders in the tracked file: they are the template's contract
+with the next person who copies it.
+
+```json
+{
+  "claudeMdExcludes": [
+    "/abs/path/to/parent/CLAUDE.md",
+    "/abs/path/to/grandparent/CLAUDE.md",
+    "/Users/you/CLAUDE.md",
+    "/Users/you/.claude/CLAUDE.md",
+    "/Users/you/.claude/rules/**"
+  ]
+}
+```
+
+**Check which ancestor file actually loads before writing the list.** `<PARENT_DIR>` taken
+literally is not always enough: if the project sits two levels below the directory that
+holds the `CLAUDE.md`, the immediate parent has none and the offending file is the
+*grandparent*. Substituting only the immediate parent leaves the exclusion matching nothing,
+and a check that matches nothing passes while protecting nothing.
+
+Verify it took effect: start a session and confirm no ancestor `CLAUDE.md` appears in the
+context it reports. This is a methodological change under `AGENTS.md` §3, Rule 4 — two runs
+under different instruction sets are two different methods — so record in the plan's §4b
+which instructions governed which batches if this is settled part-way through a project.
 
 ## 3 — Python environment
 

@@ -78,3 +78,36 @@ what `analysis/01_data/01_prepare` does on every run.
 
 Appended rather than corrected in place: this file is append-only (`AGENTS.md` §8) and the
 sections above are a true record of how the data was obtained *by the project that obtained it*.
+
+---
+section appended 2026-09-23 (batch 20, `/release` data-permission scan) — **what the upstream
+terms actually are, checked rather than asserted.**
+
+The `licence/governance:` line above says "public and redistributable (plan §4)"; that is the
+plan's human-set governance decision, not a licence. Checked at release time (agent-retrieved,
+via the GitHub API and the OpenDengue website, 2026-09-23):
+
+- The source repository `github.com/dhis2/climate-health-data` carries **no licence file**
+  (GitHub reports `license: null`; its top level holds `README.md`, `.gitignore` and the three
+  country folders). Its README states that it "contains data only", publishes "final,
+  model-ready data artifacts" that "can be downloaded and consumed directly by Chap", and that
+  the datasets are "already harmonized (e.g. derived from OpenDengue)".
+- The schema file in this folder names the provider of every field. `disease_cases` is
+  attributed to **OpenDengue** (`https://opendengue.org/data.html`); the climate fields to
+  ERA5-Land (Copernicus Climate Data Store); the boundaries and names to OCHA COD-AB via HDX;
+  `population` to WorldPop.
+- **OpenDengue's website states "Content licensed under CC BY 4.0"** (The Dengue Mapping and
+  Modelling Group, LSHTM). Redistribution of the case counts is therefore permitted with
+  attribution, and this section is that attribution: dengue case data from OpenDengue
+  (opendengue.org, LSHTM, CC BY 4.0), harmonised and redistributed by the DHIS2 Chap project at
+  the commit recorded above.
+- The ERA5-Land, COD-AB and WorldPop terms were **not** checked here; those fields are carried
+  in the archived file as received and are not used by any model on the main path (the
+  climate-covariate candidates `d_linearClimate` and `e_pooledRandomForest`, and one stability
+  row, read them on development data only).
+
+This repository's own `LICENSE` (CC BY 4.0) applies to the derived results, not to the imported
+files, which remain under their upstream terms.
+
+**agency:** agent-autonomous (the check and its recording); the governance decision it
+qualifies is the plan's (human-set, 2026-09-20). **information:** agent-retrieved.

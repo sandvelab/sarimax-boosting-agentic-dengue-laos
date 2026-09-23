@@ -105,3 +105,12 @@ what `analysis/01_data/01_prepare` does on every run.
 
 Appended rather than corrected in place: this file is append-only (`AGENTS.md` §8) and the
 sections above are a true record of how the data was obtained *by the project that obtained it*.
+
+---
+section appended 2026-09-23 (batch 20, `/release` data-permission scan) — the upstream terms,
+checked. Same source repository and commit as the Lao files, and the same finding: the
+repository carries no licence file and describes itself as data published for direct download;
+each schema attributes `disease_cases` to OpenDengue, whose website states CC BY 4.0
+(LSHTM). Attribution as in `Archive/lao-dataset/provenance.md`, 2026-09-23 section. **These two
+datasets are used by no node in this project**; they are carried as an unused, checksummed
+resource. **agency:** agent-autonomous; **information:** agent-retrieved.

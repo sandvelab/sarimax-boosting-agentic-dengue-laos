@@ -11,3 +11,11 @@ meantime. If a derived document is wrong, its source is wrong.
 ## Currently here
 
 - `batch-reports/` — one report per executed batch, never pruned; see its own `README.md`.
+- `validation/` — what `/validate cleanroom`, `/validate outsider` and `/release check` found,
+  one dated folder or file per run; measurements of a commit on a machine at a time, so never
+  pruned either. See its own `README.md`.
+- `hierarchical-report/` — the linked drill-down over the claim tree (Rule 8). Gitignored except
+  for `provenance.md`, the append-only record of each build; rebuilt by `/hierarchical-report`.
+- `repro-report/` — the reproducibility report (the closing step) and the `inventory.json` it is
+  written from, produced by `AI-internal/useful-scripts/repro_inventory.py`. See its own
+  `README.md`.

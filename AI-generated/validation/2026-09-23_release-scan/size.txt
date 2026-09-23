@@ -1,0 +1,25 @@
+# Largest tracked files (KB) and repository size
+8244	Archive/lao-dataset/chap_LAO_admin1_monthly.geojson
+4760	Archive/sibling-datasets/tha/chap_THA_admin1_monthly.geojson
+2656	Archive/sibling-datasets/tha/chap_THA_admin1_monthly.csv
+2388	Archive/sibling-datasets/vnm/chap_VNM_admin1_monthly.geojson
+876	Archive/sibling-datasets/vnm/chap_VNM_admin1_monthly.csv
+244	Archive/lao-dataset/chap_LAO_admin1_monthly.csv
+228	analysis/01_data/01_prepare/results/development.csv
+188	analysis/05_residualStructure/results/test_cells.csv
+84	analysis/05_residualStructure/results/predictability.json
+76	analysis/04_stage2/g_oosErrorBoosting/results/per_cell_scores.csv
+76	analysis/04_stage2/f_oosErrorRidge/results/per_cell_scores.csv
+68	analysis/04_stage2/c_bayesianRidge/results/per_cell_scores.csv
+64	analysis/06_stability/results/window=start_2002@h/per_cell_scores.csv
+64	analysis/06_stability/results/window=start_2002/per_cell_scores.csv
+64	analysis/06_stability/results/window=rolling_72m@h/per_cell_scores.csv
+
+count: 1625
+size: 9.42 MiB
+in-pack: 10087
+packs: 1
+size-pack: 181.50 MiB
+prune-packable: 0
+garbage: 0
+size-garbage: 0 bytes

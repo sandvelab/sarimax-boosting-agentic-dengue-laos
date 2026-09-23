@@ -17,8 +17,8 @@ main-path: -
 
 ## Environment
 
-inherits: the project main environment (`environment/`) — not yet pinned; see
-`environment/README.md`.
+inherits: the project main environment (`environment/`), pinned in batch 2 and re-verified in
+batch 5 (`environment/lock.txt`, 18 packages; see `environment/README.md`).
 
 ## Answers
 

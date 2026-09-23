@@ -1,0 +1,15 @@
+{
+  "date": "2026-09-23",
+  "head": "0642af0",
+  "commits_scanned": 269,
+  "secret_shaped_hits_tracked": 0,
+  "secret_shaped_hits_history": 0,
+  "history_added_lines_over_4000_chars_skipped": 22,
+  "credential_filenames_history": 1,
+  "secret_word_prose_lines_for_reading": 0,
+  "imported_data_files": 7,
+  "identifying_lines_tracked": 13,
+  "tracked_files_over_5mb": 1,
+  "secrets_scan_failed": true,
+  "note": "secrets_scan_failed is the only automatic verdict. Data permission and identifying strings are listed for a reader; the scan cannot judge them."
+}

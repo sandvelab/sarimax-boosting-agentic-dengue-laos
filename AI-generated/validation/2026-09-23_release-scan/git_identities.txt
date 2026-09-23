@@ -1,0 +1,2 @@
+# Author identities recorded in commit metadata (published with any push)
+geirksa <geirksa@ifi.uio.no>

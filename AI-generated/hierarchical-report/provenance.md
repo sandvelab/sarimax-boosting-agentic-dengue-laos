@@ -58,3 +58,35 @@ alternatives-considered:
     combination's own page instead, and the raw file one click away.
 agency: agent-autonomous (the rewrite and the level design).
 information: none retrieved; every input is a file in this repository.
+
+---
+
+## Build 2 — 2026-09-23 (batch 20, release)
+
+script: `AI-internal/useful-scripts/build_hierarchical_report.py`
+        sha256:2536dbb50a793f4967768abbae4dca44e0dae5d98cab7b9452647dfcb6ad5fa5
+        (unchanged since build 1)
+invocation: `.venv/bin/python AI-internal/useful-scripts/build_hierarchical_report.py`
+inputs: the tree and the claim collection, as in build 1. Neither the tree's structure, any
+        result file nor the claim collection has changed since build 1; what changed between the
+        builds is prose (run.sh comments, provenance sections, the root claim's environment line).
+output: `AI-generated/hierarchical-report/` — 127 static HTML pages, as in build 1: one page
+        per node (23), one detail page per scored result (103), and the root index.
+commit: 0642af0 (HEAD at build time; the release batch's own commits follow it and touch no
+        file the report reads)
+node: not a node; this is a view over the whole tree.
+produced: 2026-09-23
+
+**Why rebuilt.** `/release` regenerates the report before anything counts as released, so that
+the published drill-down is built from the tree as released rather than from a tree eighteen
+commits older. Nothing in the generator changed. One stale fragment in it is recorded and left:
+a headline block for the prior project's layout (`analysis/results/main/conclusion.json`,
+`skill_score`, a link to `analysis/05_stability/`) that is guarded by a file-existence check
+and renders nothing here; it is dead code, not a wrong page, and is listed in the batch-20 report
+with the other prior-project fragments found by the release grep.
+
+alternatives-considered: removing the dead block now — rejected in a release batch, since a
+  change to the generator would make build 2 a build of a different program from build 1 for no
+  visible difference; recorded instead.
+agency: agent-autonomous.
+information: none retrieved; every input is a file in this repository.

@@ -25,7 +25,7 @@ repository can hold one project at a time, per `AGENTS.md` §1 and §9.
 | `Human-AI-collaboration/claims/` | The claim collection — every statement bound to its result. |
 | `Human-AI-collaboration/manuscript/` | The article, written from the claims. |
 | `Archive/` | Imported source material, never edited, marked `(IS_SHADOW)`. |
-| `AI-generated/` | Derived documents: batch reports, validation, the hierarchical report. |
+| `AI-generated/` | Derived documents: batch reports, validation and release-scan findings, the hierarchical report, the reproducibility report. |
 | `AI-internal/` | Scripts, skill references, the task log. |
 | `Human-input/` | Plans that drive generation. |
 

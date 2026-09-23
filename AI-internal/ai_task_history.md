@@ -235,3 +235,17 @@ reader who was not present can follow, and keep them honest about what did not w
   the gitignored `.claude/settings.local.json` instead; `setup-guide.md` §2 corrected to say so.
   Plan §4b records which instructions governed batches 1–19. Committed alone as a methodological
   change (`454698f`). Batch 20's own work — manuscript, repro report, release scan — not started.
+- T17 (2026-09-23): Batch 20 — the release, everything but the push. Full manuscript from all 32
+  claims (`26-09-23_twoStageDengueLaosManuscript.md`, ~7,200 words, sidecar of 127 rows;
+  references re-verified, one corrected); `release_scan.sh` written and run (0 secret-shaped
+  strings at HEAD or in 269 commits' added lines; 1 credential-shaped filename in history,
+  `.claude/settings.local.json` 1f0a147..15b4ba9, examined: permission grants, no secret; home
+  path in 4 tracked files, reported); data permission checked upstream (dhis2 repo has no
+  licence file; OpenDengue CC BY 4.0; attribution appended to Archive provenance); clean-room and
+  outsider re-run at release — the outsider's 14 findings triaged, 9 fixed, chief among them six
+  provenance records naming the batch-2 lockfile digest and a `hashes` check that read only
+  `script:` blocks (records appended; check extended, methodological-change commit);
+  `repro_inventory.py` and the reproducibility report; hierarchical report build 2; prior-project
+  prose swept; readme-at-start's status rewritten to lead with the current state. Release commit
+  tagged `v1.0-release`. **Not pushed**: the push and the Zenodo deposit are the human's, with the
+  scan's findings in front of them. Ledger row 20 blocked on the push alone.

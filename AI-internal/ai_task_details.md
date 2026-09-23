@@ -714,3 +714,56 @@ work is untouched: the full manuscript from the 32 claims, `/repro-report`, a re
 hierarchical report, the full release scan, and the citable snapshot. Two questions are with the
 human: whether the article carries a section on the method of work itself, and whether the target
 venue shapes its length and framing now.
+
+## T17 (2026-09-23) — batch 20: the release, assembled and not pushed
+
+**What was produced.** The full manuscript
+(`Human-AI-collaboration/manuscript/26-09-23_twoStageDengueLaosManuscript.md`) and its sidecar,
+written from all 32 claims, with a section on the method of work and an agency statement; the
+reproducibility report (`AI-generated/repro-report/`) written from `inventory.json`, which a new
+script `repro_inventory.py` produces so the report's counts reach it through a file; the release
+scanner `release_scan.sh` and its findings under `AI-generated/validation/2026-09-23_release-scan/`;
+the clean-room reproduction and the outsider test run again at the release commit; the
+hierarchical report rebuilt (build 2); the batch report `26-09-23_b20_release.md`.
+
+**What the scan found, and what was done.** No secret-shaped string in any tracked file or in
+any line ever added across the history (the archived GeoJSON's 22 multi-megabyte lines skipped as
+data, counted and reported). One credential-shaped filename: `.claude/settings.local.json` was
+tracked from the prior project's first commit to `15b4ba9`, holding permission grants and one
+absolute path — examined, no secret, history not rewritten because every record cites commit
+hashes; the verdict is left as `failed` with the examination beside it. The author's home path in
+four tracked files, reported not redacted. Data permission checked upstream rather than asserted:
+the source repository has no licence file, OpenDengue states CC BY 4.0, attribution appended to the
+archive's provenance records.
+
+**What the outsider found.** Fourteen false or stale statements; nine fixed, three in-progress
+states of the batch, two recorded. The one that mattered: six provenance records still named the
+batch-2 lockfile digest fifteen batches after batch 5 changed it, and `check_hashes` had never
+looked at the `environment:` block. Both ends fixed — the records appended with the section they
+owed, the check extended and shown to fail on a stale record before the fix — in a
+methodological-change commit that also corrected `node.md`'s usage line, made `track-result.md`
+defer to `provenance-record.md`, and made `AGENTS.md`'s description of `skill-references/` true.
+Recorded and not fixed: the planner has no mechanised route to a new development-manifest version
+while the main path is unchanged.
+
+**Design decisions.** The manuscript answers the two questions T16 left for the human by
+default (method-of-work section in; venue-neutral), both reversible. The push is not made: the
+release skill says never to push without asking, this batch ran without the human, and the scan's
+findings should be seen first. The release commit is tagged `v1.0-release` locally so the citable
+deposit has something to point at.
+
+**Files affected.** New: the manuscript and sidecar; `release_scan.sh`, `repro_inventory.py`;
+`AI-generated/repro-report/` (report, inventory, README, provenance); the release-scan folder,
+the clean-room artefacts folder and the outsider report under `AI-generated/validation/`; the
+batch report. Changed: `check_invariants.py`, `node.md`, `track-result.md`, `release.md`,
+`repro-report.md`, `AGENTS.md` (one sentence); six provenance records (appended); two Archive
+provenance files and one Archive README (appended); `.gitignore`; `analysis/claim.md` and
+`analysis/04_stage2/claim.md` (annotations); `claims.md` (header line); the plan (§4 seed pointer,
+§4b batch-20 section, ledger row 20, report links); `readme-at-start.md` (status rewritten);
+READMEs for AI-generated, validation, useful-scripts, manuscript, batch-reports, hierarchical
+report provenance, and the root.
+
+**Follow-ups, all the human's.** Push (`git push origin main --tags`) after reading the scan's
+findings; decide on redacting the home path in the two prose files; create the GitHub release from
+`v1.0-release` and the Zenodo DOI, then cite it in the manuscript's §7; the three open forks
+(stage-1 predictive family; the planner's v3 route; the sibling vaults' settings templates).

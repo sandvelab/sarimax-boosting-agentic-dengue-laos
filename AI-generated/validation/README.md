@@ -14,6 +14,11 @@ finding, not the same one.
 - `2026-09-23_outsider-test.md` — the first outsider test (batch 19): a fresh agent given only
   the repository and asked to follow its instructions, with every point at which it guessed or
   hit a false statement.
+- `2026-09-23_cleanroom-artefacts/` — the second clean-room run (batch 20, at release, cloned from
+  `0642af0`): 0 inputs differing on checkout, 289 results byte-identical, 10 declared varying, 0
+  differing, 0 missing; `analysis/run.sh` in 4,757 s. Same four files as the first run. Its
+  `summary.json` records HEAD at the time the summary was written (`e5dd305`), not the commit
+  cloned; the console log has the latter.
 - `2026-09-23_outsider-test-release.md` — the second outsider test (batch 20, at release): nine
   checkable questions answered from the instructions alone, the manuscript's held-out headline
   traced to its raw file with twelve digests verified and the means recomputed, and fourteen

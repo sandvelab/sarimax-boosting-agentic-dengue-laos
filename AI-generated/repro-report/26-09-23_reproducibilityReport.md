@@ -75,8 +75,11 @@ environment from nothing in a fresh clone, ran the whole analysis and found 288 
 byte-identical, 10 declared as varying (wall-clock and timestamps), 0 missing and 1 differing,
 which was a stopwatch embedded in a report file and was fixed before the release commit. An
 outsider test on 2026-09-23 found twelve defects in the instructions and records, ten of which
-were fixed before release. The release-time clean-room run and outsider test are recorded in
-`AI-generated/validation/` and summarised in the batch-20 report.
+were fixed before release. **At release both were run again.** The clean-room run from commit
+`0642af0` found 0 inputs differing on checkout, 289 results byte-identical, 10 declared varying, 0
+differing and 0 missing, with the whole analysis running in 4,757 s. The release-time outsider
+test found fourteen false or stale statements, nine of them fixed in the release batch; section 5
+lists what it found that could not be fixed by prose.
 
 ## 3. The veridical section
 

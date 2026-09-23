@@ -32,85 +32,60 @@ above.
 ## The article
 
 - **Target venue**: not yet decided.
-- **Status**: batches 1–19 complete (phases A–F bar the release). **The analysis reproduces from a fresh clone, byte for byte** (`/validate cleanroom`, batch 19: 289 of 289 comparable results), and its instruction files have been walked by a fresh agent that had never seen them (`/validate outsider`, batch 19: twelve findings, ten fixed). **The held-out year has been opened, once, and the project's own question is answered** — see the end of this entry. Stage 1 (per-province SARIMAX,
-  mean CRPS 26.05 over 371 cells, 90% coverage 82.7%) beats both required baselines
-  (persistence 28.32, seasonal climatology 26.91). Seven stage-2 residual-correction
-  candidates exist under `04_stage2`. Five (batches 4–9) were trained on stage 1's
-  **in-sample one-step residual** and failed: four lose to stage 1 alone (26.26–28.07); the
-  fifth, `e_pooledRandomForest` (25.89), wins on CRPS but collapses coverage to 64.4%.
-  Batch 10's diagnostic node `05_residualStructure` showed why — that residual is essentially
-  white, while the **h-step out-of-sample error** a stage 2 must correct carries a
-  level-dependent over-prediction, a calendar bias and a horizon effect (and unpredictable
-  2008–09 reporting-regime breaks that make up the whole coverage deficit). Two candidates
-  trained on that error inside each training window, pooled across provinces on the
-  standardised-error scale, **both beat stage 1 alone with improved coverage**:
-  `f_oosErrorRidge` 25.63 (−1.64%, coverage 84.6%) and `g_oosErrorBoosting` 25.16 (−3.41%,
-  coverage 85.7%) — the first candidates to clear both of plan §2's bars.
-  **`g_oosErrorBoosting` is `04_stage2`'s main path** (promoted batch 10, agent-autonomous).
-  The margin is modest, sits in four provinces and the later splits, and loses ground in
-  Savannakhet and Vientiane Capital; whether it survives reasonable alternative choices is
-  phase D's question. Logged, untried forks: a correction bounded relative to the forecast
-  level; a heavier-tailed or count predictive family at stage 1; per-horizon models; a true
-  rolling refit for in-window errors; ENSO indices as an external covariate. Phase D has
-  started: batch 11 built `06_stability`, measured that the whole model tree re-runs in 87 s
-  with byte-identical outputs, and froze the development perturbation manifest (40 rows: 6
-  siblings, 29 planned parametric perturbations, 5 not run with reasons). Batch 12 ran it in
-  full (1,937 s; runner verified against the main path first). Batch 13 reported the
-  distribution: **sign stable, size not** — all 29 perturbations keep the ensemble ahead of
-  stage 1 alone with coverage not worse (−0.70% to −10.64%, median −3.32%); the margin is
-  insensitive to the stage-2 family's tuning and seed, larger under a weaker stage 1, and
-  smallest (−0.70%) under a true rolling refit of the training errors; the gain sits in
-  Khammouane, Salavan, Bokeo and Xiangkhouang in every combination and never in Savannakhet
-  or Vientiane Capital; it is a 2–3-month-ahead gain. Claims C1–C7 are in the collection.
-  After phase D the human settled both open decisions (plan §4b 2026-09-21): **stage 1 is not
-  repaired** — it stays SARIMAX as specified and its six weaknesses are documented in
-  `05_residualStructure/results/stage1_weaknesses.json` and `02_stage1/claim.md`; and stage 2
-  was explored further. Batch 14 built three more candidates through the verified pipeline —
-  the minimal level-only input (`h_levelOnlyBoosting`, 24.35, −6.53%, coverage 85.2%), the
-  bounded correction (`i_boundedBoosting`, 24.53, −5.85%) and both (`j_levelOnlyBoundedBoosting`,
-  24.29, −6.78%) — and **annotated `h_levelOnlyBoosting` as `04_stage2`'s main path now**, by a
-  rule written before the combination's result was seen (lowest development CRPS with coverage
-  not worse; tie within 0.1 → splits improved → simplicity). The development stability manifest
-  was re-planned around `h` (v2; v1's rows and results kept as superseded). Batch 15 ran v2
-  (26 rows, gate 408/408, 1,537 s; `_v2` files beside v1's): **sign stable in all 26**
-  (−10.41% to −1.06%, median −5.91%, coverage never worse), size turning on stage 1 and on the
-  training-error construction as before, hyperparameters and seed within two points; the
-  conservative rolling-refit reading is −2.99%. **New: the no-differencing SARIMAX alone scores
-  24.93, within 0.6 CRPS of the two-stage main path (24.35)**, so part of the margin repairs
-  stage 1's differencing choice (recorded, stage 1 not reopened; claim C10). The gain is in
-  Khammouane, Salavan, Bokeo, Xiangkhouang and Xekong in every combination, never in Oudomxay,
-  and reaches one month ahead in 23 of 27 combinations. Three v2 rows score better than `h` on
-  development data and none is promoted. Claims C8–C13. **Batch 16 froze the phase-E set**
-  (`06_stability/results/manifest_holdout.csv`, 43 rows: 33 planned at an estimated 940 s of the
-  3,600 s ceiling; 3 tier-0 — the pre-registered main path and both required baselines — 4 of the
-  9 siblings, the 26 development v2 perturbations under holdout names, and 10 rows not run with
-  reasons), together with the evaluation design (four expanding three-month blocks covering 2010
-  exactly once, at h = 1..3, on development's seventeen provinces: 204 cells per row) and the
-  reporting rule. Phase E's machinery was built and gated in the same batch, before the freeze:
-  it reproduces the main path's and both required baselines' stored development per-cell scores,
-  408 rows each, 0 mismatches. At the freeze the human kept `h_levelOnlyBoosting` as the
-  pre-registered main path and left stage 1 unreopened (plan §4b, 2026-09-22).
-  **Batch 17 opened 2010 once** (opening 1, recorded in
-  `06_stability/results/run_status_holdout.csv`; all four preflight refusals passed; 33 of 33
-  rows in 623 s; nothing added, dropped, re-tuned, re-run or promoted afterwards). **The second
-  stage earns its place on held-out data**: on the 192 scored cells the ensemble scores mean
-  CRPS 99.20 against stage 1 alone's 128.51 (−22.81%), coverage 61.5% against 57.3%,
-  all 4 splits and 75% of cells improved; sign-stable across all 26 frozen perturbations
-  (−29.25% to −4.18%, median −20.89%). The margin is 16.3 points *larger* than development's.
-  **And the whole two-stage model is beaten on that year by seasonal climatology (77.29)**,
-  which reverses the development ranking, while coverage collapses for every model (54.7–61.5%
-  against a nominal 90%). 2010 is an epidemic year unlike the development test span (22,903
-  cases in twelve months against 12,291 in twenty-four; September peak 5,649 against a
-  development maximum of 1,410). The held-out result turns sharply on stage 2's input: the two
-  level-only configurations gain ~23%, every configuration carrying recent-residual and
-  cross-province features gains ≤4%. One province (LA-XN) reports no 2010 cases, so the
-  evaluation is 16 provinces. Claims C14–C20.
-- **Manuscript**: `Human-AI-collaboration/manuscript/26-09-22_twoStageDengueLaos.md` — a 1–2 page
-  overview of the whole study, with its provenance sidecar. Row 20 still owes the full
-  manuscript. The claim collection holds 32 claims covering every node
-  (`Human-AI-collaboration/claims/claims.md`), and the hierarchical report is regenerated by
-  `/hierarchical-report` (103 scored results, 127 pages; gitignored, with a tracked
-  `provenance.md` recording each build).
+- **Status**: **batches 1–20 complete; the release is assembled and awaits the human's push** (row
+  20 is blocked on that alone; the release scan's findings are in `AI-generated/batch-reports/26-09-23_b20_release.md`
+  §2 and §8). The analysis reproduces from a fresh clone byte for byte (`/validate cleanroom`, run
+  at batch 19 and again at release), its instruction files have been walked twice by fresh agents
+  that had never seen them (`/validate outsider`, batches 19 and 20), and every check in
+  `/validate invariants` holds at the release commit.
+
+  **What the analysis found.** Stage 1, a per-province SARIMAX(1,1,1)×(1,0,0,12) on raw counts,
+  scores mean CRPS 26.05 on the development backtest (371 cells, 90% coverage 82.7%) and beats
+  both required baselines (persistence 28.32, seasonal climatology 26.91). Ten stage-2
+  candidates were built under `04_stage2` and all are kept. The five trained on stage 1's
+  in-sample one-step residual fail, because that residual is white (`05_residualStructure`);
+  the five trained on stage 1's in-window multi-step out-of-sample error, pooled across provinces
+  on the standardised scale, all clear plan §2's two bars. **`04_stage2`'s main path is
+  `h_levelOnlyBoosting`** — gradient-boosted trees reading only the horizon, the target month and
+  the forecast level — annotated in batch 14 by a rule written before the last candidate's result
+  was seen: 24.35 (−6.53%), coverage 85.2%. Its margin is sign-stable across all 26 development
+  perturbations (−1.06% to −10.41%, median −5.91%) and turns in size on stage 1's specification
+  and on the construction of the training errors, not on the stage-2 family's tuning; a
+  no-differencing stage 1 alone scores 24.93, within 0.6 CRPS of the two-stage main path. **The
+  held-out year was opened once, in batch 17**, across a set of 33 rows frozen in batch 16: the
+  ensemble scores 99.20 against stage 1 alone's 128.51 (−22.81%, coverage 61.5% vs 57.3%, all 4
+  splits and 75% of cells improved, sign-stable across all 26 frozen perturbations) — **and
+  seasonal climatology scores 77.29 on the same cells**, reversing the development ranking, while
+  every model's coverage collapses on an epidemic year (22,903 cases against 12,291 in the two
+  development test years). The held-out result turns on stage 2's input: the two level-only
+  configurations gain about 23%, every full-feature configuration 4% or less. Stage 1 was fixed
+  by decision and not repaired (human-set, 2026-09-21, reaffirmed at the freeze); its six
+  weaknesses are documented in `05_residualStructure/results/stage1_weaknesses.json`. Five
+  alternatives were listed and not run, above all a count or heavier-tailed predictive family at
+  stage 1, the one change identified as able to repair coverage. Claims C1–C32 are in the
+  collection.
+
+  **How it got here**, one line per batch, each with its report in `AI-generated/batch-reports/`:
+  1 orient; 2 data, metric, stage 1; 3 baselines; 4–6 stage-2 candidates a–c on the in-sample
+  residual, all losing; 7 `a_linearLags` as least-bad main path, input forks logged; 8 climate
+  covariates (d), losing; 9 pooled random forest from `chap-models` (e), wins CRPS, fails
+  coverage; 10 literature, the diagnostic node, and candidates f–g on the out-of-sample error,
+  both earning their place, `g` promoted; 11–13 the development stability set planned, run and
+  reported around `g` (sign stable in 29 of 29); 14 stage 1 fixed and documented, candidates h–j
+  built, `h` annotated by the pre-registered rule; 15 the stability set re-run around `h` (26 of
+  26); 16 the phase-E set, evaluation design and reporting rule frozen and the machinery gated;
+  17 the year opened once; 17b the overview article; 18 the claim collection completed from the
+  tree and the hierarchical report's drill-down rebuilt; 19 the clean-room check written and
+  passed, the outsider test run, line endings settled; 20 the full manuscript, the release scan,
+  the reproducibility report, both checks re-run, and the release assembled.
+- **Manuscript**: `Human-AI-collaboration/manuscript/26-09-23_twoStageDengueLaosManuscript.md` —
+  the full article, written from all 32 claims, with its provenance sidecar; and
+  `26-09-22_twoStageDengueLaos.md`, the 1–2 page overview, beside it. The claim collection holds
+  32 claims covering every node (`Human-AI-collaboration/claims/claims.md`); the hierarchical
+  report is regenerated by `/hierarchical-report` (103 scored results, 127 pages; gitignored,
+  with a tracked `provenance.md` recording each build); the reproducibility report is
+  `AI-generated/repro-report/26-09-23_reproducibilityReport.md`, written from an inventory of the
+  artefacts. **Target venue: not yet decided**, so the manuscript is venue-neutral.
 - **The plan being executed**:
   `Human-input/Plans for AI generation/26-09-20_sarimaxResidualBoostingCase.md`. It carries
   the batch ledger (§6); `/do` runs the next open batch and stops.

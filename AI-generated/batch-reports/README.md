@@ -75,3 +75,12 @@ different report, not the same one.
   and the outsider test, which found twelve defects — ten fixed, one raised with the human
   (`.claude/settings.json`'s placeholders, and the parent `CLAUDE.md` in every session), one
   recorded. Eleven of the twelve were prior-project prose.
+- `26-09-23_b20_release.md` — batch 20: the full manuscript written from all 32 claims, with its
+  sidecar; the release scanner written and run (no secret in the tree or its history; one
+  credential-shaped filename in the history examined and found to hold none; the author's home
+  path in four tracked files reported); data permission checked upstream (OpenDengue, CC BY 4.0);
+  the clean-room reproduction and the outsider test run again at the release commit — the
+  outsider found six provenance records that had not caught up with a batch-5 environment change
+  and a digest check that never looked there, both fixed; the reproducibility report written from
+  a scripted inventory; the hierarchical report rebuilt. The push and the citable deposit are left
+  to the human. No result about dengue changes.

@@ -1,0 +1,14 @@
+ok    tree
+ok    provenance
+ok    hashes
+ok    plots
+ok    seeds
+ok    claims
+ok    combos
+ok    freeze
+FAIL  git  (1)
+        .: working tree not clean (10 changed path(s))
+ok    crossing
+ok    pool
+
+1 invariant failure(s). Fix the cause, not the check.

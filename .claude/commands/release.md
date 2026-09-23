@@ -9,6 +9,16 @@ what would be published (**never pushes without asking**)
 
 ## Run the safety scan first, always
 
+```bash
+bash AI-internal/useful-scripts/release_scan.sh     # findings in AI-generated/validation/<date>_release-scan/
+```
+
+The script answers the two questions below from the tree and its whole history and writes what
+it found; it does not fix anything, and it fails only on a secret-shaped string or a
+credential-shaped filename. Read its output files before deciding — a filename can match the
+credential pattern and hold no credential, and a home-directory path is not a secret but is
+still something a public repository should not carry unknowingly.
+
 1. **Secrets.** Scan the whole tree — history included — for keys, tokens, passwords and
    credential files. You will commit a key cheerfully if nobody checks.
 2. **Data permission.** Confirm explicitly that every included data file may lawfully be
@@ -38,6 +48,6 @@ the release, not an appendix.
 ## Before it counts as released
 
 Run `/validate cleanroom` and `/validate outsider`, and regenerate `/hierarchical-report`
-and `/repro-report`. Then deposit a **citable, versioned snapshot with a persistent
+and `/repro-report`. **The push is the human's**: this skill assembles and reports, and stops. Then deposit a **citable, versioned snapshot with a persistent
 identifier** — a repository host is where the work lives, not an archive — and reference
 that in the paper.

@@ -16,6 +16,16 @@ manuscript; a short write-up is enough. Regenerate before release.
 The final text · the claim collection · the claim tree · the provenance records · the
 environment specifications.
 
+```bash
+.venv/bin/python AI-internal/useful-scripts/repro_inventory.py   # -> AI-generated/repro-report/inventory.json
+```
+
+Every count the report gives comes from that file, not from reading the tree by eye
+(`AGENTS.md` §1). The inventory establishes shape — how many records, which fields each carries,
+whether every claim's grounds resolve — and the report's section 5 is written by reading, since
+shape is all a script can check. The report itself goes beside the inventory, with a
+`provenance.md` section per build.
+
 ## What it contains
 
 1. **What was produced** — the results, at every level of the tree.

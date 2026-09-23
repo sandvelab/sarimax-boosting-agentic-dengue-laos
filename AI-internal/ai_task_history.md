@@ -221,3 +221,17 @@ reader who was not present can follow, and keep them honest about what did not w
   a deadlock making a new alternatives child impossible without hand-editing a frozen artefact),
   one raised with the human (`.claude/settings.json` placeholders; the parent `CLAUDE.md` is in
   every session), one recorded. Report: `26-09-23_b19_cleanroomAndOutsider.md`. Nothing pushed.
+
+- T16 (2026-09-23): Batch 20 opened by settling the one item T15 raised with the human and left
+  open: `.claude/settings.json`'s `<PARENT_DIR>` / `<HOME>` placeholders, never substituted, so
+  the parent vault-collection's `CLAUDE.md` loaded into every session of batches 1–19 alongside
+  `AGENTS.md`. Settled at the human's instruction to work from this folder's `AGENTS.md` only.
+  The analysis is unaffected — that file is cross-vault housekeeping, contains nothing about
+  modelling, and was never acted on — but Rule 4 makes the instruction files part of the method,
+  so the published set would have been short by one file that does not ship with the repository.
+  **The obvious fix was the wrong one**: `.claude/settings.json` is tracked and public since
+  batch 1, so substituting real paths there would have committed a home directory to a public
+  remote and still left every cloner unprotected, since absolute paths do not transfer. Fixed in
+  the gitignored `.claude/settings.local.json` instead; `setup-guide.md` §2 corrected to say so.
+  Plan §4b records which instructions governed batches 1–19. Committed alone as a methodological
+  change (`454698f`). Batch 20's own work — manuscript, repro report, release scan — not started.

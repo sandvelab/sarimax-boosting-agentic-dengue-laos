@@ -664,3 +664,53 @@ first was `check_invariants.py`'s freeze check in batch 16. Both were found by h
 completeness check that records rows and months present but not whether `disease_cases` is
 populated (why LA-XN turned out unscoreable only when the year opened); and the prior-project
 prose still in `check_invariants.py`. Row 20 writes the full manuscript and runs the release scan.
+
+## T16 (2026-09-23) — which instructions actually governed batches 1–19
+
+`/validate outsider` raised this in batch 19 and it was left for the human, because changing
+what instructions govern a repository is not a change to make on an agent's report. The human
+settled it directly: work from this folder's `AGENTS.md`, not from anything outside the folder.
+
+**What was actually wrong.** `.claude/settings.json` carries a `claudeMdExcludes` list whose
+entries were still the template's literal `<PARENT_DIR>` and `<HOME>` strings. They match
+nothing on any machine, so the exclusion never fired and `/Users/geirksa_1_2_3/ai/CLAUDE.md`
+— the parent vault-collection's instructions for syncing insights between sibling vaults,
+checking vault folder structure and updating `skills.md` — sat in the context of every session
+from batch 1 to batch 19. Nothing in that file concerns modelling, thresholds, seeds or
+evaluation, and nothing in it was acted on, so no stored number can have moved. Clean-room
+reproduction did not catch it and could not: it re-runs scripts, and no script reads a
+`CLAUDE.md`. What it does touch is the *published statement of the method*, which Rule 4 makes
+part of the analysis — hence a §4b entry rather than a re-run.
+
+**The fix that would have been a leak.** `setup-guide.md` §2 said to replace the placeholders
+with real paths. Taken at face value that means editing `.claude/settings.json`, which is
+tracked and has been on the public remote since `1f0a147` — so it would have published the
+author's home directory *and* still been wrong on every other machine, because absolute paths
+do not transfer. The real paths went into `.claude/settings.local.json` (gitignored, `.gitignore`
+line 24) and the tracked file keeps its placeholders, which are the template's contract with the
+next person to copy it. `setup-guide.md` §2 was rewritten to say this, with an example block.
+
+**Third instance of one failure mode.** `<PARENT_DIR>` taken literally would not have fixed this
+project either: it sits two levels below the directory holding the offending file, so its
+immediate parent (`special-purpose vaults/`) has no `CLAUDE.md` and the grandparent is what
+loads. The sibling vault `politikk` carries exactly that — substituted, real, still missing
+`ai/CLAUDE.md` — which is how the pattern was confirmed rather than assumed. This is the same
+class as batch 16's `freeze` check looking in an empty place and batch 19's `cleanroom.sh`
+existing only in prose: a safeguard that passes by matching nothing, and so reads as evidence
+while protecting nothing. `setup-guide.md` §2 now names it and says to verify the exclusion took
+effect rather than assume it.
+
+**Files affected.** `setup-guide.md` (§2 rewritten); the plan's §4b (new batch-20 section, four
+rows); `.claude/settings.local.json` (new, untracked); `readme-at-start.md` (new row in the
+settings table). `.claude/settings.json` is deliberately unchanged. Committed alone as a
+methodological change, `454698f`.
+
+**Follow-ups.** The exclusion takes effect only from the next session, since the file is read at
+startup. Six sibling vaults carry the same unsubstituted template — `AgenticImmuneAnalytics`,
+`ReprodicbleAgenticAiCase`, `agentic-model-development-start`, `oldReprodicbleAgenticAiCase`,
+`run-ghr-model-in-chap` — plus `politikk`'s near-miss; they are deliberately not touched from
+here (`AGENTS.md` §1, §9) and belong to a session at the vault-collection root. Batch 20's own
+work is untouched: the full manuscript from the 32 claims, `/repro-report`, a regenerated
+hierarchical report, the full release scan, and the citable snapshot. Two questions are with the
+human: whether the article carries a section on the method of work itself, and whether the target
+venue shapes its length and framing now.

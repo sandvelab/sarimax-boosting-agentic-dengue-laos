@@ -133,7 +133,7 @@ Do not add these, and do not propose them:
 
 ## Available skills
 
-Ten for the rules, five for the machinery around them, two carried over. Full definitions in `.claude/commands/`; the mechanics of the longer ones in `AI-internal/skill-references/`.
+Ten for the rules, five for the machinery around them, two carried over. Full definitions in `.claude/commands/`; the provenance record's full specification, which `/track-result` defers to, in `AI-internal/skill-references/`.
 
 **The rules** — `/track-result` · `/manual-edit` · `/pin-environment` · `/commit-run` · `/store-intermediates` · `/seed` · `/plot` · `/hierarchical-report` · `/claims` · `/release`
 

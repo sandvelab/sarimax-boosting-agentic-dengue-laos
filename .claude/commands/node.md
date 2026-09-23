@@ -2,7 +2,7 @@
 
 Create, inspect and re-annotate nodes in the analysis claim tree.
 
-**Usage:** `/node tree` · `/node new <parent> <name> "<claim>"` · `/node show <path>` ·
+**Usage:** `/node tree` · `/node new <parent> <name> --claim "<claim>" [--kind alternatives|sub-analyses]` · `/node show <path>` ·
 `/node promote <alternatives-node> <child>` · `/node rebuild <path>`
 
 No argument: print this list and run nothing.

@@ -257,6 +257,7 @@ def check_provenance(root: Path) -> list[Finding]:
 # their own script -- with its digest, and it changed twice after they were written. A check
 # that read only the first line of the block would have passed all four.
 DIGEST = re.compile(r"sha256:([0-9a-f]{8,64})")
+LOCK_DIGEST = re.compile(r"lock\.txt\s+sha256:[0-9a-f]{8,}")
 # The tokens a `script:` block is made of, matched in one pass so they come out in the order
 # they appear and cannot overlap. `dir` is a heading like
 # `the model itself, scripts/persistence_model/:`, which the bare filenames under it are
@@ -352,6 +353,17 @@ def check_hashes(root: Path) -> list[Finding]:
                         f"{path.relative_to(root)} now hashes to {current[:12]}…, which "
                         f"this record does not name: the file changed and no section was "
                         f"appended")))
+            # The environment block gives the lockfile's digest the same way, and until the
+            # release batch nothing checked it: six records still named the batch-2 lockfile
+            # after batch 5 changed it, and the outsider test found them, not this check.
+            lock = root / "environment" / "lock.txt"
+            if LOCK_DIGEST.search(rec) and lock.is_file():
+                current = sha256_of(lock)
+                if not any(current.startswith(d) for d in recorded):
+                    out.append(Finding("hashes", where, (
+                        f"environment/lock.txt now hashes to {current[:12]}…, which this "
+                        f"record does not name: the environment changed and no section was "
+                        f"appended")))
     return out
 
 
@@ -441,8 +453,8 @@ def check_combos(root: Path) -> list[Finding]:
 
     # A node that holds a manifest is a node whose own outputs are not
     # combination-scoped: they describe every combination in it and belong to none.
-    # There are two of them since batch 20 -- `05_stability` and `06_external` -- so the
-    # exemption is derived from where the manifests are rather than named.
+    # The exemption is derived from where the manifests are rather than named, so that a
+    # project with one such node (this one: `06_stability`) or several is handled the same way.
     planners = {(root / m).parents[1] for m in
                 (MANIFEST, MANIFEST_HOLDOUT, MANIFEST_EXTERNAL)}
     for node in nodes(root):

@@ -15,6 +15,10 @@ need are in your context now and will not be later.
 
 ## What a record contains
 
+**Read `AI-internal/skill-references/provenance-record.md` before writing a record** — the full
+field list, the worked example, and what to do when a script or the environment changes. Do not
+improvise from memory of a previous run; the block below is the shape, not the specification.
+
 Write one file per result to the node's `provenance/`, named after the result:
 
 ```

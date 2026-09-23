@@ -32,9 +32,10 @@ above.
 ## The article
 
 - **Target venue**: not yet decided.
-- **Status**: **batches 1–20 complete; the release is assembled and awaits the human's push** (row
-  20 is blocked on that alone; the release scan's findings are in `AI-generated/batch-reports/26-09-23_b20_release.md`
-  §2 and §8). The analysis reproduces from a fresh clone byte for byte (`/validate cleanroom`, run
+- **Status**: **batches 1–20 complete and the release pushed** (`v1.0-release`, 2026-09-23, at the
+  human's instruction; the release scan's findings are in `AI-generated/batch-reports/26-09-23_b20_release.md`
+  §2 and §8). What remains is the human's citable deposit — a GitHub release from the tag with a
+  Zenodo DOI, to be cited in the manuscript's §7. The analysis reproduces from a fresh clone byte for byte (`/validate cleanroom`, run
   at batch 19 and again at release), its instruction files have been walked twice by fresh agents
   that had never seen them (`/validate outsider`, batches 19 and 20), and every check in
   `/validate invariants` holds at the release commit.
@@ -110,7 +111,7 @@ above.
 | Primary comparison | The two-stage ensemble vs. stage 1 alone, on the same splits — the question this project exists to answer (plan §2). |
 | Required baselines | Persistence and seasonal climatology, scored through the same pipeline as every model. |
 | External reference | None (human-set, 2026-09-20, plan §4b) — the prior project's EWARS-csd score is not cited. |
-| Git remote | `github.com/sandvelab/sarimax-boosting-agentic-dengue-laos`, public, already connected. Pushed through batch 10 on 2026-09-21 at the human's instruction, after a lightweight secrets scan (plan §4b); the release batch still runs the full secrets/data-permission scan. |
+| Git remote | `github.com/sandvelab/sarimax-boosting-agentic-dengue-laos`, public. Pushed through batch 10 on 2026-09-21 after a lightweight scan, and **through batch 20 on 2026-09-23 with the tag `v1.0-release`**, after the full release scan (`AI-generated/validation/2026-09-23_release-scan/`) and at the human's instruction. |
 | Line endings, settled | **Settled in batch 19** by `.gitattributes` (`*.csv -text`) plus `git add --renormalize`: git now stores and checks out CSVs exactly as written, so working copy, repository and any clone agree byte for byte. This was not cosmetic — a fresh clone's `holdout.csv` hashed differently from the digest the phase-E freeze recorded, so the holdout runner would have refused to open it and phase E was not reproducible from a clone. Do not "fix" a CSV writer and re-run without re-hashing every provenance record that names its output. |
 | Instruction set, settled | **`AGENTS.md` in this folder governs, and nothing outside it** (human-set, 2026-09-23, plan §4b). Batches 1–19 also had the parent vault-collection's `/Users/geirksa_1_2_3/ai/CLAUDE.md` in context, because `.claude/settings.json`'s `claudeMdExcludes` still held the template's literal `<PARENT_DIR>` / `<HOME>` placeholders and matched nothing. That file is cross-vault housekeeping, concerns no part of the analysis and was never acted on, so no stored number is affected; it is recorded because Rule 4 makes the instruction files part of the method. **The real paths belong in `.claude/settings.local.json` (gitignored), never in the tracked `settings.json`**, which is public — absolute paths there would leak a home directory and still not work on any other machine. See `setup-guide.md` §2. |
 

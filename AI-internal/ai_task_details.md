@@ -767,3 +767,13 @@ report provenance, and the root.
 findings; decide on redacting the home path in the two prose files; create the GitHub release from
 `v1.0-release` and the Zenodo DOI, then cite it in the manuscript's §7; the three open forks
 (stage-1 predictive family; the planner's v3 route; the sibling vaults' settings templates).
+
+## T18 (2026-09-23) — the push
+
+The human asked whether every batch had run so that only the push remained, was told yes, and
+said "push it now". `git push origin main --tags` moved the public remote from `c8fd3f5` (batch
+10) to `b5fb880` and published the tag `v1.0-release`. Nothing was changed before the push: the
+two scan findings (the credential-shaped filename in history holding no credential; the author's
+home path in four tracked files) stand as reported. Ledger row 20 is done; §4b carries the push as
+a human-set decision. Remaining for the human: the GitHub release from the tag and the Zenodo DOI,
+cited in the manuscript's §7; optionally the path redaction; the three open forks.

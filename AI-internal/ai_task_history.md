@@ -249,3 +249,6 @@ reader who was not present can follow, and keep them honest about what did not w
   prose swept; readme-at-start's status rewritten to lead with the current state. Release commit
   tagged `v1.0-release`. **Not pushed**: the push and the Zenodo deposit are the human's, with the
   scan's findings in front of them. Ledger row 20 blocked on the push alone.
+- T18 (2026-09-23): Pushed the release at the human's instruction — `main` c8fd3f5 → b5fb880 with
+  tag `v1.0-release`, 42 commits — after the batch-20 report had put the scan's findings before
+  them; ledger row 20 done; plan §4b, readme-at-start and the batch report record the push.

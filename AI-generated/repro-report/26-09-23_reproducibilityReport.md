@@ -64,8 +64,8 @@ under CPython 3.13, one build script that installs from the lockfile and reports
 between what it built and the lock. No container image, by decision: the pipeline is native
 Python with no compiled platform-specific runner.
 
-**Commits.** 268 commits from the first on 2026-08-23 to the release; 35 "Before" and 26
-"After" commits bracket analysis runs so that each result corresponds to a commit; 2 commits are
+**Commits.** 271 commits from the first on 2026-08-23 to the release; 35 "Before" and 27
+"After" commits bracket analysis runs and batches so that each result corresponds to a commit; 3 commits are
 labelled as methodological changes to the instruction files, which are tracked (`AGENTS.md`,
 `CLAUDE.md`, `.claude/settings.json`) together with the 17 skill files.
 
@@ -128,7 +128,7 @@ Three sources record who decided what, and they agree.
 
 | Source | human-set | agent-autonomous | mixed | open |
 |---|---|---|---|---|
-| Plan decision log (§4b), 69 rows | 12 | 50 | 5 | 2 |
+| Plan decision log (§4b), 72 rows | 12 | 53 | 5 | 2 |
 | Provenance records, 41 | 0 | 37 | 4 | — |
 | Claims, 32 | 1 | 31 | 0 | — |
 

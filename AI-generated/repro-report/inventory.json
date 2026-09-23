@@ -1,6 +1,6 @@
 {
   "produced": "2026-09-23",
-  "head": "abf811c",
+  "head": "b8941c4",
   "tree": {
     "n_nodes": 23,
     "n_alternatives_nodes": 1,
@@ -948,16 +948,17 @@
       {
         "draft": "Human-AI-collaboration/manuscript/26-09-23_twoStageDengueLaosManuscript.md",
         "sidecar": "Human-AI-collaboration/manuscript/26-09-23_twoStageDengueLaosManuscript_claims.md",
-        "draft_words": 7228,
-        "sidecar_statement_rows": 127,
-        "rows_resting_on_a_claim": 85,
+        "draft_words": 7251,
+        "sidecar_statement_rows": 128,
+        "rows_resting_on_a_claim": 86,
         "rows_marked_method": 37,
         "rows_neither": 5,
-        "distinct_claims_cited": 31,
+        "distinct_claims_cited": 32,
         "claims_cited": [
           "C1",
           "C2",
           "C3",
+          "C4",
           "C5",
           "C6",
           "C7",
@@ -987,9 +988,7 @@
           "C31",
           "C32"
         ],
-        "claims_not_cited": [
-          "C4"
-        ]
+        "claims_not_cited": []
       }
     ]
   },
@@ -1049,17 +1048,17 @@
   },
   "plan": {
     "plan": "Human-input/Plans for AI generation/26-09-20_sarimaxResidualBoostingCase.md",
-    "n_decisions_logged_in_4b": 69,
+    "n_decisions_logged_in_4b": 72,
     "decisions_by_agency": {
       "human-set": 12,
-      "agent-autonomous": 50,
+      "agent-autonomous": 53,
       "mixed": 5,
       "open": 2
     },
     "n_ledger_rows": 21,
     "ledger_status": {
       "done": 20,
-      "open": 1
+      "blocked:": 1
     }
   },
   "environment": {
@@ -1081,9 +1080,20 @@
         "results_differing": 1,
         "results_declared_varying": 10,
         "results_missing_in_clone": 0
+      },
+      {
+        "folder": "2026-09-23_cleanroom-artefacts",
+        "date": "2026-09-23",
+        "head": "e5dd305",
+        "input_files_differing_on_checkout": 0,
+        "results_identical": 289,
+        "results_differing": 0,
+        "results_declared_varying": 10,
+        "results_missing_in_clone": 0
       }
     ],
     "outsider_tests": [
+      "2026-09-23_outsider-test-release.md",
       "2026-09-23_outsider-test.md"
     ],
     "release_scans": [
@@ -1123,12 +1133,12 @@
     }
   },
   "git": {
-    "n_commits": 268,
+    "n_commits": 271,
     "first_commit": "1f0a147 2026-08-23",
-    "head": "abf811c 2026-09-23",
+    "head": "b8941c4 2026-09-23",
     "n_before_commits": 35,
-    "n_after_commits": 26,
-    "n_methodological_change_commits": 2,
+    "n_after_commits": 27,
+    "n_methodological_change_commits": 3,
     "instruction_files_tracked": [
       "AGENTS.md",
       "CLAUDE.md",
